@@ -1,4 +1,4 @@
-from sentence_transformers import CrossEncoder
+from retrieval.cross_encoder import CrossEncoderModel
 
 
 class ReRanker:
@@ -13,7 +13,7 @@ class ReRanker:
     ):
         print("Loading CrossEncoder...")
 
-        self.model = CrossEncoder(model_name)
+        self.model = CrossEncoderModel.get_model(model_name)
 
         print("CrossEncoder Ready.\n")
 
