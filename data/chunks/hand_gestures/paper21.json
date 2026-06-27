@@ -1,0 +1,447 @@
+[
+    {
+        "chunk_id": 1,
+        "source": "paper21",
+        "text": "Academic Editors: Hyun K. Kim,\nSung-Hee Kim and Jaehyun Park\nReceived: 12 January 2025\nRevised: 5 February 2025\nAccepted: 7 February 2025\nPublished: 13 February 2025\nCitation:\nNguyen, T.-H.; Ngo, B.-V.;\nNguyen, T.-N. Vision-Based Hand\nGesture Recognition Using a\nYOLOv8n Model for the Navigation\nof a Smart Wheelchair. Electronics\n2025, 14, 734. https://doi.org/\n10.3390/electronics14040734\nCopyright: © 2025 by the authors.\nLicensee MDPI, Basel, Switzerland.\nThis article is an open access article\ndistributed under the terms and\nconditions of the Creative Commons\nAttribution (CC BY) license\n(https://creativecommons.org/\nlicenses/by/4.0/).\nArticle\nVision-Based Hand Gesture Recognition Using a YOLOv8n\nModel for the Navigation of a Smart Wheelchair\nThanh-Hai Nguyen\n, Ba-Viet Ngo\nand Thanh-Nghia Nguyen *\nFaculty of Electrical and Electronics Engineering, Ho Chi Minh City University of Technology and Education,"
+    },
+    {
+        "chunk_id": 2,
+        "source": "paper21",
+        "text": "Thanh-Hai Nguyen\n, Ba-Viet Ngo\nand Thanh-Nghia Nguyen *\nFaculty of Electrical and Electronics Engineering, Ho Chi Minh City University of Technology and Education,\nHo Chi Minh City 700000, Vietnam; nthai@hcmute.edu.vn (T.-H.N.); vietnb@hcmute.edu.vn (B.-V.N.)\n* Correspondence: nghiant@hcmute.edu.vn\nAbstract: Electric wheelchairs are the primary means of transportation that enable indi-\nviduals with disabilities to move independently to their desired locations. This paper\nintroduces a novel, low-cost smart wheelchair system designed to enhance the mobility of\nindividuals with severe disabilities through hand gesture recognition. Additionally, the\nsystem aims to support low-income individuals who previously lacked access to smart\nwheelchairs. Unlike existing methods that rely on expensive hardware or complex systems,\nthe proposed system utilizes an affordable webcam and an Nvidia Jetson Nano embedded\ncomputer to process and recognize six distinct hand gestures—“Forward 1”, “Forward"
+    },
+    {
+        "chunk_id": 3,
+        "source": "paper21",
+        "text": "the proposed system utilizes an affordable webcam and an Nvidia Jetson Nano embedded\ncomputer to process and recognize six distinct hand gestures—“Forward 1”, “Forward\n2”, “Backward”, “Left”, “Right”, and “Stop”—to assist with wheelchair navigation. The\nsystem employs the “You Only Look Once version 8n” (YOLOv8n) model, which is well\nsuited for low-spec embedded computers, trained on a self-collected hand gesture dataset\ncontaining 12,000 images. The pre-processing phase utilizes the MediaPipe library to gener-\nate landmark hand images, remove the background, and then extract the region of interest\n(ROI) of the hand gestures, significantly improving gesture recognition accuracy compared\nto previous methods that relied solely on hand images. Experimental results demonstrate\nimpressive performance, achieving 99.3% gesture recognition accuracy and 93.8% over-\nall movement accuracy in diverse indoor and outdoor environments. Furthermore, this"
+    },
+    {
+        "chunk_id": 4,
+        "source": "paper21",
+        "text": "impressive performance, achieving 99.3% gesture recognition accuracy and 93.8% over-\nall movement accuracy in diverse indoor and outdoor environments. Furthermore, this\npaper presents a control circuit system that can be easily installed on any existing electric\nwheelchair. This approach offers a cost-effective, real-time solution that enhances the\nautonomy of individuals with severe disabilities in daily activities, laying the foundation\nfor the development of affordable smart wheelchairs.\nKeywords: hand gesture images; ROI of hand-gesture; smart wheelchair; YOLOv8n model;\nembedded computer\n1. Introduction\nAround 1.3 billion people, or 16% of the global population, are affected by disabil-\nity [1]. Therefore, traditional wheelchairs are important to disabled, elderly and sick people,\nbecause it can assist them with their mobility. With increasingly developing modern technol-\nogy, many studies have been developing electric wheelchairs for supporting the movement"
+    },
+    {
+        "chunk_id": 5,
+        "source": "paper21",
+        "text": "because it can assist them with their mobility. With increasingly developing modern technol-\nogy, many studies have been developing electric wheelchairs for supporting the movement\nof disabled and elderly people more safely and comfortably. Some input solutions such as\njoysticks, electronic controllers, and motors instead of using manual propulsion to easily\nenhance their movement. However, some people with severe disabilities cannot use such\ndevices because they may have difficulty in controlling these types of wheelchairs. Thus,\nsmart wheelchairs can be the better solution for them.\nHuman activity recognition is a matter of concern to be able to provide interactive services\nto disabled people in different environments. Furthermore, research on the recognition of\nElectronics 2025, 14, 734\nhttps://doi.org/10.3390/electronics14040734"
+    },
+    {
+        "chunk_id": 6,
+        "source": "paper21",
+        "text": "Electronics 2025, 14, 734\n2 of 24\ndifferent activities has emerged in recent years [2–4]. By accurately identifying and analyzing\nbody movements, this technology can assist individuals with mobility or communication\nlimitations, providing them with greater autonomy and access to personalized support\nsystems. These advancements have paved the way for groundbreaking applications in\nhealthcare, smart homes, physical monitoring, and rehabilitation, enabling the development\nof increasingly adaptive and responsive systems that cater to user needs. The growing interest\nin this field underscores its immense potential to revolutionize human–computer interaction\nand enhance the quality of life for people across diverse contexts. In particular, disabled\npeople have difficulty using traditional electric wheelchairs, because they lack motor skills,\nlack strength, or do not have the necessary vision. Therefore, the electric wheelchairs need"
+    },
+    {
+        "chunk_id": 7,
+        "source": "paper21",
+        "text": "people have difficulty using traditional electric wheelchairs, because they lack motor skills,\nlack strength, or do not have the necessary vision. Therefore, the electric wheelchairs need\nfunction tools for performing movements such as automatic navigation, obstacle avoidance,\ncontrol by hand gestures, or biological signals [5–7]. Thus, this can make the movement easier\nfor severely disabled people and the elderly in daily activities.\nIn recent years, many approaches have been proposed for improving from traditional\nwheelchairs to make smart ones safe and comfortable for disabled people. In particular,\na number of systems in the smart wheelchairs have been developed with various control\nmechanisms or control models which could be controlled by head movements [8]. In this\nstudy, an electric wheelchair was installed with a camera for taking pictures of the head\nmovements and an Arduino Mega was used for processing and controlling on the robot"
+    },
+    {
+        "chunk_id": 8,
+        "source": "paper21",
+        "text": "study, an electric wheelchair was installed with a camera for taking pictures of the head\nmovements and an Arduino Mega was used for processing and controlling on the robot\noperating system (ROS) platform. Using this model, the system attained an efficiency of\nover 76%. However, the cost of the system is still high. Another wheelchair system is\nthat the wheelchair moved based on pupil tracking of human eyes [9]. In particular, this\nsystem used a Philips microcontroller and the Viola–Jones algorithm for detecting human\neyes based on RGB images collected from an RGB camera system. However, detecting\nthe images and processing them for real-time applications is challenging and efficiency\nis achieved only at 70% to 90%. Therefore, this system can hardly be implemented in\npractice. Another study of electric wheelchairs tracked targets in front of the wheelchair\nusing RGB images in [10]. In this study, wheelchair motion control was performed based on"
+    },
+    {
+        "chunk_id": 9,
+        "source": "paper21",
+        "text": "practice. Another study of electric wheelchairs tracked targets in front of the wheelchair\nusing RGB images in [10]. In this study, wheelchair motion control was performed based on\nperson detection using the histogram of oriented gradients (HOG) algorithm [11], person\ntracking using the continuously adaptive mean shift (CAMSHIFT) algorithm [12], and\nmotion detection. With this method, selecting a target from many human targets is a\ncomplex situation and the efficiency obtained is about 80%. With this solution, the system\nneeds to improve much for real-time applications.\nFurthermore, a solution for multimodal wheelchair control has been developed by\nMahmud [13]. The hardware system used an accelerometer for tracking head movements,\na flexible glove sensor for tracking hands, and an RGB camera, a Raspberry Pi. Moreover,\nan improved VGG-8 model was proposed for eyes tracking and the efficiency of this system"
+    },
+    {
+        "chunk_id": 10,
+        "source": "paper21",
+        "text": "a flexible glove sensor for tracking hands, and an RGB camera, a Raspberry Pi. Moreover,\nan improved VGG-8 model was proposed for eyes tracking and the efficiency of this system\nwas about 90%. The limitation of this system is that it requires a tracking sensor to attach\nto the user’s body and designing the eye detection system is not user-friendly. Related to\nthe electric wheelchair, a control system was developed based on iris movements [14]. In\nthis proposed system, the user can control wheelchair navigation by moving the iris in\ncorresponding directions. In addition, the embedded programming language MATLAB\nwas used to program the model, and the system responded control time longer than\n5 s. Therefore, tracking iris movements can sometimes lead to false positives due to\nsubconscious eye movements in real-life situations. Therefore, the system cannot perform\nnavigation operations in real time and is difficult to apply in real situations. In another"
+    },
+    {
+        "chunk_id": 11,
+        "source": "paper21",
+        "text": "subconscious eye movements in real-life situations. Therefore, the system cannot perform\nnavigation operations in real time and is difficult to apply in real situations. In another\nstudy, a wheelchair motion control system based on electrooculography (EOG) [15], in\nwhich eye blinks and movements were recorded using simple electrodes placed closed\nto the eyes. Moreover, a controller and a threshold-based algorithm were applied for"
+    },
+    {
+        "chunk_id": 12,
+        "source": "paper21",
+        "text": "Electronics 2025, 14, 734\n3 of 24\ncontrolling the electric wheelchair. Therefore, the cost of the system is low, but placing the\nelectrodes close to the eyes is a challenge for the user.\nTable 1 describes studies that use deep learning for object detection and naviga-\ntion in smart wheelchair applications, providing enhanced autonomy and perception\nfor wheelchair users, improving navigation in both indoor and outdoor environments.\nIn [16,17], they successfully integrated depth estimation and tracking, enabling better ob-\nject detection and interaction with elements such as doors and handles. Similarly, some\nstudies emphasize safety and obstacle avoidance, which are crucial for real-world deploy-\nment [18,19]. Other studies explore alternative control methods such as gaze tracking,\nwhich improves accessibility for users with severe disabilities [20–22]. Despite these ad-\nvantages, challenges remain in terms of real-time performance, cost, and environmental"
+    },
+    {
+        "chunk_id": 13,
+        "source": "paper21",
+        "text": "which improves accessibility for users with severe disabilities [20–22]. Despite these ad-\nvantages, challenges remain in terms of real-time performance, cost, and environmental\nadaptability. Many approaches rely on computationally expensive deep learning models,\nwhich can limit implementation in low-power wheelchair systems. Studies such as [19]\nattempt to improve efficiency, but real-time performance still requires optimization. Ad-\nditionally, [20] faces usability issues, such as unintended movements due to gaze control\ndifficulties. In [21], the limitation is by sensor constraints, as these rely on 2D range data or\ndepth-based perception, which may not work well in crowded or dynamically changing\nenvironments. Moreover, the cost of integrating deep learning models, sensors, and com-\nputational hardware remains a major barrier, making widespread adoption challenging.\nTable 1. Statistics of current wheelchair control methods using deep learning networks.\nPapers\nMethod\nResult"
+    },
+    {
+        "chunk_id": 14,
+        "source": "paper21",
+        "text": "putational hardware remains a major barrier, making widespread adoption challenging.\nTable 1. Statistics of current wheelchair control methods using deep learning networks.\nPapers\nMethod\nResult\nDeep Learning Model\nAccuracy\nLouis Lecrosnier et al. [16]\nDeep learning-based\nobject detection and\ntracking\nSuccessfully detected and\ntracked objects in a\nwheelchair’s environment\nYOLOv3\n92% (object detection)\nLouis Lecrosnier et al. [17]\nDeep learning for object\ndetection and tracking\nEnhanced wheelchair\nperception for\nsemi-autonomous driving\nFaster R-CNN + LSTM\n90% (tracking accuracy)\nNupur Choudhury et al. [18]\nCNN-based object\ndetection\nEffective real-time object\ndetection for wheelchair\nnavigation\nCNN (custom model)\n85–95% (depending on\nobject type)\nYahya Tawil et al. [19]\nObstacle detection using\ndeep learning\nEffective obstacle\ndetection and avoidance\nSSD (single shot detector)\n88% (obstacle detection\naccuracy)\nSho Higa et al. [20]\nEye-tracking with deep\nlearning for navigation\ncontrol"
+    },
+    {
+        "chunk_id": 15,
+        "source": "paper21",
+        "text": "deep learning\nEffective obstacle\ndetection and avoidance\nSSD (single shot detector)\n88% (obstacle detection\naccuracy)\nSho Higa et al. [20]\nEye-tracking with deep\nlearning for navigation\ncontrol\nAccurate intention\nestimation for navigation\nResNet-50 + LSTM\n94% (intention\nestimation)\nLucas Beyer et al. [21]\nDeep learning for 2D\nrange-based wheelchair\ndetection\nReal-time wheelchair\ndetection\nCNN (custom model)\n87% (wheelchair\ndetection accuracy)\nAndres Vasquez et al. [22]\nDeep learning for\ndetecting people and\nmobility aids\nSuccessfully detected and\nclassified users with\nmobility aids\nYOLOv2 + MobileNet\n93% (classification\naccuracy)\nRecent advancements in YOLOv8n-based object detection have led to notable improve-\nments across various domains. A study on small object detection in UAV images enhances\nthe model with multi-scale feature fusion and a novel Wise-IoU loss function to improve\nthe detection accuracy in complex environments. Meanwhile, an improved YOLOv8n algo-"
+    },
+    {
+        "chunk_id": 16,
+        "source": "paper21",
+        "text": "the model with multi-scale feature fusion and a novel Wise-IoU loss function to improve\nthe detection accuracy in complex environments. Meanwhile, an improved YOLOv8n algo-\nrithm integrates CARAFE, MultiSEAMHead, and TripleAttention mechanisms to refine\nfeature extraction and detection precision. In autonomous driving, researchers developed\nSES-YOLOv8n, optimizing feature fusion with an SPPCSPC module for better real-time\nperformance. Another work on smart indoor shopping environments enhances YOLOv8n’s\naccuracy, achieving a higher mean average precision (mAP) and F1 score compared to\nits baseline version. Lastly, an efficient optimized YOLOv8 model with extended vision\n(YOLO-EV) introduces a multi-branch group-enhanced fusion attention (MGEFA) module,"
+    },
+    {
+        "chunk_id": 17,
+        "source": "paper21",
+        "text": "Electronics 2025, 14, 734\n4 of 24\nsignificantly boosting feature extraction and detection capabilities. These innovations\ndemonstrate the growing adaptability and effectiveness of YOLOv8n in object detection\napplications [23–27].\nUsing hand gestures is one of the most popular means of human communication\nafter spoken language, and we can say that hand gestures are meaningful or intentional\nmovements of human hands and arms [28–30]. Moreover, gesture recognition, a key\ntechnology in human–computer interaction, offers widespread applications in fields such\nas smart homes, healthcare, and sports training. Unlike traditional interaction methods\nusing keyboards and mice, gesture-based interfaces provide a more natural, flexible, and\nintuitive way to transmit information, making them a focus of extensive research in recent\ntimes [31]. Study [32,33] utilized a machine-based approach to identify hand gestures\nusing surface electromyography (sEMG) signals recorded from forearm muscles. The"
+    },
+    {
+        "chunk_id": 18,
+        "source": "paper21",
+        "text": "times [31]. Study [32,33] utilized a machine-based approach to identify hand gestures\nusing surface electromyography (sEMG) signals recorded from forearm muscles. The\nresearch [32] highlighted the necessity of selecting a subset of hand gestures to achieve\naccurate automated gesture recognition and proposed a method to optimize this selection\nfor maximum sensitivity and specificity. A hand gesture-based control was proposed for\nelectric wheelchairs [34,35]. In particular, an electric wheelchair was installed with an RGB\ndepth camera to capture hand RGB images with depth information and a high-powered\ncomputer was used for detecting and track gestures [34]. Therefore, the limitation of\nthis proposed system is that the complexity of the environment can severely affect the\nperformance of this system, and the cost of this system is a little bit high.\nThe hand gesture can be used as non-verbal communication methods in everyday life"
+    },
+    {
+        "chunk_id": 19,
+        "source": "paper21",
+        "text": "performance of this system, and the cost of this system is a little bit high.\nThe hand gesture can be used as non-verbal communication methods in everyday life\nfor expressing meanings. With these hand gestures, disabled people can move easier and\nmore effectively using a smart wheelchair installed with modern devices. This paper will\npresent the development of a smart wheelchair in which the user can control the speed and\nsteering of the wheelchair to reach the desired target using hand gestures. Furthermore, the\nuser can select one of the control functions by changing hand gestures. Additionally, the\nwheelchair can automatically detect and avoid obstacles to increase user safety. This article\nconsists of four sections: In Section 2, a smart wheelchair is introduced, including a designed\nhardware system to connect with the wheelchair for movement control. In addition, the\nhand gesture images are collected from a camera installed with the wheelchair and they are"
+    },
+    {
+        "chunk_id": 20,
+        "source": "paper21",
+        "text": "hardware system to connect with the wheelchair for movement control. In addition, the\nhand gesture images are collected from a camera installed with the wheelchair and they are\nprocessed to produce ROI with hand gestures using MediaPipe before input to a YOLOv8n\nmodel for hand gestures recognition. Section 3 describes the experimental results related to\ncontrolling the movement wheelchair and the evaluation of the recognized model using\nthe proposed method. Finally, Section 4 presents the conclusions about this research.\n2. Materials and Methods\nThis section describes the implementation of the smart electric wheelchair system con-\ntrolled by hand gesture commands. First, the system architecture of the electric wheelchair\nis outlined to provide a clear understanding of its components. Then, the process of hand\ngesture image collection is presented, including the proposed preprocessing method for\ncreating hand landmark images, removing the background, and extracting the ROI of hand"
+    },
+    {
+        "chunk_id": 21,
+        "source": "paper21",
+        "text": "gesture image collection is presented, including the proposed preprocessing method for\ncreating hand landmark images, removing the background, and extracting the ROI of hand\ngestures, which helps improve the accuracy of the classifier. Additionally, the hand gesture\nimage classification model is presented along with a description of the electrical circuit\nused to control the electric wheelchair system.\n2.1. Architecture of a Smart Wheelchair\nIn this paper, we present a smart wheelchair system divided into two primary com-\nponents: a controller, which includes a hand gesture recognition system connected to an\nArduino Uno microcontroller and an NVIDIA Jetson Nano Developer Kit, and an electric\nwheelchair designed to interface with this controller to receive and execute control sig-"
+    },
+    {
+        "chunk_id": 22,
+        "source": "paper21",
+        "text": "Electronics 2025, 14, 734\n5 of 24\nnals, as illustrated in Figure 1. The NVIDIA Jetson Nano Developer Kit processes gesture\nrecognition images and sends corresponding control commands to the Arduino, such\nas “Forward 1”, “Forward 2”, “Backward”, “Left”, “Right”, and “Stop”, which are then\nused to operate the wheelchair’s motor controller. Specifically, these six commands allow\nfor precise navigation: “Forward 1” for slow forward movement, “Forward 2” for faster\nforward movement, “Backward” for reversing, “Left” and “Right” for turning, and “Stop”\nto halt movement.\n \nFigure 1. Block diagram of the proposed smart wheelchair.\nThis paper presents the design of a smart wheelchair system controlled through hand\ngestures, consisting of several main components: data collection, central processing, control,\nmotor, and display, described as follows:\nData collection: A FullHD webcam captures a dataset of the user’s hand gesture"
+    },
+    {
+        "chunk_id": 23,
+        "source": "paper21",
+        "text": "motor, and display, described as follows:\nData collection: A FullHD webcam captures a dataset of the user’s hand gesture\nimages, which is then transmitted to the central processing unit for image data processing\nand the generation of corresponding gesture signals.\nCentral processing: This block receives the image set from the data collection unit and\nuses an object recognition algorithm to identify hand gestures. The resulting gesture data\nare then transmitted wirelessly via Bluetooth to the control block.\nDisplay block: The gesture data are sent to the display unit to show the user’s hand\ngestures and the wheelchair’s movement status.\nControl block: This unit receives hand gesture signals via Bluetooth and controls the\nwheelchair’s motor accordingly.\nPower block: Supplies various voltage levels to all components, including processing,\ncontrol, and display units, ensuring sufficient current for prolonged operation of the\nwheelchair system.\n2.2. Gesture Recognition"
+    },
+    {
+        "chunk_id": 24,
+        "source": "paper21",
+        "text": "control, and display units, ensuring sufficient current for prolonged operation of the\nwheelchair system.\n2.2. Gesture Recognition\n2.2.1. Data Acquisition\nThe data collection process is a critical component of the smart wheelchair system, as\noutlined in Figure 2. This system is structured into four main blocks: a camera system for\ncapturing hand gesture images, a hand tracking block, an image filtering and resizing block,\nand an output block. Specifically, the hand tracking block is responsible for distinguishing\nhand gestures by performing corner and line extraction, collecting hand position data, and\nstoring this information. For gesture recognition, the processed image data are input into a\nYOLOv8n model, which is used for identifying hand gesture objects."
+    },
+    {
+        "chunk_id": 25,
+        "source": "paper21",
+        "text": "Electronics 2025, 14, 734\n6 of 24\nFigure 2. Representation of the process for collecting 6 hand gesture image sets.\nTo collect hand gesture image sets, a FullHD webcam is installed on the wheelchair\nto capture hand gesture images, as shown in Figure 3. Landmarks for these gestures are\nidentified using MediaPipe. To enhance training accuracy, the images are processed to\nretain only the hand area, with the fingers defined as the ROI and the background removed.\nThe processed images are then filtered and resized to ensure consistency across all gesture\nimage sets before being input into the YOLOv8n model for training. The datasets comprise\nsix gestures used for wheelchair control: “Forward 1”, “Forward 2”, “Backward”, “Left”,\n“Right”, and “Stop”.\n \nFigure 3. Description of 6 hand gestures assigned to 6 wheelchair activities: (a) “Forward 1”, (b)\n“Forward 2”, (c) “Backward”, (d) “Left”, (e) “Right”, (f) “Stop”.\n2.2.2. Hand Landmarks Detection"
+    },
+    {
+        "chunk_id": 26,
+        "source": "paper21",
+        "text": "Figure 3. Description of 6 hand gestures assigned to 6 wheelchair activities: (a) “Forward 1”, (b)\n“Forward 2”, (c) “Backward”, (d) “Left”, (e) “Right”, (f) “Stop”.\n2.2.2. Hand Landmarks Detection\nTo process the hand gesture image set and determine the coordinates of the hand,\nMediaPipe is utilized [36]. Specifically, when a palm is detected in the image, the system\nlocalizes the palm area and designates it as the ROI to extract hand landmarks using\nMediaPipe. This approach enables the extraction of 21 keypoints per hand and supports\nthe detection of multiple hands simultaneously. Figure 4 illustrates the 21 extracted hand\nlandmarks using MediaPipe, where 21 named points are identified on the hand."
+    },
+    {
+        "chunk_id": 27,
+        "source": "paper21",
+        "text": "Electronics 2025, 14, 734\n7 of 24\n \n0. \nWrist \n11. \nMiddle finger DIP \n1. \nThumb CMC \n12. \nMiddle finger TIP \n2. \nThumb MCP \n13. \nRing finger MCP \n3. \nThumb IP \n14. \nRing finger PIP \n4. \nThumb TIP \n15. \nRing finger DIP \n5. \nIndex finger MCP \n16. \nRing finger TIP \n6. \nIndex finger PIP \n17. \nPinky MCP \n7. \nIndex finger DIP \n18. \nPinky PIP \n8. \nIndex finger TIP \n19. \nPinky DIP \n9. \nMiddle finger MCP \n20. \nPinky TIP \n10. \nMiddle finger PIP \n \n \n \nFigure 4. Description of extracting ROI with landmarks using MediaPipe.\nIn the ROI containing these landmarks, the hand and fingers are redrawn as straight\nwhite lines based on the red landmark points, as shown in Figure 5. These images with the\nextracted landmarks are then used to train a network model for classifying hand gestures.\n \nFigure 5. Representation of 6 ROI images with the hand gesture and landmarks framed using\nMediaPipe (a) “Forward 1”, (b) “Forward 2”, (c) “Backward”, (d) “Left”, (e) “Right”, (f) “Stop”."
+    },
+    {
+        "chunk_id": 28,
+        "source": "paper21",
+        "text": "Figure 5. Representation of 6 ROI images with the hand gesture and landmarks framed using\nMediaPipe (a) “Forward 1”, (b) “Forward 2”, (c) “Backward”, (d) “Left”, (e) “Right”, (f) “Stop”.\n2.2.3. Hand Gesture ROI Extraction\nFor optimal training performance, dataset optimization through ROI extraction and\nbackground removal is crucial. In this study, hand gesture images, after being detected\nby the MediaPipe algorithm, are placed into rectangular frames with appropriate sizes\nfor each gesture type. Specifically, hand images are captured directly from the FullHD\nWebcam system and processed using MediaPipe to generate parameters, including the (x,\ny) coordinates of the top-left corner and the width and height (w, h) of the bounding box.\nThe size of a captured image is important for training a network with high-\nperformance and a real-time response for wheelchair movement. Therefore, the hand\nimage sets should be calculated to suit the wheelchair system for increasing recogni-"
+    },
+    {
+        "chunk_id": 29,
+        "source": "paper21",
+        "text": "performance and a real-time response for wheelchair movement. Therefore, the hand\nimage sets should be calculated to suit the wheelchair system for increasing recogni-\ntion performance. In particular, the size of a captured image is calculated and set to\n300 × 300 pixel. In addition, the display resolution is selected, particularly Offset = 20,\nso that the image is visible more clearly. With the initial parameters, creating an original\nimage (img_Ori) with the hand gestures is cropped to produce a desired image (img_Crop)\nusing the following formula:"
+    },
+    {
+        "chunk_id": 30,
+        "source": "paper21",
+        "text": "Electronics 2025, 14, 734\n8 of 24\nimg_Crop(x, y) = img_Ori[y −O f f set : y + h + O f f set, x −O f f set : x + w + O f f set]\n(1)\nThe frame ratio AsR is the value related to the frame of the obtained hand and is\ncalculated according to the following formula:\nAsR = h\nw\n(2)\nDepending on the value of the frame ratio is larger or smaller than 1, we can know the\nframe of one image is too wide or too long for adjustment. In particular, if the frame is too\nlong, meaning the value of AsR is more than 1, the wc width is adjusted according to the\nfollowing formula:\nwc =\n\u0012\nimgSize −imgSize\nh\n× w\n\u0013\n/2\n(3)\nConversely, if the frame is too short, where AsR is smaller than 1, the length hc is\nadjusted using the following formula:\nhc =\n\u0012\nimgSize −imgSize\nw\n× h\n\u0013\n/2\n(4)\nTo create a hand dataset with the desired gestures, all images are standardized to\na uniform size, and unnecessary background elements are removed. Figure 6 shows a"
+    },
+    {
+        "chunk_id": 31,
+        "source": "paper21",
+        "text": "\u0012\nimgSize −imgSize\nw\n× h\n\u0013\n/2\n(4)\nTo create a hand dataset with the desired gestures, all images are standardized to\na uniform size, and unnecessary background elements are removed. Figure 6 shows a\ntypical image with the background components removed and the framed ROI displaying\nthe landmarks. The frames clearly adjust according to the hand’s gestures as it moves in\ndifferent directions.\n \nFigure 6. Representation of creating the hand gesture frame and removing the background.\nIn this research, the wheelchair system is equipped with a FullHD webcam to collect\ngesture image sets, resulting in images of varying sizes. This variation impacts the time\nrequired by the control system to process each image, which can, in turn, affect the speed\nof gesture recognition and wheelchair movement. To enhance the image processing speed\nand recognition performance, all images are resized to a uniform 300 × 300 resolution\nbefore being fed into the YOLOv8n classifier, as shown in Figure 7."
+    },
+    {
+        "chunk_id": 32,
+        "source": "paper21",
+        "text": "Electronics 2025, 14, 734\n9 of 24\n \nFigure 7. Representation of the framed hand gesture set with the size of 300 × 300.\n2.3. YOLOv8n Model for Hand Gesture Recognition\nYOLOv8 is a CNN model often applied for fast and accurate object recognition [25].\nFurthermore, this model has convolutional layers for feature extraction and fully connected\nlayers for predicting probabilities and object coordinates for recognition and can also\ndetermine the positions of the input image. Furthermore, the advantage of YOLOv8 is to\nuse the darknet-53 network for feature extraction and apply object recognition algorithm\non those extracted features. The YOLOv8 architecture maintains the traditional division\nof its structure into three main components: the backbone, the neck, and the head, as\nillustrated in Figure 8. Nevertheless, it introduces several modifications that set it apart\nfrom earlier versions. In this design, the Conv layer functions as a standard convolutional"
+    },
+    {
+        "chunk_id": 33,
+        "source": "paper21",
+        "text": "illustrated in Figure 8. Nevertheless, it introduces several modifications that set it apart\nfrom earlier versions. In this design, the Conv layer functions as a standard convolutional\nlayer responsible for generating feature maps for the output layers. The C2f (convolutional\nto focus) layer combines convolutional operations with a focusing mechanism to enhance\nfeature representation while simultaneously reducing the image dimensions compared\nto the input. This design facilitates a more effective gradient flow. Furthermore, the\narchitecture incorporates the SPPF (spatial pyramid pooling feature) module, which is\nspecifically optimized to manage object scaling. This module is essential for capturing\nmulti-scale information, enabling the model to accurately detect and recognize objects of\nvarying sizes and proportions within an image.\nWhen training YOLOv8, each image from the input dataset is processed sequentially"
+    },
+    {
+        "chunk_id": 34,
+        "source": "paper21",
+        "text": "varying sizes and proportions within an image.\nWhen training YOLOv8, each image from the input dataset is processed sequentially\nand iteratively to optimize the loss function, with the aim of finding the optimal set of\nweights for the network to achieve high recognition accuracy. Depending on the network’s\ndepth and width, YOLOv8 can be divided into versions YOLOv8n, YOLOv8s, YOLOv8m,\nYOLOv8l, and YOLOv8x. The YOLOv8n model was chosen for this purpose as it is the\nsmallest version, featuring 3.2 million parameters and 8.7 billion FLOPS, with a mAP of\n37.3% on the COCO dataset [37]. This compact version is ideal for the wheelchair control\nsystem, which requires fast processing times for effective operation. Although the base\nYOLOv8n model may not reach the same accuracy levels as larger models with more\nparameters, its performance can be enhanced through the additional feature extraction\nof hand gestures. Specifically, combining a feature extraction algorithm applied to input"
+    },
+    {
+        "chunk_id": 35,
+        "source": "paper21",
+        "text": "parameters, its performance can be enhanced through the additional feature extraction\nof hand gestures. Specifically, combining a feature extraction algorithm applied to input\nimages of hand landmarks with YOLOv8n can further improve accuracy."
+    },
+    {
+        "chunk_id": 36,
+        "source": "paper21",
+        "text": "Electronics 2025, 14, 734\n10 of 24\n \nFigure 8. Representation of the architecture of the YOLOv8 model with the convolutional layers for\nfeature extraction and recognition.\n2.4. Hardware Design\nTo transform a basic electric wheelchair into a smart wheelchair controlled by hand\ngestures, a control hardware system composed of various devices is installed. Table 2\noutlines the hardware system, which includes components such as a Logitech FullHD\nWebcam C920, a screen, and a power supply, all connected through USB, HDMI, and\nDC jack ports on the Jetson Nano. The central processing unit consists of a Jetson Nano\nequipped with an Intel Wireless AC8265 Card, while the data collection unit includes a\nFullHD webcam connected via a USB port. The display unit is a Waveshare 7-inch HD\ntouchscreen connected to the Jetson Nano through an HDMI cable and powered by a\nUgreen micro-USB cable that also connects to the Jetson. The control unit, based on an"
+    },
+    {
+        "chunk_id": 37,
+        "source": "paper21",
+        "text": "touchscreen connected to the Jetson Nano through an HDMI cable and powered by a\nUgreen micro-USB cable that also connects to the Jetson. The control unit, based on an\nArduino Due, features peripheral devices including a HiLetgo HC-05 Bluetooth module\nand a HiLetgo BTS7960 motor control module. The wheelchair is powered by Topmedi\n240 W DC motors. Additionally, the wheelchair is equipped with GalaxyElec HC-SR04M\nultrasonic sensors at the front and rear to detect obstacles, ensuring safety for the operator.\nFigure 9 depicts the scheme of the whole system, including the Jetson Nano central\nprocessing block powered by 5 V and 4 A through the low-voltage module. The data\ncollection block is the FullHD Webcam connected to Jetson Nano via USB 3.0 port. The\ndisplay unit is the 7-inch HD touch screen connected to Jetson Nano via the HDMI port\nand powered via USB 3.0 port to display system results. Finally, the Arduino Due control"
+    },
+    {
+        "chunk_id": 38,
+        "source": "paper21",
+        "text": "display unit is the 7-inch HD touch screen connected to Jetson Nano via the HDMI port\nand powered via USB 3.0 port to display system results. Finally, the Arduino Due control\nblock is connected to receive control data from the Jetson Nano via the HC-05 Bluetooth\nmodule, which connects the VCC, GND, RXD, TXD pins to the 5 V, GND, TX3, RX3 pins on\nArduino Due, respectively. With the BTS7960 motor control module, the VCC, GND, R_EN,\nL_EN pins are connected to pins of 5 V, GND, 10, 11 on the Arduino Due; the RPWM of the\nleft and right BTS7960 module are connected to pins 8, 13 on the Arduino Due, the LPWM\nof the left and right BTS7960 modules are connected to pins 9, 12 on the Arduino Due,\nrespectively. Moreover, the output of the BTS7960 module has B+ and B−, respectively,\nconnected to the (+) and (−) terminals of the 24 V source from the battery and M+ and M−\nto the (+) and (−) terminals of the wheelchair motors."
+    },
+    {
+        "chunk_id": 39,
+        "source": "paper21",
+        "text": "Electronics 2025, 14, 734\n11 of 24\nTable 2. Description of the hardware system with devices connected with the smart wheelchair.\nNo\nDevice Names\nQuantity\nNotices\n1\nNVIDIA Jetson Nano Developer Kit\n1\nPower supply with 5 V–4 A, 4 GB RAM\n2\nArduino Due R3\n1\nAtmel SAM3X8E ARM Cortex-M3 CPU\n3\nWaveshare 7-inch HD touchscreen\n1\nTouch function\n4\nLogitech FullHD Webcam C920\n1\nUSB connection\n5\nElectric wheelchair\n1\nInstalled with additional devices\n6\nIntel Wireless AC8265 Card\n1\nConnected to Jetson Nano\n7\nHC-05 Bluetooth module\n1\nAdded for connecting to Jetson\n8\nDC-DC Buck 15 A module\n1\nPower supply for Jetson Nano\n9\nLM2579 module\n1\nPower supply for Arduino Due and sensors\n10\nBTS7960 motor control module\n2\nControl DC motors\n11\nHC-SR04M module\n2\nUltrasonic sensor for distance measurement\nand obstacle detection.\n12\nBattery\n1\n24 V–12 AH\n13\nSpeaker\n2\n3 W—Play a warning sound when an\nobstacle is detected\n \nFigure 9. Schematic of connecting hardware devices in the smart wheelchair."
+    },
+    {
+        "chunk_id": 40,
+        "source": "paper21",
+        "text": "Electronics 2025, 14, 734\n12 of 24\n3. Results and Discussion\n3.1. Dataset\nIn this study, six datasets with hand gestures used for training the YOLOv8n network\nwere directly captured from the FullHD Webcam installed on the electric wheelchair. The\nparticipants were students, both male and female, aged between 20 and 24, who were\ninvited to collect the hand gesture image dataset. They were also informed about the\npurpose of participating in the image collection experiments. Therefore, a protocol was\nestablished for data collection, in which the webcam-based image capture system detects\nhands to generate landmark hand images using the MediaPipe library. The images were\nthen pre-processed to eliminate background interference. Finally, the images were resized\nto fit the dimensions required by the training model. These datasets include 12,000 images\nwith the size of each image to 300 × 300. Moreover, six image datasets have six types of"
+    },
+    {
+        "chunk_id": 41,
+        "source": "paper21",
+        "text": "to fit the dimensions required by the training model. These datasets include 12,000 images\nwith the size of each image to 300 × 300. Moreover, six image datasets have six types of\ndifferent hand gestures, in which the hand position with one gesture is in front of and\nabout 40–50 cm away from the webcam.\nFor training the network, the datasets with six hand gestures will be labeled and\ndivided into two sets for training and validation with a ratio of 80% and 20%. Therefore,\nTable 3 describes 9600 images, in which 1600 images are divided into six hand gestures for\ntraining and 2400 images are equally divided for six types of hand gestures for validation.\nTable 3. Description of the total number of six image gesture sets divided for training and evaluation.\nHand Gestures\nTraining Set\nValidation Set\nForward 1\n1600\n400\nForward 2\n1600\n400\nBackward\n1600\n400\nLeft\n1600\n400\nRight\n1600\n400\nStop\n1600\n400\nTotal\n9600\n2400\n3.2. Evaluating Performance of YOLOv8n Model"
+    },
+    {
+        "chunk_id": 42,
+        "source": "paper21",
+        "text": "Training Set\nValidation Set\nForward 1\n1600\n400\nForward 2\n1600\n400\nBackward\n1600\n400\nLeft\n1600\n400\nRight\n1600\n400\nStop\n1600\n400\nTotal\n9600\n2400\n3.2. Evaluating Performance of YOLOv8n Model\nThe YOLOv8n model was trained using six datasets, split into 80% (9600 images) for\ntraining and 20% (2400 images) for validation. The model’s mAP parameter showed a\nhigh value, exceeding 0.99 for most training cycles, while other parameters such as Box\nloss, Class loss, and Object loss were 0.002, 0.002, and 0.003, respectively. The Box loss\nmeasures the model’s precision in predicting the bounding box for the hand center. Class\nloss indicates errors in classifying hand gestures, and Object loss quantifies the model’s\nperformance in determining the likelihood of a hand appearing within the proposed ROI.\nA higher Object loss value means that the detected hand in the ROI closely resembles the\ntrained hand image.\nFigure 10 illustrates the training results with error parameters such as box loss, class"
+    },
+    {
+        "chunk_id": 43,
+        "source": "paper21",
+        "text": "A higher Object loss value means that the detected hand in the ROI closely resembles the\ntrained hand image.\nFigure 10 illustrates the training results with error parameters such as box loss, class\n(cls) loss, and object (obj) loss on the training set. These errors decrease progressively\nover time, indicating that the model has effectively learned from the datasets. Figure 11\nshows the error parameters on the testing set, which measure the difference between the\npredicted results and the actual outcomes. The results demonstrate that box loss, class\nloss, and object loss also decrease steadily, signifying that the proposed model has strong\nrecognition capabilities."
+    },
+    {
+        "chunk_id": 44,
+        "source": "paper21",
+        "text": "Electronics 2025, 14, 734\n13 of 24\nFigure 10. Representation of the training loss curves (box loss, obj loss, cls loss).\n \nFigure 11. Representation of the validation loss curves (box loss, obj loss, cls loss).\nFigure 12 presents the evaluation results of the classification model. Precision measures\nthe ratio of correctly detected objects to the total number of detected objects, with higher\nprecision indicating that the proposed YOLOv8n model has fewer prediction errors. Recall\nmeasures the ratio of correctly detected objects to the total number of actual objects in the\nimage, where higher recall indicates fewer missed detections by the model. At the end of\ntraining, the mAP index reached 0.99. During the training phase, from epoch 0 to epoch\n20, a drop in the mAP parameter was observed compared to later epochs. This decline is\nattributed to the similar characteristics of the gestures “Backward” and “Forward 1”, which\nled to significant loss values during training.\n \nFigure 12."
+    },
+    {
+        "chunk_id": 45,
+        "source": "paper21",
+        "text": "attributed to the similar characteristics of the gestures “Backward” and “Forward 1”, which\nled to significant loss values during training.\n \nFigure 12.\nRepresentation of the precision and recall curves for evaluating the ability of the\nproposed model.\nA confusion matrix based on the validation dataset of 2400 images was used to evaluate\nthe model’s performance. The proposed model demonstrated high accuracy. Among the"
+    },
+    {
+        "chunk_id": 46,
+        "source": "paper21",
+        "text": "Electronics 2025, 14, 734\n14 of 24\ngestures, “Backward” and “Forward 1” have the highest misclassification rate of 2%. The\nremaining gestures, “Forward 2”, “Right”, “Stop”, and “Left”, achieve 100% accuracy, as\nshown in Figure 13. Additionally, when the YOLOv8n model was applied to recognize\nhand gestures in a real-world environment with adequate lighting, as depicted in Figure 14,\nthe results improved further, and the false recognition rate was minimal.\n \nFigure 13. Confusion matrix representation for evaluating the recognition performance of the\nproposed model.\n \nFigure 14. Representation of 6 hand gestures for controlling the smart wheelchair: (a) “Forward 1”,\n(b) “Forward 2”, (c) “Backward”, (d) “Left”, (e) “Right”, (f) “Stop”.\nTable 4 presents a performance comparison between this work and existing studies.\nSpecifically, it shows that hand gesture recognition models utilizing CNN networks achieve\nhigher accuracy [38–42] compared to those using Fuzzy and ANN approaches [43,44]."
+    },
+    {
+        "chunk_id": 47,
+        "source": "paper21",
+        "text": "Specifically, it shows that hand gesture recognition models utilizing CNN networks achieve\nhigher accuracy [38–42] compared to those using Fuzzy and ANN approaches [43,44].\nIt is noteworthy that recognition models with hand gestures in previous studies, such\nas 26 gestures [39], 43 gestures [41], and our proposed model, all demonstrate excellent\naccuracy rates of over 99%. Additionally, research in [42] revealed that an accuracy of\n95% was achieved using LSTM (long short-term memory) and MediaPipe, which outper-\nforms the 92.52% accuracy of YOLOv5 with Pytorch in recognizing palm gestures in ASL\n(American Sign Language). In our study, the proposed model using hand landmark images\nwith YOLOv8n and MediaPipe achieved an impressive accuracy of 99.3% in classifying\nsix hand gestures. In addition, the key difference in our study compared to the studies is\nthe application of a background subtraction or elimination method, retaining only the ROI"
+    },
+    {
+        "chunk_id": 48,
+        "source": "paper21",
+        "text": "six hand gestures. In addition, the key difference in our study compared to the studies is\nthe application of a background subtraction or elimination method, retaining only the ROI\nof the hand. This demonstrates that applying this method can further enhance accuracy\nand stability."
+    },
+    {
+        "chunk_id": 49,
+        "source": "paper21",
+        "text": "Electronics 2025, 14, 734\n15 of 24\nTable 4. Classification results of hand gestures from previous studies and our proposed model.\nPapers\nTasks\nModels\nAccuracy\nMuthu Mariappan et al. [43]\n40 ISL words and sentences in real\ntime\nFuzzy c-means\n75.0%\nRosalina et al. [44]\n39 ASL signs (26 alphabet letters, 10\ndigits, and 3 punctuation)\nANN\n90.0%\nOyebade K. Oyedotun et al. [38]\n24 ASL hand gestures\nCNN\n92.8%\nFelix Zhan et al. [39]\n9 hand gestures\nCNN\n98.76%\nHarsh et al. [40]\n26 ISL hand signs\nCNN\n99.0%\nSakshi et al. [41]\n43 ISL gestures\nVGG-11 and VGG-16\n99.96%\nASL signs\nVGG-11 and VGG-16\n100%\nGouri et al. [42]\nASL signs\nMediaPipe-LSTM\n95.0%\nYOLOv5-Pytorch\n92.5%\nProposed model\n6 hand gestures\nCNN\n99.3%\nTable 4 also illustrates different methods for hand gesture recognition in various appli-\ncations, with some studies relying on existing datasets, while others conduct experiments\non newly collected data. The studies by Rosalina et al. [44] and Muthu Mariappan et al. [43]"
+    },
+    {
+        "chunk_id": 50,
+        "source": "paper21",
+        "text": "cations, with some studies relying on existing datasets, while others conduct experiments\non newly collected data. The studies by Rosalina et al. [44] and Muthu Mariappan et al. [43]\nused datasets from previous research, namely the Indian Sign Language (ISL) and Amer-\nican Sign Language (ASL) datasets, respectively, without applying their methods to\nnewly collected data, which limits the validation capability in real-world environments.\nIn contrast, studies such as those by Oyebade et al. [38], Felix Zhan et al. [39], and\nHarsh et al. [40] implement their approaches using independently collected datasets,\nenabling more accurate performance assessments. Additionally, differences in system\nconditions affect the comparability of results. The model by Gouri et al. [42] incorporates\nbackground complexities and lighting variations, making the results more adaptable to\nreal-world conditions, whereas other studies are conducted in controlled environments"
+    },
+    {
+        "chunk_id": 51,
+        "source": "paper21",
+        "text": "background complexities and lighting variations, making the results more adaptable to\nreal-world conditions, whereas other studies are conducted in controlled environments\nwith limited variability. The proposed model differs significantly by using a self-collected\ndataset with 12,000 images for six types of hand gestures, enhancing real-world validation.\nMoreover, this study emphasizes real-time performance, demonstrating the model’s ability\nto classify hand gestures on low-configuration embedded systems while maintaining relia-\nbility and accuracy. This makes it suitable for smart wheelchair navigation—a factor that\nmany previous studies have not explored in depth.\nAdditionally, we experimented with the SIFT feature extraction method applied\nto hand images combined with a CNN model, achieving an accuracy of over 92.5% in\nenvironments with changing backgrounds (where variations in lighting caused a drop"
+    },
+    {
+        "chunk_id": 52,
+        "source": "paper21",
+        "text": "to hand images combined with a CNN model, achieving an accuracy of over 92.5% in\nenvironments with changing backgrounds (where variations in lighting caused a drop\nin accuracy). By converting the color space from RGB to HSV, we addressed the issue\nof changing lighting and achieved an accuracy of over 95%. Replacing the SIFT method\nwith the Harris corner detector demonstrated that corner feature detection in hand images\nincreased accuracy to 98%. Finally, using landmark hand images and background removal\nachieved the highest accuracy of 99.3%.\n3.3. Wheelchair Control\nIn this study, experiments for controlling the electric wheelchair were conducted at\nBuilding-C of the Ho Chi Minh City University of Technology and Education. The wheelchair\nis operated using hand gestures, as shown in Figure 15. The system integrates various devices\nto transform the wheelchair into a smart one, as depicted in Figure 15a–d. The installed devices"
+    },
+    {
+        "chunk_id": 53,
+        "source": "paper21",
+        "text": "is operated using hand gestures, as shown in Figure 15. The system integrates various devices\nto transform the wheelchair into a smart one, as depicted in Figure 15a–d. The installed devices\ninclude a screen and an ultrasound sensor (1), a camera (2), a speaker (3), a controller (4), and\na battery (5), as shown in Figure 15d. These devices are interconnected with the controller"
+    },
+    {
+        "chunk_id": 54,
+        "source": "paper21",
+        "text": "Electronics 2025, 14, 734\n16 of 24\nthrough signal and power cables, as illustrated in Figure 15d. Additionally, Figure 15e shows\nthe control board, which includes a Jetson Nano developer kit, an Arduino microcontroller\nboard, a power supply, and a motor controller.\n \nFigure 15. The smart electric wheelchair model: (a) front view; (b) back view; (c) side view;\n(d) devices mounted on the wheelchair; and (e) the wheelchair controller.\nFigure 16 illustrates the experimental environment with the electric wheelchair con-\ntrolled by hand gestures. In the wheelchair control system, six hand gestures, as shown in\nFigure 17, are mapped to control commands for the wheelchair’s movements: “Forward 1”\nfor slow movement, “Forward 2” for fast movement, “Left” for turning left, “Right” for\nturning right, “Backward” for reversing, and “Stop” for halting. To operate the wheelchair,\nthe user first raises their hand and places it in the marked position about 40 cm in front"
+    },
+    {
+        "chunk_id": 55,
+        "source": "paper21",
+        "text": "turning right, “Backward” for reversing, and “Stop” for halting. To operate the wheelchair,\nthe user first raises their hand and places it in the marked position about 40 cm in front\nof the camera, allowing the camera to capture the full hand, as shown in Figure 16b. The\nuser then performs the corresponding gestures, as depicted in Figure 17, to navigate the\nwheelchair. It is essential for the user to hold the gesture for 1 to 2 s to confirm the command\nand ensure the system registers the desired action for controlling the wheelchair. During\nmovement, if the SR04M ultrasonic sensor detects an obstacle or a person moving in front\nwithin the potential collision zone (we have set the safe distance to be greater than 1 m),\nthe system will control the wheelchair to stop. The user will then steer the wheelchair\nin another direction to avoid the obstacle or wait for the person walking away from the\nwheelchair before continuing. This will help increase the safety of the user.\n(a) \n(b)"
+    },
+    {
+        "chunk_id": 56,
+        "source": "paper21",
+        "text": "in another direction to avoid the obstacle or wait for the person walking away from the\nwheelchair before continuing. This will help increase the safety of the user.\n(a) \n(b) \nFigure 16. Representation of the experimental environment and the control operations with hand\ngestures: (a) experimental environment; and (b) gesture execution description for controlling\na wheelchair."
+    },
+    {
+        "chunk_id": 57,
+        "source": "paper21",
+        "text": "Electronics 2025, 14, 734\n17 of 24\nFigure 17. Representation of six hand gestures corresponding to six control commands: (a) forward 1;\n(b) forward 2; (c) backward; (d) stop; (e) left; and (f) right.\n3.3.1. Experiment 1\nFigure 18 illustrates the actual route of the wheelchair in comparison to the reference\nroute within the real environment depicted in Figure 16. Starting from the initial position\nX (indicated by the red arrow), the user raises the “Forward 1” gesture to move the\nwheelchair slowly towards position A. Upon reaching position A, the user performs the\n“Right” gesture, causing the wheelchair to make a 90-degree right turn. The “Forward 1”\ngesture is then used again to move the wheelchair from position A to position B. Similarly,\nthe user raises the “Left” gesture to turn the wheelchair 90 degrees left and then continues\nwith the “Forward 1” gesture to proceed slowly from position C to position D. The “Right”"
+    },
+    {
+        "chunk_id": 58,
+        "source": "paper21",
+        "text": "the user raises the “Left” gesture to turn the wheelchair 90 degrees left and then continues\nwith the “Forward 1” gesture to proceed slowly from position C to position D. The “Right”\ngesture is held to make another 90-degree turn at position D, followed by the “Forward 1”\ngesture to move from position D to position E, and finally, the wheelchair continues to the\nfinal destination at position X, as shown in Figure 18.\n \nFigure 18. Representation of the actual route (red) versus the reference route (blue).\nTable 5 details the time taken to cover each segment of the path, showing that the total\ntime to travel approximately 14.9 m is around 60 s. This demonstrates that the user can\neffectively control the smart wheelchair to reach the desired distance. However, there is\na slight deviation in the actual distance traveled compared to the intended path. The test\nresults shown in Figure 18 indicate that the wheelchair’s speed in an indoor environment"
+    },
+    {
+        "chunk_id": 59,
+        "source": "paper21",
+        "text": "a slight deviation in the actual distance traveled compared to the intended path. The test\nresults shown in Figure 18 indicate that the wheelchair’s speed in an indoor environment\nis nearly 0.3 m/s. This suggests that, for individuals with severe disabilities, controlling\nthe smart wheelchair using hand gestures is suitable. Moreover, as users become more"
+    },
+    {
+        "chunk_id": 60,
+        "source": "paper21",
+        "text": "Electronics 2025, 14, 734\n18 of 24\nadept and confident in using hand gestures, the processing speed may increase, allowing\nfor faster wheelchair movement.\nTable 5. Representation of the time and distance of the wheelchair movements following routes in\nFigure 18.\nPositions for Movement\nMoved Distance (m)\nTime (s)\nStart point to A\n3.8\n13.0\nA to B\n1.8\n9.0\nB to C\n1.2\n5.0\nC to D\n1.0\n5.0\nD to E\n4.8\n17.0\nE to End point (X)\n2.3\n11.0\nTotal\n14.9\n60.0\nTable 6 presents the experimental results for controlling a wheelchair using hand\ngestures, evaluated based on the number of attempts and successful recognitions. The\nexperiments were conducted both indoors and outdoors under varying light conditions\nfor comparison. Each hand gesture was tested 50 times in each environment. The findings\nindicate that hand gesture recognition achieved high accuracy in both settings. However,\nin outdoor conditions, misrecognition occurred more frequently due to strong lighting"
+    },
+    {
+        "chunk_id": 61,
+        "source": "paper21",
+        "text": "indicate that hand gesture recognition achieved high accuracy in both settings. However,\nin outdoor conditions, misrecognition occurred more frequently due to strong lighting\naffecting the camera-captured images. Notably, the hand gestures for “Left”, “Forward 2”\nand “Right” had the highest successful recognition rates at 98%, 96%, and 96%, respectively.\nTable 6. Statistical results of controlling the wheelchair using hand gestures in the indoor/outdoor\nenvironment with 50 times.\nHand Gestures\nNumber of Correct\nRecognitions\nNumber of Incorrect\nRecognitions\nMisrecognized\nGestures\nAccuracy Rate of\nRecognition\nForward 1\n45\n5\nBackward/Stop\n90%\nForward 2\n48\n2\nForward 1\n96%\nLeft\n49\n1\nRight\n98%\nRight\n48\n2\nBackward\n96%\nStop\n46\n4\nForward 1\n92%\nBackward\n47\n3\nForward 1\n94%\nAdditionally, an experiment was conducted to assess the control time for each of\nthe six hand gestures, with each gesture being performed five times. The results are"
+    },
+    {
+        "chunk_id": 62,
+        "source": "paper21",
+        "text": "92%\nBackward\n47\n3\nForward 1\n94%\nAdditionally, an experiment was conducted to assess the control time for each of\nthe six hand gestures, with each gesture being performed five times. The results are\nsummarized in Table 7. Specifically, the average processing time for each of the six control\ncommands corresponding to the hand gestures was measured. The shortest average\nprocessing time was 57.8 ms for the “Forward 1” gesture, while the longest was 62.9 ms for\nthe “Backward” gesture.\nTable 7. Processing time for wheelchair control using commands associated with six hand gestures.\nCommands\nProcessing Time (ms)\nAverage\nAttempt 1\nAttempt 2\nAttempt 3\nAttempt 4\nAttempt 5\nForward 1\n58.7\n57.4\n58.9\n56.3\n57.8\n57.8\nForward 2\n58.9\n56.2\n58.6\n59.6\n60.1\n58.9\nLeft\n58.6\n57.9\n60.3\n61.5\n56.7\n59.0\nRight\n63.3\n64.2\n60.6\n59.8\n58.4\n61.3\nStop\n64.6\n58.7\n59.1\n63.3\n60.7\n61.3\nBackward\n67.7\n65.4\n63.2\n59.8\n58.6\n62.9"
+    },
+    {
+        "chunk_id": 63,
+        "source": "paper21",
+        "text": "Electronics 2025, 14, 734\n19 of 24\nIn this study, the proposed system for recognizing six hand gestures in the smart\nwheelchair demonstrated high accuracy in environments with appropriate lighting con-\nditions. The processing speed of the wheelchair plays a crucial role for a disabled person,\nas it directly affects the movement based on the processing time of the hand gesture cor-\nresponding to the control command. In the proposed system, the user can select from\ntwo hand gesture speed levels: “Forward 1” for slow movement and “Forward 2” for faster\nmovement. The “Forward 1” gesture allows a maximum speed of approximately 0.3 m/s,\nwhich is ideal for navigating rooms or areas with obstacles, enabling the user to avoid\ncollisions easily. In contrast, the “Forward 2” gesture enables a maximum speed of about\n0.5 m/s, making it more suitable for moving in open spaces with fewer obstacles. Therefore,\nfor severely disabled individuals, controlling the wheelchair using these two speed levels"
+    },
+    {
+        "chunk_id": 64,
+        "source": "paper21",
+        "text": "0.5 m/s, making it more suitable for moving in open spaces with fewer obstacles. Therefore,\nfor severely disabled individuals, controlling the wheelchair using these two speed levels\nand corresponding hand gestures provides a safe and effective means of movement both\nindoors and outdoors.\n3.3.2. Experiment 2\nIn the second experiment, the smart wheelchair controller was designed to facilitate\nthe easier and more accurate control of the wheelchair’s movement. Using this controller,\nencoder data were collected while the wheelchair was in motion, and the data were\nprocessed to create a route, as illustrated in Figure 19.\n \nFigure 19. Representation of the actual route (red) versus the reference route (blue) using the designed\ncontroller in the proposed mode.\nFigure 19 shows the actual route (in red) taken by the wheelchair compared to the\nreference route (in blue). Starting from point A, the user activates the “Forward 1” gesture"
+    },
+    {
+        "chunk_id": 65,
+        "source": "paper21",
+        "text": "Figure 19 shows the actual route (in red) taken by the wheelchair compared to the\nreference route (in blue). Starting from point A, the user activates the “Forward 1” gesture\nto gradually move the wheelchair towards point B, then uses the “Stop” gesture to halt the\nmovement. Next, the user employs the “Right” gesture to rotate the wheelchair 90 degrees,\nfollowed by another “Stop” gesture. The user then uses the “Forward 1” gesture to proceed\nslowly towards point C. Similarly, the driver follows a series of gestures: “Stop”, “Right”,\n“Forward 1”, “Stop”, “Left”, “Forward 1”, “Stop”, “Right”, “Forward 1”, “Stop”, “Left”,\nand “Forward 1” to navigate through points D, E, and G, before returning to starting\npoint A."
+    },
+    {
+        "chunk_id": 66,
+        "source": "paper21",
+        "text": "Electronics 2025, 14, 734\n20 of 24\nTable 8 illustrates that the smart wheelchair covered a total distance of 14 m along the\nroute shown in Figure 19, taking approximately 57 s. Additionally, the actual route (in red)\nexhibited a slight deviation from the desired route (in blue). This deviation is influenced by\nthe user’s finger dexterity and strength. To reduce this deviation, the user should develop\nskills in controlling the wheelchair, especially in familiar environments.\nTable 8. Time and distance covered by the wheelchair as depicted in Figure 19.\nPositions\nDistance (m)\nTime (s)\nA to B\n3.0\n11.0\nB to C\n3.0\n12.0\nC to D\n1.0\n4.0\nD to E\n1.0\n4.0\nE to G\n2.0\n9.0\nG to A\n4.0\n17.0\nTotal\n14.0\n57.0\nTable 9 presents the control results for six hand gestures, with each gesture performed\n50 times. These data were used to assess the number of successful attempts and the\ndelay time. From Table 9, it is evident that the highest success rate for controlling the"
+    },
+    {
+        "chunk_id": 67,
+        "source": "paper21",
+        "text": "50 times. These data were used to assess the number of successful attempts and the\ndelay time. From Table 9, it is evident that the highest success rate for controlling the\nwheelchair was 96% for the gestures “Left” and “Stop”, while the lowest was 90% for\nthe “Forward 1” and “Backward” gestures. It can be observed that the “Forward 1” and\n“Backward” gestures have lower accuracy compared to the other gestures because these\ntwo gestures share many similarities in the hand landmark images, leading to confusion\nbetween them during the recognition process.\nTable 9. Results of wheelchair control using six hand gestures, with each gesture performed 50 times.\nGestures Corresponding\nto Movement Activities\nCorrect Control\nAttempts\nIncorrect Control\nAttempts\nControl\nAccuracy\nForward 1 (going slowly)\n45\n5\n90%\nForward 2 (going quickly)\n47\n3\n94%\nLeft (turning left)\n48\n2\n96%\nRight (turning right)\n47\n3\n94%\nStop\n48\n2\n96%\nBackward (going back)\n45\n5\n90%"
+    },
+    {
+        "chunk_id": 68,
+        "source": "paper21",
+        "text": "Attempts\nControl\nAccuracy\nForward 1 (going slowly)\n45\n5\n90%\nForward 2 (going quickly)\n47\n3\n94%\nLeft (turning left)\n48\n2\n96%\nRight (turning right)\n47\n3\n94%\nStop\n48\n2\n96%\nBackward (going back)\n45\n5\n90%\nTable 10 presents a comparison between the proposed system and recently developed\nsimilar systems. In Gao’s study, the system utilized hand gesture recognition with a\nMicrosoft Kinect Depth camera, which is costly [34]. The results from this research indicated\nreduced performance due to the complexity of the background in captured images during\nrecording. Additionally, this system lacks user-friendliness as it requires users to raise their\nhands for every gesture. Another study involved a control system based on detecting hand\nmovements, which required wearing a bracelet [45]. Furthermore, this system needed a\nbasic power setup for the wheelchair, contributing to a higher overall cost. Muhammad\net al. proposed an affordable, gesture-controlled smart wheelchair system equipped with"
+    },
+    {
+        "chunk_id": 69,
+        "source": "paper21",
+        "text": "basic power setup for the wheelchair, contributing to a higher overall cost. Muhammad\net al. proposed an affordable, gesture-controlled smart wheelchair system equipped with\nan IoT-enabled fall detection mechanism [5]. This system utilizes a Convolutional Neural\nNetwork (CNN) and computer vision algorithms to recognize hand gestures for controlling\nthe wheelchair, while also ensuring user safety through fall detection and emergency\nmessaging. With a development cost of under USD 300, this system offers an affordable\nand safe solution to improve the mobility of people with physical disabilities."
+    },
+    {
+        "chunk_id": 70,
+        "source": "paper21",
+        "text": "Electronics 2025, 14, 734\n21 of 24\nTable 10. The comparison between proposed system and similar works.\nPapers\nFeatures\nFunctionality\nEquipment\nRequirements and\nLimitations\nCost\nSuccess Rate\nMuhammad et al. [5]\nHand gesture, fall\ndetection, obstacle\navoidance\nRGB Camera, Raspberry\nPi, sensors\nRequire only fingers’\nmovement\nLow\n97.14%\nGao et al. [34]\nHand gesture\nrecognition\nMicrosoft Kinect\nCamera, high\nconfiguration laptop\nRequire hand raising,\nbackground complexity\nHigh\n10–100%, depending on\nbackground complexity\nOliver et al. [45]\nHand movement\ndetection\nAccelerometer, joystick\nmanipulator\nRequire hand band\nwearing\nMedium\nThe joystick\nmanipulator system is\n100% reliable in testing\nProposed system\nHand gesture\nRGB Camera, Jetson\nNano\nRequire only hand\ngesture\nLow\n93.8–99.3%, depending\non brightness\nThe proposed system incorporates a hand gesture tracking mechanism using finger\nmovements, making it more user-friendly and easier to operate. Notably, the wheelchair"
+    },
+    {
+        "chunk_id": 71,
+        "source": "paper21",
+        "text": "on brightness\nThe proposed system incorporates a hand gesture tracking mechanism using finger\nmovements, making it more user-friendly and easier to operate. Notably, the wheelchair\nsystem was designed with obstacle avoidance features to ensure safety during movement.\nAdditionally, the total cost of this smart wheelchair is slightly over USD 500, as detailed\nin Table 11, making it a cost-effective solution suitable for potential commercialization. In\naddition, based on the components described in Table 11, experiments show that the total\ncurrent consumption of the wheelchair system is approximately 6150 mA, corresponding\nto a power consumption of about 78.5 W. With the currently equipped 12 Ah battery, the\nmaximum continuous operation time of the system is about 2 h. This operation time can be\nfurther extended if a battery with a larger capacity is used. Moreover, the time from hand\ngesture recognition to issuing wheelchair control commands ranges from 57 ms to 62 ms,"
+    },
+    {
+        "chunk_id": 72,
+        "source": "paper21",
+        "text": "further extended if a battery with a larger capacity is used. Moreover, the time from hand\ngesture recognition to issuing wheelchair control commands ranges from 57 ms to 62 ms,\nallowing the wheelchair to move at speeds from 0.3 m/s to 0.5 m/s. These results indicate\nthat the proposed gesture-controlled electric wheelchair system is suitable for indoor use\nwith a relatively small area.\nTable 11. Estimated cost of the developed smart wheelchair.\nItems\nEstimated Cost\nElectric Wheelchair Development\nUSD 402\nControl Unit Integration\nUSD 135\nJetson Nano (2 GB RAM)\nUSD 100\nRGB Camera\nUSD 15\nArduino and sensors\nUSD 20\nTotal\nUSD 537\n4. Conclusions\nThis article proposes a smart wheelchair model that utilizes the YOLOv8n model\nfor recognizing six hand gestures, each corresponding to a control command. The hand\ngesture datasets were collected from student volunteers, including both male and female\nparticipants, under various conditions. These gestures are processed using MediaPipe to"
+    },
+    {
+        "chunk_id": 73,
+        "source": "paper21",
+        "text": "gesture datasets were collected from student volunteers, including both male and female\nparticipants, under various conditions. These gestures are processed using MediaPipe to\nextract ROI, enhancing recognition capability. The highest accuracy achieved during model\ntraining is 99.3%, while the average accuracy during testing in real-world environments\nis 93.8%. The six gestures—“Forward 1”, “Forward 2”, “Left”, “Right”, “Stop”, and\n“Backward”—were assigned to their respective control commands. The recognition of\nthese gestures achieved average accuracies of 90%, 95%, 97%, 95%, 94%, and 92% under\nappropriate lighting conditions. The processing time for each gesture is between 57 ms\nand 62 ms, allowing wheelchair movement at speeds ranging from 0.3 m/s to 0.5 m/s.\nThe study also includes experiments assessing the stability of the wheelchair’s movement,\ncomparing the actual and desired routes. The deviation between the two routes was"
+    },
+    {
+        "chunk_id": 74,
+        "source": "paper21",
+        "text": "Electronics 2025, 14, 734\n22 of 24\nminimal, showing an acceptable performance for indoor environments. Additionally, the\nresearch involved designing hardware using the Jetson Nano Developer Kit to process hand\ngesture images for controlling the wheelchair. The proposed model offers a feasible solution\nfor creating smart wheelchairs for severely disabled individuals, suitable for practical use\nin indoor settings.\nAuthor Contributions: Conceptualization, methodology, simulation, and writing—original draft,\nB.-V.N. and T.-N.N.; methodology, supervision, validation and writing—review and editing, T.-H.N.\nAll authors have read and agreed to the published version of the manuscript.\nFunding: This work is supported by Ho Chi Minh City University of Technology and Education\n(HCMUTE) under Grant No. T2024-132.\nData Availability Statement: The datasets generated and/or analyzed during the current study are\navailable from the corresponding author on reasonable request."
+    },
+    {
+        "chunk_id": 75,
+        "source": "paper21",
+        "text": "(HCMUTE) under Grant No. T2024-132.\nData Availability Statement: The datasets generated and/or analyzed during the current study are\navailable from the corresponding author on reasonable request.\nAcknowledgments: We would like to thank the Ho Chi Minh City University of Technology and\nEducation (HCMUTE), Vietnam.\nConflicts of Interest: The authors declare no conflicts of interest.\nReferences\n1.\nMindell, J.S.; Amin, S.; Mackett, R.L.; Taylor, J.; Yaffe, S. Chapter Two—Disability and travel. In Advances in Transport Policy and\nPlanning; Mindell, J.S., Watkins, S.J., Eds.; Academic Press: Cambridge, MA, USA, 2024; Volume 13, pp. 47–87.\n2.\nLiu, Z.; Li, C.; Lin, J.; Xu, H.; Xu, Y.; Nan, H.; Cheng, W.; Li, J.; Wang, B. Advances in the development and application of\nnon-contact intraoperative image access systems. BioMedical Eng. OnLine 2024, 23, 108. [CrossRef]\n3.\nWang, H.; Ru, B.; Miao, X.; Gao, Q.; Habib, M.; Liu, L.; Qiu, S. MEMS Devices-Based Hand Gesture Recognition via Wearable"
+    },
+    {
+        "chunk_id": 76,
+        "source": "paper21",
+        "text": "3.\nWang, H.; Ru, B.; Miao, X.; Gao, Q.; Habib, M.; Liu, L.; Qiu, S. MEMS Devices-Based Hand Gesture Recognition via Wearable\nComputing. Micromachines 2023, 14, 947. [CrossRef]\n4.\nTchantchane, R.; Zhou, H.; Zhang, S.; Alici, G. A Review of Hand Gesture Recognition Systems Based on Noninvasive Wearable\nSensors. Adv. Intell. Syst. 2023, 5, 2300207. [CrossRef]\n5.\nSadi, M.S.; Alotaibi, M.; Islam, M.R.; Islam, M.S.; Alhmiedat, T.; Bassfar, Z. Finger-Gesture Controlled Wheelchair with Enabling\nIoT. Sensors 2022, 22, 8716. [CrossRef]\n6.\nZhang, X.; Li, J.; Zhang, R.; Liu, T. A Brain-Controlled and User-Centered Intelligent Wheelchair: A Feasibility Study. Sensors\n2024, 24, 3000. [CrossRef]\n7.\nLiu, K.; Yu, Y.; Liu, Y.; Tang, J.; Liang, X.; Chu, X.; Zhou, Z. A novel brain-controlled wheelchair combined with computer vision\nand augmented reality. BioMedical Eng. OnLine 2022, 21, 50. [CrossRef]\n8."
+    },
+    {
+        "chunk_id": 77,
+        "source": "paper21",
+        "text": "and augmented reality. BioMedical Eng. OnLine 2022, 21, 50. [CrossRef]\n8.\nKutbi, M.; Li, H.; Chang, Y.; Sun, B.; Li, X.; Cai, C.; Agadakos, N.; Hua, G.; Mordohai, P. Egocentric Computer Vision for\nHands-Free Robotic Wheelchair Navigation. J. Intell. Robot. Syst. 2023, 107, 10. [CrossRef]\n9.\nTejonidhi, M.R.; Vinod, A.M. Oculus Supervised Wheelchair Control for People with Locomotor Disabilities. In Proceedings of\nthe 2017 International Conference on Recent Advances in Electronics and Communication Technology (ICRAECT), Bangalore,\nIndia, 16–17 March 2017; pp. 254–259.\n10.\nUtaminingrum, F.; Fauzi, A.; Syauqy, D.; Cahya, R.; Hapsani, A.G. Determining direction of moving object using object tracking for\nsmart weelchair controller. In Proceedings of the 2017 5th International Symposium on Computational and Business Intelligence\n(ISCBI), Dubai, United Arab Emirates, 11–14 August 2017; pp. 6–9.\n11."
+    },
+    {
+        "chunk_id": 78,
+        "source": "paper21",
+        "text": "smart weelchair controller. In Proceedings of the 2017 5th International Symposium on Computational and Business Intelligence\n(ISCBI), Dubai, United Arab Emirates, 11–14 August 2017; pp. 6–9.\n11.\nHuang, S.-S.; Ku, S.-H.; Hsiao, P.-Y. Combining Weighted Contour Templates with HOGs for Human Detection Using Biased\nBoosting. Sensors 2019, 19, 1458. [CrossRef] [PubMed]\n12.\nPei, L.; Zhang, H.; Yang, B. Improved Camshift object tracking algorithm in occluded scenes based on AKAZE and Kalman.\nMultimed. Tools Appl. 2022, 81, 2145–2159. [CrossRef]\n13.\nMahmud, S.; Lin, X.; Kim, J.H.; Iqbal, H.; Rahat-Uz-Zaman, M.; Reza, S.; Rahman, M.A. A Multi-Modal Human Machine Interface\nfor Controlling a Smart Wheelchair. In Proceedings of the 2019 IEEE 7th Conference on Systems, Process and Control (ICSPC),\nMelaka, Malaysia, 13–14 December 2019; pp. 10–13.\n14.\nDesai, J.K.; Mclauchlan, L. Controlling a wheelchair by gesture movements and wearable technology. In Proceedings of the 2017"
+    },
+    {
+        "chunk_id": 79,
+        "source": "paper21",
+        "text": "Melaka, Malaysia, 13–14 December 2019; pp. 10–13.\n14.\nDesai, J.K.; Mclauchlan, L. Controlling a wheelchair by gesture movements and wearable technology. In Proceedings of the 2017\nIEEE International Conference on Consumer Electronics (ICCE), Las Vegas, NV, USA, 8–10 January 2017; pp. 402–403."
+    },
+    {
+        "chunk_id": 80,
+        "source": "paper21",
+        "text": "Electronics 2025, 14, 734\n23 of 24\n15.\nBhuyain, M.F.; Shawon, M.A.U.K.; Sakib, N.; Faruk, T.; Islam, M.K.; Salim, K.M. Design and Development of an EOG-based\nSystem to Control Electric Wheelchair for People Suffering from Quadriplegia or Quadriparesis. In Proceedings of the 2019\nInternational Conference on Robotics, Electrical and Signal Processing Techniques (ICREST), Dhaka, Bangladesh, 10–12 January\n2019; pp. 460–465.\n16.\nLecrosnier, L.; Khemmar, R.; Ragot, N.; Decoux, B.; Rossi, R.; Kefi, N.; Ertaud, J.-Y. Deep Learning-Based Object Detection,\nLocalisation and Tracking for Smart Wheelchair Healthcare Mobility. Int. J. Environ. Res. Public Health 2020, 18, 91. [CrossRef]\n17.\nLecrosnier, L.; Khemmar, R.; Ragot, N.; Rossi, R.; Ertaud, J.-Y.; Decoux, B.; Dupuis, Y. Object Detection, Localization and\nTracking-Based Deep Learning for Smart Wheelchair. Model. Meas. Control C 2021, 82, 1–5. [CrossRef]\n18."
+    },
+    {
+        "chunk_id": 81,
+        "source": "paper21",
+        "text": "Tracking-Based Deep Learning for Smart Wheelchair. Model. Meas. Control C 2021, 82, 1–5. [CrossRef]\n18.\nChoudhury, N.; Mandal, R.; Patgiri, A.; Gogoi, J.; Nath, S. Design and Implementation of Deep Learning Assisted Smart\nWheelchair. In NIELIT’s International Conference on Communication, Electronics and Digital Technologies; Springer Nature: Singapore,\n2024; pp. 441–455.\n19.\nTawil, Y.; Hafez, A.H.A. Deep Learning Obstacle Detection and Avoidance for Powered Wheelchair. In Proceedings of the 2022\nInnovations in Intelligent Systems and Applications Conference (ASYU), Antalya, Turkey, 7–9 September 2022; pp. 1–6.\n20.\nHiga, S.; Yamada, K.; Kamisato, S. Intelligent Eye-Controlled Electric Wheelchair Based on Estimating Visual Intentions Using\nOne-Dimensional Convolutional Neural Network and Long Short-Term Memory. Sensors 2023, 23, 4028. [CrossRef]\n21.\nBeyer, L.; Hermans, A.; Leibe, B. DROW: Real-Time Deep Learning based Wheelchair Detection in 2D Range Data. IEEE Robot."
+    },
+    {
+        "chunk_id": 82,
+        "source": "paper21",
+        "text": "21.\nBeyer, L.; Hermans, A.; Leibe, B. DROW: Real-Time Deep Learning based Wheelchair Detection in 2D Range Data. IEEE Robot.\nAutom. Lett. 2016, 2, 585–592. [CrossRef]\n22.\nVasquez, A.; Kollmitz, M.; Eitel, A.; Burgard, W. Deep Detection of People and their Mobility Aids for a Hospital Robot. In\nProceedings of the 2017 European Conference on Mobile Robots (ECMR), Paris, France, 6–8 September 2017; pp. 1–7.\n23.\nXu, L.Y.; Zhao, Y.F.; Zhai, Y.H.; Huang, L.M.; Ruan, C.W. Small Object Detection in UAV Images Based on YOLOv8n. Int. J.\nComput. Intell. Syst. 2024, 17, 223. [CrossRef]\n24.\nTang, H.; Jiang, Y. An Improved YOLOv8n Algorithm for Object Detection with CARAFE, MultiSEAMHead, and TripleAttention\nMechanisms. In Proceedings of the 2024 7th International Conference on Computer Information Science and Application\nTechnology (CISAT), Hangzhou, China, 12–14 July 2024; pp. 119–122.\n25."
+    },
+    {
+        "chunk_id": 83,
+        "source": "paper21",
+        "text": "Mechanisms. In Proceedings of the 2024 7th International Conference on Computer Information Science and Application\nTechnology (CISAT), Hangzhou, China, 12–14 July 2024; pp. 119–122.\n25.\nSun, Y.; Zhang, Y.; Wang, H.; Guo, J.; Zheng, J.; Ning, H. SES-YOLOv8n: Automatic driving object detection algorithm based on\nimproved YOLOv8. Signal Image Video Process. 2024, 18, 3983–3992. [CrossRef]\n26.\nZhao, Y.; Yang, D.; Cao, S.; Cai, B.; Maryamah, M.; Solihin, M.I. Object detection in smart indoor shopping using an enhanced\nYOLOv8n algorithm. IET Image Process. 2024, 18, 4745–4759. [CrossRef]\n27.\nZhou, Q.; Wang, Z.; Zhong, Y.; Zhong, F.; Wang, L. Efficient Optimized YOLOv8 Model with Extended Vision. Sensors 2024,\n24, 6506. [CrossRef]\n28.\nChang, V.; Eniola, R.O.; Golightly, L.; Xu, Q.A. An Exploration into Human–Computer Interaction: Hand Gesture Recognition\nManagement in a Challenging Environment. SN Comput. Sci. 2023, 4, 441. [CrossRef]\n29."
+    },
+    {
+        "chunk_id": 84,
+        "source": "paper21",
+        "text": "Management in a Challenging Environment. SN Comput. Sci. 2023, 4, 441. [CrossRef]\n29.\nGouda, M.A.; Hong, W.; Jiang, D.; Feng, N.; Zhou, B.; Li, Z. Synthesis of sEMG Signals for Hand Gestures Using a 1DDCGAN.\nBioengineering 2023, 10, 1353. [CrossRef]\n30.\nLiu, X.; Dai, C.; Liu, J.; Yuan, Y. Effects of Exercise on the Inter-Session Accuracy of sEMG-Based Hand Gesture Recognition.\nBioengineering 2024, 11, 811. [CrossRef] [PubMed]\n31.\nZhou, H.; Wang, D.; Yu, Y.; Zhang, Z. Research Progress of Human–Computer Interaction Technology Based on Gesture\nRecognition. Electronics 2023, 12, 2805. [CrossRef]\n32.\nCastro, M.C.F.; Arjunan, S.P.; Kumar, D.K. Selection of suitable hand gestures for reliable myoelectric human computer interface.\nBioMedical Eng. OnLine 2015, 14, 30. [CrossRef] [PubMed]\n33.\nBiagetti, G.; Crippa, P.; Falaschetti, L.; Orcioni, S.; Turchetti, C. Human activity monitoring system based on wearable sEMG and"
+    },
+    {
+        "chunk_id": 85,
+        "source": "paper21",
+        "text": "BioMedical Eng. OnLine 2015, 14, 30. [CrossRef] [PubMed]\n33.\nBiagetti, G.; Crippa, P.; Falaschetti, L.; Orcioni, S.; Turchetti, C. Human activity monitoring system based on wearable sEMG and\naccelerometer wireless sensor nodes. BioMedical Eng. OnLine 2018, 17, 132. [CrossRef]\n34.\nGao, X.; Shi, L.; Wang, Q. The design of robotic wheelchair control system based on hand gesture control for the disabled. In\nProceedings of the 2017 International Conference on Robotics and Automation Sciences (ICRAS), Hong Kong, China, 26–29\nAugust 2017; pp. 30–34.\n35.\nJayalakshmi, M.; Saradhi, T.P.; Azam, S.M.R.; Fazil, S.; Sriram, S.D.S. Multi-model Human-Computer Interaction System with\nHand Gesture and Eye Gesture Control. In Proceedings of the 2024 5th International Conference on Innovative Trends in\nInformation Technology (ICITIIT), Kottayam, India, 15–16 March 2024; pp. 1–6.\n36."
+    },
+    {
+        "chunk_id": 86,
+        "source": "paper21",
+        "text": "Hand Gesture and Eye Gesture Control. In Proceedings of the 2024 5th International Conference on Innovative Trends in\nInformation Technology (ICITIIT), Kottayam, India, 15–16 March 2024; pp. 1–6.\n36.\nSánchez-Brizuela, G.; Cisnal, A.; de la Fuente-López, E.; Fraile, J.-C.; Pérez-Turiel, J. Lightweight real-time hand segmentation\nleveraging MediaPipe landmark detection. Virtual Real. 2023, 27, 3125–3132. [CrossRef]\n37.\nYunusov, N.; Islam, B.M.; Abdusalomov, A.; Kim, W. Robust Forest Fire Detection Method for Surveillance Systems Based on You\nOnly Look Once Version 8 and Transfer Learning Approaches. Processes 2024, 12, 1039. [CrossRef]\n38.\nOyedotun, O.K.; Khashman, A. Deep learning in vision-based static hand gesture recognition. Neural Comput. Appl. 2017,\n28, 3941–3951. [CrossRef]"
+    },
+    {
+        "chunk_id": 87,
+        "source": "paper21",
+        "text": "Electronics 2025, 14, 734\n24 of 24\n39.\nZhan, F. Hand Gesture Recognition with Convolution Neural Networks. In Proceedings of the 2019 IEEE 20th International\nConference on Information Reuse and Integration for Data Science (IRI), Los Angeles, CA, USA, 30 July–1 August 2019;\npp. 295–298.\n40.\nVashisth, H.K.; Tarafder, T.; Aziz, R.; Arora, M. Hand Gesture Recognition in Indian Sign Language Using Deep Learning. Eng.\nProc. 2023, 59, 96. [CrossRef]\n41.\nSharma, S.; Singh, S. Vision-based hand gesture recognition using deep learning for the interpretation of sign language. Expert\nSyst. Appl. 2021, 182, 115657. [CrossRef]\n42.\nAnilkumar, G.; Fouzia, M.S.; Anisha, G.S. Imperative Methodology to Detect the Palm Gestures (American Sign Language) using\nY010v5 and MediaPipe. In Proceedings of the 2022 2nd International Conference on Intelligent Technologies (CONIT), Hubli,\nIndia, 24–26 June 2022; pp. 1–4.\n43."
+    },
+    {
+        "chunk_id": 88,
+        "source": "paper21",
+        "text": "Y010v5 and MediaPipe. In Proceedings of the 2022 2nd International Conference on Intelligent Technologies (CONIT), Hubli,\nIndia, 24–26 June 2022; pp. 1–4.\n43.\nMariappan, H.M.; Gomathi, V. Real-Time Recognition of Indian Sign Language. In Proceedings of the 2019 International\nConference on Computational Intelligence in Data Science (ICCIDS), Chennai, India, 21–23 February 2019; pp. 1–6.\n44.\nRosalina; Yusnita, L.; Hadisukmana, N.; Wahyu, R.B.; Roestam, R.; Wahyu, Y. Implementation of real-time static hand gesture\nrecognition using artificial neural network. In Proceedings of the 2017 4th International Conference on Computer Applications\nand Information Processing Technology (CAIPT), Kuta Bali, Indonesia, 8–10 August 2017; pp. 1–6.\n45.\nOliver, S.; Khan, A. Design and evaluation of an alternative wheelchair control system for dexterity disabilities. Healthc. Technol.\nLett. 2019, 6, 109–114. [CrossRef] [PubMed]"
+    },
+    {
+        "chunk_id": 89,
+        "source": "paper21",
+        "text": "45.\nOliver, S.; Khan, A. Design and evaluation of an alternative wheelchair control system for dexterity disabilities. Healthc. Technol.\nLett. 2019, 6, 109–114. [CrossRef] [PubMed]\nDisclaimer/Publisher’s Note: The statements, opinions and data contained in all publications are solely those of the individual\nauthor(s) and contributor(s) and not of MDPI and/or the editor(s). MDPI and/or the editor(s) disclaim responsibility for any injury to\npeople or property resulting from any ideas, methods, instructions or products referred to in the content."
+    }
+]

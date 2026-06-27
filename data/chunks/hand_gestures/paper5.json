@@ -1,0 +1,152 @@
+[
+    {
+        "chunk_id": 1,
+        "source": "paper5",
+        "text": "Dynamic Gesture Recognition Method Based on \nMillimeter-Wave Radar \n \nQingchuan Li \nSchool of Mechanical and \nElectrical Engineering \nChengdu University of \nTechnology \nChengdu, China \n2293125446@qq.com \nLinsheng Liu* \nSchool of Mechanical and \nElectrical Engineering \nChengdu University of \nTechnology \nChengdu, China \n554737896@qq.com \nShuang Hao \nSchool of Computer and Network \nSecurity (Oxford Brooks College) \nChengdu University of \nTechnology \nChengdu, China \ncdut_hs@foxmail.com \nGuangyang Wan \nSchool of Mechanical and \nElctrical Engineering \nChengdu University of \nTechnology \nChengdu, China \n1207579512@qq.com\n \nAbstract—The millimeter wave radar-based dynamic gesture \nrecognition is the use of electromagnetic waves to obtain the \nmotion characteristics of human dynamic gestures, to achieve \nautomatic recognition of gestures. This paper proposes an \nfrequency modulated continuous wave (FMCW) millimeter wave \nradar gesture recognition technology, the analysis and processing"
+    },
+    {
+        "chunk_id": 2,
+        "source": "paper5",
+        "text": "automatic recognition of gestures. This paper proposes an \nfrequency modulated continuous wave (FMCW) millimeter wave \nradar gesture recognition technology, the analysis and processing \nof radar echo, after the radar signal detection, in a complex \nenvironment to extract the gesture and radar distance, speed and \nother features, to get the radar and target azimuth angle, elevation \nangle, distance-weighted doppler, azimuth elevation angle \ncovariance, azimuth angle-weighted doppler correlation, elevation \nangle-weighted doppler correlation. The six features are used to \nclassify the six gestures based on the features using a shallow \nartificial neural network. It is demonstrated that this method can \nquickly and effectively identify different categories of gestures and \nhas good generalisation to untrained test sets.   \nKeywords—millimeter wave radar, dynamic gesture recognition, \nconvolutional neural networks.  \nI. INTRODUCTION"
+    },
+    {
+        "chunk_id": 3,
+        "source": "paper5",
+        "text": "has good generalisation to untrained test sets.   \nKeywords—millimeter wave radar, dynamic gesture recognition, \nconvolutional neural networks.  \nI. INTRODUCTION \nHuman-computer interaction plays an important role in the \ntechnological life of human beings. Among them, gesture \ninteraction has a very broad application prospect in the fields of \nadvanced assisted driving and wearable devices due to its natural \nand intuitive characteristics. Existing gesture recognition \nmethods include wearable sensors, visual images based on \nvisible light and infrared [1], [2], ultrasound, TV, RFID, non-\nbroadband wireless communication signals such as Wi-Fi [3] \nand radar [4]. However, vision-based gesture recognition \nsolutions are highly influenced by lighting conditions [5], while \nwearable sensor-based recognition solutions require additional \nsensors to be worn on the user's hand, which is highly unportable \nand seriously affects the user's experience. Radar-based gesture"
+    },
+    {
+        "chunk_id": 4,
+        "source": "paper5",
+        "text": "wearable sensor-based recognition solutions require additional \nsensors to be worn on the user's hand, which is highly unportable \nand seriously affects the user's experience. Radar-based gesture \nrecognition systems do not require additional sensors to be worn \non the human hand and are not affected by lighting conditions, \nthey can work 24/7, and the radar signal has good penetration. \nCompared to gesture recognition systems based on low-band \nwireless signals, millimetre wave radar sensors are easily \nminiaturised and can be embedded inside the device, greatly \nimproving its integration and reliability. \nIn recent years, radar-based gesture recognition methods have \nattracted a lot of attention [6]-[12]. In the literature [6], Principal \nComponent Analysis (PCA) was used to identify gestures and \nthe classification results showed that radar-based gesture \nrecognition has good potential in the field of smart homes. The \npaper [7] combined data from multiple sensors and used a"
+    },
+    {
+        "chunk_id": 5,
+        "source": "paper5",
+        "text": "the classification results showed that radar-based gesture \nrecognition has good potential in the field of smart homes. The \npaper [7] combined data from multiple sensors and used a \ncombination of heterogeneous image alignment and a 3D \nConvolutional Neural Network (CNN) to identify typical \ngestures in car driving. The paper [8] used a combination of \nheterogeneous image alignment and a three-dimensional \nconvolutional neural network to recognize typical hand gestures \nin driving. In the paper [8], micro-doppler features were \nextracted and classified by Deep Convolutional Neural Network \n(DC-NN), and the experimental results showed that the \nrecognition accuracy of seven gestures was 93.1%. In [9], a 60 \nGHz dedicated millimetre wave radar chip was used to collect \ngestures and extract low-dimensional feature vectors from them, \nand a random forest classifier was used to recognise multiple \ngestures. In [10], a two-stream fusion neural network (TS-FN)"
+    },
+    {
+        "chunk_id": 6,
+        "source": "paper5",
+        "text": "gestures and extract low-dimensional feature vectors from them, \nand a random forest classifier was used to recognise multiple \ngestures. In [10], a two-stream fusion neural network (TS-FN) \nwas used for gesture recognition.  \nStream Fusion Neural Network (TS-FNN) to identify 10 \ncommon gestures in life. The paper [11] extracted the distance-\nDoppler-time graph features, distance-time features, Doppler-\ntime features and horizontal angle-time graph features of the \ngestures and classified the gestures by a light-weighted CNN. \nThe gesture actions were classified. \nThe FMCW millimetre wave radar is a sensor that can \nestimate the distance, velocity and angle information of a target \nfrom its echoes. The gesture recognition technology based on \nmillimetre wave radar mainly obtains the feature spectrum map \nby extracting the distance, speed and even angle information of \nthe gesture action in the echo for estimation. In the existing"
+    },
+    {
+        "chunk_id": 7,
+        "source": "paper5",
+        "text": "millimetre wave radar mainly obtains the feature spectrum map \nby extracting the distance, speed and even angle information of \nthe gesture action in the echo for estimation. In the existing \nresearch, most of the gesture recognition methods use the feature \nspectrum map in the form of image dataset using Support Vector \nMachine (SVM) or artificial neural neural network and other \nclassifiers for recognition, which is computationally intensive. \nIn the Soli project, Google used a millimetre wave radar with a \nbandwidth of up to 7 GHz for gesture recognition, using a \nconvolutional neural network to extract frame-by-frame features \nfrom the distance-Doppler image at successive moments, and a \nrecurrent neural network to extract temporal features for gesture \nclassification. \n63\n2022 the 5th International Conference on Pattern Recognition and Artificial Intelligence\n978-1-6654-9916-3/22/$31.00 ©2022 IEEE"
+    },
+    {
+        "chunk_id": 8,
+        "source": "paper5",
+        "text": "classification. \n63\n2022 the 5th International Conference on Pattern Recognition and Artificial Intelligence\n978-1-6654-9916-3/22/$31.00 ©2022 IEEE\n2022 5th International Conference on Pattern Recognition and Artificial Intelligence (PRAI) | 978-1-6654-9916-3/22/$31.00 ©2022 IEEE | DOI: 10.1109/PRAI55851.2022.9904227\nAuthorized licensed use limited to: Lovely Professional University - Phagwara. Downloaded on March 10,2026 at 03:46:00 UTC from IEEE Xplore.  Restrictions apply."
+    },
+    {
+        "chunk_id": 9,
+        "source": "paper5",
+        "text": "II. MILLIMETER WAVE RADAR DETECTION PRINCIPLE \nA. Gesture Signal Pre-processing \nGesture movement is a process that takes a certain amount \nof time. Determining the observation time of a gesture requires \ntwo considerations: firstly, the duration of the detection should \ninclude the actual duration of the gesture movement; secondly, \nthe processing time of the algorithm needs to be minimised. The \nIWR6843AOP is a millimetre wave radar device with a sweep \nsignal of 128 frames per frame and a frame duration of 40 ms. \nTherefore, the observation time of 25 frames (duration of about \n1 second) was chosen for the analysis of the radar signal during \nthe observation time.  \nThe IF signal obtained from the RF front-end processing is \nsampled by the ADC and the digital signal obtained is done as a \n3D FFT (Fast Fourier Transform) to estimate the distance, speed, \nazimuth and pitch angle of the target. \nB. Gesture Signal Processing"
+    },
+    {
+        "chunk_id": 10,
+        "source": "paper5",
+        "text": "3D FFT (Fast Fourier Transform) to estimate the distance, speed, \nazimuth and pitch angle of the target. \nB. Gesture Signal Processing \nFirstly, transmit chirp signal. A group of chirps transmitted \nby the FMCW radar, called a \"frame\" (shown in Fig.1). Doing a \n2D-FFT on the data received by each antenna will result in a 2D \ngrid containing the distance and doppler dimensions. A peak in \nthe grid indicates the presence of a target at the distance (shown \nin Fig.2). The angle of arrival of the target is obtained by \nprocessing the corresponding peaks, which means angle-FFT in \nthe grid from multiple RX antennas (shown in Fig.3). \n \nFig. 1. Chirp and frame. \n \nFig. 2. 2D-FFT Grid. \n \nFig. 3. Angle-FFT. \nAs can be seen from the above diagrams, the two-\ndimensional FFT processing process of the FMCW radar signal \nis as follows: the sampled data of the IF signal of each cycle are \nfirstly subjected to FFT calculation along the direction of"
+    },
+    {
+        "chunk_id": 11,
+        "source": "paper5",
+        "text": "dimensional FFT processing process of the FMCW radar signal \nis as follows: the sampled data of the IF signal of each cycle are \nfirstly subjected to FFT calculation along the direction of \nsampling, i.e. distance dimension FFT(range), and the result \nobtained is saved to each column of the matrix, which gives the \ndistance information of the target; then the FFT calculation of \nthe chirp dimension of the matrix, i.e. velocity dimension FFT \n(doppler), which saves the result in the corresponding row of the \nmatrix and gives the velocity information of the target; finally, \nthe FFT operation is performed on the same frame of data \nobtained from multiple receiving antennas, i.e. angle dimension \nFFT. \nIn practice, the final processing flow for each frame of the \necho signal is shown in the following diagram. \n \nFig. 4. Radar signal processing flow chart. \nIII. GESTURE FEATURES \nA. Gesture Feature Extraction \nThe six gestures that need to be classified in this paper were"
+    },
+    {
+        "chunk_id": 12,
+        "source": "paper5",
+        "text": "Fig. 4. Radar signal processing flow chart. \nIII. GESTURE FEATURES \nA. Gesture Feature Extraction \nThe six gestures that need to be classified in this paper were \nanalysed and found that left slide, upward movement and \ncounter-clockwise rotation belong to the more different \nmovements, while left slide and right slide belong to two \nmovements with a higher degree of similarity. Therefore, \naccording to the characteristics of the gestures, the six gestures \nare grouped into three categories. The first category is horizontal \nsliding movements, including slide left and slide right (shown in \nFig.5). The second category is vertical sliding movements, \nincluding slide up and slide down (shown in Fig.6), and the third \ncategory is rotation movements, including counterclockwise \nrotation and clockwise rotation (shown in Fig.7). The following \nis an analysis of the movement characteristics of each gesture. \n \nFig. 5. Horizontal sliding movements. \n \n \nFig. 6. Vertical sliding movements."
+    },
+    {
+        "chunk_id": 13,
+        "source": "paper5",
+        "text": "is an analysis of the movement characteristics of each gesture. \n \nFig. 5. Horizontal sliding movements. \n \n \nFig. 6. Vertical sliding movements. \n64\nAuthorized licensed use limited to: Lovely Professional University - Phagwara. Downloaded on March 10,2026 at 03:46:00 UTC from IEEE Xplore.  Restrictions apply."
+    },
+    {
+        "chunk_id": 14,
+        "source": "paper5",
+        "text": "Fig. 7. Rotation. \nThe energy changes of the reflected signals of the left and \nright sliding manoeuvres are the same, showing an increasing \nand then decreasing trend; the azimuth angles formed by the \ngestures and the radar change in opposite directions; the \nmagnitudes of the gesture doppler velocities both become \nsmaller and then larger, with the direction going from negative \nto positive. Unlike the left and right slides, the upward and \ndownward sliding manoeuvres have a greater variation in the \npitch angle formed with the radar. In both clockwise and \ncounterclockwise rotation movements, the energy, and doppler \ndistance magnitudes are constant, and the azimuth and pitch \nangle of the signal need to be considered. In summary, it is \npossible to distinguish the rotation action based on distance and \nDoppler information, and to distinguish counterclockwise and \nclockwise rotation based on the correlation between azimuth and"
+    },
+    {
+        "chunk_id": 15,
+        "source": "paper5",
+        "text": "possible to distinguish the rotation action based on distance and \nDoppler information, and to distinguish counterclockwise and \nclockwise rotation based on the correlation between azimuth and \npitch angle; up and down sliding and left and right sliding based \non whether the azimuth angle changes, and finally left and right \nsliding based on azimuth and doppler correlation, and up and \ndown sliding based on pitch angle and doppler correlation. \nBased on the motion characteristics of the six gestures, a new \nmulti-dimensional feature extraction algorithm is proposed in \nthis paper: for each gesture, six types of features are extracted: \nweighted doppler, azimuth, pitch angle, azimuth-pitch angle \ncovariance, azimuth-weighted doppler correlation and pitch \nangle-weighted doppler correlation, and a multi-dimensional \nparameter set is constructed as the input to the ANN (artificial \nneural network) classifier. The figure below shows the distance-"
+    },
+    {
+        "chunk_id": 16,
+        "source": "paper5",
+        "text": "angle-weighted doppler correlation, and a multi-dimensional \nparameter set is constructed as the input to the ANN (artificial \nneural network) classifier. The figure below shows the distance-\nDoppler matrix obtained from the 2D FFT of the gesture echo \nsignal, where the horizontal coordinate is the distance and the \nvertical coordinate is the Doppler velocity. \nTABLE I.  \nDISTANCE DOPPLER 2D MATRIX \n1\nkn  \n... \n... \n... \nkk\nn\n \n... \n... \n... \n... \n... \n31\nn  \n... \n... \n... \n... \n21\nn  \n22\nn\n \n... \n... \n... \n11\nn  \n12\nn  \n13\nn  \n... \nk\nn1  \nB. Gesture Feature Calculation \n1) Azimuth angle \nThe angle of deviation of the strongest reflector in front of \nthe radar in the horizontal direction is indicated, and the \nhorizontal angle of the gesture is detected to distinguish between \nleft and right swipe gestures. In the system studied in this paper, \nthe number of receiving antennas used is four. The data obtained \nfrom the four antennas are subjected to a 3D-FFT operation to"
+    },
+    {
+        "chunk_id": 17,
+        "source": "paper5",
+        "text": "left and right swipe gestures. In the system studied in this paper, \nthe number of receiving antennas used is four. The data obtained \nfrom the four antennas are subjected to a 3D-FFT operation to \nobtain a distance-Doppler-angle map and, based on the peak \nindex in the range box, an azimuth angle. \n2) Elevation angle \nIt represents the angular offset of the strongest reflector in \nfront of the radar in the vertical direction and detects the pitch \nangle of the gesture to distinguish between left- and right-sliding \ngestures, calculated in a similar way to the azimuth calculation. \nTwo transmitting antennas are required, and 3D-FFT operations \nare performed from the dimension of the transmitting antennas. \n3) Weighted Doppler \ndenotes the weighted average of the distance-doppler matrix \ncalculated from the doppler dimension, and for each frame of \ndata, the velocity weight of the gesture is calculated. The \ncalculation formula is: \n\n\n=\n=\n=\n=\n=\nij\nk\ni\nk\nj\nij\nk\ni\nk\nj\nD\nn\nj\nn\nW\n1\n1\n1"
+    },
+    {
+        "chunk_id": 18,
+        "source": "paper5",
+        "text": "data, the velocity weight of the gesture is calculated. The \ncalculation formula is: \n\n\n=\n=\n=\n=\n=\nij\nk\ni\nk\nj\nij\nk\ni\nk\nj\nD\nn\nj\nn\nW\n1\n1\n1\n1\n*\n                           (1) \n4) Azimuth elevation angle covariance \ndenotes the covariance between azimuth and pitch angle, i.e. \nthe relationship between azimuth change and pitch angle change. \nThe azimuth vector is known to be A = {\n25\n2\n1\n...,\n,\n,\nA\nA\nA\n}, The \nelevation angle vector is E = {\n25\n2\n1\n,...,\n,\nE\nE\nE\n}. The calculation \nformula is: \n)]\n)(\n[(\nE\nA\nAE\nE\nA\nE\nCov\n\n\n−\n−\n=\n                      (2) \n5) Azimuth angle-weighted Doppler correlation \nRepresents the covariance between azimuth and weighted \ndoppler, i.e. the relationship between azimuth change and \nweighted doppler change, horizontal angle varies with velocity \nto distinguish between counterclockwise and clockwise gestures. \nThe weighted Doppler vector is W = {\n25\n2\n1\n,...,\n,\nW\nW\nW\n}. The \ncalculation formula is: \n)]\n)(\n[(\nW\nA\nAW\nW\nA\nE\nCov\n\n\n−\n−\n="
+    },
+    {
+        "chunk_id": 19,
+        "source": "paper5",
+        "text": "to distinguish between counterclockwise and clockwise gestures. \nThe weighted Doppler vector is W = {\n25\n2\n1\n,...,\n,\nW\nW\nW\n}. The \ncalculation formula is: \n)]\n)(\n[(\nW\nA\nAW\nW\nA\nE\nCov\n\n\n−\n−\n=\n                   (3) \n6) Elevation angle-weighted Doppler correlation \ndenotes the covariance between azimuth and weighted \ndoppler, i.e. the relationship between azimuth variation and \nweighted doppler variation. The formula is calculated as: \n)]\n)(\n[(\nW\nE\nEW\nW\nE\nE\nCov\n\n\n−\n−\n=\n                    (4) \nAs a result of the above method, the following 6 gestures \nwere obtained with 6 different characteristics. \nIV. CLASSIFICATION METHODS BASED ON ARTIFICIAL NEURAL \nNETWORKS \nArtificial Neural Networks (ANNs) are in part inspired by \nbiology and use features of brain neurons to build artificial \nneurons for mathematical modelling or computation. A neural \nnetwork is an operational model consisting of a large number of \nnodes and connections between nodes, each of which, in"
+    },
+    {
+        "chunk_id": 20,
+        "source": "paper5",
+        "text": "neurons for mathematical modelling or computation. A neural \nnetwork is an operational model consisting of a large number of \nnodes and connections between nodes, each of which, in \naddition to the input node, represents a special output function \ncalled an excitation function. Each connection between two \nnodes represents a weighted value for the signal passing through \n65\nAuthorized licensed use limited to: Lovely Professional University - Phagwara. Downloaded on March 10,2026 at 03:46:00 UTC from IEEE Xplore.  Restrictions apply."
+    },
+    {
+        "chunk_id": 21,
+        "source": "paper5",
+        "text": "that connection, called a weight, which is equivalent to the \nmemory of an artificial neural network. \n \nFig. 8. Artificial neural network structure diagram. \nThe figure above shows the model diagram of an artificial \nneural network, where n features are used as inputs to the model, \nand m resultant outputs are computed by multiple layers of \nneurons, with the output of a single neuron for the input signal \nX =\nT\nx\nx\nx\n]\n,\n,\n[\n3\n2\n1\n. \n)\n(\n1\n=\n+\n=\nm\ni\ni\ni\nb\nu\nx\nw\nf\ny\n                           \n(5) \nwhere f(x) is the activation function and ω = [\ni\n\n\n\n,...,\n,\n2\n1\n],is \nthe weight parameter of the neuron. b is the bias parameter. In \nthis paper, an artificial neural network model is trained for the \nclassification of hand gestures using a machine learning \napproach. Each gesture feature extracted in the previous section \nis used as an input to the artificial neural network as an incoming \nneuron, and the output vector of six different gestures is finally"
+    },
+    {
+        "chunk_id": 22,
+        "source": "paper5",
+        "text": "is used as an input to the artificial neural network as an incoming \nneuron, and the output vector of six different gestures is finally \nobtained through the output layer after two fully connected \nlayers to achieve the purpose of classifying gestures. \n \nFig. 9. Artificial Neural Network Definition. \nThe above diagram shows the structure of the artificial \nneural network applied in this paper. A shallow network is \napplied to train the different gesture features obtained, where the \ninput layer is a vector of gesture features, the number of neurons \nin the first fully connected layer is 30, the number of neurons in \nthe second layer is 20 and the output layer is a soft_max layer. \nV. EXPERIMENTAL VERIFICATION \nThe experiments were conducted on TI's IWR6843AOP \ndevelopment board to verify the gesture recognition algorithm. \nThe experiments were conducted to verify the recognition \naccuracy of six different gestures. The results of the"
+    },
+    {
+        "chunk_id": 23,
+        "source": "paper5",
+        "text": "development board to verify the gesture recognition algorithm. \nThe experiments were conducted to verify the recognition \naccuracy of six different gestures. The results of the \nexperimental tests are shown in the following table. \nTABLE II.  \nACCURACY OF DIFFERENT GESTURES DETECTION \nGesture \nNumber of tests \nDetection accuracy \ndown to up \n100 \n93% \nup to down \n100 \n91% \nright to left \n100 \n89% \nleft to right \n100 \n95% \nclockwise \n100 \n97% \nanti-clockwise \n100 \n95% \n \nThe results of this experiment were obtained by detecting \nhand gestures at rest and displaying the data obtained through \nthe serial port. The experimental results show that the millimetre \nwave radar has a good judgement accuracy for hand gestures. \nVI. PROBLEMS \nThe dynamic gesture recognition system based on millimetre \nwave radar overcomes the limitations of traditional data gloves \nand visual gesture recognition, and has many advantages. The \nuse of radar technology for dynamic gesture recognition has"
+    },
+    {
+        "chunk_id": 24,
+        "source": "paper5",
+        "text": "wave radar overcomes the limitations of traditional data gloves \nand visual gesture recognition, and has many advantages. The \nuse of radar technology for dynamic gesture recognition has \nalready achieved certain results, but there are still some \nshortcomings at the technical level. \nA. Simple Gesture Recognition for Short Periods of Time \nAs the duration of gesture is 0.5s-0.8s, which is relatively \nshort for millimeter wave radar, the gesture is simple and simple, \nand there is a problem of false recognition in the use scenarios \nsuch as the car. The next research direction is to extend the \ndetection time, increase the number of frames, extract more \ncomplex gestures, recognize and apply them to more complex \nand diverse environments, and provide more user scenarios. \nB. Radar Gesture Recognition in Complex Scenarios \nCompared to the actual complex application environment, \nthe experimental scenario of the existing research is relatively"
+    },
+    {
+        "chunk_id": 25,
+        "source": "paper5",
+        "text": "B. Radar Gesture Recognition in Complex Scenarios \nCompared to the actual complex application environment, \nthe experimental scenario of the existing research is relatively \nhomogeneous, with millimetre wave radar performing gesture \ndetection without too many interfering objects, i.e. a more ideal \nbackground environment. In practical applications, however, \ndue to the uncertainty of the environment, the sample data of \ndetected gesture signals are often interspersed with various \nnoises. Therefore, future research work can consider setting up \nmore complex experimental scenarios or artificially adding \ninterference information to ensure that the gesture recognition \nsystem can maintain a high recognition speed and accuracy rate \nunder more complex application scenarios.  \nC. Radar Gesture Recognition with Multiple Users \nCompared to independent user gesture recognition, multi-\nuser radar gesture recognition requires not only the extraction of"
+    },
+    {
+        "chunk_id": 26,
+        "source": "paper5",
+        "text": "C. Radar Gesture Recognition with Multiple Users \nCompared to independent user gesture recognition, multi-\nuser radar gesture recognition requires not only the extraction of \ndifferent gesture features and the construction of gesture models, \nbut also a rapid and accurate response to different users in the \nsame scene. Therefore, the study of multi-user gesture \nrecognition in the same scene is a future breakthrough in this \nfield. \nVII. CONCLUSION \nIn this paper, a millimetre wave radar-based hand gesture \nrecognition method is proposed, in which six features, namely \n66\nAuthorized licensed use limited to: Lovely Professional University - Phagwara. Downloaded on March 10,2026 at 03:46:00 UTC from IEEE Xplore.  Restrictions apply."
+    },
+    {
+        "chunk_id": 27,
+        "source": "paper5",
+        "text": "weighted doppler, azimuth angle, elevation angle, azimuth-pitch \nangle covariance, azimuth-weighted doppler correlation and \nelevation angle-weighted Doppler correlation of the target \ndetected by the radar are used as input parameters of an artificial \nneural network, and the judgement results are obtained by \nclassifying different hand gestures through the artificial neural \nnetwork. The recognized gesture information can be used as data \ninput to achieve the control of the vehicle machine through \ndifferent gestures. \nREFERENCES \n[1] Lee B G and Lee S M. “Smart wearable hand device for sign language \ninterpretation \nsystem \nwith \nsensors \nfusion”. \nIEEE \nSensors \nJournal,2018,18(3):1224-1232. doi:10.1109/JSEN.2017.2779466. \n[2] Meng Chunning,Lu Jianping,Chen Xuanhua. “Hand gesture recognition \nbased on common infrared camera”. Computer Engineering and \nApplications,2015,51(16):17-22.doi:10.3778/j.issn.1002-8331.1504-\n0303."
+    },
+    {
+        "chunk_id": 28,
+        "source": "paper5",
+        "text": "based on common infrared camera”. Computer Engineering and \nApplications,2015,51(16):17-22.doi:10.3778/j.issn.1002-8331.1504-\n0303. \n[3] Wang Y,Wu JJ,Tian ZengShan. “Multi-dimensional parametric gesture \nrecognition algorithm based on FMCW radar”. Journal of Electronics and \nInformation, 2019, 41(4): 822-829. doi:10.11999 /JEIT180485. \n[4] Liu Yechen,Xu Feng. “Gesture knowledge based on radar technology”. \nJournal of the Chinese Academy of Electronic Science , 2016, 11(6):609-\n613. doi:10.3969/j.issn.1673-5692.2016.06.009. \n[5] Li Zhibin. “Real-time gesture recognition technology and its application \nunder computer vision”. China New Communication,2019,21(12):128 \n[6] WAN Q,LI Y,LI C Z. “Gesture recognition for smart home applications \nusing portable radar sensors”. Proceedings of 2014 36th Annual \nInternational Conference of the IEEE Engineering in Medicine and Bi- \nology Society. Chicago: IEEE,2014:6414-6417. \n[7] Molchanov,GUPTA S,KIM K,. “Multi-sensor system for drivers hand-"
+    },
+    {
+        "chunk_id": 29,
+        "source": "paper5",
+        "text": "International Conference of the IEEE Engineering in Medicine and Bi- \nology Society. Chicago: IEEE,2014:6414-6417. \n[7] Molchanov,GUPTA S,KIM K,. “Multi-sensor system for drivers hand-\ngesture recognition”. Pro-ceedings of IEEE International Conference and \nWork-shops on Automatic Face and Gesture Recognition.Pis- \ncataway:IEEE, 2015:1-8. \n[8] KimY,TOOMAJIAN B.Hand gesture recognition using micro-Doppler \nsignatures with convolutional neural net- work[J]. IEEE Access，2016，\n4: 7125－7130. \n[9] Lien J,GILLIAN N,KARAGOZLER M E. “Soli: ubiq- uitous gesture \nsensing with millimeter wave radar”. ACM Transactions on Graphics, \n2016,35(4)1-19. \n[10] Wang Y, Wang Shasha, Tian Zengshan. “FMCW radar-based dual-stream \nfusion combined neural network gesture recognition method based on \nFMCW radar”. Journal of Electronics,2019,47(7):1408-1415.  \n[11] Xia Chaoyang, Zhou Chenglong,Jie Junyu. “Multi-channel FM \ncontinuous \nmillimeter \nwave \nradar-based \nMicro-motion \ngesture"
+    },
+    {
+        "chunk_id": 30,
+        "source": "paper5",
+        "text": "FMCW radar”. Journal of Electronics,2019,47(7):1408-1415.  \n[11] Xia Chaoyang, Zhou Chenglong,Jie Junyu. “Multi-channel FM \ncontinuous \nmillimeter \nwave \nradar-based \nMicro-motion \ngesture \nrecognition based on multi-channel FM continuous millimeter wave \nradar”. Journal of Electronics and Information, 2020,42(1): 164-172.\n \n \n67\nAuthorized licensed use limited to: Lovely Professional University - Phagwara. Downloaded on March 10,2026 at 03:46:00 UTC from IEEE Xplore.  Restrictions apply."
+    }
+]

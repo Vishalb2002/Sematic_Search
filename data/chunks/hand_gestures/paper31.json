@@ -1,0 +1,132 @@
+[
+    {
+        "chunk_id": 1,
+        "source": "paper31",
+        "text": "Indian Sign Language Numeral Recognition \nUsing Region of Interest Convolutional Neural \nNetwork \nSajanraj T D \nDept. of Computer Science & Engineering \nVidya Academy of Science and Technology \nThrissur - 680501, Kerala, India \nsajanrajtd.wordpress.com \nsajanraj.t.d@gmail.com \nBeena M V \nAssistant Professor   \nDept. of Computer Science & Engineering \nVidya Academy of Science and Technology \nThrissur - 680501, Kerala, India \nbeena.m.v@vidyaacademy.ac.in \n \n \nAbstract: - Communication provide interaction among the \npeople to exchange the feelings and ideas. The deaf community \nsuffer a lot to interact with the community. Sign language is the \nway through which the people communicate with each other. In \norder to provide interaction with normal people there is a system \nwhich can convert the sign languages to the understandable \nform. The purpose of this work is to provide a real-time system \nwhich can convert Indian Sign Language (ISL) to the text. Most"
+    },
+    {
+        "chunk_id": 2,
+        "source": "paper31",
+        "text": "which can convert the sign languages to the understandable \nform. The purpose of this work is to provide a real-time system \nwhich can convert Indian Sign Language (ISL) to the text. Most \nof the work based on handcrafted feature. In this we are \nintroducing a deep learning approach which can classify the sign \nusing the convolutional neural network. In the first phase we \nmake a classifier model using the numeral signs using the Keras \nimplementation of convolutional neural network using python. In \nphase \ntwo \nanother \nreal-time \nsystem \nwhich \nused \nskin \nsegmentation to find the Region of Interest in the frame which \nshows the bounding box. The segmented region is feed to the \nclassifier model to predict the sign. The system has attained an \naccuracy of 99.56% for the same subject and 97.26% in the low \nlight condition. The classifier found to be improving with \ndifferent background and the angle of the image captured .Our \nmethod focus on the RGB camera system."
+    },
+    {
+        "chunk_id": 3,
+        "source": "paper31",
+        "text": "light condition. The classifier found to be improving with \ndifferent background and the angle of the image captured .Our \nmethod focus on the RGB camera system. \nKeywords: - Deep learning, Convolutional neural network, \nRegion of interest, Real-time system. \nI. \nINTRODUCTION \nIn the world different languages are used among the people to \nprovide communication, while talking about physically \nimpaired people both deaf and dump community also use \ndifferent sign languages. The different languages are \nAmerican Sign Language, Chinese sign language, Indian sign \nlanguage etc. In each case symbols are vary with the \ninvolvement of motion, single handed and double handed \nrepresentations. The static symbols are used to represent \nletters and some cases dynamic symbols are used for the \nwords like “hello”,”Hai”,etc. A real time system among these \ncommunity will allows the communication barrier among \nthem. Once it has been converted to using the Computer Vison"
+    },
+    {
+        "chunk_id": 4,
+        "source": "paper31",
+        "text": "words like “hello”,”Hai”,etc. A real time system among these \ncommunity will allows the communication barrier among \nthem. Once it has been converted to using the Computer Vison \napproach then it can be converted to any language. There are \nmany researches undergone by in this are to build an efficient \nand accurate system. The previous works done by the \nresearchers using the hand crafted feature but having \nlimitation and used special conditions.  \nThe most works are based on the pattern recognition, feature \nextraction based on HOG, SIFT, LBP, etc. But the system \nusing a single feature is not sufficient in most of the cases and \nthe Hybrid approach are introduced to solve this problem. But \nfor a real time system we need faster methods to solve our \nproblems. Now a days ours computers are improved with the \nspeed of processing using parallel implementation. In most of \nthe time our system utilize a single core for solving a problem."
+    },
+    {
+        "chunk_id": 5,
+        "source": "paper31",
+        "text": "problems. Now a days ours computers are improved with the \nspeed of processing using parallel implementation. In most of \nthe time our system utilize a single core for solving a problem. \nUsing the GPU system the problems can be solved by parallel \ncomputing and the number of cores is higher than the CPU \nsystem. Using the Deep Learning approach we can model a \nself-learning system for our needs. Convolutional neural \nnetwork is one of the trending deep learning system which is \ncapable of solving any kind of computer vision problem. In \nour method we used a Region of interest -Convolutional \nneural network for the real time implementation. \nII. \nLITERATURE SURVEY \nComputer    Vison has become one of the   trending \ntechnology used in most of the AI based system such as \nRobots, Cars, Markets, etc. The system has more impact on \nimage classification   problems and   object detection. The \nsign language system can be implanted using this method."
+    },
+    {
+        "chunk_id": 6,
+        "source": "paper31",
+        "text": "Robots, Cars, Markets, etc. The system has more impact on \nimage classification   problems and   object detection. The \nsign language system can be implanted using this method. \nThere are many other methods used in the prior systems.  \n In literature [1] used a framework for ISL Recognition \nsystem. A glove based color Segmentation is used and the \nProceedings of the 2nd International Conference on Inventive Communication and Computational Technologies (ICICCT 2018)\nIEEE Xplore Compliant - Part Number: CFP18BAC-ART; ISBN:978-1-5386-1974-2\n978-1-5386-1974-2/18/$31.00 ©2018 IEEE\n636"
+    },
+    {
+        "chunk_id": 7,
+        "source": "paper31",
+        "text": "Recognition is done using PCA (Principal Component \nanalysis).  The real-time data frames in every 20th frame is \ntaken as input to be recognized. The sign with both \noverlapping and motion crated problems in this method. \nFingertip algorithm along with PCA is used for recognition \npurpose. Recent research works have focused on static signs \nof ISL [2] from images or video sequences that have been \nrecorded using data glove, colored glove under controlled \nconditions like single background and special hardware \ndevices. The light and position has more importance in the \nsystem. The signer must be aware of the system to work on \nthis conditions. \nThere are different methods for preprocessing Otsu’s \nthresholding [3][4] skin color and motion based segmentation \nand background subtraction [5].The feature extraction part \nuses wavelet decomposition, Fourier descriptors, scale \ninvariant feature transform. There are many classifiers used to"
+    },
+    {
+        "chunk_id": 8,
+        "source": "paper31",
+        "text": "and background subtraction [5].The feature extraction part \nuses wavelet decomposition, Fourier descriptors, scale \ninvariant feature transform. There are many classifiers used to \nclassify sign which are K Nearest Neighbor (KNN) Hidden \nMarkov Models (HMM), Multiclass Support Vector Machines \n(SVM)[6], Fuzzy systems, Artificial Neural Networks (ANN) \netc. \nIn another paper[7] implemented an edge detection method for \nhand gesture recognition .The frame features are extracted \nusing edge detection and sorting features in the database. \nApply template matching using the created database to predict \nthe gesture. Here the template matching is based on the \nminimal distance. The system is capable of identifying the \ndynamic gestures as well as static symbols. A fuzzy [8] based \nmethod is introduced, the system extract the spatial features of \nsigns using a fuzzy membership function. A suitable symbolic \nsimilarity measure is calculated and matched with the Nearest \nNeighbor classifier."
+    },
+    {
+        "chunk_id": 9,
+        "source": "paper31",
+        "text": "signs using a fuzzy membership function. A suitable symbolic \nsimilarity measure is calculated and matched with the Nearest \nNeighbor classifier.  \nReheja [9] et.al introduced a gesture recognition system on \nIndian sign language using the Microsoft Kinect sensor \ndevice. They experimented on both RGB and Depth images \nfrom Kinect .The research is found to be increasing the \naccuracy of the system while using RGB-D images. The \nmodel extract HU-Moments which are angle, location and \nshape invariant moments and feed those features to the SVM \nclassifier. Pranali Loke[10] et.al developed an android app \nbased system for Indian sign language .The android system \ncollect images and sent to the server .The server system \nforward these images to Matlab application where the feature \nextraction takes place using Sobel operator and the system has \ntrained using Neural network .The system apply pattern \nrecognition and classification on the images and create an \noutput as text."
+    },
+    {
+        "chunk_id": 10,
+        "source": "paper31",
+        "text": "extraction takes place using Sobel operator and the system has \ntrained using Neural network .The system apply pattern \nrecognition and classification on the images and create an \noutput as text. \nBeena M.V.et.al [11] developed a system to recognize \nAmerican Sign Language (ASL) from the depth images of \nKinect sensor. The system has trained using 1000 images of \neach numeral signs. The algorithm extract features from the \nblock processed images and trained using the Artificial Neural \nNetwork (ANN) and obtained an accuracy of 99.46% for the \ndepth images. The system has been trained on GPU for the \nfaster execution. As an extension to the work uses \nConvolutional Neural Network [2017-2] (CNN) with softmax \nclassification for 33 static symbols of Kinect depth images. \nThe implementation shows that while the number of classes \nincreases the handcrafted feature are become insufficient for \nclassification purpose. The CNN structure is capable of"
+    },
+    {
+        "chunk_id": 11,
+        "source": "paper31",
+        "text": "The implementation shows that while the number of classes \nincreases the handcrafted feature are become insufficient for \nclassification purpose. The CNN structure is capable of \nlearning from the given training set and it will outperform the \naccuracy related to other traditional methods. \nIII. \nPROPOSED SYSTEM \nIndian sign language is a complex system which include the \ninvolvement of two hands. The efficient way is to perform \nconvolutional neural network on the image to increase the \nefficiency of classification and for real life application. The \nbasic steps involving the proposed system is shown below. \nSteps: \n1. Input the image (video frame). \n2. Find the hand object. \n3. Extract the feature. \n4. Classification and prediction.   \n \n \n \n \nMost of the object detection problems train the model \nusing the image data set along with a bounding box mapping. \nThe marking of bounding box for each image is costly. In \naddition with that we proposed a region of interest predictor"
+    },
+    {
+        "chunk_id": 12,
+        "source": "paper31",
+        "text": "using the image data set along with a bounding box mapping. \nThe marking of bounding box for each image is costly. In \naddition with that we proposed a region of interest predictor \nusing the skin segmentation. From the segmented bounded \nregion we crop the image and feed to the classifier for \nprediction. \nA. Region of Interest Detection \n \nIn the first part we input the video frame, apply \nCLACHE (Contrast Limited Adaptive Histogram Equalization) \non the image to equalize the lightness in the image frame \nusing LAB color system. In the next step apply blurring on the \noriginal image using Gaussian blurring. In order to obtain the \nskin we apply thresholding operation using the HSV color \nspace. Some situation where the light variation is high, we can \nadjust the threshold values on the run. The last step is to find \nthe largest contours in the segmented images and draw a \n637"
+    },
+    {
+        "chunk_id": 13,
+        "source": "paper31",
+        "text": "rectangle box around the part which shows the output \nclassified result as text. To get the sign as a text the bounding \nbox is feed to the Model created using the Convolutional \nNeural Network .The models consists of different layers with \nlearned weights during the training of the network. The model \ngeneration and recognition part is shown below. \n \nFigure 2. General diagram for the System \nB. Convolutional Neural Network \nMost of the image processing problems start with the \nextraction of relevant features which are capable of classifying \nthe images to our desired classes. The main problem of \nchoosing a handcrafted feature is that whenever new classes \nare added the system has to choose other methods. As a \nsolution to this problem in 1990’s LeNet architecture is \nintroduced which is running on the convolutional architecture. \nIn our architecture different layers are included and the \nfollowing layers are given below. \n1. Convolutional layers \n2. Pooling layers."
+    },
+    {
+        "chunk_id": 14,
+        "source": "paper31",
+        "text": "In our architecture different layers are included and the \nfollowing layers are given below. \n1. Convolutional layers \n2. Pooling layers. \n3. RELU(Rectified Linear Unit) \n4. Fully connected layer \n5. Softmax layer. \n \nThe 1st layer is the input layer which accept the region of \ninterest in the given video frame. The input layer size is \n128x128x3. Apply convolution on the given input frame using \n3x3x3 kernel with 32 filters. On the next layer apply pooling \nof size 2 x 2 on the convoluted image and reduced this size \ninto 64 x 64 size. After passing through the 3 convolutional \nlayers and 3 pooling layers the size is reduced to 16 x 16 .An \nactivation function called RELU is used in between the \nconvolutional and pooling layers. \nIn the convolutional layer our entire image is considered as a \nmultidimensional array and apply convolution operation using \nconvolution matrix or kernel. A convolution operation is an addition"
+    },
+    {
+        "chunk_id": 15,
+        "source": "paper31",
+        "text": "In the convolutional layer our entire image is considered as a \nmultidimensional array and apply convolution operation using \nconvolution matrix or kernel. A convolution operation is an addition \nof its neighboring elements along with its weights. In our model we \nuse a filter size of 3 x 3 on each convolution layer. \nThe pooling layer is the layer which reduce the dimension of the \nimage. Depending upon the pool size, in each image a single pixel is \nselected from the selected mask. Here we have used a pooling size of \n2 x 2, which will reduce the actual size of the image in to half with a \nstride 2. The pooling has been implemented by max-pooling layer \n.This operation take the maximum value in the 2 x 2 kernel. In order \nto enables the positive values we have used an activation function \ncalled RELU .It is called as a positive function since it only enables \nthe positive values and return zero for negative values and given as"
+    },
+    {
+        "chunk_id": 16,
+        "source": "paper31",
+        "text": "called RELU .It is called as a positive function since it only enables \nthe positive values and return zero for negative values and given as \n                     \nAfter all convolution and pooling operation the system will flatten the \nentire processed images to a liner array which becomes the node of \nthe next layer. Each layer is connected to next layer with \ncorresponding weights which is known as fully connected layer or \ndense layer. The output os the dense layer is called the scores and \nthese scores are given to the classification layer. Here we have added \nsoftmax layer as classification layer. The classification layer is an \nexponential function which normalize our scores to corresponding \nprobability. \n            \n      \n∑      \n \n \nIn each epochs the softmax function finds the accuracy of \nFigure 3.  Layered Architecture of R-CNN \n978-1-5386-1974-2/18/$31.00 ©2018 IEEE\n638"
+    },
+    {
+        "chunk_id": 17,
+        "source": "paper31",
+        "text": "classification and a loss function. Here we use categorical cross \nentropy as loss function.  \n                           (       \n∑      \n \n) \nBy finding the output of the network and true value, the total \nerror is calculated. Based on this error the weight has been \nupdate along with its learning rate and this process continues \non each epochs called as back propagation .In the final stage \nthe learned model has been saved on the disk, using this model \nthe system predict new image inputs. In our system the input \nstructure is an RGB image. \nIV. \nEXPERIMENTAL RESULTS \nThe system has been trained using 300 images of each Indian \nSign language numerals captured using RGB camera. The \nimages are trained on the GPU system NVIDIA GeForce \n920MX having 2GB of graphics memory, i5 processor of \nspeed 2.7 GHz and 8GB of RAM. The system takes 28 Min to \ntrain a model using the 300 images of Numeral signs. The \nsystem trained using a batch size of 16 and initial learning rate"
+    },
+    {
+        "chunk_id": 18,
+        "source": "paper31",
+        "text": "speed 2.7 GHz and 8GB of RAM. The system takes 28 Min to \ntrain a model using the 300 images of Numeral signs. The \nsystem trained using a batch size of 16 and initial learning rate \n0f 0.001. The system attained 99.56% accuracy in 22 epochs \n.The system has experimented with different learning rate \nchanging from 0.01 and activations has been updates during \nthe training state. \n \nPython implementation with the Deep Learning tool \nare used in the system. The method use Keras API with \nTensor Flow as backend. The model has checked with static \nsymbols and showing good results while testing with 100 \nimages of test dataset. The experimental results has been \nshown in the figure 4.The figure consists of 3 frames ,one with \nthe recognized sign with bounding box,2nd one is the \nprocessed image in HSV range and last one shows the \nsegmented part using the thresholding. There is a track bar \npanel has been created and it can be used for adjusting the"
+    },
+    {
+        "chunk_id": 19,
+        "source": "paper31",
+        "text": "processed image in HSV range and last one shows the \nsegmented part using the thresholding. There is a track bar \npanel has been created and it can be used for adjusting the \nthresholding range in the real time system. Most of the part the \nsystem has to be adjusted the threshold as the lightness \nconditions changed. The system will not work in the situation \nwhere the background and skin color has same color field. The \nsystem is created so that it will use only 3 frames in a seconds \nfor predicting the sign even though there is 30 frames are \ncreated in each second. The skipping of intermediate frames \nare used to increase the speed of the system since real-time \nsystem needs the prediction on the run. \nHere selective search algorithm has tried on the \nsystem, but it is found to be complex and more number of \nbounding box are created apart from the object and not useful \nin this case. Another way of doing this work is to use object"
+    },
+    {
+        "chunk_id": 20,
+        "source": "paper31",
+        "text": "system, but it is found to be complex and more number of \nbounding box are created apart from the object and not useful \nin this case. Another way of doing this work is to use object \ndetection model to predict the bounding box. But the training \nstate has to include the images with bounding box labeled. The \nway of labelling bounding box in each image is a tedious task \nand needs much time and workers to do this. In this situation \nour system has the advantages over the above problems. \nIn the dataset part the images are captured from the \nstudents by teaching the signs. The dataset has collected from \ndifferent background and orientations. The only restriction to \nthe development of the system is the lack of high performance \nGPU .In normal system the time for performing the learning is \nvery high and the batch size has to be chosen less than 32. \nSince it does not fit in the memory. The system can also be \ntrained on CPU systems, but the time will be higher than the"
+    },
+    {
+        "chunk_id": 21,
+        "source": "paper31",
+        "text": "very high and the batch size has to be chosen less than 32. \nSince it does not fit in the memory. The system can also be \ntrained on CPU systems, but the time will be higher than the \nGPU may be 10 times slower.  \nFigure 4.  The Real-time System for Indian Sign Language \n639"
+    },
+    {
+        "chunk_id": 22,
+        "source": "paper31",
+        "text": "V. \n CONCLUSION  \nAs an initial part of Indian Sign Language recognition the real \ntime system has developed for numeral signs from 0-9. The \nsystem has been trained using the 3000 statics symbols of \nRGB images captured using the normal camera. The system \nhas used 100 images for each symbols for testing. The model \nhas been created by the successful implementation of Deep \nLearning system using Region based Convolutional Neural \nNetwork. The system has attained an accuracy of 99.56% for \nthe same subject while testing and the accuracy reduced to \n97.26% in the low light condition.  \n \nIn future include more symbols from alphabets of \nstatic symbols of Indian sign language which include double \nhand notation. The low light problems has to be solved by \nincreasing the dataset. \nVI. \nREFERENCE \n [1] Divya Deora, Nikesh Bajaj, Indian Sign Language Recognition, 2012 1st \nInternational Conference on Emerging Technology Trends in Electronics,"
+    },
+    {
+        "chunk_id": 23,
+        "source": "paper31",
+        "text": "increasing the dataset. \nVI. \nREFERENCE \n [1] Divya Deora, Nikesh Bajaj, Indian Sign Language Recognition, 2012 1st \nInternational Conference on Emerging Technology Trends in Electronics, \nCommunication and Networking, IEEE 2012-978-1-4673-1627-9/12. \n[2] Anuja V. Nair, Bindu V., A Review on Indian Sign Language Recognition, \nInternational Journal of Computer Applications (0975 – 8887) July 2013,  \nVolume 73– No.22. \n[3] Jorge Badenas, Josee Miguel Sanchiz, Filiberto Pla, Motion-based \nSegmentation and Region Tracking in Image Sequences, Pattern recognition \n2001,  34, pp. 661-670. \n[4] Ping-Sung Liao, Tse-Sheng Chen, Pau-Choo Chung, 2001, A Fast \nAlgorithm for Multilevel Thresholding, Journal of Information Science and \nEngineering 17, pp. 713-727 \n[5] Dr. Alan M McIvor, Background subtraction techniques, Image and \nVision Computing, Newz Zealand 2000 (IVCNZ00).  \n[6] Aseema Sultana, T. Rajapushpa, Vision Based Gesture Recognition for"
+    },
+    {
+        "chunk_id": 24,
+        "source": "paper31",
+        "text": "[5] Dr. Alan M McIvor, Background subtraction techniques, Image and \nVision Computing, Newz Zealand 2000 (IVCNZ00).  \n[6] Aseema Sultana, T. Rajapushpa, Vision Based Gesture Recognition for \nAlphabetical Hand gestures Using the SVM Classifier, International Journal of \nComputer Science and Engineering Technology, Volume 3, No. 7, 2012. \n[7] Purva A. Nanivadekar, Dr. Vaishali Kulkarni, Indian Sign Language \nRecognition: Database Creation, Hand Tracking and Segmentation, \nInternational Conference on Circuits, Systems, Communication and \nInformation Technology Applications, IEEE 2014,978-1-4799-2494-3/14. \n[8] Nagendraswamy H S, Chethana Kumara B M, Lekha Chinmayi R, Indian \nSign Language Recognition: An Approach Based on Fuzzy-Symbolic Data, \n2016 Intl. Conference on Advances in Computing, Communications and \nInformatics (ICACCI), Sept. 21-24, 2016, 978-1-5090-2029-4/16. \n[9] J. L. Raheja , A. Mishra, A. Chaudhary, Indian Sign Language"
+    },
+    {
+        "chunk_id": 25,
+        "source": "paper31",
+        "text": "2016 Intl. Conference on Advances in Computing, Communications and \nInformatics (ICACCI), Sept. 21-24, 2016, 978-1-5090-2029-4/16. \n[9] J. L. Raheja , A. Mishra, A. Chaudhary, Indian Sign Language \nRecognition Using SVM, Pattern Recognition and Image Analysis, 2016, Vol. \n26, No. 2, pp. 434–441. \n[10] Pranali Loke, Juilee Paranjpe, Sayli Bhabal, Ketan Kanere, Indian Sign \nLanguage Converter System Using An Android App. ,International Conference \non Electronics, Communication and Aerospace Technology, 2017 IEEE ,978-\n1-5090-5686-6/17. \n[11] M.V. Beena and M.N. Agnisarman Namboodiri, ASL Numerals \nRecognition from Depth Maps Using Artificial Neural Networks, Middle-East \nJournal of Scientific Research 25 (7): 1407-1413, 2017,ISSN 1990-9233. \n \n[12] Beena M.V., Dr. M.N. Agnisarman Namboodiri, Automatic Sign \nLanguage Finger Spelling Using Convolution Neural Network: Analysis, \nInternational Journal of Pure and Applied Mathematics, Volume 117 No. 20 \n2017, 9-15."
+    },
+    {
+        "chunk_id": 26,
+        "source": "paper31",
+        "text": "Language Finger Spelling Using Convolution Neural Network: Analysis, \nInternational Journal of Pure and Applied Mathematics, Volume 117 No. 20 \n2017, 9-15. \n \n \n \n \n \n \n \n \n \n \n \n \n \n978-1-5386-1974-2/18/$31.00 ©2018 IEEE\n640"
+    }
+]

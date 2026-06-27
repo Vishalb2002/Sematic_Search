@@ -1,0 +1,412 @@
+[
+    {
+        "chunk_id": 1,
+        "source": "paper66",
+        "text": "Gesture Recognition in Robotic Surgery with Multimodal \nAttention\nBeatrice van Amsterdam,\nWellcome/EPSRC Centre for Interventional and Surgical Sciences (WEISS), University College \nLondon, UK\nIsabel Funke,\nDivision of Translational Surgical Oncology, National Center for Tumor Diseases (NCT), Partner \nSite Dresden, Dresden, Germany, and with the Centre for Tactile Internet with Human-in-the-Loop \n(CeTI), TU Dresden, Dresden, Germany\nEddie Edwards,\nWellcome/EPSRC Centre for Interventional and Surgical Sciences (WEISS), University College \nLondon, UK\nStefanie Speidel,\nDivision of Translational Surgical Oncology, National Center for Tumor Diseases (NCT), Partner \nSite Dresden, Dresden, Germany, and with the Centre for Tactile Internet with Human-in-the-Loop \n(CeTI), TU Dresden, Dresden, Germany\nJustin Collins,\nDepartment of Urooncology, University College London Hospital NHS Foundation Trust, London, \nUK\nAshwin Sridhar,"
+    },
+    {
+        "chunk_id": 2,
+        "source": "paper66",
+        "text": "(CeTI), TU Dresden, Dresden, Germany\nJustin Collins,\nDepartment of Urooncology, University College London Hospital NHS Foundation Trust, London, \nUK\nAshwin Sridhar,\nDepartment of Urooncology, University College London Hospital NHS Foundation Trust, London, \nUK\nJohn Kelly,\nDepartment of Urooncology, University College London Hospital NHS Foundation Trust, London, \nUK\nMatthew J. Clarkson,\nWellcome/EPSRC Centre for Interventional and Surgical Sciences (WEISS), University College \nLondon, UK\nDanail Stoyanov\nWellcome/EPSRC Centre for Interventional and Surgical Sciences (WEISS), University College \nLondon, UK\nThis work is licensed under a CC BY 4.0 International license.\nThe work was supported by the Wellcome/EPSRC Centre for Interventional and Surgical Sciences (WEISS) [203145Z/16/Z]; \nthe Engineering and Physical Sciences Research Council (EPSRC) [EP/P027938/1, EP/R004080/1, EP/P012841/1]; the Royal"
+    },
+    {
+        "chunk_id": 3,
+        "source": "paper66",
+        "text": "the Engineering and Physical Sciences Research Council (EPSRC) [EP/P027938/1, EP/R004080/1, EP/P012841/1]; the Royal \nAcademy of Engineering Chair in Emerging Technologies scheme; the EPSRC i4Health CDT [EP/S021930/1]; the German Research \nFoundation (DFG, Deutsche Forschungsgemeinschaft) as part of Germany’s Excellence Strategy - EXC 2050/1 - Project ID \n390696704 - Cluster of Excellence “Centre for Tactile Internet with Human-in-the-Loop” (CeTI).\nEurope PMC Funders Group\nAuthor Manuscript\nIEEE Trans Med Imaging. Author manuscript; available in PMC 2024 December 06.\nPublished in final edited form as:\nIEEE Trans Med Imaging. 2022 July 01; 41(7): 1677–1687. doi:10.1109/TMI.2022.3147640.\n Europe PMC Funders Author Manuscripts\n Europe PMC Funders Author Manuscripts"
+    },
+    {
+        "chunk_id": 4,
+        "source": "paper66",
+        "text": "Beatrice van Amsterdam: beatrice.amsterdam.18@ucl.ac.uk\nAbstract\nAutomatically recognising surgical gestures from surgical data is an important building block of \nautomated activity recognition and analytics, technical skill assessment, intra-operative assistance \nand eventually robotic automation. The complexity of articulated instrument trajectories and the \ninherent variability due to surgical style and patient anatomy make analysis and fine-grained \nsegmentation of surgical motion patterns from robot kinematics alone very difficult. Surgical \nvideo provides crucial information from the surgical site with context for the kinematic data \nand the interaction between the instruments and tissue. Yet sensor fusion between the robot data \nand surgical video stream is non-trivial because the data have different frequency, dimensions \nand discriminative capability. In this paper, we integrate multimodal attention mechanisms in a"
+    },
+    {
+        "chunk_id": 5,
+        "source": "paper66",
+        "text": "and surgical video stream is non-trivial because the data have different frequency, dimensions \nand discriminative capability. In this paper, we integrate multimodal attention mechanisms in a \ntwo-stream temporal convolutional network to compute relevance scores and weight kinematic and \nvisual feature representations dynamically in time, aiming to aid multimodal network training and \nachieve effective sensor fusion. We report the results of our system on the JIGSAWS benchmark \ndataset and on a new in vivo dataset of suturing segments from robotic prostatectomy procedures. \nOur results are promising and obtain multimodal prediction sequences with higher accuracy and \nbetter temporal structure than corresponding unimodal solutions. Visualization of attention scores \nalso gives physically interpretable insights on network understanding of strengths and weaknesses \nof each sensor.\nIndex Terms\nsurgical gesture recognition; multimodal attention; surgical data science; robotic surgery"
+    },
+    {
+        "chunk_id": 6,
+        "source": "paper66",
+        "text": "of each sensor.\nIndex Terms\nsurgical gesture recognition; multimodal attention; surgical data science; robotic surgery\nI Introduction\nSURGICAL robots are now an established part of clinical practice, particularly in minimally \ninvasive surgery, where surgeons especially benefit from the enhanced instrumentation, \nvisualisation and ergonomics during the procedure [1]. In addition to advantages for the \npatient and clinical team, the surgical robot system is a complex platform and potentially \ncaptures large amounts of unique data from the surgical procedure that can be used to \ndevelop artificial intelligence solutions for the future surgical operating room benefiting \nfrom computer assisted interventions (CAI) [2]. Robotic systems in fact capture digital \nvideos as well as instrument kinematic trajectories, instrument types and other system \nsignals during surgical interventions, enabling more in-depth analysis of surgical motion and"
+    },
+    {
+        "chunk_id": 7,
+        "source": "paper66",
+        "text": "videos as well as instrument kinematic trajectories, instrument types and other system \nsignals during surgical interventions, enabling more in-depth analysis of surgical motion and \nactivity than with traditional instrumentation or video alone.\nSurgical motion, activity and process understanding are fundamental concepts in surgical \ndata science (SDS) and CAI, representing the cornerstone of various implementations of \npre-, intra- and post-operative clinical support systems [4]. Analysis of surgical motion \nand robot kinematics is often based on decomposition into pre-defined action units, called \n“surgical gestures” or “surgemes” (Fig. 1), representing finegrained motion segments \nperformed with a specific surgical purpose (e.g. grabbing the needle, pushing the needle \nthrough the tissue). Automatic segmentation of surgical demonstrations into fine-grained \nvan Amsterdam et al.\nPage 2\nIEEE Trans Med Imaging. Author manuscript; available in PMC 2024 December 06."
+    },
+    {
+        "chunk_id": 8,
+        "source": "paper66",
+        "text": "through the tissue). Automatic segmentation of surgical demonstrations into fine-grained \nvan Amsterdam et al.\nPage 2\nIEEE Trans Med Imaging. Author manuscript; available in PMC 2024 December 06.\n Europe PMC Funders Author Manuscripts\n Europe PMC Funders Author Manuscripts"
+    },
+    {
+        "chunk_id": 9,
+        "source": "paper66",
+        "text": "gestures finds application in technical skill assessment and development [3], [5], [6], as it \nallows a system to provide surgical trainees with quantitative and gesture-specific feedback, \nas well as surgical automation, where modular blocks of motion can be learnt, composed \nand reused more easily than long surgical tasks [7]. If performed in real-time, gesture \nrecognition can also be exploited for any application based on context-awareness, such as \nworkflow monitoring, error detection and intra-operative assistance [8], [9]. Linking surgical \nactions to patient outcomes can finally give new insights for strategy optimization [10].\nFine-grained analysis of surgical motion however presents significant challenges, due to \nthe complexity of surgical trajectories and the presence of multiple independent variability \nsources, such as user-specific surgical style and skill level. The same gesture can also be"
+    },
+    {
+        "chunk_id": 10,
+        "source": "paper66",
+        "text": "the complexity of surgical trajectories and the presence of multiple independent variability \nsources, such as user-specific surgical style and skill level. The same gesture can also be \nused across different surgical phases and procedures, where contextual features such as \ninstrument type and anatomical site are generally different but can hardly be exploited to \ndiscriminate between fine motions. The combination of these variability factors leads to \nalterations in the kinematic, temporal and sequential properties of surgical actions in a \nsurgeon-, patient- and task-specific manner [11].\nA promising but relatively unexplored strategy to enhance available recognition systems and \nimprove their performance is represented by the integration of synchronous data streams \nrecorded from the robotic platform, which often encode complementary information. \nKinematic data, for example, represent the robotic system configuration and its motion"
+    },
+    {
+        "chunk_id": 11,
+        "source": "paper66",
+        "text": "recorded from the robotic platform, which often encode complementary information. \nKinematic data, for example, represent the robotic system configuration and its motion \nin space, while endoscopic videos contain information about the environment, other tools \nand objects (e.g. needle, assistant’s tools) and their interaction in the surgical scene. Robust \nsensor fusion is however non-trivial because each sensor is subject to specific noise sources \nand has different predictive power in different contexts [12]. As an illustration, kinematic \ninformation is expected to return more accurate predictions when the view on the surgical \nscene is occluded or the surgical instruments move out of the camera’s field-of-view. On the \nother side, visual features are essential to discriminate gestures with similar motion pattern \nperformed on different anatomical structures or with different surgical tools and objects."
+    },
+    {
+        "chunk_id": 12,
+        "source": "paper66",
+        "text": "other side, visual features are essential to discriminate gestures with similar motion pattern \nperformed on different anatomical structures or with different surgical tools and objects. \nBalancing uni-modal information in a timely manner, that is with stronger focus on the \nmost reliable modality at each time stamp, could thus be key to rectify unimodal prediction \nerrors and obtain robust gesture recognition from multiple data sources [12], [13]. While \nprevious work mostly relied on unimodal data or plain concatenation of uni-modal features, \nanalysis of more complex interactions between visual and kinematic streams has been rarely \ninvestigated [14], [15], especially in real-case scenarios where robot kinematic information \nis not always freely accessible.\nIn this paper, we explore using attention mechanisms, which have gained much popularity \nin text data processing [16], to compute relevance scores and weight high-level kinematic"
+    },
+    {
+        "chunk_id": 13,
+        "source": "paper66",
+        "text": "In this paper, we explore using attention mechanisms, which have gained much popularity \nin text data processing [16], to compute relevance scores and weight high-level kinematic \nand visual feature representations dynamically in time, aiming to aid multimodal network \ntraining and achieve effective sensor fusion between video and kinematics. The proposed \nattention modules are embedded in a two-stream temporal convolutional network, but can in \nprinciple be used with a variety of two-stream recognition systems.\nWe evaluate our proposed system on the JIGSAWS benchmark dataset [3], [11] and on a \nnew dataset of suturing demonstrations from in vivo robotic prostatectomy interventions \nvan Amsterdam et al.\nPage 3\nIEEE Trans Med Imaging. Author manuscript; available in PMC 2024 December 06.\n Europe PMC Funders Author Manuscripts\n Europe PMC Funders Author Manuscripts"
+    },
+    {
+        "chunk_id": 14,
+        "source": "paper66",
+        "text": "and we provide promising comparisons to the state-of-the-art. In our new clinical data, fine-\ngrained analysis and multimodal fusion are particularly challenging due to the complexity \nof the surgical environment and larger number of noise sources and variability factors. \nThis represents an important first step towards translation of current research in gesture \nrecognition systems and model deployment in real surgical scenarios, which has been \nhindered thus far by the lack of large and realistic open-source datasets essential for deep \nlearning solutions.\nIn summary, our contributions include:\n•\nIntegrating multimodal attention mechanisms in a surgical gesture recognition \nsystem with the aim of weighting kinematic and visual feature representations \ndynamically in time, thus aiding multimodal network training and achieving \neffective sensor fusion.\n•\nIntroducing a new in vivo dataset for surgical gesture recognition made of"
+    },
+    {
+        "chunk_id": 15,
+        "source": "paper66",
+        "text": "dynamically in time, thus aiding multimodal network training and achieving \neffective sensor fusion.\n•\nIntroducing a new in vivo dataset for surgical gesture recognition made of \nsuturing segments from robotic prostatectomy procedures. The video dataset \nand annotations will be made available for research purposes at https://\nwww.ucl.ac.uk/interventional-surgical-sciences/weiss-open-data-server.\n•\nExperimentally showing the effectiveness of attentionbased multimodal fusion \non the JIGSAWS benchmark dataset as well as on our challenging in vivo data.\nII Related Work\nA Surgical Gesture Recognition - Temporal Models\nResearch on automatic recognition of surgical gestures has often drawn inspiration \nfrom state-of-the-art models for speech recognition and machine translation, as surgical \ndemonstrations obey task-specific, probabilistic action grammars in a similar way as \nsyntactic rules regulate the natural language flow. Probabilistic graphical models such as"
+    },
+    {
+        "chunk_id": 16,
+        "source": "paper66",
+        "text": "demonstrations obey task-specific, probabilistic action grammars in a similar way as \nsyntactic rules regulate the natural language flow. Probabilistic graphical models such as \nhidden Markov models [17] and conditional random fields [18], [19] have been extensively \nused in early research stages to learn such probabilistic grammar from video and kinematic \ndata.\nCurrent research is focused on more powerful solutions based on deep learning and in \nparticular on temporal convolutional and recurrent models, which work efficiently on low-\ndimensional input data such as kinematic trajectories or high-level visual features encoded \nwith 2D [19] or 3D convolutional neural networks (CNNs) [20].\nTemporal convolutions are often used in encoder-decoder networks where action predictions \nare generated simultaneously at all time stamps. Temporal Convolution Network (TCN) \n[21], [22] uses a cascade of temporal convolutions and pooling/upsampling layers to capture"
+    },
+    {
+        "chunk_id": 17,
+        "source": "paper66",
+        "text": "are generated simultaneously at all time stamps. Temporal Convolution Network (TCN) \n[21], [22] uses a cascade of temporal convolutions and pooling/upsampling layers to capture \ntemporal correlations in the input data at multiple hierarchical levels. To avoid loss of \nfine-grained information, two-stream solutions process the data at two different temporal \nscales and merge information at multiple processing levels [23], [24]. The same issue can be \ntackled by stacking multiple layers of atrous temporal convolutions with increasing dilation \nfactor, thus increasing the network temporal receptive field without pooling operations [25], \n[26].\nvan Amsterdam et al.\nPage 4\nIEEE Trans Med Imaging. Author manuscript; available in PMC 2024 December 06.\n Europe PMC Funders Author Manuscripts\n Europe PMC Funders Author Manuscripts"
+    },
+    {
+        "chunk_id": 18,
+        "source": "paper66",
+        "text": "Recurrent models such as Long Short-Term Memory (LSTMs) [27] and Multi-Scale \nRecurrent Neural Network (MS-RNN) [28], on the other side, are built around memory cells \nable to store long-term information of past observations. Hybrid models based on temporal \nconvolutions and recurrent structures, either combined sequentially [29] or in parallel [14], \nhave shown good recognition capabilities.\nB Surgical Gesture Recognition - Sensor Fusion\nJoint learning and fusion of multimodal data (video, kinematics and optical flow) for \ngesture recognition has been investigated in the literature [30], [31], giving insights that \nsuggest the improved performance of multimodal models over their unimodal counterparts. \nMost related work approached sensor fusion through plain concatenation of uni-modal \nfeatures [32]–[35], which could however be suboptimal due to differences in semantic \nand stochastic properties. Only a few studies have investigated more complex interactions"
+    },
+    {
+        "chunk_id": 19,
+        "source": "paper66",
+        "text": "features [32]–[35], which could however be suboptimal due to differences in semantic \nand stochastic properties. Only a few studies have investigated more complex interactions \nbetween different data streams. Fusion-KV [14] consists of parallel recognition models \noperating on different data sources. Information fusion is performed at testing time, where \nindividual predictions are weighted according to a voting scheme based on class-specific, \nuni-modal training performance. Class-specific weighting is however unsuitable to capture \nmore detailed interactions and their evolution in time. Dynamic integration of high-level \nvisual and kinematic embeddings has been achieved through a relational graph learning \nmodule (MRG-Net) [15], aimed at capturing joint knowledge to produce refined uni-modal \nembeddings. In a similar fashion, we use multimodal attention to seek timely multimodal \ncooperation and refine hidden representations for more accurate gesture recognition."
+    },
+    {
+        "chunk_id": 20,
+        "source": "paper66",
+        "text": "embeddings. In a similar fashion, we use multimodal attention to seek timely multimodal \ncooperation and refine hidden representations for more accurate gesture recognition.\nC Attention-based Temporal Multimodal Learning\nTemporal Multimodal Learning (TML) [13] aims at simultaneously fusing multimodal \ninformation and modelling temporal dynamics in sequential data. Attention-based \napproaches for TML have been explored for video classification [13], [36] and video \ncaptioning [12], [37] from visual, motion and audio signals.\nA simple but efficient solution consists in obtaining a global representation of each input \nsequence through independent temporal models (e.g. LSTM) with attention, and then \nfuse these high-level representations for video classification [36]. The advantage is that \neach modality independently learns to pay attention to different temporal segments, while \nmultimodal interactions are still captured in late processing stages."
+    },
+    {
+        "chunk_id": 21,
+        "source": "paper66",
+        "text": "each modality independently learns to pay attention to different temporal segments, while \nmultimodal interactions are still captured in late processing stages.\nMore advanced fusion strategies extend the attention mechanism by not only localizing \nrelevant temporal windows, but also weighting the contribution of each data modality \ndynamically in time [12], [13], [37]. Dynamic weights can be assigned to each \nmodality based on the agreement between the current input and the previous multimodal \nrepresentation for video classification [13], or with all the previously generated words for \nvideo captioning [12], [37]. In a similar fashion, our model dynamically adjusts the relative \ncontribution of each input stream to generate better multimodal representations.\nvan Amsterdam et al.\nPage 5\nIEEE Trans Med Imaging. Author manuscript; available in PMC 2024 December 06.\n Europe PMC Funders Author Manuscripts\n Europe PMC Funders Author Manuscripts"
+    },
+    {
+        "chunk_id": 22,
+        "source": "paper66",
+        "text": "III Datasets\nA JIGSAWS Dataset\nThe JHU-ISI Gesture and Skill Assessment Working Set (JIGSAWS) [3], [11] represents the \nbenchmark dataset for surgical gesture recognition. It contains synchronized kinematic and \nvideo recordings of elementary surgical tasks (suturing, knot-tying, needle passing) executed \nby eight different surgeons using the da Vinci Surgical System (dVSS) [38]. With focus on \nthe suturing task, all 39 available demonstrations have been manually segmented into fine-\ngrained gestures according to a pre-defined dictionary of 10 action classes. Amendments to \nthe original labels, rectifying 12 annotation errors, are reported in [39].\nWhile JIGSAWS has been widely used by the research community for model development \nand comparison, it also shows some limitations which prevent the applicability of such \nmethods to real-world surgeries. One is the limited size of the dataset (each demonstration"
+    },
+    {
+        "chunk_id": 23,
+        "source": "paper66",
+        "text": "and comparison, it also shows some limitations which prevent the applicability of such \nmethods to real-world surgeries. One is the limited size of the dataset (each demonstration \nonly lasts around 1.5 minutes and contains approximately 20 gesture instances), which \nhinders robust training and testing of deep-learning-based recognition systems. Despite \ninvolving different users, lack of data diversity is apparent compared to real surgeries \ndue to the standardised training environment and predetermined workflow structure, \nleading to similar instrument positions and directions of motion. Another problem is the \nlack of endoscopic motion and zoom, with all demonstrations observed from the same \npoint of view. This leads to poor generalization to new endoscopic views in real-case \nscenarios, where camera motions are generally frequent. For technological advancement and \ntranslational research, future work requires testing on more realistic demonstrations with"
+    },
+    {
+        "chunk_id": 24,
+        "source": "paper66",
+        "text": "scenarios, where camera motions are generally frequent. For technological advancement and \ntranslational research, future work requires testing on more realistic demonstrations with \ncomplex anatomies, camera motions, different illumination conditions, blood, specularities, \nocclusions and higher variability in action ordering and execution strategy.\nB RARP-45 Dataset\nIn order to explore multimodal data integration in more challenging and realistic conditions, \nwe collected a dataset of Robot-Assisted Radical Prostatectomies (RARP) performed by \neight surgeons with different surgical seniority (experienced consultant, senior registrar \nand junior registrar) using a da Vinci Si Surgical System (Intuitive Surgical, Inc.) at \nthe Westmoreland Street Hospital, London, UK, part of the University College London \nHospitals NHS Trust1. Robotic radical prostatectomy is the surgery to remove the whole \nprostate gland and represents common treatment against clinically localised prostate cancer"
+    },
+    {
+        "chunk_id": 25,
+        "source": "paper66",
+        "text": "Hospitals NHS Trust1. Robotic radical prostatectomy is the surgery to remove the whole \nprostate gland and represents common treatment against clinically localised prostate cancer \n[40]. Its surgical workflow involves a first dissection phase, where the connection of the \nprostate to bladder and urethra are cut and the prostate is removed; the dorsal vascular \ncomplex (DVC), an array of veins and arteries that carry blood to the penis, is then sutured \nto keep bleeding under control (Fig. 2); finally the bladder and urethra are stitched back \ntogether. We carried out fine-grained analysis on the DVC suturing phase, which is more \nstructured than preceding dissection phases and much less complex than the following \nanastomosis segment.\n1The data for this study were collected with participants’ consent as part of clinical service evaluation and were shared anonymously \nwith researchers within the team in order to provide independent assessment of surgical performance."
+    },
+    {
+        "chunk_id": 26,
+        "source": "paper66",
+        "text": "with researchers within the team in order to provide independent assessment of surgical performance.\nvan Amsterdam et al.\nPage 6\nIEEE Trans Med Imaging. Author manuscript; available in PMC 2024 December 06.\n Europe PMC Funders Author Manuscripts\n Europe PMC Funders Author Manuscripts"
+    },
+    {
+        "chunk_id": 27,
+        "source": "paper66",
+        "text": "The data consist of synchronized video and kinematics (Fig. 3) captured from the robotic \nplatform at 60 Hz and 50 Hz respectively using the dVLogger (Intuitive Surgical, Inc.). \nKinematic features include pose and joint angles of three Patient Side Manipulators (PSMs), \ntwo Master Tool Manipulators (MTMs) and the Endoscopic Camera Manipulator (ECM). \nVideos were recorded from the endoscopic camera held by the ECM and used in the \nlabelling process as well as for recognition. A dictionary of 7 fine-grained bi-manual \ngestures and a background class (Table I) was designed in collaboration with expert \nsurgeons to guide manual segmentation of DVC suturing demonstrations from 45 different \ninterventions. Annotations were created by a trained engineer as there was no discrepancy \nbetween clinical and non-clinical understanding of the surgical gestures employed in this \nstudy.\nDifferent trials show considerable variability in terms of total duration (Fig. 4a), as well as"
+    },
+    {
+        "chunk_id": 28,
+        "source": "paper66",
+        "text": "between clinical and non-clinical understanding of the surgical gestures employed in this \nstudy.\nDifferent trials show considerable variability in terms of total duration (Fig. 4a), as well as \naction count (Fig. 4b), ordering and kinematic properties. Such diversity is only partially \noperator-dependent, reflecting different surgical style and robotic surgical experience, but \nit is also linked to real-case variability factors such as patient-specific anatomical structure \nand tissue response (e.g. unexpected or excessive bleeding, which could prompt multiple \ngesture attempts or alter the surgical strategy). Other variability factors and noise sources \nwhich hinder robust gesture recognition in real-case scenarios include the presence of \ncamera motions, changes of illumination, specularities, smoke and blood (Fig. 5). Given \nthe endoscope proximity to the suturing site, surgical tools often fall out of the camera field-"
+    },
+    {
+        "chunk_id": 29,
+        "source": "paper66",
+        "text": "camera motions, changes of illumination, specularities, smoke and blood (Fig. 5). Given \nthe endoscope proximity to the suturing site, surgical tools often fall out of the camera field-\nof-view or their line-of-sight is interrupted by obstructions or self obstructions, especially \nduring interactions with the surgical assistant, which brings additional tools to the surgical \nscene and often leads to altered kinematic trajectories.\nIV Methods\nA Unimodal streams\nOur multimodal system is based on two parallel unimodal streams operating on high-level \nfeature sequences derived from the original video and kinematic data (see Section IV-C). \nEach stream is a temporal convolutional network (TCN), composed of a contracting part \n(encoder) and an expansive part (decoder) (Fig. 6). The encoder consists of a cascade of \ntemporal convolutions and pooling layers operating directly on the input time series, aimed"
+    },
+    {
+        "chunk_id": 30,
+        "source": "paper66",
+        "text": "(encoder) and an expansive part (decoder) (Fig. 6). The encoder consists of a cascade of \ntemporal convolutions and pooling layers operating directly on the input time series, aimed \nat modelling kinematic or visual information at larger temporal scales and increasing levels \nof abstraction. Starting with input sequence X(0) ∈ ℝF(0) × T(0), where F(0) is the input \nfeature dimension and T(0) is the total sequence length, the intermediate feature sequence \nX(l) ∈ ℝF(l)×T(l) at layer l ∈ [1, L] is computed at each time step t as:\nXt\n(l) = f W (l) ∗Xt −c\n2 −1:t + c\n2\n(l −1)\n+ b(l)\n(1)\nX(l) = MaxPooling X(l), s .\n(2)\nvan Amsterdam et al.\nPage 7\nIEEE Trans Med Imaging. Author manuscript; available in PMC 2024 December 06.\n Europe PMC Funders Author Manuscripts\n Europe PMC Funders Author Manuscripts"
+    },
+    {
+        "chunk_id": 31,
+        "source": "paper66",
+        "text": "Here, F(l) is the number of feature maps at layer l, T(l) is the length of the sequence at layer \nl, W(l) ∈ ℝF(l) × c × F(l-1) and b(l) ∈ ℝF(l) represent the convolutional filter parameters at layer \nl, c is the kernel size, f is the Rectified Linear Unit (ReLU), Xt −c\n2 −1:t + c\n2\n(l −1)\n is a temporal section \nof the previous layer’s activation, X(l) ∈ℝF(l) × T(l −1) is the temporal convolution output \nand X(l) ∈ ℝF(l) ×T(l) is the max pooling output with stride s, where T(l) = T(l −1)\ns\n. When \nreal-time evaluation is required, acausal convolutions (equation 1) are replaced with causal \nconvolutions:\nXt\n(l) = f W (l) ∗Xt −c −1:t\n(l −1)\n+ b(l) .\n(3)\nThe decoder uses temporal convolutions and upsampling layers to gradually bring the data \nback to their original temporal resolution for frame-wise classification.\nWe also draw inspiration from temporal U-Net [41] and introduce shortcut connections \nbetween the two stages, where features from corresponding layers in the encoder and"
+    },
+    {
+        "chunk_id": 32,
+        "source": "paper66",
+        "text": "We also draw inspiration from temporal U-Net [41] and introduce shortcut connections \nbetween the two stages, where features from corresponding layers in the encoder and \ndecoder are concatenated to allow the propagation of low level contextual information to the \nhigh level layers.\nAfter each max pooling and feature concatenation layer, channel-wise feature normalization \n[21] as well as temporal dropout are employed for regularization.\nB Multimodal sensor fusion\n1) Baseline I - Concatenation TCN (C-TCN)—In order to fuse the two unimodal \nrepresentations, the last layers from the kinematic and video streams are concatenated and \nprojected through a fully-connected layer with softmax activation function to obtain action \npredictions.\n2) Baseline II - Ensemble TCN (E-TCN)—Alternatively, multimodal fusion can be \nobtained with plain ensemble of the two unimodal models, that is training the two streams"
+    },
+    {
+        "chunk_id": 33,
+        "source": "paper66",
+        "text": "predictions.\n2) Baseline II - Ensemble TCN (E-TCN)—Alternatively, multimodal fusion can be \nobtained with plain ensemble of the two unimodal models, that is training the two streams \nwith average unimodal loss and taking their average prediction probabilities as the final \nmultimodal prediction.\n3) Multimodal Attention TCN (MA-TCN)—Video and kinematic data carry \ncomplementary information which could be useful to understand each action’s internal \ndynamics. They are also subject to different noise sources that often manifest erratically. \nRecognition of surgical actions could then be improved by highlighting or penalizing the \ncontribution of each modality dynamically in time. Building on E-TCN and C-TCN, we \nderive frame-wise reliability weights for each stream using multimodal attention. During \ntraining (Fig. 7), the last decoder activation Xu ∈ ℝF(L) × T(0) of each unimodal stream u ∈ \n{K, V} is transformed into Pu ∈ ℝC×T(0) to match the number of classes C:"
+    },
+    {
+        "chunk_id": 34,
+        "source": "paper66",
+        "text": "training (Fig. 7), the last decoder activation Xu ∈ ℝF(L) × T(0) of each unimodal stream u ∈ \n{K, V} is transformed into Pu ∈ ℝC×T(0) to match the number of classes C:\nPu = Softmax W uXu + bu ,\nvan Amsterdam et al.\nPage 8\nIEEE Trans Med Imaging. Author manuscript; available in PMC 2024 December 06.\n Europe PMC Funders Author Manuscripts\n Europe PMC Funders Author Manuscripts"
+    },
+    {
+        "chunk_id": 35,
+        "source": "paper66",
+        "text": "(4)\nwhere Wu and bu are linear projection parameters. Pu is then compared to the corresponding \none-hot-encoded label sequence Y ∈ ℝC×T(0) through scaled dot-product attention [16], \nwhere Yt ∈ ℝC×1 represents the frame-wise attention queries and Put ∈ ℝC×1 the frame-wise \nattention keys:\nSut Y , Pu = Y t\n⊤Put\nC , 0 ≤t ≤T(0) .\n(5)\nThe resulting scores Su ∈ ℝ1 ×T(0) measure the similarity between unimodal predictions and \ncorresponding ground truth at each time-stamp and are used as reliability weights to balance \nthe relative contribution of different modalities. After normalization [12]:\nSu\n′ =\neSu\n∑ueSu,\n(6)\nthe generated weights Sut\n′  are thus multiplied with the outputs of the corresponding stream \nXut, representing the frame-wise attention values. Multimodal action predictions Pm ∈ \nℝC×T(0) are then obtained by concatenation of the weighted outputs Sut\n′ Xut from the two \nstreams followed by a fully-connected layer with Wm and bm parameters and softmax \nactivation function:"
+    },
+    {
+        "chunk_id": 36,
+        "source": "paper66",
+        "text": "ℝC×T(0) are then obtained by concatenation of the weighted outputs Sut\n′ Xut from the two \nstreams followed by a fully-connected layer with Wm and bm parameters and softmax \nactivation function:\nSKV t = SKt\n′ XKt ∥SV t\n′ XV t , 0 ≤t ≤T(0)\n(7)\nPm = Softmax W mSKV + bm .\n(8)\nIt is worth noting that computation of attention weights is performed for each frame \nindividually, thus allowing online processing of the input sequences when causal temporal \nconvolutions are employed in the unimodal streams.\nC Input embeddings\nBoth unimodal streams operate on high-level feature sequences derived from the original \ndata. As for JIGSAWS, we followed the majority of related work to aid comparability and \nused high-level visual features FV\n(0) = 128  extracted from the raw video frames with a spatial \nCNN [19] along with smoothed and normalized selection of kinematic signals (positions, \nlinear velocities and gripper angles) recorded from the two PSMs FK\n(0) = 28 .\nvan Amsterdam et al.\nPage 9"
+    },
+    {
+        "chunk_id": 37,
+        "source": "paper66",
+        "text": "CNN [19] along with smoothed and normalized selection of kinematic signals (positions, \nlinear velocities and gripper angles) recorded from the two PSMs FK\n(0) = 28 .\nvan Amsterdam et al.\nPage 9\nIEEE Trans Med Imaging. Author manuscript; available in PMC 2024 December 06.\n Europe PMC Funders Author Manuscripts\n Europe PMC Funders Author Manuscripts"
+    },
+    {
+        "chunk_id": 38,
+        "source": "paper66",
+        "text": "The RARP-45 raw data were processed in a similar manner. Kinematic signals (positions, \norientations and joint angles) recorded from two out of three PSMs FK\n(0) = 69  were \nsmoothed and normalized. High-level spatial features FV\n(0) = 512  were extracted from the \noriginal video frames with ResNet18 [42] fine-tuned on the task of gesture recognition. \nFine-tuning was performed on the training data via cross-validation, in order not to observe \nany test sequence during feature extraction.\nBoth datasets were down-sampled to 5Hz to reduce data redundancy and computation load.\nD Training and inference\nThe goal of our network is to optimize predictions from both unimodal streams and \nsimultaneously exploit the third multimodal branch to down-weight noisy features that \ncould not be rectified with unimodal training due to sensor-specific noise and limitations. \nWe therefore trained our network using a weighted combination of unimodal (Lk, Lv) and \nmultimodal (Lkv) cross-entropy losses:"
+    },
+    {
+        "chunk_id": 39,
+        "source": "paper66",
+        "text": "We therefore trained our network using a weighted combination of unimodal (Lk, Lv) and \nmultimodal (Lkv) cross-entropy losses:\nL = Lkv Pm + w1 ∗Lk PK + w2 ∗Lv PV\n(9)\nwhere w1 and w2 represent balancing weights for the unimodal losses. Loss values around \nthe gesture boundaries were down-weighted to compensate for smooth transitions and \nannotation uncertainty (see Section V-B).\nAs for inference, it is not possible to use action labels in order to obtain attention \nscores. We thus monitored the recognition scores on the validation sets to decide \nwhen to stop attention-based training, and then fine-tuned the uni-modal branches using \naverage unimodal loss without attention, conjecturing that attention-based pre-training could \nimprove feature robustness and increase recognition accuracy. After fine-tuning, inference \ncould be performed readily as in our baseline.\nV Experiments and Results\nA Evaluation protocol\n1) JIGSAWS Dataset—We used the standard Leave-One-User-Out (LOUO) cross-"
+    },
+    {
+        "chunk_id": 40,
+        "source": "paper66",
+        "text": "could be performed readily as in our baseline.\nV Experiments and Results\nA Evaluation protocol\n1) JIGSAWS Dataset—We used the standard Leave-One-User-Out (LOUO) cross-\nvalidation setup, consisting of eight validation folds featuring all trials performed by the \nsame user. The LOUO setup penalizes overfitting to user-specific features and it is useful to \nevaluate model generalization to different surgeons. As no independent test set is available, \nthe network performance was defined as the average accuracy over crossvalidation splits.\n2) RARP-45 Dataset—We first divided the dataset into two parts with balanced class \nproportions, one for training (about 80%) and one for testing (about 20%) (Fig. 4c). Given \nthe limited dataset size, we further divided the training set into 4 sub-sets and performed \ncross-validation for parameter tuning, estimating the optimal number of training epochs. The \nentire training set was then used to re-train the network and evaluate its performance on the"
+    },
+    {
+        "chunk_id": 41,
+        "source": "paper66",
+        "text": "cross-validation for parameter tuning, estimating the optimal number of training epochs. The \nentire training set was then used to re-train the network and evaluate its performance on the \nunobserved test set.\nvan Amsterdam et al.\nPage 10\nIEEE Trans Med Imaging. Author manuscript; available in PMC 2024 December 06.\n Europe PMC Funders Author Manuscripts\n Europe PMC Funders Author Manuscripts"
+    },
+    {
+        "chunk_id": 42,
+        "source": "paper66",
+        "text": "3) Evaluation metrics—Results were analysed based on three most common evaluation \nmetrics: accuracy, Edit score and F1@10 score. Accuracy is used to test frame-wise \nrecognition performance, but it is not appropriate to assess temporal properties of the \ngenerated predictions, which might show similar accuracy but large qualitative differences. \nEdit and F1@10 scores are therefore used to evaluate network understanding of action \nordering and task structure. While Edit score represents a distance between true and \npredicted label sequences, assessing action ordering without timing, F1@10 additionally \nexamines the temporal overlap between predictions and ground truth segments of the same \nclass. Detailed description of the evaluation metrics and their implementation details are \nreported in [43].\nB Implementation details—For both datasets we used a 3-layer encoder-decoder video \nstream with output dimensions {64, 96, 96}{96, 64, 64}and a 2-layer kinematic stream with"
+    },
+    {
+        "chunk_id": 43,
+        "source": "paper66",
+        "text": "reported in [43].\nB Implementation details—For both datasets we used a 3-layer encoder-decoder video \nstream with output dimensions {64, 96, 96}{96, 64, 64}and a 2-layer kinematic stream with \ndimensions {64, 96}{96, 64}, both with max pooling stride s =2 and dropout rate p = 0.3. \nTemporal convolutions were performed at each time step (t) from t — 24 to t + 25 (kernel \nsize c = 50) in acausal experiments, and from t — 24 to t (kernel size c = 25) in causal \nexperiments. symmetric windows of temporal weights Wtrans = [1,0.9,0.5,0.5,0.9,1] were \ncentered around each transition point and multiplied with the loss samples, while both w1 \nand w2 balancing weights were heuristically set to 0.25. optimization was performed with \nthe Adam optimizer (α = 0.9, β = 0.98) and a learning rate of 0.0005.\nThe network was implemented in PyTorch 1.5.0 and trained on NVIDIA Tesla V100-DGXS \nGPU.\nC Results on JIGSAWS\n1) Acausal experiments: We first performed acausal experiments to evaluate our"
+    },
+    {
+        "chunk_id": 44,
+        "source": "paper66",
+        "text": "The network was implemented in PyTorch 1.5.0 and trained on NVIDIA Tesla V100-DGXS \nGPU.\nC Results on JIGSAWS\n1) Acausal experiments: We first performed acausal experiments to evaluate our\nnetwork’s best possible performance. Results of the ablation study are reported in Table \nII. Following [15], we trained each configuration three times with different initial seeds and \nrecorded average scores for each validation split. We then reported the mean and standard \ndeviation of the performance metrics across all 8 validation splits.\nLoss down-weighting around the transition points (Wtrans) led our model to higher \nsegmental scores, so we used it to train all the models. While our multimodal baselines \n(E-TCN, C-TCN) already showed better results compared to both unimodal streams (V-TCN \nand K-TCN), further improvement was obtained with multimodal attention (MA-TCN). \nIn order to support our analysis statistically, we first used Kolmogorov-Smirnov test to"
+    },
+    {
+        "chunk_id": 45,
+        "source": "paper66",
+        "text": "and K-TCN), further improvement was obtained with multimodal attention (MA-TCN). \nIn order to support our analysis statistically, we first used Kolmogorov-Smirnov test to \nverify if the cross-validation score vectors were normally distributed; as the scores were not \nnormally distributed, we compared MA-TCN to the two multimodal baselines using two-\nsided Wilcoxon signed rank test with α = 0.05 cutoff for significance. Results demonstrated \na significant difference in accuracy with C-TCN, and a significant difference in all the scores \nwith E-TCN.\nExamples of MA-TCN prediction outputs before fine-tuning and corresponding attention \nweights, aligned with ground truth and unimodal predictions, are shown in Fig. 8 Green \nboxes highlight instances where MA-TCN correctly enhances information from the most \nreliable modality at each time-stamp, recovering missed segments (a), improving boundary \nvan Amsterdam et al.\nPage 11"
+    },
+    {
+        "chunk_id": 46,
+        "source": "paper66",
+        "text": "reliable modality at each time-stamp, recovering missed segments (a), improving boundary \nvan Amsterdam et al.\nPage 11\nIEEE Trans Med Imaging. Author manuscript; available in PMC 2024 December 06.\n Europe PMC Funders Author Manuscripts\n Europe PMC Funders Author Manuscripts"
+    },
+    {
+        "chunk_id": 47,
+        "source": "paper66",
+        "text": "adherence (b) or ignoring spurious segments (d). In few instances it is even able to rectify \nsimultaneous classification errors (c). In other instances, however, MA-TCN’s performance \nis limited by the accuracy of the strongest modality (yellow box). An example of failure \nmode is highlighted in red, where higher weight is assigned to the weakest modality.\nThe interaction between video and kinematic predictions and corresponding attention \nweights sometimes finds physical interpretation, as illustrated in Fig. 8d. While gesture \nG6 (orient needle) is visually similar to G3 (transfer needle) and can benefit from higher \nkinematic attention to prevent misclassification, gestures G1 (position needle) and G2 (push \nneedle through tissue) have similar kinematic properties when multiple adjustment motions \nare performed during G2. Placing the focus on visual cues to identify when the needle tip is \ninside the tissue can be helpful to identify the boundary between the two gestures."
+    },
+    {
+        "chunk_id": 48,
+        "source": "paper66",
+        "text": "are performed during G2. Placing the focus on visual cues to identify when the needle tip is \ninside the tissue can be helpful to identify the boundary between the two gestures.\nAnalysis of per-class F1-scores (Fig. 9) further confirms the observed behaviour, as MA-\nTCN scores are generally better than both modalities or at least better than the weakest \nmodality. Gestures G7 and G8 are under-represented and thus remain very difficult to \nrecognize. It is finally worth noting that MA-TCN generally shows better understanding \nof action ordering and task structure, which is only marginally reflected in the frame-wise \nevaluation scores (global and perclass accuracy).\n2) Comparison with related work: We compared acausal MA-TCN with related work\naimed at optimizing multimodal fusion of video and kinematic data (Table III) for surgical \ngesture recognition. For fair comparison, we re-tested our network against the original"
+    },
+    {
+        "chunk_id": 49,
+        "source": "paper66",
+        "text": "aimed at optimizing multimodal fusion of video and kinematic data (Table III) for surgical \ngesture recognition. For fair comparison, we re-tested our network against the original \nlabel sequences (without rectification of the annotation errors) and reported new scores. \nDespite reporting lower average accuracy, MA-TCN shows superior performance in terms \nof segmental scores (Edit), indicating better ability to retrieve missing segments or delete \nspurious predictions from different data modalities. Moreover, [14] and [15] use more \ncomplex baselines with three unimodal streams (two for the kinematics and one for the \nvideo) embedding both temporal convolutions and recurrent cells. Similar strategies could \nhelp to improve MA-TCN’s overall accuracy.\n3) Causal experiments: We repeated our ablation study in a causal scenario, where\ntemporal convolutions are causal (equation 3) and predictions at each time stamp are only"
+    },
+    {
+        "chunk_id": 50,
+        "source": "paper66",
+        "text": "3) Causal experiments: We repeated our ablation study in a causal scenario, where\ntemporal convolutions are causal (equation 3) and predictions at each time stamp are only \nfunction of past and current data samples, thus allowing realtime application. MA-TCN still \noutperforms all unimodal and multimodal baselines (Table IV), with statistically significant \ndifference in accuracy with respect to both C-TCN and E-TCN. Segmental scores show \nthe largest drop compared to acausal recognition, as knowledge of near-future dynamics \nin acausal frameworks helps to regularize the predictions’ structure. While helping to \nimprove the recognition accuracy, the use of multi-modal attention could not significantly \ncompensate for the structural uncertainty in causal scenarios.\nD Results on RARP-45—We performed acausal experiments on the RARP-45 dataset \nto evaluate our network’s performance in a more challenging real-case scenario. As reported"
+    },
+    {
+        "chunk_id": 51,
+        "source": "paper66",
+        "text": "D Results on RARP-45—We performed acausal experiments on the RARP-45 dataset \nto evaluate our network’s performance in a more challenging real-case scenario. As reported \nin Table V, MA-TCN outperforms all the baselines in accuracy and F1@10 score on the test \nset.\nvan Amsterdam et al.\nPage 12\nIEEE Trans Med Imaging. Author manuscript; available in PMC 2024 December 06.\n Europe PMC Funders Author Manuscripts\n Europe PMC Funders Author Manuscripts"
+    },
+    {
+        "chunk_id": 52,
+        "source": "paper66",
+        "text": "Fig. 10 shows examples of MA-TCN prediction outputs before fine-tuning and \ncorresponding attention weights, highlighting successful and unsuccessful modality \nintegration. As represented in the normalized confusion matrix (Fig. 11), a relevant \npercentage of the prediction errors falls at the gesture boundaries, where manual annotations \nare generally less accurate. Less frequent gestures such as G1 and G6 are sometimes missed \nand integrated into their temporally proximal segments (G0, G2 or G4 for G1, G4 or G7 \nfor G6). Gesture G5 is recognized very well, but it only appears in a single test sequence. \nMore data are needed to mitigate such strong class imbalance and perform robust training \nand evaluation.\nMultimodal per-class F1-scores (Fig. 12) outperform both modalities for almost all classes. \nThe visual stream is in most cases less robust than the kinematic stream, but the integration \nof low-level feature extraction through end-to-end training could partially compensate for"
+    },
+    {
+        "chunk_id": 53,
+        "source": "paper66",
+        "text": "The visual stream is in most cases less robust than the kinematic stream, but the integration \nof low-level feature extraction through end-to-end training could partially compensate for \nthe gap in performance.\nVI Conclusion\nIn this paper, we investigated using multimodal attention mechanisms to aid training of a \ntwo-stream network for surgical gesture recognition and achieve effective sensor fusion. \nThe contribution of robot kinematics and visual information is balanced dynamically in \ntime based on individual predictive power, resulting in combined prediction sequences with \nhigher accuracy and better temporal structure. Visualization of attention weights also gives \nphysically interpretable insights on network understanding of strengths and weaknesses of \neach sensor and modality.\nUnlike related work, we tested our system on suturing demonstrations from real surgical \ninterventions, where the complexity of the surgical environment and larger number of"
+    },
+    {
+        "chunk_id": 54,
+        "source": "paper66",
+        "text": "Unlike related work, we tested our system on suturing demonstrations from real surgical \ninterventions, where the complexity of the surgical environment and larger number of \nnoise sources and variability factors makes fine-grained analysis and multimodal fusion \nparticularly challenging. This is especially valuable for surgical-data-science translational \nresearch and for understanding the utilization of gesture recognition systems on real surgical \ndata.\nMethod improvement is however needed to compensate for strong class imbalance in the \navailable datasets, affecting the detection of infrequent classes, and to improve overall \nrecognition accuracy on real surgical data, which is currently far from deployability levels. \nMore real surgical data will also be collected to mitigate the problem, including different \nsurgical phases (e.g. urethrovesical anastomosis) to introduce contextual data variability."
+    },
+    {
+        "chunk_id": 55,
+        "source": "paper66",
+        "text": "More real surgical data will also be collected to mitigate the problem, including different \nsurgical phases (e.g. urethrovesical anastomosis) to introduce contextual data variability.\nSurgical action characterization and definition of unambiguous gesture dictionary is another \nopen problem itself [44], especially for bimanual operations. Available datasets like \nJIGSAWS have treated surgical demonstrations as singleaction sequences peformed by \neither robotic arm, ignoring the motion of the other arm. While this allows for faster \nlabelling and simpler recognition models, it creates uncertainty when different gestures are \nperformed simultaneously. In future work we aim to resolve such ambiguity with multi-label \nanalysis and parallel recognition of right and left gestures, which is burdensome but more \naccurate and can account for action compositions [6]. Robust understanding of bimanual \nvan Amsterdam et al.\nPage 13"
+    },
+    {
+        "chunk_id": 56,
+        "source": "paper66",
+        "text": "accurate and can account for action compositions [6]. Robust understanding of bimanual \nvan Amsterdam et al.\nPage 13\nIEEE Trans Med Imaging. Author manuscript; available in PMC 2024 December 06.\n Europe PMC Funders Author Manuscripts\n Europe PMC Funders Author Manuscripts"
+    },
+    {
+        "chunk_id": 57,
+        "source": "paper66",
+        "text": "workflow and cooperation can help assessing surgical skill and is fundamental to achieve \nautomation of complex action sequences in real surgical scenarios. Annotation variability \nstudies based on multiple observers will also be performed to assess annotation accuracy and \nharmonize label sequences.\nBeyond its limitations, the method also offers various possibilities of expansion and \nimprovement. Similar attention modules could be placed on top of different layers to achieve \nadaptive sensor fusion at multiple abstraction levels. New data streams could also be added \nto enrich action representation and explore more complex multimodal interactions, using \neither new sensors (e.g. system event information) or new data streams automatically derived \nfrom available data (e.g. optical flow, semantic visual features, separated right and left \ninstrument kinematics).\nFuture work will be finally aimed at integrating low-level visual feature extraction through"
+    },
+    {
+        "chunk_id": 58,
+        "source": "paper66",
+        "text": "instrument kinematics).\nFuture work will be finally aimed at integrating low-level visual feature extraction through \nend-to-end training, which is generally difficult on small datasets like JIGSAWS, as well as \nexploring similar attention mechanisms in the spatial [45] and temporal [26] domains.\nSupplementary Material\nRefer to Web version on PubMed Central for supplementary material.\nAcknowledgements\nWe thank Intuitive Surgical, Inc. for sharing the kinematic data used in this paper under Collaboration Agreement.\nReferences\n[1]. Moorthy K, et al. Dexterity enhancement with robotic surgery. Surgical Endoscopy and Other \nInterventional Techniques. 2004. [PubMed: 15216862] \n[2]. Chadebecq F, Vasconcelos F, Mazomenos E, Stoyanov D. Computer vision in the surgical \noperating room. Visceral Medicine. 2020; 36 (6) 456–462. DOI: 10.1159/000511934 [PubMed: \n33447601] \n[3]. Gao, Y; , et al. JHU-ISI Gesture and Skill Assessment Working Set (JIGSAWS): A Surgical"
+    },
+    {
+        "chunk_id": 59,
+        "source": "paper66",
+        "text": "operating room. Visceral Medicine. 2020; 36 (6) 456–462. DOI: 10.1159/000511934 [PubMed: \n33447601] \n[3]. Gao, Y; , et al. JHU-ISI Gesture and Skill Assessment Working Set (JIGSAWS): A Surgical \nActivity Dataset for Human Motion Modeling; Modeling and Monitoring of Computer Assisted \nInterventions (M2CAI) - MICCAI Workshop; 2014. \n[4]. Maier-Hein L, et al. Surgical data science-from concepts to clinical translation. arXiv preprint. \n2020; arXiv:2011.02284 doi: 10.1016/j.media.2021.102306 [PubMed: 34879287] \n[5]. Vedula SS, et al. Analysis of the structure of surgical activity for a suturing and knot-tying task. \nPloS one. 2016; 11 (3) e0149174 doi: 10.1371/journal.pone.0149174 [PubMed: 26950551] \n[6]. Chen J, et al. Use of automated performance metrics to measure surgeon performance during \nrobotic vesicourethral anastomosis and methodical development of a training tutorial. The \nJournal of urology. 2018; 200 (4) 895–902. [PubMed: 29792882]"
+    },
+    {
+        "chunk_id": 60,
+        "source": "paper66",
+        "text": "robotic vesicourethral anastomosis and methodical development of a training tutorial. The \nJournal of urology. 2018; 200 (4) 895–902. [PubMed: 29792882] \n[7]. Nagy TD, Haidegger T. A dvrk-based framework for surgical subtask automation. Acta \nPolytechnica Hungarica. 2019. 61–78. \n[8]. Yasar, MS; Alemzadeh, H. Real-time context-aware detection of unsafe events in robot-assisted \nsurgery; Proc of the IEEE/IFIP Int. Conf. on Dependable Systems and Networks (DSN); 2020. \n385–397. \n[9]. De Rossi, G; , et al. Cognitive robotic architecture for semi-autonomous execution of manipulation \ntasks in a surgical environment; Proc. of the IEEE/RSJ Int. Conf. on Intelligent Robots and \nSystems (IROS); 2019. 7827–7833. \nvan Amsterdam et al.\nPage 14\nIEEE Trans Med Imaging. Author manuscript; available in PMC 2024 December 06.\n Europe PMC Funders Author Manuscripts\n Europe PMC Funders Author Manuscripts"
+    },
+    {
+        "chunk_id": 61,
+        "source": "paper66",
+        "text": "[10]. Schlomm T, et al. Full functional-length urethral sphincter preservation during radical \nprostatectomy. European urology. 2011; 60 (2) 320–329. [PubMed: 21458913] \n[11]. Ahmidi N, et al. A Dataset and Benchmarks for Segmentation and Recognition of Gestures \nin Robotic Surgery. IEEE Trans on Biomedical Engineering. 2017; 64 (9) 2025–2041. DOI: \n10.1109/TBME.2016.2647680 [PubMed: 28060703] \n[12]. Hori, C; , et al. Attention-based multimodal fusion for video description; Proc. of the IEEE Int. \nConf. on computer vision; 2017. 4193–4202. \n[13]. Yang, X; Ramesh, P; Chitta, R; Madhvanath, S; Bernal, EA; Luo, J. Deep multimodal \nrepresentation learning from temporal data; Proc. of the IEEE conference on computer vision \nand pattern recognition; 2017. 5447–5455. \n[14]. Qin, Y; , et al. Temporal segmentation of surgical sub-tasks through deep learning with multiple \ndata sources; Proc. of the IEEE Int. Conf. on Robotics and Automation (ICRA); 2020. 371–377."
+    },
+    {
+        "chunk_id": 62,
+        "source": "paper66",
+        "text": "[14]. Qin, Y; , et al. Temporal segmentation of surgical sub-tasks through deep learning with multiple \ndata sources; Proc. of the IEEE Int. Conf. on Robotics and Automation (ICRA); 2020. 371–377. \n[15]. Long Y-H, et al. Relational graph learning on visual and kinematics embeddings for accurate \ngesture recognition in robotic surgery. arXiv preprint. 2020. arXiv:2011.01619 \n[16]. Vaswani A, et al. Attention is all you need. arXiv preprint. 2017. arXiv:1706.03762 \n[17]. Varadarajan, B; Reiley, C; Lin, H; Khudanpur, S; Hager, G. Data-derived models for \nsegmentation with application to surgical assessment and training; Proc. of the Int. Conf. on \nMedical Image Computing and Computer-Assisted Intervention; 2009. 426–434. \n[18]. Lea, C; Vidal, R; Hager, GD. Learning convolutional action primitives for fine-grained action \nrecognition; Proc. of the IEEE Int. Conf. on robotics and automation (ICRA); 2016. 1642–1649."
+    },
+    {
+        "chunk_id": 63,
+        "source": "paper66",
+        "text": "[18]. Lea, C; Vidal, R; Hager, GD. Learning convolutional action primitives for fine-grained action \nrecognition; Proc. of the IEEE Int. Conf. on robotics and automation (ICRA); 2016. 1642–1649. \n[19]. Lea, C; Reiter, A; Vidal, R; Hager, GD. Segmental spatiotemporal cnns for fine-grained action \nsegmentation; Proc of the European Conference on Computer Vision; 2016. 36–52. \n[20]. Funke, I; Bodenstedt, S; Oehme, F; von Bechtolsheim, F; Weitz, J; Speidel, S. Using 3d \nconvolutional neural networks to learn spatiotemporal features for automatic surgical gesture \nrecognition in video; Proc. of the Int. Conf. on Medical Image Computing and Computer-\nAssisted Intervention; 2019. 467–475. \n[21]. Lea, C; Flynn, MD; Vidal, R; Reiter, A; Hager, GD. Temporal convolutional networks for action \nsegmentation and detection; Proc. of the IEEE Conference on Computer Vision and Pattern \nRecognition; 2017. 156–165."
+    },
+    {
+        "chunk_id": 64,
+        "source": "paper66",
+        "text": "segmentation and detection; Proc. of the IEEE Conference on Computer Vision and Pattern \nRecognition; 2017. 156–165. \n[22]. Lea, C; Vidal, R; Reiter, A; Hager, GD. Temporal convolutional networks: A unified approach to \naction segmentation; Proc of the European Conference on Computer Vision; 2016. 47–54. \n[23]. Lei, P; Todorovic, S. Temporal deformable residual networks for action segmentation in videos; \nProc. of the IEEE conference on computer vision and pattern recognition; 2018. 6742–6751. \n[24]. Wang, J; Du, Z; Li, A; Wang, Y. Atrous temporal convolutional network for video action \nsegmentation; Proc. of the IEEE Int. Conf. on Image Processing (ICIP); 2019. 1585–1589. \n[25]. Wang, T; Wang, Y; Li, M. Towards accurate and interpretable surgical skill assessment: A \nvideo-based method incorporating recognized surgical gestures and skill levels; Proc. of the Int. \nConf. on Medical Image Computing and Computer-Assisted Intervention; 2020. 668–678."
+    },
+    {
+        "chunk_id": 65,
+        "source": "paper66",
+        "text": "video-based method incorporating recognized surgical gestures and skill levels; Proc. of the Int. \nConf. on Medical Image Computing and Computer-Assisted Intervention; 2020. 668–678. \n[26]. Zhang, J; , et al. Symmetric dilated convolution for surgical gesture recognition; Proc. of the Int. \nConf. on Medical Image Computing and Computer-Assisted Intervention; 2020. 409–418. \n[27]. DiPietro R, et al. Segmenting and classifying activities in robot-assisted surgery with recurrent \nneural networks. Int journal of computer assisted radiology and surgery. 2019; 14 (11) 2005–\n2020. [PubMed: 31037493] \n[28]. Gurcan, I; Van Nguyen, H. Surgical activities recognition using multi-scale recurrent networks; \n2019. 2887–2891. \n[29]. Ding L, Xu C. Tricornet: A hybrid temporal convolutional and recurrent network for video action \nsegmentation. arXiv preprint. 2017. arXiv:1705.07818 \n[30]. Zappella L, Haro BB, Hager G, Vidal R. Surgical gesture classification from video and kinematic"
+    },
+    {
+        "chunk_id": 66,
+        "source": "paper66",
+        "text": "segmentation. arXiv preprint. 2017. arXiv:1705.07818 \n[30]. Zappella L, Haro BB, Hager G, Vidal R. Surgical gesture classification from video and kinematic \ndata. Medical image analysis. 2013; 17 (7) 732–45. [PubMed: 23706754] \n[31]. Sarikaya D, Guru KA, Corso JJ. Joint surgical gesture and task classification with multi-task and \nmultimodal learning. arXiv preprint. 2018. arXv:1805.00721 \nvan Amsterdam et al.\nPage 15\nIEEE Trans Med Imaging. Author manuscript; available in PMC 2024 December 06.\n Europe PMC Funders Author Manuscripts\n Europe PMC Funders Author Manuscripts"
+    },
+    {
+        "chunk_id": 67,
+        "source": "paper66",
+        "text": "[32]. Murali, A; , et al. Tsc-dl: Unsupervised trajectory segmentation of multimodal surgical \ndemonstrations with deep learning; Proc. of the IEEE Int. Conf. on Robotics and Automation \n(ICRA); 2016. 4150–4157. \n[33]. Zhao H, Xie J, Shao Z, Qu Y, Guan Y, Tan J. A fast unsupervised approach for multi-modality \nsurgical trajectory segmentation. IEEE Access. 2018; 6: 56411–56422. \n[34]. Lea, C; Hager, GD; Vidal, R. An improved model for segmentation and recognition of fine-\ngrained activities with application to surgical training tasks; Proc of the IEEE winter conference \non applications of computer vision; 2015. 1123–1129. \n[35]. Qin Y, Allan M, Yue Y, Burdick JW, Azizian M. Learning invariant representation of tasks for \nrobust surgical state estimation. arXiv preprint. 2021. \n[36]. Long, X; , et al. Multimodal keyless attention fusion for video classification; Proc. of the AAAI \nConf. on Artificial Intelligence; 2018."
+    },
+    {
+        "chunk_id": 68,
+        "source": "paper66",
+        "text": "[36]. Long, X; , et al. Multimodal keyless attention fusion for video classification; Proc. of the AAAI \nConf. on Artificial Intelligence; 2018. \n[37]. Xu, J; Yao, T; Zhang, Y; Mei, T. Learning multimodal attention lstm networks for video \ncaptioning; Proc. of the 25th ACM Int. Conf. on Multimedia; 2017. 537–545. \n[38]. Guthart, GS; Salisbury, JK. The intuitive/sup tm/telesurgery system: overview and application; \nProc. of the IEEE Int. Conf. on Robotics and Automation (ICRA); 2000. 618–621. \n[39]. van Amsterdam, B; Clarkson, MJ; Stoyanov, D. Multi-task recurrent neural network for surgical \ngesture recognition and progress prediction; 2020. 1380–1386. \n[40]. Ficarra V, Cavalleri S, Novara G, Aragona M, Artibani W. Evidence from robot-assisted \nlaparoscopic radical prostatectomy: a systematic review. European urology. 2007; 51 (1) 45–56. \n[PubMed: 16854519] \n[41]. Wang F, Song Y, Zhang J, Han J, Huang D. Temporal unet: Sample level human action"
+    },
+    {
+        "chunk_id": 69,
+        "source": "paper66",
+        "text": "[PubMed: 16854519] \n[41]. Wang F, Song Y, Zhang J, Han J, Huang D. Temporal unet: Sample level human action \nrecognition using wifi. arXiv preprint. 2019. arXiv:1904.11953 \n[42]. He, K; Zhang, X; Ren, S; Sun, J. Deep residual learning for image recognition; Proc. of the IEEE \nconference on computer vision and pattern recognition; 2016. 770–778. \n[43]. van Amsterdam, B; Clarkson, M; Stoyanov, D. Gesture recognition in robotic surgery: a review; \nIEEE Trans. on Biomedical Engineering; 2021. \n[44]. Meireles OR, et al. Sages consensus recommendations on an annotation framework for surgical \nvideo. Surgical endoscopy. 2021; 35 (9) 4918–4929. [PubMed: 34231065] \n[45]. Wang, F; , et al. Residual attention network for image classification; Proc. of the IEEE \nconference on computer vision and pattern recognition; 2017. 3156–3164. \nvan Amsterdam et al.\nPage 16\nIEEE Trans Med Imaging. Author manuscript; available in PMC 2024 December 06.\n Europe PMC Funders Author Manuscripts"
+    },
+    {
+        "chunk_id": 70,
+        "source": "paper66",
+        "text": "van Amsterdam et al.\nPage 16\nIEEE Trans Med Imaging. Author manuscript; available in PMC 2024 December 06.\n Europe PMC Funders Author Manuscripts\n Europe PMC Funders Author Manuscripts"
+    },
+    {
+        "chunk_id": 71,
+        "source": "paper66",
+        "text": "Fig. 1. \nSurgeme examples in phantom and real surgical environments: (a) positioning needle tip \non insertion point, (b) pushing needle through the tissue, (c) pulling needle out of tissue. \nSnapshots on top from JIGSAWS [3].\nvan Amsterdam et al.\nPage 17\nIEEE Trans Med Imaging. Author manuscript; available in PMC 2024 December 06.\n Europe PMC Funders Author Manuscripts\n Europe PMC Funders Author Manuscripts\n\nFig. 2. \nThe dorsal vascular complex (DVC), an array of veins and arteries that carry blood to the \npenis, is sutured to keep bleeding under control during radical prostatectomy procedures.\nvan Amsterdam et al.\nPage 18\nIEEE Trans Med Imaging. Author manuscript; available in PMC 2024 December 06.\n Europe PMC Funders Author Manuscripts\n Europe PMC Funders Author Manuscripts"
+    },
+    {
+        "chunk_id": 72,
+        "source": "paper66",
+        "text": "Fig. 3. \nThe RARP-45 dataset consists of synchronized video and kinematic data recorded from \nthe da Vinci Si Surgical System during robotic radical prostatectomy surgery. Manual \nsegmentation into fine-grained bi-manual actions was carried out on the DVC suturing phase \nof the procedure.\nvan Amsterdam et al.\nPage 19\nIEEE Trans Med Imaging. Author manuscript; available in PMC 2024 December 06.\n Europe PMC Funders Author Manuscripts\n Europe PMC Funders Author Manuscripts"
+    },
+    {
+        "chunk_id": 73,
+        "source": "paper66",
+        "text": "Fig. 4. \nRARP-45 statistics. (a) Task duration variability (reported in seconds). Average duration \nis about 5 minutes, with large variability ranging from about 2 to 12 minutes. (b) Class \ndistribution per sequence. Each bin represents the median class frequency over interventions, \nand error bars mark the 25th and 75th quantiles. Class G5 is absent in more than 75% of the \ninterventions. (c) Train and test class distribution. Absolute frequencies are reported on the \nbins. Relative frequencies are homogeneous across all classes.\nvan Amsterdam et al.\nPage 20\nIEEE Trans Med Imaging. Author manuscript; available in PMC 2024 December 06.\n Europe PMC Funders Author Manuscripts\n Europe PMC Funders Author Manuscripts"
+    },
+    {
+        "chunk_id": 74,
+        "source": "paper66",
+        "text": "Fig. 5. \nExamples of variability factors and noise sources which hinder robust gesture recognition in \nreal-case scenarios: (a) environment variability due to patient-specific anatomical structure, \n(b) changes of illumination, (c) presence of blood, (d) tools out of view, (e) occlusions and \nself-occlusions, (f) interactions with surgical assistant.\nvan Amsterdam et al.\nPage 21\nIEEE Trans Med Imaging. Author manuscript; available in PMC 2024 December 06.\n Europe PMC Funders Author Manuscripts\n Europe PMC Funders Author Manuscripts"
+    },
+    {
+        "chunk_id": 75,
+        "source": "paper66",
+        "text": "Fig. 6. \nUnimodal baseline. A cascade of temporal convolutions and pooling layers to encode the \ninput sequence at increasing levels of abstraction is followed by temporal convolutions and \nupsampling layers to gradually bring the data back to their original temporal resolution \nfor frame-wise classification. Shortcut connections are introduced between encoding and \ndecoding stages, where features from corresponding layers are concatenated to allow the \npropagation of low level contextual information to the high level layers. After each max \npooling and feature concatenation layer, channel-wise feature normalization as well as \ntemporal dropout are employed for regularization.\nvan Amsterdam et al.\nPage 22\nIEEE Trans Med Imaging. Author manuscript; available in PMC 2024 December 06.\n Europe PMC Funders Author Manuscripts\n Europe PMC Funders Author Manuscripts"
+    },
+    {
+        "chunk_id": 76,
+        "source": "paper66",
+        "text": "Fig. 7. \nMA-TCN schematic. Starting from our two unimodal baselines, we derive frame-wise \nreliability weights for each stream using multimodal attention. During training, the output \nof each unimodal stream is compared to the corresponding one-hot-encoded label sequence \nthrough dot-product attention. The resulting scores are used as reliability weights to balance \nthe relative contribution of different modalities. Action predictions are obtained by weighted \nconcatenation of the final layers from the two streams followed by a fully-connected layer \nwith softmax activation function.\nvan Amsterdam et al.\nPage 23\nIEEE Trans Med Imaging. Author manuscript; available in PMC 2024 December 06.\n Europe PMC Funders Author Manuscripts\n Europe PMC Funders Author Manuscripts"
+    },
+    {
+        "chunk_id": 77,
+        "source": "paper66",
+        "text": "Fig. 8. \nExamples of MA-TCN prediction outputs before fine-tuning and corresponding attention \nweights (gray scale representation, white = 0.65, black = 0.35), aligned with ground \ntruth and unimodal predictions. Green boxes highlight instances where MA-TCN correctly \nenhances information from the most reliable modality at each time-stamp, recovering \nmissed segments (a), improving boundary adherence (b), ignoring spurious segments (d) \nor rectifying simultaneous classification errors (c). In yellow we highlight when MA-TCN’s \nperformance is limited by the accuracy of the strongest modality. The red box shows \nan example of failure mode, where higher weight is assigned to the weakest modality. \n(e) Physical interpretation of unimodal classification errors and corresponding attention \nweights. While gesture G6 (orient needle) is visually similar to G3 (transfer needle) \nand can benefit from higher kinematic attention to prevent misclassification, gestures G1"
+    },
+    {
+        "chunk_id": 78,
+        "source": "paper66",
+        "text": "weights. While gesture G6 (orient needle) is visually similar to G3 (transfer needle) \nand can benefit from higher kinematic attention to prevent misclassification, gestures G1 \n(position needle) and G2 (push needle through tissue) have similar kinematic properties \nwhen multiple adjustment motions are performed during G2. Using visual information to \nidentify when the needle tip is inside the tissue leads to improved recognition.\nvan Amsterdam et al.\nPage 24\nIEEE Trans Med Imaging. Author manuscript; available in PMC 2024 December 06.\n Europe PMC Funders Author Manuscripts\n Europe PMC Funders Author Manuscripts"
+    },
+    {
+        "chunk_id": 79,
+        "source": "paper66",
+        "text": "Fig. 9. \nPer-class F1-scores on the JIGSAWS dataset.\nvan Amsterdam et al.\nPage 25\nIEEE Trans Med Imaging. Author manuscript; available in PMC 2024 December 06.\n Europe PMC Funders Author Manuscripts\n Europe PMC Funders Author Manuscripts\n\nFig. 10. \nExamples of MA-TCN prediction outputs before fine-tuning and corresponding attention \nweights (gray scale representation, white = 0.65, black = 0.35), aligned with ground truth \nand unimodal predictions on the RARP-45 test set. The green box shows an example where \nMA-TCN correctly enhances information from the most reliable modality and outperforms \nboth unimodal predictions, while the yellow box shows an example where MA-TCN’s \nperformance is only better than the weakest modality. The red box shows an example of \nfailure mode.\nvan Amsterdam et al.\nPage 26\nIEEE Trans Med Imaging. Author manuscript; available in PMC 2024 December 06.\n Europe PMC Funders Author Manuscripts\n Europe PMC Funders Author Manuscripts"
+    },
+    {
+        "chunk_id": 80,
+        "source": "paper66",
+        "text": "Fig. 11. \nNormalized confusion matrix on the RARP-45 test set.\nvan Amsterdam et al.\nPage 27\nIEEE Trans Med Imaging. Author manuscript; available in PMC 2024 December 06.\n Europe PMC Funders Author Manuscripts\n Europe PMC Funders Author Manuscripts\n\nFig. 12. \nPer-class F1-scores on the RARP-45 test set.\nvan Amsterdam et al.\nPage 28\nIEEE Trans Med Imaging. Author manuscript; available in PMC 2024 December 06.\n Europe PMC Funders Author Manuscripts\n Europe PMC Funders Author Manuscripts\n\n Europe PMC Funders Author Manuscripts\n Europe PMC Funders Author Manuscripts\nvan Amsterdam et al.\nPage 29\nTable I\nRARP-45 dataset gesture list\nID\nGesture description\nCount\nG0\nBackground class\n189\nG1\nPicking-up the needle\n213\nG2\nPositioning the needle tip\n535\nG3\nPushing the needle through the tissue\n500\nG4\nPulling the needle out of the tissue\n486\nG5\nTying a knot\n25\nG6\nCutting the suture\n35\nG7\nReturning/dropping the needle\n71\nIEEE Trans Med Imaging. Author manuscript; available in PMC 2024 December 06."
+    },
+    {
+        "chunk_id": 81,
+        "source": "paper66",
+        "text": "Europe PMC Funders Author Manuscripts\n Europe PMC Funders Author Manuscripts\nvan Amsterdam et al.\nPage 30\nTable II\nAblation study on JIGSAWS dataset - Acausal.\nAccuracy\nEdit\nF1@10\nK-TCN\n83.8 (5.4)\n86.3 (5.7)\n90.4 (4.0)\nV-TCN\n83.7 (6.1)\n87.4 (6.1)\n91.9 (4.0)\nC-TCN\n86.1 (5.3)\n90.5 (5.4)\n93.9 (3.6)\nE-TCN\n86.2 (5.2)\n89.4 (5.0)\n93.1 (3.5)\nMA-TCN w/o Wtrans\n86.6 (5.4)\n90.1 (6.2)\n93.6 (4.1)\nMA-TCN\n86.8 (5.3)\n91.4 (6.3)\n94.3 (4.2)\nIEEE Trans Med Imaging. Author manuscript; available in PMC 2024 December 06.\n\n Europe PMC Funders Author Manuscripts\n Europe PMC Funders Author Manuscripts\nvan Amsterdam et al.\nPage 31\nTable III\nComparison with related work (original labels).\nAccuracy\nEdit\nF1@10\nFusion-KV [14] (2020)\n86.3 (-)\n87.2 (-)\n-\nMRG-Net [15] (2020)\n87.9 (4.2)\n89.3 (5.2)\n-\nMA-TCN\n85.8 (5.1)\n90.3 (6.4)\n93.6 (4.3)\nIEEE Trans Med Imaging. Author manuscript; available in PMC 2024 December 06."
+    },
+    {
+        "chunk_id": 82,
+        "source": "paper66",
+        "text": "Europe PMC Funders Author Manuscripts\n Europe PMC Funders Author Manuscripts\nvan Amsterdam et al.\nPage 32\nTable IV\nAblation study on JIGSAWS dataset - Causal.\nAccuracy\nEdit\nF1@10\nV-TCN\n81.5 (6.4)\n73.0 (8.0)\n82.0 (6.1)\nK-TCN\n76.7 (7.2)\n74.4 (6.6)\n81.5 (5.1)\nC-TCN\n82.3 (6.3)\n82.1 (5.5)\n88.0 (4.4)\nE-TCN\n82.6 (7.0)\n81.4 (7.2)\n87.3 (5.5)\nMA-TCN\n83.4 (5.8)\n81.6 (7.6)\n87.7 (5.3)\nIEEE Trans Med Imaging. Author manuscript; available in PMC 2024 December 06.\n\n Europe PMC Funders Author Manuscripts\n Europe PMC Funders Author Manuscripts\nvan Amsterdam et al.\nPage 33\nTable V\nResults on real surgical data.\nAccuracy\nEdit\nF1@10\nV-TCN\n72.6\n79.7\n81.9\nK-TCN\n77.0\n77.8\n82.1\nE-TCN\n78.1\n80.3\n82.9\nC-TCN\n79.3\n78.2\n81.7\nMA-TCN\n80.9\n79.6\n83.7\nIEEE Trans Med Imaging. Author manuscript; available in PMC 2024 December 06."
+    }
+]

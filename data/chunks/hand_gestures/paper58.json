@@ -1,0 +1,402 @@
+[
+    {
+        "chunk_id": 1,
+        "source": "paper58",
+        "text": "Machine learning facilitated gesture recognition using structural\noptimized wearable yarn-based strain sensor\nXiaoyan Yue§, Qingtao Li§, Ziqi Wang, Lingmeihui Duan, Wenke Yang, Duo Pan, Hu Liu \n  ✉, Chuntai Liu \n , and\nChangyu Shen\nState  Key  Laboratory  of  Structural  Analysis,  Optimization  and  CAE  Software  for  Industrial  Equipment;  National  Engineering  Research\nCenter for Advanced Polymer Processing Technology, Zhengzhou University, Zhengzhou 450002, China\n§ Xiaoyan Yue and Qingtao Li contributed equally to this work.\n  Cite this article: Nano Research, 2026, 19, 94908084. https://doi.org/10.26599/NR.2025.94908084\n  \nABSTRACT: The\n advancement\n of\n wearable\n sensing\ntechnologies demands multifunctional materials that integrate\nhigh sensitivity, environmental resilience, and intelligent signal\nprocessing.  In  this  work,  a  flexible  hydrophobic  conductive\nyarn  (FCB@SY)  featuring  a  controllable  microcrack  structure"
+    },
+    {
+        "chunk_id": 2,
+        "source": "paper58",
+        "text": "high sensitivity, environmental resilience, and intelligent signal\nprocessing.  In  this  work,  a  flexible  hydrophobic  conductive\nyarn  (FCB@SY)  featuring  a  controllable  microcrack  structure\nis developed via a synergistic approach combining ultrasonic\nswelling and non-solvent induced phase separation (NIPS). By\nembedding  a  robust  conductive  network  and  engineering\nmicrocrack  morphology,  the  resulting  sensor  achieves  an\nultrahigh  gauge  factor  (GF  ≈ 12,670),  an  ultrabroad  working\nrange  (0%–547%),  a  low  detection  limit  (0.5%),  rapid\nresponse/recovery  time  (140  ms/140  ms),  and  outstanding\ndurability  over  10,000  cycles.  Furthermore,  the  hydrophobic\nsurface  endowed  by  conductive  coatings  imparts  exceptional\nchemical stability against acidic and alkaline environments, as\nwell as reliable waterproof performance. This enables consistent functionality under harsh conditions, including underwater"
+    },
+    {
+        "chunk_id": 3,
+        "source": "paper58",
+        "text": "chemical stability against acidic and alkaline environments, as\nwell as reliable waterproof performance. This enables consistent functionality under harsh conditions, including underwater\noperation. Integrated with machine learning algorithms, the FCB@SY-based intelligent sensing system demonstrates dual-\nmode  capabilities  in  human  motion  tracking  and  gesture  recognition,  offering  significant  potential  for  applications  in\nwearable electronics, human–machine interfaces, and soft robotics.\nKEYWORDS: wearable electronic device, machine learning, gesture recognition, strain sensors, hydrophobic\n \n \n 1    Introduction\nThe  rapid  advancement  of  information  technology  and  the\nincreasing  demand  for  personalized  health  management  have\npositioned wearable devices as a pivotal component of the Internet\nof  Things  (IoT)  era  [1−4].  These  devices  are  designed  for\nportability,  comfort,  and  seamless  integration  into  daily  life,"
+    },
+    {
+        "chunk_id": 4,
+        "source": "paper58",
+        "text": "of  Things  (IoT)  era  [1−4].  These  devices  are  designed  for\nportability,  comfort,  and  seamless  integration  into  daily  life,\nenabling individuals to proactively manage their health. At the heart\nof wearable device functionality lies sensor technology, which plays\na  crucial  role  in  achieving  comprehensive  and  accurate\nphysiological  monitoring  [5−9].  To  ensure  a  practical,  long-term,\nand  comfortable  user  experience,  wearable  sensors  must  be\nlightweight,  soft,  flexible,  and  even  stretchable,  allowing  them  to\nadapt  to  the  intricate  and  dynamic  contours  of  the  human  body\n[10−13]. However, traditional strain sensors often rely on rigid or\nsemi-flexible substrates, compromising flexibility and user comfort,\nespecially  under  conditions  involving  repetitive  or  extensive\ndeformation [14−17].\nRecent  research  has  extensively  explored  yarn-based  strain\nsensors for their ease of weaving, flexibility, and comfort [18−22]."
+    },
+    {
+        "chunk_id": 5,
+        "source": "paper58",
+        "text": "deformation [14−17].\nRecent  research  has  extensively  explored  yarn-based  strain\nsensors for their ease of weaving, flexibility, and comfort [18−22].\nHowever,  achieving  a  balance  of  excellent  stretchability,  high\nsensitivity,  and  stability  remains  challenging  [23−25].  Leveraging\nthe significant mismatch in Young’s modulus between conductive\ncoating and flexible matrix, tension-induced crack structures have\ngained attention as a strategy to enhance sensor sensitivity [26−30].\nFor  instance,  Guo  et  al.  [31]  engineered  multilevel  structured\nsensing yarns with cracks embedded in wrinkle patterns using wet-\nspinning  and  mechanically  guided  assembly,  achieving  a  wide\nsensing  range  (0%–150%)  and  ultrahigh  sensitivity  with  gauge\nfactors (GF) spanning from 174 to 298,000. Similarly, Wang et al.\n \n \nReceived: July 4, 2025; Revised: August 5, 2025\nAccepted: September 15, 2025\n✉Address correspondence to liuhu@zzu.edu.cn\n \nOpen Access\n \nResearch Article"
+    },
+    {
+        "chunk_id": 6,
+        "source": "paper58",
+        "text": "Received: July 4, 2025; Revised: August 5, 2025\nAccepted: September 15, 2025\n✉Address correspondence to liuhu@zzu.edu.cn\n \nOpen Access\n \nResearch Article\n \n94908084 (1 of 13)\nNano Research, 2026, 19, 94908084"
+    },
+    {
+        "chunk_id": 7,
+        "source": "paper58",
+        "text": "[32] designed hierarchical microcracked strain sensors leveraging a\nheterogeneous  surface  strategy  integrating  silver  nanowires\n(AgNWs)  and  MXene,  where  the  tension  stress-induced\nmicrocracks  result  in  outstanding  sensitivity  (GF  ≈ 244),  a  wide\nlinear sensing range (≈ 60%), and rapid response times (< 30 ms).\nNotably, the precise formation of microcrack architecture remains a\nsignificant challenge in the development of an expansive sensitive\nsensing  domain.  Unlike  conventional  crack-generation  strategies\nrelying on uncontrolled deformation, the pre-stretching technique\nenables deterministic tuning of crack density, depth, and uniformity\nby  adjusting  the  pre-applied  strain  level.  This  controllable\nmicrocrack engineering allows for a tradeoff between sensitivity and\nsensing  range,  which  is  difficult  to  achieve  in  uncontrolled\nsystems [33, 34].\nFurthermore,\n the\n rapid\n advancement\n of\n immersive"
+    },
+    {
+        "chunk_id": 8,
+        "source": "paper58",
+        "text": "sensing  range,  which  is  difficult  to  achieve  in  uncontrolled\nsystems [33, 34].\nFurthermore,\n the\n rapid\n advancement\n of\n immersive\ncommunication and artificial intelligence has driven the integration\nof machine learning with flexible yarn-based strain sensors, creating\nan  advanced  platform  for  interactive  intelligent  systems  that\nseamlessly  connect  the  physical  and  digital  realms  [35, 36].  By\nleveraging  high-quality  sensor  data,  machine  learning  algorithms\ncan  identify  patterns,  classify  human  movements,  and  predict\nactions  based  on  learned  motor  behaviors.  This  synergy\nsignificantly  broadens  the  applications  of  yarn  strain  sensors,\nranging  from  real-time  activity  monitoring  to  complex  gesture\nrecognition systems for human–robot interaction and soft robotics\ncontrol.  Moreover,  integrating  machine  learning  enhances  the\naccuracy  and  robustness  of  activity  recognition  while  enabling"
+    },
+    {
+        "chunk_id": 9,
+        "source": "paper58",
+        "text": "control.  Moreover,  integrating  machine  learning  enhances  the\naccuracy  and  robustness  of  activity  recognition  while  enabling\nadaptive  and  personalized  monitoring  systems  [37].  By  training\nmodels on extensive human movement datasets, these systems can\ndetect  subtle  variations  in  gestures  or  movements,  making  them\nideal  for  applications  such  as  rehabilitation,  sports  performance\nanalysis,  virtual  reality,  and  assistive  technologies  for  individuals\nwith mobility impairments [38].\nIn  this  study,  we  present  a  flexible  hydrophobic  yarn-based\nconductive  composites  (FCB@SY)  with  a  controllable  microcrack\nstructure for yarn-based strain sensor, which is further enhanced by\na  machine  learning  approach  for  precise  gesture  recognition.  As\nillustrated  in Fig.  1,  the  obtained  FCB@SY  possesses  excellent\nultrasensitive  strain  sensing  capacity  to  achieve  real-time\nmonitoring of diverse human body movements (such as finger and"
+    },
+    {
+        "chunk_id": 10,
+        "source": "paper58",
+        "text": "illustrated  in Fig.  1,  the  obtained  FCB@SY  possesses  excellent\nultrasensitive  strain  sensing  capacity  to  achieve  real-time\nmonitoring of diverse human body movements (such as finger and\nknee bending) and physiological signals (including pulse and vocal\ncord  vibrations).  A  machine  learning  framework  integrated  with\nthe sensor allows accurate and efficient gesture classification, with\npromising  applications  in  health  monitoring  and  sign  language\nrecognition.  This  approach  not  only  advances  wearable  sensing\ntechnology but also opens new possibilities for intelligent systems in\nhealthcare,\n human–machine\n interfaces,\n and\n soft\n robotics.\nAdditionally,\n the\n hydrophobic\n coating\n provides\n excellent\nwaterproofness  and  strong  resistance  to  both  acidic  and  alkaline\ncorrosion,  ensuring  reliable  strain-sensing  performance  across\ndiverse  environments.  This  durability  makes  it  well-suited  for"
+    },
+    {
+        "chunk_id": 11,
+        "source": "paper58",
+        "text": "corrosion,  ensuring  reliable  strain-sensing  performance  across\ndiverse  environments.  This  durability  makes  it  well-suited  for\neveryday  wear,  including  challenging  conditions  such  as\nunderwater applications.\n 2    Experimental section\n 2.1    Materials and chemicals\nCommercially  available  elastic  spandex  yarns  (1680  D)  were\nobtained  from  Haining  Kaiwei  Textile.  Carbon  black  (CB)  paste\nwas  supplied  by  Zhongshan  Runze  Nano  Technology  Co.,  Ltd.\nEthanol and N,N-dimethylformamide (DMF) were purchased from\nTianjin  Fuyu  Fine  Chemical  Reagents  Co.,  Ltd.  1H,1H,2H,2H-\nPerfluorodecanethiol (PFDT) was obtained from Shanghai Aladdin\nBiochemical Technology Co., Ltd. Deionized water was produced\nusing  a  water  purification  system  (Simple-Q15,  ZhiAng\nInstruments  Co.,  Ltd.).  All  other  chemicals  and  reagents  were\npurchased  as  commercially  available  products  and  used  without\nfurther purification."
+    },
+    {
+        "chunk_id": 12,
+        "source": "paper58",
+        "text": "Instruments  Co.,  Ltd.).  All  other  chemicals  and  reagents  were\npurchased  as  commercially  available  products  and  used  without\nfurther purification.\n \nFigure 1    A  schematic  diagram  illustrating  the  FCB@SY  yarn-based  strain  sensor  setup,  showcasing  its  versatile  strain  sensing  applications  across  various  body\nmovements and physiological signals, along with the machine learning-assisted gesture recognition system.\nYue et al.\nNano Research | Vol. 19, No. 1\nNano Research, 2026, 19, 94908084\n94908084 (2 of 13)"
+    },
+    {
+        "chunk_id": 13,
+        "source": "paper58",
+        "text": "2.2    Fabrication of hydrophobic conductive yarn\nThe spandex yarn (5 cm) was first cleaned by sonication in a 1:1\nethanol/deionized  water  mixture  for  10  min.  After  washing,  the\nyarn  was  respectively  pre-stretched  to  strains  of  0%,  50%,  100%,\nand 150% and secured with clamps on each end. The pre-stretched\nyarn was then immersed in the diluted CB slurry (20 mL CB paste,\n20 mL deionized water, 40 mL DMF) and sonicated for 30 min,\nfollowed by rinsing in deionized water for an additional 30 min to\nremove excess CB from the yarn’s surface. During this process, the\nswollen spandex matrix undergoes phase separation, allowing some\nCB particles to embed within the yarn matrix. The samples were\nthen dried in an oven at 60 °C for 2 h. After drying, the clamps\nwere  removed  to  gradually  release  the  pre-strain,  forming  the\nCB@SY  conductive  yarn.  These  yarns  were  then  immersed  in  a\n0.02 wt.% PFDT/ethanol solution for 50 min, rinsed with deionized"
+    },
+    {
+        "chunk_id": 14,
+        "source": "paper58",
+        "text": "CB@SY  conductive  yarn.  These  yarns  were  then  immersed  in  a\n0.02 wt.% PFDT/ethanol solution for 50 min, rinsed with deionized\nwater, and dried at 60 °C for 2 h to yield the FCB@SY hydrophobic\nconductive  yarn.  Here,  the  FCB@SY  samples  prepared  under\ndifferent pre-strain levels are referred to as FCB@SY-x, where “x”\nindicates the pre-strain percentage applied.\n 2.3    Characterizations\nThe structure morphology and element composition of the samples\nwere examined using a scanning electron microscope (SEM, JEOL\nJSM-7500F,\n Japan)\n equipped\n with\n an\n energy\n dispersive\nspectrometer  (EDS).  Raman  spectroscopy  (DXR,  GX-PT-2412,\nThermo, Waltham, MA, USA) with a 633 nm laser was employed\nto  analyze  the  molecular  structure  of  the  samples.  Water  contact\nangle  (WCA)  and  sliding  angle  (SA)  measurements  were\nconducted  using  an  optical  contact  angle  device  (SL200KS),  with\nthe reported values representing the average of five measurements"
+    },
+    {
+        "chunk_id": 15,
+        "source": "paper58",
+        "text": "angle  (WCA)  and  sliding  angle  (SA)  measurements  were\nconducted  using  an  optical  contact  angle  device  (SL200KS),  with\nthe reported values representing the average of five measurements\nfrom different locations.\nBoth ends of the hydrophobic conductive yarn (FCB@SY) were\nevenly  coated  with  conductive  silver  paste,  and  copper-nickel\nconductive  tape  was  attached  as  electrodes  to  fabricate  assemble\nstrain  sensors.  A  test  setup  comprising  a  digital  multimeter\n(DMM4050)  and  a  universal  testing  machine  (UTM2203,  Sun\nTechnology  Co.,  Ltd.,  Shenzhen,  China)  was  utilized  to  evaluate\nstrain response performance. Current–voltage (I–V) characteristics\nat  varying  strains  were  measured  using  an  electrochemical\nworkstation with a voltage scan range of −5 to 5 V at a scanning\nrate of 0.05 V/s. The fabricated strain sensors were also affixed to\ndifferent  body  parts  using  transparent  and  breathable  medical"
+    },
+    {
+        "chunk_id": 16,
+        "source": "paper58",
+        "text": "rate of 0.05 V/s. The fabricated strain sensors were also affixed to\ndifferent  body  parts  using  transparent  and  breathable  medical\npolyurethane (PU) tape to measure human physiological and multi-\nchannel electrical signals corresponding to various gestures. During\nunderwater sensor testing, the electrodes at both ends of the sensor\nwere sealed and secured using waterproof medical-grade PU tape,\neffectively preventing potential issues such as electrode corrosion or\nsignal attenuation. A portable Bluetooth-enabled wireless resistance\nmeasurement device (TruEbox 01RC, LinkZill) was employed for\nsignal acquisition and transmission. The written consent from all\nparticipants have been obtained before the sensing experiment.\n 3    Results and discussion\nFigure 2(a) illustrates the comprehensive fabrication procedure of\nthe  high  stretchable  FCB@SY  hydrophobic  conductive  yarn,\ninvolving  straightforward  solvent-assisted  swelling,  nonsolvent-"
+    },
+    {
+        "chunk_id": 17,
+        "source": "paper58",
+        "text": "Figure 2(a) illustrates the comprehensive fabrication procedure of\nthe  high  stretchable  FCB@SY  hydrophobic  conductive  yarn,\ninvolving  straightforward  solvent-assisted  swelling,  nonsolvent-\ninduced  phase  separation  (NIPS)  and  surface  hydrophobic\ntreatment\n techniques.\n The\n fabrication\n commences\n with\nultrasonication-assisted  immersion  of  pre-stretched  spandex  yarn\n(p-SY)  in  a  CB/DMF/H2O  ternary  mixture.  During  this  stage,\nultrasonic\n energy\n generates\n high-intensity\n micro-jets\n and\nshockwaves  that  drive  rapid  CB  particle  migration,  facilitating\nrepeated interfacial collisions with the yarn surface to ensure strong\nCB  adhesion.  Simultaneously,  DMF  in  the  mixed  solvent  also\ninduces polymer chain relaxation through solvent swelling, creating\nexpanded  interstitial  spaces  within  the  spandex  matrix  for\nsubsequent  CB  entrapment.  The  subsequent  NIPS  process  is\ntriggered  by  transferring  the  swollen  composite  (CB@p-SY)  into"
+    },
+    {
+        "chunk_id": 18,
+        "source": "paper58",
+        "text": "expanded  interstitial  spaces  within  the  spandex  matrix  for\nsubsequent  CB  entrapment.  The  subsequent  NIPS  process  is\ntriggered  by  transferring  the  swollen  composite  (CB@p-SY)  into\naqueous  medium,  where  the  rapid  solvent/non-solvent  exchange\nleads  to  polymer  chain  rearrangement  that  partially  encapsulates\nCB  nanoparticles  within  the  contracting  spandex  matrix,  thereby\nforming  an  interpenetrated  CB  conductive  layer  with  enhanced\ninterfacial stability for the resulting CB@p-SY. Here, the successful\nconstruction  of  conductive  layer  can  also  create  a  modulus\ndifference  with  the  pristine  yarn  matrix,  which  can  induce\nmicrowrinkle formation on CB@SY surface upon releasing the pre-\nstretching  that  generates  asymmetric  recovery  stresses  at  the\nCB/matrix interface. Finally, the microstructured surface of CB@SY\nis  further  treated  with  low  surface  energy  PFDT  to  converts  the"
+    },
+    {
+        "chunk_id": 19,
+        "source": "paper58",
+        "text": "CB/matrix interface. Finally, the microstructured surface of CB@SY\nis  further  treated  with  low  surface  energy  PFDT  to  converts  the\nconductive  CB@SY  into  the  superhydrophobic  FCB@SY  while\npreserving  its  electrical  percolation  network,  completing  the\nmultifunctional yarn fabrication.\nFigure 2(b) shows the macroscopic morphologies of original SY\nand  FCB@SY  prepared  under  varying  pre-strain  conditions.\nObviously,  the  pristine  white  SY  undergoes  complete  chromatic\ntransition  to  black  after  surface  functionalization,  confirming  the\nhomogeneous deposition of CB nanoparticles and the formation of\na continuous conductive coating. Moreover, all FCB@SY specimens\nexhibit irreversible residual deformation compared with the pristine\nSY,  and  the  magnitude  of  permanent  strain  shows  strong\ndependence  on  the  applied  pre-stretch  amplitude.  Notably,  the\nsample  prepared  at  the  maximum  pre-strain  of  150%  retains"
+    },
+    {
+        "chunk_id": 20,
+        "source": "paper58",
+        "text": "SY,  and  the  magnitude  of  permanent  strain  shows  strong\ndependence  on  the  applied  pre-stretch  amplitude.  Notably,  the\nsample  prepared  at  the  maximum  pre-strain  of  150%  retains\napproximately 40% of its initial length after removing the constrain,\ndemonstrating  pronounced  strain  locking  behavior.  This  can  be\nexplained by the fact that a higher pre-strain level is beneficial for\nmore CB to be encapsulated in the yarn surface during the solvent-\nassisted  swelling  and  NIPS  process,  causing  a  higher  surface\nmodulus that generates stronger asymmetric recovery stresses at the\nCB/matrix\n interface,\n ultimately\n stabilizing\n the\n elongated\nmorphology  through  energy  dissipation  at  the  interface.  The\nmechanical  compliance  of  the  functionalized  yarn  is  further\ndemonstrated through its programmable deformability and shape\nresilience. As illustrated in Fig. 2(c), the FCB@SY can wrap around"
+    },
+    {
+        "chunk_id": 21,
+        "source": "paper58",
+        "text": "mechanical  compliance  of  the  functionalized  yarn  is  further\ndemonstrated through its programmable deformability and shape\nresilience. As illustrated in Fig. 2(c), the FCB@SY can wrap around\ncylindrical  substrates  with  a  diameter  of  4  and  10  mm  without\nstructural  failure,  and  it  can  also  be  repeatedly  weave  into  a\nbowknot with complete shape recovery after unraveling. All these\nconfirms  that  the  intrinsic  flexibility  and  elastic  recovery  of  the\nspandex matrix remain uncompromised despite the integration of\nrigid CB conductive domains.\nRaman spectroscopic analysis was further conducted to provide\ncritical insights into the structural evolution of the composite yarns\n(Fig.  2(d)).  Clearly,  the  original  spandex  yarn  exhibits  the  typical\nsymmetric/asymmetric  C–H  stretching  peaks  at  2916  and\n2862 cm−1 and the backbone C=C stretching at 1613 cm−1, which are\nwell consistent with its polyurethane-ether chemical architecture. In"
+    },
+    {
+        "chunk_id": 22,
+        "source": "paper58",
+        "text": "symmetric/asymmetric  C–H  stretching  peaks  at  2916  and\n2862 cm−1 and the backbone C=C stretching at 1613 cm−1, which are\nwell consistent with its polyurethane-ether chemical architecture. In\ncontrast,  the  CB@SY  spectrum  reveals  two  prominent  carbon-\nspecific  bands  at  1350  cm−1 (D-band)  and  1590  cm−1 (G-band),\nconfirming successful integration of CB [39]. Among them, the D\npeak indicates the defects in the C atom lattice, while the G peak\nNano Research | Vol. 19, No. 1\nYue et al.\n94908084 (3 of 13)\nNano Research, 2026, 19, 94908084"
+    },
+    {
+        "chunk_id": 23,
+        "source": "paper58",
+        "text": "represents  the  in-plane  stretching  vibration  of  the  C  atom  sp2\nhybridization.  Generally,  the  intensity  ratio  of  D  and  G  peaks\n(ID/IG) quantitatively characterizes the graphitization degree of the\nCB layer, where higher values indicate increased structural disorder.\nCrucially,  the  FCB@SY  maintains  an  identical ID/IG ratio  (1.05)\ncompared to CB@SY, demonstrating that the hydrophobic PFDT\ncoating neither disrupts the CB conductive network nor introduces\nadditional  carbon  lattice  defects  [40].  This  structural  preservation\nconfirms  the  non-invasive  nature  of  the  fluorination  process,\nensuring concurrent retention of electrical conductivity and surface\nhydrophobicity. Figure 2(e) quantifies the hydrophobicity evolution\nof pristine SY and FCB@SY under varying pre-strain conditions via\nWCA measurements. Notably, the WCA of pristine SY increases\nsignificantly  from  105°  to  126.8°  for  FCB@SY-0%,  which  is"
+    },
+    {
+        "chunk_id": 24,
+        "source": "paper58",
+        "text": "of pristine SY and FCB@SY under varying pre-strain conditions via\nWCA measurements. Notably, the WCA of pristine SY increases\nsignificantly  from  105°  to  126.8°  for  FCB@SY-0%,  which  is\nattributed to the successful construction of hydrophobic CB layer.\nAdditionally, the WCA exhibits a progressive increase with higher\npre-strain  amplitudes,  reaching  150.4°  for  FCB@SY-150%.  This\nenhancement can be explained by the fact that a greater pre-strain\ninduces  a  denser  arrangement  of  CB  nanoparticles,  amplifying\nsurface  roughness  and  thereby  boosting  hydrophobicity.  To\ndemonstrate  practical  utility,  as  shown  in Fig.  2(f),  FCB@SY  was\nintegrated  as  a  deformable  wire  in  a  circuit,  where  the  tensile\ndeformation of the wire can cause visible change in the brightness\nof a connected LED lamp, highlighting its potential as a sensitive\nstrain-responsive material for applications such as wearable sensors\nor stretchable electronics."
+    },
+    {
+        "chunk_id": 25,
+        "source": "paper58",
+        "text": "of a connected LED lamp, highlighting its potential as a sensitive\nstrain-responsive material for applications such as wearable sensors\nor stretchable electronics.\nThe morphology and structure of the pristine spandex yarn and\nvarious  pre-stretched  hydrophobic  conductive  yarns  were\nsystematically analyzed using scanning electron microscopy (SEM).\nAs  shown  in  Fig.  S1  in  the  Electronic  Supplementary  Material\n(ESM),  the  raw  spandex  yarn  comprises  multiple  closely  packed\nmonofilaments with smooth, texture less surfaces. In contrast, for\n \nFigure 2    Fabrication and characterization of FCB@SY hydrophobic conductive yarn. (a) Schematic illustration of the fabrication process for the FCB@SY. (b) Length\ncomparison of SY and FCB@SY prepared under various pre-strain amplitudes. (c) Photograph showcasing the excellent flexibility of the hydrophobic conductive yarns."
+    },
+    {
+        "chunk_id": 26,
+        "source": "paper58",
+        "text": "comparison of SY and FCB@SY prepared under various pre-strain amplitudes. (c) Photograph showcasing the excellent flexibility of the hydrophobic conductive yarns.\n(d)  Raman  spectra  of  SY,  CB@SY,  and  FCB@SY.  (e)  WCA  of  SY  and  FCB@SY  prepared  under  various  pre-strain  amplitudes.  (f)  LED  brightness  changes  during\nstretching and releasing cycles of the FCB@SY sensor.\nYue et al.\nNano Research | Vol. 19, No. 1\nNano Research, 2026, 19, 94908084\n94908084 (4 of 13)"
+    },
+    {
+        "chunk_id": 27,
+        "source": "paper58",
+        "text": "the FCB@SY hydrophobic conductive yarns (Figs. 3(a)–3(d)), the\noverall  stacked  architecture  of  the  yarn  is  retained,  but  the\nmonofilament  surfaces  exhibit  distinct  morphological  differences\ndepending on the applied pre-strain. Notably, in the absence of pre-\nstrain (FCB@SY-0%, Fig. 3(e)), the surface roughness increases due\nto  the  densely  packed  carbon  black  (CB)  particles  (Fig.  3(i)),\nforming a uniform conductive layer. Upon applying 50% pre-strain\n(FCB@SY-50%, Figs. 3(f) and 3(j)), numerous cracks emerge on the\nyarn surface, which gradually diminish with further increases in pre-\nstrain.  As  a  result,  the  conductive  layer  becomes  progressively\nsmoother at 100% and 150% pre-strain levels (Figs. 3(g) and 3(h)).\nAdditionally,  a  clear  trend  is  observed  where  CB  particles\nincreasingly  become  embedded  within  the  spandex  matrix,\nespecially in the FCB@SY-150% sample (Figs. 3(k) and 3(l)). This"
+    },
+    {
+        "chunk_id": 28,
+        "source": "paper58",
+        "text": "Additionally,  a  clear  trend  is  observed  where  CB  particles\nincreasingly  become  embedded  within  the  spandex  matrix,\nespecially in the FCB@SY-150% sample (Figs. 3(k) and 3(l)). This\nmorphological evolution can be attributed to the higher pre-strain\nfacilitating  the  penetration  of  CB  into  the  yarn  surface,  thereby\nforming  a  stiffer  CB-enriched  layer  that  effectively  suppresses\nshrinkage during the post-strain relaxation process. In contrast, the\nconductive  layer  in  FCB@SY-50%,  with  fewer  embedded  CB\nparticles, is more susceptible to cracking during yarn contraction.\nThis issue is significantly alleviated in samples subjected to higher\npre-strains, resulting in a more robust and continuous conductive\nnetwork.  Furthermore, Fig.  3(m) presents  the  EDS  elemental\nmapping of fluorine (F) and sulfur (S) on the surface of FCB@SY-\n100%, confirming the uniform deposition of the low-surface-energy"
+    },
+    {
+        "chunk_id": 29,
+        "source": "paper58",
+        "text": "network.  Furthermore, Fig.  3(m) presents  the  EDS  elemental\nmapping of fluorine (F) and sulfur (S) on the surface of FCB@SY-\n100%, confirming the uniform deposition of the low-surface-energy\nPFDT  layer.  This  homogeneous  coating  endows  the  yarn  with\nexcellent  hydrophobicity,  essential  for  stable  sensing  performance\nunder varying environmental conditions.\nThe  strain  sensing  properties  of  various  FCB@SY  samples  are\nsystematically  examined.  As  depicted  in Fig.  4(a),  the  relative\nresistance change (ΔR/R0, ΔR = R − R0, R0 is the original resistance,\nR is  the  resistance  under  applied  strain)  progressively  increases\nacross the entire strain range for all samples. It is noteworthy that\nthe  ΔR/R0 value  of  the  FCB@SY  sensors  under  the  same  applied\nstrain decreases with increasing pre-strain, while their sensing range\nexpands  accordingly.  This  is  further  demonstrated  in  their"
+    },
+    {
+        "chunk_id": 30,
+        "source": "paper58",
+        "text": "strain decreases with increasing pre-strain, while their sensing range\nexpands  accordingly.  This  is  further  demonstrated  in  their\ncorresponding  strain  sensitivity  (gauge  factor,  GF  =  (ΔR/R0)/ε,\nwhere ε denotes the applied strain) analysis curves (Fig. 4(b) and\nFig.  S2  in  the  ESM).  In  particular,  FCB@SY-0%  has  the  highest\nsensitivity  at  100%  strain,  but  its  sensing  range  is  only  273%,\nwhereas FCB@SY-150% has a strain sensing range of up to 653%,\nbut the sensitivity is only 16 (at 100%). This suggests that moderate\npre-stretching  can  effectively  increase  the  crack  density  and\noptimize the reconfiguration efficiency of the conductive network,\nand  that  adjustable  strain  sensing  behavior  can  be  achieved  by\nprecisely  controlling  the  processing  technique  to  meet  different\napplication  requirements.  This  adjustable  strain  sensing  behavior\nstems  from  the  layered  dual-network  structure  of  FCB@SY  yarn,"
+    },
+    {
+        "chunk_id": 31,
+        "source": "paper58",
+        "text": "application  requirements.  This  adjustable  strain  sensing  behavior\nstems  from  the  layered  dual-network  structure  of  FCB@SY  yarn,\nwhich comprises a surface microcrack conductive layer and a CB\nnetwork  embedded  within  the  matrix.  After  pre-stretching  is\nreleased,  the  modulus  mismatch  between  the  CB  layer  and  the\nmatrix  generates  microcracks.  Higher  pre-strain  produces  denser\ncracks, enabling dynamic regulation of conductive pathways during\nstretching to achieve high sensitivity. Meanwhile, the CB network\nembedded within the matrix remains unaffected by surface cracks,\nensuring  conductive  continuity  under  large  deformations  and\n \nFigure 3    Microscopic morphology analysis of FCB@SY hydrophobic conductive yarn. SEM images of ((a), (e), and (i)) FCB@SY-0%, ((b), (f), and (j)) FCB@SY-50%,\n((c), (g), and (k)) FCB@SY-100%, and ((d), (h), and (l)) FCB@SY-150%. (m) SEM image of FCB@SY-100% accompanied by the corresponding EDS mapping images of F"
+    },
+    {
+        "chunk_id": 32,
+        "source": "paper58",
+        "text": "((c), (g), and (k)) FCB@SY-100%, and ((d), (h), and (l)) FCB@SY-150%. (m) SEM image of FCB@SY-100% accompanied by the corresponding EDS mapping images of F\nand S elements.\nNano Research | Vol. 19, No. 1\nYue et al.\n94908084 (5 of 13)\nNano Research, 2026, 19, 94908084"
+    },
+    {
+        "chunk_id": 33,
+        "source": "paper58",
+        "text": "thereby  expanding  the  sensing  range.  The  synergistic  coupling  of\nhigh  sensitivity  induced  by  cracks  and  the  wide-range  stability\nsupported by the embedded network enables the FCB@SY sensor\nto achieve an ultra-high strain coefficient and an ultra-wide strain\nrange.\nConsidering the optimal balance between the response range and\nstrain  sensitivity  of  FCB@SY-100%,  it  was  selected  for  further\ndetailed  strain  sensing  performance  evaluations.  As  shown  in\nFig. 4(b), the ΔR/R0 curve of FCB@SY-100% as a function of tensile\nstrain can be segmented into four linear regions, and the GF values\nare calculated to be approximately 34 (GF1), 332 (GF2), 3283 (GF3)\nand  12670  (GF4)  for  the  respective  strain  ranges  of  0%–240%,\n240%–400%, 400%–480%, and 480%–547%. Notably, as illustrated\nin Fig. 4(c), the prepared series of FCB@SY strain sensor exhibits\nboth  an  exceptionally  wide  sensing  range  and  high  sensitivity,"
+    },
+    {
+        "chunk_id": 34,
+        "source": "paper58",
+        "text": "240%–400%, 400%–480%, and 480%–547%. Notably, as illustrated\nin Fig. 4(c), the prepared series of FCB@SY strain sensor exhibits\nboth  an  exceptionally  wide  sensing  range  and  high  sensitivity,\noutperforming many previously reported counterparts [13, 15, 16,\n41−45]. For example, the FCB@SY-100% strain sensor achieves a\nGF  of  12,670  at  a  strain  of  547%,  significantly  surpassing  the\nperformance  of  graphene  oxide-silver  nanowire  (AgNW)  strain\nsensors  (GF  =  2392.9  at  62%)  [16],  AgNW/TPU  strain  sensors\n(GF  =  17.5  at  100%)  [42],  and  liquid  metal/PDMS  fiber  sensors\n(GF  =  4.59  at  180%)  [44],  exhibiting  enhancements  of\napproximately 5.3, 724, and 2760 times, respectively. Furthermore,\nthe  FCB@SY-150%  strain  sensor  demonstrates  a  wide  working\nrange  of  up  to  653%  with  a  GF  of  164,  which  is  approximately\n3.6  times  broader  than  that  of  zinc  oxide  nanorod-loaded"
+    },
+    {
+        "chunk_id": 35,
+        "source": "paper58",
+        "text": "range  of  up  to  653%  with  a  GF  of  164,  which  is  approximately\n3.6  times  broader  than  that  of  zinc  oxide  nanorod-loaded\ncarbonized silk fabric strain sensors (GF = 126.42 at 183%) [43].\nGenerally,  the  strain  sensing  mechanism  of  conductive\n \nFigure 4    Strain sensing performances and mechanism analysis of FCB@SY hydrophobic conductive yarn. (a) ΔR/R0 change as a function of applied strain for different\nFCB@SY samples. (b) GF analysis curve of FCB@SY-100, demonstrating sensitivity across the strain range. (c) Comparative plot of key performance metrics (maximum\nstrain range vs. maximum GF) between the FCB@SY sensor and recently reported flexible strain sensors. Surface SEM images of FCB@SY under ((d) and (g)) original\nstate, ((e) and (h)) 50% tensile strain, and ((f) and (i)) 100% tensile strain, showing morphological evolution. (j) Schematic illustration of the strain sensing mechanism in\nthe FCB@SY flexible strain sensor.\nYue et al."
+    },
+    {
+        "chunk_id": 36,
+        "source": "paper58",
+        "text": "the FCB@SY flexible strain sensor.\nYue et al.\nNano Research | Vol. 19, No. 1\nNano Research, 2026, 19, 94908084\n94908084 (6 of 13)"
+    },
+    {
+        "chunk_id": 37,
+        "source": "paper58",
+        "text": "nanocomposites is primarily associated with the alterations in the\nconductive network within the matrix when subjected to external\ndeformation [46]. Here, the in-situ surface morphology evolution of\nFCB@SY  hydrophobic  conductive  yarns  at  various  tensile  stages\nwas  investigated  to  gain  a  deeper  insight  into  the  strain  sensing\nmechanism. As illustrated in Figs. 4(d) and 4(g), the yarn surface is\ncompletely  covered  by  the  dense  CB  particles  coating  under  the\nrelaxation  state,  but  it  is  disrupted  upon  external  tension\ndeformation  to  form  numerous  microcracks  (Fig.  4(e))  and  then\nturn to be more serve with increasing strain (Fig. 4(f)). Additionally,\nit is evident from the gaps (blue area) that the deeper CB particles\nremain  firmly  embedded  within  the  interior  of  the  yarn  surface\n(Figs.  4(h) and 4(i)).  Based  on  this,  we  have  schematized  the\nevolution of the conductive network during the stretching process"
+    },
+    {
+        "chunk_id": 38,
+        "source": "paper58",
+        "text": "(Figs.  4(h) and 4(i)).  Based  on  this,  we  have  schematized  the\nevolution of the conductive network during the stretching process\n(Fig. 4(j)). In the original state, the interconnected CB particles on\nthe yarn surface ensure a continuous conductive network, which is\nsignificantly  disrupted  due  to  the  formation  of  microcrack\nstructures upon a small strain, resulting in a significant increase in\nresistance and an obvious strain sensing signal. When the strain is\nfurther increased, the previous fragments rupture to generate even\nmore  microcracks,  contributing  to  enhanced  strain  sensitivity.\nHowever, it should be noted that the CB embedded within the yarn\ncan still maintain a good connection, which is crucial for ensuring\nthe effectiveness of the sensor over a wide strain range, even if the\nsurface  conductive  layer  experiences  extreme  strain-induced\ndestruction. Consequently, the synergistic interaction between the"
+    },
+    {
+        "chunk_id": 39,
+        "source": "paper58",
+        "text": "surface  conductive  layer  experiences  extreme  strain-induced\ndestruction. Consequently, the synergistic interaction between the\nupper ultrasensitive microcrack structure and the underlying stable\nconductive  network  confers  upon  the  FCB@SY  strain  sensor  an\nextensive response range and exceptional sensitivity. Meanwhile, it\nis  evident  that  the  tunable  strain  sensing  behavior  of  FCB@SY  is\nderived  from  its  deliberately  designed  pre-strain  level,  which\nimpacts  the  structure  of  the  CB  conductive  layer  on  the  yarn\nsurface,  as  depicted  in Fig.  3.  Consequently,  it  produces  varying\nsynergistic  interaction  effects,  thereby  facilitating  distinct  strain\nsensing mechanisms and diverse strain sensing performances.\nAdditional  evaluations  were  carried  out  under  various  strains\nand  stretching  rates  to  assess  the  FCB@SY  sensor’s  adaptability\nacross a range of application scenarios. As depicted in Figs. 5(a) and"
+    },
+    {
+        "chunk_id": 40,
+        "source": "paper58",
+        "text": "and  stretching  rates  to  assess  the  FCB@SY  sensor’s  adaptability\nacross a range of application scenarios. As depicted in Figs. 5(a) and\n5(b), the ΔR/R0 value of the sensor exhibits regular periodic changes\nduring  the  cyclic  stretching  process  under  a  fixed  strain  level,\nreflecting  outstanding  repeatability  and  reliability.  Notably,  the\nΔR/R0 increases proportionally with the applied strain, facilitating\nprecise discrimination between various strain levels. Furthermore,\nthe sensor also demonstrates consistent and stable cyclic response\n \nFigure 5    Comprehensive strain sensing evaluation of FCB@SY strain sensor. Cyclic strain response behavior of the FCB@SY strain sensor under different strain at ((a)\nand (b)) a stretching rate of 10 mm/min and ((d) and (e)) different stretching rates at 50% strain. (c) Strain detectability of FCB@SY strain sensor at 200% strain. (f)"
+    },
+    {
+        "chunk_id": 41,
+        "source": "paper58",
+        "text": "and (b)) a stretching rate of 10 mm/min and ((d) and (e)) different stretching rates at 50% strain. (c) Strain detectability of FCB@SY strain sensor at 200% strain. (f)\nResponse time and response time of FCB@SY strain sensor. (g) I–V curves of FCB@SY strain sensor under different strain levels. (h) The response curve of the sensor\nover 10,000 cycle under 50% strain and a stretching rate of 20 mm/min.\nNano Research | Vol. 19, No. 1\nYue et al.\n94908084 (7 of 13)\nNano Research, 2026, 19, 94908084"
+    },
+    {
+        "chunk_id": 42,
+        "source": "paper58",
+        "text": "signals during consecutive stepwise stretching (Fig. S3 in the ESM),\nconfirming  its  outstanding  sensing  reversibility.  Moreover,  the\nultrasensitive  microcrack  structure  of  the  sensor  enables  it  to\ndemonstrate high sensitivity to minute deformations and can detect\nultra-low  strains  as  small  as  0.5%,  highlighting  its  potential  for\nsubtle  signal  monitoring.  At  a  higher  strain  level  of  200%,  the\nFCB@SY  strain  sensor  still  remains  excellent  strain  resolution,\nexhibiting  a  clearly  distinguishable  output  for  small  incremental\nstrain (Fig. 5(c)). To assess its performance under different loading\ndynamics, the sensor was subjected to 50% strain at varying stretch\nrates  (5  to  250  mm/min).  As  shown  in Figs.  5(d) and 5(e),  the\noutput signals remain consistent across all rates, indicating that the\nFCB@SY strain sensor possesses a typical strain rate–independent\nresponse  behavior. Figure  5(f) shows  the  response  curve  of  the"
+    },
+    {
+        "chunk_id": 43,
+        "source": "paper58",
+        "text": "FCB@SY strain sensor possesses a typical strain rate–independent\nresponse  behavior. Figure  5(f) shows  the  response  curve  of  the\nsensor  under  cyclic  loading–unloading  at  1%  strain  and  a  high\nstretching rate of 300 mm/min. The response and recovery times,\nderived from the magnified insets, are both approximately 140 ms,\ndemonstrating  the  sensor’s  rapid  responsiveness.  In  addition,  the\nI–V characteristics under different tensile strains (Fig. 5(g)) display\na linear ohmic relationship, confirming the stable conductivity and\nintegrity of the sensor’s conductive network across the entire strain\nrange,  which  is  an  essential  factor  for  sensing  stability.  Finally,  a\n10,000-cycle tensile fatigue test was conducted to verify the long-\nterm  durability  of  the  sensor.  As  shown  in Fig.  5(h),  the  output\nsignal remains periodic and consistent in amplitude throughout the\ntest, indicating excellent cyclic durability and operational stability."
+    },
+    {
+        "chunk_id": 44,
+        "source": "paper58",
+        "text": "signal remains periodic and consistent in amplitude throughout the\ntest, indicating excellent cyclic durability and operational stability.\nThese  attributes  collectively  confirm  the  FCB@SY  strain  sensor’s\nrobust  performance  and  suitability  for  real-world  applications,\nparticularly in long-term and dynamic monitoring scenarios.\nThe  stability  and  durability  of  the  hydrophobic  surface  layer\nunder  cyclic  mechanical  stress  are  of  critical  importance  for  the\npractical applications of FCB@SY strain sensors. To assess this, the\nFCB@SY  sensor  was  subjected  to  500  cycles  of  tensile  strain  at\n100%,  during  which  the  WCA  and  SA  were  measured  every\n100 cycles. As shown in Fig. 6(a), the WCA consistently remained\nabove  140°,  while  the  SA  stayed  below  15°  even  after  500  cycles.\nThese  results  indicate  that  the  hydrophobic  coating  exhibits\nexcellent  mechanical  robustness  and  adhesion,  maintaining  its"
+    },
+    {
+        "chunk_id": 45,
+        "source": "paper58",
+        "text": "These  results  indicate  that  the  hydrophobic  coating  exhibits\nexcellent  mechanical  robustness  and  adhesion,  maintaining  its\nstructural  integrity  under  repeated  deformation.  Given  that\nwearable sensors frequently encounter mechanical abrasion in real-\nworld applications, such as friction and impact that can degrade the\nhydrophobic  layer,  an  additional  evaluation  was  performed  using\nultrasonic treatment to mimic the effects of abrasion. As illustrated\nin Fig.  6(b),  the  WCA  and  SA  shows  only  minor  fluctuations\nduring  ultrasonication  due  to  partial  detachment  of  the\nhydrophobic coating. Nevertheless, even after 60 min of continuous\ntreatment,  the  WCA  remains  above  135°,  and  the  SA  below  20°,\nconfirming  the  sensor’s  outstanding  abrasion  resistance  and\nhydrophobic\n stability.\n Moreover,\n the\n sensor’s\n long-term\nfunctionality in corrosive and humid environments is crucial for its"
+    },
+    {
+        "chunk_id": 46,
+        "source": "paper58",
+        "text": "confirming  the  sensor’s  outstanding  abrasion  resistance  and\nhydrophobic\n stability.\n Moreover,\n the\n sensor’s\n long-term\nfunctionality in corrosive and humid environments is crucial for its\napplication  in  wearable  electronics.  To  assess  chemical  resistance,\nthe FCB@SY strain sensors were immersed in acidic and alkaline\n \nFigure 6    Surface wettability and stability analysis of the FCB@SY sensor.Variations in WCA and SA of the FCB@SY strain sensor (a) over 500 stretching cycles at 100%\nstrain and (b) after ultrasonic treatment at varying duration. (c) WCA of FCB@SY strain sensor after 6 h immersion in different pH solutions. (d) Effect of immersion\ntime in water on the electrical conductivity of FCB@SY strain sensor. (e) Demonstration of the non-adhesive nature of the FCB@SY hydrophobic surface. (f) Photographs\nshowing the states of various liquid droplets on the hydrophobic surface of FCB@SY.\nYue et al.\nNano Research | Vol. 19, No. 1\nNano Research, 2026, 19, 94908084"
+    },
+    {
+        "chunk_id": 47,
+        "source": "paper58",
+        "text": "showing the states of various liquid droplets on the hydrophobic surface of FCB@SY.\nYue et al.\nNano Research | Vol. 19, No. 1\nNano Research, 2026, 19, 94908084\n94908084 (8 of 13)"
+    },
+    {
+        "chunk_id": 48,
+        "source": "paper58",
+        "text": "solutions of varying pH for 6 h. As shown in Fig. 6(c), the WCA\nremains above 140° across all conditions, demonstrating excellent\nchemical  stability  and  corrosion  resistance.  Waterproofing\nperformance was also evaluated by monitoring conductivity during\nimmersion in water for 5 h. As shown in Fig. 6(d), the electrical\nconductivity of the sensor remains virtually unchanged, confirming\nthat the hydrophobic layer effectively prevents water infiltration and\nprotects the internal conductive network. The sensor also exhibited\nexcellent  low-adhesion  behavior.  As  demonstrated  in Fig.  6(e),\nwater droplets readily roll off the surface and are removed without\nleaving  residue,  highlighting  the  material’s  superior  water\nrepellency.  Furthermore,  as  shown  in Fig.  6(f),  various  common\naqueous  solutions,  including  acidic,  alkaline,  saline,  and  everyday\nbeverages  like  juice,  milk,  tea,  and  coffee,  forms  stable  spherical"
+    },
+    {
+        "chunk_id": 49,
+        "source": "paper58",
+        "text": "aqueous  solutions,  including  acidic,  alkaline,  saline,  and  everyday\nbeverages  like  juice,  milk,  tea,  and  coffee,  forms  stable  spherical\ndroplets on the yarn surface without penetrating it. This confirms\nthe  excellent  waterproofing  and  self-cleaning  capabilities  of  the\nFCB@SY  strain  sensor.  All  these  attributes  will  undoubtedly\nunderscore  the  FCB@SY  strain  sensor’s  strong  potential  for\npractical  deployment  in  wearable  electronics  under  complex  and\ndynamic real-world conditions.\nTo  demonstrate  the  applicability  of  FCB@SY  strain  sensors  in\nreal-time health monitoring and motion detection, we strategically\ndeployed the sensors at various locations on the human body. As\nshown in Fig. 7(a), the collected signals are wirelessly transmitted to\na mobile terminal via an embedded transmission module, enabling\nreal-time  data  acquisition  and  visualization.  When  mounted  on"
+    },
+    {
+        "chunk_id": 50,
+        "source": "paper58",
+        "text": "a mobile terminal via an embedded transmission module, enabling\nreal-time  data  acquisition  and  visualization.  When  mounted  on\nhuman  joints,  the  sensors  translate  joint  bending  degrees  into\nelectrical  signal  variations,  which  serve  as  critical  indicators  for\nassessing  motor  function.  For  instance,  when  affixed  to  the  knee\n(Fig. 7(b)), the sensor generated periodic electrical signals with gait\nspeed  dependent  waveform  frequency  during  walking,  thereby\nenabling accurate gait recognition. Moreover, when the sensor was\nattached  to  the  index  finger  joint,  a  pronounced  increase  in\nelectrical  signal  amplitude  was  observed  with  increasing  bending\nangles (Fig. 7(c)). This enables clear differentiation of movements\nwith  varying  flexion  degrees  and  exhibits  highly  consistent  and\nreproducible  periodic  response,  demonstrating  excellent  angular\nresolution and response stability. Owing to the high sensitivity and"
+    },
+    {
+        "chunk_id": 51,
+        "source": "paper58",
+        "text": "reproducible  periodic  response,  demonstrating  excellent  angular\nresolution and response stability. Owing to the high sensitivity and\nminimal signal interference of FCB@SY, the sensor also performed\nwell in multi-point monitoring scenarios. As illustrated in Fig. 7(d),\n \nFigure 7    Performance of the FCB@SY strain sensor for comprehensive motion monitoring of human body. (a) Schematic diagram of wireless signal transmission of the\nsensor. Real-time response signals of the sensor to (b) knee bending at varying speeds, (c) various finger bending angle, and (d) diverse hand gestures. Recognition signals\nof the sensor for (e) different syllable numbers, (f) pulse detection, and (g) various underwater hand gestures.\nNano Research | Vol. 19, No. 1\nYue et al.\n94908084 (9 of 13)\nNano Research, 2026, 19, 94908084"
+    },
+    {
+        "chunk_id": 52,
+        "source": "paper58",
+        "text": "through  feature  extraction  from  signals  generated  by  different\ndegrees of finger flexion, multiple gestures such as “OK,” “Yeah,”\nand “Good” were accurately identified, underscoring its potential as\na  key  sensing  component  for  wearable  sign  language  recognition\nsystems.\nThe  sensor  also  demonstrated  the  capability  to  detect  subtle\nstrain signals due to its ultra-low detection threshold. For example,\nwhen  positioned  on  the  throat,  it  successfully  captured\nmicrovibrations  associated  with  speech  (Fig.  7(e)).  The  sensor\ndistinguished  monosyllabic  (“π”)  and  disyllabic  (“sensor”)\nutterances  through  the  generation  of  distinct  single-peak  and\ndouble-peak response curves, respectively, highlighting its promise\nin  voice  recognition  and  human–machine  voice  interaction\napplications. Additionally, when attached to the carotid artery for\npulse  monitoring,  the  FCB@SY  sensor  clearly  recorded  the  pulse"
+    },
+    {
+        "chunk_id": 53,
+        "source": "paper58",
+        "text": "applications. Additionally, when attached to the carotid artery for\npulse  monitoring,  the  FCB@SY  sensor  clearly  recorded  the  pulse\nwaveform.  As  shown  in Fig.  7(f),  seven  complete  cycles  were\ncaptured  within  6.1  s,  corresponding  to  a  heart  rate  of\napproximately  69  beats  per  minute,  which  is  within  the  normal\nphysiological  range  for  adults  (60–100  bpm).  Furthermore,  the\nthree characteristic pulse peaks of percussion wave (P), tidal wave\n(T),  and  diastolic  wave  (D)  were  distinctly  resolved,  which  are\nclinically significant markers for cardiovascular health assessment,\ndemonstrating  the  sensor’s  potential  in  intelligent  health\nmonitoring and diagnostic applications. Importantly, the excellent\nhydrophobicity  of  the  sensor  allows  it  to  maintain  stable\nperformance in wet or underwater environments. Notably, for the\ngestures like “S” and “O” in sign language that are often expressed"
+    },
+    {
+        "chunk_id": 54,
+        "source": "paper58",
+        "text": "hydrophobicity  of  the  sensor  allows  it  to  maintain  stable\nperformance in wet or underwater environments. Notably, for the\ngestures like “S” and “O” in sign language that are often expressed\nby semi-bending of the fingers and similar movements, the robust\nhydrophobicity of the sensor ensures reliable signal output even in\nwet or underwater environments. As demonstrated in Fig. 7(g), the\nsensor  accurately  and  rapidly  recognized  continuous  underwater\n“SOS” distress  signals,  further  validating  its  feasibility  for  use  in\nunderwater  wearable  electronics,  particularly  in  emergency\ncommunication\n and\n extreme-environment\n human–machine\ninteraction systems.\nTo  expand  the  practical  applications  of  the  FCB@SY  strain\nsensor, we developed a machine learning algorithm based on the\nrandom forest (RF) method for classifying gesture-derived signals\n(Fig.  8(a)).  RF  is  an  ensemble  learning  technique  that  combines"
+    },
+    {
+        "chunk_id": 55,
+        "source": "paper58",
+        "text": "random forest (RF) method for classifying gesture-derived signals\n(Fig.  8(a)).  RF  is  an  ensemble  learning  technique  that  combines\npredictions from multiple decision trees to improve robustness and\naccuracy (Fig. S4 in the ESM) [47]. As depicted in Fig. 8(b), eight\ndistinct  gestures  were  utilized  to  assess  the  system,  and  five\nFCB@SY strain sensors were attached to finger joints with medical\n \nFigure 8    Machine learning assisted FCB@SY strain sensor to recognize different gestures in real time. (a) Schematic diagram of gesture recognition process. (b) Photos of\ndifferent gestures. (c) Multi-channel electrical signal response to 8 common gestures. (d) 2D visualization projection of 2800 collected data using t-SNE. (e) Learning curve\nfor learning 8 different continuous gestures. (f) ROC curve of the algorithm. (g) Confusion matrix used to verify the recognition results of 8 different continuous gestures.\nYue et al.\nNano Research | Vol. 19, No. 1"
+    },
+    {
+        "chunk_id": 56,
+        "source": "paper58",
+        "text": "Yue et al.\nNano Research | Vol. 19, No. 1\nNano Research, 2026, 19, 94908084\n94908084 (10 of 13)"
+    },
+    {
+        "chunk_id": 57,
+        "source": "paper58",
+        "text": "tape  for  data  acquisition.  During  gesture  execution,  the  sensors\nproduced real-time output signals that corresponded to the states of\nfinger  flexion  (Fig.  8(c)).  From  a  total  of  1430  collected  gesture\ndatasets,  80%  were  allocated  for  model  training,  while  the\nremaining  20%  served  as  an  independent  test  set  to  evaluate\ngeneralization performance. Dimensionality reduction via t-SNE (t-\ndistributed stochastic neighbor embedding) reveals clear clustering\npatterns  among  gesture  classes  (Fig.  8(d)),  suggesting  separable\nfeature  distributions.  As  illustrated  in Fig.  8(e),  training  accuracy\nimprovs  with  sample  size  and  converges  to  stability,  indicating\neffective  learning. Figure  8(f) illustrates  the  receiver  operating\ncharacteristic  (ROC)  curve  produced  during  the  training  and\nvalidation of gesture recognition using the RF algorithm. The ROC\ncurve  is  significantly  higher  than  the  diagonal  line,  and  the  area"
+    },
+    {
+        "chunk_id": 58,
+        "source": "paper58",
+        "text": "validation of gesture recognition using the RF algorithm. The ROC\ncurve  is  significantly  higher  than  the  diagonal  line,  and  the  area\nunder curve (AUC) value is very close to 1, confirming the high\nclassification  sensitivity  and  specificity  of  the  model  for  various\ncategories. Figure  8(g) illustrates  the  classification  test  confusion\nmatrix for the test data set in comparison with the predicted results\nand  the  true  labels,  and  the  diagonal  values  indicate  the  correct\npredictions.  Despite  minor  confusion  in  recognizing  various\ncategories,  the  overall  classification  accuracy  reaches  98.95%,\ndemonstrating  a  high  level  of  recognition  accuracy.  These  results\ndemonstrate  that  the  FCB@SY  strain  sensor-integrated  RF\nalgorithm  achieves  exceptional  gesture  recognition  performance\nand holds significant application potential across various domains,\nincluding  virtual  reality  interfaces,  sign  language  interpretation,"
+    },
+    {
+        "chunk_id": 59,
+        "source": "paper58",
+        "text": "and holds significant application potential across various domains,\nincluding  virtual  reality  interfaces,  sign  language  interpretation,\nemergency response systems, and smart home control, where high-\nprecision motion decoding is critical.\n 4    Conclusions\nIn summary, we present a scalable preparation strategy for high-\nperformance  flexible  strain  sensors  based  on  hydrophobic\nmicrocracked  conductive  spandex  yarn  (FCB@SY).  Through  the\nsynergistic  effect  of  solvent  swelling,  strong  ultrasound-assisted\ndispersion,  and  NIPS  technology,  the  deep  embedding  of  the\nconductive  network  in  the  yarn  matrix  and  the  formation  of  a\ncontrollable\n microcrack\n morphology\n are\n achieved,\n which\nsignificantly  improves  the  electrical  response  performance  and\nmechanical stability of the sensor. Specifically, the FCB@SY sensor\nexhibits  ultra-high  strain  sensitivity  (GF  ≈ 12,670),  ultra-wide"
+    },
+    {
+        "chunk_id": 60,
+        "source": "paper58",
+        "text": "mechanical stability of the sensor. Specifically, the FCB@SY sensor\nexhibits  ultra-high  strain  sensitivity  (GF  ≈ 12,670),  ultra-wide\noperating  range  (0%–547%),  low  detection  limit  (0.5%),  fast\nresponse/recovery time (140 ms/140 ms), and excellent durability\nunder more than 10,000 cyclic loadings. The PFDT-treated coating\nhas excellent hydrophobicity and chemical stability, allowing it to\noperate reliably in acidic, alkaline, and underwater environments.\nIn  addition,  the  sensor  can  effectively  detect  vigorous  human\nmovements and subtle physiological signals, and when combined\nwith  machine  learning  algorithms,  the  FCB@SY-based  intelligent\nsensing system can further improve the accuracy and efficiency of\ngesture\n recognition,\n offering\n the\n potential\n for\n advanced\nhuman–computer  interaction  applications.  This  work  provides  a\nversatile  and  scalable  platform  for  the  development  of  next-"
+    },
+    {
+        "chunk_id": 61,
+        "source": "paper58",
+        "text": "gesture\n recognition,\n offering\n the\n potential\n for\n advanced\nhuman–computer  interaction  applications.  This  work  provides  a\nversatile  and  scalable  platform  for  the  development  of  next-\ngeneration  fiber-based  flexible  electronic  devices  with  promising\napplications  in  health  monitoring  and  adaptive  sensing  under\nextreme environmental conditions.\n Electronic  Supplementary  Material: Supplementary  material\n(SEM of original spandex yarn, GF analysis curves of samples with\ndifferent pre-tensile strains, step cyclic strain response signals, and\nschematic diagram of the random forest algorithm) is available in\nthe online version of this article at https://doi.org/10.26599/NR.2025.\n94908084.\n Data availability\nAll  data  needed  to  support  the  conclusions  in  the  paper  are\npresented  in  the  manuscript  and  the  Electronic  Supplementary\nMaterial.  Additional  data  related  to  this  paper  may  be  requested\nfrom the corresponding author upon request."
+    },
+    {
+        "chunk_id": 62,
+        "source": "paper58",
+        "text": "presented  in  the  manuscript  and  the  Electronic  Supplementary\nMaterial.  Additional  data  related  to  this  paper  may  be  requested\nfrom the corresponding author upon request.\n Acknowledgements\nThe  authors  gratefully  acknowledge  the  financial  support  of  this\nwork  by  the  National  Natural  Science  Foundation  of  China  (No.\n52373093), Excellent Youth Found of Natural Science Foundation\nof Henan Province (No. 242300421062), Central Plains Youth Top\nnotch Talent Program of Henan Province, and the 111 project (No.\nD18023).\n Declaration of competing interest\nAll the contributing authors report no conflict of interests in this\nwork.\n Author contribution statement\nX.  Y.  Y.:  Data  curation,  validation,  formal  analysis,  writing –\noriginal draft, investigation, methodology. Q. T. L.: Data curation,\nvalidation, formal analysis. Z. Q. W.: Data curation, investigation,\nmethodology. L. M. H. D.: Data curation, validation, methodology."
+    },
+    {
+        "chunk_id": 63,
+        "source": "paper58",
+        "text": "validation, formal analysis. Z. Q. W.: Data curation, investigation,\nmethodology. L. M. H. D.: Data curation, validation, methodology.\nW. K. Y.: Writing – review & editing, data curation, supervision. D.\nP.:  Writing – review  &  editing,  data  curation,  supervision.  H.  L.:\nProject\n administration,\n funding\n acquisition,\n supervision,\nvisualization,  writing – review  &  editing.  C.  T.  L.:  Project\nadministration,  resources,  funding  acquisition.  C.  Y.  S.:  Project\nadministration, resources, funding acquisition. All the authors have\napproved the final manuscript.\n Use of AI statement\nNone.\nReferences \n Wang, P. W.; Ma, X. H.; Lin, Z. Q.; Chen, F.; Chen, Z. J.; Hu, H.; Xu,\nH. L.; Zhang, X. Y.; Shi, Y. Q.; Huang, Q. Y. et al. Well-defined in-\ntextile  photolithography  towards  permeable  textile  electronics.  Nat.\nCommun. 2024, 15, 887.\n[1]\n Bai, N. N.; Xue, Y. H.; Chen, S. Q.; Shi, L.; Shi, J. L.; Zhang, Y.;"
+    },
+    {
+        "chunk_id": 64,
+        "source": "paper58",
+        "text": "textile  photolithography  towards  permeable  textile  electronics.  Nat.\nCommun. 2024, 15, 887.\n[1]\n Bai, N. N.; Xue, Y. H.; Chen, S. Q.; Shi, L.; Shi, J. L.; Zhang, Y.;\nHou, X. Y.; Cheng, Y.; Huang, K. X.; Wang, W. D. et al. A robotic\nsensory  system  with  high  spatiotemporal  resolution  for  texture\nrecognition. Nat. Commun. 2023, 14, 7121.\n[2]\n Xue, J.; Liu, D.; Li, D.; Hong, T. Z.; Li, C. B.; Zhu, Z. F.; Sun, Y. X.;\nGao,  X.  B.;  Guo,  L.;  Shen,  X.  et  al.  New  carbon  materials  for\nmultifunctional soft electronics. Adv. Mater. 2025, 37, 2312596.\n[3]\n Lee, J. H.; Cho, K.; Kim, J. K. Age of flexible electronics: Emerging\ntrends in soft multifunctional sensors. Adv. Mater. 2024, 36, 2310505.\n[4]\n Wang, H. M.; Zhang, Y.; Liang, X. P.; Zhang, Y. Y. Smart fibers and\ntextiles  for  personal  health  management.  ACS  Nano  2021,  15,\n12497–12508.\n[5]\n Yang, W. K.; Pan, D.; Liu, S.; Jia, G. E.; Wang, Y. L.; Liu, H.; Liu, C.\n[6]\nNano Research | Vol. 19, No. 1\nYue et al."
+    },
+    {
+        "chunk_id": 65,
+        "source": "paper58",
+        "text": "12497–12508.\n[5]\n Yang, W. K.; Pan, D.; Liu, S.; Jia, G. E.; Wang, Y. L.; Liu, H.; Liu, C.\n[6]\nNano Research | Vol. 19, No. 1\nYue et al.\n94908084 (11 of 13)\nNano Research, 2026, 19, 94908084"
+    },
+    {
+        "chunk_id": 66,
+        "source": "paper58",
+        "text": "T.;  Shen,  C.  Y.  Multifunctional  wearable  conductive  nanofiber\nmembrane  with  antibacterial  and  breathable  ability  for  superior\nsensing,\n electromagnetic\n interference\n shielding,\n and\n thermal\nmanagement. Adv. Funct. Mater. 2025, 35, 2414811.\n Li, P.; Guo, K. Q.; Li, J. J.; Wang, H.; Xue, K. W.; Lin, H.; Ran, F.\nH.; Zhang, B.; Zhang, Q. Z.; Xie, F. J. et al. Battery-free, wireless,\nmultilevel  structure  fabric  pressure  sensing  belt  for  imperceptible\nsleep monitoring. Adv. Fiber Mater. 2025, 7, 1514–1528.\n[7]\n Lin, W. S.; Wang, H. S.; Wangyuan, R.; Luo, Y. H.; Chen, G. L.; Yu,\nS. F.; Liu, L.; Huang, Z. J.; Lin, Y. C.; Guo, Z. Q. et al. Dielectrically\nmodified  polymer  and  topologically  optimized  microstructure\nenabling  in-sensor  decoupling  for  multifunctional  human-machine\ninteractions. \nAdv.\n Funct.\n Mater.,\n in\n press,\n DOI:\n10.1002/adfm.202505912.\n[8]\n Liu, Y.; Xu, Z. J.; Ji, X. Y.; Xu, X.; Chen, F.; Pan, X. S.; Fu, Z. Q.;"
+    },
+    {
+        "chunk_id": 67,
+        "source": "paper58",
+        "text": "interactions. \nAdv.\n Funct.\n Mater.,\n in\n press,\n DOI:\n10.1002/adfm.202505912.\n[8]\n Liu, Y.; Xu, Z. J.; Ji, X. Y.; Xu, X.; Chen, F.; Pan, X. S.; Fu, Z. Q.;\nChen, Y. Z.; Zhang, Z. J.; Liu, H. B. et al. Ag-thiolate interactions to\nenable an ultrasensitive and stretchable MXene strain sensor with high\ntemporospatial resolution. Nat. Commun. 2024, 15, 5354.\n[9]\n Hong, S. J.; Lee, Y. R.; Bag, A.; Kim, H. S.; Trung, T. Q.; Sultan, M.\nJ.; Moon, D. B.; Lee, N. E. Bio-inspired artificial mechanoreceptors\nwith built-in synaptic functions for intelligent tactile skin. Nat. Mater.\n2025, 24, 1100–1108.\n[10]\n Yu,  T.  T.;  Lü,  X.  Z.;  Xue,  C.  M.;  Bao,  W.  M.  Biomimetic  three-\ndimensional microchannel non-destructive self-healing flexible strain\nsensor based on liquid metal-polydimethylsiloxane elastomer. Chem.\nEng. J. 2024, 497, 154526.\n[11]\n Si, S. B.; Sun, C. C.; Wu, Y. F.; Li, J. J.; Wang, H.; Lin, Y. G.; Yang,\nJ.;  Wang,  Z.  L.  3D  interlocked  all-textile  structured  triboelectric"
+    },
+    {
+        "chunk_id": 68,
+        "source": "paper58",
+        "text": "Eng. J. 2024, 497, 154526.\n[11]\n Si, S. B.; Sun, C. C.; Wu, Y. F.; Li, J. J.; Wang, H.; Lin, Y. G.; Yang,\nJ.;  Wang,  Z.  L.  3D  interlocked  all-textile  structured  triboelectric\npressure  sensor  for  accurately  measuring  epidermal  pulse  waves  in\namphibious environments. Nano Res. 2024, 17, 1923–1932.\n[12]\n Zhou, W. L.; Du, Y.; Chen, Y. Y.; Zhang, C. Y.; Ning, X. W.; Xie, H.;\nWu, T.; Hu, J. L.; Qu, J. P. Bioinspired ultrasensitive flexible strain\nsensors for real-time wireless detection of liquid leakage. Nanomicro\nLett. 2025, 17, 68.\n[13]\n Chen, Z. Y.; Liu, S.; Kang, P. Y.; Wang, Y. L.; Liu, H.; Liu, C. T.;\nShen, C. Y. Decoupled temperature-pressure sensing system for deep\nlearning  assisted  human–machine  interaction.  Adv.  Funct.  Mater.\n2024, 34, 2411688.\n[14]\n Dinh Le, T. S.; An, J. N.; Huang, Y.; Vo, Q.; Boonruangkan, J.; Tran,\nT.; Kim, S. W.; Sun, G. Z.; Kim, Y. J. Ultrasensitive anti-interference\nvoice  recognition  by  bio-inspired  skin-attachable  self-cleaning"
+    },
+    {
+        "chunk_id": 69,
+        "source": "paper58",
+        "text": "T.; Kim, S. W.; Sun, G. Z.; Kim, Y. J. Ultrasensitive anti-interference\nvoice  recognition  by  bio-inspired  skin-attachable  self-cleaning\nacoustic sensors. ACS Nano 2019, 13, 13293–13303.\n[15]\n Shi,  X.  L.;  Liu,  S.  R.;  Sun,  Y.;  Liang,  J.  J.;  Chen,  Y.  S.  Lowering\ninternal  friction  of  0D-1D-2D  ternary  nanocomposite-based  strain\nsensor  by  fullerene  to  boost  the  sensing  performance.  Adv.  Funct.\nMater. 2018, 28, 1800850.\n[16]\n Kong, L. Y.; Li, W. W.; Zhang, T. H.; Ma, H. H.; Cao, Y. Q.; Wang,\nK.  X.;  Zhou,  Y.  L.;  Shamim,  A.;  Zheng,  L.;  Wang,  X.  W.  et  al.\nWireless  technologies  in  flexible  and  wearable  sensing:  From\nmaterials design, system integration to applications. Adv. Mater. 2024,\n36, 2400333.\n[17]\n Liu, X. H.; Miao, J. L.; Fan, Q.; Zhang, W. X.; Zuo, X. W.; Tian, M.\nW.; Zhu, S. F.; Zhang, X. J.; Qu, L. J. Recent progress on smart fiber\nand textile based wearable strain sensors: Materials, fabrications and"
+    },
+    {
+        "chunk_id": 70,
+        "source": "paper58",
+        "text": "W.; Zhu, S. F.; Zhang, X. J.; Qu, L. J. Recent progress on smart fiber\nand textile based wearable strain sensors: Materials, fabrications and\napplications. Adv. Fiber Mater. 2022, 4, 361–389.\n[18]\n Liu, Z. K.; Zhu, T. X.; Wang, J. R.; Zheng, Z. J.; Li, Y.; Li, J. S.; Lai,\nY.  K.  Functionalized  fiber-based  strain  sensors:  Pathway  to  next-\ngeneration wearable electronics. Nanomicro Lett. 2022, 14, 61.\n[19]\n Chen, Q.; Xu, D.; Yan, Y.; Qu, Z.; Zhao, H. Y.; Li, X. Y.; Cao, Y. Y.;\nLang, C. H.; Akram, W.; Sun, Z. et al. A self-powered tennis training\nsystem  based  on  micro-nano  structured  sensing  yarn  arrays.  Adv.\nFunct. Mater. 2025, 35, 2414395.\n[20]\n Gao, J. W.; Fan, Y. B.; Zhang, Q. T.; Luo, L.; Hu, X. Q.; Li, Y.; Song,\nJ.  C.;  Jiang,  H.  J.;  Gao,  X.  Y.;  Zheng,  L.  et  al.  Ultra-robust  and\nextensible fibrous mechanical sensors for wearable smart healthcare.\nAdv. Mater. 2022, 34, 2107511.\n[21]\n Yang, S. Y.; Yang, W. K.; Yin, R.; Liu, H.; Sun, H. L.; Pan, C. F.;"
+    },
+    {
+        "chunk_id": 71,
+        "source": "paper58",
+        "text": "extensible fibrous mechanical sensors for wearable smart healthcare.\nAdv. Mater. 2022, 34, 2107511.\n[21]\n Yang, S. Y.; Yang, W. K.; Yin, R.; Liu, H.; Sun, H. L.; Pan, C. F.;\nLiu,  C.  T.;  Shen,  C.  Y.  Waterproof  conductive  fiber  with\nmicrocracked  synergistic  conductive  layer  for  high-performance\ntunable wearable strain sensor. Chem. Eng. J. 2023, 453, 139716.\n[22]\n Jiang, H. Y.; Zhang, R. C.; Liu, K. S.; Luo, Y. T.; Peng, Z. Y.; Ye, S.\nY.; Qin, Y.; Wu, X. Z.; Gao, C.; Liu, Y. C. et al. Wet-adaptive strain\nsensor based on hierarchical core-sheath yarns for underwater motion\nmonitoring and energy harvesting. Nano Energy 2024, 132, 110407.\n[23]\n Tian, Y.; Huang, M. J.; Wang, Y. L.; Zheng, Y. J.; Yin, R.; Liu, H.;\nLiu,  C.  T.;  Shen,  C.  Y.  Ultra-stretchable,  sensitive  and  breathable\nelectronic skin based on TPU electrospinning fibrous membrane with\nmicrocrack structure for human motion monitoring and self-powered\napplication. Chem. Eng. J. 2024, 480, 147899.\n[24]"
+    },
+    {
+        "chunk_id": 72,
+        "source": "paper58",
+        "text": "electronic skin based on TPU electrospinning fibrous membrane with\nmicrocrack structure for human motion monitoring and self-powered\napplication. Chem. Eng. J. 2024, 480, 147899.\n[24]\n Wu, X. D.; Liu, Q.; Zheng, L. F.; Lin, S. J.; Zhang, Y. Q.; Song, Y.\nY.;  Wang,  Z.  Q.  Innervate  commercial  fabrics  with  spirally-layered\niontronic fibrous sensors toward dual-functional smart garments. Adv.\nSci. 2024, 11, 2402767.\n[25]\n Wang, H.; Lu, Y. F.; Nie, Z. T.; Liu, H. D.; Dai, B. F.; Shi, X. F.; Yan,\nB.; Zhao, T. C.; Zhang, Z. T.; Zhu, J. X. et al. Constructing carbon\nnanotube hybrid fiber electrodes with unique hierarchical microcrack\nstructure  for  high-voltage,  ultrahigh-rate,  and  ultralong-life  flexible\naqueous zinc batteries. Small 2023, 19, 2206338.\n[26]\n Li,  M.  F.;  Zeng,  F.  J.;  Luo,  M.  Y.;  Qing,  X.;  Wang,  W.;  Lu,  Y.;\nZhong,  W.  B.;  Yang,  L.  Y.;  Liu,  Q.  Z.;  Wang,  Y.  D.  et  al.\nSynergistically improving flexibility and thermoelectric performance"
+    },
+    {
+        "chunk_id": 73,
+        "source": "paper58",
+        "text": "Zhong,  W.  B.;  Yang,  L.  Y.;  Liu,  Q.  Z.;  Wang,  Y.  D.  et  al.\nSynergistically improving flexibility and thermoelectric performance\nof composite yarn by continuous ultrathin PEDOT:PSS/DMSO/Ionic\nliquid coating. ACS Appl. Mater. Interfaces 2021, 13, 50430–50440.\n[27]\n Yao, D. J.; Wang, W. Y.; Wang, H.; Luo, Y. B.; Ding, H. J.; Gu, Y.\nQ.; Wu, H. J.; Tao, K.; Yang, B. R.; Pan, S. W. et al. Ultrasensitive\nand  breathable  hydrogel  fiber-based  strain  sensors  enabled  by\ncustomized crack design for wireless sign language recognition. Adv.\nFunct. Mater. 2025, 35, 2416482.\n[28]\n Lee, G. S.; Kim, J. G.; Kim, J. T.; Lee, C. W.; Cha, S.; Choi, G. B.;\nLim, J.; Padmajan Sasikala, S.; Kim, S. O. 2D materials beyond post-\nAI  era:  Smart  fibers,  soft  robotics,  and  single  atom  catalysts.  Adv.\nMater. 2024, 36, 2307689.\n[29]\n Zhang, X. P.; Wang, F.; Guo, H. Y.; Sun, F. Q.; Li, X. S.; Zhang, C.\nT.;  Yu,  C.  W.;  Qin,  X.  H.  Advanced  cooling  textiles:  Mechanisms,"
+    },
+    {
+        "chunk_id": 74,
+        "source": "paper58",
+        "text": "Mater. 2024, 36, 2307689.\n[29]\n Zhang, X. P.; Wang, F.; Guo, H. Y.; Sun, F. Q.; Li, X. S.; Zhang, C.\nT.;  Yu,  C.  W.;  Qin,  X.  H.  Advanced  cooling  textiles:  Mechanisms,\napplications, and perspectives. Adv. Sci. 2024, 11, 2305228.\n[30]\n Guo, Q.; Pang, W. W.; Xie, X.; Xu, Y. L.; Yuan, W. J. Stretchable,\nconductive and porous MXene-based multilevel structured fibers for\nsensitive strain sensing and gas sensing. J. Mater. Chem. A 2022, 10,\n15634–15646.\n[31]\n Wang, T.; Qiu, Z. G.; Li, H. C.; Lu, H.; Gu, Y. F.; Zhu, S. M.; Liu, G.\nS.; Yang, B. R. High sensitivity, wide linear-range strain sensor based\non MXene/AgNW composite film with hierarchical microcrack. Small\n2023, 19, 2304033.\n[32]\n Zhang,  C.;  Sun,  J.  N.;  Lu,  Y.;  Liu,  J.  S.  Nanocrack-based  strain\nsensors. J. Mater. Chem. C 2021, 9, 754–772.\n[33]\n Bai, Y. Z.; Zhou, Y. L.; Wu, X. Y.; Yin, M. F.; Yin, L. T.; Qu, S. Y.;\nZhang, F.; Li, K.; Huang, Y. A. Flexible strain sensors with ultra-high"
+    },
+    {
+        "chunk_id": 75,
+        "source": "paper58",
+        "text": "sensors. J. Mater. Chem. C 2021, 9, 754–772.\n[33]\n Bai, Y. Z.; Zhou, Y. L.; Wu, X. Y.; Yin, M. F.; Yin, L. T.; Qu, S. Y.;\nZhang, F.; Li, K.; Huang, Y. A. Flexible strain sensors with ultra-high\nsensitivity  and  wide  range  enabled  by  crack-modulated  electrical\npathways. Nanomicro Lett. 2025, 17, 64.\n[34]\n Sun, T. M.; Feng, B.; Huo, J. P.; Xiao, Y.; Wang, W. G.; Peng, J.; Li,\nZ. H.; Du, C. J.; Wang, W. X.; Zou, G. S. et al. Artificial intelligence\nmeets  flexible  sensors:  Emerging  smart  flexible  sensing  systems\ndriven by machine learning and artificial synapses. Nanomicro Lett.\n2024, 16, 14.\n[35]\n Zhu, P. C.; Niu, M. J.; Liang, S. Y.; Yang, W. Q.; Zhang, Y. T.; Chen,\nK.;  Pan,  Z.  F.;  Mao,  Y.  C.  Non-hand-worn,  load-free  VR  hand\nrehabilitation  system  assisted  by  deep  learning  based  on  ionic\nhydrogel. Nano Res. 2025, 18, 94907301.\n[36]\n Wang, Y. J.; Adam, M. L.; Zhao, Y. L.; Zheng, W. H.; Gao, L. B.;"
+    },
+    {
+        "chunk_id": 76,
+        "source": "paper58",
+        "text": "rehabilitation  system  assisted  by  deep  learning  based  on  ionic\nhydrogel. Nano Res. 2025, 18, 94907301.\n[36]\n Wang, Y. J.; Adam, M. L.; Zhao, Y. L.; Zheng, W. H.; Gao, L. B.;\nYin,  Z.  Y.;  Zhao,  H.  T.  Machine  learning-enhanced  flexible\nmechanical sensing. Nanomicro Lett. 2023, 15, 55.\n[37]\n An, Z. J.; Fu, Q. Q.; Lv, J. J.; Zhou, T.; Wu, Y.; Lu, Y. L.; Liu, G.;\n[38]\nYue et al.\nNano Research | Vol. 19, No. 1\nNano Research, 2026, 19, 94908084\n94908084 (12 of 13)"
+    },
+    {
+        "chunk_id": 77,
+        "source": "paper58",
+        "text": "Shi, Z. H.; Li, X.; Zhang, F. N. et al. Body heat powered wirelessly\nwearable  system  for  real-time  physiological  and  biochemical\nmonitoring. Adv. Funct. Mater. 2023, 33, 2303361.\n Zhou,  J.  N.;  Tang,  B.  N.;  Yu,  L.  C.;  Song,  J.  P.;  Wang,  Z.  P.\nApplication of a new carbon black filler in SBR composites. Polymers\n2025, 17, 358.\n[39]\n Cheng,  Y.  Y.;  Barras,  A.;  Lu,  S.  X.;  Xu,  W.  G.;  Szunerits,  S.;\nBoukherroub,  R.  Fabrication  of  superhydrophobic/superoleophilic\nfunctionalized\n reduced\n graphene\n oxide/polydopamine/PFDT\nmembrane  for  efficient  oil/water  separation.  Sep.  Purif.  Technol.\n2020, 236, 116240.\n[40]\n Ye, Y.; Ning, J.; Meng, Y.; Wang, Y. X.; Wang, P. K.; Luo, J. J.; Yin,\nA.;  Ren,  Z.  Q.;  Liu,  H.  P.;  Qi,  X.  et  al.  Flexible  and  sensitive\ntriboelectric  nanogenerator  strain  sensors  made  of  semi-embedded\naligned silver nanowires. Adv. Electron. Mater. 2025, 11, 2400426.\n[41]"
+    },
+    {
+        "chunk_id": 78,
+        "source": "paper58",
+        "text": "triboelectric  nanogenerator  strain  sensors  made  of  semi-embedded\naligned silver nanowires. Adv. Electron. Mater. 2025, 11, 2400426.\n[41]\n Han, D. X.; Zhou, K. K.; Li, X.; Lv, P. F.; Wu, J. J.; Ke, H. Z.; Zhao,\nW. C.; Ye, L. Intrinsically stretchable organic solar cells and sensors\nenabled by extensible composite electrodes. Adv. Funct. Mater. 2024,\n[42]\n34, 2407392.\n Liu, S. L.; Liang, X. Y.; Su, H. B.; Zhang, W. T.; Gu, S. Y.; Shen, J.;\nChen,  J.;  Wu,  Q.  L.;  Liu,  X.  Q.;  Lu,  Y.  G.  et  al.  Machine-learning\nintegrated strain/pressure dual-mode flexible sensor for assistance of\nunable-phonation scenarios. Chem. Eng. J. 2025, 503, 158364.\n[43]\n Wei, Y. C.; Zhang, W. B.; Pan, T.; Xiao, H. Spindle-knot reinforced\nliquid  metal-based  strain  sensor  with  excellent  stretchability  and\nstability. Chem. Eng. J. 2025, 503, 158365.\n[44]\n Qiao, Y. C.; Tang, H.; Liu, H. D.; Jian, J. M.; Ji, S. R.; Han, F.; Liu, Z."
+    },
+    {
+        "chunk_id": 79,
+        "source": "paper58",
+        "text": "liquid  metal-based  strain  sensor  with  excellent  stretchability  and\nstability. Chem. Eng. J. 2025, 503, 158365.\n[44]\n Qiao, Y. C.; Tang, H.; Liu, H. D.; Jian, J. M.; Ji, S. R.; Han, F.; Liu, Z.\nY.; Liu, Y.; Li, Y. F.; Cui, T. R. et al. Intelligent and highly sensitive\nstrain sensor based on indium tin oxide micromesh with a high crack\ndensity. Nanoscale 2022, 14, 4234–4243.\n[45]\n Wen, N.; Zhang, L.; Jiang, D. W.; Wu, Z. J.; Li, B.; Sun, C. Y.; Guo,\nZ. H. Emerging flexible sensors based on nanomaterials: Recent status\nand applications. J. Mater. Chem. A 2020, 8, 25499–25527.\n[46]\n Zhao, X. F.; Hang, C. Z.; Lu, H. L.; Xu, K.; Zhang, H.; Yang, F.; Ma,\nR. G.; Wang, J. C.; Zhang, D. W. A skin-like sensor for intelligent\nbraille recognition. Nano Energy 2020, 68, 104346.\n[47]\n \nThis  is  an  open  access  article  under  the  terms  of  the  Creative  Commons  Attribution  4.0  International  License  (CC  BY  4.0,  https://creativecommons.org/\nlicenses/by/4.0/)."
+    },
+    {
+        "chunk_id": 80,
+        "source": "paper58",
+        "text": "[47]\n \nThis  is  an  open  access  article  under  the  terms  of  the  Creative  Commons  Attribution  4.0  International  License  (CC  BY  4.0,  https://creativecommons.org/\nlicenses/by/4.0/).\n© The Author(s) 2026. Published by Tsinghua University Press.\n \nNano Research | Vol. 19, No. 1\nYue et al.\n94908084 (13 of 13)\nNano Research, 2026, 19, 94908084"
+    }
+]

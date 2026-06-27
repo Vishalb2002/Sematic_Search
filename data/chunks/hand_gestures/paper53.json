@@ -1,0 +1,277 @@
+[
+    {
+        "chunk_id": 1,
+        "source": "paper53",
+        "text": "applied  \nsciences\nArticle\nGesture Recognition Based on 3D Human Pose\nEstimation and Body Part Segmentation for RGB\nData Input\nNgoc-Hoang Nguyen, Tran-Dac-Thinh Phan, Guee-Sang Lee *, Soo-Hyung Kim\nand Hyung-Jeong Yang\nDepartment of Electronics and Computer Engineering, Chonnam National University, 77 Yongbong-ro,\nGwangju 500-757, Korea; hoangnguyenkcv@gmail.com (N.-H.N.);\nphantrandacthinh2382@gmail.com (T.-D.-T.P.); shkim@jnu.ac.kr (S.-H.K.); hjyang@jnu.ac.kr (H.-J.Y.)\n* Correspondence: gslee@jnu.ac.kr\nReceived: 31 July 2020; Accepted: 4 September 2020; Published: 6 September 2020\n\u0001\u0002\u0003\u0001\u0004\u0005\u0006\u0007\b\n\u0001\u0002\u0003\u0004\u0005\u0006\u0007\nAbstract: This paper presents a novel approach for dynamic gesture recognition using multi-features\nextracted from RGB data input. Most of the challenges in gesture recognition revolve around the axis\nof the presence of multiple actors in the scene, occlusions, and viewpoint variations. In this paper,"
+    },
+    {
+        "chunk_id": 2,
+        "source": "paper53",
+        "text": "of the presence of multiple actors in the scene, occlusions, and viewpoint variations. In this paper,\nwe develop a gesture recognition approach by hybrid deep learning where RGB frames, 3D skeleton\njoint information, and body part segmentation are used to overcome such problems. Extracted\nfrom the RGB images are the multimodal input observations, which are combined by multi-modal\nstream networks suited to diﬀerent input modalities: residual 3D convolutional neural networks\nbased on ResNet architecture (3DCNN_ResNet) for RGB images and color body part segmentation\nmodalities; long short-term memory network (LSTM) for 3D skeleton joint modality. We evaluated\nthe proposed model on four public datasets: UTD multimodal human action dataset, gaming 3D\ndataset, NTU RGB+D dataset, and MSRDailyActivity3D dataset and the experimental results on\nthese datasets proves the eﬀectiveness of our approach.\nKeywords: dynamic gesture recognition; human action recognition; multi-modalities network"
+    },
+    {
+        "chunk_id": 3,
+        "source": "paper53",
+        "text": "these datasets proves the eﬀectiveness of our approach.\nKeywords: dynamic gesture recognition; human action recognition; multi-modalities network\n1. Introduction\nGesture recognition has recently attracted much attention because of its wide applications such\nas the human–computer interaction, telecommunications, and robotics, but it still remains as one of\nthe major challenges because of the inherent complexity of human motions. In early times, gesture\nrecognition based on conventional techniques of classiﬁcation with handcrafted features, such as\nsupport vector machine (SVM), bag-of-features and multiclass SVM, and hidden Markov model\n(HMM), have been proposed [1–3]. Recently, deep learning-based methods are increasingly employed\ndue to their advantages of end-to-end learning by automatic extraction of spatiotemporal features from\nraw data. The development of deep learning methods based on a convolution neural network (CNN)"
+    },
+    {
+        "chunk_id": 4,
+        "source": "paper53",
+        "text": "due to their advantages of end-to-end learning by automatic extraction of spatiotemporal features from\nraw data. The development of deep learning methods based on a convolution neural network (CNN)\nand recurrent neural network (RNN) or long short-term memory network (LSTM) have achieved\npositive results in handling gesture recognition tasks [4–8]. However, there are limitations in the\nperformance of gesture classiﬁcation due to the complexity of the scene, e.g., the presence of multiple\nactors in the background, occlusions, illumination changes, or viewpoint variations.\nIn existing methods, to overcome the challenges caused by the issue of background or viewpoint\nvariations, gesture recognition is usually developed by combining multiple modalities of data inputs\n(such as skeleton joints information, human body shape, RGB, optical ﬂow, and depth frames) with\nnewly developed deep learning models [9–11]. By utilizing skeleton joints information or depth"
+    },
+    {
+        "chunk_id": 5,
+        "source": "paper53",
+        "text": "(such as skeleton joints information, human body shape, RGB, optical ﬂow, and depth frames) with\nnewly developed deep learning models [9–11]. By utilizing skeleton joints information or depth\nAppl. Sci. 2020, 10, 6188; doi:10.3390/app10186188\nwww.mdpi.com/journal/applsci"
+    },
+    {
+        "chunk_id": 6,
+        "source": "paper53",
+        "text": "Appl. Sci. 2020, 10, 6188\n2 of 13\ninformation, gesture recognition performance has been signiﬁcantly improved because they are helpful\nin the representation of gestures and played an important role in gesture identiﬁcation. Although\nhuman skeleton joints and depth data can be collected directly from time-of-ﬂight (ToF) cameras,\ngesture recognition on RGB video input is a substantial challenge because the human pose should\nbe estimated with high accuracy. Skeleton joints convey vital information to represent gesture from\nthe human pose, but it is not enough to identify complicated motions when it does not match to the\nshape of body parts correctly. For instance, if there are other actors present in the scene together with\nthe main target, the action of other objects from the background can cause confusion to the correct\nextraction of the target person’s skeleton. Figure 1b shows possible errors in skeleton joints extraction"
+    },
+    {
+        "chunk_id": 7,
+        "source": "paper53",
+        "text": "extraction of the target person’s skeleton. Figure 1b shows possible errors in skeleton joints extraction\nof the main person due to the presence of other moving objects. However, when the body parts are\nsegmented beforehand, the skeleton of a target can be obtained with much higher accuracy because the\nlayout of the skeleton is restricted by the body part. Moreover, skeleton joints of the frame sequence\nof a video can be temporally incoherent due to independent errors in each frame as we illustrate in\nFigure 2; and this can cause incorrect classiﬁcation.\nFigure 1. Illustration of the case in which many actors are present in the scene. The ﬁrst row (a) RGB\ninput images, the second row (b) extracted skeleton joints images, and the last row (c) color-encoded\nbody part segmentation images. In this case, the skeleton joints extraction can be distracted by other\nobjects in the background, but the color-encoded body part segmentation can help avoiding such a case."
+    },
+    {
+        "chunk_id": 8,
+        "source": "paper53",
+        "text": "objects in the background, but the color-encoded body part segmentation can help avoiding such a case.\n \nFigure 2. Illustration of skeleton joints of sequence sequential frames can be incoherent due to\nindependent error in each frame.\nIn this paper, we propose a multi-modal gesture recognition method for RGB data input with a\nmulti-modal algorithm. The algorithm consists of three submodels: two residual 3D convolutional\nneural networks based on ResNet architecture (3DCNN_ResNet) [12] and a long short-term memory"
+    },
+    {
+        "chunk_id": 9,
+        "source": "paper53",
+        "text": "Appl. Sci. 2020, 10, 6188\n3 of 13\nnetwork (LSTM) to perform on three data modalities: RGB images, color body part segmentations,\nand 3D human skeleton joints, respectively. We extract color body part segmentations and 3D human\nskeleton joints from RGB input.\nThe color body part segmentations with 12 semantic parts are obtained by the segmentation\nCNN network ReﬁneNet [13]. By utilizing body part segmentation, the gesture recognition network\ncan focus on only the target person in the presence of multiple objects in the scene. The 3D human\nskeleton joints information of the target person is extracted by the 3D human pose estimation network\ncalled Pose3D [14]. Pose3D is a deep learning network that obtains the sequence of 3D poses based\non the temporal information across the sequence of 2D joint locations in order to prevent temporally\nincoherent estimation. The gesture classes are predicted by a combination of these three submodels"
+    },
+    {
+        "chunk_id": 10,
+        "source": "paper53",
+        "text": "on the temporal information across the sequence of 2D joint locations in order to prevent temporally\nincoherent estimation. The gesture classes are predicted by a combination of these three submodels\nthat are eﬀectively fused by an integrated stacking module as the late fusion layers.\nThe contributions of the paper are:\n•\nThe reason for the distraction of skeleton joints extraction has been addressed, which hinders\nfrom the proper functioning of gesture recognition methods. In other words, the existence of noise\nor extra persons in the background can cause such distractions.\n•\nThe solution to the problem of multiple actors in the scene, which caused the distraction of\nskeleton joints extraction, has been presented with target person extraction. The target person is\nsegmented, and used for eliminating distraction in skeleton joints extraction.\nThis idea of using target person extraction has never been addressed before in the literature as far\nas we know."
+    },
+    {
+        "chunk_id": 11,
+        "source": "paper53",
+        "text": "segmented, and used for eliminating distraction in skeleton joints extraction.\nThis idea of using target person extraction has never been addressed before in the literature as far\nas we know.\nThe remainder of this paper is organized as follows: related works are given in Section 2.\nIn Section 3, the proposed algorithm for gesture recognition is presented. The experiments on four\npublic datasets to evaluate the eﬀectiveness of our approach are given in Section 4. Finally, a conclusion\nis given in Section 5.\n2. Related Works\nIn this section, we brieﬂy described the previous methods relevant to our work for gesture\nrecognition. Although signiﬁcant improvement on gesture recognition has been reported, but new\nchallenges appear with diﬀerent input modalities and restrictions.\nIn early years, gesture or action recognition problem has been dealt with classical machine\nlearning methods such as support vector machine (SVM) [1], bag-of-features [2], and hidden Markov"
+    },
+    {
+        "chunk_id": 12,
+        "source": "paper53",
+        "text": "In early years, gesture or action recognition problem has been dealt with classical machine\nlearning methods such as support vector machine (SVM) [1], bag-of-features [2], and hidden Markov\nmodel (HMM) [3]. In these methods, gestures are classiﬁed based on the features extracted by\na hand-engineered extractor. Hussein et al. [1] presented a discriminative descriptor for action\nclassiﬁcation based on the covariance matrix for 3D skeleton joint locations. Dardas [2] similarly used\nthe SVM classiﬁer to identify gesture classes, but via a bag-of-words vector mapped from key points\nextracted by scale-invariant feature transform (SIFT). Lee [3] presented a method using HMM based on\nthe likelihood threshold estimation of the input pattern. The gesture recognition task has been tackled\nby conventional machine learning methods, but there are signiﬁcant limitations in these approaches.\nFor instance, the parameters of the model depend on experience, and the system is sensitive to noise."
+    },
+    {
+        "chunk_id": 13,
+        "source": "paper53",
+        "text": "For instance, the parameters of the model depend on experience, and the system is sensitive to noise.\nRecently, due to the revolution of deep learning, gesture recognition approaches have been\npresented with impressive performances compared to the traditional methods. The deep learning-based\nmethods became popular due to its capability to extract spatiotemporal features from the raw video\ninput automatically. A convolutional neural network (CNN) was initially used for extracting spatial\nfeatures for static images, but it has been extended to deal with diﬀerent input types or to extract\ndiﬀerent types of features. Various approaches [4,5,15,16] have utilized CNN to treat sequential frames\nof a video as multi-channel inputs for the purpose of video classiﬁcation. Feichtenhofer [4] incorporated\na two-stream network with separate ConvNets for RGB images and optical ﬂow images to extract\nmotion information for gesture classiﬁcation. Kopuklu [15] proposed data level fusion to combine RGB"
+    },
+    {
+        "chunk_id": 14,
+        "source": "paper53",
+        "text": "a two-stream network with separate ConvNets for RGB images and optical ﬂow images to extract\nmotion information for gesture classiﬁcation. Kopuklu [15] proposed data level fusion to combine RGB\nand optical ﬂow modalities with static images to extract action features. CNN can be incorporated"
+    },
+    {
+        "chunk_id": 15,
+        "source": "paper53",
+        "text": "Appl. Sci. 2020, 10, 6188\n4 of 13\nwith RNN or LSTM to learn both spatial and temporal features of a video for action classiﬁcation.\nDonahue [8] deployed long-term recurrent convolutional network (LRCN), in which CNN is used\nto extract spatial features of images and LSTM is applied to capture temporal dependencies in the\nsequence of such features.\nFor dynamic gesture recognition, [7,17,18] applied a 3D convolutional neural network to capture\ndiscriminative features along both spatial and temporal dimensions due to 3D convolutions and\n3D pooling. Tran [17] used spatiotemporal features extracted by 3DCNN to classify gesture with\nSVM classiﬁer. Molchanov [16] proposed recurrent 3D convolutional neural networks (R3DCNN) to\nrecognize gestures online, where 3DCNN is used as a feature extractor. The gesture recognition based\non a human pose has also achieved impressive results. Utilizing RNN or LSTM to capture temporal"
+    },
+    {
+        "chunk_id": 16,
+        "source": "paper53",
+        "text": "recognize gestures online, where 3DCNN is used as a feature extractor. The gesture recognition based\non a human pose has also achieved impressive results. Utilizing RNN or LSTM to capture temporal\nfeatures from human skeleton joints for gesture classiﬁcation is gaining popularity [19–21], in which\nskeleton joints are extracted by depth information with a ToF camera, but it becomes more challenging\nwhen only RGB data input is used. In other works, multiple data modalities or multiple deep learning\nmodels are combined to achieve better performance in gesture classiﬁcation. Duan [9] presented a\nconvolutional two-stream consensus voting network based on 3DCNN for RGB and depth channels to\nidentify the gesture classes in a video input. Chai [10] also proposed a multi-stream model based on\nRNN with hand location information extracted from RGB-D input. The summary of the related works\nis given in Table 1.\nTable 1. The summary of related works.\nAuthor\nApproach/Features\nDetails\nComments"
+    },
+    {
+        "chunk_id": 17,
+        "source": "paper53",
+        "text": "RNN with hand location information extracted from RGB-D input. The summary of the related works\nis given in Table 1.\nTable 1. The summary of related works.\nAuthor\nApproach/Features\nDetails\nComments\nHussen et al. [1]\nSupport Vector Machine\n(SVM)\nDiscriminative classiﬁcation\nfrom 3D skeleton joints\nClassical machine\nlearning methods.\nDardas et al. [2]\nBag of features\nClassiﬁcation via\nbag-of-words vector\nLee et al. [3]\nHidden Markov Model\nHMM based on the likelihood\nthreshold estimation\nFeichtenhofer et al. [4]\nTwo-stream network\nwith separate ConvNets\nExtract motion from RGB\nimages and optical ﬂow\nimages\nEarly deep\nlearning-based\nmethods\nKopuklu et al. [15]\nData level fusion\nCombine RGB and optical ﬂow\nmodalities with static images\nDonahue et al. [8]\nLong-term recurrent\nconvolutional network\nCNN and LSTM for\nspatio-temporal features\nTran et al. [17]\n3DCNN, SVM classiﬁer\nSpatio-temporal features\nextracted by 3DCNN\n3DCNN to capture\nspatial and\ntemporal features\nMolchanov et al. [16]"
+    },
+    {
+        "chunk_id": 18,
+        "source": "paper53",
+        "text": "CNN and LSTM for\nspatio-temporal features\nTran et al. [17]\n3DCNN, SVM classiﬁer\nSpatio-temporal features\nextracted by 3DCNN\n3DCNN to capture\nspatial and\ntemporal features\nMolchanov et al. [16]\nRecurrent 3D\nConvolutional Neural\nNetworks\nOnline gesture recognition by\n3DCNN\nYan et al. [19],\nLi et al. [20], and\nOmran et al. [21]\nRNN or LSTM, human\nskeleton joints\nCapture temporal features\nfrom skeleton joints and depth\nDeep learning +\nhuman pose\nDuan et al. [9]\nConvolutional\ntwo-stream consensus\nvoting network\nCombine the results from RGB\nand depth in a video input\nMulti-modal or\nmultiple deep\nlearning models\nChai et al. [10]\nMulti-stream model\nbased on RNN\nExtract hand location\ninformation from RGB-D input\nMost of the gesture recognition methods exploit the human pose estimation, however often\nthe pose estimation in the video can often be inconsistent because of independent errors in the\nsequence of frames. Additionally, the extraction of skeleton joints may not be successful when the"
+    },
+    {
+        "chunk_id": 19,
+        "source": "paper53",
+        "text": "Appl. Sci. 2020, 10, 6188\n5 of 13\nbackground contains multiple objects or human beings. In this paper, we try to solve these problems\nthrough the use of segmentation of the target person. We propose a novel method for gesture\nrecognition with multi-modalities: RGB images, color body part segmentation images, and 3D skeleton\njoints information.\n3. Proposed Method\nIn this section, we present in detail our proposed approach for gesture recognition. The proposed\nmethod consisted of three submodels: two 3D_ ResNet networks and an LSTM network to deal with\nRGB frames, color body part segmentation images, and 3D skeleton joints information. These three\nsubmodels were eﬀectively fused by integrated stacking module as a late fusion layer in order to\ndecide the gesture class. We show an overview of the proposed algorithm in Figure 3.\n \nFigure 3. The proposed approach. This algorithm consists of three subnetworks and the fusion module."
+    },
+    {
+        "chunk_id": 20,
+        "source": "paper53",
+        "text": "decide the gesture class. We show an overview of the proposed algorithm in Figure 3.\n \nFigure 3. The proposed approach. This algorithm consists of three subnetworks and the fusion module.\nIn our algorithm, given the RGB image sequence of a video, the color body part segmentation\nimages were generated by the segmentation network—ReﬁneNet [22]. Some of the datasets, e.g.,\nMSRDailyActivity3D, contained sometimes more than one person on the scene. The target person was\na person whose position was nearest to the center of the screen and closest to the camera in most of the\nframes of the video. Therefore, a person closer to the center area was selected ﬁrst. If more than one\nperson were around the center of the screen, the person closer to the camera was selected from the\ndepth information. From the color body part segmentation, the background of the input image was\nexcluded from the scene, leaving only the target person, which was used for extracting 3D human"
+    },
+    {
+        "chunk_id": 21,
+        "source": "paper53",
+        "text": "depth information. From the color body part segmentation, the background of the input image was\nexcluded from the scene, leaving only the target person, which was used for extracting 3D human\nskeleton joints by temporal 3D human pose estimation network—Pose3D. Two-stream 3D_ResNet\nnetworks were used to learn the features from the RGB images and color body part segmentation\nimages for gesture classiﬁcation. In the other subnetwork, the extracted 3D human skeleton joints\nwere utilized by the LSTM network.\n•\nColor body part segmentation: The ReﬁneNet model, given the RGB input frames, produced\nthe color-coded 12 body parts segmentation. The ReﬁneNet is a multi-path reﬁnement network\nfor semantic segmentation via multi-level features and potentially long-range connections.\nThe ReﬁneNet model typically consists of four blocks: adaptive convolution, multi-resolution\nfusion, chained residual pooling, and output convolution. The batch-normalization layers were"
+    },
+    {
+        "chunk_id": 22,
+        "source": "paper53",
+        "text": "The ReﬁneNet model typically consists of four blocks: adaptive convolution, multi-resolution\nfusion, chained residual pooling, and output convolution. The batch-normalization layers were\nsimpliﬁed from the convolution block but it still contained the remaining convolution units of\nthe original ResNet. Multi-resolution fusion performed feature map fusion by convolutions and\na summation. Multiple resolution feature maps extracted from varied input paths were fused\ninto a high-resolution feature map. Additionally, the output feature map was fused through"
+    },
+    {
+        "chunk_id": 23,
+        "source": "paper53",
+        "text": "Appl. Sci. 2020, 10, 6188\n6 of 13\nmultiple pooling blocks of chained residual pooling blocks. The ﬁnal prediction was given\nby the output convolution block, which had another remaining convolution unit and soft-max\nlayer. The ReﬁneNet network was based on ResNeXt-101 [23] with trained weights by the UP-3D\ndataset [24] for color-coded 12 body parts segmentation. Figure 4 shows the example of color\nbody parts segmentation on sampled frames on a video.\nFigure 4. Example of color-encoded 12 body parts segmentation from RGB images sequence by the\nReﬁneNet model.\n•\nTemporal video 3D human pose estimation: We extracted 3D joints skeleton information for\ngesture recognition from temporal video 3D human pose estimation called Pose_3D [14] from\nbackground subtracted RGB images. The Pose_3D network is a sequence-to-sequence network that\npredicts a sequence of temporally consistent 3D human pose from the sequence of 2D human poses."
+    },
+    {
+        "chunk_id": 24,
+        "source": "paper53",
+        "text": "background subtracted RGB images. The Pose_3D network is a sequence-to-sequence network that\npredicts a sequence of temporally consistent 3D human pose from the sequence of 2D human poses.\nThe 2D human pose was obtained by the state-of-art 2D human pose estimation framework—the\nstacked-hourglass network [25] trained on the Human3.6M dataset [26]. The decoder of the\nPose_3D consists of LSTM units and residual connection to predict temporally consistent 3D poses\nof the current frame using the 3D poses of previous frames and 2D joints information of all frames,\nwhich were taken from the ﬁnal state of the encoder. The temporal smoothness constraint was\nimposed on the 3D pose extraction of a video. Since the stacked-hourglass network was used\nfor 2D pose estimation on individual frames, this constraint made the predicted 3D poses more\nstable and reliable even with 2D pose estimation failure in a few frames within the temporal"
+    },
+    {
+        "chunk_id": 25,
+        "source": "paper53",
+        "text": "for 2D pose estimation on individual frames, this constraint made the predicted 3D poses more\nstable and reliable even with 2D pose estimation failure in a few frames within the temporal\nwindow. Figure 5 shows the example of temporal 3D skeleton joints of video frames extracted by\nthe Pose_3D network."
+    },
+    {
+        "chunk_id": 26,
+        "source": "paper53",
+        "text": "Appl. Sci. 2020, 10, 6188\n7 of 13\nFigure 5. Example of skeleton joints extraction from RGB images sequence by temporal video 3D\nhuman pose estimation-Pose_3D.\n•\nTwo-stream 3D_ResNet networks for RGB and color body part segmentation modalities:\nThe residual 3D_CNN network based on ResNet architecture [23] was applied to beneﬁt from\ntwo data modalities: the background subtracted RGB images and color-coded 12 body parts\nsegmentation images for gesture classiﬁcation. For the input of 3D_CNN of the RGB image\nbranch, we subtracted the background of the RGB image by color body part segmentation\nand fed it into the network. Due to spatiotemporal feature learning by 3D convolution and\n3D pooling, the 3D_CNN network is known as one of the essential frameworks for video\nclassiﬁcation. Residual 3D_CNN could signiﬁcantly improve the classiﬁcation performance of\nbasic 3D_CNN framework. The 3D_ResNet is one of the current residual 3D_CNN versions."
+    },
+    {
+        "chunk_id": 27,
+        "source": "paper53",
+        "text": "classiﬁcation. Residual 3D_CNN could signiﬁcantly improve the classiﬁcation performance of\nbasic 3D_CNN framework. The 3D_ResNet is one of the current residual 3D_CNN versions.\nVarious ResNet-based architectures with 3D convolutions were studied, but the 3D_ResNet\nnetwork based on ResNeXt-101 was employed because of the quality performance for the\nproposed method.\nDiﬀerent from other original bottleneck blocks with a standard convolutional layer, the ResNeXt\nblock employs a group convolution layer with its capacity to divide the feature maps into small groups.\nThe single 3D_ResNet stream modality network in our proposed method included ﬁve ResNeXt\nblocks. The structure of each ResNeXt block consisted of convolution layers (group convolution\nlayer), a batch normalization (BatchNorm) layer, and a rectiﬁed-linear unit (ReLu) layer, as shown\nin Figure 6. The input of each modality stream network was a ﬁxed number of T sampled frames"
+    },
+    {
+        "chunk_id": 28,
+        "source": "paper53",
+        "text": "layer), a batch normalization (BatchNorm) layer, and a rectiﬁed-linear unit (ReLu) layer, as shown\nin Figure 6. The input of each modality stream network was a ﬁxed number of T sampled frames\nof a video: Vc = {xc1, xc2, . . . , xcT} for RGB modality and Vps = {xps1, xps2, . . . , xpsT} for color body\npart segmentation modality. The operation function of these stream-networks was Θc(.) and Θps(.)\nrespectively. Then, the prediction probabilities of the stream networks for RGB input and color body\npart segmentation for i classes can be described as:\nPc{p1|Vc, p2|Vc, . . . , pi|Vc} = Θc(Vc)\n(1)\nPps{p1|Vps, p2|Vps, . . . , pi|Vps} = Θps(Vps)\n(2)\nwhere pi is the prediction probability of the video belonging to the class ith, and Pc and Pps denote the\nnetwork outputs, which are the vectors or class prediction probabilities."
+    },
+    {
+        "chunk_id": 29,
+        "source": "paper53",
+        "text": "Appl. Sci. 2020, 10, 6188\n8 of 13\n•\nThe LSTM network for 3D skeleton joints modality: The LSTM network was proposed as a\nsubmodel for gesture recognition to beneﬁt from the extracted 3D skeleton joints data. The 3D\nskeleton data provides useful information about the temporal features such as the localization of\nthe relevant body joints over a time series to recognize the performed action. The LSTM networks\nare utilized to capture the contextual information of a temporal sequence for long periods by the\ngates and memory cells. In an LSTM network, the operation of gates and memory cells by time\ncan be described as follows:\n\nit = σ(Wi[xt, ht−1] + bi),\nft = σ\n\u0010\nW f [xt, ht−1] + bf\n\u0011\n,\not = σ(Wo[xt, ht−1] + bo),\nect = tan h(Wc[xt, ht−1] + bc),\nct = ft ∗ct−1 + it ∗ect,\nht = tan h(ct) ∗ot\n(3)\nwhere i, f, and o are the vectors of the input gate, the forget gate and the output gate, respectively.ect"
+    },
+    {
+        "chunk_id": 30,
+        "source": "paper53",
+        "text": "ect = tan h(Wc[xt, ht−1] + bc),\nct = ft ∗ct−1 + it ∗ect,\nht = tan h(ct) ∗ot\n(3)\nwhere i, f, and o are the vectors of the input gate, the forget gate and the output gate, respectively.ect\nand ct denote the “candidate” hidden state and internal memory of the unit respectively. ht is the\noutput hidden state and σ(.) is a sigmoid function while W and b represent connected weights\nmatrix and bias vectors, respectively.\nFigure 6. The overview of ResNet blocks. It consists of two convolution layers (1 × 1 × 1 kernel size),\none group convolution layer (3 × 3 × 3 kernel size), and three batch normalization (BatchNorm) layers\nand rectiﬁed-linear unit (ReLu) layers.\nIn our approach, we used the relevant 17 human skeleton joints extracted by the Pose_3D network\nto perform the gesture classiﬁcation. The input of the LSTM submodel was T × 51 vector, which contains\n3D location of 17 skeleton joints in a sequence of T frames of a video. This input vector is deﬁned as Vs"
+    },
+    {
+        "chunk_id": 31,
+        "source": "paper53",
+        "text": "3D location of 17 skeleton joints in a sequence of T frames of a video. This input vector is deﬁned as Vs\n= {vs1, vs2, . . . , vsT}, where vsk is a 51 × 1 vector of 3D position information of all skeleton joints at the\nkth frame. The prediction probability of the LSTM modality network for i gesture classes by a given\ninput Vj is:\nPj{p1|Vj, p2|Vj, . . . , pi|Vj} = Θj(Vj)\n(4)\nwhere Θj(.) represents the operation function of the LSTM network.\n•\nMulti-modality fusion by an integrated stacking module: The ﬁnal gesture class was predicted by\nthe fusion score of three submodels. The multi-modalities fusion block combined the prediction\nscore of submodels in the integrated stacking module, as shown in Figure 3. This module is a\nmore extensive multi-headed neural network, which consists of a concatenation layer, two fully\nconnected layers and a dropout layer to avoid overﬁtting. We used the outputs of each subnetworks"
+    },
+    {
+        "chunk_id": 32,
+        "source": "paper53",
+        "text": "more extensive multi-headed neural network, which consists of a concatenation layer, two fully\nconnected layers and a dropout layer to avoid overﬁtting. We used the outputs of each subnetworks\nas separate input-heads to the module. The fusion score computed by the fusion block with\nnon-linear operation function Θfusion(.) to predict gesture classes as follows:"
+    },
+    {
+        "chunk_id": 33,
+        "source": "paper53",
+        "text": "Appl. Sci. 2020, 10, 6188\n9 of 13\nP\nn\np1\n\f\f\fVc, p2\n\f\f\fVc, . . . , pi\n\f\f\fVc\no\n=\nΘ fusion\n\nPc\nn\np1\n\f\f\fVc, p2\n\f\f\fVc, . . . , pi\n\f\f\fVc\no\n, Pps\nn\np1\n\f\f\fVps, p2\n\f\f\fVps, . . . , pi\n\f\f\fVps\no\n,\nPj\nn\np1\n\f\f\fVj, p2\n\f\f\fVj, . . . , pi\n\f\f\fVj\no\n\n(5)\n4. Experimental Results\nTo evaluate the performance of the proposed method, we did experiments on four public datasets:\nUTD multimodal human action dataset [27], gaming 3D dataset [28], NTU RGB+D dataset [29] and\nMSRDailyActivity3D dataset [30]. In these datasets, we used only RGB modality for our work.\n4.1. Datasets\n•\nUTD Multimodal Human Action dataset [27]: is a multimodal human action dataset that was\ncollected by using a Microsoft Kinect sensor and a wearable inertial sensor. This data includes 27\ndiﬀerent types of actions performed by eight gestures, where each actor repeats each gesture four\ntimes. This dataset contains a total of 861 gesture videos after removing corrupted sequences.\n•"
+    },
+    {
+        "chunk_id": 34,
+        "source": "paper53",
+        "text": "diﬀerent types of actions performed by eight gestures, where each actor repeats each gesture four\ntimes. This dataset contains a total of 861 gesture videos after removing corrupted sequences.\n•\nGaming 3D dataset [28]: is a collection of 600 videos for action recognition in the gaming scenario.\nThis dataset consisted of 20 action classes performed by ten subjects, and each subject repeated\neach action three times. Besides providing the action class label for each video, this dataset also\nhad the ground truth for the peak frame of each action.\n•\nNTU RGB+D dataset [29]: is a large dataset that contains 56,880 RGB-D videos captured by three\nKinect V2 sensors concurrently. This dataset consisted of 60 human activities related to daily\nactions, mutual actions, and medical conditions. In our work, we only focused on the daily actions\ncategory with the RGB video data.\n•\nMSRDailyActivity3D dataset [30]: is a dataset captured for daily human activities in a living"
+    },
+    {
+        "chunk_id": 35,
+        "source": "paper53",
+        "text": "category with the RGB video data.\n•\nMSRDailyActivity3D dataset [30]: is a dataset captured for daily human activities in a living\nroom. This collection contained 16 regular activity classes performed by ten diﬀerent individuals.\nThere are 320 activity videos. This dataset was made with a noisy background with other activities\nfrom untargeted people.\nFor the MSRDailyActivity3D dataset and Gaming 3D dataset, we stratiﬁed a random split of\neach dataset into 5 folds with a train/valid/test set by ratio 8:1:1, respectively. For the UTD-MHAD\ndataset, we applied the 8-fold cross-validation method. Seven sets were used for training and the\nremaining set was used for testing. For the NTU-RGB+D dataset, there are two kinds of benchmarks\nrecommended by the creator of the NTU-RGB+D dataset, which are cross-subject and cross-view\nbenchmarks. We chose the cross-view benchmark, which included 37,462 clips for training and 18,817\nclips for testing without validation.\n4.2. Implementation"
+    },
+    {
+        "chunk_id": 36,
+        "source": "paper53",
+        "text": "benchmarks. We chose the cross-view benchmark, which included 37,462 clips for training and 18,817\nclips for testing without validation.\n4.2. Implementation\nThree subnetworks were trained with the corresponding data modalities extracted from the\ndatasets described above. The color body parts segmentation images and 3D skeleton joints were\nextracted ﬁrst from the dataset to separately train corresponding subnetworks. The color body parts\nsegmentation images were obtained by the ReﬁneNet network, pretrained with UP-3D dataset as\ndescribed in Section 3. We used the Pytorch framework of the ReﬁneNet network, which was provided\npublicly. The 3D skeleton joints information was estimated by the Pose_3D network with the pretrained\nweight on the large dataset Human3.6M.\nFor two-stream networks for RGB and color-encoded body parts segmentation modalities,\nthey were pretrained with UCF101—action recognition dataset [31]. The optimal settings for the LSTM"
+    },
+    {
+        "chunk_id": 37,
+        "source": "paper53",
+        "text": "For two-stream networks for RGB and color-encoded body parts segmentation modalities,\nthey were pretrained with UCF101—action recognition dataset [31]. The optimal settings for the LSTM\nnetwork comprise of three memory blocks, and 256 LSTM Cells per memory blocks as in [32].\nWe combined the output scores of three subnetworks and fed it into the integrated stacking\nmodule to generate the ﬁnal gesture class prediction. This multi-modality fusion is trained after\nsubnetworks generate their own outputs."
+    },
+    {
+        "chunk_id": 38,
+        "source": "paper53",
+        "text": "Appl. Sci. 2020, 10, 6188\n10 of 13\nThe adaptive moment estimation [33] was used to optimize the parameters during the training\nprocess due to its eﬀectiveness with a large number of parameters. We utilized the adaptive learning\nrate method to get the optimal parameters of the model.\nAll of the above codes were run with Nvidia GTX 1080 Ti GPU. The experiment was conducted\nwith PC of CPU i7-7700 and 32GB of memory. It took 2–4 days per dataset for the experiment but the\nprimary concern was the performance, which we mainly focused on.\n4.3. Results\nThe performance of the proposed approach for gesture recognition was evaluated by the\nexperiments conducted on four presented datasets: UTD multimodal human action dataset, gaming\n3D dataset, NTU RGB+D dataset, and MSRDailyActivity3D dataset. Comparisons of the results with\nprevious approaches are reported in Table 1.\nTable 2 shows the comparison of the proposed network with existing networks on diﬀerent"
+    },
+    {
+        "chunk_id": 39,
+        "source": "paper53",
+        "text": "previous approaches are reported in Table 1.\nTable 2 shows the comparison of the proposed network with existing networks on diﬀerent\ndatasets [7,8,19,34–40]. The comparison shows that the proposed network outperformed the existing\nworks. Note that the combination of the three subnetworks was better than each single data modality\nnetwork as shown in Table 3. The color body part segmentation modality produced better performance\nthan the RGB modality due to the removal of background noise. Classiﬁcation of gestures by important\nchange detection with the spatiotemporal interest point (STIP) [36] also exhibited the eﬀectiveness of\nthe proposed method. The proposed method was outperformed by only [37] in which additional sensor\ndevices like an accelerometer or gyroscope were utilized in addition to the RGB input. These sensors\nwere available only on special circumstances.\nTable 2. Gesture classiﬁcation performance with diﬀerent datasets (‘-‘: not available).\nDatasets/Methods\nUTD Multimodal"
+    },
+    {
+        "chunk_id": 40,
+        "source": "paper53",
+        "text": "were available only on special circumstances.\nTable 2. Gesture classiﬁcation performance with diﬀerent datasets (‘-‘: not available).\nDatasets/Methods\nUTD Multimodal\nHuman Action\nGaming 3D\nNTU\nRGB+D\nMSRDaily\nActivity3D\nC3D [7]\n85.3\n89.1\n83.3\n87.5\nLRCN [8]\n83.0\n-\n-\n-\nST-GCN [19]\n-\n-\n88.3\n-\nI3D [34]\n90.7\n93.8\n85.8\n88.4\nT_C3D [35]\n89.5\n90.3\n85.7\n88.9\nSTIP [36]\n70.3\n-\n-\n-\n[37] (RGB, Accelerometer, Gyroscope)\n97.6\n-\n-\n-\nTSSI + GLAN + SSAN [38]\n-\n-\n89.1\n-\nStructure Preserving Projection (RGB+ Depth) [39]\n-\n-\n-\n89.8\nScTPM + CS-Mltp(RGB+ Depth) [40]\n-\n-\n-\n90.6\nProposed method\n96.7\n95.3\n90.4\n90.3\nTable 3. Gesture classiﬁcation performance in each modality and the fusion result on the UTD\nmultimodal human action dataset.\nMethod\nAccuracy (%)\n3D_ResNet (RGB)\n92.1\n3D_ResNet (color body part segmentation)\n94.6\nLSTM (3D skeleton joints)\n95.4\nFusion Result\n96.7\nFor the NTU RGB+D dataset, to compare with the related model using only the RGB data input,"
+    },
+    {
+        "chunk_id": 41,
+        "source": "paper53",
+        "text": "92.1\n3D_ResNet (color body part segmentation)\n94.6\nLSTM (3D skeleton joints)\n95.4\nFusion Result\n96.7\nFor the NTU RGB+D dataset, to compare with the related model using only the RGB data input,\nour proposed method achieved outstanding results. While the ST-GCN network [19], which used\na spatial–temporal graph convolutional network for a sequence of skeleton graphs, and the TSSI +\nGLAN + SSAN network [38], which utilized a two-branch attention architecture on skeleton images,\nobtained the highest accuracy in the literature, our method outperformed as shown in Table 1.\nIn the MSRDailyActivity3D dataset, our method outperformed the quality networks for video\nclassiﬁcation with only RGB video data input such as C3D, T_C3D, or I3D. Comparing with two"
+    },
+    {
+        "chunk_id": 42,
+        "source": "paper53",
+        "text": "Appl. Sci. 2020, 10, 6188\n11 of 13\nstate-of-the-art models, the structure preserving projection method [39] and ScTPM + CS-Mltp [40],\nour method had the same or even a close performance.\n5. Conclusions\nIn this paper, we presented a novel approach for dynamic gesture recognition by using RGB\nimages. This approach is a combination of two 3D_ResNet networks and one LSTM network to beneﬁt\nfrom multi-modalities of RGB frames, 3D skeleton joint information, and color body part segmentation.\nThe output scores of the submodels were fused at the integrated stacking module to obtain the ﬁnal\ngesture class prediction. The eﬀectiveness of the proposed method was shown by the experimental\nresults on four public datasets.\nAuthor Contributions: Conceptualization, G.-S.L. and N.-H.N.; methodology, N.-H.N.; writing—review and\nediting, N.-H.N., T.-D.-T.P. and G.-S.L.; supervision, G.-S.L., S.-H.K. and H.-J.Y.; project administration, G.-S.L.,"
+    },
+    {
+        "chunk_id": 43,
+        "source": "paper53",
+        "text": "editing, N.-H.N., T.-D.-T.P. and G.-S.L.; supervision, G.-S.L., S.-H.K. and H.-J.Y.; project administration, G.-S.L.,\nS.-H.K. and H.-J.Y.; funding acquisition, G.-S.L., S.-H.K. and H.-J.Y. All authors have read and agreed to the\npublished version of the manuscript.\nFunding: This research was supported by the Basic Science Research Program through the National Research\nFoundation of Korea (NRF) funded by the Ministry of Education (NRF-2018R1D1A3B05049058) and NRF funded\nby MSIT(NRF-2020R1A4A1019191).\nConﬂicts of Interest: The authors declare no conﬂict of interest.\nReferences\n1.\nHussein, M.E.; Torki, M.; Gowayyed, M.A.; El-Saban, M. Human action recognition using a temporal\nhierarchy of covariance descriptors on 3d joint locations. In Proceedings of the Twenty-Third International\nJoint Conference on Artiﬁcial Intelligence, Beijing, China, 3–19 August 2013; Volume 13, pp. 2466–2472.\n2."
+    },
+    {
+        "chunk_id": 44,
+        "source": "paper53",
+        "text": "Joint Conference on Artiﬁcial Intelligence, Beijing, China, 3–19 August 2013; Volume 13, pp. 2466–2472.\n2.\nDardas, N.H.; Georganas, N.D. Real-time hand gesture detection and recognition using bag-of-features and\nsupport vector machine techniques. IEEE Trans. Instrum. Meas. 2011, 60, 3592–3607. [CrossRef]\n3.\nLee, H.K.; Kim, J.H. An HMM-based threshold model approach for gesture recognition. IEEE Trans. Pattern\nAnal. Mach. Intell. 1999, 21, 961–973.\n4.\nFeichtenhofer, C.; Pinz, A.; Zisserman, A. Convolutional two-stream network fusion for video action\nrecognition. In Proceedings of the IEEE Conference on Computer Vision and Pattern Recognition (CVPR),\nLas Vegas, NV, USA, 26 June–1 July 2016; pp. 1933–1941.\n5.\nKarpathy, A.; Toderici, G.; Shetty, S.; Leung, T.; Sukthankar, R.; Fei-Fei, L. Large-scale video classiﬁcation\nwith convolutional neural networks. In Proceedings of the IEEE conference on Computer Vision and Pattern\nRecognition, Columbus, OH, USA, 23–28 June 2014; pp. 1725–1732.\n6."
+    },
+    {
+        "chunk_id": 45,
+        "source": "paper53",
+        "text": "with convolutional neural networks. In Proceedings of the IEEE conference on Computer Vision and Pattern\nRecognition, Columbus, OH, USA, 23–28 June 2014; pp. 1725–1732.\n6.\nOhn-Bar, E.; Trivedi, M.M. Hand gesture recognition in real time for automotive interfaces: A multimodal\nvision-based approach and evaluations. IEEE Trans. Intell. Transp. Syst. 2014, 15, 2368–2377. [CrossRef]\n7.\nTran, D.; Bourdev, L.; Fergus, R.; Torresani, L.; Paluri, M. Learning spatiotemporal features with 3d\nconvolutional networks. In Proceedings of the IEEE International Conference on Computer Vision, Santiago,\nChile, 7–13 December 2015; pp. 4489–4497.\n8.\nDonahue, J.; Anne Hendricks, L.; Guadarrama, S.; Rohrbach, M.; Venugopalan, S.; Saenko, K.; Darrell, T.\nLong-term recurrent convolutional networks for visual recognition and description. In Proceedings of\nthe IEEE Conference on Computer Vision and Pattern Recognition, Boston, MA, USA, 7–12 June 2015;\npp. 2625–2634.\n9."
+    },
+    {
+        "chunk_id": 46,
+        "source": "paper53",
+        "text": "the IEEE Conference on Computer Vision and Pattern Recognition, Boston, MA, USA, 7–12 June 2015;\npp. 2625–2634.\n9.\nDuan, J.; Zhou, S.; Wan, J.; Guo, X.; Li, S.Z. Multi-Modality Fusion based on consensus-voting and 3D\nconvolution for isolated gesture recognition. arXiv 2016, arXiv:1611.06689.\n10.\nChai, X.; Liu, Z.; Yin, F.; Liu, Z.; Chen, X. Two streams recurrent neural networks for large-scale continuous\ngesture recognition. In Proceedings of the 23rd International Conference on Pattern Recognition (ICPR),\nCancun, Mexico, 4–8 December 2016; pp. 31–36.\n11.\nWu, D.; Pigou, L.; Kindermans, P.J.; Le, N.D.H.; Shao, L.; Dambre, J.; Odobez, J.M. Deep dynamic neural\nnetworks for multimodal gesture segmentation and recognition. IEEE Trans. Pattern Anal. Mach. Intell. 2016,\n38, 1583–1597. [CrossRef] [PubMed]"
+    },
+    {
+        "chunk_id": 47,
+        "source": "paper53",
+        "text": "Appl. Sci. 2020, 10, 6188\n12 of 13\n12.\nHara, K.; Kataoka, H.; Satoh, Y. Can spatiotemporal 3D CNNs retrace the history of 2D CNNs and ImageNet?\nIn Proceedings of the IEEE Conference on Computer Vision and Pattern Recognition, Salt Lake City, UT,\nUSA, 18–22 June 2018; pp. 6546–6555.\n13.\nLin, G.; Milan, A.; Shen, C.; Reid, I. ReﬁneNet: Multi-path reﬁnement networks for high-resolution semantic\nsegmentation. In Proceedings of the IEEE Conference on Computer Vision and Pattern Recognition, Honolulu,\nHI, USA, 21–26 July 2017; pp. 1925–1934.\n14.\nRayat Imtiaz Hossain, M.; Little, J.J. Exploiting temporal information for 3D human pose estimation. In\nProceedings of the European Conference on Computer Vision, Munich, Germany, 8–14 September 2018;\npp. 68–84.\n15.\nKopuklu, O.; Kose, N.; Rigoll, G. Motion fused frames: Data level fusion strategy for hand gesture recognition.\nIn Proceedings of the IEEE Conference on Computer Vision and Pattern Recognition Workshops, Salt Lake"
+    },
+    {
+        "chunk_id": 48,
+        "source": "paper53",
+        "text": "In Proceedings of the IEEE Conference on Computer Vision and Pattern Recognition Workshops, Salt Lake\nCity, UT, USA, 18–22 June 2018; pp. 2103–2111.\n16.\nMolchanov, P.; Yang, X.; Gupta, S.; Kim, K.; Tyree, S.; Kautz, J. Online detection and classiﬁcation of dynamic\nhand gestures with recurrent 3D convolutional neural networks. In Proceedings of the IEEE Conference on\nComputer Vision and Pattern Recognition (CVPR), Las Vegas, NV, USA, 27–30 June 2016; pp. 4207–4215.\n17.\nTran, D.; Ray, J.; Shou, Z.; Chang, S.F.; Paluri, M. ConvNet architecture search for spatiotemporal feature\nlearning. arXiv 2017, arXiv:1708.05038, preprint.\n18.\nLuvizon, D.C.; Picard, D.; Tabia, H. 2D/3D Pose estimation and action recognition using multitask deep\nlearning. In Proceedings of the IEEE Conference on Computer Vision and Pattern Recognition, Salt Lake\nCity, UT, USA, 18–22 June 2018; pp. 5137–5146.\n19."
+    },
+    {
+        "chunk_id": 49,
+        "source": "paper53",
+        "text": "learning. In Proceedings of the IEEE Conference on Computer Vision and Pattern Recognition, Salt Lake\nCity, UT, USA, 18–22 June 2018; pp. 5137–5146.\n19.\nYan, S.; Xiong, Y.; Lin, D. Spatial temporal graph convolutional networks for skeleton-based action recognition.\nIn Proceedings of the Thirty-second AAAI Conference on Artiﬁcial Intelligence, New Orleans, LA, USA, 2–7\nFebruary 2018.\n20.\nLi, M.; Chen, S.; Chen, X.; Zhang, Y.; Wang, Y.; Tian, Q. Actional-structural graph convolutional networks for\nskeleton-based action recognition. In Proceedings of the IEEE Conference on Computer Vision and Pattern\nRecognition, Long Beach, CA, USA, 16–20 June 2019; pp. 3595–3603.\n21.\nOmran, M.; Lassner, C.; Pons-Moll, G.; Gehler, P.; Schiele, B. Neural body ﬁtting: Unifying deep learning\nand model based human pose and shape estimation. In Proceedings of the International Conference on 3D\nVision, Verona, Italy, 5–8 September 2018; pp. 484–494.\n22."
+    },
+    {
+        "chunk_id": 50,
+        "source": "paper53",
+        "text": "and model based human pose and shape estimation. In Proceedings of the International Conference on 3D\nVision, Verona, Italy, 5–8 September 2018; pp. 484–494.\n22.\nFu, K.; Zhao, Q.; Gu, I.Y.H. Reﬁnet: A deep segmentation assisted reﬁnement network for salient object\ndetection. IEEE Trans. Multimed. 2018, 21, 457–469. [CrossRef]\n23.\nHe, K.; Zhang, X.; Ren, S.; Sun, J. Deep residual learning for image recognition. In Proceedings of the IEEE\nConference on Computer Vision and Pattern Recognition, Las Vegas, NV, USA, 27–30 June 2016; pp. 770–778.\n24.\nLassner, C.; Romero, J.; Kiefel, M.; Bogo, F.; Black, M.J.; Gehler, P.V. Unite the people: Closing the loop\nbetween 3d and 2d human representations. In Proceedings of the IEEE Conference on Computer Vision and\nPattern Recognition, Honolulu, HI, USA, 21–26 July 2017; pp. 6050–6059.\n25.\nNewell, A.; Yang, K.; Deng, J. Stacked hourglass networks for human pose estimation. In Proceedings of the"
+    },
+    {
+        "chunk_id": 51,
+        "source": "paper53",
+        "text": "Pattern Recognition, Honolulu, HI, USA, 21–26 July 2017; pp. 6050–6059.\n25.\nNewell, A.; Yang, K.; Deng, J. Stacked hourglass networks for human pose estimation. In Proceedings of the\nEuropean Conference on Computer Vision, Amsterdam, The Netherlands, 11–14 October 2016; pp. 483–499.\n26.\nIonescu, C.; Papava, D.; Olaru, V.; Sminchisescu, C. Human3.6m: Large scale datasets and predictive methods\nfor 3d human sensing in natural environments. IEEE Trans. Pattern Anal. Mach. Intell. 2013, 36, 1325–1339.\n[CrossRef] [PubMed]\n27.\nChen, C.; Jafari, R.; Kehtarnavaz, N. UTD-MHAD: A multimodal dataset for human action recognition\nutilizing a depth camera and a wearable inertial sensor. In Proceedings of the IEEE International Conference\non Image Processing, Quebec City, QC, Canada, 27–30 September 2015; pp. 168–172.\n28.\nBloom, V.; Makris, D.; Argyriou, V. G3D: A gaming action dataset and real time action recognition evaluation"
+    },
+    {
+        "chunk_id": 52,
+        "source": "paper53",
+        "text": "on Image Processing, Quebec City, QC, Canada, 27–30 September 2015; pp. 168–172.\n28.\nBloom, V.; Makris, D.; Argyriou, V. G3D: A gaming action dataset and real time action recognition evaluation\nframework. In Proceedings of the IEEE Computer Society Conference on Computer Vision and Pattern\nRecognition Workshops, Providence, RI, USA, 16–21 June 2012; pp. 7–12.\n29.\nShahroudy, A.; Liu, J.; Ng, T.T.; Wang, G. NTU RGB+D: A large scale dataset for 3D human activity analysis.\nIn Proceedings of the IEEE Conference on Computer Vision and Pattern Recognition, Las Vegas, NV, USA,\n27–30 June 2016; pp. 1010–1019.\n30.\nWang, J.; Liu, Z.; Wu, Y.; Yuan, J. Mining actionlet ensemble for action recognition with depth cameras.\nIn Proceedings of the IEEE Conference on Computer Vision and Pattern Recognition, Providence, RI, USA,\n16–21 June 2012; pp. 1290–1297."
+    },
+    {
+        "chunk_id": 53,
+        "source": "paper53",
+        "text": "Appl. Sci. 2020, 10, 6188\n13 of 13\n31.\nSoomro, K.; Zamir, A.R.; Shah, M. UCF101: A dataset of 101 human action classes from video in the wild.\narXiv 2012, arXiv:1212.0402, preprint.\n32.\nSarkar, A.; Gepperth, A.; Handmann, U.; Kopinski, T. Dynamic hand gesture recognition for mobile systems\nusing deep LSTM. In Proceedings of the International Conference on Intelligent Human Computer Interaction,\nEvry, France, 11–13 December 2017; pp. 19–31.\n33.\nKingma, D.P.; Ba, J. Adam: A method for stochastic optimization. In Proceedings of the 3rd International\nConference for Learning Representations, San Diego, CA, USA, 7–9 May 2015.\n34.\nCarreira, J.; Zisserman, A. Quo vadis, action recognition?\nIn A new model and the kinetics dataset.\nIn Proceedings of the IEEE Conference on Computer Vision and Pattern Recognition, Honolulu, HI, USA,\n21–26 July 2017; pp. 6299–6308.\n35.\nLiu, K.; Liu, W.; Gan, C.; Tan, M.; Ma, H. T-C3D: Temporal convolutional 3D network for real-time action"
+    },
+    {
+        "chunk_id": 54,
+        "source": "paper53",
+        "text": "21–26 July 2017; pp. 6299–6308.\n35.\nLiu, K.; Liu, W.; Gan, C.; Tan, M.; Ma, H. T-C3D: Temporal convolutional 3D network for real-time action\nrecognition. In Proceedings of the Thirty-second AAAI Conference on Artiﬁcial Intelligence, New Orleans,\nLA, USA, 2–7 February 2018.\n36.\nMahjoub, A.B.; Atri, M. Human action recognition using RGB data. In Proceedings of the 11th International\nDesign & Test Symposium, Hammamet, Tunisia, 18–20 December 2016; pp. 83–87.\n37.\nEhatisham-Ul-Haq, M.; Javed, A.; Azam, M.A.; Malik, H.M.; Irtaza, A.; Lee, I.H.; Mahmood, M.T. Robust\nhuman activity recognition using multimodal feature-level fusion.\nIEEE Access 2019, 7, 60736–60751.\n[CrossRef]\n38.\nYang, Z.; Li, Y.; Yang, J.; Luo, J. Action recognition with spatio-temporal visual attention on skeleton image\nsequences. IEEE Trans. Circuits Syst. Video Technol. 2018, 29, 2405–2415. [CrossRef]\n39.\nYu, M.; Liu, L.; Shao, L. Structure-preserving binary representations for RGB-D action recognition. IEEE Trans."
+    },
+    {
+        "chunk_id": 55,
+        "source": "paper53",
+        "text": "39.\nYu, M.; Liu, L.; Shao, L. Structure-preserving binary representations for RGB-D action recognition. IEEE Trans.\nPattern Anal. Mach. Intell. 2015, 38, 1651–1664. [CrossRef] [PubMed]\n40.\nLuo, J.; Wang, W.; Qi, H. Spatio-temporal feature extraction and representation for RGB-D human action\nrecognition. Pattern Recognit. Lett. 2014, 50, 139–148. [CrossRef]\n© 2020 by the authors. Licensee MDPI, Basel, Switzerland. This article is an open access\narticle distributed under the terms and conditions of the Creative Commons Attribution\n(CC BY) license (http://creativecommons.org/licenses/by/4.0/)."
+    }
+]
