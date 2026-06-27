@@ -1,0 +1,1321 @@
+Journals & Magazines  >
+IEEE Transactions on Instrume...  >
+Volume: 72 
+A Multimodal Dynamic Hand Gesture Recognition Based on Radar–Vision Fusion
+Publisher: IEEE
+Cite This
+PDF
+Haoming Liu
+; Zhenyu Liu
+All Authors
+30
+Cites in
+Papers
+3386
+Full
+Text Views
+
+
+
+
+
+Abstract
+Document Sections
+I. Introduction
+II. Related Work
+III. Fundamental and Problem Analysis
+IV. Methodology
+V. Experimental Setup
+Show Full Outline 
+Authors
+Figures
+References
+Citations
+Keywords
+Metrics
+More Like This
+
+Abstract:
+Regarding increasingly complex scenarios in hand gesture recognition (HGR), it is challenging to implement a reliable HGR due to the nonadaptability of individual
+sensors to the environment and the discrepancy of personal habits. Multisensor fusion has been deemed an effective way to overcome the limitations of a single
+sensor. However, there is a lack of research on HGR to effectively establish bridges linking multimodal heterogeneous information. To address this issue, we
+propose a novel multimodal dynamic HGR method based on a two-branch fusion deformable network with Gram matching. First, a time-synchronized method is
+designed to preprocess the multimodal data. Second, a two-branch network is proposed to implement gesture classification based on radar–vision fusion. The
+input convolution is replaced by the deformable convolution to improve the generalization of gesture motion modeling. The long short-term memory (LSTM) unit is
+used to extract the temporal features of dynamic hand gestures. Third, Gram matching is presented as a loss function to mine high-dimensional heterogeneous
+information and maintain the integrity of radar–vision fusion. The experimental results indicate that the proposed method effectively improves the adaptability of the
+classifier to complex environments and exhibits satisfactory robustness to multiple subjects. Furthermore, ablation analysis shows that deformable convolution and
+Gram loss not only provide reliable gesture recognition but also enhance the generalization ability of the proposed methods in different field-of-view scenarios.
+Published in: IEEE Transactions on Instrumentation and Measurement ( Volume: 72)
+Article Sequence Number: 8001715
+Date of Publication: 08 March 2023 
+ISSN Information:
+DOI: 10.1109/TIM.2023.3253906
+Publisher: IEEE
+Funding Agency:
+Recommended for You (Beta)
+AnalogTester: A Large Language Model-Based Framework for Automatic Testbench
+Generation in Analog Circuit Design
+Classification Algorithm for VLSI Test
+Cost Reduction
+A GUI Based Digital
+IC Tester
+Learn More
+SECTION I.
+Introduction
+With the rapid development of communication technologies [1] and the Internet of Things (IoT) [2], many sensing devices have been deployed to
+establish omnidirectional 3-D human–computer interaction (HCI). Hand gesture recognition (HGR), which is a noncontact HCI method with a high
+frequency of use and a strong expressive ability, has become a popular research topic. HGR has been beneficial in facilitating human daily life and has
+important applications in the interactive control of relevant scenes, such as vehicle-assisted driving [3], intelligent homes [4], sign language
+interaction [5], intelligent robot control [6], virtual reality [7], and medical surgery assistance [8]. Moreover, noncontact measurement-based HGR is
+very significant for avoiding the spread of global public health emergencies such as monkeypox and COVID-19 [9].
+
+Gesture measurements can be divided into two main categories: contact devices and noncontact devices. Contact devices require equipment worn on
+the body to collect hand motion data, such as surface electromyography (SEMG) signals [10], acceleration, and motion direction [11]. However, the
+equipment is inflexible to wear and exposes users to the risk of bacteria or viruses. In contrast, noncontact devices, such as Wi-Fi-based, vision-based,
+and radar-based sensors, can efficiently capture a variety of gestures and prevent physical interaction with the machine surface. However, due to the
+limitations of Wi-Fi parameters [12] as well as electromagnetic interference and multipath reflection in the process of propagation, it is difficult to
+distinguish fine-grained gestures through Wi-Fi-based methods.
+As a common device for gesture acquisition, vision-based sensors are roughly composed of RGB cameras and depth cameras [13], [14]. For instance,
+vision data gathered by the Kinect device are used to develop a natural gesture user interface for real-time tracking and gesture recognition [15], which
+relies on directed search of the entire hand outline to recognize gestures. Compared with the high computational complexity of the depth camera, the
+color camera can capture hand imaging at a lower power consumption [16]. In addition, due to the advantages of high frequency, short wavelength, and
+broad bandwidth [17], millimeter-wave (MMW) radar has satisfactory spatial resolution to distinguish gestures [18]. Google’s Soli project [19]
+produces a frequency-modulated continuous wave (FMCW) radar sensor to detect gestures. In recent years, radar-driven gesture recognition has been
+used in vehicle entertainment systems and smart homes [20].
+In recent decades, several algorithms have been used to model HGR tasks, such as Bayesian networks and HMMs [21]. These methods are only suitable
+for simple gesture classification. Regarding complex HGR tasks, high-dimensional features are roughly extracted by convolutional networks (CNNs).
+For instance, RGB images and depth images have been jointly inputted into a gesture classification model composed of a 3-D-CNN and a convolutional
+long and short-term memory (LSTM) network to achieve isolated gesture recognition [22]. A lightweight multichannel CNN has been presented to
+learn and classify radar-based gesture features, which are composed of radial distance, Doppler, and tangential azimuth–elevation [23]. In addition,
+the Gram matrix is proven to be an effective method that extracts structural information [24]. The Gram matrix matched by dense interleaving is also
+used to fit the feature gap between clean and degraded images [25]. Recently, Gram matrix matching has been used to maintain the complementary
+structure of remote sensing data [26].
+However, regarding increasingly complex scenarios of HGR, such as light-limited nighttime, bright outdoor, car interiors, smart homes with multiradar
+working together, and indoor with high background noise, single vision-based or radar-based sensors do not reliably work in all these scenarios. On one
+hand, visual sensors can provide good imaging information at low costs with sufficient optical information [27], but vision-based gesture acquisition
+systems have also been greatly affected by lighting intensities [28]. On the other hand, energy scattering of gestures is captured by radar sensors to
+extract the radial motion information [29]. Regarding scenarios with high background noise, the distribution of gestures in radar data will be drowned
+out because gesture is a kind of micromotion with weak spectrum energy [30]. Therefore, complex scenarios will make a single sensor incapable of
+meeting the needs of reliable gesture acquisition.
+HGR has also been confused by the variability and ambiguity of gesture measurements in different distance field of view (FOV) scenes. For cameras,
+near big and far small will lead to significant differences in the imaging size and details of the hand. For FMCW radar, different angles will lead to
+changes in the measurement direction and range of the radial distance or Doppler. The energy of the radar signal will attenuate with an increasing
+distance. Some studies have been proposed to address this issue. For instance, the RDAE domain is transformed to a 3-D Cartesian coordinate to
+improve the spatial consistency of multilocation datasets [31], and deformable convolution has been embedded in the separable 3-D-CNN (S3-D) to
+solve the spatiotemporal deformation caused by individual habits [32]. However, these solutions do not overcome the limitations of a single sensor.
+Therefore, we propose a novel multimodal dynamic HGR method based on a two-branch fusion deformable network with Gram matching, which
+provides a reliable solution for increasingly complex HCI environments. First, a time-synchronized method is designed to preprocess the time and
+structure of multimodal data. Then, we propose a two-branch deformable HGR network with LSTM to address the gesture distortion in visual and radar
+data and further extract spatial–temporal features. Finally, Gram matrix matching is presented as a loss function to mine the heterogeneous
+information and fully exploit the complementary advantages of multimodal data. The main contributions of this article are as follows.
+
+1) A novel dynamic HGR method based on radar–vision fusion is proposed to achieve deep linking of multimodal gesture information to cope with
+increasingly complex HGR environments. We achieve reliable gesture recognition in six kinds of environments consisting of variable lighting and
+different radar background noise.
+2) Gram matrix matching driven by radar and vision data is first introduced into HGR classification to link high-dimensional heterogeneous
+information between multimodal data. To the best of our knowledge, this is the first work that calculates the Gram matrix to maintain the integrity
+of information fusion of multimodal HGR.
+3) A two-branch deformable network with LSTM is proposed to enhance the weak generalization of HGR with different users and FOVs. This work
+completely takes advantage of the complementary heterogeneous information of different sensors while maintaining the temporal information of
+multimodal data.
+The remainder of this article is organized as follows. Related works are introduced in Section II. The fundamental and problem analyses are introduced
+in Section III. The methodology is presented in Section IV. The experimental setup and experimental discussion are shown in Section V and Section
+VI, respectively. Finally, in Section VII, concluding remarks are provided.
+SECTION II.
+Related Work
+In this section, related works on vision-based HGR, radar-based HGR, and multimodal-based HGR are introduced.
+A. Vision-Based HGR
+The vision-based HGR can separate the hand from the environment through imaging information such as skin color, hand shape, and hand size [33].
+Early work adopted dynamic time warping (DTW) for gesture recognition [34]. Then, hidden Markov models (HMMs), which mainly rely on the
+extraction of sign language direction, trajectory information, and synthetic shapes, were introduced for HGR [35]. However, using HMM alone has
+limitations, especially in training context-sensitive models [36]. In addition, some studies aim to estimate the state of hand joints to model 3-D
+gestures, such as fitting joint angles by hand contours [37] and extremity movement observation (XMOB) upper body trackers [38]. Recently, Google’s
+media-tube project [39] calibrates the hand region at the acquisition end to help gesture modeling. Through the machine learning (ML) method of
+pretraining 30000 real and original images [16], the coordinates of 21 pixels of the hand in the image can be inferred to track the changes in the hand
+state in the real-time system.
+With the emergence of inexpensive consumer depth cameras, gesture recognition systems using depth cameras have also been introduced [40]. For
+instance, depth camera data are inputted into the lightweight convolution neural network (CNN) model to effectively detect and classify video-based
+gesture recognition [41]. However, vision-based methods must address well-known environmental challenges, such as brightness, contrast, and
+exposure [42]. Vision-based gesture acquisition systems have been greatly affected by illumination intensity. Regarding indoor or light-limited
+scenarios, reliable HGR is difficult to implement with a single visual sensor in a dark environment.
+B. Radar-Based HGR
+
+Recently, many radar-based methods have been studied to implement HGR through the range–Doppler–azimuth–elevation (RDAE) cube [43]. HGR
+based on a complementary multifeature fusion network (CMFF-HGR) [44] has been designed to extract RDA features of a range–time map (RTM),
+Doppler–time map (DTM), and angle–time map (ATM). These maps are obtained by fast Fourier transform (FFT) and multiple signal classification
+(MUSIC) algorithms [45]. However, this work only achieves classification in simple gestures. To cope with the classification of more gestures,
+spatiotemporal deformable and context-aware modules have been embedded into the classification model to mine the interrelation among time-varying
+5-D feature spaces [32]. This work provides a standardized radar signal preprocessing procedure to encode multichannel feature information into a
+time-varying 5-D feature spaces. By introducing CumSoft blocks on top of recurrent neural networks (RNN), a gesture triggering strategy is presented
+to determine the appropriate time for early gesture prediction [46]. This work uses range–Doppler map (RDM) video to achieve early HGR. The
+recognition rate can reach 88.85%, while the average time savings are 69.47%. The time–frequency map and spectrogram videos are inputted into a
+dual-stream fusion deformable residual network embedded with a convolutional block attention module (CBAM) to implement robust HGR, which
+achieves 97.5% classification accuracy [47].
+However, regarding environments with high background noise, radar-based methods may not be reliably implemented. For instance, two vertically [48]
+and three relatively [49], [50] placed radars have been used for capturing complementary writing data, concurrently operated radars have been
+deployed to detect kitchen activities [51], and multiple radar systems have been designed for multiple indoor tasks and vital sign monitoring [52],
+[53]. Multiradar working at the same time will produce significant mutual interference [54], which will increase the electromagnetic clutter energy and
+decrease the performance of radar perceptions [55]. Gesture, which is a kind of micromotion, has relatively weak spectrum energy. Therefore, the
+energy distribution of gestures will be obscured by high environmental background noise.
+C. Multimodal-Based HGR
+Compared with using only vision or radar sensors, multimodal fusion is considered to be an effective way to overcome the limitations of a single sensor.
+For instance, gesture data captured by an ultrawideband (UWB) Doppler radar and wearable pressure sensors are inputted into an SVM classifier to
+achieve simple human microgesture recognition [56]. Data gloves composed of pressure and flexible sensors are designed to capture gestures, while
+these hand movements are classified by residual modules and LSTM [57]. These solutions inevitably face the limitations of wearable devices, while the
+combination of noncontact methods will not suffer from such problems. The multimodal cross-learning method uses radar RDM, thermal imaging
+camera images, and RGB camera images to train the automatic encoder model and only uses radar data for inference to achieve low-cost stove gesture
+control [58].
+Some methods study the radar–vision fusion of autopilot in the roughly complex and changeable environment of roads. For instance, a method based
+on data-layer fusion is proposed: this method combines the weight and correlation consistency function of multisensor target recognition to construct
+the data fusion support computing model [59]. Because radar and vision sensors have different physical properties and regions of interest, data-layer
+fusion is difficult to directly implement. Another fusion method is decision-level fusion. Different networks are used to extract features from RGB
+images and radar spectrum maps for common target recognition [60].
+However, in contrast to the recognition and segmentation of large rigid objects (such as cars, trees, and roads) in the autopilot scene, the general objects
+distinguished in the HGR scene are small nonrigid microgestures. Therefore, research on autopilot cannot be introduced for HCI. Time-of-flight (ToF)
+data have been proposed to be combined with radar data to achieve human tracking [61]. ToF provides information about the shape and exact position
+of the target in the 3-D world, which is confirmed by radar and provides additional information about the speed of each moving target. However, this
+work is not applied to microgesture recognition. In addition, although the NVIDIA institute presents a data-layer fusion HGR method by directly
+inputting radar data, RGB camera data, and depth camera data into the DCNN [62], they ignore that the characteristics of measurement data between
+sensors, such as the data size, data structure, and unrelated physical attributes, are always different.
+
+The existing research focuses on HGR based on data fusion of wearable devices, radar–vision fusion for autopilot, and multimodal fusion for behavior
+tracking, while research on gesture recognition based on radar–vision fusion is still in its early stages. Moreover, existing studies do not provide
+sufficient attention to the information fusion of multimodal gesture data. In view of the increasingly complex noncontact HGR scenarios, it is important
+to excavate this high-dimensional structural information of multimodal data. In particular, regarding the HGR based on radar–vision fusion, a method
+that effectively establishes bridges linking heterogeneous attributes and complementary information between data of different sensors has not been
+investigated.
+SECTION III.
+Fundamental and Problem Analysis
+Fundamental and problem analyses are introduced in this section.
+A. Vision Model
+According to the camera imaging principle and the similarity principle, the corresponding relationship between the image calibration 
+ and the
+camera coordinate system 
+ can be expressed as [63]
+View Source
+where 
+ , 
+ , and 
+ denote the pixel coordinate, the image coordinate, and the camera coordinate of point  , respectively; 
+denotes the origin of the pixel coordinate system; and  denotes the focal length of the camera. The obtained hand landmarks contain coarse motion
+information that are used to estimate the bounding boxes for hands, which cannot achieve the resolution of distinguishing fine-grained gestures. This
+is because the camera is adept in capturing the gesture azimuth, elevation, and morphological information, but lacks the ability to capture
+micromotion information.
+B. Radar Model
+FMCW radar has been used to capture gesture information such as range, velocity, and angle [23]. By mixing the received signal with a copy of the
+transmitted signal at the in-phase receiver and passing through the resulting signal to a low-pass filter, the decoupled intermediate frequency (IF)
+signal after sampling can be approximately expressed as [43]
+View Source
+P(u, v)
+P(
+,
+,
+)
+Xc Yc Zc
+=
+Zc
+⎡
+⎣
+⎢
+u
+v
+1
+⎤
+⎦
+⎥
+⎡
+⎣
+⎢⎢⎢⎢⎢
+1
+dx
+0
+0
+0
+1
+dy
+0
+uo
+vo
+1
+⎤
+⎦
+⎥⎥⎥⎥⎥
+⎡
+⎣
+⎢
+f
+0
+0
+0
+f
+0
+0
+0
+1
+0
+0
+0
+⎤
+⎦
+⎥
+⎡
+⎣
+⎢⎢⎢
+Xc
+Yc
+Zc
+1
+⎤
+⎦
+⎥⎥⎥
+(1)
+(u, v) (x, y)
+(
+,
+,
+)
+Xc Yc Zc
+p
+(
+,
+)
+uo vo
+f
+( ,
+) = A exp(j2π(
+)) ⋅exp(j2π(
+))
+b( )
+if is ic
+frisPs
+fdicPc
+(2)
+
+where 
+ , 
+ , 
+ , 
+ , and 
+ denote the amplitude of IF signal, the range frequency, the Doppler frequency, the sampling period, and the chirp
+period, respectively, and 
+ , 
+ , and 
+ denote the index of the sampling points, the index of the chirps, and the
+index of the frames, respectively.
+Through the FFT of different dimensions for the above signal model, the range and Doppler spectrum distribution of the frame-based radar signal can
+be expressed as
+View Source
+where 
+ denotes the range spectrum distribution. Moreover, 
+ denotes the range–Doppler spectrum distribution, which can be mapped by the
+energy to construct the RDM. 
+ and 
+ denote the range frequency index and the Doppler frequency index, respectively. The
+angle distribution can be estimated by the antenna dimensional FFT or direction of arrival (DOA) positioning methods, such as the MUSIC algorithm
+and Capon beam-forming algorithm.
+C. Problem Analysis
+Related work on vision- and radar- based HGR indicates that although cameras and radar have been used to implement hand gesture capture, cameras
+are good at collecting position and morphological information, while radar is good at collecting radial range and velocity information. The two sensors
+are highly complementary. On one hand, radar can provide radial information with higher resolution than depth cameras. On the other hand, the RGB
+camera can supplement the imaging information and obtain the position at a low cost. Therefore, it is sensible to combine cameras and radar for
+gesture acquisition.
+The main challenge of HGR is to reliably implement gesture capture and recognition in complex environments. However, it is difficult for RGB cameras
+to work in brightly lit or dark environments. In crowded indoor or multiradar deployment scenes, the radar spectrum energy of gestures will be
+obscured by environmental clutter, which leads to the loss of the hand object. Therefore, the existing HGR studies based on a single sensor have
+difficulty achieving robust HGR in the above complex environments.
+Another challenge of HGR is the ambiguity and variability of gestures performed by different people or in different FOV scenes. The habits and hand
+size of different humans will cause evident discrepancies in the range and speed of the same gesture. The different relative positions with the
+measurement platform will also lead to confusion between the gesture categories. The gesture classification errors caused by these distortions restrict
+the generalization performance of HGR.
+A fr fd Ps
+Pc
+= 1, … ,
+is
+Is
+= 1, … ,
+ic
+Ic
+= 1, … ,
+if
+If
+(r,
+)
+B( )
+if
+R
+ic
+(r, v)
+B( )
+if
+RD
+=
+( ,
+) ⋅exp(−j2π
+)
+∑
+=1
+is
+Is
+b( )
+if is ic
+ris
+Is
+=
+(r,
+) ⋅exp(−j2π
+)
+∑
+=1
+ic
+Ic
+B( )
+if
+R
+ic
+vic
+Ic
+(3)
+BR
+BRD
+r = 1, … , R
+v = 1, … , V
+SECTION IV.
+Methodology
+
+Our work achieves dynamic gesture recognition that adapts to complex environment and has generalization performance of individual based on two
+aspects. First, according to the displacement and energy differences of each frame of gesture, a preprocessing method is designed to synchronize the
+time and structure of vision and radar data. Second, we propose a novel multimodal dynamic gesture recognition method based on a two-branch fusion
+deformable network with Gram matching. The input layer of the two branches is replaced by the deformable layer. The spatial features of each moment
+are fed into the long short-term memory (LSTM) layer. Gram matrix matching is presented as a loss function to fully exploit the complementary
+advantages of multimodal data. An overview of the proposed method is shown in Fig. 1.
+A. Time-Synchronized Preprocessing Method
+In the application of HGR, dynamic gestures generally consist of the following three stages: the preparation stage, core stage, and retraction stage. The
+preparation and retraction stages of different gestures are roughly similar. The core stage contains the main information of gesture motion, such as
+different speeds and ranges of movement. Therefore, the extraction of the start and end time-stamps of the core stage is very important for gesture
+classification.
+However, regarding multisensor data streams, the segmentation of gesture core stage is a difficult task because of the great differences in data structure
+and physical characters. Optical-based RGB video data reflect the morphological changes in the hand, while radar-based RDM data contain the
+difference in signal energy amplitudes of gestures.
+Therefore, we propose a time-synchronized preprocessing method based on the RGB morphology and radar spectrum differences. To obtain the
+gesture state of each frame of visual data, 21 pixel coordinates of the hand are calculated at the end of acquisition. The coordinates can be expressed as
+ , where  represents the  th coordinate, and  represents the  th frame. The change amplitude of the 21
+coordinates with time can be regarded as the time index of the visual data. The displacement of these points between the  th and 
+ th frames
+can be expressed as
+View Source
+where 
+ represents the displacement of the  th coordinate in the  th frame. The displacements of the 21 coordinates with 
+ frames are normalized
+Fig. 1.
+Overview of our proposed camera and radar-fusion-based dynamic gesture recognition method.
+
+(
+,
+), i ∈(1, 21), k ∈(1, K)
+x(k)
+i
+y(k)
+i
+i
+i
+k
+k
+k
+(k + 1)
+=
+d(k)
+i
+(
+−
+) + (
+−
+)
+∥
+∥x(k)
+i
+x(k+1)
+i
+y(k)
+i
+y(k+1)
+i
+∥
+∥2
+(4)
+d(k)
+i
+i
+k
+K
+
+as
+View Source
+where 
+ represents the normalized displacement of the  th coordinate in the  th frame.
+Then, the normalized displacement values of each coordinate of each frame are summed as
+View Source
+where 
+ represents the summation amplitude of the normalized displacement in the  th frame. When 
+ is greater than the set threshold
+ , the frame is marked as the start time-stamp 
+ of the core stage. When 
+ is less than 
+ , the frame is marked as the end time-
+stamp 
+ of the core stage. After the above preprocessing, the RGB video data 
+ with 
+ frames and a size of 
+ have
+been converted into 
+ .
+Similarly, the amplitude value of the radar spectrum is used to characterize the gesture state of each frame of radar data. First, the RDM of formula (6)
+is normalized as
+View Source
+where 
+ represents the normalized amplitude of the RDM in the 
+ th frame.
+Then, the normalized amplitude values of the RDM of each frame are summed as
+=
+D(k)
+i
+−
+(
+)
+d(k)
+i
+min
+k∈K d(k)
+i
+(
+) −
+(
+)
+max
+k∈K
+d(k)
+i
+min
+k∈K d(k)
+i
+(5)
+D(k)
+i
+i
+k
+=
+D(k)
+sum
+∑
+i=1
+N
+D(k)
+i
+(6)
+D(k)
+sum
+k
+D(k)
+sum
+Tvision
+kstart
+vision
+D(k)
+sum
+Tvision
+kend
+vision
+(C, K, H, W)
+XV
+K
+C × H × W
+(C,
+:
+, H, W)
+XV
+kstart
+vision
+kend
+vision
+=
+S( )
+k′
+(u,v)
+−
+(
+)
+s( )
+k′
+(u,v)
+min
+∈K′
+k′
+s( )
+k′
+(u,v)
+(
+) −
+(
+)
+max
+∈K′
+k′
+s( )
+k′
+(u,v)
+min
+∈K′
+k′
+s( )
+k′
+(u,v)
+(7)
+S( )
+k′
+(u,v)
+k′
+=
+S( )
+k′
+sum
+∑
+u=1
+U
+∑
+v=1
+V
+S( )
+k′
+(u,v)
+(8)
+
+View Source
+where 
+ represents the summation amplitude of the RDM in the 
+ th frame. When 
+ is greater than the set threshold 
+ , the frame is
+marked as the start time-stamp 
+ of the core stage. When 
+ is less than 
+ , the frame is marked as the end time-stamp 
+ of the core
+stage. After the above preprocessing is accomplished, the radar spectrum data 
+ with 
+ frames and the size of 
+ have
+been converted into 
+ .
+Finally, the size and the duration of different sensor data streams are synchronized. The multisensor real-time data streams are segmented to construct
+the core stage of gestures. The final start and end time-stamps are calculated by the minimum values in the gesture start and end time-stamps of
+different data streams as 
+ . After the reconstruction of the same size of 
+ , the
+synchronized visual and radar data are expressed as 
+ , where 
+ represents the lasting time of the
+core stage.
+B. Dynamic Deformable Gesture Recognition Network
+Although time-synchronized preprocessing integrates the structure of two-stream data, deep fusion is restricted by the irrelevance of physical
+properties. Since RGB camera-based optical information and radar-based electromagnetic radiation information cannot be learned by a single network,
+a two-branch network structure is used to fully extract the multimodal spatial features of gestures. The two branches have the same structure, and the
+input convolutional layers are replaced by deformable convolutions to address the gesture distortion caused by different measurement conditions.
+Moreover, since a single CNN cannot exploit the temporal information embedded in the data, combinations of CNN and LSTM units have been used for
+temporal dynamic gesture modeling. Hence, we propose a two-branch deformable dynamic HGR network, as shown in Fig. 2.
+S( )
+k′
+sum
+k′
+S( )
+k′
+sum
+Tradar
+kstart
+radar
+S( )
+k′
+sum
+Tradar
+kend
+radar
+(C,
+,
+,
+)
+XR
+K′ H ′ W ′
+K′
+C × H × W
+(C,
+:
+,
+,
+)
+XR
+kstart
+radar
+kend
+radar H ′ W ′
+= min(
+,
+),
+= min(
+,
+)
+kstart
+kstart
+vision kstart
+radar
+kend
+kend
+vision kend
+radar
+c × h × w
+(
+(c, Δk, h, w),
+(c, Δk, h, w))
+XV
+XR
+Δk =
+−
+kend
+kstart
+Fig. 2.
+Proposed two-branch fusion deformable dynamic gesture recognition network based on Gram matching.
+
+
+Specifically, the CNN consists of a 
+ ReLu-activated convolution layer, a BatchNorm layer, and a 
+ ReLu-activated convolution layer. The
+combination of the BatchNorm layer and the excitation function of ReLu accelerates the training speed of the depth neural network and has the
+characteristic of unilateral suppression. Then, the dual-flow features are cascaded and inputted into the fusion block to further extract the fusion
+feature map with heterogeneous features. The fusion block consists of a 
+ max-pooling layer, a 
+ ReLu-activated convolution layer, and a
+ average-pooling layer. The pooling operations have been applied in the fusion data to desample the feature size and improve the training speed.
+Moreover, distinguishing gestures are roughly confused by different measurement conditions, such as different speeds, distances, and positions,
+especially in FOV scenes with various ranges. These distortions will lead to different sizes and positions of the HGR receptive field, semantic
+ambiguity, and other variability problems. To address these issues, the grid sampling of convolution is deformed freely via irregular offsets. We replace
+the input convolution layers with the deformable-2-D (D2-D) to further enhance the robustness of HGR, as shown in Fig. 2. Kernel deformation is
+performed on the input data based on D2-D, which adds 2-D offsets to the conventional grid sampling position in standard convolution. Regarding the
+input feature 
+ of size 
+ , the reference channel dimension is assumed to be 1 because the channels of each input pixel share a set of offsets.
+Suppose a traditional convolution layer with 
+ -D conventional kernels 
+ of size 
+ . A 2-D convolution operation, which takes 
+ as the input
+and outputs 
+ of each spatial position 
+ , is expressed as
+View Source
+where 
+ represents the output of the  th conventional kernel at 
+ . To release the limitation of a fixed square, the learnable offset is added to the
+convolution kernel to simulate complex geometric transformations, which can be expressed as
+View Source
+where 
+ denotes the size of the offset features. The learned offsets refine the input feature 
+ to 
+ to guide the deformation
+of the traditional grid sampling. By applying the D2D operation to RGB image and RDM spectrum data, the learnable offsets expand the receptive field
+and improve the generalization performance of gesture motion modeling.
+Finally, after the fusion operation is performed, the features are fed into the LSTM layer to extract the temporal features of gesture motion. The LSTM
+is mainly composed of the following five parts: the input gate, the output gate, the memory cell, the forget gate, and the hidden state. The memory cell
+stores, modifies, and accesses the hidden state. An input sequence 
+ is assumed, where 
+ denotes the feature vector extracted by the
+3 × 3
+1 × 1
+3 × 3
+1 × 1
+3 × 3
+X
+C × H × W
+ 2
+nk
+K
+×
+hk
+wk
+X
+Y
+p0
+Y p0
+2d
+ynp0
+= [
+,
+, … ,
+]
+y1p0 y2p0
+ynk
+p0
+T
+=
+⋅
+∑
+h,w
+Kn
+h,w Xp0
+h,w
+(9)
+ynp0
+n
+p0
+Y ′p0
+2d
+y′n
+p0
+= [
+,
+, … ,
+]
+y′1
+p0 y′2
+p0
+y′nk
+p0
+T
+=
+⋅
+∑
+h,w
+Kn
+h,w Xp0
+(h+ΔH,w+ΔW)
+(10)
+ΔH × ΔW
+Xp0
+h,w
+Xp0
+(h+ΔH,w+ΔW)
+x = [
+, … ,
+]
+x1
+xK
+xk
+
+CNN in the  th frame. Regarding each LSTM unit, the relationship between the input, hidden state, and output can be expressed as follows:
+View Source
+where  denotes the logistic sigmoid function, and  , 
+ , 
+ , 
+ , and 
+ denote the input gate, the output gate, cell activation, the forget gate, and the
+hidden state, respectively.
+C. Gram-Guided Loss Based on Multimodal Fusion
+To fit the high-dimensional heterogeneous information between the input multimodal data and the fused feature maps, the Gram matrix is chosen as
+the loss function to further facilitate the maintenance of the complementary structure of fusion feature maps. In contrast to the dense interleaving
+method that matches the Gram matrix, the Gram matrices of the RGB camera source and the radar spectrum source are referred to as the texture
+structure and the spectrum structure of the fusion feature, respectively.
+First, as shown in Fig. 2, the neural activated Gram matrix is used to extract heterogeneous information from different sources and to maintain the
+complementary structure of the fusion information. Moreover, 
+ denotes an RGB camera dataset with 
+ samples of 
+class, and 
+ denotes the FMCW radar dataset. Because of the synchronous preprocessing operation, the samples of the
+two datasets have the same dimension 
+ , which is obtained by the width 
+ height of the feature maps. It is supposed that 
+ is a compound function
+of consecutive operation in one hidden layer, 
+ and 
+ denote the number and size of the hidden features in the  th layer, respectively, and
+ denotes the hidden features achieved in the  th layer. Regarding RGB camera data, each element in the Gram
+matrix 
+ can be defined as
+View Source
+where 
+ represent the  th and the  th points of the feature maps, respectively, and 
+ and 
+ indicate the value of the inner
+product operation of the feature maps of the corresponding points in the input and fuse layers, respectively. Because 
+ jointly activates the high-
+dimensional information of the feature maps, the texture structure of the RGB camera data has been well obtained.
+Second, the spectrum structure is captured from the radar spectrum map data using the Gram matrix  operation by the inner product of the
+corresponding feature maps. Each element in the Gram matrix  can be defined as
+k
+Ik
+Ok
+Ck
+Fk
+Hk
+= σ(
++
++
++
+)
+XkWXI
+Hk−1WHI
+Ck−1WCI
+BI
+= σ(
++
++
++
+)
+XkWXO
+Hk−1WHO
+CkWCO
+BO
+=
++
+tanh(
++
++
+)
+Ck−1Fk
+Ik
+XkWXC
+Hk−1WHC
+BC
+= σ(
++
++
++
+)
+XkWXF
+Hk−1WHF
+Ck−1WCF
+BF
+=
+tanh(
+)
+Ok
+Ck
+(11)
+σ
+I O C F
+H
+V = [
+,
+, … ,
+] ∈
+V1 V2
+Vnd
+RO×P
+O
+nd
+R = [
+,
+, … ,
+] ∈
+R1 R2
+Rnd
+RO×P
+P
+×
+f(⋅)
+c(l)
+s(l)
+l
+(V , R) =
+(… (
+(V , R))
+F (l)
+f (l)
+f (1)
+l
+G
+(V )
+Gi,j
+(
+(V , R))
+Gi,j F (l)
+= ∑
+p=1
+P
+Vi,pVj,p
+= ∑
+p=1
+P
+F (l)
+i,p F (l)
+j,p
+(12)
+i, j
+i
+j
+(V )
+Gi,j
+(
+(V , R))
+Gi,j F (l)
+(⋅)
+Gi,j
+G
+G
+
+View Source
+where 
+ and 
+ indicate the structure relationship of the feature maps of the corresponding channels in the input and fuse layers,
+respectively.
+Third, to measure the gaps between the input data from different sources and the feature map of the fusion layer, the texture and spectrum metrics are
+defined by loss terms as
+View Source
+where 
+ and 
+ represent the RGB camera and radar spectrum guided texture and spectrum loss, respectively. Due to the synchronous
+preprocessing and the same dual-branch convolution operation, the dual-stream feature distributions with the same number of samples 
+ and
+dimensions 
+ are consistent.
+Finally, regarding the gesture classification task, the cross-entropy operation is used to measure the gap between the predictive value 
+ and the real
+value, which is defined by loss terms as 
+ , where 
+ represents the predictive probability for the category, and 
+ represents
+the number of categories in the classification task. Hence, the overall training loss of the proposed model is the combination of the weighted Gram-
+guided loss and the cross-entropy loss
+View Source
+where  is a balance parameter. Since the Gram operation can be deemed a form of regularization,  should be adjusted to avoid overregularization in
+the process of dual-flow fusion.
+Fig. 2 shows the end-to-end framework of the proposed two-branch fusion deformable dynamic gesture recognition network based on Gram matching.
+Each frame of the RGB image and RDM spectrum belonging to the same gesture sequence are extracted and fused by a two-branch CNN. Then, the
+fusion output is fed into the LSTM units to extract the timing features. The LSTM output vectors of all the moments are aggregated through the fully
+(R)
+Gi,j
+(
+(V , R))
+Gi,j F (l)
+= ∑
+p=1
+P
+Ri,pRj,p
+= ∑
+p=1
+P
+F (l)
+i,p F (l)
+j,p
+(13)
+(R)
+Gi,j
+(
+(V , R))
+Gi,j F (l)
+Ltex
+Lspe
+=
+1
+4P 2O2 ∑
+i=1
+P
+∑
+j=1
+P
+(
+(V ) −
+(
+(V , R)))
+Gi,j
+Gi,j F (l)
+2
+=
+1
+4P 2O2 ∑
+i=1
+P
+∑
+j=1
+P
+(
+(R) −
+(
+(V , R)))
+Gi,j
+Gi,j F (l)
+2
+(14)
+Ltex
+Lspe
+O
+P
+yc
+= −
+log(
+)
+Lc
+∑nd
+n=1 yc
+pc
+pc
+M
+L = λ(
++
+) +
+Ltex
+Lspe
+Lc
+(15)
+λ
+λ
+
+connected layer, and then a gesture label is predicted. The loss value of the predictive result is calculated, and then back propagation is used to calculate
+the gradient.
+SECTION V.
+Experimental Setup
+To evaluate the complex environment adaptability and generalization of the proposed HGR method, we carried out a large number of experiments on
+the multisensor measurement platform composed of an RGB camera and FMCW radar, as shown in Fig. 3. The radar sensor used in the platform is the
+77-GHz FMCW radar of Texas Instruments AWR1843BOOST, whose parameters are set as shown in Table I.
+TABLE I Parameter of FMCW Radar Used in Measurement Platform
+
+
+The ten gestures mentioned in the existing research [64] are selected for classification, including push-forward, push-back, slide-left, slide-right, pull-
+up, pull-down, pinch, circle, wave-hand, and click, as shown in Table II. Because a complete gesture usually takes less than 2 s, the frame rate of the
+camera and radar is set to ten to obtain an original data unit. The core stage of gestures is extracted by our time-synchronized preprocessing from the
+dynamic time stream, which is composed of multiple data units, as shown in Fig. 4. Fig. 4(a) and (b) shows the time-varying trend of the summation
+amplitude of the normalized image displacement and RDM spectrum, respectively. The horizontal axis is the number of frames, and the vertical axis is
+the summation amplitude value. 
+ and 
+ are set to 0.3 to establish vision and radar gesture samples with a core stage of five frames. The size
+of each sample is resized to be 
+ , and the structure of our dataset is 
+ .
+Fig. 3.
+Multisensor measurement platform composed of RGB camera and FMCW radar, where the camera is marked by the green box, and
+the radar is marked by the red one.
+
+Tvision
+Tradar
+32 × 32
+5 × 3 × 32 × 32
+TABLE II Ten Gestures Selected for Comparison
+
+
+Fig. 4.
+After the time-synchronized preprocessing, the lasting time of camera and radar data streams are synchronized. The red dotted
+lines denote the value of the set threshold, and the blue dotted lines denote the start and end time-stamps of the gesture. (a)
+Displacement of gesture pixels extracted from the each RGB frame. (b) Amplitude of gesture spectrum extracted from each RDM
+frame.
+
+
+These gestures are captured by eight subjects to establish a train-validation dataset with 2400 samples. Each sample is composed of two-part contexts
+of image and RDM. Considering the individuals of different subjects, the eight times leave-one-out cross-validation method was used to evaluate the
+robustness of the proposed method. Taking into account the different environments and measurement scenes, hand data were collected by four extra
+subjects in six environments to build a test dataset with 7200 samples. Six kinds of environments, including out-of-laboratory scenes of normal light,
+dark and bright light, and in-laboratory scenes of normal light, dark and bright light, are deployed, as shown in Fig. 5. The relative position between
+each subject and the platform is determined according to the habits of the subjects, and it is greater than 1 m. In addition, a test dataset with 1200
+samples are collected at four distance FOV scenes, i.e., 1, 1.5, 2, and 2.5 m, from the measurement platform in and out-of-laboratory scene of normal
+light, to verify the generalization performance of the proposed network.
+Fig. 5.
+Six kinds of environments considered in our works. (a) Out-laboratory of normal light. (b) In-laboratory of normal light. (c) Out-
+and in-laboratory of dark. (d) Out- and in-laboratory of bright light.
+
+SECTION VI.
+Experiment Analysis and Discussion
+In this section, the advantages of the proposed method in complex environment adaptability and generalization are verified. To evaluate the fitting
+degree of the training process, accuracy, average recall, average precision, and average F1-score are used as metrics, the initial learning rate is set to 0.1,
+and the balance factor is set to 0.01. The entire experiments are implemented in a computer with an Intel i7-8750H processor and an Nvidia Geforce
+GTX 1050Ti GPU card.
+A. Leave-One-Out Cross-Validation
+Due to the differences in the personal habits of the subjects, gesture samples of the same category may express different meanings. Therefore,
+satisfactory generalizability to different users is significant for the HGR. We use leave-one-out verification to evaluate the generalization performance of
+
+the proposed method. Regarding each leave-one-out validation, one subject who did not participate in the training was selected as the validation set of
+the unknown source, and the remaining seven subjects were selected as the training set. The accuracy, average recall, average F1-score, and average
+precision of gesture classification for each subject are provided to evaluate the generalization. Meanwhile, the single-class recognition accuracy of each
+gesture is also used to evaluate the difference between gesture categories.
+The leave-one-out validation of eight subjects for ten gesture categories is shown in Table III. The proposed method has the best classification
+performance for sub.6, with an accuracy of 98.89%, an average precision of 99.09%, an average recall, and an average F1-score of 99%. Similarly, sub.1,
+sub.2, sub.3, and sub.8 all achieved above 95% with regards to these four metrics. The result indicates that although personal habits lead to the
+ambiguity and variability of gestures, the proposed method has good generalization for gesture classification of different subjects. By averaging the
+metrics of each subject, the proposed method achieves a 94.58% accuracy, 94.66% average recall, 94.57% average F1 score, and 95.22% average
+precision.
+In addition, the recognition results of each gesture category show that the precisions of the six gestures are all above 95%, while only the precision of the
+draw-circle gesture is lower than 90%, and the precisions of pull-down and push-forward gestures are below 95% but above 90%. This is because the
+proposed method can achieve complementary advantages through the combination of RGB image data and RDM data.
+Since camera and radar have different sensitivities to the physical properties, the single transmit and single receive antenna channel of the radar sensor
+is used to collect the radial range and velocity of the gestures, while the azimuth, elevation, and imaging information of the gestures are collected by the
+camera. The texture features in multimodal data are fully extracted by the loss function of Gram to further improve the representation of features. The
+network structure of the proposed method includes deformable convolution, which can enhance the generalization performance through a more flexible
+receptive field.
+B. Verification of Six Environments
+As gesture sensing scenarios expand, robustness has become extremely important for gesture recognition based in complex environments. We deploy
+six complex environments, as shown in Fig. 5. The open scene outside the laboratory leads to weak electromagnetic clutter, while a bio-radar for
+detecting human vital signs is placed inside the crowded laboratory to simulate measurement conditions with high environmental clutter. Fig. 5(a) and
+(b) shows that energy dispersion and redundant targets occur in the RDM of the in-laboratory scene, which decrease the performance of the RDM data.
+Similarly, different lighting conditions are used to evaluate the adaptability of the proposed method to illumination. Fig. 5(c) and (d) shows that the
+amount of information expressed by the RGB image is sharply decreased by the dark and bright light conditions.
+Multimodal and single-modal data are collected by new subjects to implement gesture classification for the six environments. The network structure of
+HGR using single-modal data is the proposed method with a single stream. Table IV summarizes the results of HGR for the six environments using
+multimodal data of RGB images and RDM. Classification based on multimodal data has achieved 94.63% precision in the out-of-laboratory of normal
+light scenes. Under the in-laboratory of normal light scene, recognition performance, which drops slightly, is above 93%. Although electromagnetic
+TABLE III Leave-One-Out Cross-Validation Results Based on the Proposed Method
+
+
+clutter in the in-laboratory scene impairs the expressiveness of the RDM data, the RGB image data can still provide sufficient reliable information for
+gesture classification. Regarding the dark conditions, depending on the intact RDM data, the HGR for the out-of-laboratory scene achieves 93.68%
+classification precision, while the precision of HGR for the in-laboratory scene is reduced but still achieves 89%. Similarly, with regards to brightly lit
+conditions, the classification results show that although the quality of the RGB image is significantly damaged, the precision of the proposed method
+still reaches more than 83%. This is because the proposed method fully exploits the complementary information of multimodal data to implement the
+HGR and prevents the influence of environmental factors on the classification performance.
+Confusion matrices of HGR for the six environments using multimodal data are shown in Fig. 6. The distribution of the confusion matrix indicates that
+the reduction in accuracy of most gestures caused by data damage is limited. The draw-circle and click gestures are influenced by the indoor and
+outdoor sceneries. This is because the weak spectral energy in the RDM of these gestures is easily disturbed by the indoor electromagnetic clutter. In
+addition, draw-circle and push-up gestures are also susceptible to illumination conditions. It seems that the recognition of these gestures relies on the
+azimuthal or elevational information, and the dark or bright light condition cannot provide reliable azimuth or elevation.
+TABLE IV Verification of Six Environments Using Multimodal Data
+
+Fig. 6.
+Confusion matrixes of HGR based on the six environments using the multimodal data. (a) Outdoor and normal. (b) Outdoor and
+dark. (c) Outdoor and bright light. (d) Indoor and normal. (e) Indoor and dark. (f) Indoor and bright light.
+
+
+Table V summarizes the results of the HGR for the six environments using only RGB image data. Under normal illumination, the HGR based on RGB
+image data can achieve an accuracy of over 90% in both indoor and outdoor scenarios. However, under dark or bright light conditions, the gesture
+classification performance suffers a significant decline. The classification accuracy under bright light is only approximately 55%. Confusion matrices of
+the HGR for the six environments using RGB image data are shown in Fig. 7. The distribution of the confusion matrix indicates that gestures
+distinguished by visual information, such as draw-circle, pull-down, pinch-hand, and pull-up, are difficult to recognize in complex lighting
+environments. Regarding the bright light condition, the accuracy distribution of each gesture category becomes irregular. Individual gestures still
+achieve good recognition performance, which may be caused by the fact that the larger shooting area of gestures makes the receptive field wider in the
+RGB image.
+Table VI summarizes the results of the HGR for the six environments using only RDM data. In the out-of-laboratory scene, although illumination has
+been transformed, a single RDM data can still robustly achieve the HGR, with an accuracy of more than 89%. However, the complex environmental
+clutter in the in-laboratory scene severely disturbs the energy distribution of the micro gesture features in the RDM data. A 15%–20% drop in the
+accuracy results in the gesture classification task not being completed properly. Confusion matrices of the HGR for the six environments using RDM
+TABLE V Verification of Six Environments Using RGB Image Data
+
+Fig. 7.
+Confusion matrixes of HGR based on six environments using the RGB image data. (a) Outdoor and normal. (b) Outdoor and dark.
+(c) Outdoor and bright light. (d) Indoor and normal. (e) Indoor and dark. (f) Indoor and bright light.
+
+
+data are shown in Fig. 8. The distribution of the confusion matrix indicates that the indoor electromagnetic clutter can significantly degrade the
+accuracy of gesture classification that relies on the radial micro motion information, such as pull-down, slide-left, click, pull-up, and wave, while the
+effect is much smaller for gestures with a high spectral energy, such as push-back and push-forward.
+C. Ablation Study
+Gestures have different feature distributions in the multimodal data of FOV scenes with different ranges. In this work, the variation is addressed by
+embedding several network structures, such as deformable convolutions, Gram-based loss terms, and LSTM layers. Since different spatiotemporal
+networks are compared in Section VI-D, the deformable convolution and the Gram-based loss are the main objects of this ablation study.
+Table VII records the results of the ablation studies in different FOV scenes with normal light. When the subject collects gestures at 1 m, after training
+with the deformable convolution and the Gram-based loss function, the gesture classification accuracy can reach 94.58%. If the complementary
+connections between multimodal features have not been extracted by the Gram-based loss, the classification performance of gestures will inevitably
+drop, with an accuracy of 91.67%, an average precision of 91.19%, an average recall of 92.67%, and an average F1 score of 90.47%. If the deformable
+TABLE VI Verification of Six Environments Using RDM Data
+
+Fig. 8.
+Confusion matrixes of HGR based on six environments using the RDM data. (a) Outdoor and normal. (b) Outdoor and dark. (c)
+Outdoor and bright light. (d) Indoor and normal. (e) Indoor and dark. (f) Indoor and bright light.
+
+
+convolution has been replaced by the ordinary convolution, the classification accuracy of the gesture will further drop to approximately 90%. When the
+subject collects gestures at 1.5 and 2 m, although the performance of the HGR gradually decreases with an increasing distance between the subject and
+the measurement platform, the proposed method with deformable convolution and Gram-based loss can still maintain the four classification metrics
+to be above 86%. When the subject collects gestures at 2.5 m, the four metrics of the network structure that remove the deformable convolution and
+Gram-based loss are reduced to approximately 75% and 80%, respectively. The network with both the structures can maintain the classification
+accuracy at approximately 85%.
+The above ablation studies demonstrate that deformable convolutions and Gram-based loss not only provide reliable gesture recognition but also
+enhance the generalization for gesture classification tasks in different FOV scenes.
+D. Comparison of Different Networks
+In our work, the proposed method relies on the two-branch shallow CNN and the LSTM layer to extract spatial and temporal features from multimodal
+data, respectively. To verify the feature extraction and classification capabilities of the proposed method, the HandNet presented by Wang et al. [65] to
+implement the radar-based HGR, the ResNe18t with deep learning structure [66], the RNN composed of the fully connected and LSTM layer [64], and
+the 3-D ResNet18 using time-dimensional convolution to extract temporal features [67] have been compared with the proposed method in Table VIII.
+Specifically, the shallow CNN is replaced by the HandNet, ResNet18, and fully connected layer, and the outputs of the two-branch 3-D ResNet18 are
+concatenated for the HGR.
+In Table VIII, the proposed method achieves the best recognition results among the four metrics. ResNet18-LSTM and 3-D ResNet18 using deep
+convolutional networks achieve similar classification accuracies, which are close to 90%. However, HandNet only achieves a classification accuracy of
+TABLE VII Ablation Study in Different FOV Scenes
+
+TABLE VIII Comparison of Different Networks
+
+
+83.33%, and the F1-score is lower than 80%. The RNN method, which achieves a classification accuracy of 84.17%, also cannot compete with
+convolutional neural networks.
+In addition, Figs. 9 and 10 show the training process of these methods. The red line in the figure represents the training process of the proposed
+method. As shown in Fig. 9, although the loss value is higher in the first ten epochs due to the Gram-based loss, the proposed method also facilitates
+the extraction of heterogeneous information from multimodal data and converges the loss value below 0.1 at epoch 30. In contrast, the loss values of
+HandNet and RNN remain above 0.5 at epoch 50. Fig. 10 indicates that the four metrics of the proposed method have reached more than 90% at epoch
+25 and finally converged to a precision of 95.36%, which is significantly better than other networks.
+Fig. 9.
+Different network-based training processes of loss value. The red line in the figure represents the training process of the proposed
+method.
+
+
+E. Discussion
+In this work, we try to address the issue that a single sensor cannot reliably achieve HGR in complex environments and different FOV scenarios. A
+multimodal measurement platform composed of radar and camera is used to collect gesture data. The well-designed comparison experiments show the
+recognition performance of ten gestures in different environments. The proposed multimodal method achieves relatively stable performance for the six
+environments.
+Regarding outdoor environments, radar data can always provide support for gesture classification regardless of lighting changes. Regarding indoor
+environments, radar performance is degraded by background noise. The weak spectrum in the RDM of individual gestures, such as draw-circle (b) and
+click (h), is easily disturbed by indoor background noise. Some gestures that rely on radial features, such as push-forward (a), push-backward (e), and
+waving (j), are also affected to varying degrees. In the dark environment, some gestures, such as slide-left (f), slide-right (g), pull-up (I), and pull-down
+(c), have a certain deviation in the classification results. In the bright light environment, gestures with a good classification performance also experience
+a decrease in accuracy.
+Fig. 10.
+Different network-based training processes of accuracy, average recall, average F1-score, and average precision. The red line in the
+figure represents the training process of the proposed method. (a) Training process of accuracy. (b) Training process of recall. (c)
+Training process of precision. (d) Training process of F1-score.
+
+
+Authors
+
+Figures
+
+References
+
+Citations
+
+Keywords
+
+Gesture classification results from a single sensor can better reflect the dependence of gesture data from different sensors in complex environments.
+From these experiments, it is evident that multimodal data have a high advantage over single sensor data. Collecting data in a variety of environments
+and scenarios makes our experimental results rich and convincing. In the future, we will collect more subjects to build a complete multimodal gesture
+dataset.
+Our work does not require spatial synchronization since the classified objects are dynamic gestures. In radar data, as the gesture changes, the size and
+position of the energy scattering center of the RDM from different frames will change. Regarding vision data, images from different frames can show
+displacement variations in gesture key-points. The proposed time synchronization preprocessing method is used to extract and segment the start and
+end times of each gesture piece from the multimodal data with different start time stamps. Each slice is labeled according to the gesture items
+performed by the subject, thus obtaining camera and radar gesture data with the same starting time stamp.
+We deploy the measurement platform with separate radar and camera sensors. First, by adjusting the sampling frequencies of the radar and camera,
+the scales of the data generated by the two sensors agree within 1 s. Then, the camera and radar are turned on separately for object detection. After the
+gesture acquisition is complete, we turn off both the sensors and derive gesture data with different physical properties. It is worth noting that the input
+data sizes of the existing studies are usually between 
+ and 
+ . Therefore, considering the training cost of the model, we chose a data size
+of 
+ . In future work, we will further investigate how to maintain classification performance in memory-constrained edge cases.
+16 × 16
+96 × 96
+32 × 32
+SECTION VII.
+Conclusion
+In this article, we propose a novel multimodal dynamic HGR method based on a two-branch fusion deformable network with Gram matching to address
+the unreliable HGR caused by complex environments and differences in personal habits. The experimental results indicate that the proposed method
+effectively improves the adaptability of the classifier to complex environments and exhibits satisfactory robustness to multiple subjects. Ablation
+analysis shows that deformable convolution and Gram loss not only provide reliable HGR but also enhance the generalization ability of classification
+tasks in different FOV scenarios. Overall, the experiments show that the proposed radar–vision fusion-based dynamic gesture recognition method is a
+robust solution that is applicable to complex environments with strong generalizations.
+
+  Back to Results  
+IEEE Personal Account
+CHANGE USERNAME/PASSWORD
+Purchase Details
+PAYMENT OPTIONS
+VIEW PURCHASED DOCUMENTS
+Profile Information
+COMMUNICATIONS PREFERENCES
+PROFESSION AND EDUCATION
+TECHNICAL INTERESTS
+Need Help?
+US & CANADA: +1 800 678 4333
+WORLDWIDE: +1 732 981 0060
+CONTACT & SUPPORT
+Follow
+
+
+
+
+About IEEE Xplore | Contact Us | Help | Accessibility | Terms of Use | Nondiscrimination Policy | IEEE Ethics Reporting  | Sitemap | IEEE Privacy Policy
+A public charity, IEEE is the world's largest technical professional organization dedicated to advancing technology for the benefit of humanity.
+© Copyright 2026 IEEE - All rights reserved, including rights for text and data mining and training of artificial intelligence and similar technologies.
+Metrics
+
+

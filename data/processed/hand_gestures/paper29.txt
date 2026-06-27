@@ -1,0 +1,396 @@
+Deep Learning Based Hand Gesture Translation 
+System 
+ 
+Sk.Khaja Shareef1 
+Associate Professor 
+Department of Information Technology,  
+MLR Institute of Technology 
+Khaja.sk08@gmail.com 
+I.V. Sai Lakshmi Haritha2 
+Assistant Professor 
+Department of Information Technology, 
+MLR Institute of Technology 
+pslharitha@gmail.com 
+ 
+Y.Lakshmi Prasanna3 
+Assistant Professor 
+Department of Information Technology, 
+MLR Institute of Technology 
+prasanna.yeluri@gmail.com 
+ 
+G.Kiran Kumar4 
+Professor 
+Department of Information Technology, 
+MLR Institute of Technology 
+ganipalli.kiran@gmail.com 
+ 
+Abstract—  
+Sign language plays an important role for the people who 
+have the hearing and speech problems For the Non- verbal 
+communication between the deaf-mute people. For the Kinetics 
+gestures plays a crucial role in our day-to-day life. There are 
+different sign languages that are available Hand Gesture 
+Translation is one among them. The sign language is a collection 
+of different Hand Gesture symbols and Each Hand Gesture 
+symbol have special meaning. It is mostly used by the deaf-mute 
+persons to express their views and thoughts very quickly with 
+the normal people. Main problem with this system is very 
+difficult to translate the symbols and required special training 
+on sign language.  To overcome this problem we have 
+implemented a Hand Gesture Translation System it provides an 
+ability to interact with the machine efficiently. It will help the 
+deaf-mute to express their feelings and views more effectively 
+with the normal people. In this paper implemented software 
+prototype that will automatically recognize the hand gestures 
+with an accuracy of 93.4% for gesture Translation which will 
+help the deaf and dumb people to interact easily with the normal 
+people. The main aim of the project is to provide the easy way of 
+communication between the normal people and the deaf-mute 
+through gestures. 
+ Keywords—Hand 
+Gestures; 
+Deep 
+learning; 
+Machine 
+learning; Pre-Processing Image; Feature Extraction of Image; 
+Image Processing; Deaf-mute. 
+I INTRODUCTION 
+The Sign language plays an vital role for the 
+communication between the deaf-mute. Hand Gesture 
+Translation System(HGT System) is one among them, which 
+will help the deaf and dumb people to communicate with the 
+normal people through different hand gestures. These hand 
+gestures will help the deaf and dumb people to express their 
+views and thoughts very quickly with the people. The output 
+is produced in the form text so that the people can recognize 
+what the deaf and dumb are saying. The sign language mostly 
+reduces the communication gap between the deaf-mute and 
+the other people. 
+ There are two types of sign languages that are available 
+one is Image based sign language and another one is Sensor 
+based sign language. Sensor based sign language is very 
+costly compared with the Image based sign language because 
+Sensor based sign language is built with the Hardware 
+components whereas Image based sign language is built 
+through Camera, Our Laptop consists of inbuilt Camera 
+which will help to capture the image objects very easily. 
+Hand Gesture Translation System is the software prototype it 
+uses the Laptop inbuilt camera for capturing the different 
+hand gestures and produces the output in the form of Text. It 
+is mostly used by people who have speech and hearing 
+problems to speak with the people. Because sometimes the  
+people cannot understand what deaf and dumb people are 
+saying in that case these hand gesture Translation system will 
+used because the output is produced in the form of text, 
+which the normal people can able to read. One of the 
+Advantage of Image based approach is not to wear the Hand 
+Gloves, Helmet etc. Sign language identification is significant 
+in many domain areas such as user-interface, Interaction, 
+security and multimedia. There are two parts in sign language 
+identification one is sign detection and another one is sign 
+Translation. The system will use the web camera for 
+capturing the hand gestures and after successfully capturing it 
+will recognize those hand gestures and produces the output in 
+the form of text. 
+ In Machine Learning is useful in solving different real- 
+time problems. This technology is mostly performs complex 
+jobs such as classifying data, Translation of data, identifying 
+data and predict the values. The basic idea of every machine 
+learning project is to give a input data to the machine to 
+generate a system which can be produce the result. Thus the 
+obtained result offer the correct response with the new input 
+or  generate predictions for the known information. The 
+objective of our proposed system is to train ML algorithm in 
+order to classify the different hand gesture images such as 
+palm, fist. This method is also using deep learning and 
+Tensor flow frame work . 
+Proceedings of the Fifth International Conference on Trends in Electronics and Informatics (ICOEI).
+IEEE Xplore Part Number:CFP21J32-ART; ISBN:978-1-6654-1571-2
+978-1-6654-1571-2/21/$31.00 ©2021 IEEE
+1531
+2021 5th International Conference on Trends in Electronics and Informatics (ICOEI) | 978-1-6654-1571-2/21/$31.00 ©2021 IEEE | DOI: 10.1109/ICOEI51242.2021.9452947
+Authorized licensed use limited to: Lovely Professional University - Phagwara. Downloaded on March 10,2026 at 04:14:34 UTC from IEEE Xplore.  Restrictions apply. 
+
+Word HGT System is done by deep learning using neural 
+networks. [6] It uses a classification technique which comes 
+under supervised learning. Supervised learning is the function 
+which is trained with the named dataset. The named dataset  
+contains  an input-output pairs. In this method the training as 
+well as test datasets required. Classification algorithms are 
+used for prediction in machine learning and works with 
+labeled datasets. In classification, the computer program must 
+train with the training dataset and after the training dataset 
+will be divided into different classes. 
+Deep learning is a one of machine learning algorithm 
+utilizes multiple layers that process the data and also extract 
+the high level features from them and produces a 
+mathematical model[7]. The proposed system is able to 
+categories the different hand signs, i.e A system, can learn the 
+meaning of each sign and classifies them properly. 
+Designing a model: 
+  
+Fig:1.1 Designing a model 
+Convolutional layer will uses various of filters to the picture, 
+the layer plays out certain numerical tasks in order to deliver 
+one result. [8]Pooling layers are utilized in CNN to reduce the 
+dimensionality of the picture. In a thick layer each hub in the 
+layer is associated with the other hub in the first layer. 
+II Literature survey 
+Intrinsically there are two ways for the signal language 
+understanding, one is vision based Translation and another 
+one is sensor based gesture Translation. Sensor based 
+approach includes wearing a helmet , wires etc. and lots of 
+research should be done for the sensor based approach and 
+are very costly. Also there is a disadvantage in the sensor 
+based approaches is that continuously wearing of helmet and 
+wires are impossible, so proposed project is focused on image 
+processing methods Maintaining the Integrity of the 
+Specifications[1] 
+The In last few years there is a lot of work is done on 
+gesture Translation and sign language Translation [2]. There 
+are many paths or ways  for sign Translation which includes 
+Hidden marcov model, Artificial neural network, Eigenvalue 
+based Algorithm are one of the conspicuous accomplishments 
+that were accomplished in the field of Hand gesture 
+Translation is to remove correspondence hindrance between 
+the deaf-mute and the ordinary individuals[3][4][5]. 
+ After searching for different datasets in the internet, we 
+did not find the dataset. To search of the dataset is also one of 
+the biggest task, once we search for the dataset it is very easy 
+to build the model according to our dataset. The sign 
+language contains huge signs, hence we need a so much for 
+conversion. Here we build a simple model using conventional 
+neural network concept in deep learning. The architecture is 
+to order the static pictures, we got a decent precision, after 
+that we chose to add more experiments to our model, we 
+additionally 
+confronted 
+a 
+few 
+requirements 
+of 
+the 
+acknowledgment of our undertaking. 
+ 
+III Feasibility Study 
+The aftereffects of practicality investigation of a deep 
+learning scheme for gesture based communication movement 
+Translation are given in this paper. For motion Translation 
+Deep learning and conventional classification schemes were 
+utilized, and there are looked at[14][15]. In a Deep learning 
+measure each edge of hand motion will be passed for include 
+extraction. After extracting the feature it will recognize the 
+extracted feature and produce the output[12][13]. 
+ 
+ At this stage the design of the neural network and 
+discretionary boundaries for deep learning have not been 
+improved, it is checked that the precision of acknowledgment 
+went from 97.2% for six signals. Though the performance of 
+the conventional schemes are inferior, it is viewed as that 
+these outcomes demonstrate the possibility of utilizing deep 
+learning scheme for hand gesture identification 
+Problem Definition 
+Sign Language, which will convert the standard Sign 
+Language to Text. This is a multi-use application for deaf and 
+dumb people, which includes many forms of Sign Language 
+and Gestures. 
+Primarily  two methods are used for sign Identification Sight-
+based and sensor-based Gesture Translation. Sensor-based 
+methodologies like keeping gloves, wires, caps, and so on 
+There is disadvantage in sensor based is wearing a gloves 
+continuously is not possible. So image based is the simple 
+technique for capturing the hand images[9][10][11]. 
+ 
+VI Proposed System 
+ 
+ 
+Fig:4.1:  Working Flow of the system 
+Proceedings of the Fifth International Conference on Trends in Electronics and Informatics (ICOEI).
+IEEE Xplore Part Number:CFP21J32-ART; ISBN:978-1-6654-1571-2
+978-1-6654-1571-2/21/$31.00 ©2021 IEEE
+1532
+Authorized licensed use limited to: Lovely Professional University - Phagwara. Downloaded on March 10,2026 at 04:14:34 UTC from IEEE Xplore.  Restrictions apply. 
+
+ 
+In The proposed system we are having following modules  
+i) Collect the Image : 
+deaf-mute person has to sit in front of web camera and 
+start communicating with sign language. Where web 
+camera capture the images and forwarded to application. 
+ii) Pre-Processing Image 
+All the images are collected from web camera and these  
+images are pre-processed noisy data. It will processes 
+only hand gesture Image  
+iii) Feature Extraction of Image 
+The hand Image received from Image Pre-processing 
+features of the Image is extracted such as sign represented 
+by hand and these features are forwarded to Gesture 
+Translation Hand Tracking system. 
+iv) GRHT system 
+ GRHT system is core of the system and it is a Deep 
+learning application which contains the trained data sets 
+to recognize the hand gesture. To train the data sets we 
+use the Custom Gesture dataset of 6 gesture classes, 
+individually intended for man- machine interfaces(MMI). 
+GRHT system receives the data for feature extraction 
+module and compares the hand gesture with available data 
+in Input-output data set. If hand gesture matches with any 
+of data in the data set the respective meaning of the hand 
+gesture will be displayed on the screen to other people 
+ 
+V Results 
+ 
+ 
+ 
+ 
+ 
+Fig 5.1 Screen short of working of application-1 
+ 
+ 
+ 
+Fig 5.2 Screen short of working of application-2 
+ 
+Use The Custom Gesture dataset of 6 gesture classes, 
+individually intended for man- machine interfaces(MMI) and 
+are recorded by webcam(Internal or external of any frame 
+rate) using background elimination and background masking. 
+There are 7800 images in total, including the testing and the 
+training dataset which are staged at a reasonably dark 
+background. Since the gesture images are recorded by using 
+different webcams, there will be a change in the size of frame, 
+so we cropped them to a standard size. The deep learning 
+model is fed with 6000 images in total, 1000 respectively for 
+each class and is validated with 600 images, 100 respectively 
+for each class. 
+Although this training set is a lot smaller compared to other 
+datasets that are used in deep learning, using the background 
+elimination concept helped us to remove the over fitting 
+repercussion considerably. The state-of-art model that we 
+used consists of 7 Conv3D layers and a max pooling layer 
+associated with each layer. The architecture is also 
+accommodated with a dropout of 0.75 to avoid over fitting. 
+The final layer consists of the linear activation function, yet 
+very commendable, the soft max is used. The approach we 
+used performs state-of-art performance. The real time video is 
+instantiated using the open cv module and each frame is 
+collected, preprocessed and sent to the model for prediction. 
+Human accuracy is reported as 93.4% for gesture Translation. 
+ Limitations and Future Enhancement 
+Limitations: 
+ 
+It Replace mouse and Key board , can also Pickup 
+and 
+manipulate 
+Virtual 
+objects 
+Navigate 
+in 
+virtual 
+Environment 
+Future Enhancement: 
+It Enhance the Translation capability for various lighting 
+conditions. we can achieve  more accuracy by implementing 
+and identifying  more number of gestures applying gesture 
+Translation for accessing internet applications 
+ 
+Proceedings of the Fifth International Conference on Trends in Electronics and Informatics (ICOEI).
+IEEE Xplore Part Number:CFP21J32-ART; ISBN:978-1-6654-1571-2
+978-1-6654-1571-2/21/$31.00 ©2021 IEEE
+1533
+Authorized licensed use limited to: Lovely Professional University - Phagwara. Downloaded on March 10,2026 at 04:14:34 UTC from IEEE Xplore.  Restrictions apply. 
+
+VI Conclusion 
+This Project is very useful for many people who have the 
+hearing and the speech problems. This project is mainly 
+useful for the deaf and dumb people who are unable to speak 
+and are unable to listen, it will helpful for them. 
+Sign languages are mostly used by the deaf and dumb 
+people. These sign languages are mostly used to bridge the 
+communication gap between the deaf-mute people and the  
+Individuals. Gestures are used to provide a way for the 
+computers to understand the human body language. Gestures 
+will also play an important role for the communication 
+between the visually impaired people with the normal people. 
+ 
+VII References 
+1.G. R. S. Murthy, R. S. Jadon. (2009). “A Review of 
+Vision Based Hand Gestures Translation,” International 
+Journal of Information Technology and Knowledge 
+Management, vol. 2(2), pp. 405- 410 
+2.S. Mitra, and T. Acharya. (2007). “Gesture Translation: 
+A Survey” IEEE Transactions on systems, Man and 
+Cybernetics, Part C: Applications and reviews, vol. 37 
+(3), pp. 311- 324, DOI: 10.1109/TSMCC.2007.893280. 
+3.Mokhtar M. Hasan, Pramoud K. Misra, (2011). 
+“Brightness Factor Matching For Gesture Translation 
+System Using Scaled Normalization”, International 
+Journal of Computer Science & Information Technology 
+(IJCSIT), Vol. 3(2). 
+4.V. K. Verma, S. Srivastava, and N. Kumar, "A 
+comprehensive review on automation of Indian sign 
+language," IEEE Int. Conf, Adv. Comput. Eng. Appl.,Mar 
+2015 pp. 138-142. 
+5.H. Y. Lai and H. J. Lai, "Real-Time Dynamic Hand 
+GestureTranslation," IEEE Int. Symp. Comput. Consum. 
+Control,2014no. 1,pp. 658-661. 
+6. M Anila and G Pradeepini, “Study of prediction 
+algorithms for selecting appropriate classifier in machine 
+learning.” Journal of Advanced Research in Dynamical 
+and Control Systems 9, 257-268 
+7. R Bandi, G Anitha “Machine learning based Oozie 
+Workflow for Hive Query Schedule mechanism” 2018 
+International Conference on Smart Systems and Inventive 
+Technology. 
+8. SG K.Nirosha, B. Druga Sri “Detection of Image 
+Classifiers Using CNN in Machine Learning”, 2018 
+Journal of Advanced Research in Dynamical and Control 
+Systems (JARDCS) 10. 
+9. Tsung-Ming Tai, Yun-Jie Jhang, Zhen-Wei Liao, Kai-
+Chung Teng, and Wen-Jyi Hwang “Sensor-Based 
+Continuous Hand Gesture Translation by Long Short-
+Term Memory” IEEE Sensor Letters Vol.2,No.3,Sept 
+2018. 
+10. Minwoo Kim, Jaechan Cho, Seongjoo Lee and Yunho 
+Jung “IMU Sensor-Based Hand Gesture Translation for 
+Human-Machine Interfaces” Sensors 2019, 19, 3827; 
+doi:10.3390/s19183827 
+11. Yasen M, Jusoh S. 2019. A systematic review on hand 
+gesture 
+Translation 
+techniques, 
+challenges 
+and 
+applications. 
+PeerJ 
+Comput. 
+Sci. 
+5:e218 
+http://doi.org/10.7717/peerj-cs.218 
+12. Kazuki Sakamoto, Eiji Ota, Tatsunori Ozawa, 
+Hiromitsu Nishimura, Hiroshi Tanaka “Feasibility Study 
+on Deep Learning Scheme for Sign Language Motion 
+Translation” Complex, Intelligent, and Software Intensive 
+Systems Proceedings of the 12th International Conference 
+on Complex, Intelligent, and Software Intensive Systems 
+(CISIS-2018) 
+13. Jason Brownlee Deep Learning Models for Human 
+Activity Translation Deep Learning for Time Series sept 
+2018 
+14. Mart´ın Abadi, Paul Barham, Jianmin Chen, Zhifeng 
+Chen “TensorFlow: A system for large-scale machine 
+learning” 12th USENIX Symposium on Operating 
+Systems Design and Implementation 
+15. Pramod Singh, Avinash Manure “Learn TensorFlow 
+2.0” 
+Apress, 
+Berkeley, 
+CA 
+2020 
+https://doi.org/10.1007/978-1-4842-5558-2 
+ 
+Proceedings of the Fifth International Conference on Trends in Electronics and Informatics (ICOEI).
+IEEE Xplore Part Number:CFP21J32-ART; ISBN:978-1-6654-1571-2
+978-1-6654-1571-2/21/$31.00 ©2021 IEEE
+1534
+Authorized licensed use limited to: Lovely Professional University - Phagwara. Downloaded on March 10,2026 at 04:14:34 UTC from IEEE Xplore.  Restrictions apply. 
+

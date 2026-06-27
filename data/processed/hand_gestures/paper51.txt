@@ -1,0 +1,1831 @@
+20
+IEEE TRANSACTIONS ON NEURAL SYSTEMS AND REHABILITATION ENGINEERING, VOL. 34, 2026
+Deep Feature Learning From Electromyographic
+Signals for Gesture Recognition Systems
+Wenjuan Zhong , Xinyu Jiang , Katarzyna Szymaniak, Milad Jabbari , Chenfei Ma ,
+and Kianoush Nazarpour , Senior Member, IEEE
+Abstract— Deep learning applied to electromyography
+(EMG) signals enables accurate hand gesture recogni-
+tion, revolutionizing diverse applications such as human-
+machine interaction, neural interfaces, and rehabilitative
+robotics. A well-designed deep learning architecture is cru-
+cial for accurately and robustly modeling and decoding the
+multidimensional information embedded in the EMG data.
+This survey presents a comprehensive review of state-
+of-the-art deep learning models and, for the ﬁrst time,
+offers a categorization of advanced architectures from the
+perspective of data representations. EMG, as a distinctive
+biosignal modality, can be characterized through multi-
+ple representational forms, including temporal waveforms,
+spatial images, spectral domains, and graph-based struc-
+tures comprising interconnected nodes. Consequently, the
+optimal model architecture is closely tied to the spe-
+ciﬁc data representation employed. In addition, the limited
+availability of EMG datasets, particularly those with high-
+quality labels, remains a critical bottleneck and continues
+to impede the translation of research advances into
+widespread real-world applications. We therefore exam-
+ine emerging semi-supervised and self-supervised learning
+frameworks, which serve as complementary approaches to
+fully supervised paradigms. Finally, we outline promising
+future directions for the development of generalizable and
+robust deep learning for practical EMG decoding.
+Index Terms— Electromyography (EMG), deep learning,
+feature representation, gesture recognition.
+I. INTRODUCTION
+O
+VER the past decade, signiﬁcant advances in elec-
+tromyography (EMG)-based gesture recognition sys-
+tems
+have
+driven
+notable
+progress
+in
+applications
+for
+human–machine interaction (HMI) [1], [2], [3], [4], [5], assis-
+tive technologies [6], [7], [8] and rehabilitative robotics [9],
+[10], [11]. As presented in Fig. 1, these systems use EMG
+Received 27 March 2025; revised 16 August 2025 and 27 September
+2025; accepted 3 November 2025. Date of publication 20 November
+2025; date of current version 23 December 2025. This work was
+supported by the Engineering and Physical Sciences Research Council,
+U.K., under Grant EP/R004242/2, Grant EP/Y028856/1, and Grant
+EP/X031950/1. The work of Kianoush Nazarpour was supported by
+the National Institute for Health and Care Research (NIHR) HealthTech
+Research Centre in Long Term Conditions (Devices for Dignity). (Corre-
+sponding author: Kianoush Nazarpour.)
+The authors are with the School of Informatics, The Univer-
+sity of Edinburgh, EH8 9AB Edinburgh, U.K. (e-mail: kianoush.
+nazarpour@ed.ac.uk).
+Digital Object Identiﬁer 10.1109/TNSRE.2025.3635419
+sensors [12], [13], [14], [15], [16], [17], [18] to capture
+muscular activity and, coupled with advanced signal analysis,
+decode gestures. Traditional approaches to EMG analysis
+employ mainly hand-crafted feature extraction and classical
+machine learning algorithms [19], [20], [21], [22], but recent
+breakthroughs in deep learning have revolutionized the ﬁeld
+by enabling automatic feature extraction and end-to-end com-
+putational learning [21], [23], [24], [25], [26], [27].
+As a branch of representation learning, deep learning aims
+to extract high-level features directly from the EMG input
+through a series of computational decoders [27]. EMG signals
+inherently encapsulate multi-domain information, including
+spatio-temporal waveforms that capture muscle activation
+dynamics, frequency-domain features that reveal spectral char-
+acteristics of muscle activity, and intrinsic spiking information
+reﬂecting motor unit activity. Crucially, the design of deep
+learning decoders is not considered in isolation; their archi-
+tecture and performance are intertwined with the quality and
+nature of EMG representations. Speciﬁcally, the choice of
+representation profoundly inﬂuences how the decoders process
+and interpret the data, while the decoder architecture, in
+turn, shapes the features extracted from the representation.
+These decoders excel not only in learning high-level features
+in speciﬁc domains (temporal [25], [28], spatial [29], [30],
+[31], and spectral [32], [33]), but also in exploring hybrid
+multidimensional features that capture the complexity of EMG
+data [21], [24], [34], [35], [36], [37]. For instance, Wu et al.
+converted high-density EMG (HDEMG) recordings into a
+series of images and the electrode shift appeared as a pixel
+shift in images. They applied a dilated convolutional neural
+network to achieve robust gesture classiﬁcation against elec-
+trode shift [31]. In addition, Zhong et al. developed EMG
+graph representations and applied a spatio-temporal graph
+convolutional network (STGCN) to jointly capture spatial
+and temporal dependencies in EMG signals [36]. Despite
+the substantial progress achieved through the integration of
+decoders and representations, the success of such systems
+ultimately hinges on one fundamental factor: data.
+Conventionally, gesture recognition systems utilized the
+fully supervised learning paradigm, where deep learning
+decoders statistically map EMG signals to given labels. The
+performance of these systems depends on the availability
+of high-quality, diverse, and well-labeled input data, ideally
+© 2025 The Authors. This work is licensed under a Creative Commons Attribution 4.0 License.
+For more information, see https://creativecommons.org/licenses/by/4.0/
+
+ZHONG et al.: DEEP FEATURE LEARNING FROM ELECTROMYOGRAPHIC SIGNALS
+21
+Fig. 1.
+Schematic representation of (a) advanced EMG sensing techniques [12], [13], [14], [15], [16], [17], [18] of EMG-based gesture recognition
+systems; (b) and their novel applications in human-machine interfaces [4], assistive technologies [8], and rehabilitative robotics [10].
+assuming that the training and testing data are well bal-
+anced and share identical distributions [38]. In this context,
+Kaifosh and Reardon reported signiﬁcant breakthrough with
+the development of a generic, non-invasive neuromotor inter-
+face capable of operating out-of-the-box generalization across
+users [5]. Their approach included recording a large sEMG
+dataset from 6,627 participants using a medium-density EMG
+wristband and supervised training of a deep neural network.
+This vast dataset, a scale that far exceeds typical EMG studies,
+allowed their models to achieve robust decoding of continuous
+wrist angles, discrete gestures, and ﬁne motor tasks such
+as handwriting without user-speciﬁc calibration, marking a
+major step toward generalizable EMG control systems. This
+work indicates the transformative potential of large, diverse
+datasets in representation learning. It also highlighs that such
+advances currently depend on labor-intensive data collection
+and extensive manual labeling.
+Outside of such large-scale studies, however, most research
+and practical applications face far greater constraints. Col-
+lecting extensive, high-quality annotated EMG datasets is
+time-consuming and resource-intensive [5], [39], [40]. Fur-
+thermore, day-to-day usage introduces numerous sources
+of variability, including inter-subject validation, session-to-
+session diﬀerences [39], limb positions [41], and electrode
+shifts [42], [43], [44], would introduce distribution shifts
+between training and testing datasets or deteriorate the quality
+of EMG signals [45]. Due to these challenges, fully supervised
+models need to be re-trained or ﬁne-tuned with newly collected
+data to maintain performance, which is unfavorable in real-
+world applications.
+Semi-supervised learning [46] and self-supervised learn-
+ing [47] paradigms have been proven transformational in
+domains such as computer vision [48], [49], [50], [51], [52]
+and natural language processing [53], [54]. These methods
+leverage weakly labeled or unlabeled data to enhance model
+generalization and adaptability, thereby reducing the reliance
+on extensive manual annotations. Although semi-supervised
+and self-supervised learning methods have demonstrated
+remarkable success in various domains, their application to
+EMG-based tasks has only recently begun to attract attention
+[55], [56], [57], [58], [59].
+Several previous surveys have systematically reviewed
+machine learning techniques in EMG-based applications [27],
+[43], [60], [61], [62], [63], [64]. A common feature of these
+reviews is their model-centric focus, providing an overview of
+frequently used machine learning and deep learning models,
+often categorized by network architectures. In addition, some
+surveys have explored a wide range of technologies to improve
+model robustness and generalization of the model in EMG-
+based applications [65], [66]. In contrast, this survey takes
+a data-centric perspective, focusing on the multidimensional
+nature of EMG signals and their role in deep learning-based
+gesture recognition. Speciﬁcally, we study how diﬀerent EMG
+representations interact with deep learning architectures during
+the feature learning process. We highlight the interdependence
+between data representation and model performance. Second,
+we discuss some of the data-related challenges associated
+with EMG data in real-world scenarios and oﬀer insights
+into semi-supervised and self-supervised learning frameworks.
+Furthermore, we highlight the computational eﬃciency of
+
+22
+IEEE TRANSACTIONS ON NEURAL SYSTEMS AND REHABILITATION ENGINEERING, VOL. 34, 2026
+Fig. 2. Overview of six EMG signal representations and their corresponding deep learning models, following a common EMG signal ﬁltering stage.
+(a) Waveform representation retains the raw temporal structure of EMG signals and is typically processed using temporal models such as temporal
+convolutional networks or recurrent neural networks. (b) Image representation captures spatial information across channels, making it suitable for
+one-dimensional, two-dimensional, or three-dimensional convolutional neural network(CNN) architectures. (c) Wave2image representation applies
+time-frequency transformations (e.g. short-time Fourier transform, continuous wavelet transform) to generate spectrogram-like images, which are
+then analyzed using CNNs. (d) Graph representation constructs graphs to model physical or functional relationships between EMG channels and
+employs graph neural networks for feature learning. (e) Spiking representation encodes EMG signals into binary spike trains via spiking encoding,
+enabling processing by spiking neural networks. (f) Unrestricted format refers to representations that disregard spatial or temporal structure, often
+processed by ﬂexible architectures such as fully connected networks, multilayer perceptrons, or transformers.
+EMG representation learning and examine emerging deep
+learning paradigms beyond traditional supervised approaches
+to better meet practical real-world demands.
+II. DEEP FEATURE LEARNING FROM
+ELECTROMYOGRAPHY
+Deep feature learning from EMG signals refers to the
+capacity of deep neural networks to automatically extract
+high-level and task-relevant features from EMG data, without
+relying on hand-crafted descriptors such as mean absolute
+value (MAV), root mean square (RMS), waveform length
+(WL), mean frequency (MNF), or median frequency (MDF).
+Raw EMG recordings, after standard preprocessing to remove
+noise, serve as the foundation for this process. They can be
+used directly in end-to-end learning, and many advances in
+gesture recognition further transform raw EMG into structured
+representations that emphasize its multidimensional nature
+across temporal, spatial, spectral, or spiking domains. These
+representations play a central role in guiding deep learning
+model design, ultimately inﬂuencing the eﬀectiveness of ges-
+ture decoding.
+In this section, we explore six major EMG representa-
+tions and their corresponding deep learning architectures, as
+illustrated in Fig. 2. Waveform and image representations
+are direct structural views of the raw signal. Wave2image
+representations are obtained through time–frequency analysis.
+Graph representations leverage inter-channel relationships in
+multi-channel EMG. Spiking representations convert contin-
+uous EMG into discrete binary signals. Finally, unrestricted
+formats relax assumptions about temporal or spatial order,
+enabling greater ﬂexibility for novel architectures.
+.
+A. Waveform Representation
+Raw EMG signals are inherently time dependent, with
+each channel capturing the temporal dynamics of muscle
+activity as a “voltage vs. time” waveform. Waveform rep-
+resentations therefore preserve the signal in its most direct
+form, and models built on this representation typically rely on
+
+ZHONG et al.: DEEP FEATURE LEARNING FROM ELECTROMYOGRAPHIC SIGNALS
+23
+sequence-learning architectures to extract meaningful temporal
+patterns for gesture recognition.
+Recurrent neural networks (RNNs) were applied to capture
+the temporal dependencies in the EMG waveforms by sequen-
+tially processing each time step [67], [68]. As illustrated in
+Fig. 2(a), at each time step, the current input Xt is processed
+along with the hidden layer ht −1 from the previous time step
+to update the current hidden state. This structure allows RNNs
+to retain memory over sequential data, making them suitable
+for learning temporal dependencies in EMG signals. However,
+standard RNNs struggle with long-term dependencies due to
+the vanishing or exploding gradient problem [69]. Long short-
+term memory (LSTM) networks incorporate memory cells
+regulated by input, output, and forget gates, allowing selective
+retention of information over long sequences [70]. LSTMs
+have shown improvements in learning long-term temporal
+dependencies automatically in EMG signals [71], [72], [73].
+Gated recurrent units (GRUs) further optimize this architecture
+by merging the forget and input gates into a single update
+gate, reducing computational complexity while maintaining
+eﬀective temporal modeling [74], [75]. Khodabandelou et al.
+[75] proposed an attention-based GRU framework for gesture
+recognition, where the attention layers capture patterns from
+the weights of the short term, and the GRU layers learn the
+interdependence of long-term temporal sequences in EMG
+signals.
+Beyond recurrent architectures, temporal convolutional net-
+works (TCNs) have emerged as a powerful alternative to model
+temporal dependencies in EMG signals [28], [76], [77], [78],
+[79], [80]. TCNs utilize dilated causal convolutions, where
+the receptive ﬁeld expands exponentially with network depth,
+allowing long-range dependencies to be captured eﬃciently
+[81]. Unlike RNN-based models, TCNs process entire time-
+series segments in parallel rather than sequentially, improving
+training eﬃciency and scalability [82]. Zanghieri et al. [28]
+proposed an embedded gesture recognition system based on
+TCNs, demonstrating superior real-time decoding accuracy
+along with a tenfold improvement in computational eﬃciency
+compared to state-of-the-art (SOTA) EMG processing systems.
+A detailed summary of waveform-based approaches is pro-
+vided in Table. I
+.
+B. Image Representation
+Image representation builds directly on raw EMG signals by
+arranging multi-channel recordings into grid-like structures in
+Euclidean space. Each pixel corresponds to an EMG electrode
+location, thereby encoding spatial information across sensors.
+Convolutional neural networks (CNNs) extract hidden features
+by progressively applying spatial convolutions, integrating
+information from each pixel and its neighbors.
+CNNs are the most widely used architecture for spatial
+convolution, classiﬁed into 1D, 2D, and 3D convolutions. 1D
+convolution [29] is suitable for low-density EMG recorded
+from linearly arranged electrodes. 2D convolution [83] is
+preferred for HDEMG, where electrode signals are mapped to
+a 2D layout, allowing shallow layers to capture local features
+and deeper layers to learn global patterns. 3D convolution [84]
+extends this approach by adding a third dimension to represent
+multiple features per electrode.
+Advanced CNN variants further enhance spatial feature
+extraction. Multi-stream CNNs [85] divide EMG images
+into patches based on electrode placement, learning features
+independently before combining them into a uniﬁed map.
+Multi-scale kernel CNNs [86] extract features at multiple
+scales for improved accuracy. Shapley values [87] have
+recently been applied to CNNs to improve interpretability and
+accuracy driven by feedback. Furthermore, attention mecha-
+nisms [34] and vision transformers [88] have been integrated
+into CNNs to construct more robust spatial representations.
+Further related methods are summarized in Table I.
+.
+C. Wave2Image Representation
+Both the spatial activation patterns of muscles and the
+temporal waveforms of the EMG signals carry valuable infor-
+mation. Spatial images typically exhibit smooth transitions and
+lower frequencies, whereas temporal waveforms exhibit high-
+frequency ﬂuctuations over short periods. Spatial convolutions
+use small 2D or 3D kernels to emphasize texture, while
+temporal convolutions rely on larger 1D kernels to capture
+long-term variations [83]. Additionally, transforming wave-
+forms into the frequency domain creates smoother spectral
+transitions, making them more image-like.
+Building on these insights, recent studies have applied
+image-based models to EMG waveforms by converting them
+into spectrograms or scalograms via time-frequency analysis.
+Common approaches include the Fourier transform (FT) [94]
+and the short-time Fourier transform (STFT) [95], [96], [97],
+followed by 2D convolutional or vision transformer models
+[32]. Other wave-to-image methods include the continuous
+wavelet transform (CWT) [98], the scale-average wavelet
+transform (SAWT) [99], the Hilbert-Huang transform (HHT)
+[100], the Mel spectrogram [101], and wavelet scattering
+transform (WST) [102]. Additional methods are listed in
+Table II.
+.
+D. Graph Representation
+Movement execution requires coordinated activation of
+multiple muscle groups to generate the necessary forces. Elec-
+trophysiological studies suggest that low-dimensional control
+of motor neuron modules, or muscle synergies, underlies this
+coordination [109], [110], [111], [112], [113]. Graph theory
+oﬀers an alternative perspective, modeling EMG signals as
+muscle graphs, where nodes represent electrodes, and edges
+represent anatomical or functional connections [114], [115],
+[116]. This graph representation eﬀectively captures spatial
+and functional relationships between EMG signals. Inspired by
+the success of CNNs in grid-like data, graph neural networks
+(GNNs) have been developed to process non-Euclidean data,
+preserving both network topology and node information [117],
+[118], [119], [120].
+In muscle graph analysis, edge connections shape how
+information propagates across electrodes, and well-designed
+edge strategies improve both spatial relationship modeling
+and the eﬀectiveness of gesture recognition. Redundant edges
+
+24
+IEEE TRANSACTIONS ON NEURAL SYSTEMS AND REHABILITATION ENGINEERING, VOL. 34, 2026
+TABLE I
+EMG REPRESENTATIONS AND DEEP FEATURE LEARNING FOR GESTURE RECOGNITION: WAVEFORM AND IMAGE REPRESENTATIONS
+can degrade performance by introducing noise and overﬁtting.
+Edge construction methods include ﬁxed distance thresholds
+[105], [121], correlation-based measures [36], and learned
+adjacency matrices [17], [37], [106], [108]. For instance,
+
+ZHONG et al.: DEEP FEATURE LEARNING FROM ELECTROMYOGRAPHIC SIGNALS
+25
+TABLE II
+EMG REPRESENTATIONS AND DEEP FEATURE LEARNING FOR GESTURE RECOGNITION: WAVE2IMAGE AND GRAPH REPRESENTATIONS
+Lee et al. [121] proposed a graph representation to capture
+both spatial and temporal relationships among EMG sensors.
+They connected physical K-nearest neighbors and established
+links between the corresponding sensors across consecutive
+time windows.
+GNNs have proven to be eﬀective in capturing spatial
+dependencies with EMG graph representation. GraphSAGE,
+which is an inductive learning method, eﬃciently generates
+embeddings for unseen data [122]. Massa et al. applied Graph-
+SAGE to HDEMG graphs, generating low-dimensional vector
+representations [105]. Graph attention networks use attention
+mechanisms to assign importance weights to neighboring
+nodes [123]. Lee et al. [17] used a graph attention network and
+achieved approximately 97% accuracy in recognizing eight
+gestures across three subjects. Hybrid frameworks such as
+[36], [37], [106], [107] further improved decoding accuracy
+by integrating spatial and temporal muscle activation patterns.
+Zhong et al. [36] introduced a spatio-temporal graph convo-
+lutional network (STGCN) that combines the TCN and GCN
+layers to eﬀectively capture complex localized spatio-temporal
+correlations in the EMG nodes during gesture tasks. Simi-
+larly, Xu et al. [107] proposed a multi-view spatio-temporal
+graph convolutional network (MSTGCN) with spatio-temporal
+attention mechanism as a basic classiﬁer, further incorporat-
+ing transfer learning and CNN modules to improve feature
+representation ability. This approach enables reliable gesture
+recognition between diﬀerent users. Related studies are listed
+in Table II.
+However, most GNN-based research is focused on HDEMG,
+where densely packed electrodes create detailed graph struc-
+tures. In contrast, sparse EMG arrays present challenges due
+to limited spatial resolution, which reduces the complexity and
+richness of the graph representation. The ongoing research
+aims to develop medium-density EMG systems [15], [124],
+
+26
+IEEE TRANSACTIONS ON NEURAL SYSTEMS AND REHABILITATION ENGINEERING, VOL. 34, 2026
+[125], and it is conceivable that GNNs could eﬀectively
+leverage these intermediate resolutions for improved gesture
+recognition.
+.
+E. Spiking Representation
+Muscles act as a peripheral gateway to access central
+neural activity generated at the spinal cord level. Spinal motor
+neurons process and transmit motor commands via action
+potentials, or spikes, which are often approximated as binary
+discrete or symbolic representation by computational models.
+Invasive EMG recording sensors, such as needle, ﬁne wire, and
+microelectrode arrays [126] provide ﬁne-grained insight into
+neural activity. However, non-invasive EMG measurements
+provide a global view of motor neuron activity by recording
+aggregated signals from the skin surface. Despite diﬀerences
+in resolution and invasiveness, all EMG recordings share a
+common origin in the spiking nature of motor neuron activity,
+where information is encoded at the population level through
+precise temporal spike patterns [127].
+In the context of spiking representations for EMG-based
+gesture decoding, two primary steps are involved in a neural
+network: input encoding and output gesture decoding. The ﬁrst
+step focuses on converting continuous EMG signals into a
+discrete binary format, a process commonly known as spiking
+encoding. Several well-established encoding mechanisms have
+been developed for the input of EMG. For example, delta
+modulation techniques translate changes in EMG intensity
+into spikes based on a predeﬁned threshold, producing zero
+output when the threshold is not exceeded [128], [129], [130],
+[131]. Furthermore, EMG decomposition methods, such as
+convolution kernel compensation (CKC) [127], [132], [133],
+independent component analysis (ICA) algorithms, and blind-
+source separation (BSS) techniques [134], [135], have been
+designed to decompose composite EMG signals into their
+constituent motor neuron spike trains.
+The second step involves decoding the encoded spiking
+activity to extract gesture information. Traditional machine
+learning methods, including support vector machines (SVM)
+[132], [134], linear discriminant analysis (LDA) [133], [135],
+principal component analysis (PCA) [136], and multilayer
+perceptrons (MLP) [137], have demonstrated eﬀectiveness in
+processing spiking EMG data eﬀectively. Typically, these mod-
+els require the conversion of spiking activity into continuous,
+non-spiking features prior to further analysis. However, this
+transformation can lead to the loss of critical information
+inherent in the original spiking patterns, which can limit the
+performance of the model [127].
+Spiking neural networks (SNNs) have been developed as
+an alternative. SNNs operate directly on spike-based data to
+encode information over time, as presented in Fig. 2(e). SNNs
+fully exploit the intrinsic spiking nature of motor neurons,
+making them particularly suited for processing EMG data in
+its spiking representation. SNNs incorporating leaky integrate-
+and-ﬁre (LIF) neurons are simple and eﬃcient for modeling
+neural dynamics [129]. In these models, the spiking neurons
+operate on a weighted sum of inputs. The weighted sum
+contributes to the membrane potential of the neuron. Once the
+membrane potential reaches a threshold, the neuron will emit
+a spike to its subsequent connections [138]. Other SNNs for
+EMG spiking representations include recurrent neurons [130],
+kernel-based models [127], [128], and deep learning-inspired
+spiking neurons [131], [139]. Detailed studies are listed in
+Table III.
+.
+F. Representation Without a Restricted Format
+Although EMG signals inherently possess rich spatio-
+temporal information arising from muscle contractions, some
+deep learning models do not strictly enforce these spatio-
+temporal constraints. In such cases, EMG signals are treated
+as unstructured data, where the spatial and temporal order-
+ing of signal samples is considered non-essential for feature
+extraction. This approach enables models to prioritize global
+feature patterns without explicitly exploiting the sequential
+or spatial dependencies embedded in the data. Deep learning
+models such as fully connected neural networks (FCNNs)
+[140], MLPs [141], [142], and deep forest (DF) [143], [144]
+typically process sEMG signals in this unrestricted format.
+Furthermore, attention-based mechanisms oﬀer an alterna-
+tive approach, replacing the need for recurrent or convolutional
+layers by learning global relationships between input elements
+through attention weights [145], [146]. Similarly, the MLP-
+Mixer architecture operates on input data by relying on feature
+mixing through MLPs. In this architecture, the input is divided
+into patches, which are linearly projected into tokens for
+further processing as non-sequential data [147].
+Recent studies have introduced hybrid models that blur the
+line between structured and unrestricted format approaches.
+For instance, Shen et al. [148] proposed framework combining
+a CNN and an MLP-Mixer for gesture recognition. CNN ﬁrst
+processes the EMG signals to extract features in the tempo-
+ral and frequency domains. These features are then passed
+through the MLP-Mixer, which mixes non-ordered patches of
+information using token-mixing and channel-mixing MLPs to
+produce feature representations for gesture classiﬁcation.
+Similarly, attention-based vision transformer models pro-
+cess EMG signals by dividing them into patches with patch
+embedding, then adding positioning embedding to preserve the
+positional arrangements of the patches. Hybrid vision trans-
+formers, which integrate attention mechanisms with recurrent
+and convolutional layers, have also been explored to leverage
+the strength of structured and unrestricted data representations
+[149], [150]. These hybrid vision transformers combine the
+global vision transformer modeling capabilities of attention
+mechanisms with the local feature extraction strength of CNNs
+and the sequential modeling of RNNs, providing a ﬂexible
+framework for EMG-based gesture recognition.
+III. DEEP LEARNING: EVOLVING BEYOND SUPERVISED
+METHODS TO SEMI- AND SELF-SUPERVISED
+APPROACHES
+The majority of gesture recognition frameworks perform
+eﬀectively by utilizing supervised learning, where deep neural
+networks are trained with extensive labeled EMG datasets
+[5]. These labels represent ground-truth gestures recorded
+
+ZHONG et al.: DEEP FEATURE LEARNING FROM ELECTROMYOGRAPHIC SIGNALS
+27
+TABLE III
+EMG REPRESENTATIONS AND DEEP FEATURE LEARNING FOR GESTURE RECOGNITION: SPIKING AND
+UNRESTRICTED FORMAT REPRESENTATION
+during data acquisition. Success hinges on optimizing network
+parameters to map input-output pairs, ensuring accurate pre-
+dictions on unseen data. However, performance depends on
+large high-quality datasets that are diverse, balanced, and share
+identical distributions between training and test sets. In real-
+world applications, acquiring such labeled EMG data is costly
+and challenging due to annotation burdens, scenario variability,
+and confounding factors inherent to EMG signals. Below, we
+outline three critical challenges aﬀecting model robustness and
+reliability: data scarcity, data quality, and data variability.
+• Data Scarcity. Small datasets often lead to poor signal
+representation and overﬁtting. In such cases, models
+memorize patterns instead of learning generalizable fea-
+tures, which reduces performance in unseen data. These
+challenges intensify in high-dimensional spaces due to the
+curse of dimensionality, where sparse data make pattern
+learning diﬃcult [152]. In myoelectric control, gathering
+an extensive and varied set of EMG data from a broad
+range of participants and gesture types is challenging. In
+addition, annotating large EMG time series for movement
+segmentation is labor intensive. Laboratory settings use
+precise equipment for gold-standard annotations, such
+as video cue timestamps aligned with muscle activity.
+However, real-world scenarios lack such an apparatus,
+making accurate annotation impractical. Furthermore, fre-
+quent gestures dominate daily routines, while rarer actions
+create class imbalances, introducing modeling biases.
+• Data Quality. Signal quality directly aﬀects a model’s
+ability to learn eﬀective feature encoding. The stochastic,
+non-stationary nature of EMG signals impacts reliability,
+particularly in real-world settings. Signal quality can
+degrade due to a range of physiological, physical, and
+environmental factors such as muscle fatigue, atrophy,
+hypertrophy, crosstalk, posture changes, and electrode
+contact quality and placement [153], [154], [155], [156].
+Additionally, during data collection, subjects may deviate
+from the instructed cues, resulting in inaccurate gesture
+labeling during post-processing [157].
+• Data Variability. Data variability introduces the distribu-
+tion shifts between training and test domain, ultimately
+limiting generalization. Major sources of variability
+include inter-subject diﬀerences, variations in contraction
+intensity, limb position, and temporal recording diﬀer-
+ences [158], [159], [160]. In addition, EMG data are often
+collected and processed using diﬀerent protocols across
+datasets and studies, including variations in sensor types,
+
+28
+IEEE TRANSACTIONS ON NEURAL SYSTEMS AND REHABILITATION ENGINEERING, VOL. 34, 2026
+channel counts, sampling frequencies, and processing
+pipelines, making it methodologically harder to generalize
+model across datasets. Although true independence and
+identical distribution remain challenging, larger and more
+varied datasets improve robustness and generalizability
+[5].
+Consequently, the challenges related to EMG data, namely
+scarcity, quality, and variability, render fully supervised learn-
+ing less feasible for practical applications, as it necessitates
+substantial volumes of high-quality, aligned input-output data
+from a consistent distribution. In comparison, wearable EMG
+devices are producing increasing quantities of raw data with
+fewer annotations. Recent research has focused on synergistic
+methods that leverage unlabeled datasets for enhancing both
+data eﬃciency and model generalizability. Semi-supervised
+and self-supervised learning are two signiﬁcant methods that
+are especially beneﬁcial when acquiring labeled data is either
+costly or scarce. Although these approaches are well estab-
+lished in computer vision and natural language processing
+[54], [161], [162], [163], [164], [165], only a few pioneering
+studies have explored them for EMG signals [55], [56], [57],
+[58], [59].
+.
+A. Semi-Supervised Learning
+Semi-supervised algorithms uncover latent patterns from
+unlabeled examples, reducing the need for extensive labeling
+[46], [166], [167]. Semi-supervised model training is per-
+formed on both a small amount of labeled data and a large
+volume of unlabeled data. The key idea of semi-supervised
+learning is to deﬁne a surrogate loss that enables learning
+from unlabeled data. Semi-supervised learning methods can
+be categorized into pseudo-label; consistency regularization;
+generative methods; graph-based methods, and hybrid meth-
+ods [167]. Please refer to [166], [167] for a comprehensive
+theoretical survey.
+In the EMG-based gesture recognition literature, Wang et al.
+[55] explored pseudo-labeling techniques to improve cross-
+user recognition performance with a little labeled data. The
+basic idea of pseudo-labeling methods is to generate pre-
+dicted labels for unlabeled inputs using a pre-trained model
+and then train the model jointly on labeled and unlabeled
+data. Speciﬁcally, Wang et al. proposed a Self-Training based
+Domain Adaptation (STDA) approach for cross-user EMG
+gesture recognition using pseudo-labels generated through
+pseudo-label iterative update (PIU). PIU uses an iterative
+self-training loop to generate accurate pseudo-labels on new
+users with category balance. Their approach outperformed
+alternatives with improvements of 25% over baseline, 5% over
+supervised domain adaptation, and 24% over unsupervised
+domain adaptation techniques [55].
+.
+B. Self-Supervised Learning
+Self-supervised learning is a branch of unsupervised learn-
+ing that reduces reliance on a vast collection of manually
+labeled data. In the pretraining phase, the model learn from
+pretext tasks, which are auxiliary tasks that automatically
+generate data-label pairs from all input data points, whether
+labeled or not [51], [168]. These tasks enable the model to pro-
+duce superior-to-random initial parameters and semantically
+valuable representations. After pretraining, these acquired fea-
+tures can be applied to downstream tasks (real-world tasks),
+enhancing model generalizability, particularly when labeled
+data is limited [51], [168].
+Self-supervised learning methods can be classiﬁed based
+on their objectives into generative, contrastive, and adversar-
+ial approaches [47]. Generative methods use reconstruction
+loss to perform context-related generation tasks, enabling
+models to learn semantic representations [53], [161]. Con-
+trastive methods rely on a contrastive similarity metric to
+maximize agreement between positive paired representations
+while pushing apart negative pairs [54]. Adversarial methods
+integrate generative and contrastive learning by leveraging
+a generative process with a distributional divergence loss,
+enhancing representation learning through adversarial training
+[47], [169]. These approaches have been widely applied in
+image tasks and natural language processing, inspiring a
+growing body of research on self-supervised learning for EMG
+signals.
+Lai et al. employed contrastive learning for domain adap-
+tation leading to SOTA results with ≤50% labeled data
+in the target domain [56]. Recently, Raghu et al. [59] used
+variance-invariance-covariance regularization to train contin-
+uous dynamic data, which improved myoelectric control
+performance and user experience. EMGSense[58] tackled per-
+formance degradation in inter-user biological heterogeneity in
+EMG sensing and designed a framework capable of adapting
+to a new user in a data-eﬃcient and label-free manner.
+IV. DISCUSSION AND PERSPECTIVES
+Importantly, there is a key distinction between EMG
+representations and traditional feature engineering. Feature
+engineering relies on manually designed descriptors such as
+MAV, RMS, or frequency indices. With traditional machine
+learning classiﬁers, while eﬀective in gesture recognition
+tasks, feature engineering is limited in capturing the full
+complexity of EMG signals in a large scale and require con-
+siderable manual eﬀort. By contrast, the EMG representations,
+including waveform, image, wave2image, graph, spiking, and
+unrestricted formats, are not manual crafted features but sig-
+nal organizations that expose relevant structure to the deep
+learning networks. These representations oﬀer complementary
+information on the multidimensional nature of EMG signals.
+Deep feature learning based on these representations enables
+automatic capture of hidden, task-relevant features and scales
+more eﬀectively to large datasets. This highlights that deep
+learning models are not simply a replacement for machine
+learning classiﬁers, but represents a diﬀerent paradigm in
+which representations and deep learning models are closely
+coupled, allowing the full richness of EMG signals to be
+exploited for gesture recognition.
+Waveform representations, for example, excel in capturing
+sequential dependencies and dynamic patterns in raw EMG
+signals, making them particularly suitable for applications
+involving continuous motion or dynamic gestures [25]. Image
+representations are the most common format in literature,
+
+ZHONG et al.: DEEP FEATURE LEARNING FROM ELECTROMYOGRAPHIC SIGNALS
+29
+often associated with HDEMG systems to capture ﬁne-
+grained spatial information on localized muscle activation [29].
+This rich spatial encoding is particularly valuable for han-
+dling inter-subject and inter-session variability [83], improving
+robustness against sensor shift [31], and enabling ﬁne ges-
+ture recognition [5], [170]. Graph representations uniquely
+model spatial relationships between EMG electrodes, captur-
+ing inter-channel dependencies to improve signal interpretation
+[17], [36], [37], [105], [106], [107]. Spiking representations
+with SNNs decoders enable integration with neuromorphic
+hardware, oﬀering the potential for energy-eﬃcient and bio-
+logically inspired processing in gesture recognition systems
+[127], [131], [136]. Hybrid representations, which combine
+features in the temporal, spatial, and frequency domains,
+have demonstrated enhanced performance by leveraging the
+strengths of multiple domains [34], [36], [37], [106], [107].
+However, hybrid models introduce inherent trade-oﬀs, includ-
+ing increased model complexity, higher model demands, and
+greater dependence on a large dataset.
+While EMG feature learning techniques have shown
+promising outcomes in gesture recognition, creating truly user-
+friendly and practical EMG control systems outside laboratory
+settings persists as a challenge. Real-world implementation
+needs careful consideration of several factors beyond just
+classiﬁcation accuracy. Firstly, computational eﬃciency is
+paramount for real-time functioning in wearable devices,
+requiring lightweight models and optimized processing. Sec-
+ondly, the dependence on fully supervised learning constrains
+scalability due to the limited, variable, and inconsistent quality
+of EMG data. Therefore, future training frameworks should
+enable learning from diverse datasets with minimal or no man-
+ual annotations. Lastly, most assessments are still conducted
+oﬄine. A robust evaluation protocol would more eﬀectively
+gauge system performance in dynamic, real-world scenarios.
+.
+A. Computational Effectiveness of EMG Representation
+Learning
+There is no universally superior EMG representation; the
+selection of data format transformation techniques and algo-
+rithms signiﬁcantly aﬀects computational eﬃciency, which is
+crucial for real-time myoelectric use.
+For EMG representation using data transforms, wave2image
+representations convert EMG signals into time–frequency
+maps, commonly via FFT, STFT, CWT and DWT. FFT
+and STFT are computationally eﬃcient and oﬀer rapid pro-
+cessing; however, they lack ﬂexibility in time–frequency
+resolution. CWT captures ﬁne-grained temporal changes in
+non-stationary signals with better resolution adaptability but
+has quiet high computational demanding, which hinders real-
+time applications. DWT presents a good compromise with
+lower computational demands and acceptable resolution. [171]
+demonstrated that both STFT and DWT can achieve high
+parallel speedups and energy eﬃciency on a parallel Ultra-
+Low-Power platform. Furthermore, spiking representations
+encode EMG signals into spike trains, commonly using delta
+modulation or decomposition methods such as CKC, ICA,
+and BSS. Delta modulation is highly eﬃcient, relying on
+simple thresholding, while decomposition methods that extract
+MUAPs prohibit its online applications due to the computation
+complexity [133], [134].
+Although deep learning algorithms typically incur greater
+computational costs compared to traditional machine learning
+techniques, recent research has identiﬁed speciﬁc structural
+optimizations within deep learning to decrease inference
+latency [172], [173]. An example of this is the DeepMon
+approach, which implemented optimizations of convolutional
+layer caching, decomposition, and matrix multiplication to
+considerably improve speed on mobile devices [174]. As
+illustrated by the results in Tables I–III, deep learning models
+for gesture recognition can fulﬁll the latency criteria necessary
+for real-time operation on embedded platforms. In particular,
+SNNs on neuromorphic chips represent a promising avenue
+for achieving energy-eﬃcient artiﬁcial intelligence.
+Alongside advancements in deep learning frameworks, there
+is a pressing need to enable their deployment on energy-
+constrained platforms, such as edge devices. The performance
+ﬁgures typically reported for deep learning models (see
+Sections II and III) are usually obtained on computers or
+servers equipped with GPUs, which can handle computa-
+tionally intensive workloads. However, directly implementing
+these models on edge devices remains challenging. There-
+fore, deployment feasibility must be evaluated in terms of
+both software optimization and hardware capabilities. Recent
+studies (Sections II and III) have explored on-device EMG-
+based gesture recognition using application-speciﬁc integrated
+circuits (ASICs), ﬁeld-programmable gate arrays (FPGAs),
+and microcontrollers.
+Future developments in myoelectric control systems should
+adopt hardware–software co-design principles, integrating
+model design and platform constraints from the outset.
+This approach entails creating lightweight models optimized
+for embedded platforms, improving execution pipelines, and
+iteratively improving digital hardware architectures. Next-
+generation systems must deliver real-time responsiveness,
+adaptability, and sustained accuracy, all within the stringent
+energy budgets of mobile and wearable applications.
+.
+B. Perspectives on Training Frameworks
+Section III provided an overview of semi- and self-
+supervised training frameworks as promising strategies to
+mitigate challenges related to EMG data scarcity, quality,
+and variability by reducing the dependency on annotated
+data. Building on this, we highlight four emerging/promising
+directions that could support the development of data-eﬃcient
+learning frameworks.
+1) Learning With Less Supervision: Supervised learning per-
+forms well under standardized training protocols with clearly
+deﬁned constraints. However, its robustness often diminishes
+in real-world myoelectric system deployments, where task
+variability and confounding factors are prevalent. Leveraging
+large-scale unlabeled datasets oﬀers a pathway to more adapt-
+able solutions in such environments. Semi- and self-supervised
+learning approaches enable a paradigm shift from static, one-
+oﬀtraining towards dynamic adaptation frameworks, thereby
+improving model ﬂexibility and resilience. Nevertheless, only
+a limited number of studies have applied these techniques to
+
+30
+IEEE TRANSACTIONS ON NEURAL SYSTEMS AND REHABILITATION ENGINEERING, VOL. 34, 2026
+EMG signals [55], [56], [57], [58], [59]. Given that many
+of the key advances in semi- and self-supervised learning
+have emerged from the image processing domain, these
+methods may serve as valuable blueprints for developing
+less supervision-dependent frameworks using EMG image
+representations.
+2) Active Learning: Active learning oﬀers a data-eﬃcient
+paradigm that reduces labeling costs by selectively querying
+the most informative samples from an unlabeled dataset.
+In myoelectric control systems, prior work has explored
+selective sample acquisition for system recalibration through
+uncertainty-based active learning [175]. Uncertainty-based
+strategies, which prioritize samples with the highest likelihood
+of misclassiﬁcation, are widely adopted for their simplic-
+ity and low computational overhead [175], [176], [177]. To
+further improve data eﬃciency, future research could investi-
+gate integrated deep active learning frameworks that combine
+the representational power of deep neural networks with
+lightweight active learning strategies (e.g., uncertainty-based
+sampling). Such frameworks have the potential to sustain long-
+term performance with minimal annotation requirements and
+only modest increases in computational cost. Furthermore,
+coupling active learning with semi-supervised techniques can
+unlock the full potential of large-scale unlabeled datasets,
+oﬀering a balance between adaptability and computational
+eﬃciency [178]. A comprehensive survey of active learning
+methods is provided in [179].
+3) Transfer Learning: Real-world EMG-based deployments
+remain largely conceptual, since the inherent variability of
+EMG signals undermines prediction accuracy and limits model
+generalizability. Transfer learning and adaptive learning strate-
+gies have shown promise in mitigating this challenge by
+reﬁning feature representations between diﬀerent individuals
+[45]. Moreover, modular training protocols, unlike conven-
+tional one-stage training, have been shown to enhance model
+robustness and generalization [180]. Recalibration or ﬁne-
+tuning conﬁned to a reduced subset of parameters further
+increases the suitability of these approaches for resource-
+constrained platforms [91]. In addition, the one- and few-shot
+learning paradigms enable rapid adaptation to new domains
+with minimal data, improving the practicality of cross-domain
+transfer in real-world scenarios [181].
+4) Effective Augmentations: The substantial variability in
+EMG signals, stemming from diﬀerences across users, record-
+ing sessions, and sensor placement, can markedly compromise
+model robustness. Targeted augmentation strategies oﬀer an
+eﬀective means to mitigate these eﬀects by broadening and
+diversifying the training distribution. Physiologically inspired
+rectiﬁers such as robust skeleton models, facilitate the genera-
+tion of more stable and invariant representations [182], while
+electrode shift simulations improve resilience to changes in
+sensor positioning [31]. Furthermore, deep generative models
+[183], including autoencoders, generative adversarial networks
+(GANs), and diﬀusion models, can learn the underlying dis-
+tribution of EMG signals to synthesize realistic data, thereby
+enriching the diversity of datasets without the expense and
+eﬀort of manual data collection.
+.
+C. Ofﬂine Protocols and Online Validation
+Most studiesevaluate their proposed deep learning models
+for EMG-based gesture recognition using open-source datasets
+and oﬄine protocols. These evaluations are typically per-
+formed in controlled laboratory settings, where performance is
+quantiﬁed using standard metrics such as accuracy, precision,
+recall, and F1 score. Although such protocols provide a
+convenient and reproducible benchmark, they oﬀer only a
+partial view of the system performance. Previous research
+has shown that oﬄine assessments often do not reﬂect real-
+world conditions, as they overlook user adaptive behaviors
+in response to non-stationarity of the EMG signal [184],
+[185], [186], [187], [188], [189], [190]. In practice, the
+characteristics of the EMG signal can change over time due
+to factors such as muscle fatigue, skin impedance changes,
+or electrode displacement, causing users to unconsciously
+adapt their muscle activation patterns [155]. Oﬄine evaluations
+do not capture these dynamic interactions. Moreover, they
+fall short in assessing real-time responsiveness [190], [191],
+[192], [193], physiological variability across users [194], and
+adaptability to environmental changes [195], all of which
+are critical for robust, long-term deployment in practical
+settings.
+Nonetheless, recent studies have highlighted the continued
+relevance of oﬄine evaluation in the development of EMG-
+based neural interfaces [196], [197]. These works report a
+positive correlation between oﬄine performance metrics and
+real-time task outcomes, suggesting that oﬄine analysis can
+serve as a useful predictor of in-the-loop performance. In
+practice, the development pipeline for novel EMG decoding
+algorithms typically begins with oﬄine design and validation,
+which is then followed by a closed-loop, real-time implemen-
+tation. Conducting a rigorous oﬄine analysis at this early
+stage can help identify optimal algorithmic conﬁgurations,
+increasing the likelihood of achieving high performance in
+subsequent real-time applications [197].
+Standardized online evaluation methods, such as the Box
+and Blocks Test [193], [198], the Target Achievement Con-
+trol Test (TACT) [199], and the ISO 9241-9 standardized
+Fitts’ Law test [200], are widely recommended to assess the
+practical usability of EMG-based systems. However, these
+protocols were originally developed for earlier generations
+of myoelectric interfaces and less modern, single-degree-
+of-freedom prosthetic hands. As multi-articulated prosthetic
+hands and more advanced myoelectric control systems become
+increasingly common, there is a growing need to revisit these
+legacy evaluation methods and deﬁne new standardized tasks
+capable of capturing the performance demands of modern
+systems, both in laboratory and community settings. Design-
+ing such tasks is inherently challenging, as real-world trials
+introduce numerous uncontrolled variables, making it diﬃcult
+to disentangle the contribution of the decoder’s performance
+from the user’s adaptation strategies. Nonetheless, establishing
+robust, context-appropriate evaluation frameworks remains a
+critical step toward translating laboratory advances into reli-
+able everyday use.
+While
+real-time,
+closed-loop
+evaluations
+remain
+the
+gold
+standard,
+they
+are
+often
+time-consuming
+and
+
+ZHONG et al.: DEEP FEATURE LEARNING FROM ELECTROMYOGRAPHIC SIGNALS
+31
+resource-intensive. Consequently, oﬄine analysis continues to
+play an important role in guiding iterative optimization during
+the early stages of development. Future comprehensive
+validation
+strategies
+should
+integrate:
+(1)
+real-time
+performance assessment, (2) evaluation across diverse subject
+populations, (3) mechanisms for continuous adaptation, and
+(4) testing under a wide range of environmental conditions.
+REFERENCES
+[1]
+K. M. Sagayam and D. J. Hemanth, “Hand posture and gesture recog-
+nition techniques for virtual reality applications: A survey,” Virtual
+Reality, vol. 21, no. 2, pp. 91–107, Jun. 2017.
+[2]
+U. Cote-Allard et al., “A transferable adaptive domain adversarial
+neural network for virtual reality augmented EMG-based gesture
+recognition,” IEEE Trans. Neural Syst. Rehabil. Eng., vol. 29,
+pp. 546–555, 2021.
+[3]
+J. Qi, G. Jiang, G. Li, Y. Sun, and B. Tao, “Intelligent human–computer
+interaction based on surface EMG gesture recognition,” IEEE Access,
+vol. 7, pp. 61378–61387, 2019.
+[4]
+E. Losanno et al., “A virtual reality-based protocol to determine
+the preferred control strategy for hand neuroprostheses in people
+with paralysis,” IEEE Trans. Neural Syst. Rehabil. Eng., vol. 32,
+pp. 2261–2269, 2024.
+[5]
+P. Kaifosh and T. R. Reardon, “A generic non-invasive neuromotor
+interface for human–computer interaction,” Nature, vol. 645, no. 8081,
+pp. 702–711, 2025.
+[6]
+I. Hussain, G. Salvietti, G. Spagnoletti, and D. Prattichizzo, “The soft-
+sixthFinger: A wearable EMG controlled robotic extra-ﬁnger for grasp
+compensation in chronic stroke patients,” IEEE Robot. Autom. Lett.,
+vol. 1, no. 2, pp. 1000–1006, Jul. 2016.
+[7]
+D. Copaci, D. S. D. Cerro, J. A. Guadalupe, L. M. Lorente, and
+D. B. Rojas, “SEMG-controlled soft exo-glove for assistive rehabil-
+itation therapies,” IEEE Access, vol. 12, pp. 43506–43518, 2024.
+[8]
+I. Hussain, G. Spagnoletti, G. Salvietti, and D. Prattichizzo, “An EMG
+interface for the control of motion and compliance of a supernumerary
+robotic ﬁnger,” Frontiers Neurorobotics, vol. 10, p.18, Nov. 2016.
+[9]
+P. Capsi-Morales, D. Y. Barsakcioglu, M. G. Catalano, G. Grioli,
+A. Bicchi, and D. Farina, “Merging motoneuron and postural synergies
+in prosthetic hand design for natural bionic interfacing,” Sci. Robot.,
+vol. 10, no. 98, Jan. 2025, Art. no. eado9509.
+[10]
+P. G. S. Alva, A. Boesendorfer, O. C. Aszmann, J. Ib´a˜nez, and
+D. Farina, “Excitation of natural spinal reﬂex loops in the sensory-
+motor control of hand prostheses,” Sci. Robot., vol. 9, no. 90, May
+2024, Art. no. eadl0085.
+[11]
+D. D’Accolti, F. Clemente, A. Mannini, E. Mastinu, M. Ortiz-Catalan,
+and C. Cipriani, “Online classiﬁcation of transient EMG patterns for
+the control of the wrist and hand in a transradial prosthesis,” IEEE
+Robot. Autom. Lett., vol. 8, no. 2, pp. 1045–1052, Feb. 2023.
+[12]
+G. Agnese, “Intramuscular high-density micro-electrode arrays enable
+high-precision decoding and mapping of spinal motor neurons to reveal
+hand control,” 2024, arXiv:1710.10903.
+[13]
+S. Muceli et al., “Accurate and representative decoding of the neural
+drive to muscles in humans with multi-channel intramuscular thin-ﬁlm
+electrodes,” J. Physiol., vol. 593, no. 17, pp. 3789–3804, Sep. 2015.
+[14]
+S. Rawat, S. Vats, and P. Kumar, “Evaluating and exploring the MYO
+ARMBAND,” in Proc. Int. Conf. Syst. Modeling Advancement Res.
+Trends (SMART), Nov. 2016, pp. 115–120.
+[15]
+E. Aghchehli, C. Ma, M. Dyson, and K. Nazarpour, “Medium density
+digital electromyography sensing system,” in Proc. Myoelectric Control
+Symp. (MEC), 2024, pp. 1–4.
+[16]
+N. Maleˇsevi´c et al., “A database of high-density surface electromyo-
+gram signals comprising 65 isometric hand gestures,” Sci. Data, vol. 8,
+no. 1, p.63, Feb. 2021.
+[17]
+H. Lee et al., “Stretchable array electromyography sensor with graph
+neural network for static and dynamic gestures recognition system,”
+npj Flexible Electron., vol. 7, no. 1, p.20, Apr. 2023.
+[18]
+D. Europe. (2025). Trigno Duo Sensor. [Online]. Available: https://
+delsyseurope.com/trigno-duo/
+[19]
+D. D’Accolti, K. Dejanovic, L. Cappello, E. Mastinu, M. Ortiz-Catalan,
+and C. Cipriani, “Decoding of multiple wrist and hand movements
+using a transient EMG classiﬁer,” IEEE Trans. Neural Syst. Rehabil.
+Eng., vol. 31, pp. 208–217, 2023.
+[20]
+W. Zhong, X. Fu, and M. Zhang, “A muscle synergy-driven ANFIS
+approach to predict continuous knee joint movement,” IEEE Trans.
+Fuzzy Syst., vol. 30, no. 6, pp. 1553–1563, Jun. 2022.
+[21]
+Y. Zhang, Y. Chen, H. Yu, X. Yang, and W. Lu, “Learning
+eﬀective spatial–temporal features for sEMG armband-based gesture
+recognition,” IEEE Internet Things J., vol. 7, no. 8, pp. 6979–6992,
+Aug. 2020.
+[22]
+X. Jiang, C. Ma, and K. Nazarpour, “Posture-invariant myoelectric
+control with self-calibrating random forests,” Frontiers Neurorobot.,
+vol. 18, Dec. 2024, Art. no. 1462023.
+[23]
+Y. Liu, S. Zhang, and M. Gowda, “A practical system for 3-D hand pose
+tracking using EMG wearables with applications to prosthetics and user
+interfaces,” IEEE Internet Things J., vol. 10, no. 4, pp. 3407–3427,
+Feb. 2023.
+[24]
+P. Fu et al., “Predicting continuous locomotion modes via multidimen-
+sional feature learning from sEMG,” IEEE J. Biomed. Health Informat.,
+vol. 28, no. 11, pp. 6629–6640, Nov. 2024.
+[25]
+T. Sun, Q. Hu, J. Libby, and S. F. Atashzar, “Deep heterogeneous
+dilation of LSTM for transient-phase gesture prediction through high-
+density electromyography: Towards application in neurorobotics,”
+IEEE
+Robot.
+Autom.
+Lett.,
+vol. 7,
+no. 2,
+pp. 2851–2858,
+Apr. 2022.
+[26]
+K.-C. Wang, K.-C. Liu, P.-C. Yeh, S.-Y. Peng, and Y. Tsao,
+“TrustEMG-Net: Using representation-masking transformer with U-Net
+for surface electromyography enhancement,” IEEE J. Biomed. Health
+Informat., vol. 29, no. 4, pp. 2506–2520, Apr. 2025.
+[27]
+D. Xiong, D. Zhang, X. Zhao, and Y. Zhao, “Deep learning for EMG-
+based human–machine interaction: A review,” IEEE/CAA J. Autom.
+Sinica, vol. 8, no. 3, pp. 512–533, Mar. 2021.
+[28]
+M. Zanghieri, S. Benatti, A. Burrello, V. Kartsch, F. Conti, and
+L. Benini, “Robust real-time embedded EMG recognition framework
+using temporal convolutional networks on a multicore IoT processor,”
+IEEE Trans. Biomed. Circuits Syst., vol. 14, no. 2, pp. 244–256, Apr.
+2020.
+[29]
+W. Geng, Y. Du, W. Jin, W. Wei, Y. Hu, and J. Li, “Gesture
+recognition by instantaneous surface EMG images,” Sci. Rep., vol. 6,
+no. 1, p. 36571, Nov. 2016.
+[30]
+S. Tam, M. Boukadoum, A. Campeau-Lecours, and B. Gosselin, “A
+fully embedded adaptive real-time hand gesture classiﬁer leveraging
+HD-sEMG and deep learning,” IEEE Trans. Biomed. Circuits Syst.,
+vol. 14, no. 2, pp. 232–243, Apr. 2020.
+[31]
+L. Wu, X. Zhang, K. Wang, X. Chen, and X. Chen, “Improved
+high-density myoelectric pattern recognition control against elec-
+trode shift using data augmentation and dilated convolutional neural
+network,” IEEE Trans. Neural Syst. Rehabil. Eng., vol. 28, no. 12,
+pp. 2637–2646, Dec. 2020.
+[32]
+M. D. Dere and B. Lee, “A novel approach to surface EMG-based
+gesture classiﬁcation using a vision transformer integrated with con-
+volutive blind source separation,” IEEE J. Biomed. Health Informat.,
+vol. 28, no. 1, pp. 181–192, Jan. 2024.
+[33]
+P. T.-T. Nguyen, S.-F. Su, and C.-H. Kuo, “A frequency-based atten-
+tion neural network and subject-adaptive transfer learning for sEMG
+hand gesture classiﬁcation,” IEEE Robot. Autom. Lett., vol. 9, no. 9,
+pp. 7835–7842, Sep. 2024.
+[34]
+Y. Hu, Y. Wong, W. Wei, Y. Du, M. Kankanhalli, and W. Geng, “A
+novel attention-based hybrid CNN-RNN architecture for sEMG-based
+gesture recognition,” PLoS ONE, vol. 13, no. 10, Oct. 2018, Art. no.
+e0206049.
+[35]
+X.
+Chen,
+Y.
+Li,
+R.
+Hu,
+X.
+Zhang,
+and
+X.
+Chen,
+“Hand
+gesture
+recognition
+based
+on
+surface
+electromyography
+using
+convolutional
+neural
+network
+with
+transfer
+learning
+method,”
+IEEE J. Biomed. Health Informat., vol. 25, no. 4, pp. 1292–1304,
+Apr. 2021.
+[36]
+W. Zhong, Y. Zhang, P. Fu, W. Xiong, and M. Zhang, “A spatio-
+temporal graph convolutional network for gesture recognition from
+high-density electromyography,” in Proc. 29th Int. Conf. Mechatronics
+Mach. Vis. Pract. (M2VIP), Nov. 2023, pp. 1–6.
+[37]
+Z. Lai et al., “STCN-GR: Spatial–temporal convolutional networks
+for surface-electromyography-based gesture recognition,” in Proc. Int.
+Conf. Neural Inf. Process. (ICONIP), 2021, pp. 27–39.
+[38]
+N. Gupta et al., “Data quality for machine learning tasks,” in Proc.
+27th ACM SIGKDD Conf. Knowl. Discov. Data Min. (KDD), 2021,
+pp. 4040–4041.
+[39]
+Y. Du, W. Jin, W. Wei, Y. Hu, and W. Geng, “Surface EMG-based
+inter-session gesture recognition enhanced by deep domain adaptation,”
+Sensors, vol. 17, no. 3, p. 458, Feb. 2017.
+
+32
+IEEE TRANSACTIONS ON NEURAL SYSTEMS AND REHABILITATION ENGINEERING, VOL. 34, 2026
+[40]
+E. Eddy, E. Campbell, S. Bateman, and E. Scheme, “Big data in
+myoelectric control: Large multi-user models enable robust zero-shot
+EMG-based discrete gesture recognition,” Frontiers Bioeng. Biotech-
+nol., vol. 12, Sep. 2024, Art. no. 1463377.
+[41]
+S. A. Stuttaford, M. Dyson, K. Nazarpour, and S. S. G. Dupan,
+“Reducing motor variability enhances myoelectric control robustness
+across untrained limb positions,” IEEE Trans. Neural Syst. Rehabil.
+Eng., vol. 32, pp. 23–32, 2024.
+[42]
+A. J. Young, L. J. Hargrove, and T. A. Kuiken, “The eﬀects of electrode
+size and orientation on the sensitivity of myoelectric pattern recognition
+systems to electrode shift,” IEEE Trans. Biomed. Eng., vol. 58, no. 9,
+pp. 2537–2544, Sep. 2011.
+[43]
+D. Buongiorno et al., “Deep learning for processing electromyo-
+graphic signals: A taxonomy-based survey,” Neurocomputing, vol. 452,
+pp. 549–565, Sep. 2021.
+[44]
+J.
+Kim,
+B.
+Koo,
+Y.
+Nam,
+and
+Y.
+Kim,
+“SEMG-based
+hand
+posture
+recognition
+considering
+electrode
+shift,
+feature
+vectors, and posture groups,” Sensors, vol. 21, no. 22, p. 7681,
+Nov. 2021.
+[45]
+D. Wu, J. Yang, and M. Sawan, “Transfer learning on electromyography
+(EMG) tasks: Approaches and beyond,” IEEE Trans. Neural Syst.
+Rehabil. Eng., vol. 31, pp. 3015–3034, 2023.
+[46]
+O. Chapelle, B. Scholkopf, and A. Zien, “Semi-supervised learning
+(Chapelle, O. et al., eds.; 2006) [book reviews],” IEEE Trans. Neural
+Netw., vol. 20, no. 3, p. 542, Mar. 2009.
+[47]
+X. Liu et al., “Self-supervised learning: Generative or contrastive,”
+IEEE
+Trans.
+Knowl.
+Data
+Eng.,
+vol. 35,
+no. 1,
+pp. 857–876,
+Jan. 2023.
+[48]
+Q. Liu, L. Yu, L. Luo, Q. Dou, and P. A. Heng, “Semi-supervised
+medical image classiﬁcation with relation-driven self-ensembling
+model,” IEEE Trans. Med. Imag., vol. 39, no. 11, pp. 3429–3440,
+Nov. 2020.
+[49]
+R. Krishnan, P. Rajpurkar, and E. J. Topol, “Self-supervised learning
+in medicine and healthcare,” Nature Biomed. Eng., vol. 6, no. 12,
+pp. 1346–1352, Aug. 2022.
+[50]
+Z. Huang, R. Jiang, S. Aeron, and M. C. Hughes, “Systematic com-
+parison of semi-supervised and self-supervised learning for medical
+image classiﬁcation,” in Proc. IEEE/CVF Conf. Comput. Vis. Pattern
+Recognit. (CVPR), Jun. 2024, pp. 22282–22293.
+[51]
+L. Jing and Y. Tian, “Self-supervised visual feature learning with deep
+neural networks: A survey,” IEEE Trans. Pattern Anal. Mach. Intell.,
+vol. 43, no. 11, pp. 4037–4058, Nov. 2021.
+[52]
+M. Noroozi and P. Favaro, “Unsupervised learning of visual represen-
+tations by solving jigsaw puzzles,” in Proc. Eur. Conf. Comput. Vis.
+(ECCV), 2016, pp. 69–84.
+[53]
+J. Devlin, M.-W. Chang, K. Lee, and K. Toutanova, “BERT: Pre-
+training of deep bidirectional transformers for language understanding,”
+in Proc. Conf. North Amer. Chapter Assoc. Comput. Linguistics, Hum.
+Lang. Technol., vol. 1, Jun. 2019, pp. 4171–4186.
+[54]
+T. Chen, S. Kornblith, M. Norouzi, and G. Hinton, “A simple frame-
+work for contrastive learning of visual representations,” in Proc. Int.
+Conf. Mach. Learn., 2020, pp. 1597–1607.
+[55]
+K. Wang, Y. Chen, Y. Zhang, X. Yang, and C. Hu, “Iterative
+self-training based domain adaptation for cross-user sEMG ges-
+ture recognition,” IEEE Trans. Neural Syst. Rehabil. Eng., vol. 31,
+pp. 2974–2987, 2023.
+[56]
+Z. Lai, X. Kang, H. Wang, X. Zhang, W. Zhang, and F. Wang,
+“Contrastive domain adaptation: A self-supervised learning framework
+for sEMG-based gesture recognition,” in Proc. IEEE Int. Joint Conf.
+Biometrics (IJCB), Oct. 2022, pp. 1–7.
+[57]
+Y. Du et al., “Semi-supervised learning for surface EMG-based ges-
+ture recognition,” in Proc. Int. Joint Conf. Artif. Intell., Aug. 2017,
+pp. 1624–1630.
+[58]
+D. Duan, H. Yang, G. Lan, T. Li, X. Jia, and W. Xu, “EMGSense:
+A low-eﬀort self-supervised domain adaptation framework for EMG
+sensing,” in Proc. IEEE Int. Conf. Pervasive Comput. Commun. (Per-
+Com), Mar. 2023, pp. 160–170.
+[59]
+S. T. P. Raghu, D. MacIsaac, and E. Scheme, “Self-supervised rep-
+resentation learning with augmentations of continuous training data
+improves the feel and performance of myoelectric control,” 2024,
+arXiv:2409.16015.
+[60]
+S. Ni, M. A. A. Al-Qaness, A. Hawbani, D. Al-Alimi, M. A. Elaziz, and
+A. A. Ewees, “A survey on hand gesture recognition based on surface
+electromyography: Fundamentals, methods, applications, challenges
+and future trends,” Appl. Soft Comput., vol. 166, Nov. 2024, Art. no.
+112235.
+[61]
+G. J. Rani, M. F. Hashmi, and A. Gupta, “Surface electromyography
+and artiﬁcial intelligence for human activity recognition—A systematic
+review on methods, emerging trends applications, challenges, and
+future implementation,” IEEE Access, vol. 11, pp. 105140–105169,
+2023.
+[62]
+W. Li, P. Shi, and H. Yu, “Gesture recognition using surface elec-
+tromyography and deep learning for prostheses hand: State-of-the-art,
+challenges, and future,” Frontiers Neurosci., vol. 15, Apr. 2021, Art.
+no. 621885.
+[63]
+S. Sharma, K. Newaj Faisal, and R. Raj Sharma, “Automated grasp
+recognition using sEMG: Recent advances, challenges, and future
+developments,” IEEE Trans. Instrum. Meas., vol. 74, pp. 1–17, 2025.
+[64]
+T. Triwiyanto, W. Caesarendra, A. A. Ahmed, and V. H. Abdullayev,
+“How deep learning and neural networks can improve prosthetics and
+exoskeletons: A review of state-of-the-art methods and challenges,”
+J. Electron., Electromedical Eng., Med. Informat., vol. 5, no. 4,
+pp. 277–289, Oct. 2023.
+[65]
+S. Jiang, P. Kang, X. Song, B. Lo, and P. Shull, “Emerging wearable
+interfaces and algorithms for hand gesture recognition: A survey,” IEEE
+Rev. Biomed. Eng., vol. 15, pp. 85–102, 2022.
+[66]
+T. Bao, S. Q. Xie, P. Yang, P. Zhou, and Z.-Q. Zhang, “Toward robust,
+adaptiveand reliable upper-limb motion estimation using machine
+learning and deep learning—A survey in myoelectric control,” IEEE
+J. Biomed. Health Informat., vol. 26, no. 8, pp. 3822–3835, Aug. 2022.
+[67]
+T. M. Bittibssi, A. H. Zekry, M. A. Genedy, and S. A. Maged, “SEMG
+pattern recognition based on recurrent neural network,” Biomed. Signal
+Process. Control, vol. 70, Sep. 2021, Art. no. 103048.
+[68]
+I. Ketyko, F. Kovacs, and K. Z. Varga, “Domain adaptation for sEMG-
+based gesture recognition with recurrent neural networks,” in Proc. Int.
+Joint Conf. Neural Netw. (IJCNN), Jul. 2019, pp. 1–7.
+[69]
+Y. Bengio, P. Simard, and P. Frasconi, “Learning long-term depen-
+dencies with gradient descent is diﬃcult,” IEEE Trans. Neural Netw.,
+vol. 5, no. 2, pp. 157–166, Mar. 1994.
+[70]
+S. Hochreiter and J. Schmidhuber, “Long short-term memory,” Neural
+Comput., vol. 9, no. 8, pp. 1735–1780, Nov. 1997.
+[71]
+M. Jabbari, R. N. Khushaba, and K. Nazarpour, “EMG-based hand
+gesture classiﬁcation with long short-term memory deep recurrent
+neural networks,” in Proc. 42nd Annu. Int. Conf. IEEE Eng. Med. Biol.
+Soc. (EMBC), Jul. 2020, pp. 3302–3305.
+[72]
+H. Zhang, H. Qu, L. Teng, and C. Y. Tang, “LSTM-MSA: A novel deep
+learning model with dual-stage attention mechanisms forearm EMG-
+based hand gesture recognition,” IEEE Trans. Neural Syst. Rehabil.
+Eng., vol. 31, pp. 4749–4759, 2023.
+[73]
+R. N. Khushaba, A. Phinyomark, A. H. Al-Timemy, and E. Scheme,
+“Recursive multi-signal temporal fusions with attention mechanism
+improves EMG feature extraction,” IEEE Trans. Artif. Intell., vol. 1,
+no. 2, pp. 139–150, Oct. 2020.
+[74]
+J. Chung, C. Gulcehre, K. Cho, and Y. Bengio, “Empirical evaluation
+of gated recurrent neural networks on sequence modeling,” 2014,
+arXiv:1412.3555.
+[75]
+G. Khodabandelou, P.-G. Jung, Y. Amirat, and S. Mohammed,
+“Attention-based gated recurrent unit for gesture recognition,” IEEE
+Trans. Autom. Sci. Eng., vol. 18, no. 2, pp. 495–507, Apr. 2021.
+[76]
+C. Ma and K. Nazarpour, “DistaNet: Grasp-speciﬁc distance biofeed-
+back promotes the retention of myoelectric skills,” J. Neural Eng.,
+vol. 21, no. 3, Jun. 2024, Art. no. 036037.
+[77]
+M. Jabbari and K. Nazarpour, “Spatio-temporal convolutional networks
+for myoelectric control,” in Proc. Myoelectric Control Symp. (MEC),
+2024, pp. 1–4.
+[78]
+P. Tsinganos, B. Cornelis, J. Cornelis, B. Jansen, and A. Skodras,
+“Improved gesture recognition based on sEMG signals and TCN,” in
+Proc. IEEE Int. Conf. Acoust. Speech Signal Process. (ICASSP), Feb.
+2019, pp. 1169–1173.
+[79]
+P. Tsinganos, B. Jansen, J. Cornelis, and A. Skodras, “Real-time analy-
+sis of hand gesture recognition with temporal convolutional networks,”
+Sensors, vol. 22, no. 5, p. 1694, Feb. 2022.
+[80]
+C. Ma, X. Jiang, and K. Nazarpour, “Pre-training, personalization,
+and self-calibration: All a neural network-based myoelectric decoder
+needs,” Frontiers Neurorobot., vol. 19, Jul. 2025, Art. no. 1604453.
+[81]
+J. Gehring, M. Auli, D. Grangier, D. Yarats, and Y. Dauphin,
+“Convolutional sequence to sequence learning,” in Proc. Int. Conf.
+Mach. Learn. (ICML), 2017, pp. 1243–1252.
+[82]
+T. Azevedo et al., “A deep graph neural network architecture for
+modelling spatio-temporal dynamics in resting-state functional MRI
+data,” Med. Image Anal., vol. 79, Jul. 2022, Art. no. 102471.
+
+ZHONG et al.: DEEP FEATURE LEARNING FROM ELECTROMYOGRAPHIC SIGNALS
+33
+[83]
+L. Meng et al., “User-tailored hand gesture recognition system for
+wearable prosthesis and armband based on surface electromyogram,”
+IEEE Trans. Instrum. Meas., vol. 71, pp. 1–16, 2022.
+[84]
+J. Chen, S. Bi, G. Zhang, and G. Cao, “High-density surface EMG-
+based gesture recognition using a 3D convolutional neural network,”
+Sensors, vol. 20, no. 4, p. 1201, Feb. 2020.
+[85]
+W. Wei, Y. Wong, Y. Du, Y. Hu, M. Kankanhalli, and W. Geng, “A
+multi-stream convolutional neural network for sEMG-based gesture
+recognition in muscle-computer interface,” Pattern Recognit. Lett.,
+vol. 119, pp. 131–138, Mar. 2017.
+[86]
+Y. Zou and L. Cheng, “A transfer learning model for gesture recogni-
+tion based on the deep features extracted by CNN,” IEEE Trans. Artif.
+Intell., vol. 2, no. 5, pp. 447–458, Oct. 2021.
+[87]
+F. Wang, X. Ao, M. Wu, S. Kawata, and J. She, “Explainable deep
+learning for sEMG-based similar gesture recognition: A Shapley-value-
+based solution,” Inf. Sci., vol. 672, Jun. 2024, Art. no. 120667.
+[88]
+M. Montazerin, S. Zabihi, E. Rahimian, A. Mohammadi, and
+F. Naderkhani, “ViT-HGR: Vision transformer-based hand gesture
+recognition from high density surface EMG signals,” in Proc. 44th
+Annu. Int. Conf. IEEE Eng. Med. Biol. Soc. (EMBC), Jul. 2022,
+pp. 5115–5119.
+[89]
+A. Toro-Ossaba, J. Jaramillo-Tigreros, J. C. Tejada, A. Pe˜na, A. L´opez-
+Gonz´alez, and R. A. Castanho, “LSTM recurrent neural network for
+hand gesture recognition using EMG signals,” Appl. Sci., vol. 12,
+no. 19, p. 9700, Sep. 2022.
+[90]
+M. Atzori, M. Cognolato, and H. M¨uller, “Deep learning with convo-
+lutional neural networks applied to electromyography data: A resource
+for the classiﬁcation of movements for prosthetic hands,” Frontiers
+Neurorobot., vol. 10, p. 9, Sep. 2016.
+[91]
+U. Cote-Allard et al., “Deep learning for electromyographic hand
+gesture signal classiﬁcation using transfer learning,” IEEE Trans.
+Neural Syst. Rehabil. Eng., vol. 27, no. 4, pp. 760–771, Apr. 2019.
+[92]
+Z. Yu, Y. Lu, Q. An, C. Chen, Y. Li, and Y. Wang, “Real-time multiple
+gesture recognition: Application of a lightweight individualized 1D
+CNN model to an edge computing system,” IEEE Trans. Neural Syst.
+Rehabil. Eng., vol. 30, pp. 990–998, 2022.
+[93]
+X. Liu, L. Hu, L. Tie, L. Jun, X. Wang, and X. Liu, “Integration
+of convolutional neural network and vision transformer for gesture
+recognition using sEMG,” Biomed. Signal Process. Control, vol. 98,
+Dec. 2024, Art. no. 106686.
+[94]
+X. Zhai, B. Jelfs, R. H. M. Chan, and C. Tin, “Self-recalibrating
+surface EMG pattern recognition for neuroprosthesis control based on
+convolutional neural network,” Frontiers Neurosci., vol. 11, p.379, Jul.
+2017.
+[95]
+T. Jing Wei, A. R. B. Abdullah, N. B. Mohd Saad, N. B. Mohd Ali,
+and T. N. S. B. Tengku Zawawi, “Featureless EMG pattern recognition
+based on convolutional neural network,” Indonesian J. Electr. Eng.
+Comput. Sci., vol. 14, no. 3, pp. 1291–1297, Jun. 2019.
+[96]
+Y. Yamanoi, Y. Ogiri, and R. Kato, “EMG-based posture classiﬁcation
+using a convolutional neural network for a myoelectric hand,” Biomed.
+Signal Process. Control, vol. 55, Jan. 2020, Art. no. 101574.
+[97]
+A. Tripathi, A. P. Prathosh, S. P. Muthukrishnan, and L. Kumar,
+“SurfMyoAiR: A surface electromyography-based framework for air-
+writing recognition,” IEEE Trans. Instrum. Meas., vol. 72, pp. 1–12,
+2023.
+[98]
+H. E. P. Buelvas, J. D. T. Monta˜na, and R. R. Serrezuela, “Hand gesture
+classiﬁcation using deep learning and CWT images based on multi-
+channel surface EMG signals,” in Proc. 3rd Int. Conf. Electr., Comput.,
+Commun. Mechatronics Eng. (ICECCME), Jul. 2023, pp. 1–7.
+[99]
+D.-C. Oh and Y.-U. Jo, “Classiﬁcation of hand gestures based on
+multi-channel EMG by scale average wavelet transform and convo-
+lutional neural network,” Int. J. Control, Autom. Syst., vol. 19, no. 3,
+pp. 1443–1450, Mar. 2021.
+[100] M. A. Ozdemir, D. H. Kisa, O. Guren, and A. Akan, “Hand gesture
+classiﬁcation using time–frequency images and transfer learning based
+on CNN,” Biomed. Signal Process. Control, vol. 77, Aug. 2022, Art.
+no. 103787.
+[101] M. F. Qureshi, Z. Mushtaq, M. Z. U. Rehman, and E. N. Kamavuako,
+“Spectral image-based multiday surface electromyography classiﬁca-
+tion of hand motions using CNN for human–computer interaction,”
+IEEE Sensors J., vol. 22, no. 21, pp. 20676–20683, Nov. 2022.
+[102] A. A. Al Taee, R. N. Khushaba, T. Zia, and A. Al-Jumaily, “Deep
+scattering transform with attention mechanisms improves EMG-based
+hand gesture recognition,” in Proc. 45th Annu. Int. Conf. IEEE Eng.
+Med. Biol. Soc. (EMBC), Jul. 2023, pp. 1–4.
+[103] N. Duan, L.-Z. Liu, X.-J. Yu, Q. Li, and S.-C. Yeh, “Classiﬁcation of
+multichannel surface-electromyography signals based on convolutional
+neural networks,” J. Ind. Inf. Integr., vol. 15, pp. 201–206, Sep. 2019.
+[104] Y. Liu, X. Li, L. Yang, G. Bian, and H. Yu, “A CNN-transformer hybrid
+recognition approach for sEMG-based dynamic gesture prediction,”
+IEEE Trans. Instrum. Meas., vol. 72, pp. 1–16, 2023.
+[105] S. M. Massa, D. Riboni, and K. Nazarpour, “Explainable AI-
+powered graph neural networks for HD EMG-based gesture inten-
+tion recognition,” IEEE Trans. Consum. Electron., vol. 70, no. 1,
+pp. 4499–4506, Feb. 2024.
+[106] Z. Yu, C. Zhang, X. Wang, and C. Deng, “End-to-end hand gesture
+recognition based on dynamic graph topology generating mechanism
+and weighted graph isomorphism network,” in Proc. 30th Int. Conf.
+Mechatronics Mach. Vis. Pract. (M2VIP), Oct. 2024, pp. 1–6.
+[107] M. Xu, X. Chen, Y. Ruan, and X. Zhang, “Cross-user electromyography
+pattern recognition based on a novel spatial–temporal graph convo-
+lutional network,” IEEE Trans. Neural Syst. Rehabil. Eng., vol. 32,
+pp. 72–82, 2024.
+[108] H. Zhou, H. T. Le, S. Zhang, S. L. Phung, and G. Alici, “Hand
+gesture recognition from surface electromyography signals with graph
+convolutional network and attention mechanisms,” IEEE Sensors J.,
+vol. 25, no. 5, pp. 9081–9092, Mar. 2025.
+[109] M. C. Tresch, P. Saltiel, and E. Bizzi, “The construction of movement
+by the spinal cord,” Nature Neurosci., vol. 2, no. 2, pp. 162–167, Feb.
+1999.
+[110] A. D’Avella, P. Saltiel, and E. Bizzi, “Combinations of muscle syner-
+gies in the construction of a natural motor behavior,” Nature Neurosci.,
+vol. 6, no. 3, pp. 300–308, Mar. 2003.
+[111] C. Castellini and P. van der Smagt, “Evidence of muscle synergies
+during human grasping,” Biol. Cybern., vol. 107, no. 2, pp. 233–245,
+Apr. 2013.
+[112] J. Roh, W. Z. Rymer, E. J. Perreault, S. B. Yoo, and R. F. Beer,
+“Alterations in upper limb muscle synergy structure in chronic stroke
+survivors,” J. Neurophysiology, vol. 109, no. 3, pp. 768–781, Feb.
+2013.
+[113] L. Tang, F. Li, S. Cao, X. Zhang, D. Wu, and X. Chen, “Muscle synergy
+analysis in children with cerebral palsy,” J. Neural Eng., vol. 12, no. 4,
+Aug. 2015, Art. no. 046017.
+[114] M. Houston, X. Li, P. Zhou, S. Li, J. Roh, and Y. Zhang, “Alterations
+in muscle networks in the upper extremity of chronic stroke survivors,”
+IEEE Trans. Neural Syst. Rehabil. Eng., vol. 29, pp. 1026–1034, 2021.
+[115] N. Zhang, K. Li, G. Li, R. Nataraj, and N. Wei, “Multiplex recurrence
+network analysis of inter-muscular coordination during sustained grip
+and pinch contractions at diﬀerent force levels,” IEEE Trans. Neural
+Syst. Rehabil. Eng., vol. 29, pp. 2055–2066, 2021.
+[116] J. N. Kerkman, A. Daﬀertshofer, L. L. Gollo, M. Breakspear, and
+T. W. Boonstra, “Network structure of the human musculoskeletal
+system shapes neural interactions on multiple time scales,” Sci. Adv.,
+vol. 4, no. 6, p. 497, Jun. 2018.
+[117] M. M. Bronstein, J. Bruna, Y. LeCun, A. Szlam, and P. Vandergheynst,
+“Geometric deep learning: Going beyond Euclidean data,” IEEE Signal
+Process. Mag., vol. 34, no. 4, pp. 18–42, Jul. 2017.
+[118] M. Henaﬀ, J. Bruna, and Y. LeCun, “Deep convolutional networks on
+graph-structured data,” 2015, arXiv:1506.05163.
+[119] M. Niepert, M. M. Ahmed, and K. Kutzkov, “Learning convolutional
+neural networks for graphs,” in Proc. Int. Conf. Mach. Learn. (ICML),
+2016, pp. 2014–2023.
+[120] R. Li et al., “Graph signal processing, graph neural network and graph
+learning on biological data: A systematic review,” IEEE Rev. Biomed.
+Eng., vol. 16, pp. 109–135, 2023.
+[121] H. Lee, M. Jiang, J. Yang, Z. Yang, and Q. Zhao, “Decoding gestures
+in electromyography: Spatiotemporal graph neural networks for gen-
+eralizable and interpretable classiﬁcation,” IEEE Trans. Neural Syst.
+Rehabil. Eng., vol. 33, pp. 404–419, 2025.
+[122] W. L. Hamilton, R. Ying, and J. Leskovec, “Inductive representation
+learning on large graphs,” in Proc. Adv. Neural Inf. Process. Syst.,
+vol. 30, 2017, pp. 1024–1034.
+[123] P. Velickovic, G. Cucurull, A. Casanova, A. Romero, P. Li´o, and
+Y. Bengio, “Graph attention networks,” Stat, vol. 1050, pp. 10–48550,
+Oct. 2017.
+[124] V. A. Mendez, “Improving hand prosthesis control with advanced
+single-ﬁnger proportional decoding and robotic shared control,”
+Ph.D. dissertation, Dept. Elect. Eng., EPFL, Lausanne, Switzerland,
+2023.
+[125] F. Artoni, S. Kreipe, and S. Micera, “Myoelectric activity imaging and
+decoding with multichannel surface EMG for enhanced everyday life
+applicability,” in Proc. 9th Int. IEEE/EMBS Conf. Neural Eng. (NER),
+Mar. 2019, pp. 690–693.
+[126] L. Ferrante et al., “Separation of neural drives to muscles from trans-
+ferred polyfunctional nerves using implanted micro-electrode arrays,”
+2024, arXiv:2410.10694.
+
+34
+IEEE TRANSACTIONS ON NEURAL SYSTEMS AND REHABILITATION ENGINEERING, VOL. 34, 2026
+[127] S. Tanzarella, M. Iacono, E. Donati, D. Farina, and C. Bartolozzi,
+“Neuromorphic decoding of spinal motor neuron behaviour during
+natural hand movements for a new generation of wearable neu-
+ral interfaces,” IEEE Trans. Neural Syst. Rehabil. Eng., vol. 31,
+pp. 3035–3046, 2023.
+[128] M. Xu, X. Chen, A. Sun, X. Zhang, and X. Chen, “A novel
+event-driven spiking convolutional neural network for electromyogra-
+phy pattern recognition,” IEEE Trans. Biomed. Eng., vol. 70, no. 9,
+pp. 2604–2615, Sep. 2023.
+[129] M. A. Scrugli, G. Leone, P. Busia, L. Raﬀo, and P. Meloni, “Real-
+time sEMG processing with spiking neural networks on a low-power
+5K-LUT FPGA,” IEEE Trans. Biomed. Circuits Syst., vol. 19, no. 1,
+pp. 1–14, Feb. 2025.
+[130] Y. Ma, B. Chen, P. Ren, N. Zheng, G. Indiveri, and E. Donati,
+“EMG-based gestures classiﬁcation using a mixed-signal neuromorphic
+processing system,” IEEE J. Emerg. Sel. Topics Circuits Syst., vol. 10,
+no. 4, pp. 578–587, Dec. 2020.
+[131] A. Vitale, E. Donati, R. Germann, and M. Magno, “Neuromorphic edge
+computing for biomedical applications: Gesture classiﬁcation using
+EMG signals,” IEEE Sensors J., vol. 22, no. 20, pp. 19490–19499,
+Oct. 2022.
+[132] C. Chen et al., “Hand gesture recognition based on motor unit spike
+trains decoded from high-density electromyography,” Biomed. Signal
+Process. Control, vol. 55, Jan. 2019, Art. no. 101637.
+[133] C. Chen, Y. Yu, X. Sheng, J. Meng, and X. Zhu, “Real-time hand
+gesture recognition by decoding motor unit discharges across multiple
+motor tasks from surface electromyography,” IEEE Trans. Biomed.
+Eng., vol. 70, no. 7, pp. 2058–2068, Jul. 2023.
+[134] D. Farina et al., “Man/machine interface based on the discharge timings
+of spinal motor neurons after targeted muscle reinnervation,” Nature
+Biomed. Eng., vol. 1, no. 2, p. 0025, Feb. 2017.
+[135] J. E. Ting et al., “Sensing and decoding the neural drive to paralyzed
+muscles during attempted movements of a person with tetraplegia using
+a sleeve array,” J. Neurophysiology, vol. 126, no. 6, pp. 2104–2118,
+Dec. 2021.
+[136] E. Donati, M. Payvand, N. Risi, R. Krause, and G. Indiveri,
+“Discrimination of EMG signals using a neuromorphic implementation
+of a spiking neural network,” IEEE Trans. Biomed. Circuits Syst.,
+vol. 13, no. 5, pp. 795–803, Oct. 2019.
+[137] M. D. Twardowski, M. D. Chan, Z. Li, G. De Luca, J. C. Kline, and
+J. P. Chiodini, “Motor unit action potential based classiﬁcation of hand
+and arm motions,” in Proc. IEEE/RSJ Int. Conf. Intell. Robots Syst.
+(IROS), Oct. 2023, pp. 2134–2139.
+[138] J. K. Eshraghian et al., “Training spiking neural networks using lessons
+from deep learning,” Proc. IEEE, vol. 111, no. 9, pp. 1016–1054, Sep.
+2023.
+[139] Y. Yang, J. Ren, and F. Duan, “The spiking rates inspired encoder
+and decoder for spiking neural networks: An illustration of hand
+gesture recognition,” Cognit. Comput., vol. 15, no. 4, pp. 1257–1272,
+Jul. 2023.
+[140] A. A. Neacsu, G. Cioroiu, A. Radoi, and C. Burileanu, “Automatic
+EMG-based hand gesture recognition system using time-domain
+descriptors and fully-connected neural networks,” in Proc. 42nd Int.
+Conf. Telecommun. Signal Process. (TSP), Jul. 2019, pp. 232–235.
+[141] E. A. Chung and M. E. Benalcazar, “Real-time hand gesture recognition
+model using deep learning techniques and EMG signals,” in Proc. 27th
+Eur. Signal Process. Conf. (EUSIPCO), Sep. 2019, pp. 1–5.
+[142] H. Naser and H. A. Hashim, “SEMG-based hand gestures classiﬁcation
+using a semi-supervised multi-layer neural networks with autoencoder,”
+Syst. Soft Comput., vol. 6, Dec. 2024, Art. no. 200144.
+[143] X. Jiang, K. Nazarpour, and C. Dai, “Explainable and robust deep
+forests for EMG-force modeling,” IEEE J. Biomed. Health Informat.,
+vol. 27, no. 6, pp. 2841–2852, Jun. 2023.
+[144] J. Li, X. Jiang, X. Liu, F. Jia, and C. Dai, “Optimizing the feature
+set and electrode conﬁguration of high-density electromyogram via
+interpretable deep forest,” Biomed. Signal Process. Control, vol. 87,
+Jan. 2024, Art. no. 105445.
+[145] A. Vaswani et al., “Attention is all you need,” in Proc. Adv. Neural
+Inf. Process. Syst. (NeurIPS), vol. 30, 2025, pp. 5998–6008.
+[146] D. Josephs, C. Drake, A. Heroy, and J. Santerre, “SEMG gesture
+recognition with a simple model of attention,” in Proc. Mach. Learn.
+Health (ML4H), 2020, vol. 3, no. 1, pp. 126–138.
+[147] I. Tolstikhin et al., “MLP-mixer: An all-MLP architecture for vision,”
+in Proc. 35th Conf. Neural Inf. Process. Syst., vol. 34, 2021,
+pp. 24261–24272.
+[148] S. Shen, M. Li, F. Mao, X. Chen, and R. Ran, “Gesture recognition
+using MLP-mixer with CNN and stacking ensemble for sEMG signals,”
+IEEE Sensors J., vol. 24, no. 4, pp. 4960–4968, Feb. 2024.
+[149] Q. Hu, G. A. Azar, A. Fletcher, S. Rangan, and S. F. Atashzar, “ViT-
+MDHGR: Cross-day reliability and agility in dynamic hand gesture
+prediction via HD-sEMG signal decoding,” IEEE J. Sel. Topics Signal
+Process., vol. 18, no. 3, pp. 419–430, Apr. 2024.
+[150] S. Zabihi, E. Rahimian, A. Asif, and A. Mohammadi, “TraHGR:
+Transformer for hand gesture recognition via electromyography,” IEEE
+Trans. Neural Syst. Rehabil. Eng., vol. 31, pp. 4211–4224, 2023.
+[151] M. Zia Ur Rehman et al., “Multiday EMG-based classiﬁcation of
+hand motions with deep learning techniques,” Sensors, vol. 18, no. 8,
+p. 2497, Aug. 2018.
+[152] U. Cˆot´e-Allard, E. Campbell, A. Phinyomark, F. Laviolette, B. Gos-
+selin, and E. Scheme, “Interpreting deep learning features for
+myoelectric control: A comparison with handcrafted features,” Fron-
+tiers Bioeng. Biotechnol., vol. 8, p. 158, Mar. 2020.
+[153] E. R. Buskirk and P. V. Komi, “Reproducibility of electromyographic
+measurements with inserted wire electrodes and surface electrodes,”
+Acta Physiol. Scand., vol. 10, no. 4, pp. 357–367, 1972.
+[154] E. Scheme and K. Englehart, “Training strategies for mitigat-
+ing the eﬀect of proportional control on classiﬁcation in pattern
+recognition–based myoelectric control,” JPO J. Prosthetics Orthotics,
+vol. 25, no. 2, pp. 76–83, 2013.
+[155] I. Kyranou, S. Vijayakumar, and M. S. Erden, “Causes of performance
+degradation in non-invasive electromyographic pattern recognition in
+upper limb prostheses,” Frontiers Neurorobotics, vol. 12, p. 58, Sep.
+2018.
+[156] D. Farina et al., “The extraction of neural information from the surface
+EMG for the control of upper-limb prostheses: Emerging avenues and
+challenges,” IEEE Trans. Neural Syst. Rehabil. Eng., vol. 22, no. 4,
+pp. 797–809, Jul. 2014.
+[157] A. Hagengruber, U. Leipscher, B. M. Eskoﬁer, and J. Vogel, “A
+new labeling approach for proportional electromyographic control,”
+Sensors, vol. 22, no. 4, p. 1368, Feb. 2022.
+[158] E. Campbell, A. Phinyomark, and E. Scheme, “Current trends and con-
+founding factors in myoelectric control: Limb position and contraction
+intensity,” Sensors, vol. 20, no. 6, p. 1613, Mar. 2020.
+[159] I. Kyranou, K. Szymaniak, and K. Nazarpour, “EMG dataset for
+gesture recognition with arm translation,” Scientiﬁc Data, vol. 12,
+no. 1, p. 100, Jan. 2025.
+[160] U. Cˆot´e-Allard et al., “Unsupervised domain adversarial self-calibration
+for electromyography-based gesture recognition,” IEEE Access, vol. 8,
+pp. 177941–177955, 2020.
+[161] K. He, X. Chen, S. Xie, Y. Li, P. Doll´ar, and R. Girshick, “Masked
+autoencoders are scalable vision learners,” in Proc. IEEE/CVF Conf.
+Comput. Vis. Pattern Recognit. (CVPR), Jun. 2022, pp. 15979–15988.
+[162] K. He, H. Fan, Y. Wu, S. Xie, and R. Girshick, “Momentum contrast for
+unsupervised visual representation learning,” in Proc. IEEE/CVF Conf.
+Comput. Vis. Pattern Recognit. (CVPR), Jun. 2020, pp. 9729–9738.
+[163] J.-B. Grill et al., “Bootstrap your own latent-a new approach to self-
+supervised learning,” in Proc. 34th Int. Conf. Neural Inf. Process. Syst.,
+2020, pp. 21271–21284.
+[164] M. Caron et al., “Emerging properties in self-supervised vision
+transformers,” in Proc. IEEE/CVF Int. Conf. Comput. Vis. (ICCV), Oct.
+2021, pp. 9650–9660.
+[165] M. Oquab et al., “DINOv2: Learning robust visual features without
+supervision,” 2023, arXiv:2304.07193.
+[166] J. E. Van Engelen and H. H. Hoos, “A survey on semi-supervised
+learning,” Mach. Learn., vol. 109, no. 2, pp. 373–440, 2020.
+[167] X. Yang, Z. Song, I. King, and Z. Xu, “A survey on deep semi-
+supervised learning,” IEEE Trans. Knowl. Data Eng., vol. 35, no. 9,
+pp. 8934–8954, Sep. 2023.
+[168] M. H. Raﬁei, L. V. Gauthier, H. Adeli, and D. Takabi, “Self-supervised
+learning for electroencephalography,” IEEE Trans. Neural Netw. Learn.
+Syst., vol. 35, no. 2, pp. 1457–1471, Feb. 2024.
+[169] I. Goodfellow et al., “Generative adversarial networks,” Commun.
+ACM, vol. 63, no. 11, pp. 139–144, 2020.
+[170] R. N. Khushaba and K. Nazarpour, “Decoding HD-EMG signals for
+myoelectric control—How small can the analysis window size be?,”
+IEEE Robot. Autom. Lett., vol. 6, no. 4, pp. 8569–8574, Oct. 2021.
+[171] B. Mazzoni, S. Benatti, L. Benini, and G. Tagliavini, “Eﬃcient trans-
+form algorithms for parallel ultra-low-power IoT end nodes,” IEEE
+Embedded Syst. Lett., vol. 13, no. 4, pp. 210–213, Dec. 2021.
+[172] M. M. H. Shuvo, S. K. Islam, J. Cheng, and B. I. Morshed, “Eﬃcient
+acceleration of deep learning inference on resource-constrained edge
+devices: A review,” Proc. IEEE, vol. 111, no. 1, pp. 42–91, Jan. 2023.
+
+ZHONG et al.: DEEP FEATURE LEARNING FROM ELECTROMYOGRAPHIC SIGNALS
+35
+[173] J. Chen and X. Ran, “Deep learning with edge computing: A review,”
+Proc. IEEE, vol. 107, no. 8, pp. 1655–1674, Aug. 2019.
+[174] L. N. Huynh, Y. Lee, and R. K. Balan, “DeepMon: Mobile GPU-
+based deep learning framework for continuous vision applications,” in
+Proc. ACM 15th Int. Conf. Mobile Sys. Appl. Serv. (MobiSys), 2017,
+pp. 82–95.
+[175] K. Szymaniak, A. Krasoulis, and K. Nazarpour, “Recalibration of
+myoelectric control with active learning,” Frontiers Neurorobotics,
+vol. 16, Dec. 2022, Art. no. 1061201.
+[176] Y. Lin, R. Palaniappan, P. De Wilde, and L. Li, “Robust long-term
+hand grasp recognition with raw electromyographic signals using
+multidimensional uncertainty-aware models,” IEEE Trans. Neural Syst.
+Rehabil. Eng., vol. 31, pp. 962–971, 2023.
+[177] H.
+Bi,
+M.
+Perello-Nieto,
+R.
+Santos-Rodriguez,
+and
+P.
+Flach,
+“Human activity recognition based on dynamic active learning,” IEEE
+J. Biomed. Health Informat., vol. 25, no. 4, pp. 922–934, Apr. 2021.
+[178] S. Sinha, S. Ebrahimi, and T. Darrell, “Variational adversarial active
+learning,” in Proc. IEEE/CVF Int. Conf. Comput. Vis., Oct. 2019,
+pp. 5972–5981.
+[179] P. Ren et al., “A survey of deep active learning,” ACM Comput. Surv.,
+vol. 54, no. 9, pp. 1–40, 2021.
+[180] C. Ma, X. Jiang, and K. Nazarpour, “3-stage neural network training
+protocol for generalisable myoelectric control,” in Proc. Myoelectric
+Control Symp. (MEC), 2024, pp. 1–4.
+[181] X. Jiang, C. Ma, and K. Nazarpour, “One-shot random forest model
+calibration for hand gesture decoding,” J. Neural Eng., vol. 21, no. 1,
+Feb. 2024, Art. no. 016006.
+[182] J. Fan, X. Jiang, X. Liu, L. Meng, F. Jia, and C. Dai, “Surface EMG
+feature disentanglement for robust pattern recognition,” Expert Syst.
+Appl., vol. 237, Mar. 2024, Art. no. 121224.
+[183] T. Dissanayake, T. Fernando, S. Denman, S. Sridharan, and C. Fookes,
+“Generalized generative deep learning models for biosignal synthesis
+and modality transfer,” IEEE J. Biomed. Health Informat., vol. 27,
+no. 2, pp. 968–979, Feb. 2023.
+[184] N. Jiang, H. Rehbaum, I. Vujaklija, B. Graimann, and D. Farina,
+“Intuitive, online, simultaneous, and proportional myoelectric control
+over two degrees-of-freedom in upper limb amputees,” IEEE Trans.
+Neural Syst. Rehabil. Eng., vol. 22, no. 3, pp. 501–510, May 2014.
+[185] M. Ortiz-Catalan, F. Rouhani, R. Branemark, and B. Hakansson,
+“Oﬄine accuracy: A potentially misleading metric in myoelectric
+pattern recognition for prosthetic control,” in Proc. Annu. Int. Conf.
+IEEE Eng. Med. Biol. Soc. (EMBS), Nov. 2015, pp. 1140–1143.
+[186] I. Vujaklija et al., “Translating research on myoelectric control into
+clinics—Are the performance assessment methods adequate?,” Fron-
+tiers Neurorobotics, vol. 11, p. 7, Feb. 2017.
+[187] J. Gusman, E. Mastinu, and M. Ortiz-Catalan, “Evaluation of computer-
+based target achievement tests for myoelectric control,” IEEE J. Transl.
+Eng. Health Med., vol. 5, pp. 1–10, 2017.
+[188] B. A. Lock, K. Englehart, and B. Hudgins, “Real-time myoelectric
+control in a virtual environment to relate usability vs. accuracy,” in
+Proc. Myoelectric Control Symp. (MEC), 2005, pp. 122–127.
+[189] A. Jaramillo-Y´anez, M. E. Benalc´azar, and E. Mena-Maldonado, “Real-
+time hand gesture recognition using surface electromyography and
+machine learning: A systematic literature review,” Sensors, vol. 20,
+no. 9, p. 2467, Apr. 2020.
+[190] A.
+Krasoulis,
+S.
+Vijayakumar,
+and
+K.
+Nazarpour,
+“Eﬀect
+of
+user
+practice
+on
+prosthetic
+ﬁnger
+control
+with
+an
+intuitive
+myoelectric
+decoder,”
+Frontiers
+Neurosci.,
+vol. 13,
+p. 891,
+Sep. 2019.
+[191] K. Englehart and B. Hudgins, “A robust, real-time control scheme for
+multifunction myoelectric control,” IEEE Trans. Biomed. Eng., vol. 50,
+no. 7, pp. 848–854, Jul. 2003.
+[192] D. Graupe, K. H. Kohn, A. Kralj, and S. Basseas, “Patient controlled
+electrical stimulation via EMG signature discrimination for providing
+certain paraplegics with primitive walking functions,” J. Biomed. Eng.,
+vol. 5, no. 3, pp. 220–226, Jul. 1983.
+[193] T. R. Farrell and R. F. Weir, “The optimal controller delay for myo-
+electric prostheses,” IEEE Trans. Neural Syst. Rehabil. Eng., vol. 15,
+no. 1, pp. 111–118, Mar. 2007.
+[194] N. Zheng, Y. Li, W. Zhang, and M. Du, “User-independent EMG
+gesture recognition method based on adaptive learning,” Frontiers
+Neurosci., vol. 16, Mar. 2022, Art. no. 847180.
+[195] S.
+Tam
+et
+al.,
+“Towards
+robust
+and
+interpretable
+EMG-based
+hand gesture recognition using deep metric meta learning,” 2024,
+arXiv:2404.15360.
+[196] R. M. Hinson, J. Berman, W. Filer, D. Kamper, X. Hu, and H. Huang,
+“Oﬄine evaluation matters: Investigation of the inﬂuence of oﬄine
+performance on real-time operation of electromyography-based neural-
+machine interfaces,” IEEE Trans. Neural Syst. Rehabil. Eng., vol. 31,
+pp. 680–689, 2023.
+[197] R. M. Hinson, J. Berman, I.-C. Lee, W. G. Filer, and H. Huang,
+“Oﬄine evaluation matters: Investigation of the inﬂuence of oﬄine
+performance of EMG-based neural-machine interfaces on user adapta-
+tion, cognitive load, and physical eﬀorts in a real-time application,”
+IEEE Trans. Neural Syst. Rehabil. Eng., vol. 31, pp. 3055–3063,
+2023.
+[198] V. Mathiowetz, G. Volland, N. Kashman, and K. Weber, “Adult norms
+for the box and block test of manual dexterity,” Amer. J. Occupational
+Therapy, vol. 39, no. 6, pp. 386–391, Jun. 1985.
+[199] A. M. Simon, L. J. Hargrove, B. A. Lock, and T. A. Kuiken,
+“Target achievement control test: Evaluating real-time myoelectric
+pattern-recognition control of multifunctional upper-limb prostheses,”
+J. Rehabil. Res. Develop., vol. 48, no. 6, p. 619, 2011.
+[200] P. M. Fitts, “The information capacity of the human motor system in
+controlling the amplitude of movement,” J. Experim. Psychol., vol. 47,
+no. 6, pp. 381–391, 1954.
+

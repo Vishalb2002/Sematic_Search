@@ -1,0 +1,401 @@
+VOL. 8, NO. 6, JUNE 2024
+7003204
+Sensor signal processing
+Automated Recognition of Hand Gestures From Multichannel EMG Sensor
+Data Using Time–Frequency Domain Deep Learning for IoT Applications
+Amlan Deep Mohapatra1
+, Amol Aggarwal2
+, and Rajesh Kumar Tripathy1∗
+1Department of Electrical and Electronics Engineering, BITS-Pilani, Hyderabad Campus, Hyderabad 500078, India
+2Department of Pharmacy, BITS-Pilani, Pilani Campus, Pilani 333031, India
+∗Senior Member, IEEE
+Manuscript received 15 April 2024; accepted 10 May 2024. Date of publication 13 May 2024; date of current version 21 May 2024.
+Abstract—The automated recognition of hand gestures from multicha-
+nnel electromyogram (MEMG) sensor data is essential for human–
+computer interaction, prosthetic control, rehabilitation, and biometric-
+related applications. This letter proposes a time–frequency domain
+deep neural network (TFDDNN)-based approach to recognize hand
+gestures using MEMG recordings. The MEMG recordings are seg-
+mented into frames, and the average of all channel information
+(mean EMG signal) for each frame is evaluated. The continuous wavelet transform is applied to the mean
+EMG signal to obtain the joint time–frequency representation (TFR). The TFR-based image of the mean EMG
+signal is used as the input to a deep representation learning network (DRLN) model to recognize hand ges-
+tures. Two publicly available databases are utilized to evaluate the performance of the proposed TFDDNN ap-
+proach. The results show that the proposed TFDDNN has obtained overall accuracy values of 92.73% and
+80.33% using MEMG signals from database 1 and database 2 for multiclass-based recognition of hand ges-
+tures. The suggested DRLN model has demonstrated higher accuracy for automated hand gesture recognition
+than existing deep-learning-based methods. We have deployed the proposed TFDDNN approach in a web ap-
+plication for Internet of Things (IoT)-enabled real-time recognition of hand gestures using MEMG sensor data.
+Index Terms—Sensor signal processing, accuracy, continuous wavelet transform (CWT), deep representation learning, electromyogram
+(EMG), hand gestures, Internet of Things (IoT).
+I. INTRODUCTION
+The electromyogram (EMG) signal deciphers the muscle’s electrical
+activity during contraction, and it is used for neuro-muscular disease
+diagnosis [1] and human–machine interface (HMI) related applica-
+tions [2], [3]. The automated hand gesture recognition system using
+EMGsensordataishelpfulinapplications,suchasassistivetechnology
+for elderly and disabled people, prosthetic limb control, virtual reality,
+biometrics, gaming, and smart home devices [4], [5]. It consists of
+recording multichannel EMG (MEMG) sensor data, extraction and
+selection of features from the MEMG data, and recognition of ges-
+tures using machine learning techniques [3]. The deep learning-based
+methods have the merits that these are as fully automatic as those of
+the manual feature-based machine learning techniques for automated
+gesture recognition using MEMG signals [6]. The Internet of Things
+(IoT)-enabled hand gesture recognition enables the real-time monitor-
+ing of EMG sensor data for HMI applications [7]. Hence, developing a
+new deep learning-based approach and deploying this approach on the
+cloud-based framework are attractive for recognizing hand gestures
+from MEMG data.
+In recent years, various deep-learning methods have been developed
+to recognize hand gestures using MEMG signals. The deep convolu-
+tional neural network (CNN) model has been used for hand gesture
+classiﬁcation using surface MEMG signals [8]. The authors in [8]
+Corresponding author: Rajesh Kumar Tripathy (e-mail: rajeshiitg13@gmail.com).
+Associate Editor: Wei Pu.
+Digital Object Identiﬁer 10.1109/LSENS.2024.3400388
+and [9] utilized the multiview deep CNN and simple attention-based
+models for hand gesture recognition using surface EMG data. In
+another work, Karnam et al. [10] suggested a hybrid deep-learning
+architecture by considering CNN and bidirectional long short-term
+memory (BI-LSTM) to classify hand gestures using MEMG sig-
+nals. The deep learning model formulated using the discrete cosine
+transform-based attention network (DCTAN) [6] has been used for
+hand gesture recognition using MEMG signals. The DCTAN model
+has demonstrated accuracy values of 78%, which is higher than the
+methods reported in [6], [8], [9], and [10] in recognizing hand gestures
+usingMEMGsignals.Thetime-seriestransformer-baseddeeplearning
+modelhasalsobeenusedtorecognizehandgesturesusinghigh-density
+EMG signals [11].
+The existing methods have considered only time-domain MEMG
+signals as input for recognizing hand gestures. The EMG is a non-
+stationary time series that varies in both time and frequency domains
+for different types of gesture classes [12]. Furthermore, these existing
+deep learning models have higher trainable parameters. Hence, the
+training phases of these models require higher computational resources
+to obtain a better representation for recognizing hand gestures using
+MEMG signals in the inference phase. Deep representation learn-
+ing network (DRLN) has been used in various biomedical applica-
+tions [13], [14]. These networks use different transfer learning models
+as feature extractors and a few dense layers for the classiﬁcation
+task. The DRLN model has not been explored to recognize hand ges-
+tures using the time–frequency representation (TFR)-based analysis of
+MEMG signals. The novelty of this letter is developing a TFR-based
+DRLN framework and deploying this framework on a cloud-based web
+2475-1472 © 2024 IEEE. Personal use is permitted, but republication/redistribution requires IEEE permission.
+See https://www.ieee.org/publications/rights/index.html for more information.
+Authorized licensed use limited to: Lovely Professional University - Phagwara. Downloaded on March 10,2026 at 03:49:26 UTC from IEEE Xplore.  Restrictions apply. 
+
+7003204
+VOL. 8, NO. 6, JUNE 2024
+Fig. 1.
+Block diagram for the proposed TFDDNN approach for gesture
+recognition using MEMG recordings.
+application (WAPP) for real-time hand gesture recognition using
+MEMG signals.
+II. MEMG SIGNAL DATABASES
+In this work, we have used two publicly available databases to
+assess the performance of the presented TFR-based DRLN approach
+to recognize hand gestures. Database 1 (Mandely database) contains
+four-channel EMG signals (sampling frequency as 2000 Hz) from
+40 subjects for ten classes (one rest class and nine hand gesture
+classes) of hand gestures [15]. The MEMG signals have been recorded
+using a four-channel BIOPAC MP36 device with the channel locations
+as forearm muscles for ten different types of simulating gestures
+performed by each subject [15]. Similarly, database 2 (Ninapro db4)
+contains the MEMG signals (sampling frequency as 2000 Hz) from
+ten subjects for 53 classes (1 rest gesture and 52 hand movement
+gestures) of hand gestures [16]. The gesture activities, such as ﬁnger
+movements, grasping movements, functional movements, and basic
+wrist movements, are utilized while recording MEMG signals in
+database 2 [16].
+III. PROPOSED METHOD
+The ﬂowchart illustrating the proposed TFDNN-based approach is
+shown in Fig. 1. The steps involved in this ﬂowchart are described in
+the following sections.
+A. Frame-Based Segmentation
+In this work, frame-based segmentation is utilized to divide the
+MEMG recordings of each subject into frames for different gesture
+classes. For database 1, the 6-s nonoverlapping window segments
+four-channel EMG recordings into MEMG signal frames. The anno-
+tations for the starting and ending samples of the MEMG recordings
+for each hand gesture class are given in the database [15]. Based on
+these points, we have evaluated the MEMG signal frames from all
+40 subjects for each gesture class. For each gesture type, ﬁve MEMG
+signal frames are considered after the segmentation from database 1.
+Thus, for all 40 subjects and ten gesture classes from database 1, 2000
+MEMG signal frames are evaluated. Similarly, for database 2, a sliding
+window of length 260 ms (520 samples) and an overlapping of 235 ms
+(470 samples) are utilized to segment the MEMG recording of each
+gesture class [6]. After segmentation, we selected only ten MEMG
+signal frames for each gesture class for all subjects. Therefore, for all
+Fig. 2.
+(a) Mean EMG signal frame for hand gesture 6 (ring extension)
+class. (b) Mean EMG signal for hand gesture 43 (prismatic pinch grasp)
+class. (c) TFR-domain plot of Mean EMG signal frame for hand gesture
+6 class. (d) TFR-domain plot of mean EMG signal frame for hand
+gesture 43 class.
+ten subjects and 53 gesture classes, we have obtained 5300 MEMG
+signal frames for database 2.
+B. Time–Frequency Analysis Using Continuous Wavelet
+Transform (CWT)
+The mean or the average of all channels of the MEMG signal frame
+is given as z(n) = 1
+C
+C
+c=1 xc(n), C as total number of channels. The
+xc(n) is the EMG signal for cth channel. In this work, we have applied
+CWT over the mean MEMG signal frame. The CWT of the mean
+MEMG signal z(n) is given as follows [17]:
+W (s, τ ) = 1
+√s
+N−1
+
+τ=0
+z(n) ¯ψ
+n −τ
+s
+
+(1)
+where s and τ are denoted as the scale and shift, respectively. The
+factor W (s, τ ) is denoted as the wavelet coefﬁcients, which is the
+function of both scale and shift parameters. The ¯ψ is the complex
+conjugate of the mother wavelet. In this work, the “Morlet”-based
+mother wavelet is used to evaluate the CWT of the mean MEMG
+signal. The CWT coefﬁcients are a function of time (τ) and scale
+(s) [17]. In this letter, we have applied scale-to-frequency conversion
+to obtain TFR from the time-scale representation of the mean MEMG
+signal. Themathematicalexpressionforscale-to-frequencyconversion
+is given as f =
+Fc
+s×t [17], where Fc is the center frequency for the
+Morlet-based mother wavelet function, and its value is 0.8125 Hz. The
+factor t is the sampling interval of the MEMG signal, and it is given
+by t =
+1
+Fs . The total scale to evaluate the CWT of the mean MEMG
+signal is 1000. The mean MEMG signals for gesture 6 and gesture
+43 are depicted in Fig. 2(a) and (b), respectively. Similarly, we have
+shown the TFR of the mean MEMG signals for gesture 6 and gesture
+43 in Fig. 2(c) and (d), respectively. It is noteworthy to mention that
+there are signiﬁcant differences in the morphologies of TFR-domain
+contour plots of both gesture classes. Hence, the deep learning model
+implemented using the input as the TFR-based images of the MEMG
+signals can recognize different hand gestures automatically. In this
+study, a new DRL model has been developed to recognize 10-classes
+and 53-classes-based hand gestures using TFR images extracted from
+the mean MEMG signals of database 1 and database 2, respectively.
+Authorized licensed use limited to: Lovely Professional University - Phagwara. Downloaded on March 10,2026 at 03:49:26 UTC from IEEE Xplore.  Restrictions apply. 
+
+VOL. 8, NO. 6, JUNE 2024
+7003204
+Fig. 3.
+Proposed DRLN model for hand gesture recognition using
+MEMG signals from database 1.
+Table 1.
+DRLN Model Results With Subject-Dependent Tenfold CV
+C. Deep Representation Learning Network
+The architecture of the DRLN model is depicted in Fig. 3. The input
+to this model is the TFR-based image with size as 128 × 128 × 3.
+The DRLN model uses a frozen XceptionNet-based transfer learning
+block [18] to obtain the representation or feature map from the TFR-
+based image of the mean MEMG signal frame. The size of the tensor
+obtained after the frozen XceptionNet is given as 4 × 4 × 2048 [18].
+AfterthefrozenXceptionNetblock,theﬂattenedlayerobtainsafeature
+vector of size 1 × 32786. The dropout layer, dense layer, and softmax
+layer (output) are used after the ﬂattened layer in the suggested DRLN
+model for the automated recognition of hand gestures. The number of
+trainable and nontrainable parameters for the DRLN model are 327800
+and 20861480, respectively. For the database 1 case, the dense layer
+after the dropout layer in the DRLN model architecture contains ten
+neurons. However, for the database 2 case, as we have 53 classes, the
+number of neurons in the dense layer is 512. The hyperparameters
+used during the training of the DRLN model are the number of epochs
+as 13, batch size as 32, optimizer as “Adam,” and loss function as
+“sparse categorical cross-entropy,” respectively [13]. The number of
+neuronsinthedenselayerandthehyperparametersoftheDRLNmodel
+are selected using the grid-search-based approach. In this study, the
+training and test MEMG signal frames are selected based on both
+subject-dependent (hold-out validation and ﬁvefold cross-validation
+(CV)[19]andsubject-independentvalidation(SIV)techniques[6].For
+SIV cases, 70% and 30% of the MEMG signal frames from different
+subjects are used to train and test the proposed DRLN model for
+recognizing hand gestures. The MEMG frames from subject numbers
+3, 18, 21, 24, 31, and 36 of database 1 and subject numbers 2, 5, and 8
+from database 2 are used in the testing phase of the DRLN model for
+the SIV case.
+IV. RESULTS AND DISCUSSION
+The classiﬁcation metrics of the proposed TFDNN-based approach
+are given in Table 1 using TFR-based images of MEMG signals from
+database 1 and database 2 cases with the subject-dependent ﬁvefold
+CV method. It has been observed that the average accuracy values of
+the DRLN model for database1 and database2 MEMG signal cases are
+95.71% and 86.56%, respectively. Similarly, for the subject-dependent
+Table 2.
+DRLN Model Results With SIV
+Fig. 4.
+(a) t-SNE plot computed using the feature vectors of the dense
+layer (before output layer) of DRLN model for test MEMG frames from
+database 1. (b) Confusion matrix of DRLN model obtained using test
+MEMG frames from database 1.
+hold-out validation case, the accuracy values of the DRLN models are
+obtained as 97.43% and 84.93% using TFR-based images of MEMG
+signals from database 1 and database 2, respectively. We have com-
+puted the classiﬁcation results of the suggested DRLN model using the
+SIV-basedselectionofTFR-basedimagesofMEMGsignalsduringthe
+training and testing phases. These new results are depicted in Table 2.
+For the SIV case, the DRLN model has produced accuracy values of
+92.73% and 80.33%, respectively. The DRLN model has demonstrated
+higher classiﬁcation performance in all measures using MEMG signals
+from database 1 compared with database 2 cases for subject dependent
+validation (SDV) and SIV techniques. Database 2 has more hand
+gesture classes (53) than ten hand gesture classes in database 1. The
+MEMG signals are highly correlated for gesture classes, such as wrist
+supination and wrist pronation. This correlated information has been
+captured in the TFR-based images of the gesture classes. Hence, the
+proposed DRLN model has produced a lower accuracy value using
+TFR-based images from MEMG signals of database 2.
+We have shown the t-SNE plot of the feature vectors evaluated at
+the dense layer before the output layer of the proposed DRLN model
+for test MEMG instances in Fig. 4(a) to recognize hand gestures using
+MEMG signals from database 1. It is seen that the learned features
+in the dense layer of the proposed DRLN model are found to be
+discriminative for the different gesture classes. The confusion matrix
+of the DRLN model using the test MEMG signals from database 1
+is shown in Fig. 4(b). It is observed that the number of true positives
+of the DRLN model is 557 out of 600 MEMG test instances from
+database 1 using the SIVstrategy. The XceptionNet uses depthwise and
+pointwise separable convolutions compared with regular convolution
+blocks [18]. We have considered other frozen transfer learning blocks,
+such as VGG16, ResNet50, DenseNet201, and EfﬁcientNetV2B2 [20],
+instead of the XceptionNet block in the proposed DRLN model to
+recognize hand gestures. The overall accuracy values of DRLN with
+VGG16, DRLN with Resnet50, DRLN with DenseNet201, and DRLN
+with EfﬁcientNetV2B2 are obtained as 28.56%, 31.44%, 34.36%, and
+42.72%, respectively, which are less than DRLN with XceptionNet in
+recognizing hand gestures using TFR-images of mean MEMG signals
+from database 1. We have also calculated the results of the proposed
+DRLN model with a ﬁne-tuned XceptionNet block to recognize hand
+gestures. The accuracy values of the ﬁne-tuned XceptionNet-based
+DRLN models are obtained as 42.31% and 33.87% using TFR-images
+Authorized licensed use limited to: Lovely Professional University - Phagwara. Downloaded on March 10,2026 at 03:49:26 UTC from IEEE Xplore.  Restrictions apply. 
+
+7003204
+VOL. 8, NO. 6, JUNE 2024
+Table 3.
+Comparison With Existing Deep Learning-Based Methods to
+Recognize Hand Gestures Using MEMG Signals From Database 2
+Fig. 5.
+TFDNN approach deployed on WAPP for real-time recognition
+of hand gestures using MEMG signals.
+from mean MEMG signals from database 1 and database 2, respec-
+tively, for the SIV case. The drop in the accuracy value of ﬁne-tuned
+XceptionNet-based DRLN is due to the overﬁtting issue in the training
+of such an extensive network (all layers of XceptionNet).
+The proposed approach has been compared with existing deep
+learning-based methods for hand gesture recognition using MEMG
+signals from database 2 in Table 3. It has been noted that the proposed
+TFD-based DRLN approach has demonstrated higher accuracy value
+than various deep learning models to recognize hand gestures with SIV
+strategy [6], [8], [9], [10]. We have also evaluated discrete wavelet
+transform (DWT)-domain [12] energy features of MEMG signals
+from database 2 and used the support vector machine classiﬁer [4]
+to recognize hand gestures. The accuracy value of the DWT-based
+method is obtained as 72.31%, which is less than the proposed time–
+frequency domain deep neural network (TFDDNN) approach. The
+suggestedDRLNmodelhasfewertrainingparametersthantheexisting
+deep learning-based networks for multiclass-based recognition of hand
+gestures.
+The accuracy of the DRLN model is obtained as highest using
+CWT-based TFR images of mean MEMG signals with “Morlet”
+mother wavelet as compared with “Mexican-hat” and “Shannon”
+cases. For this reason, the “Morlet”-based mother wavelet is chosen for
+CWT-based analysis of MEMG signals. We have quantized the DRLN
+model with ﬂoating point 16-bit (FP16) and integer 8-bit (INT8) cases
+to recognize hand gestures. The accuracy values of DRLN models
+with FP16 and INT8 quantization cases using MEMG signals from
+database 1 are 87.74% and 82.32%, respectively. Hence, we have
+deployed the ﬂoating point 32-bit version of the proposed TFDDNN
+approach on a WAPP for IoT-enabled real-time recognition of hand
+gestures. The hand gesture prediction for an MEMG signal on WAPP is
+shown in Fig. 5. The advantages of the proposed work include real-time
+monitoring, accessibility, and scalability. Similarly, the high latency,
+privacy, and security of MEMG data from the subjects and dependency
+on internet connectivity are the limitations of the proposed method for
+IoT-enabled hand gesture recognition.
+V. CONCLUSION
+A time–frequency domain deep learning-based approach has been
+proposed in this work to recognize hand gestures using MEMG signals.
+The TFR-based image has been evaluated using channel averaging of
+the MEMG signal and CWT. The DRLN model has been employed to
+recognize hand gestures automatically using TFR images of MEMG
+signals. The proposed approach has produced accuracy values of
+95.71% and 86.56% for the 10-classes and 53-classes-based SDV for
+handgesturerecognitionusingMEMGsignals.FortheSIV-basedhand
+gesture recognition task, the suggested approach has demonstrated
+accuracy values of 92.73% and 80.33% for 10-classes and 53-classes-
+based recognition of hand gestures.
+REFERENCES
+[1] R. Dubey, M. Kumar, A. Upadhyay, and R. B. Pachori, “Automated diagnosis of
+muscle diseases from EMG signals using empirical mode decomposition based
+method,” Biomed. Signal Process. Control, vol. 71, 2022, Art. no. 103098.
+[2] S. I. Khan and R. B. Pachori, “Automated eye movement classiﬁcation based on
+EMG of EOM signals using FBSE-EWT technique,” IEEE Trans. Human-Mach.
+Syst., vol. 53, no. 2, pp. 346–356, Apr. 2023.
+[3] S. Sharma and R. R. Sharma, “sEMG-based small rotation invariant gesture recog-
+nition using multivariate fast iterative ﬁltering,” IEEE Sens. Lett., vol. 7, no. 11,
+Nov. 2023, Art. no. 6008604.
+[4] G. Kumar, S. S. Yadav, Yogita, and V. Pal, “Machine learning-based framework
+to predict ﬁnger movement for prosthetic hand,” IEEE Sens. Lett., vol. 6, no. 6,
+Jun. 2022, Art. no. 6002204.
+[5] K. Arunganesh, G. Nagarajan, N. Sivakumaran, and P. Karthick, “Recognition
+of lower limb movements using machine learning methods and bispectral maps
+of wireless sEMG measurements,” IEEE Sens. Lett., vol. 7, no. 9, Sep. 2023,
+Art. no. 7004604.
+[6] P. T.-T. Nguyen and C.-H. Kuo, “A novel surface electromyographic gesture recogni-
+tion using discrete cosine transform-based attention network,” IEEE Signal Process.
+Lett., vol. 31, no. 1, pp. 266–270, Jan. 2024.
+[7] M. Nguyen, T. N. Gia, and T. Westerlund, “EMG-based IoT system using hand
+gestures for remote control applications,” in Proc. IEEE 7th World Forum Internet
+Things, 2021, pp. 911–912.
+[8] W. Wei, Q. Dai, Y. Wong, Y. Hu, M. Kankanhalli, and W. Geng, “Surface-
+electromyography-based gesture recognition by multi-view deep learning,” IEEE
+Trans. Biomed. Eng., vol. 66, no. 10, pp. 2964–2973, Oct. 2019.
+[9] D. Josephs, C. Drake, A. Heroy, and J. Santerre, “sEMG gesture recognition with
+a simple model of attention,” in Proc. Int. Conf. Mach. Learn. Health, 2020,
+pp. 126–138.
+[10] N. K. Karnam, S. R. Dubey, A. C. Turlapaty, and B. Gokaraju, “EMGHandNet: A
+hybrid CNN and Bi-LSTM architecture for hand activity classiﬁcation using surface
+EMG signals,” Biocybern. Biomed. Eng., vol. 42, no. 1, pp. 325–340, 2022.
+[11] M. Montazerin, E. Rahimian, F. Naderkhani, S. F. Atashzar, S. Yanushkevich, and A.
+Mohammadi, “Transformer-based hand gesture recognition from instantaneous to
+fused neural decomposition of high-density EMG signals,” Sci. Rep., vol. 13, no. 1,
+2023, Art. no. 11000.
+[12] R. B. Pachori, Time-Frequency Analysis Techniques and Their Applications. Boca
+Raton, FL, USA: CRC Press, 2023.
+[13] S. Bhaskarpandit, A. Gade, S. Dash, D. K. Dash, R. K. Tripathy, and R. B.
+Pachori, “Detection of myocardial infarction from 12-lead ECG trace images using
+eigendomain deep representation learning,” IEEE Trans. Instrum. Meas., vol. 72,
+Feb. 2023, Art. no. 4001812.
+[14] V. S. Parupudi, A. K. Panda, and R. K. Tripathy, “A smartphone enabled deep
+learning approach for myocardial infarction detection using ECG traces for IoT-
+based healthcare applications,” IEEE Sensor Lett., vol. 7, no. 11, Nov. 2023, Art
+no. 7006704.
+[15] M. A. Ozdemir, D. H. Kisa, O. Guren, and A. Akan, “Dataset for multi-channel
+surface electromyography (sEMG) signals of hand gestures,” Data Brief, vol. 41,
+2022, Art. no. 107921.
+[16] S. Pizzolato, L. Tagliapietra, M. Cognolato, M. Reggiani, H. Müller, and M. At-
+zori, “Comparison of six electromyography acquisition setups on hand movement
+classiﬁcation tasks,” PLoS One, vol. 12, no. 10, 2017, Art. no. e0186132.
+[17] L. Aguiar-Conraria and M. J. Soares, “The continuous wavelet transform: Moving
+beyond uni-and bivariate analysis,” J. Econ. Surv., vol. 28, no. 2, pp. 344–375, 2014.
+[18] F. Chollet, “Xception: Deep learning with depthwise separable convolutions,” in
+Proc. IEEE Conf. Comput. Vis. Pattern Recognit., 2017, pp. 1251–1258.
+[19] R. K. Tripathy, S. Dash, A. Rath, G. Panda, and R. B. Pachori, “Automated detection
+of pulmonary diseases from lung sound signals using ﬁxed-boundary-based empiri-
+cal wavelet transform,” IEEE Sens. Lett., vol. 6, no. 5, Mar. 2022, Art. no. 7001504.
+[20] D. Sarkar, R. Bali, and T. Ghosh, Hands-On Transfer Learning With Python:
+Implement Advanced Deep Learning and Neural Network Models Using TensorFlow
+and Keras. Birmingham, U.K.: Packt, 2018.
+Authorized licensed use limited to: Lovely Professional University - Phagwara. Downloaded on March 10,2026 at 03:49:26 UTC from IEEE Xplore.  Restrictions apply. 
+

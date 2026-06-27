@@ -1,0 +1,978 @@
+https://doi.org/10.1007/s11042-023-14732-3
+Static hand gesture recognition method based
+on the Vision Transformer
+Yu Zhang1 · Junlin Wang1
+· Xin Wang1 · Haonan Jing1 · Zhanshuo Sun1 · Yu Cai1
+Received: 1 January 2022 / Revised: 23 August 2022 / Accepted: 4 February 2023 /
+© The Author(s), under exclusive licence to Springer Science+Business Media, LLC, part of Springer Nature 2023
+Abstract
+Hand gesture recognition (HGR) is the most important part of human-computer interaction
+(HCI). Static hand gesture recognition is equivalent to the classification of hand gesture
+images. At present, the classification of hand gesture images mainly uses the Convolutional
+Neural Network (CNN) method. The Vision Transformer architecture (ViT) proposes not
+to use the convolutional layers at all but to use the multi-head attention mechanism to learn
+global information. Therefore, this paper proposes a static hand gesture recognition method
+based on the Vision Transformer. This paper uses a self-made dataset and two publicly avail-
+able American Sign Language (ASL) datasets to train and evaluate the ViT architecture.
+Using the depth information provided by the Microsoft Kinect camera to capture the hand
+gesture images and filter the background, then use the eight-connected discrimination algo-
+rithm and the distance transformation algorithm to remove the redundant arm information.
+The resulting images constitute a self-made dataset. At the same time, this paper studies the
+impact of several data augmentation strategies on recognition performance. This paper uses
+accuracy, F1 score, recall, and precision as evaluation metrics. Finally, the validation accu-
+racy of the proposed model on the three datasets achieves 99.44%, 99.37%, and 96.53%,
+respectively, and the results obtained are better than those obtained by some CNN structures.
+ Junlin Wang
+wangjunlin@imu.edu.cn
+ Xin Wang
+wangxin219@imu.edu.cn
+Yu Zhang
+32056139@mail.imu.edu.cn
+Haonan Jing
+32056138@mail.imu.edu.cn
+Zhanshuo Sun
+32056106@mail.imu.edu.cn
+Yu Cai
+32056096@mail.imu.edu.cn
+1
+College of Electronic Information Engineering, Inner Mongolia University, Hohhot, 010021, China
+Published online: 2 March 2023
+Multimedia Tools and Applications (2023) 82:31309–31328
+
+Keywords Hand gesture recognition · Vision Transformer · Arm removal ·
+Data augmentation
+1 Introduction
+With the rapid development of artificial intelligence and computer vision, human-computer
+interaction has increased extensively in recent decades. Hand gesture information is more
+accessible than sounds, brain electrical signals, and other information, so hand gesture
+recognition has become one of the principal directions of human-computer interaction.
+Hand gesture recognition usually is divided into static hand gesture recognition and dynamic
+hand gesture recognition. There are two main methods for static hand gesture recogni-
+tion. The first is hand gesture recognition based on wearable devices, such as data gloves
+[23] and electromyography [35]. However, it has considerable inconvenience and high
+cost.
+In contrast, hand gesture recognition based on computer vision is more convenient. It
+only needs to use the camera to obtain hand gesture images without wearing additional
+equipment. The vision-based hand gesture recognition methods can divide into hand-crafted
+and deep learning methods. Hand-crafted methods include complex visual processing, such
+as hand-crafted feature extraction methods and classification algorithms. However, deep
+learning methods use supervised learning to adapt to more diverse and complex challenges.
+Convolutional Neural Network (CNN) is one of the deep learning methods and the most
+important one. As a result, most of the current papers involving hand gesture recognition use
+CNN-based model structures [2, 33, 37, 38, 42], such as AlexNet [20], VGG-16, VGG-19
+[40], GoogLeNet [41], ResNet-50 [15].
+At the same time, a new type of deep learning model used in natural language processing
+(NLP) was proposed, which is called the Transformer. Furthermore, it has appeared in some
+popularity in computer vision, such as image classification [14] tasks. Initially, it was intro-
+duced to solve machine translation [49], language modelling [11] and speech recognition
+[8]. And it successfully replaced the use of recurrent models (such as RNNs, LSTMs) in pro-
+cessing sequence data. The key to the Transformer’s success is to rely on a mechanism called
+self-attention, which can capture the internal correlation of data and effectively solve the
+problem of long-distance dependence. In visual tasks, images are often processed; however,
+the number of pixels in the image is much larger than the number of words in the sequence
+task, so the attention mechanism is limited in the visual task. Hu et al. [16] proposed chan-
+nel attention and SENet for this purpose. The core of SENet is a squeeze-and-excitation
+(SE) block to collect global information, capture channel relationships, and improve repre-
+sentation. To increase the receptive field, Wang et al. [50] proposed a non-local block and
+introduced self-attention to computer vision. Huang et al. [17] proposed CCNet, in which
+the self-attention operation is regarded as graph convolution, and the densely-connected
+graph processed by self-attention is replaced by several sparsely-connected graphs. To this
+end, it proposes criss-cross attention, which considers row attention and column attention
+recurrently to obtain global information. Recently, a model called the Vision Transformer
+(ViT) [14] was proposed by Dosovitskiy et al. It divides the image into multiple patches
+to be input to the encoder module of the attention model, and there are minor changes
+to the Transformer model, and this is a groundbreaking method. It is trained on a large
+amount of data and computing resources, and the ViT architecture has been proved to
+be more accurate in image classification tasks than the CNN architecture with the same
+parameters [14].
+31310
+Multimedia Tools and Applications (2023) 82:31309–31328
+
+Much research shows that under the premise of using enough data for training, the per-
+formance of the ViT architecture is better than that of the CNN architecture in many aspects.
+Firstly, under the premise of pre-trained on the ImageNet dataset and having the same error
+rate, the ViT architecture has better transferability to downstream tasks than the CNN archi-
+tecture [53]. Secondly, the ViT architecture has strong robustness under severe occlusions,
+disturbances, and domain shifts compared with the CNN architecture [6, 28, 32].
+This paper aims to train a classifier that can accurately recognize static hand gesture
+images to complete the recognition of static hand gestures. Because the ViT structure has a
+better effect on image classification than the CNN structure, the transferability and robust-
+ness of the ViT structure on downstream tasks are better than the CNN structure. Therefore,
+this paper recognizes static hand gestures based on the pre-trained ViT structure. This paper
+applies the data augmentation strategies of the CutOut and the CutMix to improve the recog-
+nition accuracy. In the end, under the three hand gesture datasets, the results obtained by
+applying the ViT structure of this paper are better than most of the results obtained by
+applying the CNN structures.
+The remainder of this paper is structured as follows. In Section 2, some recent related
+works on gesture recognition are summarized. The methods proposed in this paper mainly
+include foreground segmentation, arm removal, the Vision Transformer architecture, and
+data augmentation strategies, which are all described in Section 3. Section 4 introduces the
+entire experiment on this paper and the experimental results on three datasets. Then finally,
+Section 5 shows the conclusion of this paper.
+2 Related works
+The research methods of hand gesture recognition are roughly divided into methods based
+on data gloves and electromyography, methods based on hand-crafted feature extraction,
+methods based on computer vision, and combinations based on the three methods. The
+following describes the recent related work on hand gesture recognition.
+In the methods based on hand-crafted feature extraction, Pan et al. [31] proposed to use
+Gaussian Mixture Model (GMM) to segment the hand region of RGB images. Then the
+segmented images were processed by Fourier Descriptor, Hu moments and Scale-invariant
+feature transform (SIFT) to extract independent features. Before being classified by Support
+Vector Machine (SVM), PCA and LDA were used to trim the dimensionality of the fea-
+ture vector. Among the many dynamic hand gesture recognition methods, Bendarkar et al.
+[3] proposed a real-time gesture recognition system based on a combination of static and
+dynamic hand gestures based on convolutional neural networks (CNN). In the dynamic hand
+gesture recognition part, a bidirectional ConvLSTM and 3DCNN were combined to form a
+3DCNN-LSTM model.
+Oyedotun and Khashman [29] proposed three different CNNs and SDAEs architectures
+and applied them to Thomas Moeslund’s gesture recognition dataset for evaluation. After
+the final training, the accuracy of CNN1 and SDAE3 on the test data achieved 91.33% and
+92.83%, respectively.
+Chevtchenko et al. [10] proposed a real-time hand gesture recognition architecture based
+on feature fusion convolutional neural network (FFCNN), which combined Convolutional
+Neural Network (CNN) and Gabor filters for feature extraction and gesture classification,
+and the Tree-of-Parzen-Estimators (TPE) algorithm was used to search the hyperparam-
+eters of the network, which was introduced by Bergstra et al. [4]. It was evaluated on
+three different benchmark datasets using binary, gray, and depth data and two different
+31311
+Multimedia Tools and Applications (2023) 82:31309–31328
+
+validation techniques. Moreover, the system recognized gestures from external operators
+and LaRED datasets in real time. Ozcan and Basturk [30] proposed a gesture recognition
+architecture based on the AlexNet model in the later work. The hyperparameters of the
+architecture were optimized by a heuristic optimization algorithm based on artificial bee
+colonies.
+The Microsoft Kinect camera can provide three types of data: skeleton, depth, and color,
+so the camera has been widely used to collect gesture data. Li and Tang et al. [21] proposed
+to use the Microsoft Kinect camera to acquire depth and color images, and a joint bilateral
+filtering algorithm was used to denoise the depth images. Then the depth information was
+used to segment the hand area in the color image. A convolutional neural network was
+used to complete the feature extraction part, and finally, a support vector machine (SVM)
+was applied as a classifier. In the end, the network achieved 98.52% accuracy on eight
+gestures.
+Tao et al. [45] proposed a CNN to realize American Sign Language letter recognition
+and used multi-view image augmentation and inference fusion. The multi-view augmenta-
+tion strategy referred to using the Microsoft Kinect camera to capture a gesture depth image
+and 3D point cloud. Then set additional virtual cameras to face the point cloud of differ-
+ent perspectives so that a set of additional images were generated, and these images were
+subjected to some preprocessing, and the unnecessary arm information was removed, and
+finally, a depth image for training was obtained. In the inference step, the method included
+information from multiple views for the final prediction to solve the confusion caused by the
+orientation change and partial occlusion. On the two benchmark datasets, the most advanced
+methods were achieved.
+Nagi et al. [27] proposed a deep neural network that combines convolution and max-
+pooling operations (MPCNN). Gesture images were collected by humans wearing colored
+gloves and using mobile robots and then extracted to the hand area using color segmenta-
+tion, performed morphological operations, and eliminated noise. The network classification
+accuracy rate of the six gestures achieved 96%. And the robot using an ARM 11 533MHz
+processor, realized real-time hand gesture recognition.
+Mohammed et al. [26] proposed a deep learning-based architecture to jointly detect
+gestures and classify gestures. The architecture used a one-stage dense object detector Reti-
+naNet to extract the hand area and a lightweight convolutional neural network MobileNet
+for gesture recognition. The method of the hand gesture detection part was tested on four
+public datasets, including the Oxford, 5-signers, EgoHands, and Indian classical dance
+(ICD)datasets, and the average precisions (AP)obtained were 72.10% and 97.90%, 93.10%,
+and 85.50%, respectively. The method of hand gesture recognition part was evaluated on the
+LaRED and the simple and complex TinyHands datasets, and the accuracy rates obtained
+were 97.25%, 99.00%, and 90.43%.
+All in all, the vast majority of the above works are based on the CNN architecture, and
+the datasets used are relatively single. The ViT-based model proposed in this paper does not
+require the CNN architecture at all. Simultaneously, multiple datasets including publicly
+available self-made dataset are used to verify the availability of the model. For the self-made
+dataset in this paper, the depth information of the Kinect V2 camera is used to complete the
+foreground segmentation of the gesture image, and then the forearm region in the gesture
+image is removed, thereby reducing unnecessary features in the process of gesture feature
+extraction. At the same time, the above related works all use standard data augmentation
+strategies to varying degrees. This paper explores the impact of different data augmentation
+strategies on gesture image classification.
+31312
+Multimedia Tools and Applications (2023) 82:31309–31328
+
+3 Proposed method
+3.1 Foreground segmentation
+As we know, the Kinect V2 camera released by Microsoft provides not only RGB images
+of traditional cameras but also depth and human skeleton information, and the camera can
+simultaneously capture these three kinds of information [44]. The depth information retains
+the three-dimensional shape of the object and has invariance to the difference in lighting
+and the change of the background. The Kinect V2 allows remote interaction between the
+hand and the camera within a range of 0.5 m to 4.5 m.
+At the same time, the Kinect V2 can map the depth information to the color image.
+According to this, the camera can separate the hand region of interest from the back-
+ground. The depth threshold is used to filter out the background. Through the corresponding
+relationship between the depth information and the color information, a color image of
+the foreground containing only the region of interest of the hand is obtained. The hand
+region of interest is extracted as shown in Fig. 1. As shown in Fig. 1(b), after the above
+method, only the image of the difference z (the value of z is 350 mm) between
+the maximum threshold and the minimum threshold is retained, thereby eliminating the
+human body and the background part, and obtaining the gesture image A containing the
+arm part.
+3.2 Arm removal
+To reduce the calculation time when extracting features and classifying gestures, removing
+unwanted forearm regions from the image is necessary. The arm removal method in this
+paper is based on the distance transformation algorithm and eight-connected discrimination
+algorithm [51]. The distance in the distance transformation algorithm refers to Euclidean
+distance.
+Figure 2 shows the complete flow of the arm removal algorithm. It consists of the
+following steps:
+Fig. 1 Extracted hand region of interest
+31313
+Multimedia Tools and Applications (2023) 82:31309–31328
+
+Fig. 2 The process of arm removal
+Step 1: Use the gesture image A after foreground segmentation in the previous section,
+apply the Otsu algorithm to threshold segmentation to obtain the binary image H of the
+gesture.
+Step 2: The distance transformation operation is performed on the obtained binary image
+H. Then, image D can be obtained. The pixel value in image D is represented as the distance
+from the pixel point inside the hand to the boundary of the hand, the maximum value is
+generally located in the center of the palm (pixel point Pc in Fig. 2), and the maximum value
+is regarded as the radius R0 of the inscribed circle of the palm.
+Step 3: Draw a circle on the obtained image H and image D. To keep the palm in the
+circle (yellow circle in the Fig. 2), select Pc as the center, R1 = 1.35 × R0 is selected as the
+radius, and then make the pixel values in the circle all 0 to get an image with the palm part
+removed.
+Then the maximum pixel value of the remaining area in the image D is detected and take
+it as Pmax, which corresponds to the pixel point P. When there is an arm area in the image,
+P is usually located at the midline of the arm (pixel point P in the Fig. 2), and Pmax is
+relatively large; when there is no arm area in the image, P is generally located at the midline
+of the finger, and Pmax is relatively small. Because the gesture data collected in this study
+all include arms, the situation without arms is not considered.
+Step 4: Use the eight-connected discrimination algorithm to find the label values of all
+areas. Suppose the label value of the currently connected area is the same as the label value
+of the pixel point P . The pixel value of this part is replaced with 0, and the resulting binary
+image contains only fingers and the palm of the part where the fingers are connected.
+Step 5: Perform an XOR operation between the results obtained in Step 3 and Step 4, the
+binary image containing only the arm area is obtained.
+Step 6: Perform an XOR operation between the result obtained in Step 5 and the binary
+image H of the original hand to obtain the binary image of the gesture after removing the
+arm.
+Step 7: Perform a mask operation between the binary image obtained in Step 6 and the
+31314
+Multimedia Tools and Applications (2023) 82:31309–31328
+
+original collected RGB image to obtain the final gesture RGB image that contains only the
+fingers and palm after the arm is removed.
+Compared with other arm removal algorithms [24, 25, 39], this algorithm can remove the
+arm effectively and quickly, and is not affected by the rotating hand.
+3.3 Vision Transformer
+The Vision Transformer is a computer vision model based entirely on the Transformer archi-
+tecture [48] originally designed for text tasks. The Vision Transformer was proposed to
+extend the standard Transformer to computer vision tasks. The Transformer architecture has
+shown the best performance in machine translation and other NLP tasks in recent years, so
+that it has attracted the interest of many people [12]. For image classification tasks, everyone
+thinks of the Convolutional Neural Networks (CNN), such as VGGNets [40]. The traditional
+CNN architectures usually use filters with local receptive fields. The Vision Transformer
+is a completely different architecture from the traditional CNN, and it has a more unified
+representation in all layers. In addition, the method of the Vision Transformer for image
+classification is to use the encoder module of the Transformer to map a series of image
+patches to the semantic labels. After exploration [36], it is found that the difference between
+the Vision Transformer and the CNN is that its self-attention mechanism plays a key role,
+and its mechanism can enable the early aggregation of global information. And the multi-
+head self-attention module in the Vision Transformer also contains residual connections,
+which can learn better global information.
+The overall system architecture is shown in Fig. 3. The system architecture can be com-
+posed of a linear embedding layer, an encoder, and a final classifier. Before entering the
+linear embedding layer, the image X of size c × h × w (where c represents the number of
+channels of the image, h is the height of the image, and w is the image’s width) from the
+training set needs to be subdivided into non-overlapping patches. Then each patch is treated
+as a separate token in the Transformer. Each patch of size c × p × p is extracted from the
+image, thus forming a series of patches (x1, x2, . . . , xn) of length n, where n = hw/p2.
+Usually, the p × p is 16 × 16 or 32 × 32, where a smaller patch resolution will lead to a
+longer sequence.
+Fig. 3 The architecture of the Vision Transformer includes the main architecture of the model, the
+transformer encoder module, the multi-headed self-attention (MSA), and the self-attention (SA) module
+31315
+Multimedia Tools and Applications (2023) 82:31309–31328
+
+3.3.1 Linear embedding layer
+Because for the standard Transformer structure, the sequence of token must be entered.
+However, the data structure of the above patches is a three-dimensional matrix, so before
+the sequence of patches is sent to the encoder, the learnable embedding matrix E is used to
+project it into the vector of the model dimension d. This is the role of the linear embedding
+layer.
+The output of the linear embedding layer needs to be concatenated with the learnable
+classification mark vclass required to perform the classification task. To keep the spatial
+arrangement of the patches the same as the original image, the encoded position information
+Epos is added to the patch representations. Finally, an embedding sequence with token z0 is
+generated. As shown in the Eq. (1):
+z0 = [vclass; x1E; x2E; . . . ; xnE] + Epos, E ∈R
+
+p2c
+
+×d, Epos ∈R(n+1)×d
+(1)
+As shown in [14], 1-D and 2-D positional encoding produces the same results after exper-
+iments. Therefore, to preserve the position information of patches, a simple 1-D positional
+encoding can be used.
+3.3.2 Transformer encoder
+The Transformer encoder receives the generated embedded patches z0 with positional infor-
+mation. As shown in Fig. 3(b), L identical layers constitute the Transformer encoder, and
+each layer has two main components: (1) a multi-head self-attention block (MSA) (2), (2)
+A multi-layer perceptron (MLP) (3). The MLP consists of two dense layers and a GeLU
+activation layer between two dense layers. Each of the two components of the encoder uses
+residuals to skip connections, and there is a normalization layer (LN) in front of it.
+z′
+ℓ= MSA (LN (zℓ−1)) + zℓ−1, ℓ= 1 . . . L
+(2)
+zℓ= MLP
+
+LN
+
+z′
+ℓ
+
++ z′
+ℓ, ℓ= 1 . . . L
+(3)
+y = LN
+
+z0
+L
+
+(4)
+In the last layer of the encoder, the first element in the sequence z0
+L is gained and passed
+on to the head classifier, which predicts the class label.
+3.3.3 Multi-head self-attention block
+The function of the MSA block in the Transformer encoder is to determine the relative
+significance of a single patch embedding relative to other embeddings in the sequence, and
+the MSA block is the key part of the Transformer. This block consists of four parts: the
+linear layer, the self-attention layer, the concatenation layer which concatenates the outputs
+of the multiple attention heads, and a final linear layer, as shown in Fig. 3.
+Figure 3 shows all the calculation details of the self-attention layer (SA). For each ele-
+ment in the input sequence, three values are generated by multiplying the element with
+three learned matrices UQKV : Q (query), K (key), and V (value) (5). Then the dot-product
+between the Q vector and the K vector is calculated, and the result determines the rela-
+tive importance of patches in the sequence. In the next step, the results of the dot-product
+are scaled and input to a sof tmax. Finally, the V vector is multiplied by the output of the
+31316
+Multimedia Tools and Applications (2023) 82:31309–31328
+
+sof tmax to find the patch with a high attention score (6). The following equations give all
+operations:
+[Q, K, V ] = zUQKV , UQKV ∈Rd×3DK
+(5)
+A = sof tmax
+QKT
+√DK
+
+, A ∈Rn×n
+(6)
+SA(z) = A · V
+(7)
+The MSA component uses the previous operations to calculate the scaled dot-product of
+h heads, but uses multiple Query, Key, and Value values instead of a single value. Then the
+results of all the attention heads are concatenated together, and finally pass through a linear
+layer. The following equations represent this operation:
+MSA(z) = Concat (SA1(z); SA2(z); . . . SAh(z)) W,
+W ∈Rh.DK×D
+(8)
+3.3.4 Vision Transformer variants
+Different versions of the Vision Transformer are proposed in [14]: the “ViT-Base”, the “ViT-
+Large”, the “ViT-Huge”. The differences between these three versions are the number of
+layers of the encoder, the size of the hidden dimension, the size of the MLP classifier, and
+the number of attention heads used by the MSA layer. Table 1 shows a summary of the
+various versions.
+Because of the success of Visual Transformers on image tasks, variants of ViT such as
+DeiT [46], Swin Transformer [22], CaiT [47] etc. have appeared. Touvron et al. [46] pro-
+posed a competitive convolution-free transformer called Data Efficient Image Transformer
+(DeiT) by training only on the ImageNet database. It uses a CNN as a teacher model and
+performs a knowledge distillation strategy on the Transformer to integrate the inductive bias
+of the Transformer. Swin Transformer [22] enhances the Transformer’s local feature extrac-
+tion capability by performing local attention within a window and introducing a method
+of shifting window partitions for cross-window connections. CaiT [47] mainly includes the
+self-attention stage and the class-attention stage. In the self-attention stage, there is no class
+token, and in each layer, a learned diagonal matrix initialized by small values is exploited to
+update the channel weights dynamically, thereby offering a degree of freedom for channel
+adjustment. The class token is added in the class attention stage.
+3.4 Data augmentation strategies
+Data augmentation can be used to expand the training dataset and increase diversity. It is
+a simple but highly effective tool. It can be used to solve the over-fitting problem in the
+training process, thereby improving the robustness and generalization ability of the model.
+Standard data augmentation strategies are simple geometric transformations to create
+new samples, such as rotation, scaling, cropping, and flipping. A new data augmentation
+Table 1 Parameter statistics of each version of the Vision Transformer
+Model
+Numbers of Layers
+Hidden Size D
+MLP Layers
+Heads
+Numbers of Parameters
+ViT-Base
+12
+768
+3072
+12
+86 M
+ViT-Large
+24
+1024
+4096
+16
+307 M
+ViT-Huge
+32
+1280
+5120
+16
+632 M
+31317
+Multimedia Tools and Applications (2023) 82:31309–31328
+
+Fig. 4 Apply the CutMix and the CutOut on self-made dataset
+method based on a generative model has been proposed in recent years. Among them, GANs
+[7] is to learn the distribution of data to generate image data similar to the original data.
+The CutOut [13] and the CutMix [52] are complex technologies based on random eras-
+ing and image mixing. These technologies can generate more challenging samples for the
+model. In the CutOut, randomly fixed-size areas of the image are replaced by black pixels.
+It can encourage the model to learn from the context of the entire image, rather than relying
+on specific visual features. The CutMix technology works by cutting a patch of one image
+and replacing it with a patch of another image in the dataset. Figure 4 shows an example of
+the CutOut and the CutMix on the self-made gesture dataset in this article.
+4 Experiments and results
+4.1 Data description and data preprocessing
+In the experiments of this paper, three datasets are used: (1) Dataset a: In the previous
+chapter, the dataset composed of images after arm removal1; (2) Dataset b: This dataset is
+downloaded from the Kaggle competition platform2; (3) Dataset c: ASL Finger Spelling
+Dataset-A [34]. The characteristics of these three datasets are listed in Table 2, some
+samples of each dataset are shown in Fig. 5.
+Dataset a: This dataset contains ten kinds of gestures, the custom category labels are
+numbers 0 to 9, 17910 images were taken by five subjects using the Kinect V2. Use the
+1https://www.kaggle.com/datasets/zhangyu0123456/hand-dataset-first
+2https://www.kaggle.com/grassknoted/asl-alphabet
+31318
+Multimedia Tools and Applications (2023) 82:31309–31328
+
+Table 2 Characteristics of the dataset
+Dataset
+Numbers of Classes
+Numbers of Image per Class
+Image Size
+Dataset a
+10
+1620 ∼1940
+170 × 200
+Dataset b
+24
+3000
+200 × 200
+Dataset c
+24
+2610 ∼3110
+−−1
+1The sizes of these images are different
+algorithm proposed in the previous chapter for these images to remove the arms and the size
+of each image is 512 × 424. These images are then cropped to 170 × 200, thus composing
+the Dataset a.
+Dataset b: This dataset comes from the Kaggle competition platform and has 87,000
+images. It contains 29 gestures including the letters A-Z of American Sign Language (ASL),
+del, nothing, and space. In this study, J, Z, Del, Nothing and Space are discarded. Thus,
+there are 24 different gestures with 3000 images in each class, and the size of each image is
+200 × 200.
+Dataset c: ASL Finger Spelling Dataset-A contains 24 static American Sign Language
+(ASL) gestures (not including the letters j and z because they involve movement), and the
+size of each image is different. In this dataset, 65,678 images were taken by five different
+subjects used the Kinect V1 cameras under similar lighting and background.
+Performing the image preprocessing stage before the network training can improve the
+overall performance [9]. The image sizes of the above three datasets are inconsistent, so
+first adjust the size to 224 × 224 uniformly. The second step is to apply the gray world
+color balance algorithm to perform illumination compensation. The third step is to perform
+morphological open operation to delete unnecessary information, that is, to perform erosion
+operation and then dilation operation on the image. The fourth step is to use median filter
+operation to filter out the salt and pepper noise in the image.
+4.2 Evaluation metrics
+To evaluate the performance of the proposed method, this paper used the following evalua-
+tion metrics: accuracy (Acc), precision (Pre), recall (Re) and F1-score (F1). The following
+is a summary of them:
+(1)
+Accuracy: Accuracy is the ratio of correctly classified samples to the total number of
+samples.
+Accuracy =
+T P + T N
+T P + FP + T N + FN
+(9)
+Among them, TP, FP, TN, FN are the number of true positives, false positives, true
+negatives, and false negatives.
+(2)
+Precision: Precision is the ratio of the total true positives of all classes to the sum of
+true positives and false positives of all classes. It gives the number of correct positive
+predictions.
+Precision =
+T P
+T P + FP
+(10)
+(3)
+Recall: Recall is the ratio of the total true positives of all classes to the total true
+positives and false negatives of all classes. It gives the number of correct positive
+31319
+Multimedia Tools and Applications (2023) 82:31309–31328
+
+Fig. 5 Some images are from (a) Dataset a. (b) Dataset b. (c) Dataset c
+31320
+Multimedia Tools and Applications (2023) 82:31309–31328
+
+predictions among all positive predictions.
+Recall =
+T P
+T P + FN
+(11)
+(4)
+F1-score: F1 score is calculated by precision and recall. F1 score is the harmonic
+average of the precision and the recall.
+F1 −score = 2 × Precision × Recall
+Precision + Recall
+(12)
+4.3 Experimental setup
+In the first set of experiments, this paper used different data augmentation strategies to
+evaluate the Vision Transformer’s performance in processing augmented data. In the second
+set of experiments, this paper explored the effect of changing the image size on the model’s
+overall accuracy.
+In all experiments, the ViT-Base model (ViT-B/16) was used in this paper, and the set-
+tings are as follows [14]. The model was composed of 12 encoder layers, and each layer had
+12 attention heads. Its embedding dimension was 768. In this paper, a model pre-trained on
+Imagenet-21k was used, and then fine-tuned on Imagenet-1k. To fine-tune on the gesture
+datasets, this model used 50 epochs of training, and if there was no better score after wait-
+ing for 5 epochs, an early stopping strategy was implemented. The batch-size was set to 16.
+This paper used the Cross-Entropy loss function to learn the network’s weights. The Adam
+method was used to optimize it, the initial learning rate was set to 1e-4 and the learning rate
+decay strategy of the Cosine Annealing Warm Restarts was used, and the minimum learning
+rate was 6e-5.
+This paper used stratified k-fold cross-validation techniques [43] to conduct experiments
+to ensure the completeness and accuracy of the model. Stratified k-folding was one of the
+best ways to ensure that the data was well balanced and shuffled in each fold before splitting
+the data into the validation and training sets. Here, k was selected as 5 in this paper. As
+shown in Fig. 6, it is assumed that the dataset has five classes, and 5-fold cross-validation is
+used.
+This paper conducted all experiments with all the following specifications on the DELL
+Precision 7920 Station: Central Processing Unit (CPU) Intel(R) Xeon(R) Silver 4110 CPU
+@2.10GHz with a RAM of 64 GB and an NVIDIA Quadro P5000 Graphical Processing
+Unit (GPU) with a RAM of 16 GB.
+Fig. 6 Stratified five-folds cross validation. The blue parts represent the validation sets and the white parts
+represent the training sets
+31321
+Multimedia Tools and Applications (2023) 82:31309–31328
+
+Table 3 Under the Vision Transformer pre-trained model, Acc (%), Re (%), Pre (%) and F1 (%) obtained by
+applying three augmentation strategies on the Dataset a
+Strategy
+Acc
+Re
+Pre
+F1
+Standard
+99.44
+99.43
+99.45
+99.44
+CutOut
+99.31
+99.32
+99.33
+99.33
+CutMix
+99.40
+99.39
+99.40
+99.39
+The codes for image acquisition and foreground segmentation of the self-made dataset
+were implemented in the Visual Studio 2017 using the C++ code to call the library and
+application peripheral interface (API) provided by the Kinect V2 sensor. The arm removal
+process of the self-made dataset was completed on the MATLAB 2018a. The codes for the
+image preprocessing and network training and validation phases on all datasets were built
+on the Pytorch 1.9.0 framework using Python 3.6.13. The Pytorch is an open source deep
+neural network library written in Python. And the OpenCV interface under Python was used
+for image preprocessing.
+4.4 Experimental results
+4.4.1 The ﬁrst set of experiments
+This paper used the above three data augmentation strategies to evaluate the three datasets
+in the first set of experiments. For the standard augmentation, methods such as rotation, hor-
+izontal flipping, vertical flipping, and translation scale rotation were used. For the CutOut
+strategy, 8 holes were set in this paper, and the size of each hole was 10 × 10. For the Cut-
+Mix strategy, the parameter mixture ratio was sampled from the uniform distribution [0, 1].
+The following three tables show the results of using the data augmentation strategies for the
+three datasets.
+All the results are clearly shown in Tables 3, 4, 5 and Fig. 7. In summary, all data aug-
+mentation strategies have achieved close results. The Dataset b and the Dataset c use the
+CutMix augmentation strategy, the results obtained are better than the other two strategies,
+the accuracy rates are 99.37% and 96.53%, respectively. The performance of the standard
+augmentation strategy under the Dataset a is slightly better than the other strategies, with an
+accuracy rate of 99.44%. The CutOut helps the classifier to focus more on image context,
+such as secondary features, rather than relying heavily on primary features before making
+a decision. This strategy also helps with model generalization. Also, with the CutMix, the
+classification labels are either set to follow the majority class of the input image, or a blend
+ratio with the patch area. These methods can improve the robustness of the model to input
+Table 4 Under the Vision Transformer pre-trained model, Acc (%), Re (%), Pre (%) and F1 (%) obtained by
+applying three augmentation strategies on the Dataset b
+Strategy
+Acc
+Re
+Pre
+F1
+Standard
+98.45
+98.45
+98.48
+98.47
+CutOut
+98.41
+98.41
+98.45
+98.43
+CutMix
+99.37
+99.37
+99.38
+99.38
+31322
+Multimedia Tools and Applications (2023) 82:31309–31328
+
+Table 5 Under the Vision Transformer pre-trained model, Acc (%), Re (%), Pre (%) and F1 (%) obtained by
+applying three augmentation strategies on the Dataset c
+Strategy
+Acc
+Re
+Pre
+F1
+Standard
+95.69
+95.68
+95.82
+95.75
+CutOut
+96.29
+96.27
+96.39
+96.33
+CutMix
+96.53
+96.51
+96.67
+96.59
+corruption. Simultaneously, the CutMix can stabilize the training process and improve the
+visual Transformer [46]. So the CutMix and the CutOut can get slightly better results.
+4.4.2 The second set of experiments
+In the second set of experiments, this paper further explored the impact of the input image
+size on the model’s performance. Therefore, this paper used two different image sizes of
+224 × 224 and 384 × 384 to conduct the same experiments. The results of the experiments
+are shown in Table 6 below. The results show that when the image size is increased, the
+model’s accuracy is improved, and the Dataset c is even improved by 1.33%. Regardless of
+the image resolution, the model’s patch size is still 16, so if the image resolution is larger,
+the number of patches will increase. Further, more detailed context information will be
+obtained during the training process. However, as the image size increases, the training time
+of the model also increases. In the experiments of this paper, the training time of the image
+size of 384 × 384 is three times longer than the image size of 224 × 224.
+Fig. 7 All the results
+31323
+Multimedia Tools and Applications (2023) 82:31309–31328
+
+Table 6 The accuracy (%) obtained by using different image sizes on different datasets
+Dataset
+224 × 224
+384 × 384
+Dataset a
+99.44
+99.64
+Dataset b
+99.37
+99.38
+Dataset c
+96.53
+97.86
+4.4.3 Comparison with existing methods
+In this subsection, the method proposed in this paper is compared with several current
+advanced methods. These methods are based on convolutional neural network implemen-
+tation methods, including Fine-tuned VGG16, Fine-tuned VGG19, Fine-tuned MobileNet
+and several Baseline CNNs. There are also some visual Transformer based methods which
+are the DeiT-B, the Swin-B and the CaiT-S24. The method proposed in this paper use the
+ViT model, and the size of the patches is 16 × 16, pre-trained on Imagenet-21k and fine-
+tuned with images of size 224 × 224 and 384 × 384. All results are shown in Table 7 and
+Fig. 8. As shown in the table, the method in this paper is higher than other methods. Because
+skip connections are also included in the ViT model, skip connections have a greater impact
+on the model than CNNs (ResNet), and greatly affect the representation and similarity of
+features. Through pre-trained with a large amount of data, the ViT can learn high-quality
+intermediate features [14].
+4.4.4 Results
+In the previous experiments, this paper obtained three results: (1) In Tables 3, 4 and 5, the
+complex data augmentation strategies improved the accuracy of the algorithm to a certain
+extent in the process of training the ViT model. (2) Larger resolution can also improve
+Table 7 Comparison with other methods
+Method
+FLOPs
+Params
+Acc
+Dataset a
+Dataset b
+Dataset c
+Baseline CNN1 [5]
+0.2G
+13M
+94.84
+95.14
+92.88
+Baseline CNN2 [18]
+0.6G
+48M
+97.75
+94.71
+95.79
+ADCNN [1]
+0.3G
+12M
+96.02
+97.79
+96.01
+CNN-TPE [10]
+0.1G
+9M
+98.25
+95.74
+94.70
+Fine-tuned MobileNet [10]
+0.6G
+3M
+98.13
+95.38
+93.67
+Fine-tuned VGG16 [10]
+15.5G
+134M
+97.69
+94.66
+91.20
+Fine-tuned VGG19 [19]
+19.6G
+140M
+98.35
+97.45
+94.67
+DeiT-B(2242) [46]
+17.7G
+86M
+99.40
+99.28
+96.34
+Swin-B(2242) [22]
+15.5G
+87M
+99.20
+99.18
+96.48
+CaiT-S24(2242) [47]
+9.4G
+47M
+99.3
+99.16
+95.53
+Proposed Method(2242)
+17.6G
+86M
+99.44
+99.37
+96.53
+Proposed Method(3842)
+55.5G
+86M
+99.64
+99.38
+97.86
+31324
+Multimedia Tools and Applications (2023) 82:31309–31328
+
+Fig. 8 Comparison with other methods
+the accuracy of the algorithm. This is due to the fact that during the ViT model train-
+ing, the larger the resolution, the larger the number of patches. (3) In Table 7, it can be
+seen that the visual Transformers have higher accuracy than the CNN model, because the
+visual Transformers can show better robustness in the case of complex data augmentation
+strategies.
+5 Conclusion
+This paper uses the depth threshold of the Kinect V2 camera to segment the foreground
+part of interest. The depth information of the obtained image is mapped to the color space
+to obtain the gesture image containing the arm. Next, the eight-connected discrimination
+algorithm and the distance transformation algorithm remove the redundant arm part. Finally,
+a gesture image dataset that does not contain the arm is obtained.
+This paper proposes a static hand gesture recognition method based on the Vision Trans-
+former. This model uses a self-attention mechanism to capture the long-term dependencies
+between image patches. The evaluation was conducted on the self-made dataset and the
+other two datasets, and certain data augmentation strategies were used to improve the clas-
+sification accuracy of gesture images. The recognition accuracy obtained was 99.44%,
+99.37% and 96.53%, respectively. At the same time, a larger image resolution was used for
+evaluation, and the recognition accuracy obtained was 99.64%, 99.38% and 97.86%, respec-
+tively. The accuracy is improved, but the difficulty of training increases and the training
+time becomes longer. Compared with the method based on CNN, the recognition accuracy
+of this model is higher.
+31325
+Multimedia Tools and Applications (2023) 82:31309–31328
+
+Although this paper has demonstrated the usefulness of the ViT for hand gesture recog-
+nition tasks, there are some limitations. First of all, there are few literatures on the use
+of visual Transformers for hand gesture recognition tasks, so this paper only refers to the
+application of the CNN models in hand gesture recognition tasks. Second, the ViT model
+has more parameters than the most CNN models, which makes training more difficult and
+time-consuming, and a small model is more beneficial for deploying gesture recognition.
+Therefore, the future research direction is mainly to apply more visual Transformers to hand
+gesture recognition tasks in order to obtain better generalization models. And reduce the
+parameters of the ViT model, making it more favorable for deployment.
+Acknowledgements This research was supported in part by the National Natural Science Foundation of
+China under Grants 51965047, in part by the Natural Science Foundation of Inner Mongolia Autonomous
+Region of China under Grants 2021MS06012, and in part by the Science and Technology Planning Project
+of Inner Mongolia Autonomous Region of China under Grants 2020GG0185.
+Data Availability The datasets used to support the findings of this study could be found freely here:
+Dataset a: https://www.kaggle.com/datasets/zhangyu0123456/hand-dataset-first
+Dataset b: https://www.kaggle.com/grassknoted/asl-alphabet
+Dataset c: https://empslocal.ex.ac.uk/people/staff/np331/index.php?section=FingerSpellingDataset
+Declarations
+Conflict of Interests The authors declare that they have no conflict of interest.
+References
+1. Alani AA, Cosma G, Taherkhani A, McGinnity TM (2018) Hand gesture recognition using an
+adapted convolutional neural network with data augmentation. In: 2018 4th international conference on
+information management (ICIM). pp 5–12. IEEE, Oxford
+2. Ameen S, Vadera S (2017) A convolutional neural network to classify American sign language finger-
+spelling from depth and colour images. Expert Syst 34(3):e12197. https://doi.org/10.1111/exsy.12197
+3. Bendarkar D, Somase P, Rebari P, Paturkar R, Khan A (2021) Web based recognition and transla-
+tion of American sign language with CNN and RNN. Int J Online Biomed Eng (iJOE) 17:34–50.
+https://doi.org/10.3991/ijoe.v17i01.18585
+4. Bergstra J, Bardenet R, Bengio Y, K´egl B (2011) Algorithms for hyper-parameter optimization. In:
+Shawe-Taylor J, Zemel R, Bartlett P, Pereira F, Weinberger KQ (eds) Advances in Neural Information
+Processing Systems, vol 24. Curran Associates Inc., Red Hook
+5. Bhatia P, Wadhawan A (2021) Deep learning-based sign language recognition system for static signs.
+Neural Comput Appl 32:7957–7968. https://doi.org/10.1007/s00521-019-04691-y
+6. Bhojanapalli S, Chakrabarti A, Glasner D, Li D, Unterthiner T, Veit A (2021) Understanding robustness
+of transformers for image classification. In: 2021 IEEE/CVF international conference on computer vision
+(ICCV). pp 10211–10221. IEEE, Montreal
+7. Bowles C, Chen L, Guerrero R, Bentley P, Gunn RN, Hammers A, Dickie DA, Hern´andez MV, Ward-
+law JM, Rueckert D (2018) GAN augmentation: augmenting training data using generative adversarial
+networks. arXiv:1810.10863
+8. Chen N, Watanabe S, Villalba J, Zelasko P, Dehak N (2021) Non-autoregressive transformer for speech
+recognition. IEEE Signal Process Lett 28:121–125. https://doi.org/10.1109/LSP.2020.3044547
+9. Cheok MJ, Omar Z, Jaward M (2019) A review of hand gesture and sign language recognition
+techniques. Int J Mach Learn Cybern 10:131–153. https://doi.org/10.1007/s13042-017-0705-5
+10. Chevtchenko SF, Vale RF, Macario V, Cordeiro FR (2018) A convolutional neural network
+with feature fusion for real-time hand posture recognition. Appl Soft Comput 73:748–766.
+https://doi.org/10.1016/j.asoc.2018.09.010
+11. Dai Z, Yang Z, Yang Y, Carbonell J, Le QV, Salakhutdinov R (2019) Transformer-XL: attentive language
+models beyond a fixed-length context
+12. Devlin J, Chang M-W, Lee K, Toutanova K (June 2019) BERT: pre-training of deep bidirectional trans-
+formers for language understanding. In: Proceedings of the 2019 conference of the North American
+31326
+Multimedia Tools and Applications (2023) 82:31309–31328
+
+chapter of the association for computational linguistics: human language technologies, Volume 1 (Long
+and Short Papers). Association for Computational Linguistics, Minneapolis, pp 4171–4186
+13. DeVries T, Taylor GW (2017) Improved regularization of convolutional neural networks with Cutout
+14. Dosovitskiy A, Beyer L, Kolesnikov A, Weissenborn D, Zhai X, Unterthiner T, Dehghani M, Minderer
+M, Heigold G, Gelly S, Uszkoreit J, Houlsby N (2020) An image is worth 16x16 words: transformers
+for image recognition at scale
+15. He K, Zhang X, Ren S, Sun J (2016) Deep residual learning for image recognition. In: 2016 IEEE
+conference on computer vision and pattern recognition (CVPR). pp 770–778. IEEE, Las Vegas
+16. Hu J, Shen L, Sun G (2018) Squeeze-and-excitation networks. In: 2018 IEEE/CVF conference on
+computer vision and pattern recognition (CVPR). pp 7132–7141. IEEE, Salt Lake City
+17. Huang Z, Wang X, Wei Y, Huang L, Shi H, Liu W, Huang TS (2020) Ccnet: Criss-cross attention for
+semantic segmentation
+18. Islam MZ, Hossain MS, ul Islam R, Andersson K (2019) Static hand gesture recognition using convolu-
+tional neural network with data augmentation. In: 2019 joint 8th international conference on informatics,
+electronics vision (ICIEV) and 2019 3rd international conference on imaging, vision pattern recognition
+(icIVPR). pp 324–329. IEEE, Spokane
+19. Khari M, Garg A, Gonzalez Crespo R, Verd´u E (2019) Gesture recognition of RGB and RGB-
+D static images using convolutional neural networks. Int J Interact Multimed Artif Intell 5:22–27.
+https://doi.org/10.9781/ijimai.2019.09.002
+20. Krizhevsky A, Sutskever I, Hinton GE (2017) Imagenet classification with deep convolutional neural
+networks. Commun ACM 60(6):84–90. https://doi.org/https://doi.org/10.1145/3065386
+21. Li G, Tang H, Sun Y, Kong J, Jiang G, Jiang D, Tao B, Xu S, Liu H (2019) Hand gesture recognition
+based on convolution neural network. Clust Comput 22:2719–2729. https://doi.org/10.1007/s10586-
+017-1435-x
+22. Liu Z, Lin Y, Cao Y, Hu H, Wei Y, Zhang Z, Lin S, Guo B (2021) Swin transformer: Hierarchical vision
+transformer using shifted windows. In: 2021 IEEE/CVF international conference on computer vision
+(ICCV). pp 9992–10002. IEEE, Montreal
+23. Lu D, Yu Y, Liu H (2016) Gesture recognition using data glove: an extreme learning machine method.
+In: 2016 IEEE international conference on robotics and biomimetics (ROBIO). pp 1349–1354
+24. Mirsu R, Simion G, Caleanu CD, Pop-Calimanu IM (2020) A pointnet-based solution for 3D hand
+gesture recognition, vol 20
+25. Modanwal G, Sarawadekar K (2018) A robust wrist point detection algorithm using geometric features.
+Pattern Recognit Lett 110:72–78. https://doi.org/10.1016/j.patrec.2018.03.025
+26. Mohammed AAQ, Lv J, Islam MDS (2019) A deep learning-based end-to-end composite system for
+hand detection and gesture recognition, vol 19
+27. Nagi J, Ducatelle F, Di Caro GA, Ciresan D, Meier U, Giusti A, Nagi F, Schmidhuber J, Gambardella
+LM (2011) Max-pooling convolutional neural networks for vision-based hand gesture recognition. In:
+2011 IEEE international conference on signal and image processing applications (ICSIPA). pp 342–347.
+IEEE, Kuala Lumpur
+28. Naseer M, Ranasinghe K, Khan S, Hayat M, Khan F, Yang M-H (2021) Intriguing properties of
+vision transformers. In: Beygelzimer A, Dauphin Y, Liang P, Vaughan JW (eds) Advances in Neu-
+ral Information Processing Systems. https://openreview.net/forum?id=o2mbl-Hmfgd. Accessed 29 Oct
+2021
+29. Oyedotun O, Khashman A (2017) Deep learning in vision-based static hand gesture recognition. Neural
+Comput Appl 28:3941–3951. https://doi.org/10.1007/s00521-016-2294-8
+30. Ozcan T, Basturk A (2019) Transfer learning-based convolutional neural networks with heuristic
+optimization for hand gesture recognition. Neural Comput Appl 31:8955–8970. 10.1007/s00521-
+019-04427-y
+31. Pan T-Y, Lo L-Y, Yeh C-W, Li J-W, Liu H-T, Hu M-C (2016) Real-time sign language recognition
+in complex background scene based on a hierarchical clustering classification method. In: 2016 IEEE
+second international conference on multimedia big data (BigMM). pp 64–67. IEEE, Taipei
+32. Paul S, Chen P-Y (2022) Vision transformers are robust learners. Proc AAAI Conf Artif Intell
+36(2):2071–2081. https://doi.org/10.1609/aaai.v36i2.20103
+33. Pigou L, Dieleman S, Kindermans P-J, Schrauwen B (2015) Sign language recognition using con-
+volutional neural networks. In: Computer Vision - ECCV 2014 Workshops. Springer International
+Publishing, Cham, pp 572–578
+34. Pugeault N, Bowden R (2011) Spelling it out: real-time ASL fingerspelling recognition. In: 2011 IEEE
+international conference on computer vision workshops (ICCV Workshops). pp 1114–1119. IEEE,
+Barcelona
+35. Qi J, Jiang G, Li G, Sun Y, Tao B (2019) Surface EMG hand gesture recognition system based on PCA
+and GRNN. Neural Comput Appl 32:6343–6351. https://doi.org/10.1007/s00521-019-04142-8
+31327
+Multimedia Tools and Applications (2023) 82:31309–31328
+
+36. Raghu M, Unterthiner T, Kornblith S, Zhang C, Dosovitskiy A (2021) Do vision transformers see like
+convolutional neural networks?
+37. Rao GA, Syamala K, Kishore PVV, Sastry ASCS (2018) Deep convolutional neural networks for sign
+language recognition. In: 2018 conference on signal processing and communication engineering systems
+(SPACES). pp 194–197. IEEE, Vijayawada
+38. Sadeddine K, Chelali FZ, Djeradi R, Djeradi A, Benabderrahmane S (2021) Recognition of user-
+dependent and independent static hand gestures: application to sign language. J Vis Commun Image
+Represent 79:103193. https://doi.org/10.1016/j.jvcir.2021.103193
+39. Sharma P, Anand RS (2020) Depth data and fusion of feature descriptors for static gesture recognition.
+IET Image Process 14(5):909–920. https://doi.org/10.1049/iet-ipr.2019.0230
+40. Simonyan K, Zisserman A (September 2014) Very deep convolutional networks for large-scale image
+recognition
+41. Szegedy C, Liu W, Jia Y, Sermanet P, Reed S, Anguelov D, Erhan D, Vanhoucke V, Rabinovich A
+(2015) Going deeper with convolutions. In: 2015 IEEE Conference on Computer Vision and Pattern
+Recognition (CVPR). pp 1–9. IEEE, Boston
+42. Tan Y, Lim K, Tee C, Lee C-P, Low C-Y (2021) Convolutional neural network with spatial
+pyramid pooling for hand gesture recognition. Neural Comput Appl 33:1–13. 10.1007/s00521-
+020-05337-0
+43. Tan YS, Lim KM, Lee CP (2021) Hand gesture recognition via enhanced densely connected convolu-
+tional neural network. Expert Syst Appl 175:114797. https://doi.org/10.1016/j.eswa.2021.114797
+44. Tang A, Lu K, Wang Y, Huang J, Li H (2015) A real-time hand posture recognition system using deep
+neural networks, vol 6
+45. Tao W, Leu MC, Yin Z (2018) American sign language alphabet recognition using convolutional neu-
+ral networks with multiview augmentation and inference fusion. Eng Appl Artif Intell 76:202–213.
+https://doi.org/10.1016/j.engappai.2018.09.006
+46. Touvron H, Cord M, Douze M, Massa F, Sablayrolles A, Jegou H (2021) Training data-efficient image
+transformers & distillation through attention. In: International conference on machine learning, vol 139.
+pp 10347–10357. PMLR, New York
+47. Touvron H, Cord M, Sablayrolles A, Synnaeve G, J´egou H (2021) Going deeper with image transformers.
+In: 2021 IEEE/CVF international conference on computer vision (ICCV). pp 32–42. IEEE, Montreal
+48. Vaswani A, Shazeer N, Parmar N, Uszkoreit J, Jones L, Gomez AN, Kaiser L, Polosukhin I
+(2017) Attention is all you need. In: Guyon I, Luxburg UV, Bengio S, Wallach H, Fergus R,
+Vishwanathan S, Garnett R (eds) Advances in Neural Information Processing Systems, vol 30,
+https://doi.org/10.5555/3295222.3295349
+49. Wang Q, Li B, Xiao T, Zhu J, Li C, Wong DF, Chao LS (June 2019) Learning deep transformer models
+for machine translation
+50. Wang X, Girshick R, Gupta A, He K (2018) Non-local neural networks. In: 2018 IEEE/CVF conference
+on computer vision and pattern recognition(CVPR). pp 7794–7803
+51. Xu B, Zhou Z, Huang J, Huang Y (2017) Static hand gesture recognition based on RGB-D image and
+arm removal. In: Cong F, Leung A, Wei Q (eds) Advances in Neural Networks - ISNN 2017. Springer
+International Publishing, Cham, pp 180–187
+52. Yun S, Han D, Chun S, Oh SJ, Yoo Y, Choe J (2019) CutMix: regularization strategy to train strong
+classifiers with localizable features. In: 2019 IEEE/CVF International Conference on Computer Vision
+(ICCV). pp 6022–6031
+53. Zhou H-Y, Lu C, Yang S, Yu Y (2021) Convnets vs. transformers: whose visual representations are more
+transferable? In: 2021 IEEE/CVF international conference on computer vision workshops (ICCVW). pp
+2230–2238. IEEE, Montreal
+Publisher’s note Springer Nature remains neutral with regard to jurisdictional claims in published maps
+and institutional affiliations.
+Springer Nature or its licensor (e.g. a society or other partner) holds exclusive rights to this article under
+a publishing agreement with the author(s) or other rightsholder(s); author self-archiving of the accepted
+manuscript version of this article is solely governed by the terms of such publishing agreement and applicable
+law.
+31328
+Multimedia Tools and Applications (2023) 82:31309–31328
+

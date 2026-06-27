@@ -1,0 +1,872 @@
+Conferences  >
+2024 IEEE/RSJ International C... 
+AMCO: Adaptive Multimodal Coupling of Vision and Proprioception for Quadruped Robot Navigation in Outdoor
+Environments
+Publisher: IEEE
+Cite This
+PDF
+Mohamed Elnoor ; Kasun Weerakoon ; Adarsh Jagan Sathyamoorthy ; Tianrui Guan ; Vignesh Rajagopal ; Dinesh Manocha
+All Authors
+5
+Cites in
+Papers
+561
+Full
+Text Views
+
+
+
+
+
+Abstract
+Document Sections
+I. Introduction
+II. Related Works
+III. Background
+IV. Our Approach
+V. Results and Analysis
+Show Full Outline 
+Authors
+Figures
+References
+Citations
+Keywords
+Metrics
+Supplemental Items
+Abstract:
+We present AMCO, a novel navigation method for quadruped robots that adaptively combines vision-based and proprioception-based perception capabilities. Our
+approach uses three cost maps: general knowledge map; traversability history map; and current proprioception map; which are derived from a robot’s vision and
+proprioception data, and couples them to obtain a coupled traversability cost map for navigation. The general knowledge map encodes terrains semantically
+segmented from visual sensing, and represents a terrain’s typically expected traversability. The traversability history map encodes the robot’s recent proprioceptive
+measurements on a terrain and its semantic segmentation as a cost map. Further, the robot’s present proprioceptive measurement is encoded as a cost map in
+the current proprioception map. As the general knowledge map and traversability history map rely on semantic segmentation, we evaluate the reliability of the
+visual sensory data by estimating the brightness and motion blur of input RGB images and accordingly combine the three cost maps to obtain the coupled
+traversability cost map used for navigation. Leveraging this adaptive coupling, the robot can depend on the most reliable input modality available. Finally, we
+present a novel planner that selects appropriate gaits and velocities for traversing challenging outdoor environments using the coupled traversability cost map. We
+demonstrate AMCO’s navigation performance in different real-world outdoor environments and observe 10.8%-34.9% reduction w.r.t. two stability metrics, and up
+to 50% improvement in terms of success rate compared to current navigation methods.
+Published in: 2024 IEEE/RSJ International Conference on Intelligent Robots and Systems (IROS)
+Date of Conference: 14-18 October 2024
+Date Added to IEEE Xplore: 25 December 2024
+ISBN Information:
+ISSN Information:
+DOI: 10.1109/IROS58592.2024.10801962
+Publisher: IEEE
+Conference Location: Abu Dhabi, United Arab Emirates
+Funding Agency:
+Recommended for You (Beta)
+
+More Like This
+Footnotes
+AnalogTester: A Large Language Model-Based Framework for Automatic Testbench
+Generation in Analog Circuit Design
+Classification Algorithm for VLSI Test
+Cost Reduction
+A GUI Based Digital
+IC Tester
+Learn More
+SECTION I.
+Introduction
+Quadruped robots have been used for autonomous navigation due to their superior dynamics, which enables them to traverse diverse and challenging
+terrains in outdoor settings [1], [2], [3]. They can be used in applications including agriculture [4], planetary exploration [5], surveillance [6], and
+disaster response missions [7]. However, guiding these robots across such complex environments requires a comprehensive understanding of the
+scene, which encompasses how the terrain visually appears using vision-based sensors and how it physically feels under the robot’s feet using
+proprioception.
+Traditionally, terrain traversability has been assessed using exteroceptive/visual sensors such as cameras [8], [9] and LiDARs [10], [11], which
+provide valuable information about the environment. Yet, these approaches often fall short in complex terrains where visual features do not provide
+sufficient information about the terrain, or when the visual characterization is incorrect. For instance, a terrain that appears to be solid and stable (like
+soil) but it could deform (is actually mud) under the robot’s weight. This leaves the robot vulnerable to sinkages, slips, and entrapments [5], [12], [13],
+[14].
+
+
+On the other hand, proprioception, which can be captured from a legged robot’s internal joint encoders [15], [16], odometry errors [1], robot states
+[17],and contact vibrations [18], effectively measures the terrain traversability characteristics (softness, bumpiness, etc) at the robot’s present location
+[19]. Proprioception has previously been used to learn traversability costs for visual navigation [1], [17]. However, it can not be used to predict the
+terrain traversability ahead of the robot [16] without exteroceptive sensing.
+To this end, many approaches have combined proprioceptive and visual inputs using self-supervised learning [1], [15], [17], [21], [22]. Those methods
+estimate traversability cost maps which only represent terrains’ typical traversability. However, they do not account for the potential changes in
+terrains’ physical properties, such as deformability [23] and trafficability [24], due to weather or other factors. This limitation restricts previous
+methods from adapting to traversability changes, potentially leading to failures. To create a generalizable traversability estimation approach for stable
+navigation, the robot must also consider both the recent proprioceptive history, and the current instant’s proprioceptive feedback from the terrain along
+with its typical traversability obtained from visual inputs.
+Main Contributions: To this end, we present AMCO (Adaptive Multimodal COupling of vision and proprioception for stable robot navigation), a
+novel approach that adaptively integrates semantic segmentation and proprioceptive feedback of terrain into a traversability cost map. This multimodal
+perception representation is integrated with a local planner to select a stable gait and velocity combination for robot navigation. Our approach is
+inspired by how humans navigate through deformable, and occluded terrains like sand, muddy grass, and bushes, using: 1. our general knowledge of the
+terrain (e.g. soil is usually stable to walk on), 2. recent traversability history (e.g. soil was wet and felt deformable a few time steps ago in a nearby
+location), 3. current experience (e.g. soil feels more deformable and non-traversable). Here, both visual features and proprioception information
+inform our understanding of the terrain and guide our movement. The novel components of our work are:
+We introduce novel formulations of three traversability cost maps using vision and proprioception perception capabilities. A general knowledge
+map that uses semantic segmentation from an RGB camera to represent the terrain’s traversability ahead of the robot. Next, we use the recent
+history of proprioception signals. We captured the duration of this prospective-informed traversability and its consistency with its semantic
+traversability class to build a history map. Also, we present a proprioceptive-based traversability cost map, which extrapolates the current robot
+proprioception to future time steps to robustly predict the traversability along the robot’s trajectory.
+An adaptive multi-modal coupling of the three cost maps according to the vision-based sensor reliability. We incorporate a reliability estimation
+method that assesses the quality of RGB images and weighs the vision-based representations on the coupled maptraversability cost map. This
+ensures that the navigation decisions are based on the most reliable input modality available. We demonstrate that our adaptive coupling leads to
+improvements in navigating different types of deformable terrains.
+A navigation algorithm that adapts gait selection and dynamically calculates feasible velocities in real-time based on multi-modal coupled map to
+ensure stable navigation. We demonstrate our method on Boston Dynamic Spot and evaluate its performance in four unstructured outdoor
+Fig. 1:
+The navigation trajectories generated by our method, AMCO (trot: brown, crawl: red, amble: pink), ProNav [16] (trot: blue, crawl:
+purple, amble: light blue), GaNav [9] (orange), Spot’s Inbuilt (yellow), and RFC [20] (trot: green, crawl: light green, amble: light
+beige) in scenario 4, which contains different types of deformable terrains: (A) water puddle, (B) mud, (C) granular. AMCO, ProNav,
+and RFC can switch between three gaits (trot, crawl, and amble) during navigation as presented in three different colors. Our
+method AMCO updates its trajectory as traversing the terrain and uses the coupled vision and proprioception to avoid extremely
+deformable regions such as A and B. It balances between the trajectory length and maintaining stability to reduce potential robot
+failures on terrains with varying deformability. Conversely, GaNav [9] takes a longer path by avoiding mud and grass altogether.
+The other methods takes a straight path towards the goal which leads to sinkage and failures.
+
+environments. We observe 10.8%-34.9% reduction in IMU Energy density [25] and up to 50% improvement in navigation success rate.
+SECTION II.
+Related Works
+In this section, we discuss the traversability estimation methods for both exteroception and proprioception sensors. After that, we briefly discuss the
+existing methods for outdoor navigation.
+A. Traversability Estimation
+Traversability estimation tends to incorporate vision-based approaches that use external sensors and proprioception-based approaches. We review both
+perception methods in the following sections.
+1) Exteropercption-based perception
+Exteroception has been widely used to estimate traversability in outdoor settings [11], [26], [27]. Many methods leverage semantic segmentation to
+classify different types of terrains in outdoor settings [9], [28], [29], [30]. For instance, ViTAL [31] leverages vision-based techniques for terrain-
+aware locomotion, which optimizes path planning across varied terrains with a focus on quadruped robots. Another noteworthy approach by Agarwal et
+al. [32], utilizes an egocentric camera to facilitate legged locomotion on rugged terrains through an end-to-end locomotion system. These
+methodologies predominantly utilize vision-based sensors, whose performance can degrade under various conditions such as light changes, motion
+blur, and occlusions [33].
+2) Proprioception-based Perception
+Proprioception, the internal sense of movement and position, plays a crucial role in quadruped robot navigation, as described in [1], [15], [34], [35]. It
+is defined as the robot’s internal sense of movement and position [19]. While effective in terrain interaction, its limitations in predicting unencountered
+terrain necessitate external sensor integration for improved navigation. Wisth et al.’s development of a method combining proprioceptive feedback with
+visual, inertial, lidar, and odometry data exemplifies advancements in multi-modal sensor fusion [21]. This approach, further refined by cross-modal
+learning techniques by Loquercio et al. [36], enhances environmental understanding and adaptability. Moreover, studies by García et al. [37] and
+Karnan et al. [34], [38] illustrate the benefits of using proprioceptive data for gait adjustments and incorporating human preferences into navigation
+systems, showcasing the potential of learning-based methods for better terrain adaptation. This collective research shows the significance of integrating
+proprioceptive feedback with external sensors for advanced robotic navigation and terrain adaptability.
+Other works include fused proprioception with visual data in particular to improve navigation. As highlighted by Fu et al. [15], integrating these sensory
+inputs improves spatial awareness and movement strategies. This approach is crucial for navigating adverse conditions, with Teng et al. [39] and Jin et
+al. [40] showcasing the importance of proprioception in maintaining balance and enhancing resilience. Assessing terrain supportiveness through
+proprioceptive data is essential for safe and effective navigation. Homberger et al. [41] discuss the role of proprioception in evaluating surface stability.
+Recently, Dey et al. [12] introduced a predictive method that utilizes proprioceptive signals to foresee and counteract potential navigation failures,
+emphasizing the need for anticipation in challenging terrains. While these methods integrate proprioception with exteroception, many of them assume
+the consistency between the two sensory modalities which is reasonable for some terrains. In our case, we consider terrains that could have different
+traversability under different weather conditions such as sand, mud, grass, and covered grounds.
+B. Outdoor Navigation
+
+Recent advancements in outdoor navigation for autonomous systems have showcased the integration of several methods and hardware designs [5],
+[31], [42], [43]. For instance, Overbye et al. [44] works on path optimization for ground vehicles in off-road terrains uses vehicle kinematic
+constraints and advanced algorithms for improved efficiency. On the other hand, Wellhausen et al. [45] developed robust navigation systems for legged
+robots, employing reachability-based methods and neural network-based learned motion costs to navigate unpredictable terrains in term of
+traversability. Miki et al. [46] advanced sensory integration techniques, employing attention-based recurrent encoders and lidar intensity maps for
+enhanced environmental interaction. Additionally, Valsecchi et al. [5] investigated the potential of quadruped robots for haptic inspection of planetary
+soils. Also, Kolvenbach et al. in [47] have developed a terrain-aware locomotion controller. This controller combines proprioceptive and exteroceptive
+inputs using a recurrent encoder, which enables the legged robots to navigate challenging terrains. Our navigation approach is different from these
+methods. We compute the best gait and velocity pairs based on the semantic traversability class and proprioception. This helps the robot to maintain
+stability as well as heading toward the goal.
+SECTION III.
+Background
+In this section, we explain symbols, notations, and the preliminary concepts used in our work.
+A. Symbols and Notations
+We highlight the symbols of images and cost maps we use in Table (I).
+B. Setup and Conventions
+The quadruped robot in our formulation has a coordinate frame attached to its center of mass with X, Y, and Z directions facing forward, leftward, and
+upward, respectively. The robot is equipped with sensors to measure the positions, velocities and forces exerted at each joint in the i  leg along each
+axis. Additionally, the robot measures the current 
+ consumed from the battery. At every time instant t, these quantities are used as raw
+proprioceptive signals to feel the terrain and estimate its traversability (section III-C). The robot is also equipped with an RGB camera that provides an
+TABLE I: List of symbols used in our approach. 
+ and 
+ are three-channel images of size H × W. All the cost maps are
+grayscale of size H ×W where H,W are the height and width of the images and the cost maps.
+I t
+RGB
+I t
+S
+
+th
+I t
+
+image 
+ to view the terrains ahead, and a 3D lidar to detect obstacles. The robot can execute three kinds of gaits: 1. trot, where two of the robot’s
+feet make contact with the ground while walking, 2. crawl, where three feet touch the ground for enhanced stability but with a restricted maximum
+velocity, and 3. amble: a gait similar to crawl but with unrestricted maximum speed.
+We categorize the various terrains that the robot navigates into the following types: 1. stable, 2. granular (e.g. sand, snow), 3. poor foothold (e.g. rocks),
+4. high resistance (e.g. dense vegetation). We use i,j to indicate grid locations in costmaps.
+C. Proprioception-based Terrain Analysis
+We utilize the approach proposed in [16] to estimate a terrain τ’s traversability by processing the raw proprioceptive signals (defined in Section III-B)
+from a legged robot and transforming them into two dimensional point 
+ using Principal Component Analysis [48]. [16] shows that the L-2 norm
+ indicates a terrain’s traversability. After estimating a terrain’s traversability, [16] empirically demonstrates that using a certain gait g to
+traverse a terrain type τ (III-B) results in a bounded distribution of points in the PCA space, that can be modeled as a 2D Gaussian ellipse ℰ(τ,g). [16]
+also shows that the area of a gait-terrain ellipse is directly proportional to the level of stability the robot experiences while traversing the terrain using
+the gait (see Fig. 2).
+D. Vision-based Traversability Types
+As a preliminary for our vision module, we use a terrain semantic segmentation method to classify the terrain type. Particularly, we incorporate [9], a
+semantic segmentation method that uses group-wise attention to differentiate the traversability of the terrains and provides a segmentation image. We
+train this segmentation method using RUGD dataset [49] using 4 terrain groups as presented in Table II.
+I t
+RGB
+ptτ
+(
+)
+|
+|
+ptτ 2
+Fig. 2:
+The gaussian ellipses for the PCA components of four different terrains [16]. For each terrain, three types of gait data are shown
+using different ellipse boundaries. The solid line denotes trot, the dashed line denotes amble, and the dash-dot line is for crawl.
+
+TABLE II: Semantic categories and their corresponding terrain type τ.
+
+
+SECTION IV.
+Our Approach
+In this section, we discuss how we construct our adaptive multimodal cost map using semantic segmentation and proprioception. We highlight the
+symbols and notation of our approach in table I.
+A. General Knowledge Map
+Given an RGB image 
+, we process it through a semantic segmentation model (III-D) to output a segmented image 
+. Each pixel in 
+ categorizes
+the terrain τ into the four terrain classes defined in Section III-B. Next, we create a general knowledge map that represents the typical traversability of
+Fig. 3:
+The overall system architecture AMCO that couples vision and proprioception perception modules. We use the robot’s joint position,
+forces, and battery current to compute our traversability measure. We also use a semantic segmentation module to classify the
+terrains. After that, three traversability cost maps are created: general knowledge map (vision-based), history map (vision and
+proprioception), and proprioception map. All of them are coupled based on the reliability of the input RGB images to create a
+coupled cost map for the local planner.
+
+I t
+RGB
+I t
+S
+I t
+S
+
+the terrains ahead of the robot as a costmap. It is constructed by assigning a traversability cost to each segmented terrain class τ based on the smallest-
+area ellipse [16] corresponding to it. This ellipse represents the distribution of points obtained when using the most stable gait for τ (see Fig. 2).
+To create general knowledge map, we first discretize 
+ into grids of n × n pixels as shown in Fig. 5.c to obtain 
+. Each grid in the general knowledge
+map is assigned a cost value based on the terrain classes that the pixels in the corresponding grid in 
+ belong to. Consequently, 
+ is constructed
+as,
+View Source
+where, 
+ denotes the traversability cost for the (i,j)  grid in the general knowledge map at time t. γ is a scaling factor.  represents the set of all
+gaits, and 
+ refers to the area of the ellipse associated with using gait g in terrain type τ
+ present at pixel (a,b).
+Additionally, by detecting the predominant terrain τ
+ in a 1 × 1 square meter area in front of the robot in 
+ we can choose the most stable gait to
+traverse it. This is done based on the gait g that leads to the smallest area for the ellipse 
+. That is,
+View Source
+B. Recent Traversability History Map
+We define traversability history of a terrain type τ as a list of its traversability 
+ accumulated over a duration T  by the robot. The intuition
+behind T  is that the longer the robot has traversed a terrain τ, the more reliable its traversability cost estimate becomes. This history is then coupled
+with the general knowledge map 
+. This is because, intuitively, if soil is particularly muddy and unstable on a given day—indicating low stability—it is
+justified to reflect this observation in the traversability cost for all the soil regions ahead of the robot, even if typically soil is perceived to be more stable
+by the costs in 
+ Building on this intuition, we formulate the recent traversability history as a costmap 
+ for a terrain τ as,
+View Source
+I t
+S
+I t
+SD
+I t
+SD
+(
+)
+Ct
+g
+(i, j) =
+(Ar(
+(
+, g)),
+Ct
+g
+γ
+n2
+∑
+(a,b)∈
+(i,j)
+I t
+SD
+min
+∀g∈G
+Et τa,b
+(1)
+(i, j)
+Ctg
+th
+G
+Ar (
+(
+, g))
+Et τa,b
+a,b
+pred
+,
+I t
+SD
+(
+, g)
+Et τpred 
+=
+Ar(
+(
+, g)).
+g∗
+argmin
+g∈G
+Et τpred 
+(2)
+(
+)
+|
+|
+ptτ 2
+τ
+τ
+Ctg
+.
+Ct
+g
+Ct
+h
+(i, j) =
+Ct
+h
+⎧
+⎩
+⎨
+⎪
+⎪
+⎪
+⎪
+⎪
+⎪
+⎪
+⎪
+α ⋅
+((
+−
+(i, j))),
+∑
+l=0
+Tτa,b
+∣∣plτ∣∣2
+Cl
+g
+ if (a, b) ∈
+(i, j) and 
+∈Γ,
+I t
+SD
+τa,b
+0,
+ otherwise. 
+(3)
+
+Here, Γ is the set of terrains that the robot has traversed in the past, and 
+ is the time the robot spent traversing terrain 
+ represents the
+adjusted traversability cost at grid (i, j) and time t, and similarly for 
+ is an adjustable factor. Equation 3 ensures that a traversability history
+cost is applied only to the regions with previously traversed terrains in front of the robot.
+C. Reliability Estimation of RGB images
+Assessing the reliability of RGB images is essential for vision-based sensing. The image’s brightness and its blurriness can affect the semantic
+segmentation (see figure 4) and consequently the reliability of our general knowledge map (IV-A) and history map (IV-B) . Here, we discuss how we
+evaluate those two visual phenomena:
+1) Brightness Percentage
+We use two methods to calculate the brightness of an image. The first computes the mean brightness (r
+) of an image as the average of the RGB
+values for each pixel, normalized to a percentage: 
+, Where N denotes the number of pixels in the image. R , G , and B
+represent the red, green, and blue color values of the i  pixel, respectively. The arithmetic mean is widely used to estimate the brightness, however, it
+can be misleading in outdoor environments as it treats all the RGB pixels uniformly. To improve the brightness estimation, we additionally use [50] to
+compute the luminance (luma) of an image as: 
+. Similar to r
+ but with scalar weights: ρ , ρ , ρ .
+Tτa,b
+.
+(i, j)
+τa,b Ct
+h
+(i, j). α
+Ct
+g
+mean
+=
+(
+)
+rmean
+1
+N ∑N
+i=1
++
++
+Ri
+Gi
+Bi
+3
+i
+i
+i
+th
+=
+(
+⋅
++
+⋅
++
+⋅
+))
+rluma 
+1
+N ∑N
+i=1 ρ1 Ri
+ρ2 Gi
+ρ3 Bi
+mean
+1
+2
+3
+Fig. 4:
+Reliability Estimation of RGB images: we estimate the reliability of RGB images (top row) by measuring two factors, the image’s
+brightness, and blurriness as both affect semantic segmentation (bottom row). (a) and (b) show two brightness levels for an RGB
+image. (c) shows a sharp image (with almost no blur). (d) shows how rocky terrains could lead to blurriness in the image.
+
+
+2) Blurriness
+An image that is perceived as sharp (not blurry) is typically associated with high fidelity and clear detail representation, which affects semantic
+segmentation (see figure 4). To quantify the sharpness/blurriness of an image, we use two methods. The first method employs the Haar wavelet
+transform [51] to derive an energy map E
+ which can be used to estimate a blurriness score (r
+)of an image. Deep-learning methods were used
+previously to detect motion blur [52], [53]. However, the datasets for motion blur in outdoor settings are limited. Therefore, we create a dataset with
+images from unstructured outdoor environments with different degrees of motion blur corruption, and the % of corruption as their labels. Then, we
+train a ResNet50 [54] model on our dataset. We represent the output of the model as, 
+ We use both methods together to improve
+blurriness detection.
+Overall, we formulate the reliability score ξ as follows:
+View Source
+Here, λ , λ , λ , and λ  are coefficients that balance the contributions of brightness and blur to the overall reliability score.
+D. Current Proprioception Map
+Apart from the general knowledge map and history map, we also use the robot’s current proprioceptive sensing 
+ to estimate terrain traversability
+due to its reliability in indicating how the terrain feels regardless of the vision-based sensing. We construct a current proprioception map 
+ by
+Fig. 5:
+Traversability cost maps of our method. (a) The input RGB image, (b) The segmented image with the color labels as (stable: green,
+vegetation: red, granular: yellow and poor foothold: orange), (c) The general knowledge map (vision-based), (d) The history map,
+(e) The proprioception map. (f) The coupled map. Dark blue reflects low traversability cost in (c-d) maps and conversely red
+indicates high traversability cost. As shown in the figure, concrete shows low cost in the general knowledge map and particularly
+evident in the proprioception-based cost map as the robots captured the terrain stability using proprioception.
+
+map
+hwt
+O = Φ (
+) .
+I t
+RGB
+ξ =
+⋅
++
+⋅
++
+⋅
++
+⋅O
+λ1 rmean
+λ2 rluma
+λ3 rhwt
+λ4
+(4)
+1
+2
+3
+4
+|
+|
+ptτ 2
+Cp
+
+extrapolating 
+ based on the distance d  from the robot’s location without using the terrain segmentation (unlike 
+ and 
+) as,
+View Source
+Here, 
+ is a positive value corresponding to the cost of traversing a moderately traversable terrain. We assume a moderately traversable terrain as we
+do not use the terrain information ahead from the terrain segmentation. µ is a scale factor for the traversability’s impact on cost. d  is the normalized
+distance to the (i,j)  grid from the bottom center grid in front of the robot (see Fig. 5.e), with values ranging from 0 (directly in front) to 1 (furthest
+from the robot).
+E. Adaptive Multimodal Coupling
+The Adaptive Multimodal Coupling mechanism combines the general knowledge map 
+, history map 
+, and the proprioception map 
+ into a
+coupled traversability cost map 
+. This integration is achieved through the reliability metric ξ ∈ [0−1] (Section IV-C), which assesses the quality
+of RGB images to adaptively adjust the contributions of the vision-based components. The construction of 
+ is formulated as,
+View Source
+Here, each (i,j)  grid in the input maps results in a corresponding (i,j)  grid in 
+. The intuition behind this formulation lies in the different
+reliability of the modalities. The components reliant on vision (
+ and 
+ ) are susceptible to variations in environmental conditions, such as motion
+blur, which can diminish their reliability. Conversely, the proprioception-based component 
+ provides an accurate measure of the terrain’s physical
+properties, unaffected by visual distortions. Thus, ξ serves as an adaptive scaling factor, reducing the influence of vision-based assessments when their
+reliability is compromised, and ensuring that coupled map reflects the most accurate traversability information possible.
+F. Navigation using the Coupled Traversability Cost Map
+We incorporate a modified version of the Model Predictive Controller (MPC) in [43] to generate actions (i.e., (v,ω) linear and angular velocity pairs)
+for the robot to prefer relatively stable terrains while reaching user-defined local goals. MPC in [43] calculates a restricted velocity search space 
+ by
+choosing only the obstacle-free and dynamically feasible actions from an action space 
+ where v
+and ω
+ are the robot’s linear and angular velocity limits.
+Then, we define an objective function J(v,ω) as follows to calculate the optimal action from the restricted velocity space 
+.
+|
+|
+ptτ 2
+i,j
+Ct
+g
+Ct
+h
+(i, j) = (U −δ ⋅
+) ⋅(1 −
+) .
+Ct
+p
+|
+|
+ptτ 2
+di,j
+(5)
+U
+i,j
+th
+Ct
+g
+Ct
+h
+Ct
+p
+Ct
+coupled
+Ct
+coupled
+(i, j) = ξ ⋅(
+(i, j) +
+(i, j)) +
+(i, j).
+Ct
+coupled 
+Ct
+g
+Ct
+h
+Ct
+p
+(6)
+th
+th
+Ct
+coupled 
+Ctg
+Ct
+h
+Ctp
+Vr
+= {(v, ω)|v ∈[0,
+] , ω ∈[−
+,
+]} ,
+Vs
+vmax
+ωmax ωmax
+max
+max
+Vr
+
+View Source
+where goal(v,ω) and obs(v,ω) are cost terms that indicate the distance to the goal and proximity to an obstacle for a given action
+ are tunable weights. We introduce a traversability cost term sur(v,ω) to leverage the terrain perception information
+encoded in the coupled traversability cost map 
+ To calculate the sur(v,ω) for a given action (v,ω), we first extrapolate the action for a ∆T time
+and obtain a trajectory traj (v,ω) w.r.t. the robot. Then, traj (v,ω) is projected to the cost map using perspective projection [55]. Let’s denote the
+projected trajectory on the cost map as 
+. Then, the terrain surface traversability cost sur(v,ω) is calculated as,
+View Source
+where 
+ is the traversability cost of the (i, j)  location on the 
+ at time t, and 
+ is the cardinality of the traj (v,ω). Finally,
+the optimal navigation action (v ,ω ) is obtained as,
+View Source
+J(v, ω) =
+⋅goal(v, ω) +
+⋅obs(v, ω) +
+⋅sur(v, ω),
+β1
+β2
+β3
+(7)
+(v, ω) ∈
+.
+∀i = 1, 2, 3
+Vr βi
+.
+Ccoupled 
+R
+R
+tra
+(v, ω) ∈
+jC
+Ccoupled 
+sur(v, ω) =
+(i, j),
+1
+|tra
+(v, ω)|
+jC
+∑
+(i,j)∈tra
+(v,ω)
+jC
+Ct
+coupled 
+(8)
+(i, j)
+Ccoupled 
+th
+Ct
+coupled 
+tra
+(v, ω)
+∣∣
+jC
+∣∣
+C
+∗
+∗
+(
+,
+) =
+J(v, ω).
+v∗ω∗
+argmin
+(v,ω)∈Vr
+(9)
+Fig. 6:
+Navigation trajectories of AMCO (Ours) and the other methods in three challenging outdoor scenarios. AMCO, ProNav, and RFC can
+switch between three gaits (trot, crawl, and amble) during navigation as presented in three different colors. AMCO, ProNav, and RFC
+can switch between three gaits (trot, crawl, and amble) during navigation as presented in three different colors. The trajectory
+colors are represented as follow: AMCO (trot: brown, crawl:red, amble: pink), ProNav [16] (trot: blue, crawl:purple, amble: light
+blue), GaNav [9] (orange), Spot’s Inbuilt (yellow), and RFC [20] (trot: green, crawl:light green, amble: light beige). Vision-only
+methods such as GA-Nav fail under low light conditions while proprioception-only methods such as ProNav lead to robot failures in
+extremely unstable terrains since proprioception cannot estimate trversability beforehand. In contrast, AMCO minimizes the robot’s
+instability during navigation by adaptively coupling both vision and proprioception.
+
+
+After that, we send (v ,ω ) along with g  (which is computed from equation 2) to the robot’s controller.
+∗
+∗
+∗
+SECTION V.
+Results and Analysis
+A. Implmentation & Robot Setup
+We implement AMCO on Boston Dynamics Spot, a quadruped robot with 12 degrees of freedom (DOF) which provides joint feedback (position,
+velocities, and forces) from the robot legs and the current consumed by the battery. Additionally, the robot is equipped with a VLP16 Velodyne lidar
+and a Zed 2i camera. AMCO runs on an Intel NUC edge computer equipped with an Intel i7 CPU, and an Nvidia RTX2060 GPU. We use the following
+other parameters for our implementation: n = 40,γ = 1,α = 4.5ρ  =0.299,ρ  = 0.587,ρ  = 0.114,δ = 31.875, 
+,λ  = 0.0008,λ  = 0.001,λ  =
+0.0025,λ  = 0.003,v
+ = 0.6m/s, ω
+ = 0.2rad/s,β  = 2.4,β  = 3.2,β  =0.05.
+B. Comparison Methods
+Spot’s in-built planner: A planner that uses RGB-D cameras to detect and avoid obstacles.
+GA-Nav [9]: A vision-based method that uses semantic segmentation of RGB images to compute traversability costs for different terrains. It is
+combined with a local planner [56] to compute trajectories on low-cost terrains and avoid obstacles.
+ProNav [16]: A proprioceptive-based method that uses joint feedback and battery’s current to estimate traversability and changes to an
+appropriate gait while computing goal-conditioned velocities using [2].
+Random Forest Classifier (RFC) [20]: It uses proprioceptive signals to classify the terrain type. We used the dataset in [16] to train the
+classifier to identify between four different terrain types (granular, poor foothold, high resistance and stable). RFC is combined with [2] to
+generate goal-directed velocities (v ,ω ).
+C. Evaluation Metrics
+Success Rate: The ratio of successful navigation trials where the robot was able to reach its goal without freezing or colliding with obstacles.
+Normalized Trajectory Length: The ratio between the robot’s trajectory length and the straight-line distance to the goal averaged across both
+successful and unsuccessful trials.
+IMU Energy Density: The mean of the aggregated squared acceleration values measured by the IMU sensors across the x, y, and z axes,
+calculated over the successful trials [25]: 
+, and E
+ =E
+ +E
+ +E , where a  represents one of the three acceleration signals (x, y,
+and z axes), and N is the IMU readings along the trajectory.
+Vibration Cost: The cumulative sum of deviations, measured from a predefined stable reference terrain, in the actuator positions at the robot’s
+hip joints along its trajectory [16]:
+1
+2
+3
+U = 127
+1
+2
+3
+4
+max
+max
+1
+2
+3
+∗
+∗
+=
+Ei
+∑N
+n=1 a2
+i
+Total
+ax
+ay
+az
+i
+
+View Source
+Where, p (t) is the position of joint j at time t, and 
+ represents reference positions from a stable terrain (concrete). The total Vibration Cost at time t
+is then computed as Vibration 
+.
+D. Test Scenarios
+Scenario 1: contains granular terrain (sand) and grass.
+Scenario 2: contains dense vegetation.
+Scenario 3: contains bushes, mulch, and concrete.
+Scenario 4: contains mud, grass and concrete.
+E. Analysis and Discussion
+We evaluated our method’s navigation performance qualitatively in Figs. 1 and 6, and quantitatively in Table III. Across the four scenarios, our method
+AMCO consistently outperforms the other methods in terms of successful goal-reaching by effectively selecting appropriate gaits and velocities to reach
+the designated goal. Further, AMCO results in lower vibration experienced by the robot in all scenarios compared to the other methods.
+In Scenario 1, GA-Nav generates significantly longer trajectories preferring grass over the granular sand terrain, and demonstrates oscillatory
+behavior near the boundary between the two terrains. ProNav and RFC use relatively straight trajectories and switch to crawl gait after encountering
+heavy instability in the granular sand region. However, in certain instances, their inconsistent gait selection leads to sinkage in the sand. In contrast,
+AMCO switches to the crawl gait in advance using the general knowledge map to minimize the potential instabilities in the forthcoming terrain (i.e.,
+sand).
+(t) =
+δj
+⎧
+⎩
+⎨
+⎪
+⎪
+(t) −min (
+)
+∣
+∣pj
+pj
+ref  ∣
+∣
+(t) −max (
+)∣
+pj
+pj
+ref
+ if 
+(t) < min (
+) ,
+pj
+pj
+ref 
+ if 
+(t) > max (
+) .
+pj
+pj
+ref
+j
+pj
+ref
+Cost(t) =
+(t)
+∑j δj
+TABLE III: The table shows the quantitative results of AMCO and the other methods over 10 trials. We use four navigation metrics
+to evaluate our method’s performance. All metrics are averaged over both the successful and unsuccessful trails (reaching the goal).
+
+Scenario 2 depicts a navigation task on concrete followed by a densely vegetated region. ProNav leads to leg entanglement in vegetation due to its
+delayed gait switching. GANav’s perception of vegetation is affected by image motion blur which leads to inconsistent segmentation. However, AMCO
+generates trajectories to maximize the stay in the concrete region while switching to the amble gait before entering the vegetated region to reduce the
+leg entanglement risks.
+In Scenario 3, our method AMCO relies heavily on proprioception map for navigation due to low and varying lighting conditions which results in less
+reliable RGB images. Both Spot’s in-built system and GANav struggles to reach the goal due to erroneous perception from the camera images under
+challenging lighting. The complexity of the muddy terrain in Scenario 4 poses significant challenges to all the methods. Particularly, RFC and ProNav
+methods experience considerable leg sinkage due to delayed gait switching. Although GA-Nav attempts to take longer trajectories through grass and
+concrete, the method struggles in muddy regions due to its fixed gait. In contrast, AMCO initially adjusts its gait using the general knowledge map and
+later changes the trajectory to avoid the heavily deformable muddy regions to reach the goal.
+Benefits of Image Reliability: We observe that our method’s navigation performance is significantly affected without the image reliability
+estimation, especially under low-light conditions (scenario 3) and motion blur (scenarios 2 and 4). This is primarily due to the inconsistent
+segmentation impacts on the general knowledge map, which eventually results in errors in the coupled traversability cost estimation. However, AMCO’s
+adaptive coupling which accounts for image reliability ensures prioritizing the proprioception under unreliable image inputs.
+
+
+  Back to Results  
+IEEE Personal Account
+Purchase Details
+Profile Information
+Need Help?
+Follow
+Authors
+
+Figures
+
+References
+
+Citations
+
+Keywords
+
+Metrics
+
+Supplemental Items
+
+Footnotes
+
+Benefits of Traversability History: We observe a notable decrease in success rate when traversability history is omitted from AMCO’s formulation.
+Particularly in scenarios 1 and 4, where the visually similar-looking granular terrain’s deformability varies from one region to another. However, the use
+of traversability history allows AMCO to avoid severely deformable regions based on recent experiences on the same terrain. Further, the recent history
+enables AMCO to update the forthcoming terrain conditions better, compared to relying only on fixed costs provided by image segmentation.
+SECTION VI.
+Conclusion, Limitations & Future Work
+We present AMCO, a novel approach for quadruped robot navigation through challenging outdoor environments by adaptively combining vision-based
+and proprioceptive-based perception capabilities. Our method effectively utilizes semantic segmentation from RGB images and proprioceptive inputs,
+to generate a coupled perception representation. This enables the selection of appropriate gaits and velocities, which significantly improve navigation
+success rates and stability across various terrains. Our method has some limitations. For instance, AMCO’s reliance on proprioceptive data under dark
+conditions limits its capabilities. It’s a good direction to explore integrating other sensor modalities in evaluating traversability such as (LiDAR, thermal
+or hyperspectral cameras). Furthermore, incorporating Vision Language Models (VLMs) could offer more insights into complex environments, due to
+their common reasoning capabilities and ability to classify more terrains.
+
+CHANGE USERNAME/PASSWORD
+PAYMENT OPTIONS
+VIEW PURCHASED DOCUMENTS
+COMMUNICATIONS PREFERENCES
+PROFESSION AND EDUCATION
+TECHNICAL INTERESTS
+US & CANADA: +1 800 678 4333
+WORLDWIDE: +1 732 981 0060
+CONTACT & SUPPORT
+
+
+
+
+About IEEE Xplore | Contact Us | Help | Accessibility | Terms of Use | Nondiscrimination Policy | IEEE Ethics Reporting  | Sitemap | IEEE Privacy Policy
+A public charity, IEEE is the world's largest technical professional organization dedicated to advancing technology for the benefit of humanity.
+© Copyright 2026 IEEE - All rights reserved, including rights for text and data mining and training of artificial intelligence and similar technologies.
+

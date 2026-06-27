@@ -1,0 +1,1231 @@
+HGR-Net: A Fusion Network for Hand Gesture Segmentation and Recognition
+Amirhossein Dadashzadeh1, Alireza Tavakoli Targhi2∗, Maryam Tahmasbi2, Majid Mirmehdi1
+Department of Computer Science, University of Bristol, Bristol, UK1
+Department of Computer Science, Shahid Beheshti University, Tehran, Iran2
+Abstract
+We propose a two-stage convolutional neural network
+(CNN) architecture for robust recognition of hand gestures,
+called HGR-Net, where the ﬁrst stage performs accurate
+semantic segmentation to determine hand regions, and the
+second stage identiﬁes the gesture. The segmentation stage
+architecture is based on the combination of fully convolu-
+tional residual network and atrous spatial pyramid pooling.
+Although the segmentation sub-network is trained without
+depth information, it is particularly robust against chal-
+lenges such as illumination variations and complex back-
+grounds. The recognition stage deploys a two-stream CNN,
+which fuses the information from the red-green-blue and
+segmented images by combining their deep representations
+in a fully connected layer before classiﬁcation. Extensive
+experiments on public datasets show that our architecture
+achieves almost as good as state-of-the-art performance in
+segmentation and recognition of static hand gestures, at a
+fraction of training time, run time, and model size. Our
+method can operate at an average of 23 ms per frame.
+1
+Introduction
+Gestures are an integral part of social interaction which
+can help us to convey information and express our thoughts
+and feelings more effectively. Hand gestures enable an in-
+tuitive and natural means of connection between humans,
+and can also serve well for interaction between humans and
+machines. Indeed, recognizing hand gestures has long been
+an active area of research in visual pattern analysis with a
+wide range of applications, including human-computer in-
+teraction [1], sign language communication [2, 3], virtual
+reality [4].
+∗a tavakoli@sbu.ac.ir
+Hand Gesture Recognition (HGR) has been tackled by
+wearable sensors [5] and vision sensors [6, 1] to identify
+static and/or dynamic gestures. A vision-based approach is
+preferable as it offers a remote, contact-free and still afford-
+able HGR system. The traditional methods from the pre-
+deep learning era used hand-crafted shape and appearance
+features for static gestures [7], and added motion features to
+recognize dynamic gestures in video sequences [8, 9, 10].
+Recently, deep learning models have achieved great success
+in a wide range of computer vision tasks, including image
+classiﬁcation [11], object detection [12] and semantic seg-
+mentation [13, 14]. These successes have motivated many
+researchers to develop HGR systems based on deep learning
+algorithms [15, 16, 17].
+An important preprocessing step in HGR is the segmen-
+tation of hand regions - a highly challenging task, due to the
+variability of the image background, ethnicity color differ-
+ences, shadows, and other illumination variations. One po-
+tential solution to deal with such difﬁculties is to use depth
+sensors, such as the Microsoft Kinect [18]. However, depth-
+sensing devices might not be suitable for all environments,
+especially in outdoor scenarios, and add to the computa-
+tional burden.
+In this paper, we propose a novel HGR system using a
+deep learning framework, where we design a two-stage con-
+volutional neural network (CNN) architecture for segmen-
+tation and recognition of hand gestures. An overview of the
+network is shown in Fig. 1.
+At the ﬁrst stage of the network, a deep architecture
+based on fully convolutional residual network is used to seg-
+ment the hand out of the image. This stage adopts an Atrous
+Spatial Pyramid Pooling (ASPP) module [19], which en-
+codes global contextual information at multiple scales. In
+the second stage, we build a two-stream CNN to learn fea-
+ture representations for the input RGB images and their
+corresponding hand segmentation maps from the ﬁrst stage
+separately, which are then combined with a late fusion ap-
+arXiv:1806.05653v3  [cs.CV]  28 Dec 2019
+
+Figure 1: The proposed HGR-Net: (a) a hand segmentation network is ﬁrst trained to segment hand regions from the background, (b) a shape stream and an appearance stream
+are then trained separately to capture corresponding information, which are then combined in a fusion layer before a softmax classiﬁer.
+proach. This architecture bears similarity to other recent
+multi-stream CNNs [20, 21, 22]. However, in this work we
+consider the relationship between the RGB images and the
+segmentation map, instead of requiring multimodal RGB
+and depth or motion (optical ﬂow). The main advantage of
+this two-stage architecture is that it exploits the RGB image
+and the segmentation map at training time, and recognizes
+the hand directly from only the 2D RGB frames at testing
+time, with an average processing rate of 23ms per frame.
+To improve the generalization capability of HGR-Net
+signiﬁcantly, we present an efﬁcient data augmentation
+strategy by employing both online and ofﬂine data augmen-
+tation. The proposed method is evaluated on two bench-
+mark datasets, i.e. OUHANDS [23] and HGR1 [24]. Our
+experiments show that by using a robust hand segmenta-
+tion/recognition architecture, supported by an efﬁcient data
+augmentation technique, we can develop a robust RGB-
+based HGR system which has excellent performance in un-
+controlled and unseen scenarios, at much lower training and
+computational costs than the current state of the art1.
+Next, in Section 2, we describe related works. In Sec-
+tion 3, our proposed methodology, encapsulating the design
+of HGR-Net, is outlined. The experimental results are dis-
+cussed in Section 4, and ﬁnally we conclude the paper in
+Section 5.
+1The code and trained models of our paper will be made available on
+github.
+2
+Related Works
+Hand Segmentation - Segmentation of hands plays an
+important role in many computer vision applications, such
+as hand tracking [25], hand pose estimation [26] and ges-
+ture recognition [1]. In recent years, skin segmentation has
+been widely used by several approaches for hand segmen-
+tation [27, 28, 29]. Among such works color-based meth-
+ods have been popular with many applying threshold-based
+techniques on different color spaces to achieve the best skin
+segmentation performance [30, 31, 32].
+Machine learning techniques for skin segmentation, such
+as [27, 33, 34] utilize a classiﬁer trained on skin (hand)
+and non-skin (background) classes. In [35, 36], Kawulok
+and co-workers extracted textural features from skin prob-
+ability maps and then propagated them in a spatial analysis
+scheme. Hettiarachchi and Peters [37] built their skin clas-
+siﬁer training data set with skin and skin-like classes instead
+of skin and non-skin classes in order to obtain a more bal-
+anced class distribution in the training dataset. They seg-
+mented the skin candidate regions using a Voronoi-based
+image segmentation technique and then classiﬁed them us-
+ing a multi-manifold-based skin classiﬁer.
+These previous approaches have signiﬁcant drawbacks
+in that they do not perform well when the background color
+is similar to skin color, and that they are seriously affected
+by lighting conditions.
+To overcome such limitations, many works have taken
+advantage of depth information, such as [38, 39, 25, 40].
+For example, Kang et al. [40] proposed a two-stage random
+decision forest (RDF) classiﬁer, where the ﬁrst stage detects
+2
+
+hands by processing the RDF on an entire depth map, and
+the second stage segments hands by applying the RDF in
+the detected regions.
+Hand Gesture Recognition - Numerous methods for
+recognizing hand gestures in static images have been pro-
+posed over the years, e.g [41, 7, 15]. Among traditional
+feature-based methods, Pisharady et al.
+[41] utilized a
+Bayesian model of visual attention to identify hand regions
+within images. Hand gestures were recognized using low
+level (color) and high level (shape, texture) features of the
+hand areas, with a Support Vector Machines (SVM) classi-
+ﬁer. Priyal and Bora [42] used geometry based normaliza-
+tions and Krawtchouk moment features to represent binary
+silhouettes of hands in a rotation invariant manner. Nalepa
+et al. [28] proposed a parallel algorithm for hand shape
+classiﬁcation which performed in real-time over the seg-
+mented hand gestures. They combined shape contexts with
+appearance-based techniques to increase the classiﬁcation
+score. A combination of graph-based characteristics and
+shape-based features, such as Canny edges, was proposed
+by Avraam [43] for modeling static hand gestures.
+Depth cameras have also been applied to the HGR prob-
+lem, e.g. [39, 44, 45, 7]. In [44], the authors combined
+depth features and skeletal data descriptors using Leap Mo-
+tion and Kinect devices. An SVM classiﬁer with a Gaussian
+radial basis function kernel was then used to recognize the
+performed gestures. In [7], the k-curvature algorithm was
+employed to describe hand poses through extracted con-
+tours. Then, a dynamic time warping algorithm was used
+for recognition, where the gesture under analysis was com-
+pared with a series of pre-recorded reference gestures. This
+technique was used for the classiﬁcation of static and dy-
+namic hand gestures.
+Deep learning-based methods - Barros et al. [46] de-
+veloped a convolutional neural network for hand pose anal-
+ysis with three channels, where one takes a gray-scale im-
+age and the second and third receive the edge maps result-
+ing from the application of the Sobel ﬁlter in horizontal and
+vertical directions, respectively.
+Liang et al. [47] proposed a multi-view framework for
+recognizing hand gestures using point clouds captured by a
+depth sensor. They used CNNs as feature extractors and ﬁ-
+nally employed an SVM classiﬁer to classify hand gestures.
+Oyedotun and Khashman [17] utilized a CNN and stacked
+denoising autoencoder for recognizing 24 American Sign
+Language hand gestures. They evaluated their recognition
+performance on a public database, which was collected un-
+der controlled background and lighting conditions, reaching
+recognition rates of 91.33% and 92.83% by models called
+CNN1 and SDAE3, respectively. Recently, Chevtchenko et
+al. [15] presented a new architecture based on the combi-
+nation of a CNN and traditional feature extractors including
+Hu moments, Gabor ﬁlters and Zernike moments. The au-
+thors evaluated their method on binary, depth and grayscale
+images, using data where the background was either already
+removed or ignored by operating on the hand as the clos-
+est object to the camera. Moreover, their experimental re-
+sults on the OUHANDS dataset [23] cannot really represent
+the generalization capacity of their model, since they ap-
+ply a leave-one-out cross validation approach on the entire
+dataset that contains training, validation, and test sets. Fi-
+nally, their method cannot be directly compared against as
+they do not report their results on the standard test set of the
+dataset.
+In conclusion, there is still a lack of a highly accurate so-
+lution to the problem of non-depth based, static, hand ges-
+ture recognition in uncontrolled environments. In this ar-
+ticle, we address this issue by proposing a two-stage CNN
+architecture, which enables the full exploitation of the shape
+and appearance information from single RGB images.
+3
+Proposed Method
+The structure of the proposed HGR-Net is shown in Fig.
+1. In summary, the network consists of three CNNs, oper-
+ating over two stages. In the ﬁrst stage, the candidate hand
+regions are segmented in the RGB image and used as in-
+put to the second stage (Section 3.1). The second stage is
+composed of two streams, one for the input RGB image and
+one for the segmentation map from the ﬁrst stage (Section
+3.2). Each of the streams consists of a deep CNN which are
+converged in a fully-connected layer and a softmax classi-
+ﬁer. To train the HGR-Net, we proceed in a stage-wise man-
+ner which is common practice in multi-stream architectures
+(Section 3.3).
+3.1
+Hand Segmentation
+Most deep learning techniques that have been success-
+fully used for semantic segmentation are based on Fully
+Convolutional Networks (FCN) [13, 19]. The main idea in
+FCN-based networks is that they remove fully-connected
+layers to create an efﬁcient end-to-end learning algorithm.
+In this work, we take advantage of this idea to build a pow-
+erful deep network for hand segmentation. Our network,
+explained in detail below, consists of two main parts: (1)
+a deep fully convolutional residual network for learning
+useful representations, and (2) an ASPP module to encode
+multi-scale context by adopting multiple dilation rates.
+Fully convolutional residual network - Theoretically,
+increasing network depth should increase the capacity and
+representation of the network [48]. However, in practice
+this is impossible due to many limitations, such as the risk
+of overﬁtting, vanishing gradients, and difﬁculty in efﬁ-
+cient optimization. So increasing network layers to make
+3
+
+a deeper network does not work by simply stacking lay-
+ers together. To overcome these problems, He et al. [49]
+proposed a residual learning technique to ease the training
+of networks that enables them to be substantially deeper.
+This technique allows gradients to ﬂow across multiple lay-
+ers during the training process by using identity mappings
+as skip connections. We take advantage of residual learn-
+ing to construct a deep CNN with 28 convolution layers.
+As shown in Fig. 1(a) and Table 1, we consider 3 residual
+Figure 2: The structure of residual unit with bottleneck used in the proposed method.
+BN denotes Batch Normalization.
+groups where each group contains 3 residual units, stacked
+together. The structure of these units is shown in Fig. 2.
+Each unit can be deﬁned as
+yk = h(xk) + F(xk; Wk),
+(1)
+where xk and yk represent the input and output of the kth
+unit, h(xk) is an identity mapping and F is the residual
+function deﬁned by weights Wk.
+As seen in Fig. 2, we use a bottleneck architecture for
+each residual unit with two 1 × 1 convolution layers. This
+architecture reduces the dimensionality and then restores it.
+The downsampling operation is performed by the ﬁrst 1×1
+convolution in the second and third residual groups with a
+stride of 2.
+Atrous Spatial Pyramid Pooling - Contextual informa-
+tion has been shown to be extremely important for seman-
+tic segmentation tasks [50, 51]. In a CNN, the size of the
+receptive ﬁeld can roughly determine how much we need
+to capture context. Although the wider receptive ﬁled al-
+lows us to gather more context, Zhou et al. [52] showed
+that the actual size of the receptive ﬁelds in a CNN is much
+smaller than the theoretical size, especially in higher level
+layers. To solve this problem, Yu and Koltun [53] proposed
+atrous convolution which can exponentially enlarge the re-
+ceptive ﬁeld to capture long-range context without losing
+spatial resolution and increasing the number of parameters.
+We combine different scales of contextual information
+using an ASPP module as shown in Fig. 3. This kind of
+module has been employed successfully in the state-of-the-
+art DeepLabv3 [19] for semantic segmentation. The ASPP
+module used in this work has ﬁve levels, a 1×1 convolution
+and four 3 × 3 convolutions with atrous rates of 1, 3, 6, 12
+and 18 respectively (all with 32 ﬁlters). The resulting ﬁve
+feature maps are concatenated together. Then, the output
+from the concatenation unit is fed to a 1 × 1 convolution
+and is upsampled by a standard 4x bilinear interpolation to
+provide an end-to-end learning algorithm for hand segmen-
+tation (see Fig. 1(a)).
+Figure 3: The structure of our ASPP module with 5 parallel operations.
+3.2
+Hand Gesture Recognition
+In this stage of our proposed method, we predict the hand
+gesture label using a fusion of two CNNs. As shown in Fig.
+1(b), this stage consists of two separate CNNs with the same
+architecture where each network exploits the shape-based
+and appearance-based information respectively, conveyed
+Table 1 Our fully convolutional residual network architecture with 28 convolution
+layers in the ﬁrst stage of HGR-Net.
+Layer name
+Output shape
+Layers
+input
+320 × 320 × 3
+convolution
+320 × 320 × 16
+ResGroup1
+320 × 320 × 32
+
+
+1
+1
+8
+3
+3
+8
+1
+1
+32
+
+× 3
+ResGroup2
+160 × 160 × 64
+
+
+1
+1
+16
+3
+3
+16
+1
+1
+64
+
+× 3, stride=2
+ResGroup3
+80 × 80 × 128
+
+
+1
+1
+32
+3
+3
+32
+1
+1
+128
+
+× 3, stride=2
+4
+
+by the hand segmentation map from the previous stage and
+the RGB image for robust hand gesture recognition. Each
+CNN consists of several operations including convolution,
+pooling and ReLUs, followed by two fully-connected lay-
+ers at the end of the network. The detailed structure of these
+CNNs is shown in Table 2.
+A fusion function is then deployed to fuse the out-
+puts of the last fully-connected layer of each network in
+an element-wise summation manner.
+More formally, let
+f S ∈Rd and f A ∈Rd be the outputs of the last fully con-
+nected layers (fc2) from the ﬁrst (shape stream) and second
+(appearance stream) CNN respectively. The output of the
+fusion function f sum is
+f sum
+i
+= f S
+i + f A
+i ,
+(2)
+where 1 ≤i ≤d and f sum ∈Rd, and d is number of the
+neurons (in our expriments 64 for fc2). The feature vec-
+tor f sum is then fed into a softmax classiﬁer for joint su-
+pervised learning. It is worth noting that, since our model
+beneﬁts from a segmentation, it takes the RGB image as the
+only input at testing time.
+3.3
+Training Paradigm
+Let S = {(xi, mi, yi) for i = 1, ..., N} be the N train-
+ing samples where xi ∈Rh×w×3, mi ∈Rh×w×1 and
+yi ∈Rc are the RGB images, segmentation masks, and
+the corresponding image labels in one-hot encoding respec-
+tively. The training paradigm of the HGR-Net is divided
+into three main steps.
+1) Training the segmentation network: Since the shape
+stream relies on the hand segmentation map, in the ﬁrst step
+we train the hand segmentation network (Fig. 1(a)) using
+Table 2 The architecture of the CNNs used in the recognition stage (Fig. 1(b). Note
+that both CNNs have the same architecture, except that the shape stream CNN uses a
+one-channel input image.
+Layer
+Type
+Output Shape
+input
+320 × 320 × 3
+conv1
+convolution
+318 × 318 × 16
+pool1
+max-pooling
+106 × 106 × 16
+conv2
+convolution
+104 × 104 × 32
+pool2
+max-pooling
+34 × 34 × 32
+conv3
+convolution
+32 × 32 × 64
+pool3
+max-pooling
+10 × 10 × 64
+conv4
+convolution
+8 × 8 × 128
+pool4
+global average pooling
+128
+dropout1
+dropout
+128
+fc1
+fully connected
+64
+dropout2
+dropout
+64
+fc2
+fully connected
+64
+RGB images (xi) and the corresponding hand segmentation
+masks (mi). To ﬁnd the optimal weights of the segmenta-
+tion network, we need to minimize,
+min
+θseg
+1
+N
+N
+X
+i=1
+L(sigmoid(pseg(xi, θseg)), mi),
+(3)
+where θseg = {Wseg, bseg} are the parameters (weights
+and biases) of the segmentation network and pseg(.) is the
+function that maps the xi to the class scores sseg, where
+sseg ∈Rh×w×1. We use the sigmoid function to produce
+the segmentation probability map by squashing the values
+of sseg in the range (0, 1). The loss function L(.) is deﬁned
+as
+L(p, y) = −[y log(p) + (1 −y) log(1 −p)],
+(4)
+where y is the true class (in this step y=mi), and p is
+the predicted probability for that class (in this step p =
+sigmoid(sseg)). We use this loss function in all our train-
+ing steps.
+2) Training the stream networks: After training the seg-
+mentation network, we keep its trained weights to train the
+shape stream using RGB images (xi) and their correspond-
+ing one-hot vectors (yi). To ﬁnd the optimal weights of the
+shape stream network, we need to minimize the loss func-
+tion L, described in this step as
+min
+θS
+1
+N
+N
+X
+i=1
+C
+X
+c=1
+L(softmax(prec(xi, θseg, θS)), yi),
+(5)
+where θS = {WS, bS} are the parameters of the shape
+stream network and prec(.) is the function that maps the
+xi to the class scores srec, where srec ∈Rc. By using the
+softmax classiﬁer, we map srec to a probability distribution
+over C classes. In this step, the softmax classiﬁer is re-
+placed with the last fully connected layer (fc2).
+We also train the appearance stream in a similar fashion,
+except that this stream does not rely on the hand segmenta-
+tion network weights, as shown in Fig. 1(b).
+3) Training the fusion network: In the last step, we ini-
+tialize the HGR-Net weights with the weights of the pre-
+trained CNNs from previous steps and we train the whole
+network (HGR-Net) by minimizing,
+min
+θS,θA,θF
+1
+N
+N
+X
+i=1
+C
+X
+c=1
+L(softmax(prec(xi, θseg, θS, θA, θF )), yi),
+(6)
+where θA = {WA, bA} and θF = {WF , bF } are the pa-
+rameters of the appearance stream and fusion network after
+fusion layer, respectively.
+Note that in this step, training can be performed by opti-
+mizing only the weights after fc2 layers and the remaining
+weights can be frozen.
+5
+
+4
+Experimental Evaluation
+Datasets - To the best of our knowledge, there are cur-
+rently very few publicly available datasets for static hand
+gesture analysis that include hand segmentation groundtruth
+and were captured under challenging situations.
+For in-
+stance, datasets such as Kinect Leap [44] or Senz3D [45]
+contain complex backgrounds and face-hand occlusions,
+but they lack segmentation groundtruth and do not provide
+a sufﬁcient number of subjects. Moreover, these datasets
+contain depth maps which are not aligned with their corre-
+sponding RGB images, making the generation of segmen-
+tation annotations from these depth maps unreliable.
+We evaluate our proposed method on two benchmark
+datasets:
+OUHANDS [23] - This dataset contains 10 different
+hand gestures from 23 subjects, and is split into training,
+validation and testing sets with 1200, 400 and 1000 images
+respectively. All sets come with corresponding segmenta-
+tion masks.
+Each set is performed by different subjects
+and the images were captured under very challenging sit-
+uations, such as variations in illumination, complex back-
+grounds and face-hand occlusions with various hand shapes
+and sizes. We use this dataset to evaluate HGR-Net for both
+hand segmentation and hand gesture recognition.
+HGR1 [24] - This dataset contains 899 RGB images of
+12 individuals performing 25 different hand gestures, col-
+lected under uncontrolled backgrounds without any face-
+hand occlusion. We use HGR1 for evaluating our hand seg-
+mentation accuracy only for two reasons. First, the database
+has only relatively few samples per class, hence it is not par-
+ticularly useful to evaluate our recognition model. Second,
+as a popular benchmark dataset among traditional hand seg-
+mentation works, it serves the purpose for comparing our
+deep learning segmentation approach against them.
+4.1
+Experimental setup
+The Keras open source deep learning library [54] with a
+TensorFlow [55] backend was used to implement the pro-
+posed method. As explained in Section 3.3, we trained our
+HGR-Net in three main steps. For each step, we adopted the
+same hyperparameters, excluding batch size and dropout
+rates. We used cross-entropy loss (Eq. 4) as the cost func-
+tions, and applied the Adam optimization algorithm [56] to
+minimize it. The learning rate is initialized as 0.001, and
+β1 = 0.9 and β2 = 0.999. We set the mini-batch size as 8
+for the ﬁrst step (training the segmentation network) and 2
+for the other steps. The dropout rates for each training step
+are summarized in Table 3.
+The proposed framework was trained using an Nvidia
+GTX 1080TI GPU with 3.00GHz 4-core CPU and 16GB
+RAM, under Cuda 9.0 with cuDNN 7.0.5 on TensorFlow
+Table 3 Dropout rates for each training step of HGR-Net.
+Layer
+Training
+Dropout Rate Description
+Rate
+dropout1
+Step 1
+before Conv 1×1
+0.20
+dropout2
+Step 2
+before fc1 layer (both stream networks)
+0.20
+dropout3
+Step 2
+after fc1 layer (both stream networks)
+0.30
+dropout4
+Step 3
+after fc2 layer (appearance stream)
+0.75
+dropout5
+Step 3
+after fc2 layer (shape stream)
+0.45
+dropout6
+Step 3
+after fusion layer
+0.45
+GPU 1.5.0. The maximum number of epochs for each train-
+ing step was ﬁxed at 150, and the model with the best val-
+idation accuracy was selected and used for evaluation. The
+training time was around 12 hours for all steps. Our trained
+HGR-Net takes roughly 23ms for a 320 × 320 input RGB
+frame. This shows that our model has the potential for real-
+time implementation.
+Figure 4: The transformations of the original data used in online data augmentation.
+4.2
+Data Augmentation
+To address the problem of dataset bias, we apply both on-
+line and ofﬂine data augmentation to prevent overﬁtting and
+to improve the model generalization. Our ofﬂine data aug-
+mentation consists of two transformations: zooming (15%-
+20%) and vertical/horizontal translations (15%-20%). With
+these operations, we increase the training set 4-fold.
+In online data augmentation, we augment data during
+training by applying rotation, shearing, zooming, and ver-
+tical/horizontal translations (Fig. 4). All of these operations
+are applied randomly inside the mini-batches that are fed
+Table 4 Transformation values for online data augmentation during the training
+steps.
+rotation
+shearing
+zooming
+translation
+stream networks
+± 36◦
+20%
+± 10%
+2%
+HGR-Net
+± 41◦
+25%
+± 15%
+15%
+6
+
+into the model. The speciﬁed value for each transformation
+is shown in Table 4. Since we train our shape and appear-
+ance stream networks from scratch, we adopt lower trans-
+formation values for these steps which helps the models to
+converge faster.
+4.3
+Experiments on Hand Segmentation
+We
+evaluated
+our
+hand
+segmentation
+model
+on
+OUHANDS [23] and HGR1 [24] datasets. To carry out
+a quantitative comparison of accuracy of the proposed
+method, we measure F-score which is the equally weighted
+average of the precision and recall.
+First, we evaluate the performance of the segmentation
+stage of HGR-Net (Stage 1) with and without the ASPP
+module. We also employ the original architectures of FCN-
+8s [13], PSPNet [57], and DeepLabv3 [19], to compare
+their performance with our segmentation model on this spe-
+ciﬁc task. The results are reported in Table 5. We observe
+that our model works better when used in conjunction with
+the ASPP module, which is approximately as accurate as
+DeepLab3 and PSPNet, while being much smaller and 2X
+faster at run-time for a 320 × 320 RGB image. We use
+ResNet-50 [49] as feature extractor for both DeepLabv3 and
+PSPNet architectures. Our model also slightly outperforms
+FCN-8s, while also being much smaller and 3X faster. Our
+proposed model requires the least amount of training time
+in comparison to all the other networks in Table 5 given the
+fraction of parameters that need to be trained.
+To demonstrate the efﬁcacy of our model qualitatively,
+some comparative segmentation results on the OUHANDS
+test set are illustrated in Fig. 5. The images show that our
+segmentation model deals well with common challenges in
+hand segmentation, such as uncontrolled backgrounds and
+lighting conditions.
+We further use the HGR1 dataset to compare our hand
+segmentation model against state-of-the-art methods which
+are based on traditional feature extraction. To evaluate our
+model on HGR1, we use 3-fold cross-validation. In each
+fold, we randomly select 66% of the images for training and
+the rest for validation. We also perform ofﬂine data aug-
+mentation (Section 4.2) on each training set and increase
+them 4-fold. As shown in Table 6, HGR-Net (stage 1) out-
+performs these traditional methods while it obtains a very
+Table 5 Segmentation results on OUHANDS test set.
+Method
+F-score
+Time
+#Parameters
+Model
+(ms)
+Size
+FCN-8s [13]
+0.9559
+63
+134M
+537MB
+PSPNet [57]
+0.9702
+50
+79.44M
+318MB
+DeepLabv3 [19]
+0.9735
+43
+75.30M
+302MB
+HGR-Net (Stage 1-no ASPP)
+0.9529
+20
+0.13M
+0.79MB
+HGR-Net (Stage1)
+0.9630
+21
+0.28M
+1.4MB
+Figure 5: Example segmentations on OUHANDS test set: (top to bottom rows) Input
+images, ground truth, FCN-8s [13], PSPNet [57], DeepLabv3 [19], and HGR-Net
+(Stage 1).
+comparable performance against DeepLabv3 and PSPNet
+at a fraction of the run-time, model size, and number of pa-
+rameters required.
+From the qualitative results shown in Fig. 6, we can see
+that traditional methods tend to fail in distinguishing skin
+pixels from skin-like backgrounds due to the limited ability
+of their low-level, hand-crafted features.
+4.4
+Experiments on HGR
+Next, we evaluate HGR-Net for the task of hand ges-
+ture recognition. Table 7 shows the classiﬁcation scores on
+the OUHANDS test set with different forms of data aug-
+mentation. As evident in Table 7, online augmentation pro-
+vides higher test accuracy than ofﬂine, but the highest test
+Table 6 Segmentation results on HGR1 dataset.
+Method
+F-score
+Time
+#Parameters
+Model
+(ms)
+Size
+Hettiarachchi et al. [37]
+0.9692
+-
+-
+-
+Kawulok et al. [36]
+0.9562
+-
+-
+-
+Kawulok [35]
+0.9086
+-
+-
+-
+FCN-8s [13]
+0.9772
+63
+134M
+537MB
+PSPNet [57]
+0.9877
+50
+79.44M
+318MB
+DeepLabv3 [19]
+0.9883
+43
+75.30M
+302MB
+HGR-Net (Stage 1)
+0.9825
+21
+0.28M
+1.4MB
+7
+
+Figure 6: Comparison of segmentation results on HGR1 dataset. (a) Input image, (b) ground truth, (c) HGR-Net (Stage 1). (d) Hettiarachchi et al [37], (e) Kawulok et al, [36],
+(f) Kawulok [35]. Note, these images were selected from the validation set.
+accuracy is achieved when we trained HGR-Net using both
+ofﬂine and online. These results conﬁrm that this data aug-
+mentation strategy can signiﬁcantly reduce overﬁtting and
+improves the generalization capability of the model. Hence,
+it can be useful for robust hand gesture recognition in real-
+world scenes.
+Table 8 compares the performances of different network
+architectures on the OUHANDS dataset.
+Rows 1-3 ex-
+hibit the inﬂuence of each network stream in HGR-Net’s
+performance.
+The performance of HGR-Net as a whole
+then jumps to an F-score of 0.8810 when we apply our
+late fusion approach to coalesce the shape and appearance
+streams. This result emphasizes the effectiveness of our fu-
+sion network architecture.
+Table 7 Evaluation of HGR-Net for hand gesture recognition task with different
+forms of data augmentation
+Data Augmentation
+Train
+Test (F-score)
+None
+0.9787
+0.7842
+Ofﬂine
+0.9760
+0.8165
+Online
+0.9000
+0.8629
+Ofﬂine+Online
+0.8742
+0.8810
+In rows 4-6 of Table 8, we present the scores of three
+popular deep architectures, ResNet-50 [49], DenseNet-121
+[58] and MobileNet [59], for comparison. For training these
+networks on the OUHANDS dataset, we only replace their
+softmax layer, originally trained to recognize 1000 classes,
+with a softmax layer that recognizes only 10 (i.e. the ten
+classes in OUHANDS). The weights of other layers are ini-
+tialized from the original network that was trained on Ima-
+geNet [60]. Note that the networks’ layers are not frozen
+during the training process.
+It can be seen that our full
+HGR-net (row 3) outperforms these models, and obtains a
+1.6% increment over the next best, i.e. MobileNet, while
+being 6X smaller and bearing a fraction of its parameters.
+It is interesting to note that we do not use any large-scale
+dataset for pre-training our model. This can be useful in
+real-world applications such as online learning in which the
+HGR system relies on a limited amount of in-coming train-
+ing data. Moreover, our lightweight CNN is more feasible
+to deploy on hardware with limited memory. The proposed
+approach operates at approximately 43 fps2.
+The last row of the table reports our model’s performance
+2Real-time video demo: https://youtu.be/-KSNrk5plS0
+8
+
+Table 8 Comparison of recognition accuracy on OUHANDS test set. Note that for fair comparison we use the proposed data augmentation strategy for training all models
+considered in the table
+#
+Model
+F-score
+Input Size
+Time (ms)
+#Parameters
+Model Size
+Input: RGB
+1
+HGR-Net (Shape stream only)
+0.8527
+320×320
+22
+0.385M
+1.9MB
+2
+HGR-Net (Appearance stream only)
+0.7545
+320×320
+0.7
+0.106M
+0.45MB
+3
+HGR-Net
+0.8810
+320×320
+23
+0.499M
+2.4MB
+4
+ResNet-50 [49]
+0.8138
+224×224
+25
+23.60M
+99MB
+5
+DenseNet-121 [58]
+0.8281
+224×224
+24
+7.04M
+33MB
+6
+MobileNet [59]
+0.8650
+224×224
+13
+3.22M
+16MB
+Input: binary
+7
+CNN1 [17]
+0.8667
+32×32
+0.3
+0.126M
+0.51MB
+8
+HGR-Net (Shape stream, no Stage 1)
+0.9375
+320×320
+0.4
+0.106M
+0.44MB
+on binary hand masks. Since we do not use RGB images in
+this experiment, we only employ the shape stream without
+relying on the segmentation maps (i.e no part (a) in Fig-
+ure 1). As expected, our model then performs better than
+our model with RGB input (row 3) since it does not deal
+with image backgrounds in both training and testing. For
+comparison, we evaluate the performance of CNN1 [17] on
+OUHANDS. Since CNN1 is a single channel CNN, we train
+and test this network with only binary hand masks. As seen
+in rows 7-8 of Table 8, our HGR-Net with binary input out-
+performs CNN1 by a signiﬁcant margin of ∼6%).
+Fig. 7 shows the confusion matrix of the full HGR-Net in
+terms of recognition accuracy on OUHANDS test set. The
+column and row indices denote the predicted results and the
+target classes, respectively.
+Figure 7: Confusion matrix of the proposed method for hand gesture recognition
+task on the OUHANDS test set.
+5
+Conclusion
+We presented a two-stage fusion network, based on CNN
+architecture for the problem of hand gesture recognition. To
+improve the recognition performance without using depth
+data, we proposed a hand segmentation architecture in the
+ﬁrst stage of the network. Our experimental results showed
+that our hand segmentation model has a great performance
+against challenging situations, even when the background
+color is similar to skin color. For the second stage of the
+network, we designed a two-stream CNN which can learn to
+fuse feature representations from both the RGB image and
+its segmentation map before classiﬁcation. Moreover, we
+employed an effective data augmentation technique which
+plays an important role in obtaining higher recognition ac-
+curacy. Our best proposed model achieves state-of-the-art
+performance on the OUHANDS dataset with a real-time
+average recognition speed of 23ms per frame or 43 fps.
+In addition, we evaluated our segmentation model on the
+HGR1 dataset where it outperformed traditional state-of-
+the-art methods.
+References
+[1] Siddharth S Rautaray and Anupam Agrawal. Vision
+based hand gesture recognition for human computer
+interaction: a survey. Artiﬁcial Intelligence Review,
+43(1):1–54, 2015.
+[2] Thad Starner, Joshua Weaver, and Alex Pentland.
+Real-time american sign language recognition using
+desk and wearable computer based video. IEEE Trans-
+actions on Pattern Analysis and Machine Intelligence,
+20(12):1371–1375, 1998.
+9
+
+[3] Helen Cooper, Brian Holt, and Richard Bowden. Sign
+language recognition. In Visual Analysis of Humans,
+pages 539–562. Springer, 2011.
+[4] Deyou Xu. A neural network approach for hand ges-
+ture recognition in virtual reality driving training sys-
+tem of spg.
+In 18th International Conference on
+Pattern Recognition, volume 3, pages 519–522, Salt
+Palace Convention Center, Salt Lake City, UT, 2006.
+IEEE.
+[5] Laura Dipietro, Angelo M Sabatini, Paolo Dario, et al.
+A survey of glove-based systems and their applica-
+tions. IEEE Trans. Systems, Man, and Cybernetics,
+Part C, 38(4):461–482, 2008.
+[6] Pramod Kumar Pisharady and Martin Saerbeck. Re-
+cent methods and databases in vision-based hand ges-
+ture recognition: A review. Computer Vision and Im-
+age Understanding, 141:152–165, 2015.
+[7] Guillaume Plouffe and Ana-Maria Cretu. Static and
+dynamic hand gesture recognition in depth data using
+dynamic time warping. IEEE Transactions on Instru-
+mentation and Measurement, 65(2):305–316, 2016.
+[8] Quentin De Smedt, Hazem Wannous, and Jean-
+Philippe Vandeborre. Skeleton-based dynamic hand
+gesture recognition. In Proceedings of the IEEE Con-
+ference on Computer Vision and Pattern Recognition
+Workshops, pages 1–9, 2016.
+[9] Wei Lu, Zheng Tong, and Jinghui Chu. Dynamic hand
+gesture recognition with leap motion controller. Signal
+Processing Letters, 23(9):1188–1192, 2016.
+[10] Joyeeta Singha, Amarjit Roy, and Rabul Hussain
+Laskar.
+Dynamic hand gesture recognition us-
+ing vision-based approach for human–computer in-
+teraction.
+Neural Computing and Applications,
+29(4):1129–1141, 2018.
+[11] Alex Krizhevsky, Ilya Sutskever, and Geoffrey E Hin-
+ton. Imagenet classiﬁcation with deep convolutional
+neural networks. In Advances in Neural Information
+Processing Systems, pages 1097–1105, 2012.
+[12] Shaoqing Ren, Kaiming He, Ross Girshick, and Jian
+Sun. Faster r-cnn: Towards real-time object detection
+with region proposal networks. In Advances in Neural
+Information Processing Systems, pages 91–99, 2015.
+[13] Jonathan Long, Evan Shelhamer, and Trevor Darrell.
+Fully convolutional networks for semantic segmenta-
+tion. In Proceedings of the IEEE Conference on Com-
+puter Vision and Pattern Recognition, pages 3431–
+3440, 2015.
+[14] Yanming Guo, Yu Liu, Theodoros Georgiou, and
+Michael S Lew. A review of semantic segmentation
+using deep neural networks. International Journal of
+Multimedia Information Retrieval, 7(2):87–93, 2018.
+[15] S´ergio F Chevtchenko, Rafaella F Vale, Valmir
+Macario, and Filipe R Cordeiro. A convolutional neu-
+ral network with feature fusion for real-time hand pos-
+ture recognition. Applied Soft Computing, 2018.
+[16] Pavlo Molchanov, Shalini Gupta, Kihwan Kim, and
+Jan Kautz. Hand gesture recognition with 3d convo-
+lutional neural networks. In Proceedings of the IEEE
+Conference on Computer Vision and Pattern Recogni-
+tion Workshops, pages 1–7, 2015.
+[17] Oyebade K Oyedotun and Adnan Khashman. Deep
+learning in vision-based static hand gesture recog-
+nition.
+Neural
+Computing
+and
+Applications,
+28(12):3941–3951, 2017.
+[18] Carlo Dal Mutto, Pietro Zanuttigh, and Guido M
+Cortelazzo.
+Time-of-Flight Cameras and Microsoft
+Kinect, SpringerBriefs in Electrical and Computer En-
+gineering. Springer New York, 2012.
+[19] Liang-Chieh Chen,
+George Papandreou,
+Florian
+Schroff, and Hartwig Adam. Rethinking atrous con-
+volution for semantic image segmentation.
+arXiv
+preprint arXiv:1706.05587, 2017.
+[20] Andreas Eitel, Jost Tobias Springenberg, Luciano
+Spinello, Martin Riedmiller, and Wolfram Burgard.
+Multimodal deep learning for robust rgb-d object
+recognition.
+In Intelligent Robots and Systems,
+IEEE/RSJ International Conference on, pages 681–
+687, 2015.
+[21] Christoph Feichtenhofer, Axel Pinz, and Andrew Zis-
+serman. Convolutional two-stream network fusion for
+video action recognition. In Proceedings of the IEEE
+Conference on Computer Vision and Pattern Recogni-
+tion, pages 1933–1941, 2016.
+[22] Hongyuan Zhu, Jean-Baptiste Weibel, and Shijian Lu.
+Discriminative multi-modal feature fusion for rgbd in-
+door scene recognition. In Proceedings of the IEEE
+Conference on Computer Vision and Pattern Recogni-
+tion, pages 2969–2976, 2016.
+[23] Matti Matilainen, Pekka Sangi, Jukka Holappa, and
+Olli Silv´en. Ouhands database for hand detection and
+pose recognition. In Image Processing Theory Tools
+and Applications, 6th International Conference on,
+pages 1–5. IEEE, 2016.
+10
+
+[24] HGR1.
+http://sun.aei.polsl.pl/
+˜mkawulok/gestures/.
+[25] Chen Qian, Xiao Sun, Yichen Wei, Xiaoou Tang, and
+Jian Sun.
+Realtime and robust hand tracking from
+depth. IEEE Conference on Computer Vision and Pat-
+tern Recognition, pages 1106–1113, 2014.
+[26] Jonathan Tompson, Murphy Stein, Yann Lecun, and
+Ken Perlin. Real-time continuous pose recovery of hu-
+man hands using convolutional networks. ACM Trans-
+actions on Graphics, 33(5):169, 2014.
+[27] Junwei Han, A Sutherland, Hai Wu, et al. Automatic
+skin segmentation for gesture recognition combining
+region and support vector machine active learning. In
+Proceedings of the 7th International Conference on
+Automatic Face and Gesture Recognition, pages 237–
+242. IEEE Computer Society, 2006.
+[28] Jakub Nalepa and Michal Kawulok. Fast and accu-
+rate hand shape classiﬁcation. In International Con-
+ference: Beyond Databases, Architectures and Struc-
+tures, pages 364–373. Springer, 2014.
+[29] Ajjen Joshi, Camille Monnier, Margrit Betke, and Stan
+Sclaroff. A random forest approach to segmenting and
+classifying gestures. In 11th IEEE International Con-
+ference and Workshops on Automatic Face and Ges-
+ture Recognition, volume 1, pages 1–7, 2015.
+[30] Antonis A Argyros and Manolis IA Lourakis. Real-
+time tracking of multiple skin-colored objects with a
+possibly moving camera. In European Conference on
+Computer Vision, pages 368–379. Springer, 2004.
+[31] Michal Kawulok, Jakub Nalepa, and Jolanta Kawu-
+lok. Skin detection and segmentation in color images.
+In Advances in Low-Level Color Image Processing,
+pages 329–366. Springer, 2014.
+[32] Dariusz J Sawicki and Weronika Miziolek. Human
+colour skin detection in cmyk colour space. IET Image
+Processing, 9(9):751–757, 2015.
+[33] KK Bhoyar and OG Kakde.
+Skin color detection
+model using neural networks and its performance eval-
+uation.
+In Journal of Computer Science. Citeseer,
+2010.
+[34] Rehanullah Khan, Allan Hanbury, Julian St¨ottinger,
+and Abdul Bais. Color based skin classiﬁcation. Pat-
+tern Recognition Letters, 33(2):157–163, 2012.
+[35] Michal Kawulok. Fast propagation-based skin regions
+segmentation in color images. In Automatic Face and
+Gesture Recognition, 10th IEEE International Confer-
+ence and Workshops on, pages 1–7, 2013.
+[36] Michal Kawulok, Jolanta Kawulok, and Jakub Nalepa.
+Spatial-based skin detection using discriminative skin-
+presence features. Pattern Recognition Letters, 41:3–
+13, 2014.
+[37] R Hettiarachchi and James F Peters. Multi-manifold-
+based skin classiﬁer on feature space vorono¨ı regions
+for skin segmentation. Journal of Visual Communica-
+tion and Image Representation, 41:123–139, 2016.
+[38] Jamie Shotton, Andrew Fitzgibbon, Mat Cook, Toby
+Sharp, Mark Finocchio, Richard Moore, Alex Kip-
+man, and Andrew Blake.
+Real-time human pose
+recognition in parts from single depth images. In Com-
+puter Vision and Pattern Recognition, pages 1297–
+1304. IEEE, 2011.
+[39] Jos´e Manuel Palacios, Carlos Sag¨u´es, Eduardo Mon-
+tijano, and Sergio Llorente. Human-computer interac-
+tion based on hand gestures using rgb-d sensors. Sen-
+sors, 13(9):11842–11860, 2013.
+[40] Byeongkeun Kang, Kar-Han Tan, Nan Jiang, Hung-
+Shuo Tai, Daniel Treffer, and Truong Nguyen. Hand
+segmentation for hand-object interaction from depth
+map.
+In Signal and Information Processing, IEEE
+Global Conference on, pages 259–263, 2017.
+[41] Pramod Kumar Pisharady, Prahlad Vadakkepat, and
+Ai Poh Loh. Attention based detection and recognition
+of hand postures against complex backgrounds. In-
+ternational Journal of Computer Vision, 101(3):403–
+419, 2013.
+[42] S Padam Priyal and Prabin Kumar Bora.
+A robust
+static hand gesture recognition system using geometry
+based normalizations and krawtchouk moments. Pat-
+tern Recognition, 46(8):2202–2219, 2013.
+[43] Marimpis Avraam. Static gesture recognition combin-
+ing graph and appearance features. International Jour-
+nal of Advanced Research in Artiﬁcial Intelligence
+(IJARAI), 3(2), 2014.
+[44] Giulio Marin, Fabio Dominio, and Pietro Zanuttigh.
+Hand gesture recognition with leap motion and kinect
+devices. In Image Processing (ICIP), IEEE Interna-
+tional Conference on, pages 1565–1569, 2014.
+[45] Alvise Memo and Pietro Zanuttigh.
+Head-mounted
+gesture controlled interface for human-computer inter-
+action. Multimedia Tools and Applications, 77(1):27–
+53, 2018.
+[46] Pablo Barros, Sven Magg, Cornelius Weber, and Ste-
+fan Wermter.
+A multichannel convolutional neural
+network for hand posture recognition. In International
+11
+
+Conference on Artiﬁcial Neural Networks, pages 403–
+410. Springer, 2014.
+[47] Chaoyu Liang, Yonghong Song, and Yuanlin Zhang.
+Hand gesture recognition using view projection from
+point cloud. In Image Processing (ICIP), IEEE Inter-
+national Conference on, pages 4413–4417, 2016.
+[48] Ian Goodfellow, Yoshua Bengio, Aaron Courville, and
+Yoshua Bengio. Deep learning, volume 1. MIT press
+Cambridge, 2016.
+[49] Kaiming He, Xiangyu Zhang, Shaoqing Ren, and Jian
+Sun.
+Deep residual learning for image recognition.
+In Proceedings of the IEEE Conference on Computer
+Vision and Pattern Recognition, pages 770–778, 2016.
+[50] Carolina Galleguillos and Serge Belongie.
+Context
+based object categorization: A critical survey. Com-
+puter Vision and Image Understanding, 114(6):712–
+722, 2010.
+[51] Ziwei Liu, Xiaoxiao Li, Ping Luo, Chen-Change Loy,
+and Xiaoou Tang. Semantic image segmentation via
+deep parsing network.
+In Proceedings of the IEEE
+International Conference on Computer Vision, pages
+1377–1385, 2015.
+[52] Bolei Zhou, Aditya Khosla, Agata Lapedriza, Aude
+Oliva, and Antonio Torralba. Object detectors emerge
+in deep scene cnns. arXiv preprint arXiv:1412.6856,
+2014.
+[53] Fisher Yu and Vladlen Koltun.
+Multi-scale context
+aggregation by dilated convolutions. arXiv preprint
+arXiv:1511.07122, 2015.
+[54] Keras: Deep learning library for theano and tensor-
+ﬂow. http://keras.io/.
+[55] TensorFlow.
+https://github.com/
+tensorflow/tensorflow.
+[56] Diederik P Kingma and Jimmy Ba.
+Adam:
+A
+method for stochastic optimization.
+arXiv preprint
+arXiv:1412.6980, 2014.
+[57] Hengshuang Zhao, Jianping Shi, Xiaojuan Qi, Xiao-
+gang Wang, and Jiaya Jia. Pyramid scene parsing net-
+work. IEEE Conference on Computer Vision and Pat-
+tern Recognition, pages 6230–6239, 2017.
+[58] Gao Huang, Zhuang Liu, Laurens van der Maaten,
+and Kilian Q. Weinberger. Densely connected con-
+volutional networks. IEEE Conference on Computer
+Vision and Pattern Recognition, pages 2261–2269,
+2017.
+[59] Andrew G Howard, Menglong Zhu, Bo Chen, Dmitry
+Kalenichenko, Weijun Wang, Tobias Weyand, Marco
+Andreetto, and Hartwig Adam. Mobilenets: Efﬁcient
+convolutional neural networks for mobile vision appli-
+cations. arXiv preprint arXiv:1704.04861, 2017.
+[60] Jia Deng, Wei Dong, Richard Socher, Li-Jia Li, Kai
+Li, and Li Fei-Fei. Imagenet: A large-scale hierarchi-
+cal image database. In CVPR, 2009.
+12
+

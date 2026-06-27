@@ -1,0 +1,1284 @@
+IEEE TRANSACTIONS ON CIRCUITS AND SYSTEMS FOR VIDEO TECHNOLOGY, VOL. 32, NO. 9, SEPTEMBER 2022
+6227
+Dynamic Hand Gesture Recognition Using
+Improved Spatio-Temporal Graph
+Convolutional Network
+Jae-Hun Song
+, Kyeongbo Kong
+, and Suk-Ju Kang
+, Member, IEEE
+Abstract—Hand gesture recognition is essential to human-
+computer interaction as the most natural way of communicating.
+Furthermore, with the development of 3D hand pose estimation
+technology and the performance improvement of low-cost depth
+cameras, skeleton-based dynamic hand gesture recognition has
+received much attention. This paper proposes a novel multi-
+stream improved spatio-temporal graph convolutional network
+(MS-ISTGCN) for skeleton-based dynamic hand gesture recog-
+nition. We adopt an adaptive spatial graph convolution that can
+learn the relationship between distant hand joints and propose
+an extended temporal graph convolution with multiple dilation
+rates that can extract informative temporal features from short
+to long periods. Furthermore, we add a new attention layer
+consisting of effective spatio-temporal attention and channel
+attention between the spatial and temporal graph convolution
+layers to ﬁnd and focus on key features. Finally, we propose
+a multi-stream structure that feeds multiple data modalities
+(i.e., joints, bones, and motions) as inputs to improve performance
+using the ensemble technique. Each of the three-stream networks
+is independently trained and fused to predict the ﬁnal hand
+gesture. The performance of the proposed method is veriﬁed
+through extensive experiments with two widely used public
+dynamic hand gesture datasets: SHREC’17 Track and DHG-
+14/28. Our proposed method achieves the highest recognition
+accuracy in various gesture categories for both datasets compared
+with state-of-the-art methods.
+Index Terms—Hand skeleton, graph convolutional network,
+graph attention, multi-stream network.
+I. INTRODUCTION
+H
+AND gestures are body language that enable natural
+communication through the center of the palm and the
+ﬁnger position. They are classiﬁed into static and dynamic
+Manuscript received 5 January 2022; revised 15 March 2022; accepted
+29 March 2022. Date of publication 5 April 2022; date of current version
+6 September 2022. This research is supported by Ministry of Culture,
+Sports and Tourism and Korea Creative Content Agency (Project Num-
+ber: R2020040058), and the Korea Agency for Infrastructure Technology
+Advancement (KAIA) grant funded by the Ministry of the Interior and Safety
+(Grant 22PQWO-C153369-04), and Convergent Technology R&D Program
+for Human Augmentation through the National Research Foundation of Korea
+(NRF) funded by Ministry of Science and ICT (2020M3C1B8081320). This
+article was recommended by Associate Editor C. Chen. (Corresponding
+author: Suk-Ju Kang.)
+Jae-Hun Song and Suk-Ju Kang are with the Vision and Display Systems
+Laboratory for Electronic Engineering, Sogang University, Seoul 04017,
+South Korea (e-mail: songjh1@sogang.ac.kr; sjkang@sogang.ac.kr).
+Kyeongbo Kong is with the Media School, Pukyong National University,
+Busan 48547, South Korea (e-mail: kbkong@pknu.ac.kr).
+Color versions of one or more ﬁgures in this article are available at
+https://doi.org/10.1109/TCSVT.2022.3165069.
+Digital Object Identiﬁer 10.1109/TCSVT.2022.3165069
+gestures [1], [2]. A static hand gesture is represented by the
+stable shape of the hand from a single image of station-
+ary gestures, whereas a dynamic hand gesture additionally
+includes movement from a sequence of a hand such as waving.
+Dynamic hand gesture recognition is becoming increasingly
+crucial and used in various applications such as sign language
+communication [3], human-computer interaction [4], virtual
+reality [5], [6], robot control [7], [8], and game control [9].
+The primary approaches to hand gesture research can be
+divided into the wearable glove-based sensor approach and the
+vision-based approach [10]. Glove-based methods [11] using
+gloves to obtain hand movement information cannot be widely
+used because they require expensive hardware equipment
+and have restrictions in wearing them directly. Therefore,
+studies on the natural vision-based method [12]–[35] have
+been active because they are relatively inexpensive and do not
+require equipment. The hand gesture data used in vision-based
+methods can be divided into two modalities: image-based
+(e.g., RGB videos or depth image sequences) and skeleton-
+based.
+Compared
+with
+image-based
+methods
+[12]–[16],
+skeleton-based methods [17]–[35] have the advantage of being
+more discriminative and biologically informative in expressing
+hand gestures. They are also robust to various illuminations
+and complex backgrounds. Because the position of the joint
+is expressed in 3D coordinates, its data size is smaller, and its
+computational efﬁciency is higher than RGB or depth images.
+Furthermore, the wide use of advanced hardware devices
+such as Microsoft Kinect [36] and Intel RealSense [37] has
+recently made it easier to obtain depth sequences. The continu-
+ous development of hand pose estimation algorithms [38]–[42]
+to predict 3D coordinates from acquired depth images has
+enabled accurate hand skeleton sequences to be generated in
+real-time. Due to these advantages, skeleton-based hand ges-
+ture recognition has become increasingly popular and widely
+used in recent research. This paper focuses on this skeleton-
+based dynamic hand gesture recognition task.
+Skeleton-based dynamic hand gesture recognition is still a
+challenging task, to which the feature extraction method is
+critical. Feature extraction can be divided into two main meth-
+ods: handcrafted features and deep learning-based features.
+Conventional skeleton-based gesture recognition methods ana-
+lyze spatial features through handcrafted features [17]–[21].
+However, these handcrafted features cannot efﬁciently model
+spatial and temporal meaningful information. Methods using
+deep learning-based features [22]–[35] feed hand skele-
+1051-8215 © 2022 IEEE. Personal use is permitted, but republication/redistribution requires IEEE permission.
+See https://www.ieee.org/publications/rights/index.html for more information.
+Authorized licensed use limited to: Lovely Professional University - Phagwara. Downloaded on March 27,2026 at 05:33:56 UTC from IEEE Xplore.  Restrictions apply. 
+
+6228
+IEEE TRANSACTIONS ON CIRCUITS AND SYSTEMS FOR VIDEO TECHNOLOGY, VOL. 32, NO. 9, SEPTEMBER 2022
+Fig. 1.
+Overall architecture of the proposed method with multi-stream improved ST-GCN. This architecture consists of ISTGCN blocks, and the marked
+number denotes the feature dimensions. There are three modalities fed into the network separately: joints, bones, and motions. Each modality corresponds to
+one stream. The ﬁnal gesture is predicted as the weighted summation of the three softmax scores.
+ton sequences to recurrent neural networks (RNNs) and
+convolutional neural networks (CNNs) networks for hand
+gesture recognition. However, these methods cannot fully
+exploit spatial connection information between joints in each
+frame and temporal connection information between joints in
+consecutive frames.
+Recently, graph convolutional networks (GCNs) among
+deep learning-based methods have been widely used to learn
+high-level graph structure features and have exhibited high
+performance. Yan et al. [43] ﬁrst proposed a spatio-temporal
+GCN (ST-GCN) that extracts the two features (spatial and tem-
+poral) by applying GCN for the skeleton-based human action
+recognition task. Since then, several studies have applied this
+method to action recognition task [44]–[52] and dynamic
+hand gesture recognition task [53], [54]. It is also applied to
+application tasks such as driver behavior recognition [55].
+However, those previous studies are insufﬁcient for the hand
+gesture recognition task because pre-ﬁxed graphs based on
+the hand skeleton’s physical connection structure are used
+for spatial information extraction. Furthermore, because these
+ST-GCN methods only use the original 3D coordinates of the
+joint as inputs, motion information such as the trajectory of the
+hand and the length or direction features of the bones between
+the two joints cannot be captured.
+This paper proposes a novel improved spatio-temporal graph
+convolutional network for dynamic hand gesture recognition.
+Fig. 1 illustrates the overall architecture of the proposed
+method. We adopt a multi-stream structure that uses joint,
+bone, and joint motion information as inputs for skeleton-
+based dynamic hand gesture recognition. The fusion of
+three-stream networks demonstrates a signiﬁcant performance
+improvement compared with the previous single input stream
+method. These stream networks are independently trained
+using the same network architecture and fused to predict
+the hand gesture class. We increase the model’s ﬂexibility
+by adopting an adaptive graph convolution layer to extract
+informative spatial features from different samples. We then
+apply an attention mechanism to ﬁnd and selectively focus
+on key differential information on the activation of joints,
+frames, and channels. Furthermore, multiple-scale temporal
+modeling is applied using temporal convolutions with different
+dilatation rates to extract temporal features from gestures
+of different lengths. We demonstrate the superiority of the
+proposed architecture by performing extensive experiments on
+two widely used public benchmark datasets: SHREC’17 Track
+and DHG-14/28.
+The main contributions of this paper are as follows:
+1) We propose a novel ST-GCN block that extracts the
+enhanced spatial and temporal features. In each block,
+the adaptive spatial graph convolution layer extracts
+improved spatial features compared with the static graph
+containing only limited connection information, and the
+temporal convolution layer with different dilation rates
+extends the receptive ﬁeld to extract more informative
+temporal features
+2) The newly proposed spatial and temporal co-attention
+increases the representation of features by jointly consid-
+ering each dependency as a pair of spatial and temporal
+directions. Moreover, we apply channel attention together
+to improve performance further.
+3) We further improve performance using low-level features
+by proposing, for the ﬁrst time, a multi-stream network
+using three modalities—joints, bones, and motions—for
+a hand gesture recognition task.
+4) We
+conducted
+extensive
+ablation
+experiments
+on
+skeleton-based dynamic hand gesture recognition and
+action recognition datasets. Experimental results on pub-
+lic hand gesture recognition datasets show that the pro-
+posed method achieves better performance than previous
+state-of-the-art methods.
+The rest of the paper is organized as follows. Section II
+reviews the related work. The proposed multi-stream network
+is described in Section III, and extensive experimental results
+are presented in Section IV. Finally, Section V concludes the
+paper.
+II. RELATED WORK
+Some representative and related work on dynamic hand ges-
+ture recognition are introduced in this section. We discuss the
+latest work which apply attention mechanism in dynamic hand
+gesture recognition. Furthermore, we review recent studies
+extracting spatial features using GCNs.
+Authorized licensed use limited to: Lovely Professional University - Phagwara. Downloaded on March 27,2026 at 05:33:56 UTC from IEEE Xplore.  Restrictions apply. 
+
+SONG et al.: DYNAMIC HAND GESTURE RECOGNITION USING ISTGCN
+6229
+A. Skeleton-Based Dynamic Hand Gesture Recognition
+As previously introduced, dynamic hand gesture recognition
+can be divided into two categories according to features:
+handcrafted feature-based methods and deep learning-based
+methods.
+Handcrafted feature-based methods [17]–[21] encode hand
+skeleton sequences into handcrafted features. Smedt et al. [17]
+designed effective descriptors using the hand joints provided
+by the depth camera as a representative method. These hand-
+crafted descriptors represent the geometric shape of the hand
+and the combined features of the wrist rotation and hand direc-
+tion. Each descriptor is encoded in a Fisher vector—an image
+representation obtained by pooling local image features using
+the Gaussian mixture model (GMM). A temporal pyramid is
+used to encode temporal features, and a linear support vector
+machine (SVM) classiﬁer is applied in the ﬁnal step to classify
+the gesture class.
+Deep learning-based methods [22]–[35] encode the hand
+skeleton sequences into coordinate vectors and feed them
+into RNNs, CNNs, and GCNs to extract spatial and temporal
+features for gesture recognition. Chen et al. [22] proposed a
+model to learn the motion features of hand gestures using
+an RNN. This model used two features to represent ﬁnger
+movements of a hand skeleton and global movements of
+rotation and translation, respectively. A bidirectional RNN was
+then applied to recognize hand gestures. Nunez et al. [27]
+arranged hand skeleton sequences as pseudo images. Frames
+correspond to columns of the image, joints to rows, and 3D
+coordinates to its three channels. Furthermore, this model
+applied a 2D CNN to extract spatial and temporal features
+for ﬁnal gesture classiﬁcation. However, these methods cannot
+effectively use spatio-temporal contexts such as connection
+information between hand joints in each frame and hand joint
+connection information between frames. Nguyen et al. [32]
+used manifold learning to improve gesture recognition.
+Low-dimensional symmetric positive deﬁnite (SPD) matrices
+learned from skeleton data are more discriminative. However,
+this method models skeleton sequences in a predeﬁned struc-
+ture. Therefore, it cannot capture efﬁciently the features of
+joint relationships.
+In contrast, GCN-based methods can exploit this informa-
+tion. Li et al. [54] ﬁrst applied an ST-GCN [43] for a human
+action recognition task to a dynamic hand gesture recognition
+task. This model established three types of additional edges
+and ﬁxed edges by kinematic links to capture the relationship
+between non-adjacent joints more precisely. However, because
+the form of the spatial graph was ﬁxed, it was not practical for
+handling various spatial joint relationships for different hand
+gestures. In addition, it could not model the temporal joint
+connections between frames sufﬁciently due to the use of a
+ﬁxed temporal dimension.
+B. Skeleton-Based Human Action Recognition
+The skeleton-based action recognition task is similar to
+the skeleton-based hand gesture recognition task. Several
+methods of skeleton-based action recognition can be gener-
+alized to hand gesture recognition. In this section, we review
+GCN-based methods, which are being actively studied among
+deep learning-based methods. Yan et al. [43] ﬁrst embedded a
+skeleton sequence into a spatio-temporal graph. In their graph,
+the spatial edge was ﬁxed by the natural human skeleton, and
+the temporal edge connected two joints at the same position
+between consecutive frames. ST-GCN was then proposed to
+extract spatial and temporal features of the skeleton sequence
+for action class recognition. Since that study, various GCN-
+based methods [44]–[56] have been proposed to improve
+performance. Shi et al. [44] proposed a two-stream adaptive
+GCN (2s-AGCN) that can adaptively learn graph topology.
+In addition to the ﬁrst-order information of original joint
+coordinates, the length and direction of the bone were used as
+second-order information of the joint data. Liu et al. [49] pro-
+posed a uniﬁed spatio-temporal convolution (G3D) and multi-
+scale graph convolution network. The proposed multi-scale
+aggregation method disentangled the importance of nodes in
+different neighborhoods for effective long-range modeling.
+Zhang et al. [50] adopted a data preprocessing strategy, whose
+inputs include position, velocity, joint type, and frame index.
+This data preprocessing module can signiﬁcantly reduce the
+model size, but its performance is lower than other methods.
+Shi et al. [45] applied an ensemble of four models, trained
+with the joint, bone, joint motion, and bone motion features.
+Although these methods achieve signiﬁcant accuracy, the
+increased computational cost due to the multi-stream structure
+and 3D convolution hinder practical application. Therefore,
+there is a need for a smaller-sized single stream and an efﬁcient
+multi-stream network which is fusing optimal input features.
+C. Attention Mechanism
+Recently, the attention mechanism is widely used in various
+tasks. Some works [35], [53], [56] have been applying the
+attention mechanism for dynamic hand gesture recognition.
+Hou et al. [35] proposed a model that learns different attention
+levels. They assigned each level to a spatio-temporal feature
+extracted by the convolution network. This model applied
+the mask branch to focus adaptively on informative time
+frames and features. Chen et al. [53] constructed dynamic
+graphs using spatial-temporal attention. They applied the self-
+attention mechanism that is performed in both spatial and
+temporal domains.
+With respect to action recognition, Si et al. [56] proposed
+an attention-enhanced graph convolutional long short-term
+memory network (AGC-LSTM) to select discriminative spatial
+information. Shi et al. [45] proposed an attention mechanism
+consisting of three parts: spatial, temporal, and channel atten-
+tion modules. The attention mechanism is used to enhance the
+information of key joints in each layer.
+Compared with the previous works that apply attention
+mechanism on spatial domain or temporal domain separately,
+we use the spatial and temporal co-attention to obtain more
+discriminative features in GCN for the dynamic hand gesture
+recognition.
+D. Spatial Graph Convolution Network
+The input of traditional CNNs is usually Euclidean data
+in the form of regular grids such as images or videos.
+Authorized licensed use limited to: Lovely Professional University - Phagwara. Downloaded on March 27,2026 at 05:33:56 UTC from IEEE Xplore.  Restrictions apply. 
+
+6230
+IEEE TRANSACTIONS ON CIRCUITS AND SYSTEMS FOR VIDEO TECHNOLOGY, VOL. 32, NO. 9, SEPTEMBER 2022
+Fig. 2.
+SHREC’17 Track [61] and the DHG-14/28 [17] collected in the same
+way: (a) Hand skeleton with 22 hand joints. The cross marks the center of
+gravity. And the three subsets are divided into a root node (red color) and a
+centripetal group (gray color) closer to the root node and a centrifugal group
+(green color) farther than the root node. (b) Two hand shapes (one ﬁnger and
+the whole hand).
+However, because the graph is irregular in shape and size,
+it is not suitable to model graph data because CNNs use a grid
+kernel. Hand gesture skeleton data comprise a graph structure,
+and an adjacency matrix or a Laplacian matrix [57] is used to
+analyze the features more accurately.
+The spatial skeleton graph can be represented by G =
+{V, E}, where V is the vertex (node) set, and E is the edge set.
+The spatial graph convolution network aggregates information
+from the node features of the graph. The features of adjacent
+nodes are aggregated by an aggregation function. Therefore,
+the convolution of the spatial graph is calculated according
+to the neighborhood of nodes—it is important to select the
+neighborhood nodes of the graph. We adopted the spatial
+partition strategy proposed by Yan et al. [43] of dividing
+neighborhood nodes into three subsets. As shown in Fig. 2(a),
+three subsets consist of the root node itself, centripetal group,
+and centrifugal group. The center of gravity was ﬁrst generated
+by calculating the average coordinates of all hand joints. With
+this center of gravity as a reference point, the centripetal group
+contains the neighborhood nodes close to the center of gravity,
+and the centrifugal group contains the neighborhood nodes
+farther away from the center of gravity.
+The adjacency matrix and degree matrix are denoted by A
+and D, expressed as follows:
+D (i, i) =
+
+j
+A (i, j) + α,
+(1)
+where A(i, j) indicates whether nodes of i and j are connected.
+D(i, i) is the diagonal node degree matrix, and α is set to
+0.001 to avoid zero.
+The adjacency matrix A is normalized by the degree matrix
+D according to [57] as follows:
+Anorm = D−1/2 AD−1/2.
+(2)
+The spatial convolution operation can be expressed as an
+ST-GCN [43]:
+fout (vi) =
+
+v j∈Bi
+1
+Zij
+fin
+
+v j
+
+· w
+
+li
+
+v j
+
+,
+(3)
+Fig. 3.
+Structure of the ISTGCN block. The block comprises a spatial graph
+convolution layer, attention layer, and temporal graph convolution layer—
+with a residual connection for each block, except for ﬁrst block. The ﬁrst
+embedding block for embedding 3-channel input data into 64-channel features
+does not apply the residual connection.
+where fin(v j) is the feature map for node v j and Bi is the
+neighborhood set for node vi. w is the weighting function
+similar to the convolution operation that calculates a weight
+vector.
+III. PROPOSED METHOD
+This section presents the architecture and components of
+our proposed MS-ISTGCN in detail.
+A. Network Architecture
+The overall proposed architecture is depicted in Fig. 1,
+where
+the
+basic
+structure
+is
+designed
+based
+on
+an
+ST-GCN [43]. The network comprises eight improved spatio-
+temporal graph convolution blocks connected in series (refer
+to Section IV). Based on the settings in [27], the input data
+with the size of Cin × T ×V is normalized by the batch
+normalization (BN) layer for the ﬁrst time. Cin is the number
+of channels, and the 3D coordinates of joints are the input,
+so its value is 3. T is the number of frames in each sequence,
+and V is the number of joints of hand skeleton data.
+The input data are fed to the ISTGCN block as depicted in
+Fig. 3, and high-level features are gradually extracted through
+eight blocks. Each ISTGCN block consists of three layers
+connected in the order of a spatial graph convolution layer
+(GCL), an attention layer, and a temporal GCL. The blocks
+have 64, 64, 64, 64, 128, 128, 256, and 256 output channels,
+respectively. The convolution stride of the ﬁfth and seventh
+blocks is set to 2 to reduce the length of the frame sequence.
+The output feature of the last eighth block is averaged as
+a feature map with 256 channels using a global average
+pooling (GAP) layer. The fully connected (FC) layer and
+softmax are then used to obtain the ﬁnal class prediction.
+B. Spatial Graph Convolution Layer
+The GCN-based recognition task’s graph topology—ﬁxed
+by depending only on physical connections—reﬂects insufﬁ-
+cient latent information between skeletons. Therefore, some
+Authorized licensed use limited to: Lovely Professional University - Phagwara. Downloaded on March 27,2026 at 05:33:56 UTC from IEEE Xplore.  Restrictions apply. 
+
+SONG et al.: DYNAMIC HAND GESTURE RECOGNITION USING ISTGCN
+6231
+previous studies have tried to design an optimal graph topol-
+ogy. As introduced in Section II, ST-GCN [43] transforms
+Equation (3) into the following:
+fout =
+Kv
+
+k
+Wk fin(Ak ⊗Mk),
+(4)
+where Kv is the kernel size of the spatial dimension and the
+number of subsets is 3 due to the spatial partition strategy.
+Wk is a weight vector of a 1 × 1 convolution operation. Ak
+is the normalized adjacency matrix expressed in Equation (2).
+For each adjacency matrix Ak, we use a V × V learnable
+attention map Mk to represent the importance of each edge.
+⊗denotes element-wise multiplication.
+In our network, Equation (3) is transformed into the
+following:
+α · fout =
+Kv
+
+k
+Wk fin(Ak + Bk + Ck),
+(5)
+where Ak is the normalized adjacency matrix. Bk is an adap-
+tive graph for global attention with all values parameterized,
+and it functions similar to Mk in the ST-GCN. Ck is a sample
+individual adaptive graph representing the similarity that deter-
+mines the connection strength of two joints in the embedded
+space. The normalized Gaussian function calculated by the
+softmax operation, used in the non-local structure, is applied
+to calculate similarity Ck. A parameterized coefﬁcient α is
+multiplied with Ck to adjust the importance of the individual
+graph for each ISTGCN block.
+Based on the successful performance of the adaptive
+GCN [44] for action recognition, we construct a spatial graph
+convolution layer for dynamic hand gesture recognition as
+depicted in Fig. 4(a). The output of the spatial graph con-
+volution layer can be formulated as follows:
+fspatial = ReLU [BN ( fout) + I ( fin)] ,
+(6)
+where BN is the batch normalization, and I is the identity
+mapping for stability during training. ReLU is then applied as
+an activation function.
+C. Extended Temporal Convolution Layer
+Previous studies including ST-GCN [43], [44], [54], aggre-
+gate temporal features by performing ×1 convolution with
+one temporal kernel size ( ) throughout the architecture.
+Therefore, the sampling range R (vt) for the temporal dimen-
+sion can be written as:
+R (vt) =
+
+vq |q −t| ≤
+
+2
+
+,
+(7)
+where vt represents the joints in frame t. Previous studies
+typically use a 9 × 1 kernel, which aggregates information
+from the joints of each of the four frames before and after the
+target joint.
+We design a structure that can perform multiple-scale tem-
+poral aggregation to model hand gestures of different lengths.
+As depicted in Fig. 4(b), the proposed extended temporal
+graph convolution layer consists of four branches. We use
+Fig. 4.
+Architecture of our spatial graph and temporal graph convolution
+layers: (a) adaptive spatial graph convolution (GC) layer and (b) extended
+temporal graph convolution (E-TGC) layer. ‘1 × 1’ block denotes 1 × 1 con-
+volution operation and the orange block indicates that the part is the learnable
+parameter. The term “d” of 7 × 1 convolutions in temporal GC layer is
+“dilation.”
+a bottleneck structure [58] with 1 × 1 convolution to reduce
+the computational cost caused by the branches. The number of
+channels in each branch is set to the number of input channels
+divided by four (the number of branches). Thus, the number
+of channels in the concatenated feature is equal to the number
+of input channels. We extend the receptive ﬁeld by applying
+three different dilation rates (d = 1, 2, 3) to three temporal
+convolutions with a kernel size of 7 × 1. The features of the
+four branches are concatenated, and a residual path is added
+to facilitate training. The proposed method refers to the multi-
+scale graph convolution network proposed by Liu et al. [49],
+but it is optimized in terms of performance and model size for
+the hand gesture recognition task. Unlike the structure of [49],
+we simplify the number of branches of the temporal GC layer
+from six to four, and the number of temporal GC layers is
+reduced from three to one by applying convolutions with the
+optimal kernel size.
+D. Graph Attention Layer
+Recently, the application of an attention mechanism in a
+convolution block has received much attention and has been
+used in many studies [45], [46], [59], [60]. Squeeze-and-
+Excitation Network (SENet) [59] is a representative algorithm
+that has signiﬁcantly improved the performance of various
+deep CNN architectures. Studies on various types of attention
+structures [46], [60] have been actively conducted.
+Several methods have been proposed for skeleton-based
+action recognition. Shi et al. [45] sequentially applied attention
+to each spatial, temporal, and channel dimension. Recently,
+Song et al. [46] proposed an attention method for joint spatio-
+temporal information inspired by coordinate attention [60] for
+CNNs.
+The attention layer of [46] is a structure in which the
+channel dimension is reduced and increased again using two
+FC layers, such as SENet, to perform the spatio-temporal joint
+attention and channel attention together. However, a loss of
+Authorized licensed use limited to: Lovely Professional University - Phagwara. Downloaded on March 27,2026 at 05:33:56 UTC from IEEE Xplore.  Restrictions apply. 
+
+6232
+IEEE TRANSACTIONS ON CIRCUITS AND SYSTEMS FOR VIDEO TECHNOLOGY, VOL. 32, NO. 9, SEPTEMBER 2022
+Fig. 5. Effective spatio-temporal co-attention (Eff-ST attention) layer. Wv and
+Wt are 1 × 1 convolutions. 	 denotes the outer product and ⊗denotes the
+element-wise multiplication.
+Fig. 6.
+Channel attention layer consisting of two FC layers. ⊗denotes the
+element-wise multiplication.
+Fig. 7.
+Proposed attention layer consisting of two sub-layers. A residual
+connection is respectively added for each sub-layer to stabilize the training.
+spatio-temporal information occurs due to channel reduction.
+Therefore, we introduce an effective spatio-temporal attention
+(Eff-ST) layer without loss of information while preserving
+co-attention of the spatio-temporal dimension, as depicted in
+Fig. 5. This novel attention layer does not perform channel
+reduction after average pooling. One 1 × 1 convolution is
+applied for each spatial and temporal direction to prevent
+information loss. Furthermore, the channel attention layer
+used in [45] is applied to emphasize the key information
+on the channel dimension, as depicted in Fig. 6. Therefore,
+we design effective attention layers composed of two sub-
+layers by adding them as a series, as depicted in Fig. 7.
+The formula of the effective spatio-temporal co-attention
+(Ast) is as follows:
+Ast = σ
+
+AvgPoolv ( fin) · Wv
+
+⊙σ
+
+AvgPoolt ( fin) · Wt
+
+,
+(8)
+fout = Ast ⊗fin ⊕fin,
+(9)
+where fin and fout are input and output features, respectively.
+AvgPool is average pooling. ⊙and ⊗denote channel-wise
+outer-product and element-wise multiplication, respectively.
+⊕is for element-wise summation. σ is Sigmoid activation
+function, Wv ∈RC×C and Wt ∈RC×C are the learnable
+weights of two convolutions, respectively.
+The channel attention layer generates the channel weights
+using two nonlinear FC layers and a sigmoid activation func-
+tion after GAP for the channel. The formulation of the channel
+attention (Ac) layer is as follows:
+Ac = σ(
+
+ReLU
+
+Global AvgPoolc ( fin) · W1
+
+· W2)),
+(10)
+fout = Ac ⊗fin ⊕fin,
+(11)
+where W1 and W2 are the weights of two FC layers, respec-
+tively.
+Algorithm 1 presents the pseudocode for the proposed
+attention layer.
+Algorithm 1 Proposed Eff-ST and Ch Attention Layers
+def attention_layer(x):
+# input_feature x (C, T, V )
+# Note: Pseudo code for Attention Layers
+# (channels,
+frames, joints)
+Xs = Avg_Pool(x)
+# shape = (C, 1, V )
+Xs = Conv_v(Xs)
+Xs = Sigmoid(Xs)
+# shape = (C, 1, V )
+Xt = Avg_Pool(x)
+# shape = (C, T, 1)
+Xt = Conv_t(Xt)
+Xt = Sigmoid(Xt)
+# shape = (C, T, 1)
+X = OuterProduct(Xs, Xt)
+# shape = (C, T, V)
+X = Elementwise_Mul(x, X)
+# Output of Eff-ST attention
+Yin = x + X
+# Input of Channel attention
+Ych_pool = Global_Avg_Pool(Yin)
+# shape = (C, 1, 1)
+Ych_pool = FC1(Ych_pool)
+# shape = (C/2, 1, 1)
+Ych_pool = ReLU(Ych_pool)
+Ych_pool= FC2(Ych_pool)
+# shape = (C, 1, 1)
+Ych_pool= Sigmoid(Ych_pool)
+# shape = (C, 1, 1)
+Y = Elementwise_Mul(Yin, Ych_pool)
+# shape = (C, T, V )
+Y = Yin + Y
+returnY
+# output_feature (C, T, V )
+E. Multi-Stream Network
+We design a multi-stream network using three different data
+modalities, as depicted in Fig. 1. We use an ensemble strategy
+of fusing after training each of the three networks with the
+same architecture. In addition to the original joint coordinates
+provided by the datasets, the length and direction information
+of the bones and joints motion information can further improve
+the performance of skeleton-based recognition tasks. The three
+modalities we use as inputs to each stream network are joints,
+bones, and motion, respectively. Joint coordinates can be
+represented as follows:
+Ji,t = xi,t, yi,t, zi,t
+ , ∀i ∈V, t ∈T
+(12)
+For example, as shown in Fig. 2(a), the dynamic hand
+gesture recognition dataset uses 22 joints, and each ﬁnger has
+4 joints. The length of the bone is calculated as the difference
+between the two adjacent joints, and the direction of the bone
+is away from the center of gravity of the joints. In Fig. 2(a),
+dots and solid lines represent joints and bones, respectively.
+Given the source joint Ji,t close to the center of gravity and
+Authorized licensed use limited to: Lovely Professional University - Phagwara. Downloaded on March 27,2026 at 05:33:56 UTC from IEEE Xplore.  Restrictions apply. 
+
+SONG et al.: DYNAMIC HAND GESTURE RECOGNITION USING ISTGCN
+6233
+the target joint Jj,t farther away from the center of gravity,
+the bone data can be calculated as follows:
+Bi, j,t =
+
+x j,t −xi,t, y j,t −yi,t, z j,t −zi,t
+
+.
+(13)
+Moreover, motion can be calculated by the coordinate
+difference between the same joints in two consecutive frames:
+Mi,t = Ji,t+1 −Ji,t, ∀i ∈V, t ∈T
+(14)
+Finally, the softmax scores of the three streams are fused
+using weighted summation, and the hand gesture class is
+predicted based on this score.
+IV. EXPERIMENTS
+In this section, we evaluate the performance of the proposed
+MS-ISTGCN and conventional methods with two widely
+used public skeleton-based dynamic hand gesture datasets:
+SHREC’17 Track [61] and DHG-14/28 [17]. Furthermore,
+we perform various ablation studies to verify the effectiveness
+of each component of the proposed model.
+A. Datasets
+1) SHREC’17 Track: The SHREC’17 Track dataset [61] is
+a public dynamic hand gesture dataset that provides depth
+image and skeleton data. Depth images of various lengths
+are acquired by an Intel RealSense camera SR300 [37],
+and hand skeletons are captured using the supplied software
+development kit (SDK). The dataset contains the following
+14 gestures obtained from 28 right-handed participants: Grab,
+Tap, Expand, Pinch, Rotation clockwise (RC), Rotation coun-
+terclockwise (RCC), Swipe right (SR), Swipe left (SL), Swipe
+up (SU), Swipe down (SD), Swipe x (SX), Swipe + (S+),
+Swipe v (SV), and Shake. Differences in both hand movement
+and hand shape change must be considered to satisfy the
+requirement of an application available in a human-computer
+interface. Therefore, this dataset divides 14 gestures into two
+categories: ﬁne and coarse. Fine gestures are motions that
+represent changes in the shape of the hand, and coarse gestures
+are motions related to the movement of the entire hand.
+As shown in Fig. 2(b), each gesture is performed with two
+hand shapes of one ﬁnger and the whole hand—gestures are
+classiﬁed with either 14 or 28 labels, depending on the number
+of ﬁngers used. The hand sequence is captured at 30 frames
+per second, and the maximum length of frames is 180. Each
+frame contains a depth image with 640 × 480 resolution and
+coordinates of 22 hand joint positions in the 3D world space
+and 2D image space. The structure of the skeleton returned
+by the camera is shown in Fig. 2(a). The dataset consists of
+2,800 sequences, with 1,960 sequences in the training dataset
+and 840 in the testing dataset.
+2) DHG-14/28: The DHG-14/28 dataset [17] uses the same
+data collection method as the SHREC’17 Track dataset and
+consists of 2800 sequences of 22 hand joints. Skeleton data
+are collected from 20 participants, and each movement is
+performed 5 times. The length of the sequence ranges from
+20 to 150 frames. In contrast to the SHREC’17 Track dataset,
+the DHG-14/28 dataset uses a leave-one-subject-out experi-
+mental protocol. This is a cross-validation method in which
+the data of 19 subjects are used as the training dataset and
+the remaining one subject is used as the testing dataset. This
+method is conducted 20 times, with the average used as the
+ﬁnal recognition accuracy.
+B. Training Details
+We performed all our experiments with the PyTorch frame-
+work using two NVIDIA TITAN Xp GPUs. We applied
+stochastic gradient descent (SGD) for training with a Nesterov
+momentum of 0.9 as an optimization strategy. Furthermore,
+the weight decay was set to 0.0001. We adopted the cross-
+entropy loss as the loss function for the ﬁnal prediction and
+minimized it. The batch size was 32 and the training was ended
+in 150 epochs. The initial learning rate was 0.1 and divided
+by 10 at 90 epochs and 130 epochs.
+For stable initial learning, we applied a warm-up strategy
+[62] that linearly increases the learning rate from 0 to an initial
+value of 0.1 during the ﬁrst 20 epochs. Moreover, a dropout
+layer with a drop rate of 0.4 was added between the GAP
+and FC layers. We disturbed the hand joint coordinates by
+applying random translation for data augmentation. Because
+each gesture has a different frame sequence length, we set the
+length of all sequences as the maximum number of frames to
+fully exploit the provided coordinate data. We set sequences
+with less than the maximum number of frames to zero until
+they reach the maximum. Therefore, the SHREC’17 Track
+dataset was set to 180, and the DHG-14/28 dataset was set
+to 150.
+C. Ablation Study
+The proposed MS-ISTGCN consists of various novel com-
+ponents. This section discusses the validity of the components
+in the proposed MS-ISTGCN on the SHREC’17 Track and
+action recognition datasets with only skeleton joint data.
+We found the optimal condition with the highest performance
+through an ablation study and applied it to the remaining
+experiments on both datasets.
+1) Comparisons of Block Architectures: The dynamic hand
+gesture datasets have fewer frames and nodes and are smaller
+than the human action datasets. Therefore, we experimented
+with various architectures by changing the number of blocks to
+ﬁnd the optimal structure for the dynamic hand gesture dataset.
+As presented in Table I, the architecture of the eight blocks
+had the highest accuracy. This architecture not only improved
+performance by reducing the overﬁtting of the network but
+also had the effect of reducing the size of the model.
+2) Comparisons of Adaptive Spatial GC Layers: The pro-
+posed adaptive graph convolution layer can learn graph topol-
+ogy better adapted to the GCN-based dynamic hand gesture
+recognition. This adaptive GC layer consists of the sum of
+three adjacency matrices. We tested the performance of using
+each of the matrices and several combinations of matrices
+to ﬁnd the optimal graph adjacency matrix, with the results
+presented in Table II. The experiment results reveal that the
+highest accuracy is achieved when applying the A+B+C
+adjacency matrix, which adds the original adjacency matrix A,
+Authorized licensed use limited to: Lovely Professional University - Phagwara. Downloaded on March 27,2026 at 05:33:56 UTC from IEEE Xplore.  Restrictions apply. 
+
+6234
+IEEE TRANSACTIONS ON CIRCUITS AND SYSTEMS FOR VIDEO TECHNOLOGY, VOL. 32, NO. 9, SEPTEMBER 2022
+TABLE I
+PERFORMANCE COMPARISONS OF DIFFERENT NUMBER OF ISTGCN
+BLOCKS ON SHREC’17 TRACK DATASET WITH 14 GESTURES
+IN ACCURACY AND PARAMETER NUMBER. 64B DENOTES
+THE “64-CHANNEL BLOCK”
+TABLE II
+PERFORMANCE COMPARISONS OF DIFFERENT SPATIAL ADJACENCY
+MATRIX ON SHREC’17 TRACK DATASET WITH
+14 GESTURES IN ACCURACY AND
+PARAMETER NUMBER
+Fig. 8.
+Example of the visualized adjacency matrices (a) the original
+adjacency matrices and (b) the learned adjacency matrices of the ﬁrst block.
+parameterized matrix B, and data-dependent matrix C mul-
+tiplied by α. This method improved approximately 1.1%
+compared with the one applying only the original adjacency
+matrix A. Fig. 8 illustrates the original adjacency matrices and
+the learned adjacency matrices. The three matrices of Fig. 8(a)
+were the original adjacency matrices connected as shown in
+Fig. 2(a), and the three matrices of Fig. 8(b) were the learned
+adjacency matrices in the ﬁrst block. As shown in Fig. 8,
+the adaptively learned adjacency matrices could acquire latent
+relationships between joints without constraints on physical
+connections. Moreover, considering the sample-dependent
+adjacency matrix, the performance was further improved.
+TABLE III
+PERFORMANCE COMPARISONS OF DIFFERENT TEMPORAL GRAPH
+CONVOLUTION LAYER TYPES ON SHREC’17 TRACK DATASET
+WITH 14 GESTURES IN ACCURACY AND PARAMETER
+NUMBER. E DENOTES THE “EXTENDED” AND 
+DENOTES THE KERNEL SIZE OF  × 1
+CONVOLUTIONS DILATIONS OF THE
+E-TGC METHODS ARE 1, 2 AND 3
+TABLE IV
+PERFORMANCE COMPARISONS OF DIFFERENT ATTENTION LAYERS
+ON SHREC’17 TRACK DATASET WITH 14 GESTURES
+IN ACCURACY AND PARAMETER NUMBER
+3) Comparisons of Extended Temporal GC Layers: We pro-
+posed an extended temporal graph convolution layer using
+multiple scale convolutions to obtain discriminative and infor-
+mative temporal features. We selected the optimal extended
+temporal graph convolution (E-TGC) layer for skeleton-based
+dynamic hand gesture recognition by testing four different
+kernel-sized TGC layers (d = 1, 2, 3), including basic TGC
+( = 9, d = 1). The results are presented in Table III.
+As presented in Table III, the E-TGC with kernel size  =
+7 had the best performance. Furthermore, the proposed E-TGC
+layer was a low computational architecture with signiﬁcantly
+fewer parameters than the basic TGC method because it used
+a bottleneck structure.
+4) Comparison of Attention Layers: We evaluated the pro-
+posed attention layer consisting of two sub-layers in com-
+parison with previous methods. We compared the proposed
+combination of effective spatio-temporal attention and channel
+attention with other attention layers, (spatial-temporal-channel
+(STC) attention [45] and ST-Joint attention [46]), with the
+results presented in Table IV. The model’s accuracy improved
+signiﬁcantly after using the attention layers compared with
+the method without the attention layer. Furthermore, our
+proposed method that applies effective-ST and channel atten-
+tion together achieved much higher accuracy, although the
+model complexity (number of parameters) slightly increased
+compared with the other methods.
+5) Effect of Multi-Stream Network: We veriﬁed the effec-
+tiveness of using three input modalities, presenting the results
+in Table V. We tested both 14 and 28 gestures for the
+SHREC’17 Track dataset, with multi-stream methods out-
+performing single-stream methods. The three single-stream
+Authorized licensed use limited to: Lovely Professional University - Phagwara. Downloaded on March 27,2026 at 05:33:56 UTC from IEEE Xplore.  Restrictions apply. 
+
+SONG et al.: DYNAMIC HAND GESTURE RECOGNITION USING ISTGCN
+6235
+TABLE V
+ACCURACY COMPARISONS OF THE DIFFERENT DATA STREAMS
+AND COMBINATIONS ON SHREC’17 TRACK DATASET
+TABLE VI
+COMPARISONS OF THE ACTION RECOGNITION PERFORMANCE WITH
+THE STATE-OF-THE-ART METHODS ON THE NTU
+RGB+D SKELETON DATASET
+methods exhibit high performance in the order of joint modal-
+ity, bone modality, and motion modality. The combination of
+joint and bone modality achieved a slight improvement on the
+14- and 28-gesture categories compared with the joint modal-
+ity. The highest performance improvement occurred when
+fusing the three modalities. Motion modality was essential
+for improving performance in multi-stream, although single-
+stream performance was relatively low.
+6) Generalization Performance on Action Recognition:
+Finally, we veriﬁed the generalization performance on action
+recognition using the NTU RGB+D dataset [63]. It is the
+most widely used action recognition dataset, which contains
+56,578 skeleton sequences over 60 action classes captured
+from 40 volunteers and 3 cameras with different views. This
+dataset provides 25 body joints as nodes. It recommends
+two settings: cross-subject (X-Sub) and cross-view (X-View),
+where the subjects and cameras used in the training and test
+splits are different, respectively.
+Table VI presents the performance comparison for the pro-
+posed and state-of-the-art methods on the action recognition
+dataset. All methods compared are based on GCN and are
+almost multi-stream structures. We further evaluated the four
+streams method with the addition of bone motion stream
+to compare with equally other methods on a large dataset.
+The proposed method shows comparable accuracy for X-Sub
+and the best accuracy for X-View, respectively. Therefore,
+the proposed method has good generalization performance on
+Fig. 9.
+Confusion matrix of the proposed method on SHREC’17 Track
+dataset with 14 gestures.
+TABLE VII
+COMPARISONS OF DYNAMIC HAND GESTURE RECOGNITION
+PERFORMANCE WITH THE STATE-OF-THE-ART METHODS
+ON SHREC’17 TRACK DATASET. MS DENOTES
+THE “MULTI-STREAM”
+action recognition as well as hand gesture recognition task.
+In addition, the proposed method has the advantage of rela-
+tively small computational cost compared to other methods.
+D. Comparison With State-of-the-Art Methods
+We compared the performance of the proposed method
+and several state-of-the-art methods on the SHREC’17 Track
+dataset and DHG-14/28 dataset, respectively. The results are
+as follows.
+1) Performance Comparison on SHREC’17 Track Dataset:
+Table VII presents the results of comparing our method, hand-
+crafted feature-based methods [17, 21], and deep learning-
+based methods [24], [25], [30]–[35], [43], [53], [54] on the
+Authorized licensed use limited to: Lovely Professional University - Phagwara. Downloaded on March 27,2026 at 05:33:56 UTC from IEEE Xplore.  Restrictions apply. 
+
+6236
+IEEE TRANSACTIONS ON CIRCUITS AND SYSTEMS FOR VIDEO TECHNOLOGY, VOL. 32, NO. 9, SEPTEMBER 2022
+Fig. 10.
+Confusion matrix of the proposed method on SHREC’17 Track dataset with 28 gestures. The gestures annotated (1) and (2) are respectively
+performed using one ﬁnger and with the whole hand.
+SHREC’17 Track dataset. The accuracy of the DLSTM [31]
+method was 97.6% for the 14-gesture category. This method
+used handcrafted angular features from hand joints as the input
+to the LSTM-RNN network. The accuracies of the SAGCN +
+RBi-IndRNN [25] method were 96.3% and 94.1% for the
+14- and 28-gesture categories, respectively. This method was
+a two-stream network fusing a self-attention-based GCN that
+is advantageous for capturing spatial information and a bidi-
+rectional RNN, which is advantageous for capturing temporal
+information. However, these RNN-based networks still had a
+gradient decay problem during training, resulting in perfor-
+mance degradation.
+Our method achieved the second-highest recognition accu-
+racy of 96.7% on 14 gestures, which is 0.9% lower than the
+DLSTM [31] method. The accuracy of the proposed network
+on 28 gestures is 94.9%, which is 0.8% higher than the state-
+of-the-art method because our method used enhanced attention
+features that incorporate both learned spatial information and
+temporal information captured from a wide receptive ﬁeld,
+fusing scores from the three modalities to predict gestures.
+Therefore, the proposed method outperformed these con-
+ventional approaches and achieved the competitive and best
+performance.
+Figs. 9 and 10 show the confusion matrices on 14 and
+28 gestures for the SHREC’17 Track dataset. The color
+of the confusion matrix indicates prediction accuracy while
+distinguishing each label. Our method achieved 100% accu-
+racy in speciﬁc categories. Furthermore, the recognition rate
+on 14 gestures was over 88%, exhibiting high performance.
+As shown in Fig. 10, the relatively low accuracy of the “Tab”
+gesture was due to the motion similarity between “Tab” and
+“Grab” in the one ﬁnger category.
+Fig. 11.
+Confusion matrix of the proposed method on DHG-14/28 dataset
+with 14 gesture categories.
+2) Performance
+Comparison
+on
+DHG-14/28
+Dataset:
+Table VIII presents the performance comparison for the pro-
+posed and state-of-the-art methods on the DHG-14/28 dataset.
+Our method outperformed the state-of-the-art methods on
+both the 14- and 28-gesture categories of the DHG-14/28
+dataset and achieved accuracies of 93.7% and 91.2%, respec-
+tively. The spatial perception and temporal perception streams
+(SPTP) [34] method maximized the advantages of 2D-CNN
+Authorized licensed use limited to: Lovely Professional University - Phagwara. Downloaded on March 27,2026 at 05:33:56 UTC from IEEE Xplore.  Restrictions apply. 
+
+SONG et al.: DYNAMIC HAND GESTURE RECOGNITION USING ISTGCN
+6237
+Fig. 12.
+Confusion matrix of the proposed method on DHG-14/28 dataset with 28 gesture categories.
+TABLE VIII
+COMPARISONS OF DYNAMIC HAND GESTURE RECOGNITION
+PERFORMANCE WITH THE STATE-OF-THE-ART
+METHODS ON DHG-14/28 DATASET
+and increased the accuracy with a two-stream structure. How-
+ever, the performance was lower than our method because it
+is impossible to extract enhanced spatial features using the
+skeleton data graph. Our method outperformed the state-of-
+the-art methods by 0.6% and 1.4% on the 14- and 28-gesture
+categories, respectively.
+Figs. 11 and 12 are confusion matrices that illustrate the
+detailed results of 14 and 28 gestures for the DHG-14/28
+dataset. In Fig. 11, the “Grab” and “Pinch” accuracies were
+low at 75.2% and 74.3%, respectively. Similarly, in Fig. 12, for
+28 gestures, both gestures had low accuracy. They misclassify
+each other because the spatial variation in the two hand
+gestures is similar when analyzing the skeleton data.
+V. CONCLUSION AND FUTURE RESEARCH
+This paper proposed an MS-ISTGCN with a spatial GC
+layer, enhanced attention layer, and improved temporal GC
+layer for skeleton-based dynamic hand gesture recognition.
+Moreover, an adaptive graph convolution layer that can learn
+the relationship between distant hand joints and a multiple
+scale temporal convolution layer that can cover a wide recep-
+tive ﬁeld was proposed to model spatial pose features and tem-
+poral motion features of dynamic hand gestures. An attention
+layer was also proposed that uses a combination of effective
+spatio-temporal co-attention and channel attention to ﬁnd the
+most informative joints, frames, and features from skeleton
+sequences. Finally, performance was improved by applying a
+multi-stream structure with joints, bones, and joint motions as
+inputs to take full advantage of the low-level features. Experi-
+mental results demonstrated that our network outperforms the
+state-of-the-art methods on two public datasets of dynamic
+hand gesture recognition.
+Future research will focus on how to combine a 3D hand
+pose estimation algorithm and a skeleton-based dynamic hand
+gesture recognition algorithm in one framework.
+REFERENCES
+[1] S. S. Rautaray and A. Agrawal, “Vision based hand gesture recognition
+for human computer interaction: A survey,” Artif. Intell. Rev., vol. 43,
+no. 1, pp. 1–54, Jan. 2015.
+[2] H. Cheng, L. Yang, and Z. Liu, “Survey on 3D hand gesture recognition,”
+IEEE Trans. Circuits Syst. Video Technol., vol. 26, no. 9, pp. 1659–1673,
+Sep. 2016.
+[3] N. C. Camgoz, S. Hadﬁeld, O. Koller, H. Ney, and R. Bowden, “Neural
+sign language translation,” in Proc. IEEE/CVF Conf. Comput. Vis.
+Pattern Recognit., Jun. 2018, pp. 93–7784.
+[4] C. Linqin, C. Shuangjie, and X. Min, “Dynamic hand gesture recognition
+using RGB-D data for natural human-computer interaction,” J. Intell.
+Fuzzy Syst., vol. 323, no. 3, pp. 495–507, 2017.
+Authorized licensed use limited to: Lovely Professional University - Phagwara. Downloaded on March 27,2026 at 05:33:56 UTC from IEEE Xplore.  Restrictions apply. 
+
+6238
+IEEE TRANSACTIONS ON CIRCUITS AND SYSTEMS FOR VIDEO TECHNOLOGY, VOL. 32, NO. 9, SEPTEMBER 2022
+[5] T.-D. Tan and Z.-M. Guo, “Research of hand positioning and gesture
+recognition based on binocular vision,” in Proc. IEEE Int. Symp.
+VR Innov., Mar. 2011, pp. 311–315.
+[6] Y. Zhang, C. Cao, J. Cheng, and H. Lu, “Egogesture: A new dataset
+and benchmark for egocentric hand gesture recognition,” IEEE Trans.
+Multimedia, vol. 20, no. 5, pp. 1038–1050, May 2018.
+[7] J. L. Raheja, G. A. Rajsekhar, and A. Chaudhary, “Controlling a
+remotely located robot using hand gestures in real time: A DSP
+implementation,” in Proc. 5th Int. Conf. Wireless Netw. Embedded Syst.
+(WECON), Oct. 2016, pp. 1–5.
+[8] R. Li, H. Wang, and Z. Liu, “Survey on mapping human hand motion to
+robotic hands for teleoperation,” IEEE Trans. Circuits Syst. Video Tech-
+nol., early access, Aug. 8, 2021, doi: 10.1109/TCSVT.2021.3057992.
+[9] G.-F. He, J.-W. Park, S.-K. Kang, and S.-T. Jung, “Development of
+gesture recognition-based serious games,” in Proc. IEEE-EMBS Int.
+Conf. Biomed. Health Informat., Jan. 2012, pp. 922–925.
+[10] M. Oudah, A. Al-Naji, and J. Chahl, “Hand gesture recognition based
+on computer vision: A review of techniques,” J. Imag., vol. 6, no. 8,
+p. 73, Jul. 2020.
+[11] L. Dipietro, A. M. Sabatini, and P. Dario, “A survey of glove-based
+systems and their applications,” IEEE Trans. Syst., Man, Cybern. C,
+Appl. Rev., vol. 38, no. 4, pp. 461–482, Jul. 2008.
+[12] W. T. Freeman and M. Roth, “Orientation histograms for hand gesture
+recognition,” in Proc. Int. Workshop Automatic Face Gesture Recognit.,
+Jun. 1995, pp. 296–301.
+[13] P. Molchanov, S. Gupta, K. Kim, and J. Kautz, “Hand gesture recogni-
+tion with 3D convolutional neural networks,” in Proc. IEEE Conf. Com-
+put. Vis. Pattern Recognit. Workshops (CVPRW), Jun. 2015, pp. 1–7.
+[14] C. Wang, Z. Liu, and S.-C. Chan, “Superpixel-based hand gesture
+recognition with Kinect depth camera,” IEEE Trans. Multimedia, vol. 17,
+no. 1, pp. 29–39, Jan. 2015.
+[15] P. Narayana, J. R. Beveridge, and B. A. Draper, “Gesture recognition:
+Focus on the hands,” in Proc. IEEE/CVF Conf. Comput. Vis. Pattern
+Recognit., Jun. 2018, pp. 5235–5244.
+[16] J.
+Sanchez-Riera,
+K.
+Srinivasan,
+K.-L.
+Hua,
+W.-H.
+Cheng,
+M. A. Hossain, and M. F. Alhamid, “Robust RGB-D hand tracking
+using deep learning priors,” IEEE Trans. Circuits Syst. Video Technol.,
+vol. 28, no. 9, pp. 2289–2301, Sep. 2018.
+[17] Q. De Smedt, H. Wannous, and J.-P. Vandeborre, “Skeleton-based
+dynamic hand gesture recognition,” in Proc. IEEE Conf. Comput. Vis.
+Pattern Recognit. Workshops (CVPRW), Jun. 2016, pp. 1206–1214.
+[18] Q. De Smedt, H. Wannous, and J.-P. Vandeborre, “Heterogeneous hand
+gesture recognition using 3D dynamic skeletal data,” Comput. Vis. Image
+Understand., vol. 181, pp. 60–72, Apr. 2019.
+[19] S. Y. Boulahia, E. Anquetil, F. Multon, and R. Kulpa, “Dynamic hand
+gesture recognition based on 3D pattern assembled trajectories,” in Proc.
+7th Int. Conf. Image Process. Theory, Tools Appl. (IPTA), Nov. 2017,
+pp. 1–6.
+[20] F. M. Caputo, P. Prebianca, A. Carcangiu, L. D. Spano, and A. Giachetti,
+“Comparing 3D trajectories for simple mid-air gesture recognition,”
+Comput. Graph., vol. 73, pp. 17–25, Jun. 2018.
+[21] O. Oreifej and Z. Liu, “HON4D: Histogram of oriented 4D normals for
+activity recognition from depth sequences,” in Proc. IEEE Conf. Comput.
+Vis. Pattern Recognit., Jun. 2013, pp. 716–723.
+[22] X. Chen, H. Guo, G. Wang, and L. Zhang, “Motion feature augmented
+recurrent neural network for skeleton-based dynamic hand gesture
+recognition,” in Proc. IEEE Int. Conf. Image Process. (ICIP), Sep. 2017,
+pp. 2881–2885.
+[23] L. Zhang, G. Zhu, P. Shen, J. Song, S. A. Shah, and M. Bennamoun,
+“Learning spatiotemporal features using 3DCNN and convolutional
+LSTM for gesture recognition,” in Proc. IEEE Int. Conf. Comput. Vis.
+Workshops (ICCVW), Oct. 2017, pp. 3120–3128.
+[24] X. Chen, G. Wang, H. Guo, C. Zhang, H. Wang, and L. Zhang,
+“MFA-net: Motion feature augmented network for dynamic hand gesture
+recognition from skeletal data,” Sensors, vol. 19, no. 2, p. 239, Jan. 2019.
+[25] C. Li, S. Li, Y. Gao, X. Zhang, and W. Li, “A two-stream neural network
+for pose-based hand gesture recognition,” 2021, arXiv:2101.08926.
+[26] J. Weng, M. Liu, X. Jiang, and J. Yuan, “Deformable pose traversal
+convolution for 3D action and gesture recognition,” in Proc. Eur. Conf.
+Comput. Vis. (ECCV), Sep. 2018, pp. 142–157.
+[27] J. C. Nú¯nez, R. Cabido, J. J. Pantrigo, A. S. Montemayor, and
+J. F. Vélez, “Convolutional neural networks and long short-term memory
+for skeleton-based human activity and hand gesture recognition,” Pattern
+Recognit., vol. 76, pp. 80–94, Apr. 2018.
+[28] S. Shin and W.-Y. Kim, “Skeleton-based dynamic hand gesture recog-
+nition using a part-based GRU-RNN for gesture-based interface,” IEEE
+Access, vol. 8, pp. 50236–50243, 2020.
+[29] G. Devineau, F. Moutarde, W. Xi, and J. Yang, “Deep learning for hand
+gesture recognition on skeletal data,” in Proc. 13th IEEE Int. Conf.
+Autom. Face Gesture Recognit. (FG), May 2018, pp. 106–113.
+[30] F. Yang, Y. Wu, S. Sakti, and S. Nakamura, “Make skeleton-based action
+recognition model smaller, faster and better,” in Proc. ACM Multimedia
+Asia, Dec. 2019, pp. 1–6.
+[31] D. Avola, M. Bernardi, L. Cinque, G. L. Foresti, and C. Massaroni,
+“Exploiting recurrent neural networks and leap motion controller for
+the recognition of sign language and semaphoric hand gestures,” IEEE
+Trans. Multimedia, vol. 21, no. 1, pp. 234–245, Jan. 2019.
+[32] X. S. Nguyen, L. Brun, O. Lezoray, and S. Bougleux, “A neural
+network based on SPD manifold learning for skeleton-based hand
+gesture recognition,” in Proc. IEEE/CVF Conf. Comput. Vis. Pattern
+Recognit. (CVPR), Jun. 2019, p. 12036.
+[33] J. Liu, Y. Liu, Y. Wang, V. Prinet, S. Xiang, and C. Pan, “Decoupled
+representation learning for skeleton-based gesture recognition,” in Proc.
+IEEE/CVF Conf. Comput. Vis. Pattern Recognit. (CVPR), Jun. 2020,
+pp. 5751–5760.
+[34] Y. Li, D. Ma, Y. Yu, G. Wei, and Y. Zhou, “Compact joints encoding
+for skeleton-based dynamic hand gesture recognition,” Comput. Graph.,
+vol. 97, pp. 191–199, Jun. 2021.
+[35] J. Hou, G. Wang, X. Chen, J.-H. Xue, R. Zhu, and H. Yang, “Spatial-
+temporal attention res-TCN for skeleton-based dynamic hand gesture
+recognition,” in Proc. Eur. Conf. Comput. Vis. Workshops, Sep. 2018,
+pp. 273–286.
+[36] Z. Zhang, “Microsoft Kinect sensor and its effect,” IEEE MultiMedia,
+vol. 19, no. 2, pp. 4–10, Feb. 2012.
+[37] L. Keselman, J. I. Woodﬁll, A. Grunnet-Jepsen, and A. Bhowmik,
+“Intel(R) RealSense(TM) stereoscopic depth cameras,” in Proc. IEEE
+Conf. Comput. Vis. Pattern Recognit. Workshops (CVPRW), Jul. 2017,
+pp. 1–10.
+[38] J.-H. Song and S.-J. Kang, “3D hand pose estimation via graph-based
+reasoning,” IEEE Access, vol. 9, pp. 35824–35833, 2021.
+[39] P. Ren et al., “Spatial-aware stacked regression network for real-time 3D
+hand pose estimation,” Neurocomputing, vol. 437, pp. 42–57, May 2021.
+[40] M. Oberweger and V. Lepetit, “DeepPrior++: Improving fast and accu-
+rate 3D hand pose estimation,” in Proc. IEEE Int. Conf. Comput. Vis.
+Workshops (ICCVW), Oct. 2017, pp. 585–594.
+[41] H. Liang, J. Yuan, and D. Thalmann, “Resolving ambiguous hand pose
+predictions by exploiting part correlations,” IEEE Trans. Circuits Syst.
+Video Technol., vol. 25, no. 7, pp. 1125–1139, Jul. 2015.
+[42] L. Xu, C. Hu, J. Tao, J. Xue, and K. Mei, “Improve regression network
+on depth hand pose estimation with auxiliary variable,” IEEE Trans.
+Circuits Syst. Video Technol., vol. 31, no. 3, pp. 890–904, Mar. 2021.
+[43] S. Yan, Y. Xiong, and D. Lin, “Spatial temporal graph convolutional
+networks for skeleton-based action recognition,” in Proc. AAAI Conf.
+Artif. Intell., 2018, pp. 7444–7452.
+[44] L. Shi, Y. Zhang, J. Cheng, and H. Lu, “Two-stream adaptive graph
+convolutional networks for skeleton-based action recognition,” in Proc.
+IEEE/CVF Conf. Comput. Vis. Pattern Recognit. (CVPR), Jun. 2019,
+pp. 12026–12035.
+[45] L. Shi, Y. Zhang, J. Cheng, and H. Lu, “Skeleton-based action recog-
+nition with multi-stream adaptive graph convolutional networks,” IEEE
+Trans. Image Process., vol. 29, pp. 9532–9545, 2020.
+[46] Y.-F. Song, Z. Zhang, C. Shan, and L. Wang, “Constructing stronger
+and faster baselines for skeleton-based action recognition,” 2021,
+arXiv:2106.15125.
+[47] C. Wu, X.-J. Wu, and J. Kittler, “Graph2Net: Perceptually-enriched
+graph learning for skeleton-based action recognition,” IEEE Trans.
+Circuits Syst. Video Technol., early access, Jun. 3, 2021, doi: 10.1109/
+TCSVT.2021.3085959.
+[48] Y.-F. Song, Z. Zhang, C. Shan, and L. Wang, “Richly activated graph
+convolutional network for robust skeleton-based action recognition,”
+IEEE Trans. Circuits Syst. Video Technol., vol. 31, no. 5, pp. 1915–1925,
+May 2021.
+[49] Z. Liu, H. Zhang, Z. Chen, Z. Wang, and W. Ouyang, “Disentangling
+and unifying graph convolutions for skeleton-based action recognition,”
+in Proc. IEEE/CVF Conf. Comput. Vis. Pattern Recognit. (CVPR),
+Jun. 2020, pp. 143–152.
+[50] P. Zhang, C. Lan, W. Zeng, J. Xing, J. Xue, and N. Zheng, “Semantics-
+guided neural networks for efﬁcient skeleton-based human action recog-
+nition,” in Proc. IEEE/CVF Conf. Comput. Vis. Pattern Recognit.
+(CVPR), Jun. 2020, pp. 1112–1121.
+Authorized licensed use limited to: Lovely Professional University - Phagwara. Downloaded on March 27,2026 at 05:33:56 UTC from IEEE Xplore.  Restrictions apply. 
+
+SONG et al.: DYNAMIC HAND GESTURE RECOGNITION USING ISTGCN
+6239
+[51] L. Shi, Y. Zhang, J. Cheng, and H. Lu, “Skeleton-based action
+recognition
+with
+directed
+graph
+neural
+networks,”
+in
+Proc.
+IEEE/CVF Conf. Comput. Vis. Pattern Recognit. (CVPR), Jun. 2019,
+pp. 7912–7921.
+[52] F. Ye, S. Pu, Q. Zhong, C. Li, D. Xie, and H. Tang, “Dynamic
+GCN: Context-enriched topology learning for skeleton-based action
+recognition,” in Proc. 28th ACM Int. Conf. Multimedia, Oct. 2020,
+pp. 55–63.
+[53] Y. Chen, L. Zhao, X. Peng, J. Yuan, and D. N. Metaxas, “Construct
+dynamic graphs for hand gesture recognition via spatial-temporal atten-
+tion,” in Proc. Brit. Mach. Vis. Conf. (BMVC), 2019, pp. 1–13.
+[54] Y. Li, Z. He, X. Ye, Z. He, and K. Han, “Spatial temporal graph
+convolutional networks for skeleton-based dynamic hand gesture recog-
+nition,” Eurasip J. Image Video Process., vol. 2019, no. 1, pp. 1–7,
+2019.
+[55] M. Tan et al., “Bidirectional posture-appearance interaction network for
+driver behavior recognition,” IEEE Trans. Intaell. Transp. Syst., early
+access, Nov. 13, 2021, doi: 10.1109/TITS.2021.3123127.
+[56] C. Si, W. Chen, W. Wang, L. Wang, and T. Tan, “An attention
+enhanced graph convolutional LSTM network for skeleton-based action
+recognition,” in Proc. IEEE/CVF Conf. Comput. Vis. Pattern Recognit.
+(CVPR), Jun. 2019, pp. 1227–1236.
+[57] T. N. Kipf and M. Welling, “Semi-supervised classiﬁcation with graph
+convolutional networks,” in Proc. ICLR, 2017, pp. 1–14.
+[58] C. Szegedy, S. Ioffe, V. Vanhoucke, and A. A. Alemi, “Inception-v4
+inception-ResNet and the impact of residual connections on learning,”
+in Proc. AAAI, 2016, pp. 4278–4284.
+[59] J. Hu, L. Shen, and G. Sun, “Squeeze-and-excitation networks,” in
+Proc. IEEE/CVF Conf. Comput. Vis. Pattern Recognit., Jun. 2018,
+pp. 7132–7141.
+[60] Q. Hou, D. Zhou, and J. Feng, “Coordinate attention for efﬁcient
+mobile network design,” in Proc. IEEE/CVF Conf. Comput. Vis. Pattern
+Recognit. (CVPR), Jun. 2021, pp. 13713–13722.
+[61] Q. D. Smedt, H. Wannous, J.-P. Vandeborre, J. Guerry, B. L. Saux, and
+D. Filliat, “SHREC’17 track: 3D hand gesture recognition using a depth
+and skeletal dataset,” in Proc. Eurographics Workshop 3D Object Retr.,
+2017, pp. 33–38.
+[62] K. He, X. Zhang, S. Ren, and J. Sun, “Deep residual learning for
+image recognition,” in Proc. IEEE Conf. Comput. Vis. Pattern Recognit.
+(CVPR), Jun. 2016, pp. 770–778.
+[63] A. Shahroudy, J. Liu, T.-T. Ng, and G. Wang, “NTU RGB+D: A large
+scale dataset for 3D human activity analysis,” in Proc. IEEE Conf.
+Comput. Vis. Pattern Recognit. (CVPR), Jun. 2016, pp. 1010–1019.
+Jae-Hun Song received the B.S. and M.S. degrees
+in electronic engineering from Hanyang Univer-
+sity, South Korea, in 2001 and 2003, respectively.
+He is currently pursuing the Ph.D. degree in elec-
+tronic engineering with Sogang University. He is
+working in circuit design and medium display
+product development with LG Display Company,
+Ltd., South Korea. His current research interests
+include image processing, computer vision, and deep
+learning.
+Kyeongbo Kong received the B.S. degree in elec-
+tronics engineering from Sogang University, Seoul,
+South Korea, in 2015, and the M.S. and Ph.D.
+degrees in electrical engineering from the Pohang
+University of Science and Technology (POSTECH),
+Pohang, South Korea, in 2017 and 2020, respec-
+tively. From 2020 to 2021, he was worked as a
+Post-Doctoral Fellow at the Department of Electrical
+Engineering, POSTECH. He is currently an Assis-
+tant Professor with the Department of Media School,
+Pukyong National University, Busan, South Korea.
+His current research interests include image processing, computer vision,
+machine learning, and deep learning.
+Suk-Ju Kang (Member, IEEE) received the B.S.
+degree in electronic engineering from Sogang Uni-
+versity, South Korea, in 2006, and the Ph.D. degree
+in electrical and computer engineering from the
+Pohang University of Science and Technology,
+in 2011. From 2011 to 2012, he
+was a Senior
+Researcher at LG Display, where he was a Project
+Leader for resolution enhancement and multi-view
+3D system projects. From 2012 to 2015, he was
+an Assistant Professor of electrical engineering at
+Dong-A University, Busan. He is currently a Pro-
+fessor of electronic engineering with Sogang University. His current research
+interests include image analysis and enhancement, video processing, multime-
+dia signal processing, circuit design for display systems, and deep learning
+systems. He was a recipient of the IEIE/IEEE Joint Award for Young IT
+Engineer of the Year, in 2019.
+Authorized licensed use limited to: Lovely Professional University - Phagwara. Downloaded on March 27,2026 at 05:33:56 UTC from IEEE Xplore.  Restrictions apply. 
+

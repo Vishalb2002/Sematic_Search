@@ -1,0 +1,516 @@
+ 
+Vision based Hand Gesture and Character Identification 
+using Convolution Neural Network 
+Kural Neri Selvan M 
+Department of Electronics and 
+Communication Engineering 
+Vel Tech Rangarajan Dr.Sagunthala R&D 
+Institue of Science and Technology 
+Chennai, India 
+vtu21126@veltech.edu.in 
+ 
+Kirubakar Gupta  
+Department of Electronics and 
+Communication Engineering 
+Vel Tech Rangarajan Dr.Sagunthala R&D 
+Institue of Science and Technology 
+Chennai, India 
+vtu21145@veltech.edu.in 
+ 
+Mohanasundaram. T  
+Department of Electronics and 
+Communication Engineering 
+Vel Tech Rangarajan Dr.Sagunthala R&D 
+Institue of Science and Technology 
+Chennai, India 
+vtu21132@veltech.edu.in 
+ 
+Annalakshmi Ganesan 
+Department of Electronics and Communication Engineering 
+Vel Tech Rangarajan Dr.Sagunthala R&D Institue of Science and Technology 
+Chennai, India 
+anumevlsi@gmail.com  
+  
+Abstract— Hand gesture recognition is the interpretation of 
+computer machine with human hand gesture for physically 
+challenged people.  This paper proposes a CNN based model for 
+recognizing hand sign language and characters. The image 
+quality is improved by applying the image enhancement 
+technique. This CNN model automatically extracts the 
+discriminative input feature value to produce more accuracy 
+than the traditional model. Fully connected layers are used at 
+the end of the network to perform classification, mapping the 
+learned features to specific ASL character labels. This 
+structured approach ensures the model captures complex 
+patterns within the image data, thereby improving classification 
+performance. 
+To 
+further 
+enhance 
+the 
+accuracy 
+and 
+generalizability of the model, several data augmentation 
+techniques were employed. These techniques include random 
+rotations, flipping, zooming, and shifting of input images. 
+Introducing such variations in the training data, the model 
+becomes more robust to slight differences in image orientation, 
+size, and perspective, reducing the likelihood of overfitting.  The 
+proposed technique achieves the classification accuracy of  99.02 
+percentage on the MNIST dataset. 
+Keywords—Hand gesture, Preprocessing, data augmentation, 
+deep learning models. 
+I. INTRODUCTION 
+         In general humans need vocal communication to 
+participate in social activities. Unfortunately, people with 
+speech and/or hearing impairments cannot communicate 
+verbally with others. They use sign language to communicate. 
+Sign Language Recognition (SLR) is used to identify words, 
+numbers, letters, hand gestures, and other signs. Some 
+scientists focus on real-time symbol identification, while 
+others focus on static images.  Hand gesture recognition is a 
+vital component of human-computer interaction, allowing 
+users to communicate with machines through intuitive hand 
+movements [1]. This technology plays a significant role in 
+various domains, including sign recognition, virtual reality, 
+gaming, animation and assistive technology for individuals 
+with disabilities. The primary objective of hand gesture 
+recognition is to interpret and classify hand movements 
+accurately, enabling seamless interaction between humans 
+and digital systems. As the demand for touchless interfaces 
+and automation increases, the importance of hand gesture 
+recognition continues to grow. The development of this 
+technology involves advanced techniques in computer vision, 
+image processing, and deep learning to ensure precise 
+recognition and real-time processing [2]. Several techniques 
+are utilized in hand gesture recognition to enhance accuracy 
+and efficiency. The hand gesture-based recognition system 
+was developed by researchers using a variety of technologies, 
+namely extraction with machine feature extraction, machine 
+and deep learning models. Rastgoo, R et.al., [3] proposed a 
+zero shot dynamic hand gesture recognition system, for the 
+feature extraction a transformer-based model with C3D is 
+proposed. Then, for the hand recognition an auto encoder 
+along with the LSTM (long short-term memory) is adopted. 
+Finally, for mapping the semantic space, a bidirectional 
+encoder representation from transformers (BERT) is used.  
+The model is validated using various datasets and achieved 
+the classification rate of74.6 on RKS dataset. Miah, A.S.M 
+et.al.,[4] presented the SLR system technique called GmTC, 
+to translate McSL to text for effective understanding. The 
+feature values are extracted using the graph and deep learning 
+models.  First, the graph-based feature values are extracted 
+by considering the super pixel values, then the long and short 
+dependency features are extracted using attention-based 
+technique. The combined features are then passed into the 
+classifiers; it is observed that the SL dataset achieves the 
+higher classification rated compared with other datasets. 
+Jiang, B et. al., [5] proposed SEMG based gesture 
+identification system called NKDFF-CNN. To overcome the 
+drawbacks in the existing kernal convolution operation a 
+narrow kernel model is proposed. The model learns the 
+features from the SEMG between a particular muscle and 
+gesture. Then the feature values are imported to NKDFF-
+CNN classifier. The proposed technique achieves the 
+classification rate of 85.91% on a multi type hand geature. Al 
+Proceedings of the 7th International Conference on Innovative Data Communication Technologies and Application (ICIDCA-2025)
+IEEE Xplore Part Number: CFP25CR5-ART; ISBN: 979-8-3315-1414-3
+979-8-3315-1414-3/25/$31.00 ©2025 IEEE
+282
+2025 7th International Conference on Innovative Data Communication Technologies and Application (ICIDCA) | 979-8-3315-1414-3/25/$31.00 ©2025 IEEE | DOI: 10.1109/ICIDCA66325.2025.11280558
+Authorized licensed use limited to: Lovely Professional University - Phagwara. Downloaded on April 02,2026 at 13:45:52 UTC from IEEE Xplore.  Restrictions apply. 
+
+Mudawi, N et.al., [6] proposed six model techniques like 
+conversion of video to frames, enhancement technique, 
+SSMD (shot multiple box detector), background modelling 
+and finally 1D- convolution neural network (CNN) technique 
+used to classify features. The proposed technique achieves 
+85.71% on the WLASL datasets. Hassan N er.al., [7] 
+introduced HAR technique (Deep BiLSTM) model to get the 
+unique features from the input images.  Then to extract the 
+video feature the deep features CNN and mobileNetV2 is 
+adopted. Finally, the Deep BiLSTM technique is enabled to 
+obtain the optimal classification rate.  It achieves the 
+classification rate of 99.20% on the UCF11 dataset. Liang, H 
+et.al.,[8] presented an multi feature learning technique which 
+includes CNN and FAPN (feature aggregation pyramid 
+network), ESA (expansion squeeze aggregation) and task 
+prediction branch. The FAPN and ESA extracts a multiscale 
+feature information at different scales. Miah, A.S.M. et.al., 
+[9] proposed a CNN with multi-stage graph attention and 
+residual connection (GCAR) technique to extract the 
+features. This GCAR technique enhances the features in the 
+skeleton points, this effectively extract the entire body 
+movement features effectively and feeds into the two-stream 
+information classifier.  The proposed technique achieves 
+90.31% on the WLASR datasets. This same  
+II. DEEP LEARNING ALGORITHM  
+Deep 
+learning 
+algorithms 
+have 
+fundamentally 
+transformed the field of computer vision, offering remarkable 
+accuracy in tasks such as image classification, object 
+detection, 
+and 
+gesture 
+recognition. 
+Among 
+these, 
+Convolutional Neural Networks (CNNs) are particularly 
+effective for gesture recognition due to their ability to process 
+and extract hierarchical features from visual data, making 
+them the optimal choice for applications involving image 
+recognition. CNN network has several layers to extract the 
+features from the image database. CNN applies the different 
+kernals and filters to the image to learn the pattern of images 
+like edges, textures and corners [10]. To enhance the 
+precision of CNN network, the false positive values are 
+reduced. The precision also depends on the labels of the 
+particular dataset.  Increasing the number of the filters in the 
+CNN classifier improves the performance. 
+When the input image crosses the layers in the CNN 
+network, it automatically learns the complex features from 
+the input image to identify the unique feature values. To 
+reduce the number of inputs features the pooling layers are 
+placed next to the convolution layer to reduce the 
+dimensionality. This is very important to reduce the 
+computational complexity and reduces the overfitting 
+problem[11].At the end the fully connected layer is placed, 
+this helps to produce the final output by taking the all the 
+features which is extracted by convolution layer.This layered 
+approach, where each successive layer captures increasingly 
+complex features, makes CNNs particularly effective for 
+tasks like gesture recognition, where fine-grained distinctions 
+between hand shapes and movements need to be made.  The 
+basic workflow diagram of the proposed work is presented in 
+Fig.1. The methodology adopted in this project is structured 
+into several key stages: dataset collection and organization, 
+preprocessing, image enhancement, segmentation, data 
+augmentation, 
+deep 
+learning 
+model 
+design, 
+and 
+training/testing procedures. 
+ 
+Fig.1 Workflow Diagram 
+ 
+The dataset forms the foundation of any machine learning 
+or deep learning project. For this study, we utilized a 
+combination of publicly available datasets images to ensure 
+diversity in hand gestures, lighting conditions, and 
+backgrounds. A well-organized and diverse dataset is essential 
+for training a robust model capable of handling real-world 
+variations. We leveraged existing datasets such as the Sign 
+Language MNIST dataset, which contains grayscale images 
+of American Sign Language (ASL) characters. Additionally, 
+other datasets like ASL Alphabet and Hand Gesture 
+Recognition Dataset were incorporated to enrich the variety of 
+gestures. These datasets provided a solid baseline for training 
+and validation. American Sign Language dataset includes 
+2400 images, 1800 for training and 600 for testing images. 
+In next step the image enhancement techniques were 
+applied to improve image clarity and emphasize critical 
+features of hand gestures, contributing to better model 
+accuracy. Contrast adjustment histogram equalization 
+improves contrast, making gesture features more prominent. 
+Brightness normalization techniques are used to balance 
+across images to mitigate lighting inconsistencies. To reduce 
+the noise, median filtering and Gaussian filtering were 
+applied to remove unwanted noise. Finally, the sharpening 
+technique is used to sharpen the images the edge details to aid 
+in better feature extraction [12]. These techniques 
+collectively ensured the visibility of key features in the 
+dataset. 
+     To increase the size of the dataset and to enhance the 
+model performance, several augmentation techniques were 
+applied like rotation cropping, flipping, zooming and adding 
+noise to the input image [13]. The sample augmented image 
+is shown in Fig.2 
+ 
+ 
+Fig.2 Data Augmentation 
+Proceedings of the 7th International Conference on Innovative Data Communication Technologies and Application (ICIDCA-2025)
+IEEE Xplore Part Number: CFP25CR5-ART; ISBN: 979-8-3315-1414-3
+979-8-3315-1414-3/25/$31.00 ©2025 IEEE
+283
+Authorized licensed use limited to: Lovely Professional University - Phagwara. Downloaded on April 02,2026 at 13:45:52 UTC from IEEE Xplore.  Restrictions apply. 
+
+     
+        To improve the quality of the image various 
+improvement 
+techniques 
+like 
+sharpening, 
+denising, 
+brightness, contrast adjustment are applied. The sample 
+images are shown in Fig.3  
+ 
+  
+Fig.3 Image Enhancement 
+ 
+III. METHODOLOGY 
+The implementation of the proposed work starts with the 
+preprocessing of the images. In this preprocessing stage first  
+images are formatted and resized uniformly. Then the image 
+enhancement technique is applied to reduce the noise, color 
+correction, contrast adjustment to enhance the quality of the 
+input images to get more accurate results. Next, data 
+augmentation is applied to increase the size of the dataset. In 
+the final stage, the images are then trained with the proposed 
+CNN technique. The proposed technique processes the images 
+in multiple layers and  learns the input feature pattern for 
+different hand gestures. The each layer for the CNN is 
+important to get more accurate results.  The proposed system 
+CNN architecture is presented in Fig.4. 
+ 
+Fig.4 Block Diagram of the proposed Technique 
+A neural network may consist of a hardware device and 
+computer code that mimics how neurons function in the 
+human brain. The imaging process is not a good fit for 
+artificial neural networks. CNN employs a system that is 
+similar to a multilayer view-point and was created with fewer 
+processing requirements in mind. Eliminating restrictions and 
+boosting image processing power results in a system that is far 
+more efficient and makes it simpler to train data for both 
+image processing and language communication. A much-
+improved CNN model has been proposed with nine layers in 
+our CNN model. The CNN model has fourteen stages, 
+including hidden layers, which provide us the best possible 
+outcome for hand sign detection.  
+ 
+Fig.5 Batch Normalization 
+In order to create unvarying dimensions, the proposed 
+method has taken a wide range of images as input and 
+transformed them all into a single, constant size of 128*128*3. 
+Typically, we develop a convolutional kernel by applying 
+thirty-two 2*2 convolutional filters at the input layer, each 
+supported by three channel tensors. Then the ReLU activation 
+function is applied to make a decision on the output [14]. 
+ReLU will produce the output if the values are positive, else 
+zero is transferred to the output. Next, batch normalization is 
+introduced as the next layer. The batch normalization 
+technique normalizes the layer inputs by re-centering and 
+rescaling, which not only produces neural networks more 
+quickly but also adds stability as shown in Fig.5. The pooling 
+process then entails accumulating the features that fall inside 
+the filter's coverage area after applying a 2D filter to each 
+feature map. The dimensions of the output layer are obtained 
+with 
+h
+w
+c
+b
+b
+b
+
+
+ 
+1
+1
+h
+s
+w
+c
+b
+f
+b
+f
+S
+S
+b
+−
++ 
+−
++
+
+ 
+Where 
+hb - Feature map height, 
+w
+b - Feature map width,   
+cb  - No of features in the channel map, f  filter size, S
+length of the stride. Many convolutional and pooling layers 
+are stacked one after the other in a typical CNN model design. 
+The pooling layers help reduce the dimensions of the feature 
+maps, which is their primary advantage. The pooling layer 
+model is presented in Fig.6. Consequently, it prevents 
+overfitting and reduces the computational cost. In CNNs, the 
+pooling layer lowers the model's parameter count. This layer 
+eliminates noise or small fluctuations in the input data while 
+capturing the key elements of the image.  Consequently, it 
+gives the model more resilience to size, rotation, and blockage 
+changes. 
+ 
+ 
+Fig.6 Max Pooling 
+ 
+In next step Prior to flattening, once more 64 filter 
+convolutional, batch normalization, and max-pooling layers 
+are employed.  Then, the two dense layers are used with the 
+final two levels in the second dense layer and 512 concealed 
+layers in the first. Finally, softmax provides greater precision 
+than other activation functions, we employed it in the last layer 
+[15]. 
+Proceedings of the 7th International Conference on Innovative Data Communication Technologies and Application (ICIDCA-2025)
+IEEE Xplore Part Number: CFP25CR5-ART; ISBN: 979-8-3315-1414-3
+979-8-3315-1414-3/25/$31.00 ©2025 IEEE
+284
+Authorized licensed use limited to: Lovely Professional University - Phagwara. Downloaded on April 02,2026 at 13:45:52 UTC from IEEE Xplore.  Restrictions apply. 
+
+IV. RESULTS AND DISCUSSION 
+ 
+This section explains the experimental findings and results 
+for the proposed techniques. To implement the proposed 
+method, the Keras API and TensorFlow 2.x are used to train 
+the proposed system. The selected framework has several 
+features and is specifically made for convolutional neural 
+networks (CNNs), the most widely used architecture in the 
+gesture detection challenge. The model is integrated with the 
+adam optimizer to change the learning rate dynamically. The 
+optimizer dynamically adjusts the learning rate for different 
+parameters in the CNN model, which helps the model 
+converge more quickly and avoid local minima.  The learning 
+rate is originally set to 0.001 in order to balance learning speed 
+and stability.  Learning rate schedules can be used to 
+dynamically alter the learning rate based on the performance 
+attained during training. The problem has several classes (each 
+gesture is a class), hence a categorical cross entropy model 
+loss function is utilized.  The variation of the values between 
+the original and the predicted probability distribution across 
+all classes is calculated using categorical cross entropy. The 
+model is trained using five epochs. The batch size used in this 
+model is 32. The training of the model is assessed by plotting 
+the training and validation loss and accuracy over the epochs. 
+These plots reveal information regarding overfitting and 
+underfitting as well as the model's learning process. It is 
+observed from the model accuracy graph how the training data 
+works on the validation dataset to get the model more accurate 
+value.  
+ 
+Fig.7 Model Accuracy Graph 
+Depending on the size of the training dataset and the 
+amount of augmented training data, the model's accuracy 
+varied upto and 98%. This range of accuracy suggests that the 
+model can accurately detect hand movements in a variety of 
+test samples, demonstrating its high predictability. The model 
+accuracy and loss values are shown in Fig.7 and 8. 
+A dedicated prediction script was designed to evaluate the 
+performance of the trained CNN model in classifying 
+previously unseen hand gesture images. This script loads a 
+single image, processes it to meet the input requirements of 
+the model, and then classifies it using the trained model. The 
+prediction image was pre-processed to a uniform input size of 
+96×96 pixels and normalize the values from 0 to 1. 
+ 
+Fig.8 Model Loss Graph 
+This ensures consistency throughout the training and 
+validation process. The model then processes the image to 
+give a probability vector showing the probability of each class. 
+The most probable class is selected as the ultimate prediction. 
+An instance of Image Data- Generator is employed to get the 
+mapping from numerical class indices to their corresponding 
+labels as in the class organization of the training directory. 
+This ensures that the displayed label is the same as that of the 
+original dataset’s class organization shown in Fig.9 
+ 
+Fig. 9 Model Predictions 
+ 
+V. CONCLUSION AND FUTURE WORK 
+                  
+       In this study, the CNN model is utilized to classify the 
+hand gesture sign model. To avoid the overfitting problem the 
+data augmentation technique is used. The proposed CNN 
+model reduces the process of detection, feature extraction and 
+segmentation.  This CNN model automatically learns the 
+discriminative features from the images to give higher 
+accuracy. The proposed custom CNN model shows the 
+accuracy variation up to 98 percent on various datasets. Then 
+the prediction model is developed based on the proposed 
+technique to make an accurate prediction of different 
+gestures. To improve the accuracy further the deeper and 
+transfer learning model will be adopted for human gesture 
+recognition. 
+ 
+  
+Proceedings of the 7th International Conference on Innovative Data Communication Technologies and Application (ICIDCA-2025)
+IEEE Xplore Part Number: CFP25CR5-ART; ISBN: 979-8-3315-1414-3
+979-8-3315-1414-3/25/$31.00 ©2025 IEEE
+285
+Authorized licensed use limited to: Lovely Professional University - Phagwara. Downloaded on April 02,2026 at 13:45:52 UTC from IEEE Xplore.  Restrictions apply. 
+
+REFERENCES 
+ 
+[1] Shin, J., Miah, A.S.M., Kabir, M.H., Rahim, M.A. and Al Shiam, A., 
+2024. A methodological and structural review of hand gesture 
+recognition across diverse data modalities. IEEE Access. 
+[2] Al Mudawi, N., Ansar, H., Alazeb, A., Aljuaid, H., AlQahtani, Y., 
+Algarni, A., Jalal, A. and Liu, H., 2024. Innovative healthcare 
+solutions: robust hand gesture recognition of daily life routines using 
+1D CNN. Frontiers in Bioengineering and Biotechnology, 12, 
+p.1401803. 
+[3] Rastgoo, R., Kiani, K., Escalera, S. and Sabokrou, M., 2024. Multi-
+modal zero-shot dynamic hand gesture recognition. Expert Systems 
+with Applications, 247, p.123349. 
+[4] Miah, A.S.M., Hasan, M.A.M., Tomioka, Y. and Shin, J., 2024. Hand 
+gesture recognition for multi-culture sign language using graph and 
+general deep learning network. IEEE Open Journal of the Computer 
+Society. 
+[5] Jiang, B., Wu, H., Xia, Q., Li, G., Xiao, H. and Zhao, Y., 2025. 
+NKDFF-CNN: A convolutional neural network with narrow kernel and 
+dual-view feature fusion for multi-type gesture recognition based on 
+sEMG. Digital Signal Processing, 156, p.104772. 
+[6] Al Mudawi, N., Ansar, H., Alazeb, A., Aljuaid, H., AlQahtani, Y., 
+Algarni, A., Jalal, A. and Liu, H., 2024. Innovative healthcare 
+solutions: robust hand gesture recognition of daily life routines using 
+1D CNN. Frontiers in Bioengineering and Biotechnology, 12, 
+p.1401803. 
+[7] Hassan, N., Miah, A.S.M. and Shin, J., 2024. A Deep Bidirectional 
+LSTM Model Enhanced by Transfer-Learning-Based Feature 
+Extraction for Dynamic Human Activity Recognition. Applied 
+Sciences, 14(2), p.603. 
+[8] Liang, H., Fei, L., Zhao, S., Wen, J., Teng, S. and Xu, Y., 2024. Mask-
+guided multiscale feature aggregation network for hand gesture 
+recognition. Pattern Recognition, 145, p.109901. 
+[9] Miah, A.S.M., Hasan, M.A.M., Nishimura, S. and Shin, J., 2024. Sign 
+language recognition using graph and general deep neural network 
+based on large scale dataset. IEEE Access. 
+[10] M Zhu, Q., Li, J., Yuan, F. and Gan, Q., 2024. Multiscale temporal 
+network for continuous sign language recognition. Journal of 
+Electronic Imaging, 33(2), pp.023059-023059. 
+[11] Rahaman, M.A., Oyshe, K.U., Chowdhury, P.K., Debnath, T., 
+Rahman, A. and Khan, M.S.I., 2024. Computer vision-based six 
+layered convneural network to recognize sign language for both 
+numeral 
+and 
+alphabet 
+signs. Biomimetic 
+Intelligence 
+and 
+Robotics, 4(1), p.100141. 
+[12] Mnif, M., Sahnoun, S., Saad, Y.B., Fakhfakh, A. and Kanoun, O., 2024. 
+Combinative model compression approach for enhancing 1D CNN 
+efficiency for EIT-based Hand Gesture Recognition on IoT edge 
+devices. Internet of Things, 28, p.101403. 
+[13] Kumar, T., Brennan, R., Mileo, A. and Bendechache, M., 2024. Image 
+data augmentation approaches: A comprehensive survey and future 
+directions. IEEE Access. 
+[14] Lakshmi, T.V. and Krishna Reddy, C.V., 2024. Classification of skin 
+lesions by incorporating drop-block and batch normalization layers in 
+representative CNN models. Arabian Journal for Science and 
+Engineering, 49(3), pp.3671-3684. 
+[15] Mishra, N.K., Singh, P., Gupta, A. and Joshi, S.D., 2025. PP-CNN: 
+probabilistic pooling CNN for enhanced image classification. Neural 
+Computing and Applications, 37(6), pp.4345-4361. 
+ 
+ 
+ 
+Proceedings of the 7th International Conference on Innovative Data Communication Technologies and Application (ICIDCA-2025)
+IEEE Xplore Part Number: CFP25CR5-ART; ISBN: 979-8-3315-1414-3
+979-8-3315-1414-3/25/$31.00 ©2025 IEEE
+286
+Authorized licensed use limited to: Lovely Professional University - Phagwara. Downloaded on April 02,2026 at 13:45:52 UTC from IEEE Xplore.  Restrictions apply. 
+

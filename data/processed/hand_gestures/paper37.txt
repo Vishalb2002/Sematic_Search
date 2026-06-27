@@ -1,0 +1,969 @@
+Vision-based Static Hand Gesture Recognition using
+Dense-block Features and SVM classiﬁer
+Jaya Prakash Sahoo
+Department of ECE
+National Institute of Technology
+Rourkela, India
+sahoo.jprakash@gmail.com
+Samit Ari
+Department of ECE
+National Institute of Technology
+Rourkela, India
+samit@nitrkl.ac.in
+Sarat Kumar Patra
+Indian Institute of Information Technology
+Vadodara, India
+skpatra@iiitvadodara.ac.in
+Abstract—Recognition of static hand gesture images using a
+vision-based technique remains a challenging task due to the
+variations in illumination, shape of the user’s hand, complex
+backgrounds, and so on. Further, the current convolutional
+neural network (CNN) technique requires large gesture images to
+train a model from scratch. Therefore, in this work novel features
+are obtained from the dense blocks of the ﬁne-tuned DenseNet 201
+to recognize the hand gesture images accurately. The proposed
+feature (denoted as DenseFeat) is a combination of features
+from last two dense blocks of the ﬁne-tuned DenseNet which
+gathers enriched information for a gesture image. In addition,
+to remove the redundant information in the feature vector,
+the dimension of the DenseFeat is reduced using the principal
+component analysis (PCA) approach. A support vector machine
+(SVM) classiﬁer based on a linear kernel is used to recognize
+the test gesture images. The efﬁcacy of the proposed method
+is evaluated on two benchmark datasets using both subject-
+independent and subject-dependent cross-validation techniques.
+Furthermore, the qualitative and compressive quantitative anal-
+ysis of the benchmark datasets illustrates that the proposed
+method outperforms state-of-the-art techniques in terms of mean
+accuracy and computational time.
+Index Terms—DenseNet, DenseFeat, hand gesture recognition,
+transfer learning, PCA, SVM
+I. INTRODUCTION
+For several decades, the vision-based hand gesture recog-
+nition (HGR) technique has become a popular research area
+due to the high demand for the application in real life with
+accurate recognition of hand gestures [1]. In this technique,
+the user perform gestures in front of camera with bare hands
+and the gestures are recognized using the computer vision
+techniques. The HGR systems provide the user greater free-
+dom and are more user-friendly [2]. Some key applications
+using the hand gesture recognition are [3], [4] includes, sign
+language interpretation, clinical health, robotic control, gaming
+and virtual interface, etc. However, despite different novel
+techniques developed by the researcher, still, hand gesture
+recognition in a vision-based environment remains challenging
+due to complex background, illumination variations, inter-class
+similarities, and diversity in shape and size of a human hand.
+Deep convolutional neural network (CNN) technique has
+overcome the traditional hand-crafted based approaches due
+to automatic feature extraction methods and ability to handle
+varied conditions in the datasets [5]. In addition, the automatic
+feature extraction technique of the CNN remove the pre-
+processing operations such as illumination normalization, hand
+region segmentation using a skin colour ﬁlter and so on [6].
+Generally, several layers such as convolutional, relu, pooling,
+fully connected and dropout layers are added sequentially
+to develop a deep CNN architecture. Moreover, training a
+deep CNN model from scratch with less gesture samples
+is a challenging task. To address the aforementioned issues,
+researchers employed the transfer learning method, or the
+extraction of deep features from the various intermediate and
+fully connected (FC) layers of deep CNNs [6], [7]. Several
+research studies [8], [9] have shown that deep CNN for
+learning distinguishing features and support vector machines
+(SVM) as a classiﬁer outperforms deep CNN with softmax
+activation functions. The success of the combined CNN feature
+with the SVM classiﬁer encouraged the development of a
+hybrid model for HGR in a vision-based environment. In the
+proposed technique, novel deep CNN features are obtained
+from the dense blocks of the ﬁne-tuned DenseNet 201 and the
+gesture classes are recognized using the SVM classiﬁer.
+The major contributions of this manuscript are summarized
+bellow:
+• Novel features are extracted from the dense blocks of
+the ﬁne-tuned DenseNet 201 for the accurate recogni-
+tion of hand gestures. The proposed feature denoted as
+DenseFeat is the concatenation of features from the last
+two dense blocks of the DenseNet 201. In particular, the
+DenseFeat combines the global information from recep-
+tive ﬁelds of the last two dense blocks which leverage
+more discriminate information for a gesture image.
+• To reduce the redundant information in the DenseFeat
+feature dimension reduction approach using principal
+component analysis (PCA) technique is applied. The
+optimized features are more distinguishable and enable
+accurate recognition of gesture poses.
+• Extensive experiments have been performed on two stan-
+dard datasets such as MU and NUS II datasets and the
+proposed method outperforms the state-of-the-art meth-
+ods using two cross-validation techniques in terms of
+accuracy and computational time.
+The remainder of the paper is arranged as follows. Section II
+includes a review of relevant literature. Section III presents
+the framework of the proposed methodology for HGR. The
+experimental results and discussion to validate the proposed
+2022 IEEE 2nd International Symposium on Sustainable Energy, Signal Processing and Cyber Security (iSSSC) | 978-1-6654-9056-6/22/$31.00 ©2022 IEEE | DOI: 10.1109/iSSSC56467.2022.10051475
+978-1-6654-9056-6/22/$31.00 @2022 IEEE
+Authorized licensed use limited to: Lovely Professional University - Phagwara. Downloaded on April 02,2026 at 13:55:16 UTC from IEEE Xplore.  Restrictions apply. 
+
+technique is given in section IV. Section V summarizes the
+work.
+II. RELATED WORKS
+Some related and representative works on vision-based
+HGR technique are presented in this section. The survey
+is categorized into handcrafted-based approaches and CNN-
+based techniques.
+The contour of the segmented hand gesture images is
+used to derive the handcrafted based features. Several novel
+handcrafted based feature extraction approaches [10]–[12] are
+proposed in the literature to recognize the gesture poses
+accurately. A set of geometric features form hand contour
+are reported by Fang et al. to represent a gesture pose
+[10]. Sparse representation of the hand contour using slope
+difference distribution (SDD) feature was proposed by Wang
+[11]. To describe a gesture image, a fusion of several image
+descriptors: gradient local auto-correlation, fast discrete curve
+transform and gabor wavelet transform were obtained from
+the hand gestures and the features are optimized using the
+PCA technique [12]. However, the aforementioned handcrafted
+attributes are inﬂuenced by distortion due to hand shape
+caused by improper hand segmentation, variations in lighting
+conditions, and complex environments [10].
+Deep learning technique has performed well in image recog-
+nition from several years. Several CNN architectures have
+been reported by the researcher for the recognition of static
+hand gestures. A light-weighted intensive feature extraction
+deep network (ExtriDeNet) is reported for HGR [13]. For
+automatic recognition of hand gesture residual block intensity
+feature with a two-stage residual CNN (RBI-2RCNN) [6]
+is developed. A hybrid feature attention network (HyFiNet)
+was developed for HGR [13]. A combination of various fully
+connected layers attributes from two pre-trained CNNs [7]
+was presented for automatic HGR. A CNN network based on
+feature fusion was proposed [14], in which several handcrafted
+features from the hand contour were fused at the ﬁnal FC
+layer to recognize a gesture pose. Although deep learning has
+excellent generalization capabilities, it demands a completely
+developed CNN architecture and large storage capacity.
+7UDLQLQJVHW
+7HVWLQJVHW
+690
+FODVVLILHU
+)HDWXUH
+H[WUDFWLRQ
+7UDLQHG
+690
+5HFRJQL]HG
+JHVWXUHSRVH
+Training phase
+Testing phase
+)LQHWXQHG
+'HQVH1HW
+)HDWXUHH[WUDFWLRQ
+'%)0
+&
+'%)0
+3&$
+)LQHWXQHG
+'HQVH1HW
+3&$
+Fig. 1.
+The framework of the proposed HGR system. The dense block 3
+and dense block 4 feature maps are represented here by DB3 and DB4 FM,
+respectively.
+III. PROPOSED METHODOLOGY
+The framework of the developed HGR system is shown in
+the Fig. 1. The HGR system is divided into two sections:
+training and testing. In the training phase, ﬁrst the pre-trained
+DenseNet 201 is ﬁne-tuned using the training gesture samples.
+The novel features are then extracted from the dense blocks
+of ﬁne-tuned DenseNet. The ﬁnal proposed feature (denoted
+as DenseFeat) is the concatenation of the information from
+the last two dense blocks. The dimension of the proposed
+DenseFeat is then reduced using PCA technique. The support
+vector machine (SVM) model is developed using the reduced
+features. In the testing phase, the test gesture images are
+classiﬁed using the trained SVM model with the proposed
+feature.
+A. Fine-tuning of pre-trained DenseNet 201
+DenseNet uses feature reuse concept through dense connec-
+tivity among the convolutional (conv) layers in a given dense
+block [15]. That means the output feature maps (FM) of the
+present conv layer is concatenated with the FM of previous
+conv layer. In this way DenseNet enhances gradient ﬂow and
+propagation of feature maps among conv layers within a dense
+block as shown in Fig. 2. The ith conv layer in a dense block,
+receives the concatenation of FM of all the previous layers
+represented as Z0, Z1, Z2, ..., Zi−1 as input:
+Zi = Hi[Z0, Z1, Z2, ..., Zi−1]
+(1)
+where [Z0, Z1, Z2, ..., Zi−1] denotes the concatenation of FM
+from the previous layers 0, 1, 2, ..., i −1. Hi is known as
+composite function. This function comprises three operations:
+batch normalization, ReLU, and convolution. The advantages
+of DenseNet are (i) it reduces the gradient vanishing problems,
+(ii) improve the propagation of features, (iii) inspire the reuse
+of features.
+Fine-tuning is the process of training a new model on data
+from the target hand gesture dataset utilizing weights of a pre-
+trained trained CNN. In this work, Densenet 201 CNN model
+trained on ImageNet dataset are ﬁne-tuned on the target hand
+gesture dataset. In this method, the output nodes in the last
+FC layer of the network is modiﬁed to match the total output
+classes in the target dataset. After that, the weights of new
+network is tuned on the target dataset.
+B. Proposed DenseFeat feature
+In this subsection, the steps to obtain proposed DenseFeat
+is described. The DenseNet 201 architecture consists of four
+dense blocks as shown in Fig. 2. In general, the initial layers
+of the CNN represents the low level descriptors such as lines,
+curves, edges etc. and the deeper layers of the CNN stores
+the high level abstract information of the input image [6]. The
+proposed feature DenseFeat is obtained from the last two dense
+blocks such as dense block 3 (DB3) and dense block 4 (DB4)
+as visualized in the Fig. 2. The output of each FM in a dense
+block is represented in the form of matrix as
+K = [F1, F2, ...Fp]
+(2)
+Authorized licensed use limited to: Lovely Professional University - Phagwara. Downloaded on April 02,2026 at 13:55:16 UTC from IEEE Xplore.  Restrictions apply. 
+
+,QSXWLPDJH
+'HQVHEORFN
+&RQYROXWLRQ
+3RROLQJ
+7UDQVLWLRQ
+OD\HU
+'HQVHEORFN
+7UDQVLWLRQ
+OD\HU
+'HQVHEORFN
+7UDQVLWLRQ
+OD\HU
+'HQVHEORFN
+*$3
+6RIWPD[
+Fine-tuned Densenet201
+)HDWXUHPDSV
+îî
+)HDWXUHPDSV
+îî
+&RQFDWHQDWLRQ
+'HQVH)HDW
+Max
+Max
+Fig. 2.
+Extraction of the proposed DenseFeat feature from the ﬁne-tuned
+DenseNet 201 CNN.
+[Fi]p
+i=1 =
+⎡
+⎢⎢⎢⎣
+f11
+f12
+· · ·
+f1n
+f21
+f22
+· · ·
+f2n
+...
+...
+· · ·
+...
+fm1
+fm2
+· · ·
+fmn
+⎤
+⎥⎥⎥⎦
+(3)
+where F and p are the learned ﬁlter wights and number of
+ﬁlters applied respectively. The global max pooling operation
+is performed on each FM to obtain the desired features for a
+dense block using the equation given bellow.
+F max = [F max
+1
+, F max
+2
+, ...F max
+p
+]
+(4)
+where, [F max
+i
+]p
+i=1 = max(max(Fi)) is the maximum value
+of the each FM. The above features are obtained from the
+DB3 and DB4 which are denoted as F max
+db3
+and F max
+db4
+respec-
+tively. The concatenation of above features is the proposed
+feature DenseFeat (Fc) which is represented by the following
+equation.
+Fc = [F max
+db3 , F max
+db4 ]
+(5)
+As shown in the Fig. 2, the feature length after obtaining
+features from DB3 and DB4 are 1792 and 1920 respectively.
+Therefore, the length of the proposed feature DenseFeat is
+3712.
+C. PCA based feature dimension reduction
+The feature dimension reduction approach is a method for
+reducing a higher-dimensional feature vector to a reduced
+dimension. In general, redundant features in higher dimen-
+sional feature vectors have low variance and are undesirable.
+As a result, the goal of dimension reduction is to remove
+redundant features in the data. The beneﬁts of feature di-
+mension reduction technique are as follows: (i) It decreases
+the amount of storage space required during training, (ii)
+The training algorithm has become more efﬁcient, and (iii)
+eliminates unwanted features and noise from the data. As
+illustrated in the Fig. 1, PCA is used to decrease the dimension
+TABLE I
+DETAILS OF BENCH-MARKED DATASETS USED TO DETERMINE THE
+EFFECTIVENESS OF THE PROPOSED METHOD
+Dataset
+name
+No.
+of
+subjects
+No. of ges-
+ture class
+Total gesture
+samples
+Challenges
+MU [16]
+5
+36
+2515
+Illumination,
+hand shapes
+NUS-II
+[17]
+40
+10
+2000
+Complex
+backgrounds
+of DenseFeat. Before applying to the SVM classiﬁer, the ﬁnal
+features are normalized using Z-score normalization technique.
+D. Hand gesture classiﬁcation
+To determine the superior recognition performance for the
+proposed features, three different classiﬁers, including artiﬁcial
+neural networks (ANN), K-nearest Neighbor (KNN), and
+support vector machines (SVM) classiﬁers are utilized. The
+performance of the individual classiﬁer is described in the
+Section IV.
+IV. EXPERIMENTAL RESULTS AND DISCUSSION
+Experiments are carried out in this section to validate
+the datasets, numerous parameter studies, and performance
+analyses of the proposed technique.
+A. Datasets, experimental setup, and validation methods
+1) Bench-marked Datasets: In this work, two vision-based
+static hand gesture datasets such as Massey University (MU)
+[16] and National University of Singapore (NUS)-II [17]
+datasets are used for the experiments. The detail description
+of the standard datasets is given in Table I.
+2) Experimental setup: The experiments are performed on
+MATLAB 2019b platform using a 8GB graphics card. The
+hyper-parameters for the ﬁne-tuning process are as follows.:
+maximum epoch = 20, momentum = 0.9, batch size=8 and
+initial learning rate = 0.001. The stochastic gradient descent
+with momentum (SGDM) is used to reduce the loss function.
+3) Validation methods:
+The efﬁcacy of the proposed
+method is evaluated using two cross validation (CV) tests such
+as subject independent (SI) [14] and subject dependent (SD)
+[13]. The SI CV test, is also known as leave-one-subject-out
+,QSXWLPDJH
+'HQVHEORFN
+'HQVHEORFN
+'HQVHEORFN
+'HQVHEORFN
+Fig. 3. Grad-CAM visualization result at each dense blocks of the ﬁne-tuned
+DenseNet 201 CNN model for the given input images on the benchmark
+dataset. Top: MU dataset, Bottom: NUS II dataset.
+Authorized licensed use limited to: Lovely Professional University - Phagwara. Downloaded on April 02,2026 at 13:55:16 UTC from IEEE Xplore.  Restrictions apply. 
+
+D
+
+
+
+
+
+
+
+'HQVH
+EORFN
+'HQVH
+EORFN
+'HQVH
+EORFN
+'HQVH
+EORFN
+0HDQDFFXUDF\
+)HDWXUHVIURPHDFKGHQVHEORFN
+08
+186,,
+
+
+
+
+
+
+
+
+
+
+
+08
+186,,
+0HDQDFFXUDF\
+'DWDVHWV
+'HQVH)HDW
+'HQVH)HDW3&$
+G
+
+
+
+
+
+
+'HQVH
+EORFN
+'HQVH
+EORFN
+'HQVH
+EORFN
+'HQVH
+EORFN
+0HDQDFFXUDF\
+)HDWXUHVIURPHDFKGHQVHEORFN
+08
+186,,
+
+
+
+
+
+
+
+
+
+08
+186,,
+0HDQDFFXUDF\
+'DWDVHW
+'HQVH)HDW
+'HQVH)HDW3&$
+E
+F
+Fig. 4. Quantitative performance of proposed method using SI CV test ((a), (b)) and SD CV test ((c), (d)) on standard datasets. (a), and (c) represent results
+using features from each dense blocks of DenseNet 201 on SI and SD CV test respectively. (b), and (d) represent the performance comparison between
+DenseFeat and DenseFeat with PCA on SI and SD CV test respectively.
+(LOO) CV. For the SD CV test, the gesture samples in a
+dataset are randomly split into training and testing sets with a
+ratio of 70:30. The mean accuracy is determined by repeating
+SD CV test ten times.
+B. Evaluation of the proposed technique
+1) Qualitative analysis using grad-CAM: The qualitative
+analysis of the proposed feature is achieved using the gradient-
+weighted class activation mapping (grad-CAM) method [18].
+This technique uses the gradients of the input gesture im-
+age ﬂowing to the last convolutional layer to generate the
+localization map. This heat map highlights the important
+parts/pixels of the image which contribute more to predict
+the ﬁnal gesture class. Fig. 3 shows the grad-CAM results
+generated at each dense blocks of the ﬁne-tuned DenseNet 201
+CNN model for the input gesture image. It is observed from
+the generated result that the dense block 3 and dense block
+4 highlight the most important regions for which the gesture
+pose is recognized more accurately. The recognition accuracy
+using the features from each dense blocks is analyzed in next
+subsection.
+2) Quantitative analysis: The effectiveness of the proposed
+technique is observed on test gesture samples of the bench-
+mark dataset in terms of mean accuracy. The results of the
+proposed method using both the CV test is shown in Fig. 4.
+The performance of the HGR system using proposed method
+is determined using four common measures such as accuracy
+(A), precision (P), recall (R), and F1-score (F1) [13]. The
+efﬁcacy of test gesture samples utilizing the features from each
+dense block of the ﬁne-tuned DenseNet 201 is represented in
+Fig. 4(a) and Fig. 4(c). Form the above ﬁgures it is observed
+that the HGR performance using the features from dense block
+3 and dense blcok 4 are superior than the ﬁrst two dense
+blocks. This is because the ﬁrst two dense blocks preserve
+low-level information with low variance, whereas the last two
+dense blocks extract high-level semantic information with high
+variance for an input gesture image. From this conclusion,
+the proposed feature is developed using the concatenation
+of last two dense blocks which is denoted as DenseFeat.
+Furthermore, the dimension of the Densefeat is reduced using
+the PCA technique to eliminate the redundant information in
+TABLE II
+RESULTS OF PRECISION (P), RECALL (R), AND F1-SCORE (F1) ON
+BENCHMARKED DATASETS USING PROPOSED FEATURES
+Performance measures (%)
+MU dataset
+NUS II dataset
+SI test
+SD test
+SI test
+SD test
+P
+89.31
+99.28
+96.46
+99.68
+R
+88.06
+98.16
+95.14
+99.04
+F1
+88.10
+98.64
+95.32
+99.26
+the DenseFeat. In this approach, the variance of DenseFeat
+that exceeds 99.99% is considered a redundant feature. For
+example in NUS II dataset using the SI CV test, the feature
+dimension of DenseFeat is reduced from 3712 to 1792 using
+the PCA technique with 99.99% variance. The performance
+of DenseFeat and DenseFeat with PCA using SI CV test and
+SD CV test is shown in Fig. 4(b) and Fig. 4(d) respectively.
+The performance measures such as precision, recall, and F1-
+score of the proposed features using both the CV test on
+benchmarked datasets are presented in Table II.The table
+shows the effectiveness of the proposed technique on above
+performance measures on both the dataset.
+The class-wise performance comparisons on MU and NUS
+II datasets using SI CV test are shown in Fig. 5(a) and Fig. 5(b)
+respectively. It is observed from the Fig. 5(a) that the proposed
+technique can able to recognize the gesture poses such as ‘3’,
+‘b’, ‘c’, ‘e’, ‘f’, ‘h’, ‘j’, ‘l’, ‘q’, and ‘r’ in 100%. However,
+for the similar gesture poses like ‘0’-’o’, ‘2’-’v’, ‘6’-’w’, and
+‘m’-’n’ the recognition performance is restricted. Similarly
+for the NUS II complex background dataset the poses like
+‘b’, ‘f’, and ‘j’ are most accurately recognized. However,
+gesture pose ‘d’, ‘h’ ‘a’ are misclassiﬁed due to the similar in
+gesture vocabulary. This implies that the representation of the
+aforementioned gesture postures is very identical. The Fig. 5
+demonstrates that even though the proposed HGR system
+exhibit superior recognition accuracy in the majority classes,
+the overall performance is constrained due to the inter-class
+similarity between the gesture poses. As a result, reducing
+inter-class similarity in gesture vocabulary is necessary for
+successful hand gesture recognition.
+Authorized licensed use limited to: Lovely Professional University - Phagwara. Downloaded on April 02,2026 at 13:55:16 UTC from IEEE Xplore.  Restrictions apply. 
+
+3RVHµ¶
+3RVHµR¶
+3RVHµ¶
+3RVHµY¶
+3RVHµ¶
+3RVHµZ¶
+3RVHµP¶
+3RVHµQ¶
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+D
+E
+F
+G
+H
+I
+J
+K
+L
+M
+N
+O P Q
+R
+S
+T
+U
+V
+W
+X
+Y Z [
+\
+]
+3HUIRUPDQFH
+*HVWXUHSRVHV
+0HDQDFFXUDF\6,&9
+D
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+D
+E
+F
+G
+H
+I
+J
+K
+L
+M
+3HUIRUPDQFH
+*HVWXUHSRVHV
+0HDQDFFXUDF\6,&9
+3RVHµG¶
+3RVHµD¶
+3RVHµK¶
+E
+Fig. 5. Class-wise performance comparison of DenseFeat with PCA using SI CV test on both the datasets. (a) MU dataset, (b) NUS II dataset.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+6,WHVW
+6'WHVW
+6,WHVW
+6'WHVW
+08GDWDVHW
+186,,GDWDVHW
+5HFRJQLWLRQ
+DFFXUDF\
+$11
+.11
+690
+Fig. 6. Performance of proposed technique using individual classiﬁer.
+C. Classiﬁcation performance using individual classiﬁers
+The proposed feature DenseFeat, after feature optimization,
+is given into the classiﬁers ANN, KNN, and SVM to recognize
+the hand gestures. For ANN, the training algorithm uses multi-
+layer perception with a backpropagation algorithm. The ”Log-
+sigmoid” activation function is considered for the both hidden
+and output layers. KNN is a supervised machine learning
+algorithm that recognizes a new data point among its K nearest
+neighbors as belonging to the majority class. The Euclidean
+distance parameter is employed in this study to determine the
+nearest neighbors. Experimentally, the K value is varied from
+1-10 and the highest recognition accuracy is obtained for the
+K value as 5. A liner kernel-based multi-class SVM is used to
+classify hand motions using ”one-against-all” (OAA) method
+[19]. For the training data having M output classes, M binary
+SVM classiﬁers are generated using the OAA technique. The
+performance of the individual classiﬁer is shown in shown
+in Fig. 6. The results shows that the recognition accuracy of
+proposed feature using SVM classiﬁer is superior than ANN
+and KNN.
+1) Performance comparison of proposed feature with fea-
+tures from other state-of-the-art CNNs: This subsection com-
+pares the effectiveness of the proposed DenseFeat with the fu-
+sion of features from the last two blocks of the state-of-the-art
+CNNs. For VGG 16 network, the features are extracted from
+the ‘conv4 3’ and ‘conv5 3’ layers, and the test performance
+is obtained using the SVM classiﬁer. Similarly, for ResNet 18
+and ResNet 50 CNN models, the features are obtained from
+the last two residual blocks. The particular feature extraction
+layers for both the ResNet models are presented in Table III.
+For the proposed DenseFeat, the feature extraction layers
+for last two dense blocks are ‘conv4 block48 concat’ and
+‘conv5 block32 concat’. The extracted features from both
+layers are concatenated and used to train the SVM model.
+The performance is evaluated using the trained SVM on the
+test gesture samples, which is shown in Table III. The result
+indicates that the features from DenseNet 201, which is the
+proposed DenseFeat provide superior performance on both the
+benchmarked datasets.
+2) Computational time: The average inference time re-
+quired to predict a gesture pose using the proposed DenseFeat
+with PCA, ExtriDeNet [22], and HyFiNet [13] are 0.81s, 1.30s,
+and 6.4s respectively. This demonstrates that the proposed
+method can able to recognize the gesture pose more accurately
+with less time compared to earlier reported techniques.
+D. Comparison with earlier techniques on bench-marked
+datasets
+Table IV shows the comparision of recognition accuracy of
+the proposed technique versus state-of-the-art approaches on
+both datasets. The result indicates that the proposed method
+outperforms earlier reported methods, achieving a mean accu-
+racy of 88.15 % and 95.45 % using the SI CV test on the MU
+and NUS II datasets, respectively. Similarly for SD CV test,
+the proposed technique achieves higher mean accuracy than
+the previous methods. Furthermore, it can also be observed
+from the tabulation result that as the SD CV test is a user-
+TABLE III
+COMPARISON RESULTS OF PROPOSED DENSEFEAT AGAINST THE FUSION
+OF GLOBAL FEATURES FROM DIFFERENT BLOCKS OF STATE-OF-THE-ART
+CNNS USING SI CV TEST
+CNN models
+Feature extraction layers
+MU
+dataset
+NUS
+II
+dataset
+Mean accu-
+racy (%)
+Mean accu-
+racy (%)
+VGG 16 [20]
+conv4 3, and conv5 3
+84.85
+91.89
+ResNet 18 [21]
+res4b and res5b
+84.06
+93.26
+ResNet 50 [21]
+add 13, and add 16
+85.77
+93.68
+DenseNet
+201
+[15]
+conv4 block48 concat,
+and
+conv5 block32 concat
+87.16
+94.50
+The bold letter values indicate the proposed DenseFeat results.
+Authorized licensed use limited to: Lovely Professional University - Phagwara. Downloaded on April 02,2026 at 13:55:16 UTC from IEEE Xplore.  Restrictions apply. 
+
+TABLE IV
+COMPARISON RESULTS OF PROPOSED METHOD WITH STATE-OF-THE-ART
+TECHNIQUES ON BOTH THE STANDARD DATASETS
+Dataset
+SI test
+SD test
+Methods
+Accuracy
+Methods
+Accuracy
+MU
+CNN [14]
+73.86
+HyFiNet [13]
+87.13
+HyFiNet [13]
+77.44
+GB-ZM [23]
+97.09
+FCNN [14]
+84.02
+GB-HU [23]
+97.63
+ExtriDeNet [22]
+84.28
+Fusion
+[AlexNet,
+VGG16] [7]
+87.83
+DenseFeat
++
+PCA
+98.77
+DenseFeat
++
+PCA
+88.15
+NUS II
+ExtriDeNet [22]
+61.49
+ExtriDeNet [22]
+98.75
+Fusion
+[AlexNet,
+VGG16] [7]
+92.65
+HyFiNet [13]
+97.78
+DenseFeat
++
+PCA
+95.45
+DenseFeat
++
+PCA
+99.35
+biased CV approach, its performance is often superior to the SI
+CV test. The proposed technique shows superior performance
+in both the datasets due to the following reasons. (i) The
+proposed features DenseFeat contains the combination of high-
+level semantic information from the last two dense blocks
+of the DenseNet 201 which may preserve better discriminate
+information for the gesture pose. (ii) After removing the redun-
+dant information from the DenseFeat using the PCA technique
+the reduced feature represents distinguishable features for a
+given input gesture pose.
+V. CONCLUSIONS
+In this work, a novel feature known as DenseFeat is
+proposed for accurate recognition of vision-based static hand
+gestures. The proposed system does not require any pre-
+processing operations such as illumination normalization, skin
+colour based ﬁlter for hand segmentation, etc. The DenseFeat
+focuses on the global features from the receptive ﬁelds of both
+the dense blocks which acquires the discriminate information
+for the input gesture pose. In addition, the redundant informa-
+tion in the DenseFeat is eliminated using the PCA technique.
+Various qualitative and quantitative analysis proves that the
+proposed method provides superior performance compared to
+other earlier reported methods on both the standard datasets
+in terms of recognition accuracy and computational time. In
+future work, some discriminate feature extraction modules can
+be added to the present HGR system to reduce the similar
+gesture class-speciﬁc behavior between the hand gestures.
+REFERENCES
+[1] D. Sarma and M. Bhuyan, “Methods, databases and recent advancement
+of vision-based hand gesture recognition for hci systems: A review,” SN
+Computer Science, vol. 2, no. 6, pp. 1–40, 2021.
+[2] L. Guo, Z. Lu, and L. Yao, “Human-machine interaction sensing tech-
+nology based on hand gesture recognition: A review,” IEEE Transactions
+on Human-Machine Systems, vol. 51, no. 4, pp. 300–309, 2021.
+[3] J. P. Wachs, M. K¨olsch, H. Stern, and Y. Edan, “Vision-based hand-
+gesture applications,” Communications of the ACM, vol. 54, no. 2, pp.
+60–71, 2011.
+[4] J. P. Sahoo, S. Ari, and D. K. Ghosh, “Hand gesture recognition using
+DWT and F-ratio based feature descriptor,” IET Image Processing,
+vol. 12, no. 10, pp. 1780–1787, Oct. 2018.
+[5] Y. S. Tan, K. M. Lim, and C. P. Lee, “Hand gesture recognition
+via enhanced densely connected convolutional neural network,” Expert
+Systems with Applications, vol. 175, p. 114797, 2021.
+[6] J. P. Sahoo, S. P. Sahoo, S. Ari, and S. K. Patra, “RBI-2RCNN: Residual
+block intensity feature using a two-stage residual convolutional neural
+network for static hand gesture recognition,” Signal, Image and Video
+Processing, vol. 16, no. 8, pp. 2019–2027, Feb. 2022.
+[7] J. P. Sahoo, S. Ari, and S. K. Patra, “A user independent hand gesture
+recognition system using deep CNN feature fusion and machine learning
+technique,” in New Paradigms in Computational Modeling and Its
+Applications.
+Elsevier, 2021, pp. 189–207.
+[8] S. Kundu and S. Ari, “P300 based character recognition using convolu-
+tional neural network and support vector machine,” Biomedical Signal
+Processing and Control, vol. 55, p. 101645, 2020.
+[9] M. Awais, X. Long, B. Yin, S. F. Abbasi, S. Akbarzadeh, C. Lu,
+X. Wang, L. Wang, J. Zhang, J. Dudink et al., “A hybrid DCNN-
+SVM model for classifying neonatal sleep and wake states based on
+facial expressions in video,” IEEE Journal of Biomedical and Health
+Informatics, vol. 25, no. 5, pp. 1441–1449, 2021.
+[10] L. Fang, N. Liang, W. Kang, Z. Wang, and D. D. Feng, “Real-time hand
+posture recognition using hand geometric features and ﬁsher vector,”
+Signal Processing: Image Communication, vol. 82, p. 115729, 2020.
+[11] Z. Wang, “Gesture recognition by model matching of slope difference
+distribution features,” Measurement, vol. 181, p. 109590, 2021.
+[12] K. Sadeddine, F. Z. Chelali, R. Djeradi, A. Djeradi, and S. Benabder-
+rahmane, “Recognition of user-dependent and independent static hand
+gestures: Application to sign language,” Journal of Visual Communica-
+tion and Image Representation, vol. 79, p. 103193, 2021.
+[13] G. Bhaumik, M. Verma, M. C. Govil, and S. K. Vipparthi, “Hyﬁnet: Hy-
+brid feature attention network for hand gesture recognition,” Multimedia
+Tools and Applications, pp. 1–20, 2022.
+[14] S. F. Chevtchenko, R. F. Vale, V. Macario, and F. R. Cordeiro, “A
+convolutional neural network with feature fusion for real-time hand
+posture recognition,” Applied Soft Computing, vol. 73, pp. 748–766,
+2018.
+[15] G. Huang, Z. Liu, L. Van Der Maaten, and K. Q. Weinberger, “Densely
+connected convolutional networks,” in Proc. IEEE Comput. Soc. Conf.
+Comput. Vis. Pattern Recognit., 2017, pp. 4700–4708.
+[16] A. Barczak, N. Reyes, M. Abastillas, A. Piccio, and T. Susnjak, “A new
+2D static hand gesture colour image dataset for ASL gestures,” Research
+Letters in the Information and Mathematical Sciences, vol. 15, pp. 12–
+20, 2011.
+[17] P. K. Pisharady, P. Vadakkepat, and A. P. Loh, “Attention based detec-
+tion and recognition of hand postures against complex backgrounds,”
+International Journal of Computer Vision, vol. 101, no. 3, pp. 403–419,
+Feb 2013.
+[18] R. R. Selvaraju, M. Cogswell, A. Das, R. Vedantam, D. Parikh, and
+D. Batra, “Grad-cam: Visual explanations from deep networks via
+gradient-based localization,” in Proceedings of the IEEE international
+conference on computer vision, 2017, pp. 618–626.
+[19] V. Vapnik, The nature of statistical learning theory.
+Springer science
+& business media, 2013.
+[20] K. Simonyan and A. Zisserman, “Very deep convolutional networks for
+large-scale image recognition,” arXiv preprint arXiv:1409.1556, 2014.
+[21] K. He, X. Zhang, S. Ren, and J. Sun, “Deep residual learning for image
+recognition,” in Proc. IEEE Comput. Soc. Conf. Comput. Vis. Pattern
+Recognit., 2016, pp. 770–778.
+[22] G. Bhaumik, M. Verma, M. C. Govil, and S. K. Vipparthi, “Extridenet:
+an intensive feature extrication deep network for hand gesture recogni-
+tion,” The Visual Computer, pp. 1–14, 2021.
+[23] S. F. Chevtchenko, R. F. Vale, and V. Macario, “Multi-objective opti-
+mization for hand posture recognition,” Expert Systems with Applica-
+tions, vol. 92, pp. 170–181, 2018.
+Authorized licensed use limited to: Lovely Professional University - Phagwara. Downloaded on April 02,2026 at 13:55:16 UTC from IEEE Xplore.  Restrictions apply. 
+

@@ -1,0 +1,590 @@
+Accurate continuous action and gesture
+recognition method based on skeleton and
+sliding windows techniques
+Viet-Duc Le∗, Thi-Lich Nghiem∗†, Thi-Lan Le∗
+∗School of Electrical and Electronic Engineering (SEEE),
+Hanoi University of Science and Technology (HUST), Vietnam
+Email: lan.lethi1@hust.edu.vn
+† MIS and E-commerce faculty, Thuongmai University, Hanoi, Vietnam
+Abstract—Vision-based action recognition with the
+main aim to determine the action class from image
+sequence has emerged recently thanks to its potential
+applications. Numerous methods have been proposed
+for action recognition. However, majority of them
+mainly focus on isolated action recognition with the
+assumption that videos are segmented in different clips
+or shots, each of them contains an image sequence of
+one sole action. Different from isolated action recogni-
+tion, continuous action recognition involves recognizing
+human actions from a continuous stream of input data
+without requiring pre-segmentation into discrete action
+instances. In this paper, we propose a method for
+continuous action recognition. The proposed method
+incorporates sliding window technique and a light
+weight action classification model named DDNet. We
+evaluate the proposed approach on several benchmark
+datasets. Experimental results show that the proposed
+method the accuracy of 0.95, 0.97 and 0.71 for IPN,
+UOW and InHARD datasets respectively on isolated
+action recognition task. On continuous recognition task,
+it has achieved a performance of 0.57, 0.76 and 0.33 on
+IPN, UOW and InHARD datasets.
+Index Terms—skeleton-based action recognition, con-
+tinuous action recognition
+I. INTRODUCTION
+The ability to recognize and understand human
+actions in real-time has important applications in var-
+ious domains, including surveillance, human-robot
+interaction, and healthcare. In surveillance, distract-
+ing moments of drivers, and illegal house intrusion
+can be detected [1], [2]. In human-robot interaction,
+gesture and action recognition can enable robots
+to respond to human commands and intentions, fa-
+cilitating natural and intuitive communication [3]
+while in healthcare domain, action recognition can be
+used to monitor and assist patients through physical
+rehabilitation [4].
+Recent advances in deep learning have enabled sig-
+nificant progress in action recognition, leveraging ap-
+proaches, including Convolutional Neural Networks
+(CNNs), Recurrent Neural Networks (RNNs), and
+graph-based models. These methods have demon-
+strated encouraging outcomes in the identification of
+diverse human actions within video sequences.
+However, majority of existing work focus on iso-
+lated action recognition with the assumption that
+videos are segmented in different clips or shots, each
+of them contains an image sequence of one sole
+action. Different from isolated action recognition,
+continuous action recognition involves recognizing
+human actions from a continuous stream of input
+data without requiring pre-segmentation into discrete
+action instances.
+Compared with isolated recognition, recognizing
+continuous actions poses a notably greater challenge
+as it has to tackle to variation of actions’ length,
+unclear boundary between actions.
+In this paper, we introduce a novel approach de-
+signed for continuous action recognition. The pro-
+posed method incorporates sliding window tech-
+nique and a light weight action classification model
+named DDNet [5]. We assess the performance of
+our approach on various benchmark datasets and
+conduct a comparative analysis with state-of-the-
+art approaches, demonstrating its effectiveness and
+robustness in continuous action recognition tasks.
+The rest of this paper is organized as follows:
+Section 2 provides a review of the related work in
+human action recognition. Section 3 describes the de-
+tailed information of the proposed approach. Section
+4 shows our experiments on three different datasets
+of continuous action and gesture recognition and
+analyze in detail the experimental results. Conclusion
+and future works are illustrated in Section 5.
+II. RELATED WORKS
+In this section, we provide an overview of the
+related work on action recognition, highlighting the
+1
+979-8-3503-0067-3/23/$31.00 ©2023 IEEE
+2023 Asia Pacific Signal and Information Processing Association Annual Summit and Conference (APSIPA ASC)
+284
+2023 Asia Pacific Signal and Information Processing Association Annual Summit and Conference (APSIPA ASC) | 979-8-3503-0067-3/23/$31.00 ©2023 IEEE | DOI: 10.1109/APSIPAASC58517.2023.10317368
+Authorized licensed use limited to: Lovely Professional University - Phagwara. Downloaded on April 02,2026 at 13:57:20 UTC from IEEE Xplore.  Restrictions apply. 
+
+key contributions and limitations of existing methods.
+The study on video-based action recognition can be
+categorized into two fundamental groups: isolated
+and continuous action recognition.
+Isolated action recognition takes split videos that
+contain only a single instance of action as inputs
+and predicts the action label. Many approaches have
+been proposed for isolated action recognition. Some
+authors used CNNs to capture local spatial patterns
+and temporal dynamics, thereby effectively modeling
+the complex motion characteristics of actions such as
+[6]. Due to the limitation of the single-frame image
+data input, some authors proposed to use 3D CNN
+to learn the temporal information for action recog-
+nition including different fusion approaches, spatio-
+temporal attention mechanisms, and dual-stream 3D-
+CNN [7], [8]. In addition, the method based on
+Long Short-Term Memory (LSTM) and CNN that
+have been proposed to recognize actions quickly and
+accurately [9]. Nayan et al. [10] proposed a combined
+RNN that uses CNN to extract features for a bidi-
+rectional LSTM (BD-LSTM). While CNN, 3D CNN
+and LSTM based methods mainly work on RGB
+sequence, different GCN models have been proved
+to be robust for skeleton-based action recognition.
+Recently, some methods have been proposed to
+address continuous action recognition from RGB [11]
+or skeleton sequences [12]. These methods built a
+detector to determine whether an images sequence
+contains an action or not and a classifier that aims
+to identify the action class. Building a detector is
+tedious task as it requires to prepare a training
+set that consists of image sequences for non ac-
+tion/non gesture. Moreover, some methods could not
+guarantee real time processing. In [13], the authors
+propose a model consisting of a Spatio-Temporal
+GCN and the sliding window method for continuous
+action recognition from skeleton sequence. A sliding
+window of a predetermined size was applied to a
+continuous stream of skeleton data, and it was shifted
+as time advanced. This method allows to accelerate
+the recognition speed, however, GCN is still complex
+model that requires computational resources. In [12],
+a light model has been introduced for continuous
+hand gesture recognition. However, the model is
+designed for IPN dataset and could not work on other
+datasets.
+III. PROPOSED METHOD
+A. Sliding Window
+The proposed strategy, which is shown in Fig. 1, is
+divided into two stages: training and inference. In the
+training step, a light weight model based on DDNet
+is trained on isolated sequences of different actions.
+Then, in the inference step, sliding window technique
+is incorporated to recognize the dynamic gestures
+from continuous stream of video. The window size
+denoted ws needs to be set to a fixed number same
+as the input of DDNet. The number of frames in the
+sliding window is will be chosen for each dataset de-
+pending on the frame rate and the length of gestures.
+This window strides every 1 frame and returns the
+predicted label for the middle frame of the window.
+B. DDNet
+DDNet (a Double-Feature Double-Motion net-
+work) is a light weight model proposed for skeleton-
+based human action recognition [5]. Although being
+a light weight model, DDNet and its variants provides
+state-of-the-art results on different datasets [2].
+In Fig. 2, we conducted a performance comparison
+of recognition models using the MSRAction dataset
+[14] in term of both FLOPs and accuracy. We can
+observe that DD-Net results a good recognition rate
+while requires less computational time compared to
+GCN model.
+DDNet consists of three branches that aims at
+extracting both spatial and temporal features from
+skeleton sequence. There branches are Slow motion,
+Fast motion and Joint Collection Distances (JCD).
+Each branch contains three CNN layers. Slow and
+Fast motions are designed to capture the movement
+of the actions while JCD is dedicated to spatial
+information.
+Denote St+1 and St+2 are the skeleton of one
+frame and two frames behind the skeleton at frame
+t St, F t
+slow and F t
+fast that are denoted as the Slow
+Motion the Fast Motion and are computed as follows:
+F t
+slow = St+1 −St, t ∈1, 2, 3, ..., T −1;
+(1)
+F t
+fast = St+2 −St, t ∈1, 3, ..., T −2;
+(2)
+Concerning JCD, it is extracted from a Euclidean
+distance matrix. Each element of the matrix repre-
+sents the Euclidean distance between a pair of joints
+in the same frame. At frame t, JCD feature can be
+computed by using the following equation.
+JCDt =
+
+
+
+−−→
+jt
+2jt
+1
+
+...
+...
+...
+· · ·
+...
+
+−−→
+jt
+Njt
+1
+
+· · ·
+· · ·
+
+−−−−−→
+jt
+Njt
+N−1
+
+
+
+(3)
+where
+
+−−→
+jt
+kjt
+l
+ (k ̸= l) is the Euclidean distance
+between two joints jt
+k and jt
+l of the skeleton St.
+2
+285
+Authorized licensed use limited to: Lovely Professional University - Phagwara. Downloaded on April 02,2026 at 13:57:20 UTC from IEEE Xplore.  Restrictions apply. 
+
+window n-1
+3 layers of CNN
+Joints
+Collection
+Slow motion
+Fast motion
+3 layers of CNN
+3 layers of CNN
+6 layers of CNN
+FC l
+      FC layers
+GAP
+3 layers of CNN
+Joints 
+Collection 
+Slow motion
+Fast motion
+3 layers of CNN
+3 layers of CNN
+6 layers of CNN
+       FC layers
+       FC layers
+GAP
+DDNet
+window n
+zoom_in
+thrown_down
+Segmented samples
+
+
+continuous stream input
+Fig. 1: Proposed method for skeleton-based continuous human action recognition
+1
+2
+3
+4
+5
+6
+FLOPS/prediction
+1e6
+0.68
+0.69
+0.70
+0.71
+0.72
+0.73
+0.74
+0.75
+0.76
+Accuracy
+DDNet
+SW- GCN
+SW-CNN
+Fig.
+2:
+Comparison
+of
+recognition
+models
+on
+MSRAction dataset [14]
+TABLE I: Accuracy obtained by the proposed
+method on 3 datasets for isolated classification task.
+IPN
+UOW
+InHARD
+Acc
+0.95
+0.97
+0.71
+TABLE II: Comparison of the proposed method with
+state-of-the-art methods on three benchmark datasets
+IPN
+UOW
+InHARD
+SW-CNN [13]
+-
+0.68
+-
+SW-GCN [13]
+-
+0.75
+-
+Proposed method
+0.57
+0.76
+0.33
+IV. EXPERIMENTAL RESULTS
+A. Datasets
+We conducted our experiments on the following
+continuous gesture datasets, which is widely used for
+evaluating continuous action recognition algorithms.
+IPN [11]: This dataset includes over 4,000 gesture
+samples and 800,000 RGB frames from 50 different
+individuals. 13 different static and dynamic gestures
+were created to focus on interactions with touchless
+screens. The main characteristic of the dataset is that
+the continuous gestures are performed without tran-
+3
+286
+Authorized licensed use limited to: Lovely Professional University - Phagwara. Downloaded on April 02,2026 at 13:57:20 UTC from IEEE Xplore.  Restrictions apply. 
+
+Fig. 3: RGB images sequence and its corresponding skeleton sequence of ”Throw down” action in IPN
+dataset
+High_arm_wave (UOW)
+Zoom_in (IPN)
+Assemble (inHARD)
+Fig. 4: Example of skeleton sequences of UOW, IPN and InHARD datasets
+4
+287
+Authorized licensed use limited to: Lovely Professional University - Phagwara. Downloaded on April 02,2026 at 13:57:20 UTC from IEEE Xplore.  Restrictions apply. 
+
+Non-gesture
+Pointing with one ﬁnger
+Pointing with two ﬁngers
+Click with one ﬁnger
+Click with two ﬁngers
+Throw up
+Throw down
+Throw left
+Throw right
+Open twice
+Double click with one ﬁnger
+Double click with two ﬁngers
+Zoom in
+Zoom out
+Non-gesture
+Pointing with one ﬁnger
+Pointing with two ﬁngers
+Click with one ﬁnger
+Click with two ﬁngers
+Throw up
+Throw down
+Throw left
+Throw right
+Open twice
+Double click with one ﬁnger
+Double click with two ﬁngers
+Zoom in
+Zoom out
+Fig. 5: Isolated action classification on IPN dataset
+sition states and non-gesture actions are performed
+by subjects using natural hand movements. Gestures
+were captured in about 30 different settings with vari-
+ous backgrounds and lighting conditions to introduce
+real-world variation. Since the skeleton information
+is not available on this dataset, we estimate hand
+joint landmarks from provided video by using Medi-
+aPipe [15], an open-source cross-platform framework
+developed by Google that provides a pipeline for
+building real-time applications.
+UOW: [16] The UOW Online Action3D Dataset
+contains action sequences of 20 actions. These ac-
+tions are defined in MSR Action3D Dataset. The
+dataset were captured using Microsoft Kinect V.2
+and comprises videos of 20 subjects. Each subject
+performed one action from 3 to 5 times before per-
+forming 20 actions continuously in a random order.
+The dataset has two subsets: a subset of continu-
+ous action sequences can be utilized for evaluation
+of continuous action recognition methods while the
+subset of repeated action sequences will be used for
+isolated action recognition or training purposes.
+InHARD (Industrial Human Action Recogni-
+tion Dataset): [17] has recently released for human-
+COBOT interaction context. This dataset contains
+over 4800 action samples that perform 13 differ-
+ent industrial action classes named meta-action. The
+authors use a motion sensor system to capture the
+human skeleton at 120 Hz. Figure 4 shows example
+of skeleton sequence of these datasets. It is worth to
+note that the number of joints for IPN, UOW and
+InHARD datasets are 21, 25 and 17 respectively.
+B. Implementation details and evaluation metrics
+The size of the window depends on the frame rate
+and gesture length of each dataset. We set the window
+size of UOW and IPN is 60 and of inHARD is 240.
+All experiments were conducted on a PC with an
+Intel Core i7 8750H processor.
+To assess the performance action recognition sys-
+tem, we employ the video-wise accuracy for isolated
+recognition and frame-wise accuracy for continuous
+recognition. Frame-wise accuracy compares the pre-
+dicted label vs the ground-truth label at frame level.
+5
+288
+Authorized licensed use limited to: Lovely Professional University - Phagwara. Downloaded on April 02,2026 at 13:57:20 UTC from IEEE Xplore.  Restrictions apply. 
+
+Fig. 6: Feature space learned from DDNet model for IPN dataset
+Predicted
+GT
+Fig. 7: Illustration of continuous action recognition on a sequence of UOW dataset. The first line represents
+the results of the proposed method while the second line shows the corresponding ground-truth. Each action
+label is represented by an identical color.
+C. Results
+As the proposed method consists of two main
+components: the sliding window technique and an
+action classifier based on DDNet. We evaluate first
+the performance of action classifier. Table I shows
+the accuracies obtained for three benchmark datasets.
+The accuracies obtained for IPN, UOW and InHARD
+are 0.95, 0.97 and 0.71 respectively. We can observe
+that the model based on DDNet could distinguish
+different actions with high accuracy. Among three
+datasets, the performance obtained for InHARD is
+lowest. The main reason is that in InHARD contains
+74 actions belonging to 13 meta-actions, each type of
+meta-action has many variations of actions, therefore,
+it is hard to achieve the high accuracy in classification
+task. For IPN dataset, even with skeleton extracted
+by off the shelf method [15] and the high inter-
+similarity between action classes, the method still
+could recognize very well the actions. Figure 3
+illustrates the RGB sequence and its corresponding
+skeleton sequence for ”Throw down” action of IPN
+dataset. Figure 5 shows the confusion matrix obtained
+for IPN while Fig. 6 shows the feature distribution
+of 13 actions in IPN dataset using t-SNE method.
+We can observe that the ”Click” and ”Double click”
+actions get a lot of confusions between 1 and 2
+6
+289
+Authorized licensed use limited to: Lovely Professional University - Phagwara. Downloaded on April 02,2026 at 13:57:20 UTC from IEEE Xplore.  Restrictions apply. 
+
+fingers. This can be explained by the similarity in
+the movement. In some cases, 1 of 2 fingers can
+be obscured leading Mediapipe only estimating 1
+finger. Table II compares the performance of the
+proposed method with CNN and GCN based methods
+in [13] on three benchmark datasets: IPN, UOW,
+and InHARD. The two first row represents results
+of the SW-CNN, the SW-GCN method [13], which
+has achieved a performance of 0.68, 0.75 in term
+of frame-wise accuracy on the UOW dataset. The
+last row represents the proposed method, which has
+achieved a performance of 0.57 on the IPN dataset,
+0.76 on the UOW dataset, and 0.33 on the InHARD
+dataset.
+Figure 7 illustrates recognition for a continuous
+sequence in UOW dataset. The first line represents
+the proposal’s results whereas the second line shows
+the corresponding ground-truth. Each action label is
+represented by an identical color. From this figure,
+we can observe that the capability of the proposed
+method to accurately localize and recognize different
+action instances from input sequence. However, for
+some actions such as the two first segments present
+the transition from non-gesture to ”pick up & throw”
+gesture. Because the sliding window returns the label
+of the middle frame, in this case, skeletons in the
+window contains both non-gesture frame and the
+starting frame of ”pickup” gesture. Therefore, it is
+recognize as pick up gesture.
+V. CONCLUSION AND FUTURE WORKS
+In this paper, a method for continuous action
+recognition from a skeleton sequence has been pro-
+posed. The proposed method incorporates sliding
+window technique and a light weight action clas-
+sification model. Based on our experiments con-
+ducted on three benchmark datasets, the proposed
+method achieved remarkable accuracy scores of 0.95,
+0.97, and 0.71 for the IPN, UOW, and InHARD
+datasets, respectively. These results pertain specif-
+ically to the isolated action recognition task. On
+continuous recognition task, it has achieved a per-
+formance of 0.57, 0.76 and 0.33 on IPN, UOW and
+InHARD datasets. Although the proposed method
+obtains promising results for isolated recognition
+task, there is still room for improvement for con-
+tinuous recognition especially when working with
+challenging dataset such as InHARD.
+ACKNOWLEDGMENT
+This work was funded by the project ”Research,
+design and manufacture of COBOT applied in indus-
+try and some other fields with human-robot interac-
+tion”, grant number: KC- 4.0-35/19-35.
+REFERENCES
+[1] H. Yan, B. Hu, G. Chen, and E. Zhengyuan, “Real-time
+continuous human rehabilitation action recognition using
+openpose and fcn,” in 2020 3rd International Conference
+on Advanced Electronic Materials, Computers and Software
+Engineering (AEMCSE), 2020, pp. 239–242.
+[2] T.-T. Nguyen, D.-T. Pham, H. Vu, and T.-L. Le, “A robust
+and efficient method for skeleton-based human action recog-
+nition and its application for cross-dataset evaluation,” IET
+Computer Vision, vol. 16, no. 8, pp. 709–726, 2022.
+[3] Q. Gao, J. Liu, Z. Ju, and X. Zhang, “Dual-hand detection for
+human–robot interaction by a parallel network based on hand
+detection and body pose estimation,” IEEE Transactions on
+Industrial Electronics, vol. 66, no. 12, pp. 9663–9672, 2019.
+[4] Q.-T. Pham, D.-A. Nguyen, T.-T. Nguyen, T. Nguyen, D.-T.
+Nguyen, D.-T. Pham, T. Tran, T. Le, and V. Hai, “A study
+on skeleton-based action recognition and its application to
+physical exercise recognition,” in Proceedings of the 11th
+International Symposium on Information and Communica-
+tion Technology, 12 2022, pp. 239–246.
+[5] F. Yang, Y. Wu, S. Sakti, and S. Nakamura, “Make skeleton-
+based action recognition model smaller, faster and better,” in
+Proceedings of the ACM Multimedia Asia.
+Association for
+Computing Machinery, 2020.
+[6] S. Shinde, A. Kothari, and V. Gupta, “Yolo based human
+action recognition and localization,” Procedia Computer Sci-
+ence, vol. 133, pp. 831–838, 2018, international Conference
+on Robotics and Smart Manufacturing (RoSMa2018).
+[7] F. Liu and Z. Wu, “A kind of human action recognition
+algorithm based on Kinect and SVM,” Modern Computer,
+vol. 18, pp. 55–58, 2019.
+[8] N. M. and D. S., “Deep ensemble network using distance
+maps and body part features for skeleton based action
+recognition,” Pattern Recognition, vol. 100, p. 107125, 2020.
+[9] T.-H. Tan, C.-J. Huang, M. Gochoo, and Y.-F. Chen, “Activ-
+ity recognition based on FR-CNN and attention-based LSTM
+network,” in 2021 30th Wireless and Optical Communica-
+tions Conference (WOCC), 2021, pp. 146–149.
+[10] N. Nayan, D. Ghosh, and P. M. Pradhan, “A CNN bi-LSTM
+based multimodal continuous hand gesture recognition,” in
+2022 IEEE India Council International Subsections Confer-
+ence (INDISCON), 2022, pp. 1–4.
+[11] G. Benitez-Garcia, J. Olivares-Mercado, G. Sanchez-Perez,
+and K. Yanai, “IPN hand: A video dataset and benchmark
+for real-time continuous hand gesture recognition,” CoRR,
+vol. abs/2005.02134, 2020.
+[12] T. Nguyen, N. Nguyen, D. Ngo, V. Phan, M. Pham,
+D. Nguyen, M. Doan, and T. Le, “A continuous real-time
+hand gesture recognition method based on skeleton,” in
+11th International Conference on Control, Automation and
+Information Sciences, ICCAIS, 2022, 2022, pp. 273–278.
+[13] M. Delamare, C. Laville, A. Cabani, and H. Chafouk, “Graph
+convolutional networks skeleton-based action recognition for
+continuous data stream: A sliding window approach,” in
+International Conference on Computer Vision Theory and
+Applications, 2021.
+[14] W. Li, Z. Zhang, and Z. Liu, “Action recognition based on
+a bag of 3D points,” in Computer Society Conference on
+Computer Vision and Pattern Recognition Workshops, 2010,
+pp. 9–14.
+[15] C. Lugaresi, J. Tang, H. Nash, C. McClanahan, E. Uboweja,
+M. Hays, F. Zhang, C.-L. Chang, M. G. Yong, J. Lee, W.-T.
+Chang, W. Hua, M. Georg, and M. Grundmann, “MediaPipe:
+A framework for building perception pipelines,” Jun. 2019.
+[16] C. Tang, W. Li, P. Wang, and L. Wang, “Online human
+action recognition based on incremental learning of weighted
+covariance descriptors,” Information Sciences, vol. 467, pp.
+219–237, 2018.
+[17] M. Dallel, V. Havard, D. Baudry, and X. Savatier, “InHARD-
+industrial human action recognition dataset in the context
+of industrial collaborative robotics,” in International Confer-
+ence on Human-Machine Systems (ICHMS), 2020, pp. 1–6.
+7
+290
+Authorized licensed use limited to: Lovely Professional University - Phagwara. Downloaded on April 02,2026 at 13:57:20 UTC from IEEE Xplore.  Restrictions apply. 
+

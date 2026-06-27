@@ -1,0 +1,767 @@
+2024 Second International Conference on Advances  in Information Technology (ICAIT-2024) 
+ 
+ 
+ 
+ 
+979-8-3503-8386-7/24/$31.00 ©2024 IEEE 
+ 
+ 
+Interactive Image Processing: Design Of An AI 
+Assisted Human Computer Interaction Logic Using 
+Gesture Recognition Model Based On Logical Open 
+CV Scheme 
+ 
+ 
+A. Jaya Mabel Rani 
+Department of CSE 
+Saveetha School of Engineering, 
+Saveetha Institute of Medical and 
+Technical Sciences, Saveetha 
+University, 
+Chennai, Tamil Nadu, India. 
+jayamabelrania.sse@saveetha.com 
+ 
+Celine Kavida A 
+Department of Physics  
+Veltech Multitech Dr Rangarajan Dr. 
+Sakunthala Engineering College,  
+Chennai, Tamil Nadu, India 
+celinearuldoss@gmail.com 
+S. Sujatha 
+Department of EEE 
+Sri Sairam College of Engineering  
+Bangalore, Karnataka,India  
+sujasakthi22@gmail.com 
+ 
+ 
+ 
+ 
+L. Vinoth Kumar 
+Department of Information Technology, 
+RMK Engineering College, 
+ Chennai, Tamil Nadu, India 
+vk.it@rmkec.ac.in 
+R Anbunathan 
+Department of Mathematics 
+SA Engineering college,  
+Chennai, Tamil Nadu, India.    
+anbun.adhavan@gmail.com 
+ 
+ 
+ 
+B. Shamreen Ahamed  
+Department of CSE  
+Sathyabama Institute of Science and 
+Technology, 
+ Chennai, Tamil Nadu, India 
+shamreenahamedb@gmail.com 
+Abstract—One method that can recognize hand gestures in 
+real-time video is hand gesture recognition. A specific field of 
+study is used to categorize the hand gesture. One of the 
+difficult tasks in this study involving two main problems is the 
+design of the hand gesture recognition system. The first step is 
+to identify the hand. Making a sign that works for just one 
+hand at a time is another challenge. The focus of this system is 
+on developing a computer vision system that can detect, 
+identify, and understand hand gestures, even when faced with 
+tough circumstances such as variations in scale, orientation, 
+position, and attitude. A variety of gestures, including 
+numerical and sign language ones, must be implemented into 
+this system for the development of this study endeavour to be 
+successful. There are a lot of potential uses for this field, which 
+provides a more organic and easy method for humans to 
+interact with robots and system interfaces without the usage of 
+additional hardware. Therefore, developing systems that can 
+recognize individual human gestures and utilize them to 
+transmit data or operate devices is the major objective of 
+gesture recognition research as it pertains to Human-
+Computer Interaction (HCI). This necessitates real-time 
+gesture identification and lightning-fast, very robust hand 
+detection for vision-based hand gesture interfaces. Using an AI 
+algorithm, this study introduces a solution for real-time gesture 
+detection called the Logical Gesture detection Model (LGRM). 
+It is general enough to be applied in many different kinds of 
+human-computer interactions. To verify that the suggested 
+model is effective, it is cross-validated with the traditional 
+method known as the Cascading Gesture Classification Model 
+(CGCM). 
+ 
+Keywords—Image Processing, Artificial Intelligence, AI, 
+Human Computer Interaction, Gesture Recognition, OpenCV, 
+LGRM, Gesture Classification, CGCM 
+I. 
+INTRODUCTION 
+ 
+Everyday life includes systems that can recognize 
+hand gestures in real-time videos, and one of them is hand 
+gesture recognition [1]. A specific field of study is used to 
+categorize the hand gesture. The project's goals include, 
+among other things, the design of a system for hand gesture 
+recognition. Computer vision has several essential and 
+fundamental problems, one of which is the recognition of 
+hand motions. Modern developments in media and 
+information technology have made possible human-
+computer interaction (HCI) systems that perform hand 
+processing tasks, including gesture recognition and hand 
+detection [2][3]. 
+ 
+Hand processing systems begin by identifying and 
+localizing the hand in the webcam's live feed [4]. Because of 
+variations in size, position, orientation, and attitude, hand 
+identification is problematic. The variation is further 
+amplified by the fact that the room's lighting is of varying 
+intensities. There are often many stages involved in hand 
+detection and gesture identification, including picture 
+capture, pre-processing, feature extraction, and gesture 
+recognition. Acquiring images requires taking still pictures 
+from a movie using a camera and saving them frame by 
+frame. Color filtration, smoothing, and thresholding are all 
+steps in the picture pre-processing pipeline that are applied 
+to the collected photos. Gesture recognition uses feature 
+extraction to identify hand gestures, while feature extraction 
+2024 Second International Conference on Advances in Information Technology (ICAIT) | 979-8-3503-8386-7/24/$31.00 ©2024 IEEE | DOI: 10.1109/ICAIT61638.2024.10690802
+Authorized licensed use limited to: Lovely Professional University - Phagwara. Downloaded on April 02,2026 at 13:52:58 UTC from IEEE Xplore.  Restrictions apply. 
+
+2024 Second International Conference on Advances  in Information Technology (ICAIT-2024) 
+ 
+ 
+ 
+ 
+979-8-3503-8386-7/24/$31.00 ©2024 IEEE 
+ 
+ 
+uses hand images to extract characteristics such hand 
+outlines [5][6]. The development of systems that can 
+recognize individual gestures and use them as inputs or 
+outputs is a key focus of gesture recognition research [7]. 
+While hand posture refers to the hand's static structure, 
+gestures denote the hand's dynamic movement, and both the 
+spatial and temporal domains must be accounted for when 
+modelling gestures [8]. 
+ 
+One example is sign language; it's the most natural 
+means of communication for the deaf community, but they 
+still struggle to communicate with hearing people. Similar to 
+how a spoken language's vocabulary consists of words, a 
+sign language's vocabulary comprises of signs. Different 
+countries use different grammars in sign languages; hence 
+there is no universally accepted norm. For several reasons, 
+including but not limited to making it possible for young 
+children to engage with computers (via sign language 
+recognition), the development of fast and accurate methods 
+for translating sign language into text or speech has been a 
+primary focus of Sign Language Recognition (SLR) 
+systems. The two main schools of thought when it comes to 
+hand gesture identification are vision-based and data glove 
+techniques [9]. In order to develop a system that can 
+recognize posture and gestures for usage in real-time 
+applications, this study focuses on building a vision-based 
+method. Since vision-based hand gesture recognition 
+systems provide a more natural and easy method for humans 
+to communicate with computers, they were the primary 
+emphasis of the research. 
+ 
+When interacting with a computer, hand gestures 
+are a natural and reliable way to transmit data. While 
+conventional input devices like keyboards, mice, joysticks, 
+and touch screens do the job, the current system will feature 
+an interface that is more suited to desktop or laptop 
+computers, allowing users to perform hand gestures with the 
+use of data gloves or a webcam to capture an image of their 
+hand. Capturing and analyzing hands is the first stage in this 
+gesture recognition process. In contrast, the vision-based 
+approach only requires a camera, thereby detecting the real 
+human-computer interaction without the need for any 
+additional hardware. Constant backdrop, sometimes human, 
+and lighting are additional obstacles for this method. Here, 
+in addition to the recognition approaches, we detail the 
+many procedures and algorithms that make up this system 
+[10]. 
+ 
+II. 
+RELATED STUDY 
+ 
+Digital mental health solutions that are efficient, 
+user-friendly, cost-effective, as well as adaptive have been 
+designed and developed in part via human-computer 
+interface (HCI) [11]. However, there are worries about 
+quality and safety since HCI has not been properly 
+integrated into technology advancements. There is great 
+promise for digital platforms and AI to enhance mental 
+health care as well as suicide prevention services' capacity 
+for prediction, detection, coordination, and treatment. 
+Websites and mobile applications powered by AI are mostly 
+used for self-help along with guided cognitive behavioral 
+therapy (CBT) for mental health issues including anxiety 
+and depression. Outdated, overburdened, or nonexistent 
+mental healthcare systems may benefit from interactive AI's 
+real-time screening and treatment capabilities. Challenges in 
+using AI in mental healthcare include issues with 
+accessibility, 
+effectiveness, 
+dependability, 
+usability, 
+security, ethics, appropriate training and education, and 
+socio-cultural adaption. Digital phenotyping, immersive 
+technologies, apps, and real-time 
+machine learning 
+algorithms are promising areas to watch out for. Improved 
+and more rapid human-machine interaction and automation, 
+more stringent evaluations of efficacy, and the adjunctive 
+use of blended, hybrid, or phased care are all necessities. 
+Assisting in the digital therapeutic alliance, identifying and 
+resolving disparities in mental health treatment and suicide 
+prevention, and designing and developing practical 
+applications are all areas that might benefit from human-
+computer interaction (HCI) modelling [11]. 
+ 
+Product design in this age of fast progress must 
+address not only functional and technical requirements, but 
+also the psychological and emotional demands of consumers 
+[12]. Traditional human-computer interaction interfaces 
+were ill-equipped to handle modern users' demands; so, 
+psychological design material must be included into modern 
+HCIs. Consequently, this study proposes a research 
+methodology for human-computer interaction interface 
+design grounded on design psychology with the aim of 
+enhancing the user experience. This study examines a few 
+real-world issues with the design of human-computer 
+interaction interfaces via the lens of design psychology, 
+looking at these issues through the lenses of human behavior 
+and perception. Afterwards, we look into the elements that 
+Chinese users care about while using a human-computer 
+interface and the percentage of distinct sensations in the 
+human-computer information that people get. New needs for 
+human-computer interaction interface design have emerged, 
+according to the research. In order to usher in a new age of 
+design psychology-based research on human-computer 
+interaction interfaces, it is necessary to compile the relevant 
+experimental data and findings [12]. 
+ 
+The purpose of this research is to ascertain how 
+human-computer interface design influenced the evolution 
+of mobile phone technology [13]. Descriptive analysis was 
+the method used by the researcher. In addition to 
+highlighting the benefits of cell phones, such improved 
+social interaction and faster application loading times, the 
+results also highlight the drawbacks, like disturbed sleep and 
+increased weariness, of this technology. The study also 
+identifies HCI as a field that studies computer technology, 
+with a focus on user interfaces, and the common problems 
+that HCI faces, such as the fact that HCI designers have a 
+hard time figuring out how to make sure their designs have 
+good HCI. The study's authors urged more research into 
+Authorized licensed use limited to: Lovely Professional University - Phagwara. Downloaded on April 02,2026 at 13:52:58 UTC from IEEE Xplore.  Restrictions apply. 
+
+2024 Second International Conference on Advances  in Information Technology (ICAIT-2024) 
+ 
+ 
+ 
+ 
+979-8-3503-8386-7/24/$31.00 ©2024 IEEE 
+ 
+ 
+mobile phones and their respective platforms, usability 
+testing of software and websites, and the proper 
+qualification 
+and 
+training 
+of 
+users 
+with 
+cognitive 
+impairments so that they can make better use of these tools 
+[13]. 
+ 
+It is widely believed that information and 
+communication technology may help developing nations' 
+socioeconomic situations improve [14]. The growth of 
+underserved populations has been made possible, according 
+to 
+studies, 
+in 
+several 
+ways 
+by 
+the 
+improved 
+telecommunications infrastructure. As an example of an 
+actual ICT application, digital library systems address many 
+unfulfilled demands in research institutions, scientific 
+communities, and new innovations while also providing 
+better solutions overall. The parallel database system has 
+evolved into the digital library system's primary instrument 
+for effective data processing as technology has progressed. 
+Thus, the coordinator, the collection machine, and the query 
+processor can finish the distribution, load, and maintenance 
+operations by coordinating their communication in the 
+parallel environment. This has a high degree of efficiency, 
+saves a lot of time, helps the digital library meet user needs 
+effectively, and satisfies the data performance requirements 
+of the digital library. Additionally, the key problem in the 
+parallel algorithm has been solved. The efficiency and 
+effectiveness of this parallel approach are shown by the 
+experimental findings [14]. 
+ 
+Important input techniques in Human-Computer 
+Interaction (HCI), including as gesture and voice 
+recognition, have seen extensive application in VR in recent 
+years [15]. Specifically, voice recognition and gesture 
+recognition have accomplished groundbreaking research 
+advances thanks to the fast growth of deep learning, AI, and 
+other computer technologies. The primary search engines 
+used for this project are Google Scholar and the Web of 
+Science literature database. Nearly a thousand researches 
+were chosen based on HCI and deep learning-related 
+keywords including "intelligent HCI," "speech recognition," 
+"gesture recognition," and "natural language processing." 
+Afterwards, after screening over 500 research technique 
+studies throughout the course of five years (2019–2022), 
+100 papers were ultimately chosen to constitute the research 
+material of this work. The present state of the HCI 
+intelligent system is examined first, followed by a summary 
+of the achievements in HCI regarding gesture and voice 
+interaction, and finally, the benefits of deep learning are 
+chosen for further study. The next section lays out the 
+fundamentals of gesture interaction before reviewing the 
+history of interaction between gesture and voice recognition. 
+Also included are descriptions of some typical uses for 
+voice recognition and gesture recognition in conjunction 
+with one another. We conclude by looking at the state of the 
+art in human-computer interaction as it relates to natural 
+language processing. The results demonstrate the extensive 
+use of intelligent HCI and deep learning in areas such as 
+intelligent robot guidance, emotion identification, voice 
+recognition, and gesture recognition. In related scientific 
+disciplines, many other recognition algorithms were 
+suggested 
+and 
+experimentally 
+confirmed. 
+Impressive 
+recognition accuracy was attained when contrasted with 
+interactive approaches that did not include deep learning. 
+Improving user interfaces is a key function of context in 
+voice-supported Human-Machine Interfaces (HMIs). Action 
+recognition may be made much more accurate and precise 
+by combining long short-term memory networks with 
+convolutional neural networks. That is why additional 
+sectors will be part of HCI's future application area, and 
+even better things are on the horizon [15]. 
+ 
+III. 
+METHODOLOGY 
+ 
+Everything revolves around the shape of the hand. 
+Any line or surface that connects all the continuous points 
+along its boundaries and has no straight or flat parts is said 
+to have contours. The thresholding step is carried out prior 
+to this one. Using a webcam, we capture a basic picture of 
+the hand in RGB format. Producing a binary picture that 
+details the hand's outline requires some preparatory work. In 
+this case, the contour and convex-hull of the contour are 
+determined using the binary picture. If you have a collection 
+of points and want to draw a closed figure around them, the 
+shortest possible outline is the convex-hull of that set. As if 
+every point on the hand's contour falls inside the convex 
+hull's bounds, it's drawn on both sides. The effect is the 
+same as wrapping one's hand in a folded paper container. A 
+flaw in the hand gesture becomes apparent when convex 
+hulls are drawn on both sides of the hand's contour, fitting 
+sets of contour points. To build the hull and include all of 
+the contour points within, it makes advantage of maximum 
+locations. When a convexity defect is present, it produces a 
+vector of values. The following figure Fig.1 shows the flow 
+diagram of the LGRM method. 
+ 
+Authorized licensed use limited to: Lovely Professional University - Phagwara. Downloaded on April 02,2026 at 13:52:58 UTC from IEEE Xplore.  Restrictions apply. 
+
+2024 Second International Conference on Advances  in Information Technology (ICAIT-2024) 
+ 
+ 
+ 
+ 
+979-8-3503-8386-7/24/$31.00 ©2024 IEEE 
+ 
+ 
+ 
+ 
+Fig.1 Flow Diagram of LGRM Method 
+ 
+This method uses data collected from the convex 
+hull to identify the palm's location and the hand's shape to 
+identify the fingertip's location. This system's computing 
+cost is minimal since the computation geometry algorithm is 
+conducted. 
+The 
+proposed 
+method 
+Logical 
+Gesture 
+Recognition Model (LGRM), an alternative to the current 
+Cascading Gesture Classification Model (CGCM), increases 
+the reliability of hand identification. The following figure 
+Fig.2 shows the proposed flow diagram. 
+ 
+ 
+ 
+Fig.2 Proposed Flow Diagram 
+ 
+Data 
+gathering 
+and 
+pre-processing, 
+data 
+representation or feature extraction, and classification or 
+decision-making are the three main components of any 
+gesture recognition system design. The user's hand is 
+detected and tracked by the system, which then extracts 
+relevant hand information by segmenting the hand from the 
+video picture. Using these attributes, we can determine the 
+user's gesture. Prior to using the acquired instance vector for 
+classification, the characteristics pertaining to a static 
+gesture must be normalized. However, in order to classify a 
+dynamic gesture, the resulting hand path is first tagged using 
+a preset alphabet, producing a discrete vector of labels. This 
+vector is then translated back to its origin and utilized for 
+classification. An algorithm takes in each detected gesture 
+and uses it to construct the command sequence; that is, it 
+adds up all the gestures it receives until it finds a preset 
+sequence described in the Command Language. 
+ 
+(i) Capturing Images: In the first stage, we acquired the 
+RGB picture (frame by frame) with the use of a camera and 
+solely hand motions. 
+Authorized licensed use limited to: Lovely Professional University - Phagwara. Downloaded on April 02,2026 at 13:52:58 UTC from IEEE Xplore.  Restrictions apply. 
+
+2024 Second International Conference on Advances  in Information Technology (ICAIT-2024) 
+ 
+ 
+ 
+ 
+979-8-3503-8386-7/24/$31.00 ©2024 IEEE 
+ 
+ 
+ 
+(ii) Pre-Processing: We have extracted the relevant region 
+(also called the "Region of Interest") from the video stream 
+rather than the whole frame in order to reduce the amount of 
+time needed for calculations. Thus, we transform the area of 
+interest into a grayscale picture by using image processing 
+to transform the original color photos into grayscale. Once 
+the processing is finished, the images are returned to their 
+original color space.  
+ 
+(iii) Hand Area Segmentation: This step enables the 
+development of the system's functioning by removing 
+superfluous data from the video stream, which is crucial for 
+any process involving hand gestures identification. The first 
+method relies on skin color; it's simple but effective, and it 
+takes into account environmental light and the background's 
+characteristics to identify the hand in a picture. In the 
+second method, we use a hand shape to our advantage by 
+capitalizing on the convexity concept while detecting hands. 
+When learning to recognize a hand signal, the position of 
+the hand is crucial. 
+ 
+(iv) Extracting the Contour: The visible border of the item 
+(the hand) in the picture serves to outline the contour. 
+Important in form analysis and object recognition methods, 
+the contour may also be a wave linking spots with 
+comparable color values. 
+ 
+(v) Identifying and Extracting Features: A collection of 
+peaks that encompasses the hand area called the convex 
+hull. Here, we need to establish the convex set principle, 
+which states that any line connecting any two points on the 
+hull is completely included inside it. Once the gesture has 
+been identified, the desired action may be carried out. 
+Movement recognition is an evolving process. Return to the 
+first stage to accept another picture for processing, etc., after 
+carrying out the specified instruction from the gesture. 
+ 
+The three main parts of the framework are the 
+Camera, Detection, and Interface components. The 
+following figure Fig.3 shows the system architecture. 
+ 
+ 
+ 
+Fig.3 System Architecture 
+(a) The Camera Module: This is responsible for the actual 
+taking of pictures, which it transmits to the detection module 
+in the form of frames after interacting with various image 
+markers. Cameras, data gloves, and hand belts are the most 
+common ways to capture and identify input. 
+ 
+(b) The Detection Module: This is responsible for 
+processing images. Color conversion, noise reduction, 
+thresholding, and other image treatment procedures are 
+applied to the camera module's output before contour 
+extraction. 
+ 
+(c) The Interface Module: Tailoring the identified hand 
+gestures to the corresponding actions is the responsibility of 
+this module. After that, the appropriate application receives 
+these instructions. 
+ 
+IV. 
+RESULTS AND DISCUSSIONS 
+ 
+There are typically three main steps in most gesture 
+recognition algorithms. Identifying specific things inside 
+digital still photos or moving movies is the primary goal of 
+the object detection phase. At this point, improving the 
+identification 
+accuracy 
+requires 
+solving 
+several 
+environmental and picture difficulties in order to extract the 
+contours or areas with precision. Issues with noise, contrast, 
+resolution, and fluctuating brightness are common in 
+images. These issues can be efficiently addressed by 
+implementing better environmental conditions and camera 
+technologies. Nevertheless, it is challenging to regulate the 
+operation of the gesture recognition system in a real-world 
+setting or when it is being developed into a product. So, to 
+build an adaptable and strong gesture recognition system, 
+the image processing approach is the way to go for solving 
+these picture challenges. Realization of objects is the second 
+phase. In order to recognize the motions, the detected items 
+Authorized licensed use limited to: Lovely Professional University - Phagwara. Downloaded on April 02,2026 at 13:52:58 UTC from IEEE Xplore.  Restrictions apply. 
+
+2024 Second International Conference on Advances  in Information Technology (ICAIT-2024) 
+ 
+ 
+ 
+ 
+979-8-3503-8386-7/24/$31.00 ©2024 IEEE 
+ 
+ 
+on the hands are recognized. Currently, the majority of 
+study is focused on the following areas: effectively selecting 
+classifiers; and distinct characteristics. The third step is to 
+decipher the user's commands or actions by analyzing their 
+successive movements. For improved gesture identification 
+and to address issues with previous methods like the 
+Cascading Gesture Classification Model (CGCM), a new 
+algorithm dubbed the Logical Gesture Recognition Model 
+(LGRM) is suggested. 
+ 
+Figure 4 shows the input picture for the suggested 
+method, and Figure 5 shows the pre-processing result for the 
+same scheme. 
+ 
+ 
+ 
+Fig.4 Input Image 
+ 
+ 
+ 
+Fig.5 Pre-Processing 
+ 
+The results of the feature extraction stage of the 
+suggested method are shown in Figure 6, and the results of 
+the edge identification stage of the suggested scheme are 
+shown in Figure 7. 
+ 
+ 
+ 
+Fig.6 Feature Extraction 
+ 
+ 
+ 
+Fig.7 Edge Recognition 
+ 
+In order to clearly evaluate the efficiency of the 
+proposed scheme, it is cross-validated with the conventional 
+Cascading Gesture Classification Model (CGCM) scheme. 
+Following this, Figure 8 shows the classification stage 
+outcome of the proposed approach, and Figure 9 shows the 
+analysis of the prediction accuracy of the proposed scheme. 
+Table-1 provides a descriptive representation of the same. 
+ 
+ 
+ 
+Fig.8 Classification 
+ 
+TABLE-1: PREDICTION ACCURACY ANALYSIS 
+ 
+Authorized licensed use limited to: Lovely Professional University - Phagwara. Downloaded on April 02,2026 at 13:52:58 UTC from IEEE Xplore.  Restrictions apply. 
+
+2024 Second International Conference on Advances  in Information Technology (ICAIT-2024) 
+ 
+ 
+ 
+ 
+979-8-3503-8386-7/24/$31.00 ©2024 IEEE 
+ 
+ 
+Epochs 
+CGCM (%) 
+LGRM (%) 
+100 
+86.34 
+98.64 
+125 
+86.52 
+96.52 
+150 
+84.31 
+97.47 
+175 
+85.36 
+96.39 
+200 
+87.61 
+95.49 
+225 
+86.52 
+97.67 
+250 
+85.45 
+96.72 
+275 
+86.11 
+98.31 
+300 
+86.13 
+97.07 
+325 
+86.15 
+97.05 
+350 
+86.17 
+97.03 
+375 
+86.20 
+97.01 
+400 
+86.22 
+96.99 
+ 
+ 
+ 
+Fig.9 Prediction Accuracy Analysis 
+ 
+V. 
+CONCLUSION 
+ 
+According to the findings of the system, the 
+development of hand gesture recognition using Python and 
+OpenCV is made possible by using the theories of hand 
+fragmentation and the hand recognition system that employs 
+the Haar-cascade classifier. This is evident from the results 
+of the system. In conclusion, this system has accomplished a 
+number 
+of 
+objectives: 
+first, 
+it 
+has 
+developed 
+a 
+comprehensive system for detecting, recognizing, and 
+interpreting hand gestures through computer vision using 
+Python and OpenCV; second, it has generated sufficient 
+examples of hand gestures and sign languages to satisfy the 
+requirements of its name; and third, it has successfully 
+implemented these objectives. In the future, this system will 
+be able to carry out a greater number of motions, which will 
+make it simpler for users with a variety of skin tones and 
+palm sizes to carry out a greater number of functions. In the 
+current technique, the right hand is only used inside a 
+certain region of interest (ROI) in order to produce motions. 
+In light of this, the desired technique enhancement can entail 
+the utilization of both hands in order to carry out a variety of 
+computer-based indicators. You have the option of using 
+procedures that involve background subtraction for even 
+better outcomes. It is anticipated that a Graphical User 
+Interface (GUI) would be implemented in the near future, 
+which will enable users to effortlessly turn motions into 
+signs and numbers, and vice versa. 
+ 
+REFERENCES 
+ 
+[1] Jiaming Wang, et al., "Research Trends of Human–Computer 
+Interaction Studies in Construction Hazard Recognition: A Bibliometric 
+Review", Sensors, https://doi.org/10.3390/s21186172, 2021. 
+[2] M. S. et al, "Smart Face Detection and Recognition in Illumination 
+Invariant Images using AlexNet CNN Compare Accuracy with SVM," 
+(ICIEM), 
+London, 
+United 
+Kingdom, 
+2022, 
+pp. 
+572-575, 
+doi: 
+10.1109/ICIEM54221.2022.9853078. 
+[3] H Hristov, et al., "Generations of human-computer interactions: 
+evolution, tendencies and perspectives", Journal of Physics: Conference 
+Series, doi:10.1088/1742-6596/2339/1/012009, 2022. 
+[4] G. R et al, "An Effective Copyright Management Principle using 
+Intelligent Wavelet Transformation based Water marking Scheme," 
+(ACCAI), 
+Chennai, 
+India, 
+2022, 
+pp. 
+1-7, 
+doi: 
+10.1109/ACCAI53970.2022.9752516. 
+[5] Daniela Quiñones, et al., "Understanding the customer experience in 
+human-computer interaction: a systematic literature review", PeerJ Comput 
+Sci, doi:10.7717/peerj-cs.1219, 2023. 
+[6] Christos Troussas, et al., "A User-centric System for Improving 
+Human-Computer Interaction through Fuzzy Logic-based Assistive 
+Messages", 17th International Conference on Web Information Systems 
+and Technologies, 2021. 
+[7] C. Mansoor, G. Vishnupriya, A. Anand, S. Vijayakumar, G. Kumaran and V. 
+Samuthira Pandi, "A Novel Framework on QoS in IoT Applications for Improvising 
+Adaptability and Distributiveness," 2023 International Conference on Computer 
+Communication and Informatics (ICCCI), Coimbatore, India, 2023, pp. 1-6, doi: 
+10.1109/ICCCI56745.2023.10128257. 
+[8] Mahmoud Hawamdeh, et al., "Human-Computer Interaction (HCI) 
+Interventions 
+for 
+People 
+with 
+Disabilities", 
+https://doi.org/10.32388/N2S82Q, 2023. 
+[9] Hari Singh, et al., "Object Acquisition and Selection in Human 
+Computer Interaction Systems: A Review", International Journal of 
+Intelligent 
+Systems 
+and 
+Applications 
+in 
+Engineering, 
+https://doi.org/10.18201/ijisae.2019151248, 2019. 
+[10] Sharefa Murad, et al., "CHR vs. Human-Computer Interaction Design 
+for Emerging Technologies: Two Case Studies", Advances in Human-
+Computer Interaction, https://doi.org/10.1155/2023/8710638, 2023. 
+[11] Samuthira Pandi, V., Singh, M., Grover, A., Malhotra, J., Singh, S, 
+“Performance analysis of 400 Gbit/s hybrid space division multiplexing-
+polarization division multiplexing-coherent detection-orthogonal frequency 
+division multiplexing-based free-space optics transmission system”, 
+International Journal of Communication Systems, 2022, 35(16), e5310.. 
+[12] Yina Liu, "Human-Computer Interface Design Based on Design 
+Psychology", International Conference on Intelligent Computing and 
+Human-Computer Interaction, DOI: 10.1109/ICHCI51889.2020.00009, 
+2020. 
+[13] Nidal Al Said, et al., "Assessment of Acceptance and User Experience 
+of Human-Computer Interaction with a Computer Interface", International 
+Journal 
+of 
+Interactive 
+Mobile 
+Technologies, 
+DOI:10.3991/ijim.v14i11.13943, 2020. 
+[14] Jun Cao, "Design and Implementation of Human-Computer Interaction 
+System in Parallel Digital Library System Based on Neural Network", 
+Scientific Programming, https://doi.org/10.1155/2021/9921551, 2021. 
+[15] Zhihan Lv, et al., "Deep Learning for Intelligent Human–Computer 
+Interaction", Appl. Sci., https://doi.org/10.3390/app122211457, 2022. 
+Authorized licensed use limited to: Lovely Professional University - Phagwara. Downloaded on April 02,2026 at 13:52:58 UTC from IEEE Xplore.  Restrictions apply. 
+

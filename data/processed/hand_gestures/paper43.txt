@@ -1,0 +1,1031 @@
+Hand Gesture Recognition based on Radar
+Micro-Doppler Signature Envelopes
+Moeness G. Amin
+Center for Advanced Communications
+Villanova University
+Villanova, PA 19085, USA
+moeness.amin@villanova.edu
+Zhengxin Zeng, Tao Shan
+School of Information and Electronics
+Beijing Institute of Technology
+Beijing, China
+{3120140293,shantao}@bit.edu.cn
+Abstract—We introduce a simple but effective technique in
+automatic hand gesture recognition using radar. The proposed
+technique classiﬁes hand gestures based on the envelopes of
+their micro-Doppler (MD) signatures. These envelopes capture
+the distinctions among different hand movements and their
+corresponding positive and negative Doppler frequencies that
+are generated during each gesture act. We detect the positive
+and negative frequency envelopes of MD separately, and form
+a feature vector of their augmentation. We use the k-nearest
+neighbor (kNN) classiﬁer and Manhattan distance (L1) measure,
+in lieu of Euclidean distance (L2), so as not to diminish small
+but critical envelope values. It is shown that this method
+outperforms both low-dimension representation techniques based
+on principal component analysis (PCA) and sparse reconstruction
+using Gaussian-windowed Fourier dictionary, and can achieve
+very high classiﬁcation rates.
+Keywords—Hand gesture recognition; time-frequency repre-
+sentations; micro-Doppler.
+I. INTRODUCTION
+Radar systems assume an important role in several areas of
+our daily life, such as air trafﬁc control, speed enforcement
+systems, and advanced driver assistance systems [1–3]. Re-
+cently, radar has also become of increased interest for indoor
+applications. In particular, human activity monitoring radar
+systems are rapidly evolving with applications that include gait
+recognition, fall motion detection for elderly care and aging-
+in-place technologies [4, 5].
+Over the past decade, much work has been done in hu-
+man motion classiﬁcations which include daily activities of
+walking, kneeling, sitting, standing, bending, falling, etc. [6–
+18]. Distinguishing among the different motions is viewed
+as an inter-class classiﬁcation [6–12], whereas the intra-class
+classiﬁcation amounts to identifying the different members of
+the same class, e.g., classifying normal and abnormal gaits
+[13–18]. There are two main approaches of human motion
+classiﬁcations, namely those relying on handcrafted features
+that relate to human motion kinematics [7, 8, 13–15], and
+others which are data driven and include low-dimension rep-
+resentations [6, 16], frequency-warped cepstral analysis [12],
+and neural networks [9–11, 17, 18].
+The work of Mr. Zhengxin is funded by the International Graduate
+Exchange Program of Beijing Institute of Technology, and was performed
+while he was a Visiting Scholar at the Center for Advanced Communications,
+Villanova University
+In addition to classifying human motions, radars have been
+recently used for gesture recognition which is an important
+problem in a variety of applications that involve smart homes
+and human-machine interface for intelligent devices [19–27].
+The latter is considered vital in aiding the physically impaired
+who might be wheelchair conﬁned or bed-ridden patients.
+The goal is to enable these individuals to be self-supported
+and independently functioning. In essence, automatic hand
+gesture recognition is poised to make our homes more user
+friendly and most efﬁcient through the use of contactless
+radio frequency (RF) sensors that can identify different hand
+gestures for instrument and household appliance control. The
+most recent project Soli by Google for touchless interactions
+is a testament of this emerging technology [27].
+The same approaches employed for classifying human daily
+activities can be applied for recognition of hand gestures
+using the electromagnetic (EM) sensing modality. However,
+there is an apparent difference between MD signatures of
+hand gestures and those associated with motion activities
+that involve human body. Depending on the experiment setup
+and radar data collection specs, MD representations of hand
+gestures can be simple, limited to short time duration and small
+frequency bandwidth, and are mainly characterized by their
+conﬁned power concentrations in the time-frequency domain.
+On the other hand, the MD signatures of body motions are
+intricate, of multi-component signals, span relatively longer
+time periods and assume higher Doppler frequencies.
+In this paper, we present a method to discriminate ﬁve
+classes of dynamic hand gestures using radar MD sensor.
+These classes are swiping hand, hand rotation, ﬂipping ﬁngers,
+calling and snapping ﬁngers. We begin with several types of
+hand motions, and use the canonical angle metric to assess
+the subspace similarities constructed from their respective
+time-frequency distributions [28]. Based on the results, we
+group these motions into ﬁve most dissimilar classes. Two
+MD features are extracted from the data spectrograms. They
+correspond to the positive and negative frequency envelopes
+of the hand gesture MD signatures. Only two envelopes
+implicitly capture, for each motion, the positive-negative fre-
+quency differences, the time alignments and misalignments
+of the peak positive and negative Doppler frequencies, and
+the signature extent and occupancy over the joint time and
+frequency variables.
+arXiv:1811.12467v2  [eess.SP]  7 Feb 2019
+
+We compare the proposed approach with that based on
+subspace decomposition methods, namely PCA [6, 16] and
+with the one using compressive sensing methods, namely
+sparse reconstruction employing Gaussian-windowed Fourier
+dictionary [19]. In the latter, the classiﬁer was applied to hand
+gesture data showing signatures comprising rather detached
+power concentrated time-frequency regions. The data collected
+from our radar sensing experiments demonstrate that our
+proposed method outperforms the above two methods, and
+achieve a classiﬁcation accuracy higher than 96%.
+The remainder of this paper is organized as follows. In
+Section II, we present the extraction method of MD signature
+envelopes and discusses the employed classiﬁer. Section III
+describes the radar data collection and pre-processing of hand
+gestures. Section IV gives the experimental results based on
+the real data measurements. Section V is the conclusion of the
+paper.
+II. HAND GESTURE RECOGNITION ALGORITHM
+A. Time-frequency Representations
+Hand gestures generate non-stationary radar back-scattering
+signals. Time-frequency representations (TFRs) are typically
+employed to analyze these signals in the joint-variable do-
+mains, revealing what is referred to as MD signatures. A
+typical technique of TFRs is the spectrogram. For a discrete-
+time signal s(n) of length N, the spectrogram can be obtained
+by taking the short-time Fourier transform (STFT)
+S (n, k) =
+
+L−1
+X
+m=0
+s(n + m)h(m)e−j2π mk
+N
+
+2
+(1)
+where n = 0, · · · , N −1 is the time index, k = 0, · · · K −1
+is the discrete frequency index, and L is the length of the
+window function h(·). The zero-frequency component is then
+shifted to the center of the spectrogram. It is noted that if the
+MD signal can be modeled as a sum of frequency modulated
+signals, then the signal parameters can be estimated using
+maximum likelihood techniques [29]. However, the MD signal
+of the hand gesture does not conform to this model and, as
+such, spectrograms will be used for feature extractions. It is
+also noted that the signal s(n) in equation (1) is considered
+as a non-stationary deterministic signal rather than a random
+process [30].
+B. Extraction of the MD Signature Envelopes
+We select features speciﬁc to the nominal hand gesture
+local frequency behavior and power concentrations. These
+features are the positive and negative frequency envelopes in
+the spectrograms. The envelopes attempt to capture, among
+other things, the maximum positive frequency and negative
+frequencies, length of the event and its bandwidth, the relative
+emphases of the motion towards and away from the radar,
+i.e., positive and negative Doppler frequencies. In essence,
+the envelopes of the signal power concentration in the time-
+frequency domain may uniquely characterize the different
+hand motions. The envelopes of the MD signature can be
+determined by an energy-based thresholding algorithm [31].
+First, the effective bandwidth of each gesture frequency
+spectrum is computed. This deﬁnes the maximum positive
+and negative Doppler frequencies. Second, the spectrogram
+S(n, k) is divided into two parts, the positive frequency part
+and the negative frequency part. The corresponding energies of
+the two parts, EU(n) and EL(n), at slow-time are computed
+separately as,
+EU (n) =
+K
+2 −1
+X
+k=0
+S(n, k)2, EL (n) =
+K−1
+X
+k= K
+2
+S(n, k)2
+(2)
+These energies are then scaled to deﬁne the respective thresh-
+olds, TU and TL,
+TU(n) = EU(n) · σU, TL(n) = EL(n) · σL
+(3)
+where σU and σL represent the scale factors, both are less than
+1. These scalars can be chosen empirically, but an effective
+way for their selections is to maintain the ratio of the energy
+to the threshold values constant over all time samples. For
+the positive frequency envelope, this ratio can be computed
+by ﬁnding both values at the maximum positive Doppler
+frequency. Once the threshold is computed per equation (3),
+the positive frequency envelope is then found by locating
+the Doppler frequency for which the spectrogram assumes
+equal or higher value. Similar procedure can be followed
+for the negative frequency envelope. The positive frequency
+envelope eU(n) and negative frequency envelope eL(n), are
+concatenated to form a long feature vector e = [eU, eL].
+C. Classiﬁer
+We apply proper classiﬁers based on the envelope features
+extracted from the spectrograms. The kNN and Support vector
+Machine (SVM) are among the most commonly used clas-
+siﬁers in pattern recognition which are used in this paper.
+In particular, the kNN is a simple machine learning classi-
+ﬁcation algorithm, where for each test sample, the algorithm
+calculates the distance to all the training samples, and selects
+the k closest training samples. Classiﬁcation is performed by
+assigning the label that is most frequent among these samples
+[32]. Clearly, the best choice of k would depend on the data.
+In this work, k is set to 1. Four different distance metrics
+are considered, namely, the Euclidean distance, the Manhattan
+distance [33], the Earth Mover’s distance (EMD) [34] and the
+modiﬁed Hausdorff distance (MHD) [35].
+SVM is a supervised learning algorithm [36]. It exhibits
+clear advantages in nonlinear and high dimension problems.
+III. HAND GESTURE SUBCLASSES
+The data analyzed in this paper was collected in the Radar
+Imaging Lab at the Center for Advanced Communications,
+Villanova University. The radar system used in the experiment
+generates continuous wave, with carrier frequency and sam-
+pling rate equal to 25 GHz and 12.8 kHz, respectively. The
+radar was placed at the edge of a table. The gestures were
+
+performed approximately 20 cm away from radar at zero angle
+while the individual was sitting down using the dominant hand,
+and the arm remained ﬁxed as much as possible during each
+gesture motion.
+As depicted in Fig.1. The following 15 hand gestures were
+conducted: (a) Swiping hand from left to right, (b) Swiping
+hand from right to left, (c) Swiping hand from up to down,
+(d) Swiping hand from down to up, (e) Horizontal rotating
+hand clockwise, (f) Horizontal rotating hand counterclockwise,
+(g) Vertical rotating hand clockwise, (h) Vertical rotating
+hand counterclockwise, (i) Opening hand, (j) Flipping ﬁngers,
+(k) Clenching hand, (l) Calling, (m) Swipe left with two
+ﬁngers, (n) Snapping ﬁngers, (o) Pinching index. Four persons
+participated in the experiment. Each hand gesture was recorded
+over 8 seconds to generate one data segment. The recording
+was repeated for 5 times. Each data segment contained 2 or
+3 individual hand motions, and a 1 second time window is
+applied to capture the individual motions. As such, repetitive
+motions and associated duty cycles were not considered in
+classiﬁcations. In total, 755 segments of data for 15 hand
+gestures were generated.
+(a)
+(b)
+(c)
+(d)
+(e)
+(f)
+(g)
+(h)
+(i)
+(j)
+(k)
+(l)
+(m)
+(n)
+(o)
+Fig. 1.
+Illustrations of 15 different hand gestures.
+Fig. 2 shows examples of spectrograms and the corre-
+sponding envelopes for different hand gestures. The employed
+sliding window h(·) is rectangular with length L =2048 (0.16
+s), and K is set to 4096. It is clear that the envelopes can well
+capture the salient features of the respective spectrograms. It
+is also evident that the MD characteristics of the spectrograms
+are in agreement and consistent with each hand motion kine-
+matics. For example, for the hand gesture ‘Swiping hand’, the
+hand moves closer to the radar at the beginning which causes
+the positive frequency, and then moves away from the radar
+which induces the negative frequency.
+Observing the spectrograms in Fig. 2, it is noticeable that
+similar motions generate similar signatures. To mathematically
+conﬁrm these resemblances, we consider sub-grouping the 15
+hand gestures using the Canonical correlation measure [28]. In
+this case, the spectrograms are converted to gray-scale images
+with the size 100 × 100, and then vectorized with the size
+(a)
+(b)
+(c)
+(d)
+(e)
+(f)
+(g)
+(h)
+(i)
+(j)
+(k)
+(l)
+(m)
+(n)
+(o)
+Fig. 2.
+Spectrograms and corresponding envelopes of 15 different hand
+gestures.
+1 × 10000.
+Deﬁne matrix X contains M vectorized images Si, i =
+1, · · · , M of a speciﬁc hand gesture,
+X = [x1|x2| · · · |xM]
+(4)
+The d-dimensional subspace of a speciﬁc hand gesture can
+be obtained by taking PCA of X [37]. Suppose Φ1 and Φ2 are
+two d-dimensional linear subspaces, the canonical correlations
+of the two subspaces are the cosines of principal angles, and
+are deﬁned as [38],
+cos θi = max
+ui∈Φ1 max
+vi∈Φ2 uT
+i vi
+(5)
+subject to ||u|| = ||v|| = 1, uiT uj = viT vj = 0, i ̸= j. Let U
+and V denote unitary orthogonal bases for two subspaces, Φ1
+and Φ2. The singular value decomposition (SVD) of U T V is
+U T V = PΛQ
+(6)
+The canonical correlations are the singular values Λ, i.e.,
+cos(θi) = λi, i = 1, · · · , d. The minimum angle is used to
+measure the closeness of two subspaces. Table I shows the
+canonical correlations coefﬁcients, from which we can clearly
+witnessed the similarities between the different hand gestures;
+larger coefﬁcient indicates the two hand gestures are more
+similar. The red color of the table indicates the coefﬁcient
+exceeds 0.9, and the yellow part means the coefﬁcient is over
+0.85. According to the Table numbers, we group the 15 hand
+gestures into 5 Class. Class I is the gesture ‘Swiping hand’
+which contains motions (a), (b), (c) and (d). Class II represents
+the gestures ‘Hand rotation’ which contains motions (e), (f),
+
+(g) and (h). The gesture ‘Flipping ﬁngers’, which involves
+motions (i) and (j), makes Class III. Class IV is the gesture
+‘Calling’, which has motions (k), (l) and (m). The last Class
+V is the gesture ‘Snapping ﬁngers’; it has motions (n) and
+(o). It is important to note that other similarity measures [39]
+can be applied, in lieu of the canonical correlation. However,
+we found the canonical correlation most consistent with the
+visual similarities.
+TABLE I.
+CANONICAL CORRELATIONS COEFFICIENTS
+b
+c
+d
+e
+f
+g
+h
+i
+j
+k
+l
+m
+n
+o
+a
+0.79
+0.83
+0.91
+0.70
+0.75
+0.79
+0.84
+0.69
+0.66
+0.78
+0.77
+0.76
+0.77
+0.81
+b
+0
+0.92
+0.80
+0.70
+0.68
+0.82
+0.82
+0.65
+0.61
+0.78
+0.82
+0.83
+0.73
+0.60
+c
+0
+0
+0.76
+0.64
+0.59
+0.85
+0.88
+0.72
+0.65
+0.80
+0.80
+0.82
+0.76
+0.69
+d
+0
+0
+0
+0.61
+0.68
+0.81
+0.75
+0.57
+0.55
+0.78
+0.67
+0.60
+0.63
+0.64
+e
+0
+0
+0
+0
+0.86
+0.70
+0.75
+0.59
+0.66
+0.56
+0.72
+0.66
+0.72
+0.71
+f
+0
+0
+0
+0
+0
+0.78
+0.83
+0.70
+0.70
+0.67
+0.73
+0.70
+0.78
+0.79
+g
+0
+0
+0
+0
+0
+0
+0.85
+0.67
+0.67
+0.78
+0.66
+0.71
+0.74
+0.73
+h
+0
+0
+0
+0
+0
+0
+0
+0.55
+0.60
+0.72
+0.67
+0.61
+0.71
+0.71
+i
+0
+0
+0
+0
+0
+0
+0
+0
+0.87
+0.75
+0.61
+0.67
+0.76
+0.74
+j
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0.68
+0.61
+0.68
+0.83
+0.73
+k
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0.94
+0.94
+0.83
+0.76
+l
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0.93
+0.73
+0.66
+m
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0.77
+0.63
+n
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0.82
+IV. EXPERIMENTAL RESULTS
+In this section, all 755 data segments are used to validate the
+proposed method where 70% of the data are used for training
+and 30% for testing. The classiﬁcation results are obtained
+by 1000 Monte Carlo trials. Three different automatic hand
+gesture approaches are compared with the proposed method.
+These are: 1) the empirical feature extraction method [21];
+2) the PCA-based method [16]; 3) the sparse reconstruction-
+based method [19].
+A. Empirical Feature Extraction Method
+Three empirical features are extracted from the spectro-
+grams to describe the hand gestures motions, namely the
+length of the event, the ratio of positive-negative frequency
+and the signal bandwidth. Fig. 3 is an example showing these
+handcrafted features.
+Fig. 3. Empirical feature extraction.
+Fig. 4. Scatter plot of three extracted
+empirical features.
+1) Length of the event T: This describes the effective time
+duration to perform each hand gesture,
+T = te −ts
+(7)
+where ts and te represent the start time and the end time of a
+single hand gesture, respectively.
+2) Ratio of positive-to-negative peak frequencies R: This
+feature is obtained by ﬁnding ratio of the maximum positive
+frequency value, fp, and maximum negative frequency value,
+fn,
+R =
+
+fp
+fn
+
+(8)
+where | · | is the absolute function.
+3) Bandwidth Bw: This is a measure of the the signal
+effective width,
+Bw = |fp| + |fn|
+(9)
+The scatter plot of the above extracted features is shown in
+Fig. 4. Table II depicts the nominal behavior of these values
+over the different classes considered. When using kNN-L1 as
+the classiﬁer, the recognition accuracy based on these features
+is only 68% with the confusion matrix shown in Table III.
+TABLE II.
+NOMINAL BEHAVIOR OF EMPIRICAL FEATURES OVER DIF-
+FERENT CLASSES
+Empirical features
+Time
+Ratio
+Bandwidth
+Class I
+large
+moderate
+moderate
+Class II
+large
+moderate
+small
+Class III
+small
+large
+large
+Class IV
+small
+small
+moderate
+Class V
+small
+moderate
+moderate
+TABLE III.
+CONFUSION MATRIX YIELDED BY EMPIRICAL FEATURE
+EXTRACTION METHOD
+I
+II
+III
+IV
+V
+I
+66.79%
+13.80%
+4.08%
+9.18%
+6.15%
+II
+20.04%
+64.65%
+3.53%
+4.88%
+6.90%
+III
+9.94%
+5.59%
+76.53%
+0.03%
+7.91%
+IV
+19.04%
+6.74%
+0.65%
+71.79%
+1.78%
+V
+12.03%
+10.96%
+12.28%
+11.59%
+53.14%
+B. Proposed Envelope-based Method
+As discussed in Section II, the extracted envelopes are fed
+into the kNN classiﬁer, with different distance measures, and
+the SVM classiﬁer. The recognition accuracy is presented in
+Table IV. It is clear that the kNN classiﬁer based on L1
+distance achieves the highest accuracy, over 96%, followed
+by those employing the modiﬁed Hausdorff distance and
+the Euclidean distance. Different from other distances, the
+L1 distance attempts to properly account for small envelope
+values. The confusion matrix of the kNN classiﬁer based on
+the L1 distance is shown in Table V, from which we can
+observe that Class III and Class IV are most distinguishable,
+with an accuracy over 98%.
+TABLE IV.
+RECOGNITION ACCURACY WITH DIFFERENT TYPES OF
+CLASSIFIER
+Accuracy
+SVM
+83.07%
+kNN-L1
+95.23%
+kNN-L2
+93.87%
+kNN-EMD
+81.51%
+kNN-MHD
+93.95%
+TABLE V.
+CONFUSION MATRIX YIELDED BY ENVELOPE METHOD BASED
+ON kNN-L1 CLASSIFIER
+I
+II
+III
+IV
+V
+I
+95.23%
+3.17%
+0.14%
+1.46%
+0
+II
+3.03%
+95.39%
+0.01%
+0.06%
+1.51%
+III
+0.07%
+0
+99.01%
+0.28%
+0.64%
+IV
+0.61%
+0
+1.16%
+98.21%
+0.02%
+V
+0
+2.31%
+2.61%
+2.83%
+92.25%
+
+TABLE VI.
+CONFUSION MATRIX YIELDED BY PCA-BASED METHOD
+WITH d = 30
+I
+II
+III
+IV
+V
+I
+89.50%
+3.02%
+0.67%
+6.80%
+0.01%
+II
+2.92%
+94.83%
+0
+1.45%
+0.80%
+III
+2.85%
+1.23%
+94.42%
+0
+1.50%
+IV
+5.24%
+0.25%
+1.37%
+93.14%
+0
+V
+3.24%
+8.14%
+5.03%
+1.83%
+81.76%
+C. PCA-based Method
+For the PCA-based method, each sample represents a spec-
+trogram image of 100 × 100 pixels. The number of principal
+components d is determined by the eigenvalues. Fig. 5 shows
+how the classiﬁcation accuracy changes with d, with the
+recognition rate increases as d increases. However, there is
+no signiﬁcant improvement of the recognition accuracy past
+d = 30. Table VI is the confusion matrix using 30 eigenvalues.
+Although the PCA method can achieve an overall accuracy of
+92.71%, it is clearly outperformed by the proposed method.
+Fig. 5. Performance of PCA with different number of principal components.
+D. Sparsity-based Method
+The features used for this method are the time-frequency
+trajectories. Details of the sparsity-based method can be found
+in [19]. The trajectory consists of three parameters, namely
+the time-frequency position (ti, fi), i = 1, · · · , P and the
+intensity Ai, P is the sparsity level that is set to 10 in
+this paper. Hence, each sample contains 30 features. The
+spectrograms of reconstructed signals and the P locations
+of time-frequency trajectory are plotted in Fig. 6 and Fig.
+7. In the training process, the K-means algorithm is used
+to cluster a central time-frequency trajectory [40]. In the
+testing process, the kNN classiﬁer based on the modiﬁed
+Hausdorff distance is applied to measure the distance between
+the testing samples and central time-frequency trajectories.
+The corresponding confusion matrix is presented in Table VII.
+The overall recognition accuracy was found to be only about
+70% when applied to our data.
+TABLE VII.
+CONFUSION MATRIX YIELDED
+BY SPARSITY-BASED
+METHOD
+I
+II
+III
+IV
+V
+I
+71.72%
+11.36%
+1.45%
+11.74%
+3.73%
+II
+10.95%
+81.29%
+2.57%
+0.28%
+4.91%
+III
+7.40%
+2.10%
+83.63%
+0.69%
+6.18%
+IV
+16.04%
+6.52%
+1.22%
+74.14%
+2.08%
+V
+6.65%
+15.05%
+9.96%
+10.02%
+58.32%
+V. CONCLUSION
+We introduced a simple but effective technique for auto-
+matic hand gesture recognition based on radar MD signature
+(a)
+(b)
+(c)
+(d)
+(e)
+(f)
+(g)
+(h)
+(i)
+(j)
+(k)
+(l)
+(m)
+(n)
+(o)
+Fig. 6.
+Spectrograms of reconstructed signals with P = 10.
+(a)
+(b)
+(c)
+(d)
+(e)
+(f)
+(g)
+(h)
+(i)
+(j)
+(k)
+(l)
+(m)
+(n)
+(o)
+Fig. 7.
+Locations of time−frequency trajectories with P = 10.
+envelopes. No range information was incorporated. An energy-
+based thresholding algorithm was applied to separately extract
+the positive and negative frequency envelopes of the signal
+spectrogram. We used the canonical correlation coefﬁcient
+to group 15 different hand gestures into ﬁve classes. The
+
+members of each class have close signature behaviors. The ex-
+tracted envelopes were concatenated and inputted to different
+types of classiﬁers. It was shown that the kNN classiﬁer based
+on L1 distance achieves the highest accuracy and provided
+over 96 percent classiﬁcation rate. The experimental results
+also demonstrated that the proposed method outperformed
+the lower dimensional PCA-based method, the sparsity-based
+approach using Gaussian-windowed Fourier dictionary, and
+existing techniques based on handcrafted features. The pro-
+posed approach does not use deep learning, though it might
+reach a classiﬁcation performance close to that offered by
+Google Soli.
+REFERENCES
+[1] V. D. Hopkin, Human factors in air trafﬁc control.
+CRC Press, 2017.
+[2] L. Du, Q. Sun, C. Cai, J. Bai, Z. Fan, and Y. Zhang, “A vehicular mobile
+standard instrument for ﬁeld veriﬁcation of trafﬁc speed meters based
+on dual-antenna Doppler radar sensor,” Sensors, vol. 18, no. 4, p. 1099,
+2018.
+[3] J. Zolock, C. Senatore, R. Yee, R. Larson, and B. Curry, “The use
+of stationary object radar sensor data from advanced driver assistance
+systems (ADAS) in accident reconstruction,” in SAE Technical Paper,
+Detroit, MI, April 2016.
+[4] M. Amin, Radar for Indoor Monitoring: Detection, Classiﬁcation, and
+Assessment.
+CRC Press, 2017.
+[5] M. G. Amin, Y. D. Zhang, F. Ahmad, and K. D. Ho, “Radar signal
+processing for elderly fall detection: The future for in-home monitoring,”
+IEEE Signal Processing Magazine, vol. 33, no. 2, pp. 71–80, 2016.
+[6] B. Jokanovi´c, M. Amin, F. Ahmad, and B. Boashash, “Radar fall
+detection using principal component analysis,” in Proc.SPIE, vol. 9829,
+Baltimore, MD, May 2016.
+[7] P. Van Dorp and F. Groen, “Feature-based human motion parameter
+estimation with radar,” IET Radar, Sonar & Navigation, vol. 2, no. 2,
+pp. 135–145, 2008.
+[8] Y. Kim, S. Ha, and J. Kwon, “Human detection using Doppler radar
+based on physical characteristics of targets,” IEEE Geoscience and
+Remote Sensing Letters, vol. 12, no. 2, pp. 289–293, 2015.
+[9] Y. Kim and T. Moon, “Human detection and activity classiﬁcation based
+on micro-Doppler signatures using deep convolutional neural networks,”
+IEEE Geoscience and Remote Sensing Letters, vol. 13, no. 1, pp. 8–12,
+2016.
+[10] M. S. Seyﬁo˘glu, A. M. ¨Ozbay˘gglu, and S. Z. Gurbuz, “Deep con-
+volutional autoencoder for radar-based classiﬁcation of similar aided
+and unaided human activities,” IEEE Transactions on Aerospace and
+Electronic Systems, vol. 54, no. 4, pp. 1709–1723, 2018.
+[11] B. Jokanovi´c and M. Amin, “Fall detection using deep learning in
+range-Doppler radars,” IEEE Transactions on Aerospace and Electronic
+Systems, vol. 54, no. 1, pp. 180–189, 2018.
+[12] B. Erol, M. G. Amin, and S. Z. Gurbuz, “Automatic data-driven
+frequency-warped cepstral feature design for micro-Doppler classiﬁca-
+tion,” IEEE Transactions on Aerospace and Electronic Systems, vol. 54,
+no. 4, pp. 1724–1738, 2018.
+[13] B. G. Mobasseri and M. G. Amin, “A time-frequency classiﬁer for
+human gait recognition,” in Proc.SPIE, vol. 7306, Orlando, FL, May
+2009.
+[14] A.-K. Seifert, A. M. Zoubir, and M. G. Amin, “Radar classiﬁcation of
+human gait abnormality based on sum-of-harmonics analysis,” in Radar
+Conference (RadarConf18), Oklahoma, OK, April 2018.
+[15] S. Z. Gurbuz, C. Clemente, A. Balleri, and J. J. Soraghan, “Micro-
+Doppler-based in-home aided and unaided walking recognition with
+multiple radar and sonar systems,” IET Radar, Sonar & Navigation,
+vol. 11, no. 1, pp. 107–115, 2016.
+[16] A.-K. Seifert, L. Sch¨afer, M. G. Amin, and A. M. Zoubir, “Subspace
+classiﬁcation of human gait using radar micro-Doppler signatures,” in
+26th Eur. Signal Process. Conf. (EUSIPCO), Rome, Italy, September
+2018.
+[17] H. T. Le, S. L. Phung, A. Bouzerdoum, and F. H. C. Tivive, “Human
+motion classiﬁcation with micro-Doppler radar and bayesian-optimized
+convolutional neural networks,” in 2018 IEEE International Conference
+on Acoustics, Speech and Signal Processing (ICASSP), Calgary, Canada,
+April 2018.
+[18] Z. Chen, G. Li, F. Fioranelli, and H. Grifﬁths, “Personnel recognition and
+gait classiﬁcation based on multistatic micro-Doppler signatures using
+deep convolutional neural networks,” IEEE Geoscience and Remote
+Sensing Letters, vol. 15, no. 5, pp. 669–673, 2018.
+[19] G. Li, R. Zhang, M. Ritchie, and H. Grifﬁths, “Sparsity-driven micro-
+Doppler feature extraction for dynamic hand gesture recognition,” IEEE
+Transactions on Aerospace and Electronic Systems, vol. 54, no. 2, pp.
+655–665, 2018.
+[20] M. Ritchie, A. Jones, J. Brown, and H. D. Grifﬁths, “Hand gesture clas-
+siﬁcation using 24 GHz FMCW dual polarised radar,” in International
+Conference on Radar Systems (Radar 2017), Belfast, UK, Oct 2017.
+[21] S. Zhang, G. Li, M. Ritchie, F. Fioranelli, and H. Grifﬁths, “Dynamic
+hand gesture classiﬁcation based on radar micro-Doppler signatures,”
+in 2016 CIE International Conference on Radar (RADAR), Guangzhou,
+China, Oct 2016.
+[22] Y. Kim and B. Toomajian, “Hand gesture recognition using micro-
+Doppler signatures with convolutional neural network,” IEEE Access,
+vol. 4, pp. 7125–7130, 2016.
+[23] Z. Zhang, Z. Tian, and M. Zhou, “Latern: Dynamic Continuous Hand
+Gesture Recognition Using FMCW Radar Sensor,” IEEE Sensors Jour-
+nal, vol. 18, no. 8, pp. 3278–3289, 2018.
+[24] G. Li, S. Zhang, F. Fioranelli, and H. Grifﬁths, “Effect of sparsity-
+aware time–frequency analysis on dynamic hand gesture classiﬁcation
+with radar micro-Doppler signatures,” IET Radar, Sonar & Navigation,
+vol. 12, no. 8, pp. 815–820, 2018.
+[25] L. Yang and G. Li, “Sparsity aware dynamic gesture recognition using
+radar sensors with angular diversity,” IET Radar, Sonar & Navigation,
+vol. 12, no. 10, pp. 1114–1120, 2018.
+[26] T. Sakamoto, X. Gao, E. Yavari, A. Rahman, O. Boric-Lubecke, and
+V. M. Lubecke, “Hand gesture recognition using a radar echo IQ plot
+and a convolutional neural network,” IEEE Sensors Letters, vol. 2, no. 3,
+pp. 1–4, 2018.
+[27] S. Wang, J. Song, J. Lien, I. Poupyrev, and O. Hilliges, “Interacting with
+Soli: Exploring ﬁne-grained dynamic gesture recognition in the radio-
+frequency spectrum,” in Proceedings of the 29th Annual Symposium on
+User Interface Software and Technology, Tokyo, Japan, October 2016.
+[28] B. Jokanovi´c and M. Amin, “Suitability of data representation domains
+in expressing human motion radar signals,” IEEE Geoscience and
+Remote Sensing Letters, vol. 14, no. 12, pp. 2370–2374, 2017.
+[29] P. Setlur, M. Amin, and F. Ahmad, “Analysis of micro-Doppler signals
+using linear FM basis decomposition,” in Proceedings of the SPIE
+Symposium on Defense and Security, Orlando, FL, Oct 2006.
+[30] M. G. Amin, “Minimum variance time-frequency distribution kernels
+for signals in additive noise,” IEEE Transactions on Signal Processing,
+vol. 44, no. 9, pp. 2352–2356, 1996.
+[31] B. Erol, M. G. Amin, and B. Boashash, “Range-Doppler radar sensor
+fusion for fall detection,” in Radar Conference (RadarConf), Seattle,
+WA, May 2017.
+[32] T. Cover and P. Hart, “Nearest neighbor pattern classiﬁcation,” IEEE
+transactions on information theory, vol. 13, no. 1, pp. 21–27, 1967.
+[33] J. Wang, P. Neskovic, and L. N. Cooper, “Improving nearest neighbor
+rule with a simple adaptive distance measure,” Pattern Recognition
+Letters, vol. 28, no. 2, pp. 207–213, 2007.
+[34] Y. Rubner and C. Tomasi, “The earth mover’s distance,” in Perceptual
+Metrics for Image Database Navigation, 2001, pp. 13–28.
+[35] M.-P. Dubuisson and A. K. Jain, “A modiﬁed hausdorff distance for
+object matching,” in Proceedings of 12th international conference on
+pattern recognition, Jerusalem, Israel, 1994.
+[36] C. Cortes and V. Vapnik, “Support vector machine,” Machine learning,
+vol. 20, no. 3, pp. 273–297, 1995.
+[37] I. Jolliffe, “Principal component analysis,” in International encyclopedia
+of statistical science, 2011, pp. 1094–1096.
+[38] T.-K. Kim, J. Kittler, and R. Cipolla, “Discriminative learning and
+recognition of image set classes using canonical correlations,” IEEE
+Transactions on Pattern Analysis and Machine Intelligence, vol. 29,
+no. 6, pp. 1005–1018, 2007.
+[39] H. Mitchell, “Image similarity measures,” in Image Fusion: Theories,
+Techniques and Applications, 2010, pp. 167–185.
+[40] T. Kanungo, D. M. Mount, N. S. Netanyahu, C. D. Piatko, R. Silverman,
+and A. Y. Wu, “An efﬁcient k-means clustering algorithm: Analysis and
+implementation,” IEEE Transactions on Pattern Analysis & Machine
+Intelligence, no. 7, pp. 881–892, 2002.
+

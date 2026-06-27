@@ -1,0 +1,396 @@
+VOL. 6, NO. 7, JULY 2022
+6002304
+Sensor applications
+Vision-Based Continuous Sign Language Spotting Using Gaussian
+Hidden Markov Model
+Anjan Kumar Talukdar
+and M. K. Bhuyan
+Department of Electronics and Electrical Engineering, Indian Institute of Technology Guwahati, Guwahati 781039, India
+Manuscript received 9 May 2022; accepted 17 June 2022. Date of publication 21 June 2022; date of current version 1 July 2022.
+Abstract—The presence of movement epenthesis (me) between two consecutive signs in a continuous sign language
+makes sign language recognition (SLR) a challenging task. In this letter, we propose a vision-based continuous SL
+spotting system, which separates the meaningful signs from the sign sequences by removing the me components from
+H.264/AVC compressed videos. The work is based on a two-state hidden Markov model (HMM) with Gaussian emission
+probability. The HMM is trained by the feature set extracted from the entire sign sequence video and ﬁnally, the hidden
+state-sequence is decoded using the Viterbi algorithm. From the decoded state-sequence, the sign spotting is done.
+The feature set comprises features extracted from the compressed domain as well as uncompressed domain analysis
+of the sign video. The video database is composed of American SL videos collected from Boston University database.
+From the experimental results, it is seen that the proposed system can spot the sign and me frames with a spotting rate
+of about 83%.
+Index Terms—Sensor applications, continuous sign language, hidden Markov model (HMM), movement epenthesis, sign spotting.
+I. INTRODUCTION
+Sign language is a visual language used by the deaf community. The
+aim of the sign language recognition (SLR) system is to transcribe sign
+language into text or speech so that it can be easily understood by the
+hearing community [1]. In continuous SL, there can be many nonsign
+movements (called movement epenthesis) between true signs which
+connect the end location of the previous sign to the start location of
+the next sign [2]. Fig. 1 shows the movement epenthesis (me) frames
+between the end location of sign “GATE” and the start location of the
+sign “WHERE” in a continuous sign video [2]. So, the sign spotting,
+i.e., the process of segmenting out the signs from continuous utterance
+sentences by removing the me components is a challenging task for
+continuous SLR systems [3].
+The difﬁculty in sign language spotting is that instances of signs vary
+in both motion and appearance [4]. Hidden Markov model (HMM)
+is useful for dealing with the time-varying nature of features [5], [6].
+Mohandes et al. [6] proposed a signer-independent Arabic SLR system
+where HMM was used to present the time-varying feature patterns.
+Azar and Seyedarabi [5] presented work on a dynamic Persian SLR
+system using HMM. Kumar et al. [7] proposed a multisensor fusion
+framework for SLR using coupled HMM (CHMM) for recognition of
+dynamic isolated sign gestures. In [1], Gao et al. proposed a signer-
+independent continuous SLR system using the self-organizing feature
+maps (SOFM) as different signer’s feature extractor for continuous
+HMM. Yang et al. [8] proposed a continuous SLR using level building
+based on HMM. Some works were also reported using dynamic
+time warping (DTW) [9], [10] which is a widely used algorithm for
+template-matching based approaches. Recently, deep learning (DL)-
+based frameworks have been implemented for continuous SLR [11],
+[12]. But both approaches are computationally expensive and require
+huge databases.
+Generally, for SLR, the ﬁrst and third problems of HMM, i.e.,
+evaluation and ﬁtting [13] are given more emphasis. But in our work,
+the second problem of the HMM, i.e., inference is extensively used.
+The contributions of the letter are as follows:
+Corresponding author: Anjan Kumar Talukdar (e-mail: anjan.nov@gmail.com)
+Associate Editor: Francisco Falcone.
+Digital Object Identiﬁer 10.1109/LSENS.2022.3185181
+Fig. 1.
+Movement epenthesis (me) between “GATE” and “WHERE”
+signs [2].
+Fig. 2.
+Proposed HMM-based framework for continuous sign lan-
+guage spotting.
+1) We propose a continuous sign language spotting framework
+using a two-state HMM in a novel way.
+2) A fusion of both compressed as well as spatial domain features
+is used.
+The rest of this letter is organized as follows. Section II describes the
+proposed work, Section III describes the experimental results obtained,
+and ﬁnally, Section IV concludes this letter.
+II. PROPOSED GAUSSIAN HMM FOR CONTINUOUS
+SIGN LANGUAGE SPOTTINGS
+The proposed framework for continuous SL spotting using Gaussian
+HMM is shown in Fig. 2. First, the input sign sequence is captured
+with an RGB camera. Then the captured H.264/AVC video is decoded
+to extract the frames along with the motion vectors (MVs) that are
+inherent in the compressed video itself. After that, the face of the
+signer is detected and removed. After removing the face, both the
+signer’s hands are detected by using the skin color-based segmentation
+technique. After that, a feature set composed of one temporal and three
+spatial features is derived. This feature set is used to train the HMM
+which is ﬁnally used for separating out the “sign” and “me” frames.
+2475-1472 © 2022 IEEE. Personal use is permitted, but republication/redistribution requires IEEE permission.
+See https://www.ieee.org/publications/rights/index.html for more information.
+Authorized licensed use limited to: Lovely Professional University - Phagwara. Downloaded on March 27,2026 at 13:02:51 UTC from IEEE Xplore.  Restrictions apply. 
+
+6002304
+VOL. 6, NO. 7, JULY 2022
+Fig. 3.
+Graphical model of an HMM for sign language sequence.
+Fig. 4.
+(a) Two-state HMM. (b) State-transition probability matrix.
+Fig. 5.
+Training of HMMs using the Baum–Welch method [13].
+A. Applying the HMM for Continuous Sign
+Language Spotting
+Let, each sign sequence be represented by a sequence of vectors of
+observations O, deﬁned as
+O = o1, o2, . . .. . .. . ...oT
+(1)
+where ot is the vector observed at time t.
+It is assumed that the sequence of observed vectors corresponding to
+each sign sequence is generated by a Markov model λ. The graphical
+model of the Markov model is shown in Fig. 3.
+Sign language spotting can be considered as a two-class problem,
+i.e., classiﬁcation of a frame into “sign” or “me” frame. For that reason,
+a two-state ergodic HMM with Gaussian observation probability is
+considered as shown in Fig. 4(a) where, one state is “Sign” and another
+one is “me.” The “Sign” state is represented by “1” and the “me” state
+is represented by “0.” The state-transition probability matrix is shown
+in Fig. 4(b).
+After that, the model is trained by the feature set derived from the
+signsequencevideousingtheBaum–Welchmethodtoadjustthemodel
+parameters [13]. The training process for all the sign sequences is
+shown in Fig. 5.
+Once the training is done, the decoding of the hidden state-sequence
+is done using the Viterbi algorithm [14]. It is a dynamic programming
+algorithm for ﬁnding the most likely sequence of hidden-states called
+the Viterbi path for the desired observed sequence from the trellis as
+shown in Fig. 6.
+Thus from the state sequence, the spotting of signs can be done.
+The transition from state “0” to state “1” can be considered as the
+“start” frame of the current sign and the transition from state “1” to
+state “0” can be considered as the “end” frame of the sign as shown in
+Fig. 7. The intermediate frames corresponding to the state sequence
+“0000....0” can be considered as “nonsign” or “me” frames and the
+frames corresponding to state sequence “11.....1” can be considered as
+“sign” frames as shown in Fig. 7.
+Fig. 6.
+(a) Trellis diagram for the HMM. (b) Viterbi path for ﬁnding the
+optimal state sequence.
+Fig. 7.
+HMM state-sequence decoding for continuous sign language
+spotting.
+Fig. 8.
+Preprocessing output. (a) Input frame. (b) Face removed. (c)
+Hand segmentation output.
+B. Features Extraction
+1) Preprocessing of the Video: For ﬁnding the features, the
+following preprocessings of the video are done ﬁrst.
+1) Face detection: The face of the signer is detected and removed
+using a haar-cascade classiﬁer [15]. It is a famous object detec-
+tion technique based on the Adaboost learning algorithm. The
+result of the face detector is shown in Fig. 8(b).
+2) Handsegmentation:Afterremovingtheface,handsegmentation
+is done using the skin color-based segmentation technique. First,
+the RGB image is converted into HSV color space. Then lower
+and upper ranges of H, S, and V for skin color are chosen
+for selecting lower and upper thresholds. Then using these
+thresholds, hand segmentation is done. The output of the hand
+segmentation technique is shown in Fig. 8(c). After that, dilation
+operation is done to ﬁll up the holes created inside the hands due
+to hand segmentation.
+2) Features Extraction: The four building blocks of sign lan-
+guage are: the hand shape, the hand position, the orientation, and the
+movement of the hand [9], [16], [17]. The hand shape and the hand
+position are generally considered for ﬁngerspelling recognition. Ori-
+entation and movement of the hand (spatiotemporal) are also important
+for sign language recognition. After preprocessing of the frames, these
+four features are extracted which are composed of the pixel as well as
+compressed domain features. The following four features are used as
+follows:
+1) Position of the hands: The positions of the left and right hands
+are found by ﬁnding the positions of the centroids of both hands
+w.r.t face as shown in Fig. 9. Let (xr, yr) and (x f , y f ) denote the
+coordinates of the right hand and face, respectively. Then the
+position of the right-hand w.r.t. the face is located by the polar
+coordinate P = (d, θ) where
+d =
+
+x f −xr
+2 +
+
+y f −yr
+2
+θ = tan−1
+y f −yr
+x f −xr
+
+(2)
+Authorized licensed use limited to: Lovely Professional University - Phagwara. Downloaded on March 27,2026 at 13:02:51 UTC from IEEE Xplore.  Restrictions apply. 
+
+VOL. 6, NO. 7, JULY 2022
+6002304
+Fig. 9.
+Finding positions of hands.
+Fig. 10.
+Finding orientation of hands. (a) Fitting ellipse. (b) Orientation
+of the major axis of the ellipse for left hand.
+Fig. 11.
+Some of the cropped hand images for ﬁnding HOG features.
+Fig. 12.
+Finding movement of the hands. (a) Movement of the hands.
+(b) Motion vector (MV) components for left and right hands.
+2) Orientation of the hands: The orientation of a hand is found by
+ﬁtting an ellipse into the hand and ﬁnding the orientation of the
+major axis of the ellipse, as shown in Fig. 10.
+3) Shape of the hands: For ﬁnding hand shapes, histograms of
+oriented gradients (HOG) feature [18] is used. For ﬁnding HOG
+features of the hands, ﬁrst the hand portion is cropped based
+on palm centroid information from the whole frame by ﬁtting
+bounding rectangle around it as shown in Fig. 11.
+4) Movement of the hands: Movement of the hands is found by
+ﬁnding the movement of the centroids of both hands. For doing
+this, compressed-domain technique [19] is used. In compressed-
+domain technique, motion vectors (MVs) which are already
+inherent in the H.264/AVC compressed video itself are used
+as shown in Fig. 2. After that, MV components (i.e., −→
+mvx and
+−→
+mvy) corresponding to −→
+mv of each of the centroid for left and
+right hands are found out as shown in Fig. 12.
+After ﬁnding all the abovementioned features, a feature set is formed
+for each frame by combining all the four features obtained. We per-
+formed Z-test [20] to see the relevance of different features used. In all
+cases, p-values were found to be lower than 0.05, meaning that all four
+features are signiﬁcant as proposed. The dimensionality of the feature
+set obtained for a particular frame is 138 × 1 which is very high. So, we
+calculated the covariance matrix to see the correlations among different
+features, as shown in Fig. 13(a). From the matrix, it is observed that
+most of the features are correlated. So, to remove the correlations
+among them, the principal component analysis (PCA) technique [21]
+is used. As shown in Fig. 13(b), the correlation matrix of the principal
+components shows that PCA components are uncorrelated and the
+feature dimension is reduced to 42×1 with 95% variance. Finally,
+Fig. 13.
+Heat map of the covariance matrix of (a) all the features and
+(b) PCA components.
+Fig. 14.
+Intermediate results of the preprocessing steps of the sign
+sequence “Adopt-Advice” performed by (a) Signer 1 (b) Signer 2.
+TABLE 1.
+Continuous Sign-Spotting Results for Signer 1
+feature sets for all the frames of the video are combined to form the
+complete feature set. This feature set of reduced dimensions is used to
+train the HMM.
+C. Initialization of the HMM
+The observation probability bj(ot ) is estimated as a Gaussian
+pdf [14] with mean vector μj and covariance matrix 
+j in state j. The
+initial state-transition probabilities considered are a1,1 = a0,0 = 0.8,
+a1,0 = a0,1 = 0.2.
+III. EXPERIMENTAL RESULTS
+For experimental results, the American sign language lexicon video
+dataset (ASLLVD) [22] prepared at Boston University is used. The
+dataset consists of thousands of ASL signs, each produced by 1–8
+native signers captured from different angles. We use the dataset cap-
+tured by camera1 (the front view) with VGA (640 × 480) resolution
+recorded at 60 fps. The sets of sign sequences considered elicited to
+illustrate different possible sentence structures in ASL. They aimed
+basically for computer vision researches containing a ﬁxed vocabulary
+with signs occurring in different contexts and word orders.
+Some intermediate results of the preprocessing steps for continuous
+ASL sign sequence “Adopt-Advice” performed by native Signer 1 and
+Signer 2 are shown in Fig. 14(a) and (b), respectively.
+Table 1 shows the decoded state-sequences for the sign sequences
+“Adopt-Advice” and “Camping-Can” performed by Signer 1. As we
+Authorized licensed use limited to: Lovely Professional University - Phagwara. Downloaded on March 27,2026 at 13:02:51 UTC from IEEE Xplore.  Restrictions apply. 
+
+6002304
+VOL. 6, NO. 7, JULY 2022
+TABLE 2.
+Continuous Sign Language Spotting Results
+TABLE 3.
+Spotting Rate of Continuous Sign Sequences
+observe the state of each frame of a sign sequence video, the length of
+the Viterbi path is equal to the number of frames in the video.
+Quantitative evaluation of the proposed method is carried out by
+correct spotting rate [4] which is calculated as
+R = C
+N × 100
+(3)
+where C is the number of correct spottings and N is the number of test
+signs. The correct spotting cs, is deﬁned as [4]
+cs =
+
+True, if (S + E) < 10
+False, otherwise
+(4)
+where S = |gs −ss| and E = |ge −se|. ss and se are the start and
+end frame numbers of the spotted sign, respectively, and gs and ge are
+the start and end frame numbers of the ground truth of the spotted sign,
+respectively.
+Table 2 shows the sign spotting results for four sign-sequence
+videos articulated by Signer 1 and Signer 2. From the table, it is
+observed that for sign-sequence “Camping-Can,” both the signs are
+spotted correctly. But, in the case of sign-sequence “Adopt-Advice,”
+sign “Adopt” is correctly spotted, but the sign “Advice” is not spotted
+correctly. Altogether, we have considered six different sign-sequences
+consisting of two signs in each sequence articulated by eight signers.
+The average spotting rates for four such sign sequences are shown
+in Table 3. The overall spotting rate is found to be about 83%,
+which is better than the spotting rate without using PCA (78%). The
+spotting rate is superior to the proposed method based on support
+vector machine by Yang and Lee [3]. In [3], they proposed a sign
+and ﬁngerspelling spotting method using hierarchical steps. First, a
+two-layer conditional random ﬁeld (CRF) is applied to discriminate
+candidate segments of signs and ﬁngerspellings. After detecting the
+candidate segments, their hand shapes are veriﬁed using BoostMap
+embeddings (BMEs) and support vector machine (SVM). Finally, the
+motions of ﬁngerspellings were veriﬁed with the CRF. They used both
+hand-motion and hand-location-based features. They achieved 78%
+and 83% spotting rates for signs using SVM and BME, respectively.
+Also, Jian et al. [23] proposed a transformer-based network called
+sign-lookup for continuous SL spotting. Although their work achieved
+a spotting rate of 96%, their system requires two types of input videos
+viz., isolated sign videos (query) and continuous sign videos (target).
+But our system does not require such query signs and can spot the
+signs from the continuous sign sequence videos irrespective of the
+signs present.
+IV. CONCLUSION
+Inthisletter,weuseHMMinanovelwayforcontinuousSLspotting.
+A two-state HMM with Gaussian emission probability is trained with
+the features extracted from the sign sequence video, followed by the
+decoding of the state-sequence for spotting the sign components from
+the sign sequence. The fusion of features obtained from both the pixel
+as well as compressed domain analysis is done to exploit the beneﬁts
+of individual domains. From the experimental results, it is seen that
+the proposed method can spot the sign frames with an average spotting
+rate of about 83%.
+The work can be further extended for the spotting of sentences
+containing more than two signs. Once the spotting is done, HMM
+models for each sign can be used for the recognition of the signs. The
+work has lots of scopes for further investigation.
+REFERENCES
+[1] W.Gao,G.Fang,D.Zhao,andY.Chen,“AChinesesignlanguagerecognitionsystem
+based on SOFM/SRN/HMM,” Pattern Recognit., vol. 37, no. 12, pp. 2389–2402,
+2004.
+[2] R. Yang, S. Sarkar, and B. Loeding, “Handling movement epenthesis and hand
+segmentation ambiguities in continuous sign language recognition using nested
+dynamic programming,” IEEE Trans. Pattern Anal. Mach. Intell., vol. 32, no. 3,
+pp. 462–477, Mar. 2010.
+[3] H.-D. Yang and S.-W. Lee, “Simultaneous spotting of signs and ﬁngerspellings
+based on hierarchical conditional random ﬁelds and boostmap embeddings,” Pattern
+Recognit., vol. 43, no. 8, pp. 2858–2870, 2010.
+[4] H.-D. Yang, S. Sclaroff, and S.-W. Lee, “Sign language spotting with a threshold
+model based on conditional random ﬁelds,” IEEE Trans. Pattern Anal. Mach. Intell.,
+vol. 31, no. 7, pp. 1264–1277, Jul. 2009.
+[5] S. G. Azar and H. Seyedarabi, “Trajectory-based recognition of dynamic persian sign
+language using hidden Markov model,” Comput. Speech Lang., vol. 61, pp. 1–10,
+2020.
+[6] M. Mohandes, M. Deriche, U. Johar, and S. Ilyas, “A signer-independent arabic sign
+language recognition system using face detection, geometric features, and a hidden
+Markov model,” Comput. Elect. Eng., vol. 38, no. 2, pp. 422–433, 2012.
+[7] P. Kumar, H. Gauba, P. P. Roy, and D. P. Dogra, “Coupled HMM-based multi-sensor
+data fusion for sign language recognition,” Pattern Recognit. Lett., vol. 86, pp. 1–8,
+2017.
+[8] W. Yang, J. Tao, and Z. Ye, “Continuous sign language recognition using level
+building based on fast hidden Markov model,” Pattern Recognit. Lett., vol. 78,
+pp. 28–35, 2016.
+[9] R. Elakkiya and K. Selvamani, “Enhanced dynamic programming approach for
+subunit modelling to handle segmentation and recognition ambiguities in sign
+language,” J. Parallel Distrib. Comput., vol. 117, pp. 246–255, 2018.
+[10] J. Tang, H. Cheng, Y. Zhao, and H. Guo, “Structured dynamic time warping for con-
+tinuous hand trajectory gesture recognition,” Pattern Recognit., vol. 80, pp. 21–31,
+2018.
+[11] K. L. Cheng, Z. Yang, Q. Chen, and Y.-W. Tai, “Fully convolutional networks for
+continuous sign language recognition,” in Proc. Eur. Conf. Comput. Vis., 2020,
+pp. 697–714.
+[12] R. Elakkiya, P. Vijayakumar, and N. Kumar, “An optimized generative adversarial
+network based continuous sign language classiﬁcation,” Expert Syst. Appl., vol. 182,
+2021, Art. no. 115276.
+[13] R. Dugad and U. B. Desai, “A tutorial on hidden Markov models,” Signal Process.
+Artif. Neural Netw. Lab., Dept. Elect. Eng., Indian Inst. Technol., Bombay, India,
+Tech. Rep., 1996.
+[14] L. R. Rabiner, “A tutorial on hidden Markov models and selected applications in
+speech recognition,” Proc. IEEE, vol. 77, no. 2, pp. 257–286, Feb. 1989.
+[15] P. Viola and M. Jones, “Rapid object detection using a boosted cascade of simple
+features,” in Proc. IEEE Comput. Soc. Conf. Comput. Vis. Pattern Recognit., vol. 1,
+2011, pp. 1–9.
+[16] D. Kelly, J. McDonald, and C. Markham, “Recognizing spatiotemporal gestures and
+movement epenthesis in sign language,” in Proc. IEEE 13th Int. Mach. Vis. Image
+Process. Conf., 2009, pp. 145–150.
+[17] G. A. Rao and P. Kishore, “Selﬁe video based continuous indian sign lan-
+guage recognition system,” Ain Shams Eng. J., vol. 9, no. 4, pp. 1929–1939,
+2018.
+[18] N. Dalal and B. Triggs, “Histograms of oriented gradients for human detection,”
+in Proc. IEEE Comput. Soc. Conf. Comput. Vis. Pattern Recognit., vol. 1, 2005,
+pp. 886–893.
+[19] A. K. Talukdar and M. K. Bhuyan, “Movement epenthesis detection in continuous
+ﬁngerspelling from a coarsely sampled motion vector ﬁeld in H.264/AVC video,” in
+Proc. IEEE Recent Adv. Intell. Comput. Syst., 2018, pp. 26–30.
+[20] S. M. Pereira and G. Leslie, “Hypothesis testing,” Aust. Crit. Care, vol. 22, no. 4,
+pp. 187–191, 2009.
+[21] C.O.S.Sorzano,J.Vargas,andA.P.Montano,“Asurveyofdimensionalityreduction
+techniques,” 2014, arXiv:1403.2877.
+[22] V. Athitsos et al., “The american sign language lexicon video dataset,” in Proc.
+IEEE Comput. Soc. Conf. Comput. Vis. Pattern Recognit. Workshops, 2008,
+pp. 1–8.
+[23] T. Jiang, N. C. Camgöz, and R. Bowden, “Looking for the signs: Identifying isolated
+sign instances in continuous video footage,” in Proc. 16th IEEE Int. Conf. Autom.
+Face Gesture Recognit., 2021, pp. 1–8.
+Authorized licensed use limited to: Lovely Professional University - Phagwara. Downloaded on March 27,2026 at 13:02:51 UTC from IEEE Xplore.  Restrictions apply. 
+

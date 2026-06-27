@@ -1,0 +1,534 @@
+IEEE GEOSCIENCE AND REMOTE SENSING LETTERS, VOL. 18, NO. 2, FEBRUARY 2021
+291
+Dynamic Hand Gesture Recognition Based on
+Micro-Doppler Radar Signatures Using
+Hidden Gauss–Markov Models
+Zetao Wang
+, Gang Li
+, Senior Member, IEEE, and Le Yang
+Abstract—Dynamic
+hand
+gesture
+recognition
+using
+the
+microwave or millimeter-wave radar sensors has become a
+typical technology for many human-computer interaction (HCI)
+applications. In this letter, a novel method is proposed for
+dynamic hand gesture recognition based on micro-Doppler radar
+signatures. The short-time Fourier transform is carried out on
+the raw data to obtain the time-frequency spectrogram. The time-
+frequency spectrograms associated with the same dynamic hand
+gesture are modeled by a hidden Gauss–Markov model (HGMM),
+and the testing gesture is recognized by the maximum likelihood
+criterion. Experimental results with real radar data demonstrate
+that the proposed method has a strong generalization ability
+for radar gesture recognition in the cases of low signal-to-noise
+ratio (SNR) and unknown users.
+Index Terms—Dynamic hand gesture recognition, hidden
+Markov model (HMM), micro-Doppler, radar sensor.
+I. INTRODUCTION
+T
+HE hand gesture is deemed to be a natural way of human-
+computer interaction (HCI). Gesture acquisition devices
+based on optical or wearable sensors are either susceptible
+to light conditions or cumbersome for routine use [1], [2].
+In contrast, radar sensors can provide rich Doppler information
+regardless of the illumination condition, and the kinematics
+associated with different dynamic hand gestures generate dis-
+tinguishable micro-Doppler signatures [3]–[6]. Thus dynamic
+hand gesture recognition using the microwave or millimeter-
+wave radar sensors is becoming a new trend of HCI [7], [8].
+The radar sensors frequently used for gesture recogni-
+tion include a frequency-modulated continuous-wave (FMCW)
+radar and a continuous-wave (CW) radar [9]. The latter is
+preferable than the former from the viewpoint of hardware
+cost. The collection of training data is usually carried out
+in short distances to guarantee sufﬁcient energy reﬂection
+from the hand. However, in the cases of gesture sensing in
+a relatively long distance, the signal-to-noise ratio (SNR) of
+testing samples may be much smaller than that of the training
+samples. Thus it is worth investigating how to improve the
+Manuscript received July 23, 2019; revised December 12, 2019; accepted
+February 15, 2020. Date of publication February 26, 2020; date of cur-
+rent version January 21, 2021. This work was supported by a grant from
+the Institute for Guo Qiang, Tsinghua University. (Corresponding author:
+Gang Li.)
+The
+authors
+are
+with
+the
+Department
+of
+Electronic
+Engineering,
+Tsinghua University, Beijing 100084, China (e-mail: wangzetao12@126.com;
+gangli@tsinghua.edu.cn).
+Color versions of one or more of the ﬁgures in this letter are available
+online at https://ieeexplore.ieee.org.
+Digital Object Identiﬁer 10.1109/LGRS.2020.2974821
+generalization ability of radar gesture sensing methods in low
+SNR cases.
+Generally, dynamic hand gesture recognition using a radar
+sensor consists of two main steps: 1) feature extraction and
+2) classiﬁcation. In step 1), a series of features are extracted
+from the raw radar data via certain feature extraction tech-
+niques. In [10], the principal component analysis (PCA) has
+been adopted to extract the main features of the micro-
+Doppler signatures. By exploiting the intrinsic sparsity of
+gesture signal collected by a CW radar, a sparsity-driven
+method was devised to extract the time-frequency trajectories
+of dynamic hand gestures [11]. Other feature extraction tech-
+niques can be found in [12] and references therein. In step 2),
+the extracted features are fed into a pretrained classiﬁer
+to decide the class label of the gesture. Typical classiﬁers
+consist of k-nearest neighbor (kNN), support vector machine
+(SVM),
+backpropagation
+neural
+network
+(BPNN),
+and
+so on [13].
+Hidden Markov model (HMM) [14] is a powerful prob-
+abilistic approach for modeling time-varying sequences.
+An HMM is viewed as a doubly embedded stochastic process,
+i.e., an invisible Markov chain which generates the sequence
+of hidden states, and a visible process which generates the
+sequence of observations. Moreover, the probability distribu-
+tion of an observation depends only on the associated state.
+In essence, the movements of ﬁngers and palm can be treated
+as “hidden states” in a Markov model, which allows us
+to formulate the micro-Doppler signatures of dynamic hand
+gestures under the HMM framework.
+In this letter, we intend to adopt HMMs for dynamic
+hand gesture recognition using only micro-Doppler signatures.
+Our method is based on the hidden Gauss–Markov models
+(HGMMs) [15], in which the state vectors, as well as the
+observation vectors, take values from continuums. In the
+proposed method, the raw radar data of a dynamic hand gesture
+is ﬁrst processed by a short-time Fourier transform (STFT)
+to generate a sequence of frequency spectrogram vectors
+(FSVs). Then the FSV sequences from the same gesture are
+used to train the associated HGMM. In the testing phase,
+the likelihoods of the testing signal under all the trained
+HGMMs are compared, and the recognition is accomplished
+by ﬁnding the class label corresponding to the largest likeli-
+hood. Experimental results based on real data demonstrate that
+the proposed method has a strong generalization ability in the
+case of low SNR and unknown users.
+1545-598X © 2020 IEEE. Personal use is permitted, but republication/redistribution requires IEEE permission.
+See https://www.ieee.org/publications/rights/index.html for more information.
+Authorized licensed use limited to: Lovely Professional University - Phagwara. Downloaded on March 27,2026 at 12:52:10 UTC from IEEE Xplore.  Restrictions apply. 
+
+292
+IEEE GEOSCIENCE AND REMOTE SENSING LETTERS, VOL. 18, NO. 2, FEBRUARY 2021
+Fig. 1.
+Spectrograms of four dynamic hand gestures performed by one
+subject. (a) Holding. (b) Pushing. (c) Rotating clockwise. (d) Rotating
+counterclockwise.
+The rest of this letter is organized as follows. The radar
+data collection is summarized in Section II. In Section III, the
+proposed method is formulated in detail. Experiments on the
+measured data are presented in Section IV. Finally, Section V
+concludes the letter.
+II. DATA COLLECTION
+The hand gesture data were collected by a CW K-band radar
+(Ancortek SDR-kit 2500B), as described in [16]. The radar
+consists of a pair of transmitting and receiving horn antennas
+both with a beamwidth of 60◦in the horizontal and vertical
+directions. The radar operates at 25 GHz with a baseband sam-
+pling frequency of 1 kHz and output power of 16 dBm. Four
+dynamic hand gestures, i.e., 1) holding, 2) pushing, 3) rotating
+clockwise, and 4) rotating counterclockwise, were considered.
+The gestures were performed in front of the radar antennas at
+a distance of about 0.3 m. Five subjects participated in the data
+collection. For each gesture, 20 recordings per subject were
+collected, thus yielding a total number of 400 recordings. For
+each recording, the observation time was 0.6 s.
+The time-frequency spectrograms of four dynamic hand
+gestures performed by one subject are shown in Fig. 1,
+where the stationary clutter has been suppressed before per-
+forming STFT. Obviously, the time-frequency spectrograms
+of the four dynamic hand gestures are signiﬁcantly differ-
+ent, which implies the potential possibility of distinguishing
+them.
+III. PROPOSED METHOD
+Fig. 2 illustrates the processing scheme of the proposed
+method. At ﬁrst, the raw radar data of the training sam-
+ples are preprocessed to generate FSV sequences. Then the
+HGMMs are trained by these FSV sequences. In the testing
+stage, the FSV sequence of a testing sample is fed into the
+HGMM classiﬁer to decide its class label. Detailed descrip-
+tions of the proposed method are given below.
+Fig. 2.
+Processing scheme of the proposed method.
+A. Preprocessing
+The recorded data contain strong echoes reﬂected from
+a static human torso, which may interfere with the echoes
+reﬂected from the gesturing hand, and thus, should be elim-
+inated before recognition. Let s(t), t = 1, . . . , T , denote the
+recorded raw radar data, where T is the total number of
+sampling points. The stationary component can be canceled
+by the classical moving target indication (MTI) approach, that
+is
+g (t) = s (t)+s (t + 2)−2s (t + 1) ,
+t = 1, . . . , T −2.
+(1)
+Then the STFT is applied to g(t) to obtain the micro-Doppler
+signatures, that is
+G (m, n) =
+M
+
+t=1
+w (t) g [t + (n −1) h] e−j 2πt
+M
+
+m−M
+2
+
+(2)
+where w(t) is a window function, M represents the window
+length, h stands for the sliding step width, m = 1, . . . , M, n =
+1, . . . , N, with N = ⌊(T −M −2)/h⌋+ 1, and ⌊·⌋denotes
+the operator of taking the lower integer value. In this letter, we
+ﬁx M = 32, h = 16, N = 36, and use a hamming window.
+After taking the logarithm of the absolute value of G(m, n),
+that is
+Z (m, n) = 10 log (|G (m, n)| + δ)
+(3)
+where δ is a small positive scalar to keep the value from being
+too small, and it is set to be 10−6 in this letter, we deﬁne
+zn = [Z(1, n), . . . , Z(M, n)]T as an FSV and deﬁne Z =
+{z1, . . . , zN} as an FSV sequence, where (·)T represents the
+transpose operator. We also normalize the elements in Z to
+be within [0, 1] to eliminate the varying strengths of different
+recordings.
+B. Training Phase
+The concept of HGMM is extended from the basic HMM by
+allowing the hidden states to assume values on a continuum,
+as well as supposing the probability functions are of Gaussian
+form [15]. A graphical representation of HGMM is given
+in Fig. 3, where the squares and circles represent hidden states
+and observations, respectively.
+To ﬁt the problem, in our case, we denote the hidden state
+sequence as X = {x1, . . . , xN}, where xn ∈RL and L is
+the dimension of the state vector. As indicated in Fig. 3,
+the state vectors follow a ﬁrst-order Markov process, such
+Authorized licensed use limited to: Lovely Professional University - Phagwara. Downloaded on March 27,2026 at 12:52:10 UTC from IEEE Xplore.  Restrictions apply. 
+
+WANG et al.: DYNAMIC HAND GESTURE RECOGNITION BASED ON MICRO-DOPPLER RADAR SIGNATURES
+293
+Fig. 3.
+Graphical representation of HGMM.
+that p(xn|x1, x2, . . . , xn−1) = p(xn|xn−1) for n = 2, . . . , N,
+with p(x1) being the initial state probability density. The
+vectors in the observation sequence, i.e., Z = {z1, . . . , zN},
+in our case, are conditionally independent, given the states.
+An HGMM is thus fully characterized by a set of dis-
+tributions, i.e., the a priori distribution for the initial state,
+the state-transition distributions, and the observation output
+distributions. Furthermore, these distributions are specialized
+to the following linear Gaussian densities, respectively:
+p (x1; θ1) = N (x1; µ1, P1)
+(4)
+p (xn|xn−1; θX) = N
+
+xn; Anxn−1, Qn
+
+(5)
+p (zn|xn; θZ) = N (zn; Bnxn, Rn)
+(6)
+where N(y; µ, P) represents the Gaussian density for vec-
+tor y with the mean vector µ and the nonsingular covariance
+matrix P, θ1 = {µ1, P1}, θX = {(An, Qn), n = 2, . . . , N},
+and θZ = {(Bn, Rn), n = 1, . . . , N}. Obviously, an HGMM is
+parameterized by {θ1, θX, θZ}. The expectation-maximization
+(EM) algorithm has been formulated in [15] to estimate the
+HGMM parameters given the observation sequences.
+In the proposed method, each class of dynamic hand ges-
+tures is modeled by an HGMM. Speciﬁcally, the FSV sequence
+associated with a dynamic hand gesture is recognized as
+an observation sequence generated by an HGMM, and the
+FSV sequences obtained from the training samples related to
+this particular class of dynamic hand gestures are utilized to
+estimate the HGMM parameter set. For convenience, relative
+to a C-class problem, we denote λc = (θc
+1, θc
+X, θc
+Z) as the
+HGMM parameter set associated with category c, where
+c = 1, . . . , C.
+As shown in Fig. 2, after preprocessing the training samples,
+the EM algorithm is employed to estimate the parameter set of
+each HGMM. Then the trained HGMMs are utilized to build
+up the HGMM classiﬁer.
+C. Testing Phase
+For a testing sample to be classiﬁed, after the same pre-
+processing as the training stage, its FSV sequence is inputted
+into the HGMM classiﬁer to determine its class label by iden-
+tifying the HGMM that can best describe the FSV sequence.
+In the HGMM framework, this problem can be solved by
+scoring the probability that the observation sequence Z is
+generated by the HGMM λc, that is
+p
+
+Z|λc
+=
+
+d X p
+
+Z, X; λc
+.
+(7)
+In (7), the symbol
+
+d X stands for the multiple integral
+
+dx1 . . .
+
+dxN, where each single integral
+
+dxn is a mul-
+tidimensional integration over the state space; p(Z, X; λc)
+denotes the joint probability of Z and X, and it is cast as
+p Z, X; λc = p (x1) p (z1|x1)
+N
+
+n=2
+p (xn|xn−1) p (zn|xn)
+(8)
+where the explicit parameters, i.e., θc
+1, θc
+X, and θc
+Z, on the right-
+hand side of (8) are dropped for convenience. Equation (7) can
+be computed by the forward-backward algorithm formulated
+in [15]. Finally, the maximum likelihood criterion is employed
+for the class label assignment task, that is
+Class (Z) = arg max
+c
+
+p
+
+Z|λc
+.
+(9)
+IV. EXPERIMENTAL RESULTS
+In this section, we assess the performance of the proposed
+HGMM-based method in terms of recognition accuracy. The
+PCA-based methods, the sparsity-driven method [11], as well
+as the long short-term memory (LSTM) method [17] are used
+for comparison. For the proposed method, the iteration number
+of the EM algorithm is set as 30, the HGMM parameters are
+initialized as follows: µ1 is initialized as a full-zero vector;
+An, n = 2, . . . , N, and Bn, n = 1, . . . , N, are initialized
+as random matrices; P1, Qn, n = 2, . . . , N, and Rn, n =
+1, . . . , N, are initialized as scaled identity matrices with scale
+factor 105. For the PCA-based methods, we ﬁrst vectorize each
+training FSV sequence and then stack them into a data matrix;
+the largest ﬁve principal components of the data matrix form
+the feature extraction matrix; the kNN and BPNN classiﬁer
+are adopted for recognition. For the PCA-kNN, the number of
+neighbors is set as ﬁve, and the Euclidean distance is adopted.
+For the PCA-BPNN, the hidden layer has ten neurons. For
+the sparsity-driven method, the sparsity level is set to be 17,
+while other parameters are the same as that used in [11]. For
+the LSTM method, the number of hidden units is 100, and the
+FSV sequences are taken as input.
+A. Effect of State Vector Dimension on Recognition
+Accuracy
+In the ﬁrst experiment, we investigate the effect of the
+state vector dimension L on the recognition performance of
+the proposed method. The state vector dimension takes value
+from 4 to 16, with an increased step of 2. For each gesture,
+we randomly select 40 recordings from the related data as
+training samples, with the rest of the data as testing samples.
+To be precise, the training samples for each gesture are equally
+selected from the subjects, and the training samples from
+each subject are randomly selected. The experimental results
+averaged over 100 Monte Carlo runs are illustrated in Fig. 4.
+As revealed in Fig. 4, the HGMM-based method achieves
+very stable recognition accuracies for different state vector
+dimensions. This indicates that the HGMM-based method
+is not sensitive to the value of the state vector dimension.
+In the following experiments, we ﬁx the state vector dimension
+as four.
+Authorized licensed use limited to: Lovely Professional University - Phagwara. Downloaded on March 27,2026 at 12:52:10 UTC from IEEE Xplore.  Restrictions apply. 
+
+294
+IEEE GEOSCIENCE AND REMOTE SENSING LETTERS, VOL. 18, NO. 2, FEBRUARY 2021
+Fig. 4.
+Recognition accuracy versus state vector dimension for the HGMM-
+based method in the case of 40 training samples for each gesture.
+B. Effect of Noise Level on Recognition Accuracy
+As introduced in Section II, the raw data were collected by
+performing dynamic hand gestures just in front of the radar.
+On the other hand, the need for long-distance applications
+exist in practice. Longer distance implies lower SNR; thus,
+we investigate the recognition accuracies of the methods under
+different noise levels. To simulate low SNR data, we treat the
+raw data collected in our experiments as pure signals and add
+different levels of white Gauss noise to them in the following
+way:
+s′i, j,c = si, j,c + n
+(10)
+where si, j,c stands for the ith vector-form recorded raw data
+that belongs to class c and performed by subject j, n represents
+the added white Gauss noise, s′i, j,c denotes the simulated low
+SNR gesture data. For ease of exposition, we deﬁne the SNR
+as
+SNR =
+C
+c=1
+J
+j=1
+I
+i=1 ∥si, j,c∥2
+2
+C J I∥n∥2
+2
+(11)
+where I, J, and C represent the number of recordings for each
+subject and each class, the number of subjects, and the number
+of classes, respectively, and ∥· ∥2 denotes the L2 norm.
+In this experiment, we randomly select 60 samples for
+each gesture to generate the training set, while the remaining
+samples are used to generate the testing set, and the noise
+is only added to the testing samples. The recognition results
+based on 100 Monte Carlo trials are plotted in Fig. 5.
+From Fig. 5 it is clear that the recognition accuracies for
+each method are improved with increased SNR. Notably, the
+HGMM-based method outperforms all other methods in all
+the SNR settings. The reason is that the probability function
+in HGMMs encompasses noise modeling, which makes the
+HGMM-based method more robust to noise. However, for the
+other methods, the features extracted from a low SNR testing
+sample can deviate a lot from the features extracted from the
+training samples of the same class, so degraded recognition
+performances are induced. The results in Fig. 5 indicate that
+the HGMM-based method has much better generalization
+ability in low SNR situations, which makes it more suitable
+for the applications of long-distance gesture sensing.
+Fig. 5.
+Recognition accuracies under different noise levels.
+Fig. 6.
+Confusion matrices under the case of 30-dB SNR for each
+gesture. (a) PCA-kNN. (b) PCA-BPNN. (c) Sparsity-driven. (d) LSTM.
+(e) HGMM-based.
+TABLE I
+TIME CONSUMPTION FOR EACH METHOD
+To more clearly visualize the recognition results, the confu-
+sion matrices of these methods under the case of 30-dB SNR
+are drawn in Fig. 6.
+As depicted in Fig. 6, the confusion matrix of the
+HGMM-based method exhibits a strong diagonal pattern,
+indicating that all of these four gestures can be accurately
+classiﬁed. It can also be seen that gestures (c) and (d) tend to
+be misclassiﬁed by other methods in the case of low SNR.
+The reason lies in the fact that the features extracted by
+other methods for gestures (c) and (d) are more likely to be
+Authorized licensed use limited to: Lovely Professional University - Phagwara. Downloaded on March 27,2026 at 12:52:10 UTC from IEEE Xplore.  Restrictions apply. 
+
+WANG et al.: DYNAMIC HAND GESTURE RECOGNITION BASED ON MICRO-DOPPLER RADAR SIGNATURES
+295
+Fig. 7.
+Recognition accuracies for unknown users under different noise
+levels.
+contaminated by noise as these two gestures last for longer
+time intervals.
+C. Recognition Accuracy for Unknown Users
+In this experiment, we aim to verify the performance
+of the HGMM-based method in recognizing dynamic hand
+gestures of unknown users. For doing so, the recordings from
+three subjects are used to construct the training set, and the
+recordings from the other two subjects are used to construct
+the testing set. Therefore, totally, there are ten combinations
+for data set partition. Only the testing samples are added
+with noise. The numerical results obtained by averaging over
+100 Monte Carlo trails (ten for each combination), are given
+in Fig. 7.
+As exposed in Fig. 7, the HGMM-based method gets the
+best recognition accuracy among all these methods under all
+the SNR settings. By comparing the curves in Fig. 7 and that
+in Fig. 5, it is easy to see that the HGMM-based method does
+not show signiﬁcant performance differences in the cases of
+known and unknown users.
+D. Analysis About the Time Complexity
+The computational time elapsed by each method for testing
+one sample is reported in Table I, where the results are
+averaged over 100 trials. The hardware platform is a desktop
+PC equipped with an Intel Core i5-8500 CPU and a 16-GB
+RAM running MATLAB 2019a on Windows 10.
+It can be seen that the HGMM-based method consumes
+more time than the PCA-kNN, PCA-BPNN, and LSTM meth-
+ods, but it consumes less time than the sparsity-driven method.
+V. CONCLUSION
+An HGMM-based method is proposed for recognizing
+dynamic hand gestures using micro-Doppler radar signatures.
+Experiments on real radar data have demonstrated that the
+proposed method has a strong generalization ability in the
+cases of low SNR and unknown users. In the future, we
+would like to investigate the problem of radar-based dynamic
+hand gesture recognition in more complicated situations by
+appealing to the outstanding modeling capability of HGMM.
+REFERENCES
+[1] Y. Wang, S. Wang, M. Zhou, Q. Jiang, and Z. Tian, “TS-I3D based
+hand gesture recognition method with radar sensor,” IEEE Access, vol. 7,
+pp. 22902–22913, 2019.
+[2] T. Sakamoto, X. Gao, E. Yavari, A. Rahman, O. Boric-Lubecke, and
+V. M. Lubecke, “Hand gesture recognition using a radar echo I–Q plot
+and a convolutional neural network,” IEEE Sens. Lett., vol. 2, no. 3,
+Sep. 2018, Art. no. 7000904.
+[3] Z. Chen, G. Li, F. Fioranelli, and H. Grifﬁths, “Personnel recognition and
+gait classiﬁcation based on multistatic micro-Doppler signatures using
+deep convolutional neural networks,” IEEE Geosci. Remote Sens. Lett.,
+vol. 15, no. 5, pp. 669–673, May 2018.
+[4] H. Du, T. Jin, Y. Song, and Y. Dai, “Unsupervised adversarial
+domain adaptation for micro-Doppler based human activity classiﬁ-
+cation,” IEEE Geosci. Remote Sens. Lett., vol. 17, no. 1, pp. 62–66,
+Jan. 2020.
+[5] Y. Lang, Q. Wang, Y. Yang, C. Hou, D. Huang, and W. Xiang,
+“Unsupervised domain adaptation for micro-Doppler human motion
+classiﬁcation via feature fusion,” IEEE Geosci. Remote Sens. Lett.,
+vol. 16, no. 3, pp. 392–396, Mar. 2019.
+[6] M. S. Seyﬁoglu and S. Z. Gurbuz, “Deep neural network initialization
+methods for micro-Doppler classiﬁcation with low training sample sup-
+port,” IEEE Geosci. Remote Sens. Lett., vol. 14, no. 12, pp. 2462–2466,
+Dec. 2017.
+[7] S. Wang, J. Song, J. Lien, I. Poupyrev, and O. Hilliges, “Interacting with
+soli: Exploring ﬁne-grained dynamic gesture recognition in the radio-
+frequency spectrum,” in Proc. 29th Annu. Symp. User Interface Softw.
+Technol. (UIST), 2016, pp. 851–860.
+[8] J. M. Lien et al., “Soli: Ubiquitous gesture sensing with millimeter wave
+radar,” ACM Trans. Graph., vol. 35, no. 4, 2016, Art. no. 142.
+[9] S. Z. Gurbuz and M. G. Amin, “Radar-based human-motion recognition
+with deep learning: Promising applications for indoor monitoring,” IEEE
+Signal Process. Mag., vol. 36, no. 4, pp. 16–28, Jul. 2019.
+[10] A. Balleri, K. Chetty, and K. Woodbridge, “Classiﬁcation of personnel
+targets by acoustic micro-Doppler signatures,” IET Radar, Sonar Navi-
+gat., vol. 5, no. 9, pp. 943–951, 2011.
+[11] G. Li, R. Zhang, M. Ritchie, and H. Grifﬁths, “Sparsity-driven micro-
+Doppler feature extraction for dynamic hand gesture recognition,”
+IEEE Trans. Aerosp. Electron. Syst., vol. 54, no. 2, pp. 655–665,
+Apr. 2018.
+[12] B. Erol, M. G. Amin, and S. Z. Gurbuz, “Automatic data-driven
+frequency-warped cepstral feature design for micro-Doppler classiﬁca-
+tion,” IEEE Trans. Aerosp. Electron. Syst., vol. 54, no. 4, pp. 1724–1738,
+Aug. 2018.
+[13] C. M. Bishop, Pattern Recognition and Machine Learning. New York,
+NY, USA: Springer, 2006.
+[14] L. R. Rabiner, “A tutorial on hidden Markov-models and selected appli-
+cations in speech recognition,” Proc. IEEE, vol. 77, no. 2, pp. 257–286,
+Feb. 1989.
+[15] P. L. Ainsleigh, N. Kehtarnavaz, and R. L. Streit, “Hidden Gauss-Markov
+models for signal classiﬁcation,” IEEE Trans. Signal Process., vol. 50,
+no. 6, pp. 1355–1367, Jun. 2002.
+[16] L. Yang and G. Li, “Sparsity aware dynamic gesture recognition using
+radar sensors with angular diversity,” IET Radar, Sonar Navigat., vol. 12,
+no. 10, pp. 1114–1120, Oct. 2018.
+[17] S. Hochreiter and J. Schmidhuber, “Long short-term memory,” Neural
+Comput., vol. 9, no. 8, pp. 1735–1780, 1997.
+Authorized licensed use limited to: Lovely Professional University - Phagwara. Downloaded on March 27,2026 at 12:52:10 UTC from IEEE Xplore.  Restrictions apply. 
+

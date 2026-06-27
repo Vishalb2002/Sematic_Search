@@ -1,0 +1,561 @@
+A Robust Vision-Based Dynamic Sign Language
+Recognition Using a Hybrid CNN-LSTM Model
+Adithya Rajapakshe
+Dept.Electrical & Electronic Engineering
+University of Sri Jayewardenepura
+Nugegoda, Sri Lanka
+hiruni.rajapaksha@gmail.com
+Dinushika Chithrani
+Dept.Electrical & Electronic Engineering
+University of Sri Jayewardenepura
+Nugegoda, Sri Lanka
+dinushika219@gmail.com
+Dhanuka Jayasinghe
+Dept.Electrical & Electronic Engineering
+University of Sri Jayewardenepura
+Nugegoda, Sri Lanka
+dsankalpa247@gmail.com
+Umaya Bhashini Balagalla
+Dept.Electrical & Electronic Engineering
+University of Sri Jayewardenepura
+Nugegoda, Sri Lanka
+umayabalagalla@sjp.ac.lk
+Bhathiya Pilanawithana
+Dept.Electrical & Electronic Engineering
+University of Sri Jayewardenepura
+Nugegoda, Sri Lanka
+bpilanawithana@sjp.ac.lk
+Uditha Wijewardhana
+Dept.Electrical & Electronic Engineering
+University of Sri Jayewardenepura
+Nugegoda, Sri Lanka
+uditha@sjp.ac.lk
+Udaya Wijenayake
+Dept.Computer Engineering
+University of Sri Jayewardenepura
+Nugegoda, Sri Lanka
+udayaw@sjp.ac.lk
+Abstract—To recognize meaningful movements of hand ges-
+tures, Sign language recognition is important. It is a signif-
+icant solution in intelligent communication between the deaf
+community and hearing societies. The general population’s lack
+of proficiency in sign language impedes meaningful interactions
+with individuals who depend on it. Although many studies have
+been conducted on this topic, the development of static and
+dynamic sign language recognition models continues to hold
+significant challenges in the field of research. This paper presents
+a novel framework for implementing a vision based Sinhala Sign
+Language recognition model using deep learning approaches.
+Our proposed methodology includes image acquisition, pre-
+processing, detection, and classification stages for a complete
+recognition. In the classification stage, the CNN-LSTM model
+achieves 94% accuracy for around 20 signs. This method identi-
+fies and interprets unique common signs and gives a meaningful
+sentence in text. The proposed approach shows promising results
+for interpreting both static and dynamic signs of Sinhala sign
+language.
+Index Terms—CNN, Deep Learning, Dynamic Sign Language
+Recognition, LSTM, Sign Language
+I. INTRODUCTION
+Nearly 70 million people worldwide experience disabling
+hearing loss, according to current statistics. A deaf person can
+communicate thoughts using a specific hand gesture and facial
+expressions rather than words. Sign language gestures are
+accurately understood by only a limited group of people, such
+as instructors and family members of individuals who are deaf.
+Therefore, current translation services are either human-based
+or expensive. Sign Language Recognition (SLR) is an effective
+method that reduces the barrier between deaf communities and
+hearing societies [1].
+It tends to be a widely discussed topic with the increasing re-
+search interests and interaction between humans and machines.
+Using advanced technology, this problem can overcome the
+communication difficulties they face.
+Sign language uses multiple body parts, including fingers,
+hands, arms, head, body, and facial expressions, to com-
+municate information [2]. However, our proposed method-
+ology only focuses on recognizing sign language through
+hand gestures. Sign languages are complex linguistic systems,
+not merely simple gestures. They break down into smaller
+components like hand configuration, location, and movement.
+These elements work together to form the language’s grammar
+and vocabulary, much like how sounds and words function in
+spoken languages [3]. There are two forms of hand gestures:
+static and dynamic. Static gestures include performing only
+hand poses, whereas dynamic gestures include the movements
+of the hand to represent sign language words [4].
+Consequently, recognizing dynamic signs poses challenges
+due to their complexity and extensive variations in vocab-
+ulary, potentially leading to misinterpretations of significant
+differences among signers. Therefore, focusing on dynamic
+SLR presents a more effective approach to addressing these
+issues. However, dynamic SLR faces challenges in detecting
+the hand location while moving and identifying the shape and
+direction [5]. Recognition becomes more complex due to the
+gestures performed by different people, which differ in spatial
+and temporal variation. Furthermore, selecting an appropriate
+classifier is critical for achieving accurate recognition results.
+Therefore, we have used effective pre-processing, detection,
+and classification methods to overcome the challenges.
+Hand gesture recognition can be achieved through either a
+979-8-3315-3098-3/25/$31.00 © 2025 IEEE
+2025 5th International Conference on Advanced Research in Computing (ICARC) | 979-8-3315-3098-3/25/$31.00 ©2025 IEEE | DOI: 10.1109/ICARC64760.2025.10963007
+Authorized licensed use limited to: Lovely Professional University - Phagwara. Downloaded on April 02,2026 at 13:58:44 UTC from IEEE Xplore.  Restrictions apply. 
+
+vision-based or sensor-based approach. Vision-based methods
+capture images or video of hand gestures using a camera,
+and sensor-based methods employ a sensor instrument (Glove)
+to track and record the motion, position, and velocity of
+the hand. As deep learning continued to evolve, researchers
+directed their attention toward vision-based SLR methods,
+employing cameras to capture data and streamline the process
+for a more intuitive experience. The primary steps of a vision
+based recognition system are frame acquisition, image pre-
+processing, detection, and classification.
+The sequel of the paper is organized as follows. Related
+works are described in Section 2. Section 3 provides the
+proposed methodology describing the major stages: dataset,
+pre-processing & detection, and classification. The results
+and discussion are included in Section 4. Finally, Section 5
+summarizes the conclusion and future work.
+II. RELATED WORKS
+In this section, prior research approaches for sign language
+translation are discussed.
+The sign language gestures are input into the recognition
+system as images. These images are either captured by frames
+from videos or directly by devices such as web cameras [5],
+[6], Kinect cameras [7], or CMOS image sensor cameras [8].
+In [9], authors perform a binary mask through morphologi-
+cal transforms to isolate the critical regions and the median
+blue filtering method has been utilized for edge detection.
+Similarly, [8] and [10] utilize morphological filtering. While
+[8] uses the Otsu method for hand segmentation, [10] uses a
+customized threshold method. Both [11] and [12], first perform
+face detection and face elimination to ease the process of skin
+segmentation.
+Sign gestures are detected from the pre-processed images
+in [6] and [13] using the MediaPipe (MP) approach for
+real-time detection. It allows the detect both hand and body
+movements. Both [9] and [12] propose hand detection and
+tracking algorithms where the larger contours were extracted
+eliminating further noise in the pre-processed image. In [10],
+authors employ an algorithm where they input the segmented
+image and output three features of the hand - height, width, and
+centroid. Similarly, [8] utilizes an algorithm that extracts four
+features - area of the hand, perimeter of the hand, detection of
+the thumb, radial profile, and angular position. [5] employs a
+B3D ResNet model to obtain feature vectors from the pre-
+processed image sequence. [11] also uses a feature vector
+of dimension 6, where key frames get extracted based on
+hand position and the shape changes in the frame sequence.
+[14] propose a 3D-ResNet module, which employs a sliding
+window technique to input the selected images from the
+sequence and output the features. In [15], authors employ
+a Bayesian approach for skin classification. They used the
+probabilities of observing skin and not observing skin. Without
+estimating direct values for the two probabilities they use the
+Bayes rule to define a threshold value. Hence adaptive skin
+color detection has been achieved.
+The sign language gestures are recognized in spoken lan-
+guage in [9] by utilizing a CNN model (for static signs) and
+a tree architecture (for the dynamic signs, that are formed
+by static signs). The images containing the static signs are
+input to the model and depending on three consecutive recog-
+nized signs, 2/3 majority sign is considered the final output.
+When the classified static signs were ordered in a pre-defined
+sequence a dynamic sign is recognized. [5] addresses the
+difficulty of recognizing similar hand gestures apart, with the
+help of a complex model architecture including convolutional
+layers, LSTM layers, and a soft-max layer. The proposed
+method inputs the extracted feature vectors from the video
+frames and labels each after analysing. Hence the video
+sequence label will be predicted and then output the prediction
+with the top score. [6] has used an LSTM Neural Network
+alone to classify static and dynamic signs. The extracted
+points from MP Holistic are fed into the model and output
+the recognized static signs. Aside from the neural network
+architectures, [7] proposes an algorithm with two steps, step
+1 being a Dynamic Time Warping algorithm (DTW) and step
+2 being a Nearest Neighbor classification. A dictionary has
+been implemented with 75 sequences from 15 gestures. DTW
+calculates each of the two arrays performed by input frames
+for each sample in the dictionary and outputs the cost function
+values. Depending on these values, recognition is provided as
+a word-by-word output from the classifier. In a similar study,
+[14] employs a model with a soft-DTW constraint along with
+LSTM and Connectionist Temporal Classification (CTC). [12],
+utilizes a CNN and LSTM model combination. In this model,
+the CNN which is composed of max-pooling layers and fully
+connected layers transforms the pre-processed images into vec-
+tor representations and inputs them into the LSTM network.
+Each state of LSTM predicts the label of the sign and helps
+to recognize the word in the next movement with an accuracy
+of 98.43%. In [11], the authors propose an SVM architecture
+with three classification models for Zernike moments-based,
+trajectory-based, and shape-based recognition.
+III. PROPOSED METHODOLOGY
+The system mainly consists of the following stages shown
+in Fig. 1. The proposed system is developed using deep
+neural network models, building on their proven success in
+recent gesture recognition research. Specifically, it consists of
+a hybrid model of CNN and LSTM architecture to extract
+features and recognize them.
+A. Dataset
+We created a new dataset with over 2500 sample videos
+of 22 Sinhala Sign Language (SSL) gestures from 24 people.
+The respective SSL signs were initially taught by teachers at
+‘The School for the Deaf, Ratmalana, Sri Lanka’. A USB 2.0
+HD UVC WebCam and a Python script leveraging OpenCV
+were used to collect and store 3-second long videos. We se-
+lected words related to interactions between hearing-impaired
+people and medical centers, grocery stores, and banks. Table 1
+illustrates the data set including both static and dynamic signs.
+Authorized licensed use limited to: Lovely Professional University - Phagwara. Downloaded on April 02,2026 at 13:58:44 UTC from IEEE Xplore.  Restrictions apply. 
+
+Fig. 1. Overall methodology
+TABLE I
+COLLECTED GESTURE SIGNS
+Sinhalese Word
+English Idea
+Type
+Awe
+Came
+Dynamic
+Epa
+Don’t
+Dynamic
+Hadagannai
+Remake / Update
+Dynamic
+Haduna
+Felt sick / Had an illness
+Dynamic
+Hi
+Hi
+Dynamic
+Ithuru
+Change (with related to money)
+Dynamic
+Kauntaraya
+Counter (in a bank or medical
+station)
+Dynamic
+Kalanthe
+Dizziness
+Dynamic
+Keeyada?/Mudal
+How much? / Money
+Dynamic
+Ko?
+Where?
+Dynamic
+Kohomada?
+How are you?
+Dynamic
+Mata
+(to) Me
+Static
+Nawatha
+Again
+Dynamic
+Oba
+You
+Static
+Pereda
+Day before yesterday
+Dynamic
+Potha
+Book
+Dynamic
+Ridenenawa
+Feeling sick / Hurt
+Dynamic
+Sbha Udasanak
+Good Morning
+Dynamic
+Sthuthiyi
+Thank you
+Dynamic
+Thampath Karana
+Store
+Dynamic
+Thibuna
+Had
+Static
+Ugura
+Throat
+Dynamic
+B. Pre-processing and Detection
+This stage is used to improve the overall efficiency and
+isolate the hand gestures from the background or non-relevant
+elements of a frame. First to ensure that the face does not
+interfere with hand gesturing, detecting and masking the face
+is done using the Haar Cascade Classifier, in the gray scale.
+After applying masking to the original image, the face is
+removed from the frame. Then the face-masked image is
+converted to YCbCr color space, which is effective for skin
+color segmentation. To highlight the skin regions from the rest
+of the background, a binary mask is created corresponding to
+common skin color tones (20,135,77 & 255,170,138). Then the
+image is converted to gray scale and noise is reduced using
+a bilateral filter. Canny edge detection is utilized to highlight
+the edges within the masked image. To accurately extract the
+hand contour, contours are subsequently extracted from the
+detected edges, and the largest contour by area is selected
+(corresponds to the hand). This contour is used to create a
+convex hull and a mask is generated accordingly to isolate the
+hand. Further processing is done to identify the bounding box
+and the hand is cropped from the rest of the image to feed
+into the classification model.
+C. Classification
+Unlike a static sign, a dynamic sign is a combination of
+static signs distributed over a specific period of time. Because
+of that, not only the spatial features, but also the temporal
+features representing the relationship between each individual
+frame is required to be extracted. For this, our proposed model
+leverages a deep learning based hybrid architecture consists
+with a CNN and an LSTM as shown in Fig.2.
+A CNN is a multi-layer neural network specifically de-
+signed for processing two-dimensional data. By employing
+concepts such as sparse connectivity and shared weights,
+CNNs significantly reduce the number of training parameters,
+enhancing their adaptability to identify patterns in recognizing
+images. As the first stage of the proposed model, a CNN-
+based approach is incorporated. Here, the CNN architecture is
+specifically designed and tuned to leverage the full potential of
+the hand extracting algorithm which is a novel combination of
+Authorized licensed use limited to: Lovely Professional University - Phagwara. Downloaded on April 02,2026 at 13:58:44 UTC from IEEE Xplore.  Restrictions apply. 
+
+Fig. 2. CNN-LSTM model layer architecture (Considering 1 time step)
+already available techniques for the spatial feature extraction
+of each frame. Basically, a CNN consists of convolutional
+layers, batch normalization layers and max-pooling layers. The
+Convolutional layers convolve the input image with its kernels
+to produce feature maps that capture various patterns. Batch
+normalization is mainly applied to accelerate the training by
+normalizing the inputs of each layer where max-pooling layers
+used to reduce the dimensionality of the input data reducing
+the computational overhead. The proposed CNN model uses
+3 convolutional layers with each having 64 3x3 kernels with
+a 2x2 max pooling layer for improved feature extraction. This
+enables the complex feature extraction from less number of
+pixels with improved computational efficiency. Further, ReLU
+activation function is used to introduce non-linearity, enabling
+the network to learn complex and abstract features more
+effectively.
+After extracting the features from a 56x56 pre-processed
+and hand detected input video frame, the feature maps are
+flattened into a one-dimensional vector of size 1600, preparing
+the data for final classification. The flattened vector is then
+passed to the LSTM model for the next stage of feature
+extraction, the temporal feature extraction. LSTM is a variation
+of an RNN model which has the capability of handling long
+time-series data without getting affected by the issue of van-
+ishing gradient. The proposed LSTM model comprises with
+two layers: the first layer identifies the short-term temporal
+patterns and fed to the second layer for recognizing long-
+term temporal dependencies. By combining the outputs of
+these two layers, our methodology effectively discerns signs
+with complex gestures, enhancing classification accuracy and
+robustness. To avoid network overfitting, a dropout layer is
+employed with a dropout rate of 0.25 between the two LSTM
+layers. Finally, the features are fed into a Dense layer for
+classification. Model is trained using the Adam optimizer with
+a batch size of 5 and 0.2 validation split.
+As the final step, an algorithm based on the prediction
+probabilities is used to generate the classification results.
+During the predictions, each continuous frame is assigned a
+predicted class probability, taking into account both spatial
+and temporal characteristics. However, this method has some
+issues. Directly using these predicted probability values can
+lead to inaccurate predictions or result in an output class even
+when no gesture is present in the real-time feed. To resolve
+this, a threshold based approach is implemented to check
+whether a fixed number of consecutive frames predict the same
+class with a higher probability than the threshold. The number
+of frames and the prediction probability threshold values were
+determined by analyzing the model’s prediction patterns. As
+a result, this method ensures accurate and continuous sign
+predictions in a real-time video feed consisting of multiple
+signs.
+IV. RESULTS AND DISCUSSION
+In this section, we present and analyze the performance
+and compare our CNN and LSTM model, with a Transformer
+architecture and an RNN model. As well as we discuss the
+novelty of the SSL gesture dataset and the user friendly
+interface our system uses.
+Fig. 3. Training loss graph of CNN-LSTM architecture
+As shown in Fig. 3, the validation loss stabilizes around 0.4
+after an initial decrease, indicating a reasonable fit with some
+overfitting towards the later epochs. In the accuracy graph Fig.
+Authorized licensed use limited to: Lovely Professional University - Phagwara. Downloaded on April 02,2026 at 13:58:44 UTC from IEEE Xplore.  Restrictions apply. 
+
+Fig. 4. Training accuracy graph of CNN-LSTM architecture
+4, training accuracy reaches 1.0 demonstrating the model’s
+strong learning capacity. Validation accuracy reaches about 0.9
+suggesting a good generalization despite the slight overfitting
+indicated in the loss graph. The overall model achieved a test
+accuracy of 93.72% with a loss of 0.2921. Achieved accuracies
+for a set of sign gestures are shown in Fig. 6. Two benchmark
+models were developed and fine-tuned as hybrid architectures,
+one being CNN and Transformer and another one as CNN and
+RNN models. Accuracies are 85.09% and 86.91%, respectively
+as illustrated in Fig. 7 and Table 2. While the CNN model
+analyses the sequential data, the Transformer and RNN models
+analyze the temporal data in the extracted features.
+The ability of LSTM to retain information with memory
+cells for longer periods allowing to capture long-term depen-
+dencies of complex dynamic signs outperforms the traditional
+RNN which struggles with issues like vanishing gradients.
+When considering the transformer, LSTM has performed
+well due to its stability in training for sequential data with
+a comparatively smaller dataset. With transformers, having
+a larger amount of data is important to achieve the best
+performance which may not always be available with sign
+language datasets. In terms of accuracy, scalability and higher
+generalization CNN-LSTM model architecture shows a robust
+performance.
+The proposed CNN-LSTM architecture leverages the full
+potential of the proposed hand detection algorithm enabling
+the learning and classification of complex hand gestures. The
+model performs well with complex and lengthy dynamic signs
+with the used CNN architecture for spatial feature extraction
+and 2 layered LSTM architecture for temporal feature extrac-
+tion. Also, the model performs well in identifying 2 signs
+separately which are almost similar statically but different
+dynamically.
+The paper presents a new dataset including 22 SSL gestures
+that could be used in day to day scenarios. There are some
+studies carried out with invented datasets for SSL but most
+of them are static signs [7], [9]. But our dataset (over 2500
+sample videos) mostly contains dynamic signs which are more
+practical gestures used in SSL. In [11], authors implement an
+Indian Sign Language dataset including alphabet (static signs)
+and dynamic signs (videos) from 7 people. While collecting
+the images and videos, wearing at least half sleeves is a
+must. However implementing our dataset does not require any
+special clothing. Using 24 SSL users enriched the dataset with
+diverse and comprehensive data.
+Fig. 5. User interface
+Our system was developed as a full-duplex communication
+system to facilitate meaningful conversations through audio di-
+alogs in real time. The system translates sign language into text
+and audio for the normal hearing people and converts spoken
+audio into readable text, enabling hearing-aided individuals
+to follow the conversation seamlessly. As the end result, we
+designed a user-friendly application with an intuitive interface.
+This user interface works as the front-end for the backend
+process of capturing video frames, processes them in real-time,
+displays the translated output, and generates audio responses,
+enabling seamless and effective two-way communication.
+Fig. 6. Accuracies for each sign gesture
+Authorized licensed use limited to: Lovely Professional University - Phagwara. Downloaded on April 02,2026 at 13:58:44 UTC from IEEE Xplore.  Restrictions apply. 
+
+Fig. 7. Testing accuracy and testing loss comparison
+TABLE II
+COMPARISON OF CNN-LSTM, CNN-TRANSFORMER, AND CNN-RNN
+MODEL PERFORMANCE
+Metric
+CNN-LSTM
+Our Model
+CNN-
+Transformer
+CNN-RNN
+Training Accuracy
+99.89%
+96.34%
+99.59%
+Training Loss
+0.2921
+0.1423
+0.0161
+Test Accuracy
+93.72%
+85.09%
+86.91%
+Test Loss
+0.2921
+0.7294
+0.6592
+V. CONCLUSION AND FUTURE WORK
+This paper presents a novel framework for recognizing
+continuous SSL using a hybrid CNN-LSTM architecture. Our
+model effectively handles both static and dynamic signs with
+a test accuracy of 93.72% with a loss of 0.2921 outperforming
+the baseline models. This research contributes to the field of
+SSL recognition with the data set (more than 2500 sample
+videos) for future researchers and offers better communication
+between the deaf community and hearing individuals. Since
+we use constant threshold values for skin color segmentation,
+the hand may not be accurately detected in poor lighting
+conditions. Adaptive thresholds and the lighting compensation
+using CLA Histogram Equalizer can be used to overcome this
+issue. Further morphological operations can be used to refine
+hand boundaries.
+To ensure practical applicability, we tested our system with
+the hearing aid users and achieved promising results for the
+selected set of signs. This demonstrates the effectiveness of
+the system while also highlighting areas for improvement. We
+believe the accuracy can be further enhanced by expanding the
+dataset to include a broader range of gestures and optimizing
+the model for real-world situations. Future work will focus
+on these improvements to make the system more robust and
+versatile for practical use in diverse communication scenarios.
+ACKNOWLEDGMENT
+This research was supported by the Science and Technology
+Human Resource Development Project, Ministry of Education,
+Sri Lanka, funded by the Asian Development Bank (Grant No.
+STHRD/CRG/R1/SJ/06).
+REFERENCES
+[1] I. A. Adeyanju, O. O. Bello, and M. A. Adegboye, “Machine learning
+methods for sign language recognition: A critical review and analysis,”
+Intelligent Systems with Applications, vol. 12, p. 200056, 2021.
+[2] B. K. Triwijoyo, L. Y. R. Karnaen, and A. Adil, “Deep learning approach
+for sign language recognition,” JITEKI: Jurnal Ilmiah Teknik Elektro
+Komputer dan Informatika, vol. 9, no. 1, 2023.
+[3] D. S. Ruiz, J. A. Olvera-L´opez, and I. Olmos-Pineda, “Word level sign
+language recognition via handcrafted features,” IEEE Latin America
+Transactions, vol. 21, no. 7, pp. 839–848, 2023.
+[4] R. Rastgoo, K. Kiani, and S. Escalera, “Sign language recognition: A
+deep survey,” Expert Systems with Applications, vol. 164, p. 113794,
+2021.
+[5] Y. Liao, P. Xiong, W. Min, W. Min, and J. Lu, “Dynamic sign language
+recognition based on video sequence with blstm-3d residual networks,”
+IEEE Access, vol. 7, pp. 38 044–38 054, 2019.
+[6] R. RKDMP, W. Wijekoon, K. Rajapakse, K. Rasanjalee, and D. De Silva,
+“Real-time sign language translator,” International Journal of Engineer-
+ing and Management Research, vol. 12, no. 6, pp. 117–124, 2022.
+[7] P. Fernando and P. Wimalaratne, “Sign language translation approach
+to sinhalese language,” GSTF Journal on Computing (JoC), vol. 5, pp.
+1–9, 2016.
+[8] A. Gupta, V. K. Sehrawat, and M. Khosla, “Fpga based real time human
+hand gesture recognition system,” Procedia Technology, vol. 6, pp. 98–
+107, 2012.
+[9] I. Dhanawansa and R. Rajakaruna, “Sinhala sign language interpreter
+optimized for real–time implementation on a mobile device,” in 2021
+10th International Conference on Information and Automation for
+Sustainability (ICIAfS).
+IEEE, 2021, pp. 422–427.
+[10] K. C. Neo and H. Ibrahim, “Development of sign signal translation
+system based on altera’s fpga de2 board,” International Journal of
+Human Computer Interaction (IJHCI), vol. 2, no. 3, p. 101, 2011.
+[11] P. Athira, C. Sruthi, and A. Lijiya, “A signer independent sign language
+recognition with co-articulation elimination from live videos: an indian
+scenario,” Journal of King Saud University-Computer and Information
+Sciences, vol. 34, no. 3, pp. 771–781, 2022.
+[12] S. Yang and Q. Zhu, “Continuous chinese sign language recognition with
+cnn-lstm,” in Ninth international conference on digital image processing
+(ICDIP 2017), vol. 10420.
+SPIE, 2017, pp. 83–89.
+[13] A. M. Buttar, U. Ahmad, A. H. Gumaei, A. Assiri, M. A. Akbar, and
+B. F. Alkhamees, “Deep learning in sign language recognition: A hybrid
+approach for the recognition of static and dynamic signs,” Mathematics,
+vol. 11, no. 17, p. 3729, 2023.
+[14] J. Pu, W. Zhou, and H. Li, “Iterative alignment network for continuous
+sign language recognition,” in Proceedings of the IEEE/CVF conference
+on computer vision and pattern recognition, 2019, pp. 4165–4174.
+[15] A. Rasim and T. Alexander, “Hand detection based on skin color
+segmentation and classification of image local features,” Tem Journal,
+vol. 2, no. 2, pp. 150–155, 2013.
+Authorized licensed use limited to: Lovely Professional University - Phagwara. Downloaded on April 02,2026 at 13:58:44 UTC from IEEE Xplore.  Restrictions apply. 
+

@@ -1,0 +1,1072 @@
+Pacific Graphics 2025/ M. Christie, N. Pietroni, and Y.-S. Wang
+Conference Paper
+Skeletal Gesture Recognition Based on Joint Spatio-Temporal and
+Multi-Modal Learning
+Zhijing Yu1
+, Zhongjie Zhu1†
+, Di Ge1, Renwei Tu1, Yongqiang Bai1, Yueping Yang1 and Yuer Wang1‡
+1The Key Laboratory of Ningbo Industrial Vision and Industrial Intelligence, Zhejiang Wanli University, Ningbo, Zhejiang, 315100, China
+Abstract
+Hand skeleton-based gesture recognition is a crucial task in human-computer interaction and virtual reality. It aims to achieve
+precise classification by analyzing the spatio-temporal dynamics of skeleton joints. However, existing methods struggle to effec-
+tively model highly entangled spatio-temporal features and fuse heterogeneous Joint, Bone, and Motion (J/B/JM) modalities.
+These limitations hinder recognition performance. To address these challenges, we propose an Adaptive Spatio-Temporal Net-
+work (ASTD-Net) for gesture recognition. Our approach centers on integrated spatio-temporal feature learning and collabora-
+tive optimization. First, for spatial feature learning, we design an Adaptive Multi-Subgraph Convolution Module (AMS-GCN)
+which mitigates spatial coupling interference and enhances structural representation. Subsequently, for temporal feature learn-
+ing, we introduce a Multi-Scale Dilated Temporal Fusion Module (MD-TFN) that captures multi-granularity temporal patterns,
+spanning local details to global evolution. This allows for comprehensive modeling of temporal dependencies. Finally, we pro-
+pose a Self-Supervised Spatio-Temporal Channel Adaptation Module (SSTC-A). Using a temporal discrepancy loss, SSTC-A
+dynamically optimizes cross-modal dependencies and strengthens alignment between heterogeneous J/B/JM features, enhancing
+their fusion. On the SHREC’17 and DHG-14/28 datasets, ASTD-Net achieves recognition accuracies of 97.50% and 93.57%,
+respectively. This performance surpasses current state-of-the-art methods by up to 0.50% and 1.07%. These results verify the
+effectiveness and superiority of our proposed method.
+CCS Concepts
+• Computing methodologies →Activity recognition and understanding; Neural networks;
+1. Introduction
+Hand skeleton-based gesture recognition is crucial for human-
+computer interaction, with vast potential in virtual reality, aug-
+mented reality, and barrier-free communication [TGHW21, BH93,
+ZCCL18]. The core task is designing models to process 3D skele-
+ton sequences and infer gesture intentions [SWV∗17, LWL21].
+This requires models precisely capturing dynamic spatial structure
+and understanding complex temporal motion patterns. Develop-
+ing accurate, robust, real-time systems is vital for intuitive human-
+computer interaction [QWDJ22].
+Research in skeleton-based gesture recognition has evolved from
+early hand-crafted feature engineering to deep learning methodolo-
+gies. Prominent deep learning techniques in this area include Con-
+volutional Neural Networks (CNNs), Recurrent Neural Networks
+(RNNs) and their variants (e.g., Gated Recurrent Units (GRU),
+Long Short-Term Memory (LSTM)), and more recently devel-
+oped Graph Convolutional Networks (GCNs). Deep learning sig-
+† Corresponding author: zhongjiezhu@hotmail.com
+‡ Corresponding author: 365401628@qq.com
+nificantly enhances performance through automatic feature repre-
+sentation learning, partially overcoming the generalization limita-
+tions of traditional methods. However, prevailing approaches still
+face challenges in effectively handling the non-Euclidean struc-
+ture of skeleton data, modeling long-term temporal dependencies,
+and adaptively capturing dynamic inter-joint correlations. For in-
+stance, standard CNNs are ill-suited for direct application to graph-
+structured skeleton data. Separately, RNNs and their variants can
+suffer from bottlenecks in gradient propagation and parallel compu-
+tation. Moreover, most GCNs adopt a fixed graph topology, which
+constrains their ability to capture fine-grained spatial relationship
+variations during gesture execution. They also often process spatio-
+temporal information in a segregated manner, which can limit ef-
+fective feature learning from deeply coupled spatio-temporal char-
+acteristics.
+The field of skeleton-based gesture recognition currently faces
+two principal challenges that impede further performance break-
+throughs. First, the effective representation and in-depth model-
+ing of spatio-temporal features remain significant hurdles. Gestures
+are essentially complex and nonlinear evolutions of joint spatial
+structures over time. Existing methods often suffer from limita-
+© 2025 The Author(s).
+Proceedings published by Eurographics - The European Association for Computer Graphics.
+This is an open access article under the terms of the Creative Commons Attribution License, which
+permits use, distribution and reproduction in any medium, provided the original work is properly
+cited.
+DOI: 10.2312/pg.20251271
+https://diglib.eg.org
+https://www.eg.org
+
+2 of 9
+Zhijing Yu, Zhongjie Zhu, Di Ge, Renwei Tu, Yongqiang Bai, Yueping Yang & Yuer Wang / ASTD-Net
+tions such as fixed graph topologies or simplified temporal mod-
+els. This makes it difficult to adaptively capture fine-grained, time-
+varying spatial relationships and accurately model complex dy-
+namic patterns spanning long temporal ranges. Additionally, sim-
+plistic sequential processing or shallow combination of spatial and
+temporal information often overlooks deeply coupled characteris-
+tics, limiting holistic understanding and effective feature learning.
+This constitutes a key bottleneck in improving recognition accu-
+racy. Second, adaptive fusion mechanisms for multi-source het-
+erogeneous features are lacking. Skeleton data includes not only
+basic three-dimensional coordinates (Joint modality) but can also
+extend to supplementary streams. These streams, such as joint-
+relative vectors (Bone modality), motion speeds, and accelerations
+(Motion modality), collectively depict comprehensive gesture in-
+formation. However, the information content and relative impor-
+tance of these different feature types vary dynamically. This vari-
+ation occurs across gesture categories and even throughout differ-
+ent phases of the same gesture. Current studies often lack effective
+fusion mechanisms that can dynamically adjust the contribution
+weights of each feature channel based on the input context. This
+non-adaptive fusion strategy limits the full utilization of comple-
+mentary J/B/JM multi-modal information, consequently hindering
+noise suppression and the formation of optimal comprehensive fea-
+ture representations.
+To address these challenges, we propose an Adaptive Spatio-
+Temporal Network (ASTD-Net). Our network aims to improve the
+representation of spatio-temporal features in skeleton sequences
+and the adaptive fusion of multi-source information through dy-
+namic spatio-temporal feature learning and optimization. The main
+contributions of this work are as follows:
+• We propose the ASTD-Net. It utilizes an Adaptive Multi-
+Subgraph Convolution Module (AMS-GCN) to jointly optimize
+graph structures and aggregate multi-view spatial features, en-
+hancing spatial representation. Coupled with a Multi-Scale Di-
+lated Temporal Fusion Module (MD-TFN) employing multi-
+kernel and multi-dilated convolutions to capture diverse tempo-
+ral patterns, our network achieves specialized spatio-temporal
+feature learning, allowing for clearer representations.
+• We introduce a Self-Supervised Spatio-Temporal Channel Adap-
+tation module (SSTC-A). This module leverages a temporal dis-
+crepancy loss to dynamically optimize cross-modal dependen-
+cies, thereby improving the alignment and fusion of heteroge-
+neous J/B/JM feature representations.
+• ASTD-Net achieves state-of-the-art (SOTA) accuracies of
+97.50% on SHREC’17 and 93.57% on DHG-14/28, surpassing
+baselines by up to 0.50% and 1.07%, respectively. These results
+validate the effectiveness and superiority of our method.
+2. Related work on skeleton-based gesture recognition
+2.1. Skeleton-based Gesture Recognition Methods
+Early research in skeleton-based gesture recognition primarily re-
+lied on hand-crafted features. For instance, Oreifej [OL13] pro-
+posed the Histogram of Oriented 4D Normals (HON4D) method
+for basic activity recognition. Although capable of capturing shape
+and motion information well within depth sequences, it exhibited
+shortcomings in utilizing skeletal structure and characterizing fine-
+grained hand motion details. To address this, De Smedt [DSWV16]
+extracted geometric skeletal features, such as joint angles, to de-
+scribe pose variations, enhancing pose characterization capability.
+However, this method lacked robustness, being susceptible to view-
+point and background changes, thus limiting its practical appli-
+cation scope. Subsequently, De Smedt and Wannous [DSWV19]
+improved generalization ability by fusing multiple features and
+classifiers. Yet, this approach suffered from low computational ef-
+ficiency, making it difficult to meet real-time requirements. To
+balance performance and efficiency, Deng [DGJY23] proposed a
+multi-feature, multi-stream network. It reduced the parameter count
+and enhanced feature representation by combining various joint
+features with one-dimensional CNNs. However, its recognition per-
+formance remained limited in complex dynamic scenarios, particu-
+larly those involving rapid gestures and intricate backgrounds.
+Recently, deep learning methods have surpassed traditional ap-
+proaches in skeleton-based gesture recognition due to their pow-
+erful automatic feature learning capabilities. These methods are
+primarily categorized into two classes: those emphasizing tempo-
+ral dynamics and focusing on spatial modeling. Methods focus-
+ing on temporal dynamics primarily employ RNN variants (e.g.,
+LSTM, GRU) and Temporal Convolutional Networks (TCNs). For
+instance, Du [DWW15] proposed a hierarchical RNN partition-
+ing skeletons into segments, while Shin and Kim [SK20] in-
+troduced a partitioned GRU-RNN for block processing of fea-
+tures. Kim [SKR17] utilized TCNs in an interpretable model, and
+Hou [HWC∗18] incorporated temporal attention into TCNs to cap-
+ture complex temporal information. Methods focusing on spatial
+structure modeling mostly employ CNN frameworks. A common
+approach, used by Tu [TLL18], maps skeleton sequences onto
+pseudo-images or voxels for CNN processing. However, this trans-
+formation to Euclidean space disrupts the skeleton’s native topol-
+ogy and connectivity, potentially losing vital structural information.
+Furthermore, Liu [LLW∗20] proposed a strategy for separately ex-
+tracting spatial and temporal features. Yet, their spatial processing
+doesn’t directly handle the native graph structure, limiting effective
+spatial structure utilization.
+In summary, methods relying solely on temporal or spatial mod-
+eling face limitations in fully exploiting the inherent non-Euclidean
+graph structure of skeleton data. This constrains the model’s abil-
+ity for in-depth exploration of intrinsic data regularities and intri-
+cate inter-joint relationships. With their unique ability to perform
+computations directly on graph structures and effectively preserve
+topological information, GCNs provide a key solution for overcom-
+ing this bottleneck and have gained widespread attention from re-
+searchers in the field.
+2.2. GCN-based Skeleton Gesture Recognition Methods
+Given the demonstrated effectiveness of GCNs in processing
+graph-structured data and their inherent suitability for model-
+ing the non-Euclidean nature of skeletons, GCN-based methods
+have emerged as a prominent research paradigm in skeleton-based
+gesture recognition. Li [LHY∗19] proposed the Spatio-Temporal
+Graph Convolutional Network (ST-GCN), which performs end-to-
+end learning by integrating spatial graph convolutions with stan-
+© 2025 The Author(s).
+Proceedings published by Eurographics - The European Association for Computer Graphics.
+
+Zhijing Yu, Zhongjie Zhu, Di Ge, Renwei Tu, Yongqiang Bai, Yueping Yang & Yuer Wang / ASTD-Net
+3 of 9
+dard temporal convolutions. This work provided a theoretical and
+methodological foundation for subsequent graph-based dynamic
+skeleton modeling research, achieving performance that signif-
+icantly surpassed traditional methods and early non-GCN deep
+learning models. However, while the serial spatio-temporal archi-
+tecture of ST-GCN is effective, its reliance on standard GCN and
+1D CNN modules leads to relatively rudimentary spatio-temporal
+feature processing. This approach often fails to effectively learn
+distinct spatial and temporal configurations, resulting in highly cou-
+pled features and hindering in-depth spatio-temporal feature learn-
+ing and optimization. Furthermore, ST-GCN primarily focuses on
+joint information, resulting in an insufficient utilization of bone in-
+formation. It lacks explicit mechanisms for modeling and fusing
+Joint, Bone, Motion (J/B/JM) and other heterogeneous modalities,
+which can result in the loss of critical geometric and kinematic
+cues.
+To address the shortcomings in spatio-temporal feature learning
+and optimization, subsequent research has explored multiple direc-
+tions to enhance model representation capabilities. For example,
+Zhang [ZLC∗20] proposed STA-GCN, which employs attention
+mechanisms to attempt to alleviate feature coupling by dynamically
+focusing on key spatio-temporal regions. However, the attention
+weights themselves may still depend on coupled features, thereby
+failing to achieve true independence between spatial and temporal
+representations at a fundamental level. Alternatively, other works
+aim to enhance the capture of specific spatio-temporal attributes;
+for instance, Song [SKK22] focused on improving graph structure
+learning, while others designed multi-stream architectures, such as
+those incorporating pose and motion streams [ZLC∗20]. Despite
+the performance improvements achieved by these methods, they
+still lack dedicated mechanisms explicitly designed for effective
+spatio-temporal feature learning and optimization.
+Existing GCN-based methods also show deficiencies in the ef-
+fective fusion of inherent heterogeneous skeleton information. ST-
+GCN [LHY∗19] and many subsequent improved models [ZLC∗20,
+SKK22,CLY∗21] predominantly adopt a joint-centric strategy, of-
+ten neglecting inherent bone geometric attributes and kinematic
+information. Even approaches that incorporate supplementary in-
+formation sources, such as the palm centroid [NMV23], or utilize
+multi-channel networks such as CNN and LSTM combinations,
+typically lack dedicated modules designed for extracting bone fea-
+tures and effectively fusing them with other heterogeneous data.
+Neglecting these types of heterogeneous information restricts the
+completeness of skeleton representation and consequently limits
+model performance.
+In summary, although existing GCN-based gesture recognition
+methods show significant progress, two primary bottlenecks per-
+sist. First, insufficient spatio-temporal feature learning and opti-
+mization limits the fine-grained representation of complex dynam-
+ics. Second, the lack of explicit fusion mechanisms for hetero-
+geneous information, such as J/B/JM data, leads to incomplete
+representations. These factors collectively constrain further model
+performance improvements, particularly when handling subtle and
+complex gestures. Addressing these issues, this study proposes the
+ASTD-Net framework. This framework aims to enhance skeleton-
+based gesture recognition accuracy and robustness by promoting
+in-depth spatio-temporal feature learning and optimization via the
+AMS-GCN Module and the MD-TFN Module, and by achieving
+effective fusion of heterogeneous information through the SSTC-A
+Module.
+3. Method
+3.1. Formalization of Skeletal Data and Construction of
+Multimodal Representations
+The input dynamic 3D hand skeleton sequence is formalized as a
+time-evolving graph structure. At any given time step t, the hand
+skeleton is represented by its joint coordinates and connectivity.
+We denote N = 22 as the total number of joints. The coordinates of
+all N joints at time step t are represented by a matrix Jt ∈RN×C,
+where C = 3 for 3D coordinates. The i-th row of Jt, denoted as Jt,i,
+corresponds to the three-dimensional coordinates (x,y,z) of the i-th
+joint.
+The connectivity of the skeleton is described by the adjacency
+matrix A ∈RN×N, where the matrix element Ai j indicates whether
+joint i and joint j form a bone:
+Ai j =
+(
+1,
+if (i, j) forms a bone
+0,
+else
+(1)
+Consequently, the complete input gesture sequence is repre-
+sented as J = (J1,...,JT ) ∈RN×C×T , where T denotes the total
+number of frames in the sequence. To comprehensively capture in-
+trinsic gesture information from diverse dimensions, three hetero-
+geneous modalities are defined based on J.
+Modality J directly reflects the absolute spatio-temporal posi-
+tions of all joints throughout the entire time series. This modality is
+essentially the complete input gesture sequence J, represented as a
+tensor J ∈RN×C×T , where C = 3 for 3D coordinates.
+Modality B describes the relative bone structure defined by the
+skeleton’s connectivity. At each time step t, for any connected pair
+of joints (i, j), the corresponding bone vector Bt,(i,j) is computed
+as the coordinate difference between the target joint Jt,j and the
+source joint Jt,i, Bt,(i,j) = Jt,j −Jt,i. B aggregates these bone vectors
+for all N′ =| {(i, j) | Ai j = 1,i ̸= j} | bones across all T frames. Its
+dimensions are B ∈RN′×Cb×T where Cb = C = 3.
+Modality JM captures the dynamic information concerning joint
+position changes over time. Joint velocity is approximated by com-
+puting coordinate differences between adjacent frames. For each
+time step t ∈{2,...,T} and each joint i, its motion vector JMt,i
+is defined as the coordinate difference between the current joint
+position Jt,i and the previous frame’s position Jt−1,i, formalized
+as JMt,i = Jt,i −Jt−1,i. For t = 1, JM1,i can be set to zero or es-
+timated. Modality JM comprises the motion vectors for all joints
+across all time frames, resulting in a tensor JM ∈RN×Cm×T where
+Cm = C = 3.
+3.2. Model Architecture
+The overall framework of ASTD-Net is depicted in Figure 1. The
+network takes 3D hand skeleton sequences as input, preprocessed
+© 2025 The Author(s).
+Proceedings published by Eurographics - The European Association for Computer Graphics.
+
+4 of 9
+Zhijing Yu, Zhongjie Zhu, Di Ge, Renwei Tu, Yongqiang Bai, Yueping Yang & Yuer Wang / ASTD-Net
+Figure 1: Overview of the ASTD-Net Model Architecture. The figure illustrates multi-modal input processing, stacked ASTD units,
+channel adaptation, and final classification.
+into three heterogeneous modalities: J, B, and JM. Our model con-
+sists of 10 stacked ASTD Units, followed by a Self-Supervised
+Spatio-Temporal Channel Adaptation Module (SSTC-A), a Global
+Average Pooling (GAP) layer, and a Fully Connected (FC) layer
+with a Softmax classifier. The ASTD Units’ channel numbers are
+64-64-64-64-128-128-128-256-256-256. To reduce temporal di-
+mensionality and extract abstract features, strided temporal con-
+volutions (stride 2) are applied within the MD-TFN Module of the
+5th and 8th ASTD Units.The SSTC-A module is placed after the
+stacked ASTD Units. It leverages a self-supervised mechanism to
+adaptively fuse spatio-temporal features from each modality, en-
+hancing cross-modality feature alignment before the final classifi-
+cation.
+Each ASTD Unit is designed for specialized spatio-temporal fea-
+ture learning. Within each unit, parallel input feature streams are
+first processed by the Adaptive Multi-Subgraph Convolution Mod-
+ule (AMS-GCN) for dynamic spatial structure extraction. The ex-
+tracted spatial features then pass to the Multi-Scale Dilated Tem-
+poral Fusion Module (MD-TFN), which models multi-granularity
+temporal dynamics. A residual connection integrates the input with
+MD-TFN’s output.
+3.3. Adaptive Multi-Subgraph Convolution Module
+Conventional GCNs, relying on a fixed graph topology, often fail
+to capture the intricate and dynamically evolving spatial depen-
+dencies in hand dynamics. To address this, we propose the AMS-
+GCN Module, as shown in Figure 2. This module integrates struc-
+tured spatial graph partitioning with an adaptive adjacency learning
+mechanism.
+AMS-GCN decomposes the spatial graph into K = 3 semanti-
+cally meaningful subgraphs: self-connections, centripetal connec-
+tions, and centrifugal connections. These subgraphs are initialized
+using anatomical priors, providing a strong inductive bias for the
+learnable adjacency tensor AK ∈RK×N×N. All elements of AK are
+optimized as model parameters, enabling dynamic adjustment of
+complex spatial dependencies.
+For the l-th AMS-GCN layer, the input feature is H ∈
+RNb×C1×T×N. For each subgraph k ∈{1,2,3}, a 1 × 1 convolu-
+tion O(·) with learnable weights Wz,k is applied to H to yield node
+features for aggregation:
+Zk
+G = O(H,Wz,k)
+(2)
+Simultaneously, relational feature representations Rk are ex-
+tracted in parallel by applying a separate 1×1 convolutional trans-
+formation to H, specifically for capturing relative inter-node infor-
+mation.
+Subsequently, utilizing the learned adaptive adjacency matrix Ak,
+the aggregated feature eHk = P(Zk
+G,Ak) is computed, where P(·) is
+a weighted aggregation function.
+Then, the output for each subgraph eHk is obtained by element-
+wise adding eHk with its corresponding Rk:
+˜Hk = P(Zk
+G,Ak)+Rk
+(3)
+where Ak is our dynamically refined learnable adjacency tensor,
+initialized with anatomical priors for each subgraph.
+Finally, the output features eHk from the K subgraphs are summed
+element-wise, passed through a ReLU activation function σ(·), and
+added to H, yielding the final layer output yG:
+yG = σ
+ 
+K
+∑
+k=1
+˜Hk
+!
++H
+(4)
+where yG ∈RNb×C′′
+1 ×T×N. In summary, through the synergistic in-
+tegration of structured spatial partitioning, parameterized adaptive
+adjacency, and the processing of joint and relational information,
+AMS-GCN learns comprehensive, adaptable, and data-driven spa-
+tial feature representations. This significantly enhances the model’s
+capability for modeling intricate hand spatial configurations.
+© 2025 The Author(s).
+Proceedings published by Eurographics - The European Association for Computer Graphics.
+
+Zhijing Yu, Zhongjie Zhu, Di Ge, Renwei Tu, Yongqiang Bai, Yueping Yang & Yuer Wang / ASTD-Net
+5 of 9
+Figure 2: Key Modules of ASTD-Net. This figure illustrates the AMS-GCN Module for spatial feature learning, and the MD-TFN Module
+and SSTC-A module for temporal modeling and adaptive multi-modal fusion.
+3.4. Multi-Scale Dilated Temporal Fusion Module
+Following AMS-GCN, the MD-TFN Module depicted in Figure 2,
+captures multi-scale temporal dynamics, addressing limitations of
+traditional RNNs / TCNs. It employs a multi-branch parallel archi-
+tecture for input features (denoted C2 channels).
+MD-TFN includes a multi-kernel size branch (ks ∈{3,5,7} for
+local patterns) and a multi-dilation branch (k fixed, d ∈{1,2,3,4}
+for long-range dependencies). Each utilizes 1D temporal convolu-
+tions:
+Hks = σ{BN[Conv1D(yG,ks)]}
+(5)
+Hdil = σ{BN[Conv1D(yG,k,d)]}
+(6)
+Auxiliary branches are max-pooling (Hpool) and a 1 × 1 convo-
+lution (H1×1). Outputs from all branches are concatenated along
+the channel dimension, forming Hcat ∈RNb×C′
+2×T×N, where M is
+the Concat function:
+Hcat = M(Hks1,...,Hdil1,...,Hpool,H1×1)
+(7)
+A channel attention mechanism then computes weights for
+element-wise multiplication with Hcat. The intermediate feature Z1
+is calculated via a 1×1 convolution φ1 with weights W1:
+Z1 = σ[φ1(Hcat,W1)]
+(8)
+Finally, the layer output yM is obtained by applying another 1×1
+convolution φ2 with weights W2 and a Sigmoid activation δ to Z1,
+element-wise multiplying with Hcat, and adding a residual connec-
+tion from yG:
+yM = σ{Hcat ⊙δ[φ2(Z1,W2)]+Res(yG)}
+(9)
+where ⊙is element-wise multiplication and Res is the residual
+connection. This dynamically emphasizes significant temporal fea-
+ture channels, allowing MD-TFN to synergistically enhance spatio-
+temporal features with AMS-GCN.
+3.5. Self-Supervised Spatio-Temporal Channel Adaptation
+Module
+Following the spatio-temporal feature extraction by AMS-GCN
+and MD-TFN for heterogeneous modalities J, B, and JM, these
+individual representations, though complementary, may contain
+redundancy or misalignment. Simplistic fusion strategies are in-
+sufficient to effectively leverage complementarity and address
+inter-modal discrepancies, thereby constraining recognition perfor-
+mance. To facilitate intelligent, adaptive cross-modal information
+integration and enhance their synergistic effect, we introduce the
+SSTC-A module. This module is designed to dynamically learn
+inter-modal dependencies, optimize the fusion methodology, and
+enhance modality alignment capabilities through self-supervised
+signals.
+SSTC-A receives the final feature representations HJ,HB,HJM ∈
+RNb×C3×T ′×N for the three modalities after L stacked layers of
+AMS-GCN and MD-TFN processing. The module employs an
+attention-based adaptive weighting mechanism to dynamically as-
+certain the importance of each modality. First, the input features are
+concatenated:
+HD = M(HJ,HB,HJM)
+(10)
+where M is Concat. Global average pooling then aggregates
+spatio-temporal information, yielding channel descriptors Z2 ∈
+© 2025 The Author(s).
+Proceedings published by Eurographics - The European Association for Computer Graphics.
+
+6 of 9
+Zhijing Yu, Zhongjie Zhu, Di Ge, Renwei Tu, Yongqiang Bai, Yueping Yang & Yuer Wang / ASTD-Net
+RNb×(3·C3)×1×1:
+Z2 = GAP(HD) =
+1
+T ′ ·N
+T ′
+∑
+t=1
+N
+∑
+n=1
+HD[:,:,t,n]
+(11)
+A compact gating network processes Z2, generating modality at-
+tention weights wJ,wB,wJM ∈RNb×1×1×1:
+(wJ,wB,wJM) = S{FC2[σ(FC1(Z2))]}
+(12)
+where FC1 is a fully connected layer reducing channel dimensions
+by a factor of r = 16 for efficiency, σ is ReLU activation, FC2 is
+another fully connected layer expanding back to 3 outputs corre-
+sponding to each modality, and S denotes the Softmax function.
+This mechanism dynamically learns which data stream to priori-
+tize, leading to adaptive fusion. The learned weights then generate
+weighted fused features:
+Hfw = wJ ⊙HJ +wB ⊙HB +wJM ⊙HJM
+(13)
+A self-supervised learning task based on temporal difference
+consistency further guides the adaptive weighting. For each modal-
+ity D ∈{J,B,JM}, the feature difference between adjacent time
+steps is calculated:
+∆Ht
+D = Ht
+D −Ht−1
+D
+(14)
+The SSL loss LSSL minimizes the distance E (Mean Squared
+Error) between temporal differences of distinct modality pairs C =
+{(J,B),(J,JM),(B,JM)}:
+LSSL =
+1
+T ′ −1
+T ′
+∑
+t=2
+∑
+(D1,D2)∈C
+E(∆Ht
+D1,∆Ht
+D2)
+(15)
+This integration incentivizes cross-modally consistent features,
+enhancing modality alignment and fusion robustness. The final
+output of SSTC-A is the feature map produced through adaptive
+weighted fusion, enhanced via residual connections, and incorpo-
+rating SSL consistency constraints, ultimately fed into the final
+classification layer.
+4. Experiments
+The SHREC’17 Track [DSWV∗17] and DHG-14/28 [DSWV16]
+datasets comprise data acquired via an Intel RealSense camera op-
+erating at 30 frames per second. They contain 2800 gesture se-
+quences. Each frame includes a 640× 480 resolution depth im-
+age alongside 22 recorded joint coordinates constituting a complete
+hand skeleton within both 2D depth image space and 3D world
+space. Typical gesture sequences span 20-50 frames. Sequences
+are labeled into 14 or 28 classes based on finger count and cate-
+gory. Recognition accuracy is evaluated under both 14-class and
+28-class settings. Additional parameters for both datasets are de-
+tailed in Table 1. The specific hand skeleton structure is illustrated
+in Figure 3.
+4.1. Experiment Setting
+The proposed ASTD-Net method adopts TD-GCN [LWW∗23] as
+its backbone network. All experiments were conducted on a com-
+putational platform equipped with two NVIDIA GeForce RTX
+Table 1: Results for 3 modalities and their aggregation on the
+SHREC’17 Track dataset for 14 and 28 class classification.
+Attribute Participants
+Reps/Gesture/Person Evaluation Protocol
+SHREC’
+17Track
+28 (RH)
+1-10 X
+Split : 1960 / 840 seq .
+( train / test )
+DHG-
+14/28
+20
+5 X
+LOSO CV : 19 train ,
+1 test ( 20 X )
+Figure 3: Visualization of Hand Skeleton.
+2080Ti GPUs (12GB VRAM). Model training utilized the Stochas-
+tic Gradient Descent (SGD) optimizer with a learning rate warm-
+up strategy [HZRS16] to enhance training stability. The optimizer’s
+initial learning rate was 0.1 and momentum was 0.9. For both the
+SHREC’17 Track and DHG-14/28 datasets, the training process
+spanned 200 epochs. The batch size was 64 and the weight decay
+coefficient was 0.0001. The learning rate was reduced by a factor
+of 0.1 at the 90th and 130th epochs respectively. Data augmenta-
+tion techniques were utilized to enhance model generalization per-
+formance. Specifically, random translational perturbations, gener-
+ated from uniform sampling within the interval (-0.01, 0.01), were
+added to the hand joint coordinates for both the SHREC’17 Track
+and DHG-14/28 datasets. Additionally, input sequences underwent
+length normalization: sequences from the SHREC’17 Track dataset
+were uniformly extended or truncated to 180 frames, while those
+for the DHG-14/28 dataset were processed to 150 frames. Se-
+quences shorter than the target length were zero-padded.
+4.2. Comparative Experiments
+This study selects the widely recognized TD-GCN method as the
+comparison baseline. This approach utilizes its temporal differ-
+ence graph convolutional network structure to effectively integrate
+spatio-temporal information for skeleton sequence feature extrac-
+tion demonstrating excellent performance on the SHREC’17 Track
+© 2025 The Author(s).
+Proceedings published by Eurographics - The European Association for Computer Graphics.
+
+Zhijing Yu, Zhongjie Zhu, Di Ge, Renwei Tu, Yongqiang Bai, Yueping Yang & Yuer Wang / ASTD-Net
+7 of 9
+dataset. Specifically, its accuracy reaches 96.17% for the J modality
+and 94.05% for the JM modality in the 14-class gesture classifica-
+tion task. For the 28-class gesture classification task the accuracies
+for these modalities are 92.38% and 91.19% respectively.
+Table 2: Results for 3 modalities and aggregation on the
+SHREC’17 Track dataset for 14 and 28 class classification.
+Modality
+14 Gestures: Accuracy (%)
+28 Gestures: Accuracy (%)
+BaseLine
+Ours
+BaseLine
+Ours
+J
+96.19
+97.14
+92.38
+92.62
+B
+89.05
+87.62
+87.14
+85.83
+JM
+94.05
+96.07
+91.19
+92.38
+J+JM
+96.07
+96.90
+92.98
+93.10
+J+B+JM
+96.79
+97.50
+94.52
+94.76
+Table 2 presents a comparison of ASTD-Net and TD-GCN re-
+sults across three modalities and their aggregation for 14-class and
+28-class classification on the SHREC’17 Track dataset. For the 14-
+class gesture recognition task ASTD-Net achieves 97.14% accu-
+racy for the Joint modality and 96.07% for the Joint Motion modal-
+ity representing improvements of 0.97% and 2.02% respectively
+over TD-GCN. In the more challenging 28-class task these modal-
+ities attain accuracies of 92.62% and 92.38% surpassing TD-GCN
+by 0.24% and 1.19% respectively.
+Notably in contrast to the significant enhancements observed for
+the J and JM modalities the performance of the B modality exhibits
+a slight decline. This performance discrepancy is attributable to the
+inherent properties of the modal features. The B modality relies
+on bone vector directional information which is susceptible to per-
+turbations during data augmentation techniques such as geometric
+transformations. Conversely the J modality preserves stable spatial
+positional information while the JM modality effectively captures
+temporal dynamic features enabling them to manifest superior fea-
+ture representation capabilities within the self-supervised learning
+framework. The experimental results demonstrate that the proposed
+ASTD-Net method significantly enhances skeleton action recogni-
+tion performance while maintaining computational efficiency par-
+ticularly yielding prominent improvements for the crucial J and JM
+modalities.
+Table 3: Results for 3 modalities and their aggregation on the
+DHG-14/28 dataset for 14 and 28 class classification.
+Modality
+14 Gestures: Accuracy (%)
+28 Gestures: Accuracy (%)
+BaseLine
+Ours
+BaseLine
+Ours
+J
+83.57
+89.29
+83.57
+90.00
+B
+86.43
+89.29
+90.00
+90.00
+JM
+91.43
+93.57
+82.15
+90.71
+J+JM
+88.57
+90.00
+82.86
+89.29
+J+B+JM
+90.00
+93.57
+88.57
+92.86
+As shown in Table 3 the ASTD-Net method and TD-GCN both
+demonstrate strong performance across the three modalities on
+the DHG-14/28 dataset. Multi-modal aggregation for ASTD-Net
+achieves accuracies of 93.57% and 92.86% in 14-class and 28-
+class classification respectively. This represents recognition accu-
+racy improvements of 3.57% and 4.29% respectively compared to
+the baseline.
+Table 4: Recognition accuracy comparison of ASTD-Net with ex-
+isting methods on the SHREC’17 Track dataset.
+Method
+Classification Accuracy (%)
+14 Gestures
+28 Gestures
+Average
+AHG-GCN [AA24]
+94.05
+89.04
+91.72
+MF-HAN [BP24]
+94.17
+93.21
+93.69
+MVHANet [LLDT23]
+94.84
+92.56
+93.70
+ST-TS-HGR-Net [NBLB19]
+94.29
+89.40
+91.85
+HPEV [LLW∗20]
+94.90
+92.30
+93.60
+ResGCNeXt [PT23]
+95.36
+93.10
+94.23
+SBI-DHGR [NMV23]
+97.00
+92.36
+94.68
+MM-Net [DGJY23]
+96.40
+93.30
+94.85
+TD-GCN [LWW∗23]
+96.79
+94.52
+95.66
+Ours(Joint only)
+97.14
+92.62
+94.88
+Ours(J+B+JM)
+97.50
+94.76
+96.13
+To evaluate the ASTD-Net model its performance is compared
+against several existing methods on the SHREC’17 Track dataset.
+As presented in Table 4 the ASTD-Net method achieves state-
+of-the-art (SOTA) performance under both 14-class and 28-class
+gesture benchmarks on the SHREC’17 Track dataset. Specifically
+ASTD-Net enhances recognition accuracy by 0.50% compared to
+the previous best method SBI-DHGR for the 14-class classifica-
+tion task. Furthermore it improves recognition accuracy by 0.24%
+compared to the prior best method TD-GCN for the 28-class clas-
+sification task.
+Figures 4 visualize ASTD-Net’s gesture discrimination capabil-
+ities. For 14-gesture classification, ASTD-Net performs well. On
+SHREC’17 Figure 4a, 11 gesture categories exceed 95% accuracy.
+Similarly, on DHG14/28 Figure 4c, 11 categories surpass 90% ac-
+curacy. However, the Pinch gesture is often misclassified as Grab
+or Tap. This stems from its subtle nature and limited samples. For
+28-class, the model performs well on many fine-grained categories.
+Figures 4b and 4d illustrate subtle confusions due to motion simi-
+larity when the same gesture is performed with a single finger ver-
+sus the whole hand.
+For the DHG-14/28 dataset the proposed ASTD-Net method is
+compared against several existing approaches. As demonstrated in
+Table 5 ASTD-Net achieves SOTA performance in both 14-class
+and 28-class gesture recognition benchmarks on the DHG-14/28
+dataset.Specifically ASTD-Net enhances recognition accuracy by
+1.07% compared to the previous best method HPEV for the 14-
+class task. Furthermore its recognition accuracy surpasses the prior
+best method MVHANet by 3.30% for the 28-class task.
+4.3. Ablation Studies
+Our ablation studies validate the efficacy and individual contri-
+butions of the proposed modules across both the SHREC’17 and
+DHG-14/28 datasets, with detailed results for 14-class gesture
+recognition presented in Table 6. For the baseline configuration,
+© 2025 The Author(s).
+Proceedings published by Eurographics - The European Association for Computer Graphics.
+
+8 of 9
+Zhijing Yu, Zhongjie Zhu, Di Ge, Renwei Tu, Yongqiang Bai, Yueping Yang & Yuer Wang / ASTD-Net
+(a) SHREC’17 Track, 14 classes.
+(b) SHREC’17 Track, 28 classes.
+(c) DHG-14/28, 14 classes.
+(d) DHG-14/28, 28 classes.
+Figure 4: Confusion Matrices of ASTD-Net’s Gesture Recognition Performance. Cell colors indicate prediction accuracy. Numerical values
+represent per-category recognition rates. These matrices highlight class-wise performance across SHREC’17 Track and DHG-14/28 datasets
+under both 14-class and 28-class settings.
+Table 5: Recognition accuracy comparison of ASTD-Net with ex-
+isting methods on the DHG-14/28 Track dataset.
+Method
+Classification Accuracy (%)
+14 Gestures
+28 Gestures
+Average
+CNN+LSTM [NCP∗18]
+85.60
+81.10
+83.35
+AHG-GCN [AA24]
+90.00
+88.00
+89.00
+HPEV [LLW∗20]
+92.50
+88.90
+90.70
+MVHANet [LLDT23]
+92.36
+89.56
+90.96
+ST-TS-HGR-Net [NBLB19]
+87.30
+83.40
+85.35
+TD-GCN [LWW∗23]
+90.00
+88.57
+89.29
+Ours(Joint only)
+89.29
+90.00
+88.93
+Ours(J+B+JM)
+93.57
+92.86
+93.22
+our proposed modules are replaced by TD-GCN components or
+simpler alternatives: AMS-GCN is replaced by TD-GCN’s spatial
+component utilizing channel-dependent adjacency matrices, MD-
+TFN is replaced by TD-GCN’s multi-branch temporal convolution
+module, and SSTC-A is substituted with concatenation followed
+by a 1D convolution for multi-modal fusion. On SHREC’17 14-
+class, the baseline model achieves 96.16%, while individual mod-
+ules yield improvements: AMS-GCN reaches 96.67%, MD-TFN
+achieves 96.43%, and SSTC-A attains 96.79%. Combined modules
+demonstrate enhanced performance, with AMS-GCN+MD-TFN
+reaching 97.03%, highlighting the effectiveness of their synergistic
+spatio-temporal feature modeling. The full ASTD-Net achieves an
+optimal 97.50%, a 1.34% improvement over baseline. Similarly, on
+DHG-14/28 14-class with baseline 83.57%, the complete ASTD-
+Net remarkably achieves 93.57%, showcasing its robustness in dis-
+cerning complex actions within low inter-class variance settings.
+These results confirm the necessity and synergistic effect of each
+component for superior skeleton gesture recognition.
+Additionally, to validate the rationale behind the anatomical
+prior-based initialization strategy for the AMS-GCN module, we
+conducted another ablation study. On the Joint modality of the
+SHREC’17 dataset (14-class), the anatomical prior-based initializa-
+tion strategy achieved an accuracy of 97.14%, compared to 96.19%
+by common initialization methods (Kaiming, Xavier). This 0.95%
+performance improvement strongly supports the effectiveness of
+incorporating the hand’s anatomical structure as prior knowledge
+into the model.
+Table 6: Impact of AMS-GCN, MD-TFN, and SSTC-A Modules
+on 14-Class Gesture Performance Across SHREC’17 Track and
+DHG-14/28 Datasets.
+Method
+Baseline A
+B
+C
+D
+E
+F
+G
+AMS-GCN
+×
+✓
+×
+×
+✓
+×
+✓
+✓
+MD-TFN
+×
+×
+✓
+×
+✓
+✓
+×
+✓
+SSTC-A
+×
+×
+×
+✓
+×
+✓
+✓
+✓
+SHREC’17 (%)
+96.16
+96.67 96.43 96.79 97.03 96.90 97.14 97.50
+DHG-14/28(%)
+83.57
+87.86 87.14 87.57 89.29 90.00 92.62 93.57
+5. Conclusion
+This study introduces the ASTD-Net to address core challenges
+in skeleton gesture recognition, specifically deep spatio-temporal
+feature coupling and adaptive heterogeneous information fusion.
+Its Adaptive AMS-GCN Module strengthens spatial representa-
+tion through optimized graph structure while effectively mitigating
+spatial interference via multi-view feature aggregation. Simultane-
+ously, the MD-TFN Module leverages parallel multi-kernel/multi-
+dilation convolutions to capture multi-granularity temporal dy-
+namics. The SSTC-A Module optimizes modal alignment through
+temporal discrepancy loss, effectively mitigating information mix-
+ing during fusion. ASTD-Net achieves state-of-the-art perfor-
+mance with accuracies of 97.50% on SHREC’17 and 93.57%
+on DHG-14/28, demonstrating its superior effectiveness. Future
+work will focus on developing more lightweight and efficient
+spatio-temporal learning architectures to enhance performance in
+resource-constrained scenarios.
+Acknowledgement This work was supported in part by the
+key project of Zhejiang Province Natural Science Foundation
+(LZ24F010004), Ningbo Municipal Major Project of Yongjiang
+Sci-Tech
+Innovation
+2035
+(2024Z295,2025Z058,2024Z023),
+Ningbo Municipal Major Project of Science and Technology
+Innovation 2025 (2022Z076).
+© 2025 The Author(s).
+Proceedings published by Eurographics - The European Association for Computer Graphics.
+
+Zhijing Yu, Zhongjie Zhu, Di Ge, Renwei Tu, Yongqiang Bai, Yueping Yang & Yuer Wang / ASTD-Net
+9 of 9
+References
+[AA24]
+AIMAN U., AHMAD T.: Angle based hand gesture recognition
+using graph convolutional network. Computer Animation and Virtual
+Worlds 35, 1 (2024), e2207. 7, 8
+[BH93]
+BORDEGONI M., HEMMJE M.: A Dynamic Gesture Language
+and Graphical Feedback for Interaction in a 3D User Interface. Computer
+Graphics Forum (1993). 1
+[BP24]
+BALAJI P., PRUSTY M. R.: Multimodal fusion hierarchical self-
+attention network for dynamic hand gesture recognition. Journal of Vi-
+sual Communication and Image Representation 98 (2024), 104019. 7
+[CLY∗21]
+CHEN Z., LI S., YANG B., LI Q., LIU H.: Multi-scale spatial
+temporal graph convolutional network for skeleton-based action recog-
+nition. In Proceedings of the AAAI conference on artificial intelligence
+(2021), vol. 35, pp. 1113–1122. 3
+[DGJY23]
+DENG Z., GAO Q., JU Z., YU X.: Skeleton-based multifea-
+tures and multistream network for real-time action recognition. IEEE
+Sensors Journal 23, 7 (2023), 7397–7409. 2, 7
+[DSWV16]
+DE
+SMEDT
+Q.,
+WANNOUS
+H.,
+VANDEBORRE
+J.-P.:
+Skeleton-based dynamic hand gesture recognition. In Proceedings of the
+IEEE conference on computer vision and pattern recognition workshops
+(2016), pp. 1–9. 2, 6
+[DSWV∗17]
+DE SMEDT Q., WANNOUS H., VANDEBORRE J.-P.,
+GUERRY J., LE SAUX B., FILLIAT D.: Shrec’17 track: 3d hand ges-
+ture recognition using a depth and skeletal dataset. In 3DOR-10th Euro-
+graphics Workshop on 3D Object Retrieval (2017), pp. 1–6. 6
+[DSWV19]
+DE SMEDT Q., WANNOUS H., VANDEBORRE J.-P.: Hetero-
+geneous hand gesture recognition using 3d dynamic skeletal data. Com-
+puter Vision and Image Understanding 181 (2019), 60–72. 2
+[DWW15]
+DU Y., WANG W., WANG L.: Hierarchical recurrent neu-
+ral network for skeleton based action recognition.
+In Proceedings of
+the IEEE conference on computer vision and pattern recognition (2015),
+pp. 1110–1118. 2
+[HWC∗18]
+HOU J., WANG G., CHEN X., XUE J.-H., ZHU R., YANG
+H.: Spatial-temporal attention res-tcn for skeleton-based dynamic hand
+gesture recognition. In Proceedings of the European conference on com-
+puter vision (ECCV) workshops (2018), pp. 0–0. 2
+[HZRS16]
+HE K., ZHANG X., REN S., SUN J.: Deep residual learn-
+ing for image recognition. In Proceedings of the IEEE conference on
+computer vision and pattern recognition (2016), pp. 770–778. 6
+[LHY∗19]
+LI Y., HE Z., YE X., HE Z., HAN K.: Spatial temporal graph
+convolutional networks for skeleton-based dynamic hand gesture recog-
+nition. EURASIP Journal on Image and Video Processing 2019 (2019),
+1–7. 2, 3
+[LLDT23]
+LI S., LIU Z., DUAN G., TAN J.: Mvhanet: Multi-view hi-
+erarchical aggregation network for skeleton-based hand gesture recogni-
+tion. Signal, Image and Video Processing 17, 5 (2023), 2521–2529. 7,
+8
+[LLW∗20]
+LIU J., LIU Y., WANG Y., PRINET V., XIANG S., PAN C.:
+Decoupled representation learning for skeleton-based gesture recogni-
+tion. In Proceedings of the IEEE/CVF conference on computer vision
+and pattern recognition (2020), pp. 5751–5760. 2, 7, 8
+[LWL21]
+LI R., WANG H., LIU Z.: Survey on mapping human hand
+motion to robotic hands for teleoperation. IEEE Transactions on Circuits
+and Systems for Video Technology 32, 5 (2021), 2647–2665. 1
+[LWW∗23]
+LIU J., WANG X., WANG C., GAO Y., LIU M.: Tempo-
+ral decoupling graph convolutional network for skeleton-based gesture
+recognition. IEEE Transactions on Multimedia 26 (2023), 811–823. 6,
+7, 8
+[NBLB19]
+NGUYEN X. S., BRUN L., LÉZORAY O., BOUGLEUX S.: A
+neural network based on spd manifold learning for skeleton-based hand
+gesture recognition. In Proceedings of the IEEE/CVF Conference on
+Computer Vision and Pattern Recognition (2019), pp. 12036–12045. 7,
+8
+[NCP∗18]
+NUNEZ J. C., CABIDO R., PANTRIGO J. J., MONTEMAYOR
+A. S., VELEZ J. F.: Convolutional neural networks and long short-term
+memory for skeleton-based human activity and hand gesture recognition.
+Pattern Recognition 76 (2018), 80–94. 8
+[NMV23]
+NARAYAN S., MAZUMDAR A. P., VIPPARTHI S. K.: Sbi-
+dhgr: Skeleton-based intelligent dynamic hand gestures recognition. Ex-
+pert Systems with Applications 232 (2023), 120735. 3, 7
+[OL13]
+OREIFEJ O., LIU Z.:
+Hon4d: Histogram of oriented 4d nor-
+mals for activity recognition from depth sequences. In Proceedings of
+the IEEE conference on computer vision and pattern recognition (2013),
+pp. 716–723. 2
+[PT23]
+PENG S.-H., TSAI P.-H.: An efficient graph convolution network
+for skeleton-based dynamic hand gesture recognition. IEEE transactions
+on cognitive and developmental systems 15, 4 (2023), 2179–2189. 7
+[QWDJ22]
+QIU H., WU Y., DUAN M., JIN C.:
+Glta-gcn: Global-
+local temporal attention graph convolutional network for unsupervised
+skeleton-based action recognition. In 2022 IEEE International Confer-
+ence on Multimedia and Expo (ICME) (2022), IEEE, pp. 1–6. 1
+[SK20]
+SHIN S., KIM W.-Y.:
+Skeleton-based dynamic hand gesture
+recognition using a part-based gru-rnn for gesture-based interface. Ieee
+Access 8 (2020), 50236–50243. 2
+[SKK22]
+SONG J.-H., KONG K., KANG S.-J.: Dynamic hand gesture
+recognition using improved spatio-temporal graph convolutional net-
+work. IEEE Transactions on Circuits and Systems for Video Technology
+32, 9 (2022), 6227–6239. 3
+[SKR17]
+SOO KIM T., REITER A.:
+Interpretable 3d human action
+analysis with temporal convolutional networks. In Proceedings of the
+IEEE conference on computer vision and pattern recognition workshops
+(2017), pp. 20–28. 2
+[SWV∗17]
+SMEDT
+Q.
+D.,
+WANNOUS
+H.,
+VANDEBORRE
+J.-P.,
+GUERRY J., SAUX B. L., FILLIAT D.: 3D Hand Gesture Recognition
+Using a Depth and Skeletal Dataset. In Eurographics Workshop on 3D
+Object Retrieval (2017), Pratikakis I., Dupont F., Ovsjanikov M., (Eds.),
+The Eurographics Association. 1
+[TGHW21]
+TANG S., GUO D., HONG R., WANG M.: Graph-based mul-
+timodal sequential embedding for sign language translation. IEEE Trans-
+actions on Multimedia 24 (2021), 4433–4445. 1
+[TLL18]
+TU J., LIU M., LIU H.: Skeleton-based human action recog-
+nition using spatial temporal 3d convolutional neural networks. In 2018
+IEEE International Conference on Multimedia and Expo (ICME) (2018),
+pp. 1–6. 2
+[ZCCL18]
+ZHANG Y., CAO C., CHENG J., LU H.: Egogesture: a new
+dataset and benchmark for egocentric hand gesture recognition. IEEE
+Transactions on Multimedia 20, 5 (2018), 1038–1050. 1
+[ZLC∗20]
+ZHANG W., LIN Z., CHENG J., MA C., DENG X., WANG H.:
+Sta-gcn: two-stream graph convolutional network with spatial–temporal
+attention for hand gesture recognition. The Visual Computer 36 (2020),
+2433–2444. 3
+© 2025 The Author(s).
+Proceedings published by Eurographics - The European Association for Computer Graphics.
+

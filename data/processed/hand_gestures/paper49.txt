@@ -1,0 +1,1186 @@
+Liquid-Metal-Based Multichannel Strain Sensor for Sign Language
+Gesture Classification Using Machine Learning
+Jing Zhang,† Xiaoyang Zou,† Ziqi Li, Colin Pak Yu Chan, and King Wai Chiu Lai*
+Cite This: ACS Appl. Mater. Interfaces 2025, 17, 6957−6968
+Read Online
+ACCESS
+Metrics & More
+Article Recommendations
+*
+sı
+Supporting Information
+ABSTRACT: Liquid metals are highly conductive like metallic
+materials and have excellent deformability due to their liquid state,
+making them rather promising for flexible and stretchable wearable
+sensors. However, patterning liquid metals on soft substrates has
+been a challenge due to high surface tension. In this paper, a new
+method is proposed to overcome the difficulties in fabricating
+liquid-state strain sensors. The method involves adding nickel
+powder particles to the liquid metal to maintain the liquid metal’s
+fluidity while lowering the surface tension so that the liquid metal
+can be easily patterned on a soft substrate using magnets. With the
+addition of 12 wt % nickel powder (40 μm) to the liquid metal, a
+gauge factor of 5.17 can be achieved at 300% strain. In addition, by
+the integration of multiple strain sensors in a smart glove to monitor
+14 joints of the human hand, 10 sign language gestures can be recognized by comparing the results of five different machine learning
+models, among which the quadratic discriminative analysis model can be accomplished with an accuracy rate of 100%. The
+magnetically patterned nickel-containing liquid-metal strain sensors proposed in this study have a wide range of applications in
+intelligent soft robots and human−machine interfaces.
+KEYWORDS: magnet patterning liquid metal, 14-channel strain sensor, gesture classification, QDA model, machine learning
+1. INTRODUCTION
+Wearable sensors and flexible medical monitoring are on the
+rise1,2 with the development of modern technologies such as
+biology,3,4 electronics,5,6 and artificial intelligence.7,8 Wearable
+electronics must be lightweight, highly flexible, stretchable,
+mechanically strong, and comfortable for humans to wear.9 In
+addition, because wearable flexible electronic devices often need
+to be placed on limbs with a large amount of movement and a
+significant uncertainty in the direction of movement, it is
+essential to prepare smart devices that can accurately detect
+human motor activities.10 At present, there are five types of
+motion capture systems: mechanical,11 electromagnetic,12
+acoustic,13 optical,14 and inertial motion capture system.15
+Mechanical, electromagnetic, and acoustic motion capture
+systems are rarely used in practice due to their limitations in
+flexibility and accuracy and the harsh environment required for
+electromagnetic waves.16 Optical motion capture systems are
+limited to capturing information about human motion posture
+in fixed scenes with cameras.17 They are limited to fixed
+environments because they require a camera, although they are
+the most accurate and mature motion capture technologies. The
+inertial motion capture system uses microelectromechanical
+system inertial sensors to track the movement of the human
+body.18 These sensors measure acceleration and angular velocity
+data along the X, Y, and Z axes in a spatial coordinate system to
+obtain motion characteristics. Inertial motion capture systems
+are subject to signal drift after extended usage. As a result, many
+motion capture devices based on flexible sensors have been
+developed to increase compatibility with human skin.19
+There are four main types of flexible sensors: resistive sensors,
+capacitive sensors, piezomagnetic sensors, and inductive
+sensors. In previous decades, flexible resistive strain sensors
+were made using rigid materials, such as graphene,20−22 carbon
+nanotubes,23−25 or silver nanowires,26−28 integrated into softer
+elastomers or patterned on softer polymer substrates. The
+traditional resistance strain sensor, which uses rigid conductive
+materials, is widely applicable. Nevertheless, the development of
+flexible and stretchable electronic devices is limited because
+these rigid materials increase the elastic modulus of soft
+polymers, thereby reducing their stretchability.29
+Liquid metal (LM), with eutectic gallium indium (EGaIn)
+alloys as the popular trend, is regarded as a popular functional
+material that can sense external stimuli, make appropriate
+Received:
+November 4, 2024
+Revised:
+December 28, 2024
+Accepted:
+December 30, 2024
+Published: January 7, 2025
+Research Article
+www.acsami.org
+© 2025 American Chemical Society
+6957
+https://doi.org/10.1021/acsami.4c19102
+ACS Appl. Mater. Interfaces 2025, 17, 6957−6968
+Downloaded via CITY UNIV OF HONG KONG on July 4, 2025 at 08:09:48 (UTC).
+See https://pubs.acs.org/sharingguidelines for options on how to legitimately share published articles.
+
+judgments, and respond to environmental changes.30 Although
+there are some reports on strain sensors for detecting human
+hand joints,60,61 they primarily demonstrate sensor signals
+relative to joint bending and lack comprehensive detection
+across all finger joints. Injecting EGaIn alloys directly into
+elastomers enables LM-based sensors to detect and capture a
+wide range of large strains in the human body due to their
+ultrahigh tensile properties.31 Conductive fibers that are
+stretchable and flexible can be integrated into nonrigid
+substrates like textiles, filters, clothing, and paper to add
+electronic functions.32
+There are multiple ways to alter the shape and movement of
+liquid metals. These methods include regulating the flow of
+liquid metal in microfluidic channels, dispensing, and printing
+flows, modifying the surface tension to change fluid dynamics,
+and using magnetic forces to manipulate liquid-metal magnetic
+particle composites.33 The noncontact magnetic manipulation
+method offers precise control of liquid metal and is inexpensive
+and easy to operate. This makes it highly promising for soft
+robotics and intelligent electronics.
+Liquid fabrication of magnetically responsive materials has
+been extensively researched since the 1930s. When a liquid
+substance is mixed with magnetic particles of a solid, it forms a
+ferrofluid with magnetic properties.34,40 Recently, one of the
+liquid metals, EGaIn, has a wide range of practical applications in
+stretchable resistance sensors due to its high conductivity, low
+toxicity, and inherent deformation reversibility.29,35 EGaIn is a
+mixture of 75.5% gallium and 24.5% indium. It has a melting
+point of 15.7 °C, excellent electrical conductivity of 3 × 106 S/m,
+high thermal conductivity, and excellent fluidity. At the same
+time, it also has the characteristics of instantaneous oxidation,
+which can spontaneously react with oxygen in air to form an
+oxide layer with a thickness of 0.7−3 nm,30 which hinders the
+further oxidation of LM.36 Liquid metal has high conductivity
+and inherent tensile properties. This is an existing problem of
+LM, and we share some literatures in Figure S3.31,62−68
+Increasing the oxidation of LM by mechanical agitation of the
+LM is a process that continually destroys its surface oxide layer
+and generates a new oxide layer. Reducing the surface tension of
+the liquid metal by stirring the liquid metal to obtain the oxide
+layer does not greatly affect the conductivity of the liquid metal.
+After 60 min of electromagnetic stirring, the conductivity of the
+liquid metal decreased by only 0.4%.69
+Many researchers and scholars have prepared stable sensors
+using a liquid metal. With the addition of SiO2 to liquid metal, a
+flexible resistive sensor was prepared. The sensor has increased
+sensitivity and can capture various human activities with a gauge
+factor (GF) of 10.3 at 300% strain.29 A stand-alone FS-GaIn
+with high conductivity and stability was fabricated with a
+conductivity of 5.79 × 105 S/m and a tensile strength of 1350%
+by adding silver nanowires to LM. This was achieved by laser
+processing and direct etching. However, the sensitivity of this
+material was limited due to a small 10% change in resistance.37 A
+conductive network of gallium and indium was formed by layer-
+by-layer deposition, resulting in an electrical conductivity of 2.37
+× 106 S/m. By adjustment of the number of layers of LM during
+deposition, the GF of the film can be varied between 0.2 and 1.
+This allows its use in artificial skin and energy harvesters.38 In
+addition, LM-based magnetic pastes were made by dispersing 15
+wt % of 100 nm magnetic particles in the LM matrix. These
+pastes can respond rapidly to stimulation by an applied magnetic
+field. This also provides excellent ideas for wearable electrodes
+and electrosensitive bioelectrodes.39 In addition, other reports
+involve liquid-metal technology, such as liquid-metal fibers. An
+electrically conductive fiber with 700% strain can be made by
+injecting liquid metal into hollow polymer (Karton SEBS)
+fibers.41 A coaxial wet-spinning process based on liquid-metal
+particles and PVDF-HFP-TF was used for the preparation of LM
+sheathing microfibers, which are highly conductive fibers that
+can reach 1170% strain. The use of a coaxial wet-spinning
+process to fabricate liquid-metal sheath-core microfibers showed
+a 15% increase in the change in resistance over 600 cycles at
+100% strain.42 Some other papers investigating the stability of
+liquid-metal sensors, such as the strain sensors prepared from
+silk proteins and hydrogels, showed a 9% increase in the change
+in resistance over 2000 cycles at 100% strain.43 Also, the change
+in the relative resistance of stretchable sensing systems prepared
+from a biphasic liquid-metal particles prepared stretchable
+sensing system increased the change in relative resistance by
+160% at 500% strain during 5000 cycles.44 Compared to other
+papers for the LM fluidity change, strain sensors for detecting
+human activity were prepared by adding 10−50 wt % SiO2 to
+LM to form a putty state.29 However, in this state, the LM loses
+its rheological properties. Besides, deformable composites were
+prepared by dispersing eutectic gallium indium tin liquid metal
+in silicones, and the fluidity of eutectic gallium indium tin liquid
+metal in the cured composites was reduced.45 In addition, paste
+slurries prepared by mixing quartz and eutectic Ga−In alloys
+have high adhesion and plasticity properties and thus have been
+used as printed substrates for the fabrication of soft electronics.
+However, at the same time, the fluidity of its liquid-metal alloys
+is also reduced.46 Their work focuses on modification of the
+liquid metal, which does not help their patterning while reducing
+the LM’s fluidity. Stretchable composites were prepared by
+mixing liquid metal and a PDMS organosilicon matrix, which
+made liquid metal less mobile.57 Therefore, the fluidity of LM
+sensors is limited, which restricts their patterning process.
+The three organs of the human hand, bones, joints, and
+skeletal muscles form the body’s locomotor system in the narrow
+sense of the word and help the body perform basic activities. The
+bones are the levers of movement; the joints are the fulcrums,
+and the skeletal muscles provide the power for movement. The
+hand accounts for about 60% of the body’s weight. During body
+movement, the joints produce bending strain, and the muscles
+undergo pulling and contracting deformations in the process.19
+There are many studies that use machine learning to recognize
+complex and similar gestures. A wearable glove was prepared by
+converting polyester textiles into superhydrophobic textiles
+using a CNT/TPE coating.47 The CNN model was also utilized
+to recognize gestures such as watering, rotating, and lighting
+with an accuracy of 95.23%.47 Despite the high correct rate, it is
+limited by the complex signal processing work. Besides, a silk−
+gelatin hydrogel smart glove based on 1D-CNN was developed
+to achieve gesture language recognition with 99% accuracy.48 In
+addition, a sign language gesture recognition system based on
+liquid metal and soft silicone was developed by studying 12 static
+sign language gesture data sets. The random forest model has the
+highest recognition rate of 97.3%, while the linear discriminant
+analysis (LDA) model has the lowest recognition rate of
+87.4%.49 Moreover, the haptic gloves prepared based on liquid
+metal and SiO2 can realize the recognition of boxing techniques
+such as jabbing and swinging with 90.5% recognition accuracy
+under the CNN model.50 There is also a lot of research related to
+signal detection devices for sensors. The hydrogel-based sensor
+uses a multiplexer (ADG 1606) to control the collected signals.
+This is followed by a charge amplification circuit, a low pass filter
+ACS Applied Materials & Interfaces
+www.acsami.org
+Research Article
+https://doi.org/10.1021/acsami.4c19102
+ACS Appl. Mater. Interfaces 2025, 17, 6957−6968
+6958
+
+circuit, and a voltage regulation circuit.51 However, it introduces
+a certain signal delay and, to some extent, leads to a degradation
+of the quality of the output signal. Besides, wearable strain
+sensors are also prepared based on rGO-CNTOH@PSE to
+enable communication between aphasia patients and others, by
+connecting five sensors to a breadboard to realize the connection
+with the analog-to-digital converter (ADC) interface of the
+MCU to collect the change of resistance.52 Its overall signal
+acquisition device is too cumbersome.
+In this paper, magnetic powder dispersions were prepared by
+adding nickel powder with a particle size of 40 μm to liquid metal
+at different ratios (0−20 wt %). A poly(ethylene terephthalate)
+(PET) mask was prepared on the Ecoflex00-30 substrate by laser
+cutting, and then the LM was patterned on the laser-cut mask
+using a lower-cost magnet. The patterned samples were then
+encapsulated using Ecoflex00-30 to obtain wearable skin-like
+flexible strain sensors. During the stretching process, the
+presence of nickel powder hinders the flow of electrons in the
+liquid metal, which leads to a change in the relative resistance.
+The GF at 12 wt % nickel powder was 5.17 at 300% strain. After
+2000 cycles at 100% strain, the sensor still maintained good
+electrical properties and exhibited stability and fatigue
+resistance. In addition, the use of patterned liquid metal for
+the fabrication of wearable electronics has the advantages of low
+limitations, low cost, and high maneuverability. Meanwhile, in
+practical applications, the strain sensor made of patterned
+magnetic liquid metal can achieve a good fit with different joints
+of the finger. The strain sensor can be attached to measure the
+activities of 14 joints of the human hand simultaneously. In
+addition, the quadratic discriminant analysis (QDA) machine
+learning method is utilized to classify the 14-channel strain
+sensors for sign language gesture recognition with 100%
+accuracy.
+2. RESULTS AND DISCUSSION
+2.1. Preparation Process of Magnet-Induced Pat-
+terned Liquid-Metal Strain Sensors. Strain sensors were
+prepared using a magnet to pattern liquid metal with different
+concentrations of Ni at 0−20 wt %. To fabricate the strain
+sensors, a layer of Ecoflex00-30 was first spin-coated on a
+PMMA substrate at 300 rpm/60 s and then cured at 80 °C for 10
+min. Immediately thereafter, a PET mask was placed on the
+cured Ecoflex00-30 and patterned using a laser-cutting device.
+Then, Ni-EGaIn droplets were dropped on the patterned PET
+mask, the patterning of Ni-EGaIn was completed using a
+magnet, and the PET mask was removed after patterning. The
+patterned sample was attached with copper tape to complete the
+electrode connection. The moisture vapor spray dressing
+process creates a transparent film on the surface of the
+conductive path after curing so that the LM does not spill
+outside the path. This step secures and reinforces the connection
+between the conductive path and substrate. Diagrams of the
+sensors with and without moisture vapor spray dressing during
+stretching are shown in Figure S1. The LM at the electrode
+position without moisture vapor spray dressing has leakage
+under deformation, but the sensor with moisture vapor spray
+dressing performs well under the same strain. After that, a layer
+of Ecoflex00-30 was spin-coated on it at 300 rpm/60 s and cured
+at 80 °C for 10 min. A layer of Ecoflex-gel was spin-coated onto
+the cured sample at 600 rpm/60 s for bonding with human
+hands and cured at 80 °C for 30 min. Finally, the cured samples
+were peeled off from the PMMA. So, the liquid metal flows only
+within the formed conductive channels. The preparation process
+is shown in Figure 1. The specific preparation methods are
+discussed in detail in the Experimental Section. Ferrofluids with
+magnetic properties are created by mixing nickel powder with a
+liquid metal. When there is strain, the presence of nickel powder
+particles in the liquid metal can impede its flow. The resistance
+change under different strains allows for health monitoring
+during various human activities.
+When different proportions of nickel powder are added to the
+liquid metal, the powder floats on the surface due to the high
+surface tension of the liquid. Liquid metals are difficult to diffuse
+on solid surfaces due to their high surface tension. Figure 2a is a
+physical diagram of the prepared liquid-metal strain sensor.
+Using a glass rod for stirring, more nickel powder will be coerced
+into the liquid metal by the oxide layer of the liquid metal, and
+the mixture continues to stir to make the nickel powder
+completely and uniformly enter the liquid metal. The specific
+mixing and stirring process is shown in Figure 2b.
+Liquid metal with different ratios of nickel powder is
+patterned directly onto an Ecoflex soft substrate with a PET
+film using a low-cost rubidium iron−boron magnet (NdFeB) (B
+= 0.6 T), as shown in Figure 2c. When an NdFeB magnet is
+positioned beneath the Ecoflex00-30 soft substrate, the
+magnetic field pulls the magnetic particles in the liquid metal
+Figure 1. Schematic diagram of the preparation process of a Ni-EGaIn thin-film strain sensor on Ecoflex.
+ACS Applied Materials & Interfaces
+www.acsami.org
+Research Article
+https://doi.org/10.1021/acsami.4c19102
+ACS Appl. Mater. Interfaces 2025, 17, 6957−6968
+6959
+
+toward the bottom of the droplet. This results in a more
+substantial contact between Ecoflex and the liquid metal due to
+the magnetic attraction. The liquid metal is patterned by moving
+the magnet, and then the acrylic sheet is tilted and the excess
+liquid metal is removed using a pipet gun to obtain a flat and
+smooth liquid-metal surface. The specific patterning process is
+shown in Video S1. Figure 2d shows the optical images of the
+prepared liquid-metal strain sensors in different deformation
+modes. From left to right are the samples in the twist state, the
+samples in the stretched state, and the cases when they are
+placed on the items with dimensions of 5 × 10 and 1 × 10 cm2,
+respectively. In addition, the strain sensors do not cause any
+damage in different deformation modes, which indicates that the
+strain sensors have good mechanical flexibility and excellent
+tensile properties.
+2.2. Preparation and Characterization of a Ni-EGaIn
+Strain Sensor. To visualize the dispersed nickel powder
+particles under scanning electron microscopy (SEM), 6, 10, 20,
+30, and 40 wt % nickel powder particles were added to the liquid
+metal, respectively. Figure 3a shows SEM images and energy-
+dispersive spectroscopy (EDS) maps of 0 wt % liquid metal and
+liquid metal with added 6 and 10 wt % nickel powder. SEM was
+added with nickel powder particles at 20, 30, and 40 wt %, as
+shown in Figure S2. As the mass fraction of nickel powder
+particles in liquid metal gradually increases from 0 to 40 wt %,
+the conductive path in liquid metal decreases accordingly. SEM
+morphology observation showed that the nickel powder
+particles were uniformly dispersed in the liquid metal. EDS
+analysis showed three apparent substances: the element Ga,
+which accounted for a relatively large proportion, the element
+In, and the element Ni added to the liquid metal. SEM results
+and EDS showed that the nickel powder was evenly dispersed by
+the oxidized liquid metal, which reduced the surface tension of
+the pure liquid metal and made it easier to adhere to the surface
+of various soft substrates so that the liquid metal could be easily
+patterned on the surface of the softer polymer substrate using
+magnets. To characterize the nickel powder particles dispersed
+in the liquid metal, some of the droplets in the liquid metal were
+aspirated, thickened, and concentrated to a final concentration
+of the nickel powder particles in the liquid metal of 40 wt %. The
+pure liquid metal and this part of the nickel-containing liquid
+metal are tested by X-ray diffraction (XRD) analysis. Figure 3b
+shows the XRD patterns of pure liquid metal and liquid metal
+with nickel powder added, in which the broad blue spectral peak
+at about 30° is the amorphous liquid metal peak. The red peak
+spectrum can observe the peaks associated with Ni (ICSD
+64989 PDF 01-087-0712), and the peaks of NiO and GaNi alloy
+phases are not observed, where the peak of Ni(111) is 45°, the
+peak of Ni(200) is 52°, and the peak of Ni(220) is 76°. XRD
+results show that nickel powder is added to the liquid metal.
+Figure 2. (a) Physical diagram of a liquid-metal strain sensor containing
+nickel powder. (b) Schematic diagram of the mixing process of nickel
+powder with liquid metal. (c) Schematic of patterning the liquid metal
+with a magnet to fabricate a strain sensor. (d) Optical images of strain
+sensors in different deformations.
+Figure 3. (a) SEM characterization and EDS analysis of pure liquid metal and liquid metal with 40 wt % nickel powder. (b) XRD analysis.
+ACS Applied Materials & Interfaces
+www.acsami.org
+Research Article
+https://doi.org/10.1021/acsami.4c19102
+ACS Appl. Mater. Interfaces 2025, 17, 6957−6968
+6960
+
+2.3. Tensile and Mechanical Durability Testing of
+Liquid-Metal Strain Sensors. By measurement of the change
+in the relative resistance of the LM strain sensor under the
+application of a specific strain (ΔR/R0, where ΔR is equal to R −
+R0; R0 and R are the initial resistance before tension and the final
+resistance under applied strain, respectively), all manufactured
+LM strain sensors are fixed to a material tester and monitored
+with fixtures for changes in relative resistance synchronized with
+deformation. We investigated the changes in the relative
+resistance of the LM strain sensor under different amounts of
+nickel powder. As shown in Figure 4a, when strain occurs, the
+relative resistance changes under various amounts of nickel
+powder increase with an increase in strain. It is mainly attributed
+to the change in the cross-sectional area during stretching. Its
+resistance value can be calculated by the following equation:
+=
+R
+L
+A
+(1)
+where ρ is the resistivity of the material, L is the length of the
+effective stretched portion of the sensor, and A denotes the
+cross-sectional area of the strain sensor. The mechanism of
+change in resistance of the sensor is that when strain occurs, the
+cross-sectional area of the sensing portion decreases while the
+length increases, which results in an increase in resistance. At the
+same time, the larger Ni-doped sensors have a larger change in
+the cross-sectional area compared to the smaller Ni-doped
+sensors at the same strain, as shown in Figure 4d. As a result,
+there is a significant change in resistance at a large doping
+amount. However, as Ni is continually added, the change in the
+cross-sectional area is not significant due to saturation of the
+nickel powder within the conductive channel, so the change in
+the relative resistance at this point increases little instead. In
+order to define and compare the electromechanical properties of
+strain sensors, GF is often described to evaluate the sensitivity of
+strain sensors. The gauge factor of a strain sensor is defined as
+=
+R R
+GF
+/
+0
+(2)
+where ΔR is the change in relative resistance under the
+application of a specific strain, R0 is the original resistance of the
+sample before stretching, and ε is the tensile strain applied to the
+sample.
+The liquid-metal rheological properties are regulated by
+adding Ni to control the fluidity at 0−20 wt %, so that it is easier
+to pattern with increasing Ni under the action of the magnet
+until the Ni reaches the saturation point. When 1 and 3 wt % Ni
+with a particle size of 40 μm was added to the liquid metal, the
+sensitivity of the strain sensor was 1.62 and 1.63, respectively.
+When the content of Ni was increased to 6 wt %, the sensitivity
+of the strain sensor increased to 2.33. When the content of Ni in
+liquid metal was continually increased to 10 wt %, the GF
+increased to 3.48. When expanding the content of Ni in liquid
+Figure 4. (a) Change of resistance of different Ni contents with strain. (b) Change of the GF under different strain with different Ni contents. (c)
+Change of the contact angle before and after magnet adsorption under different Ni contents. (d) Cross-sectional diagram of a sample without strain
+and when strain occurs under low or high Ni contents. (e) Schematic diagram of a LM strain sensor on an Instron 5942 micro tester. (f) Change in the
+relative resistance of the strain sensor at 100% for the 2000 cycles. The illustration records the detailed relative resistance curve at the 1st, 1000th, and
+2000th cycles.
+ACS Applied Materials & Interfaces
+www.acsami.org
+Research Article
+https://doi.org/10.1021/acsami.4c19102
+ACS Appl. Mater. Interfaces 2025, 17, 6957−6968
+6961
+
+metal to 12 wt %, the GF reached a maximum value of 5.17. As
+the content of Ni in liquid metal continued to increase to 14, 15,
+and 20 wt %, the GF decreased to 3.06, 1.96, and 1.64,
+respectively. Figure 4b shows the variation of the GF of the strain
+sensor under different strains with different Ni contents. It can
+also be seen that, at 12 wt % Ni, the GF reaches its maximum
+value to varying strains from 50% to 300%, which are 2.26, 2.88,
+3.51, 3.89, 4.46, and 5.17, respectively. This indicates that the
+nickel powder has reached saturation at this time. Figure 4e
+shows a schematic of the LM strain sensor on the Instron 5942
+micro tester, with the sample connected to a multimeter
+(Keithley DAQ6510) for tensile cycling. Figure 4c shows the
+change in the magnitude of the contact angle of the droplets of
+liquid metal in the two states of the droplet contact angle on the
+acrylic plate and when adsorbed with a magnet with a gradual
+increase in the addition of 0−20 wt % Ni to the liquid metal. The
+contact angles of liquid-metal droplets before and after magnet
+adsorption were almost unchanged at 0 wt % Ni, which were
+137.98° and 137.63°, respectively. When the nickel powder in
+liquid metal was increased to 6 wt %, the contact angle of the
+liquid-metal droplets was changed by the magnet and decreased
+from 116.34° to 106.21°. As the Ni content increased to 12 wt %,
+the contact angle decreased from 111.57° to 57.91°. As the Ni
+content continued to increase to 20%, the contact angle
+increased slightly to 67.3° after magnet adsorption probably
+because saturation was reached as the Ni content increased. The
+liquid-metal contact angle was averaged over five measurements
+using ImageJ software. The change in relative resistance of the
+LM strain sensor with 12 wt % Ni after 2000 cycles at 100%
+strain is shown in Figure 4f. During this process, the changes in
+the relative resistance values at the baseline and peak remained
+stable, and the changes in the relative resistance values increased
+only 2.6% during the 2000 cycles. Among them, the relative
+resistance value change curves for the 200−220th cycles are
+shown on the left side of Figure 4f, and the graphs for the 1st,
+1000th, and 2000th cycles are also shown on the right side of
+Figure 4f. At this time, the GF value of the LM strain sensor is
+5.17, which indicates that it has high stability and maintains its
+original electromechanical characteristics during long-term
+cycling tests. Due to the use of a PET mask and the special
+characteristics of manual processing, the difference in the
+thickness of the conductive pathway is unavoidable, and the
+results are shown in Figure S4. The thickness of the conductive
+pathway with different Ni contents is roughly 0.177−0.197 mm,
+which is less than 0.2 mm. The thickness of the conductive
+pathway with different amounts of Ni is generally consistent.
+Therefore, the variation in the sensor performance mainly stems
+from the fact that differences in the Ni content behave differently
+at different strains.
+To attach the prepared strain sensors to human skin, we spin-
+coated a layer of Ecoflex-gel on the Ecoflex00-30 cured strain
+sensors, as detailed in the Experimental Section. To demonstrate
+that the spin-coated Ecoflex-gel sensors could be better adhered
+to human skin, we tested the performance of the sensors on hand
+skin. One end of the three materials, Ecoflex00-30, Ecoflex00-30
+coated with Ecoflex-gel, and medical tape (3 M Tegaderm
+transparent dressing), was attached to the palm of a human hand
+and connected to the end of the Instron 5942 micro tester for the
+peel strength test. Compared to Ecoflex00-30 and medical tape
+(3 M Tegaderm transparent dressing) with 4.95 and 31.47 N/m,
+respectively, the low stickiness of the Ecoflex00-30 layer
+prevents it from maintaining conformal contact with the skin
+during finger motion. Despite the peeling strength of using
+medical tape, the process can cause pain by deforming on the
+human skin, as shown in Figure 5c. Figure 5b shows the
+magnitudes of the peeling forces of the three materials. The peel
+strengths of the three materials are listed in Figure 5a. Compared
+to other studies, the peeling force of Ecoflex-gel was comparable
+although not the highest. The peel strength of the adhesive
+PDMS was 7.13 N/m.53 The peeling strength of PDMS with 2.5
+wt % Tween 80 added to the skin was 21.41 N/m.54 Compared
+to these studies, they can also make conformal contact with
+human skin. So, the peeling strength of Ecoflex-gel was
+comparable. Ecoflex-gel that we chose can guarantee adhesion
+Figure 5. (a) Peeling strength of different materials affecting the skin. The arrows indicate the direction of motion. (b) Changes in the peeling force of
+Ecoflex00-30, Ecoflex-gel, and medical tape when applied to the skin. (c) Medical tape applied to the skin before and during stretching. (d) Ecoflex-gel
+applied to the skin before and during stretching.
+ACS Applied Materials & Interfaces
+www.acsami.org
+Research Article
+https://doi.org/10.1021/acsami.4c19102
+ACS Appl. Mater. Interfaces 2025, 17, 6957−6968
+6962
+
+to the skin at the same time and has less pressure on the skin, as
+shown in Figure 5d.
+Liquid-metal strain sensors containing nickel particles show
+considerable potential for human wearable devices because of
+their high flexibility and stretchability, high sensitivity to small
+and large strains, wide strain sensing range, and excellent
+durability. By spin-coating a layer of Ecoflex-gel on the strain
+sensor, it can be attached to different parts of the human skin,
+such as the wrist, elbow, neck, side neck, and other human body
+positions, so that various movements can be detected. As shown
+in Figure 6, when the sensor is attached to the wrist joint, a
+relative resistance curve can be observed when the wrist is bent
+and straightened (Figure 6a), and the change in relative
+resistance increases from 0% to 17.5% when the sensor is
+attached to the elbow joint (Figure 6b). At the same time, the
+strain sensor also detects the change in relative resistance when
+the neck is bent and twisted (Figure 6c,d). The ability of liquid-
+metal sensors to accurately record the bending and relaxation of
+various joints in the human body makes liquid-metal sensors
+valuable in the future for smart robots and interactive wearable
+electronic devices.
+2.4. Sign Language Gesture Recognition Using Multi-
+channel Liquid-Metal Sensors. Figure 7a shows the
+flowchart of sign language gesture recognition. To fully digitize
+the finger gestures and recognize the sigh language gesture
+information, 14 LM strain sensors corresponding to the finger
+joints were connected to the 14 corresponding joints of the test
+finger using 3M tape for point-to-point detection. The human
+hand has 14 finger joints. These 14 finger joints include five
+metacarpophalangeal joints, five proximal phalangeal joints, and
+four distal phalangeal joints. Among them, the thumb has only
+one proximal phalangeal joint, in addition to the metacarpo-
+phalangeal joint, as shown in Figure 7c. The acquisition of data
+from the 14 joints is realized by pasting the 14-channel strain
+sensors to the hand joints. The sensors and peripheral signal
+detection devices of the 14-channel used are shown in Figure 7b.
+The strain sensor is connected to the PCB via copper wires; 14
+voltage dividing resistors are soldered to the PCB, and ESP 32
+PICO D4 is inserted in the corresponding position. Because the
+strain sensor is a resistive change, only the resistors and the strain
+sensor are needed for voltage dividing to convert the resistance
+signal into a voltage signal to read by the ADC port of the MCU.
+Therefore, only 14 resistors are required for the peripheral
+circuit. ESP 32 PICO D4 is chosen as the MCU model because it
+contains enough ADC interfaces to read the 14-channel
+synchronized signals. Figure S5 shows the real-time evaluation
+of the relative resistance rate of change of the nickel-containing
+LM strain sensors for 5 channels under 10 gestures. The real
+response process of each joint bending was recorded by the real-
+time change of the resistance of 14 strain sensors doing 10
+different gestures (1−10), as shown in Figure 7d. Different
+gestures have different finger-bending angles, which can improve
+the accuracy of the gesture recognition.
+The voltage signals collected by 14-channel and 5-channel
+strain sensors for 10 sign language gestures are analyzed using
+five machine learning models to realize strain sensors with
+intelligent perceptual recognition and feedback functions. The
+five models used here are QDA, LDA, extreme gradient boosting
+(XGBoost), linear support vector classifier (Linear-SVC), and
+stochastic gradient descent (SGD). The sensing area was
+designed with a length of 15 mm, so that the position of the
+sensors with the corresponding joints can be adjusted for
+different individuals during data collection. Due to the length
+and flexibility of different individuals, different strain and
+resistance changes occurred between individuals at the time of
+data acquisition. Therefore, we calibrated the gesture signals by
+two different gesture states: fully open and clenched fist. Figures
+S6a,b and S7a,b show diagrams before and after calibration
+signals for five subjects using the 5-channel and 14-channel
+sensors, respectively, to perform the sign language gesture “10”.
+Thus, the signals of different individuals after calibration are
+comparable. Therefore, the differences in the body length and
+flexibility of different individuals do not affect the accuracy of
+machine learning. The correctness results of machine learning
+for five different models with 5 and 14 channels are shown in
+Figure S8. The QDA model has higher accuracy than the other
+machine learning models, and the correct rate of gesture
+recognition for the 14-channel strain sensor is higher than that of
+the 5-channel one. QDA is a classical classification model that
+takes into account the category covariance, allowing each
+category to have an independent covariance matrix.55,56 LDA
+shows lower classification accuracy than QDA, and the main
+difference is in how the covariance matrixes are classified and
+handled. The nonlinearity of the sensors reduced their accuracy.
+QDA assumes that each class has its covariance matrix, and this
+discrepancy allows for the soft sensor of nonlinearity to be
+explained. The ideal model is a QDA for this application. A
+learning curve can be used to describe the stability of the model.
+In general, machine learning setting and statistics, learning
+curves represent the generalization performance of the model as
+a function of the size of the training set.58 As shown in Figures
+S9a and S10a, the number of samples is 1500, the training set is
+1200, and the test set is 300. The horizontal coordinate is the
+number of training samples, and the vertical coordinate is the
+performance value. The green line is the result after cross-
+validation, and the blue line is the training result. For the 5-
+channel learning curve, as the training samples increase, the
+inconsistency of the data leads to a decrease in the training
+scores; therefore, the blue line shows the decreasing results. For
+the 14-channel learning curve, as the number of training samples
+increases, it is easier for the QDA model to learn the features and
+models of the data, thus improving the training score. It can also
+Figure 6. Liquid-metal strain sensor for different human joint motion
+detections: (a) wrist; (b) elbow; (c) neck; (d) lateral neck.
+ACS Applied Materials & Interfaces
+www.acsami.org
+Research Article
+https://doi.org/10.1021/acsami.4c19102
+ACS Appl. Mater. Interfaces 2025, 17, 6957−6968
+6963
+
+be explained by the convex learning curve, where the
+performance of the model on the training and test data gradually
+improves and stabilizes with an increase in the number of
+training sets, indicating that the model learns the features of the
+data well during the training process and can generalize to
+unseen data.59 Two data sets were used for the different models’
+analyses. The first one was data set 1 containing 5 subjects with 5
+channels under gestures 1−10 (Table S1). The second one was
+data set 2 containing 5 subjects with 14 channels under gestures
+1−10 (Table S2). The relevant data set was placed in the
+Supporting Information after the revision. In this paper, we
+acquired signaling data for 10 different gestures from 1 to 10.
+Figure 7. Gesture recognition and digitization using 14-channel liquid-metal strain sensors. (a) Flowchart of sign language gesture recognition. (b) 14-
+channel of strain sensor equipment; 14-channel PCB circuit board; acquisition circuit diagram of 14-channel sensors. (c) Schematic of smart gloves
+and finger joints. (d). Real-time evolution of the resistance change rate of 14 liquid-metal strain sensors for 10 gestures. (e) Overall 5-channel and 14-
+channel confusion matrixes generated using the QDA model. A total of 150 tests are performed for each gesture target, the output class refers to the
+recognized result, and the target class refers to the real object.
+ACS Applied Materials & Interfaces
+www.acsami.org
+Research Article
+https://doi.org/10.1021/acsami.4c19102
+ACS Appl. Mater. Interfaces 2025, 17, 6957−6968
+6964
+
+During acquisition, subjects kept their fingers relaxed and made
+each gesture naturally. In each experiment, a gesture was
+executed after 3 s of rest and lasted for 3 s and then repeated 10
+times in a row before the next gesture. A total of 1500 samples
+were collected, 150 samples per gesture. Stratified Fold division
+of the data set is used for cross-validation of the QDA model,
+where 80% of the data are selected as the training set and 20% of
+the data are selected as the test set. A 5-fold division is
+performed. In this process, it was ensured that the proportion of
+samples from each category in each fold was approximately the
+same as the proportion of samples from each category in the
+entire data set. As a result, the distribution of categories in each
+training and validation set is similar. As shown in Figures S7 and
+S8, the test results for the 5-fold cross-validation for the 5-
+channel and 14-channel sensors are 0.93 and 1.0, respectively,
+which are similar to the results when no cross-validation is done.
+Therefore, the accuracy of the QDA model that we used is
+guaranteed.
+Therefore, the QDA model was chosen for sign language
+gesture recognition. The experimental results are divided into
+training and test data sets. Figure 7e shows the overall confusion
+matrix plots of 5-channel and 14-channel strain sensor gesture
+recognition generated under the QDA model, where the rows
+and columns represent the real and predicted gestures,
+respectively. The values in the matrix indicate the proportion
+of row gestures expected to be column gestures. The
+corresponding color indicates the proportion defined in the
+color bar. The 5-channel and 14-channel accuracies of the QDA
+model are 93% and 100%, respectively. The confusion matrixes
+for the other four models (LDA, XGBoost, Linear-SVC, and
+SGD) are shown in Figure S11. The correctness rates of the
+LDA model for 5 and 14 channels are 79% and 88%. The
+nonlinearity of the sensors reduced the accuracy of Linear-SVC
+and LDA. In addition, the SGD model is only 46% and 56%
+correct, which may be due to the SGD model being not complex
+enough to capture the complex relationships in the data set. In
+addition, the XGBoost model has 98% and 99% correct rates for
+5 and 14 channels. Compared with other classifiers, QDA shows
+relatively reasonable accuracy, mainly because the QDA model
+assumes that each class has a different variances, and this
+variability in the variance of the different classes helps to account
+for the nonlinearities of the liquid-metal sensors; thus, the model
+can be a better solution to the problem of gesture classification.
+Therefore, the QDA model was chosen for sign language gesture
+recognition. The correctness of the different models is shown in
+Figure S7. Both 14-channel and 5-channel strain sensors have
+high correct rates of gesture recognition, and the 14-channel
+strain sensor has a higher correct rate of gesture recognition than
+the 5-channel strain sensor, which suggests that the prepared
+multichannel strain sensor has a higher correct rate of gesture
+recognition and makes possible various applications of human−
+machine interfaces that signal the activities of different joints of
+the fingers.
+3. CONCLUSION
+In conclusion, a strain sensor with high mechanical stability,
+wide tensile strain range, high sensitivity, and high mechanical
+strength was prepared by patterning liquid metal using magnets
+and encapsulating it with Ecoflex00−30. The prepared strain
+sensor has a GF value of 5.17 at 300% strain and excellent
+durability after 2000 cycles at 100% strain. In addition, by
+installing 14-channel strain sensors on 14 joints of the human
+hand, the motion of 14 joints of the human body can be
+detected. The sensing device enables the recognition of 10
+different gestures simultaneously, demonstrating the capability
+of the bending sensor in gesture recognition and digitization of
+different joint motions of the human body. By using the QDA
+machine learning, the 14-channel smart glove recognizes 1−10
+different gestures with 100% accuracy, which is higher than the
+recognition accuracy of the 5-channel system for the same task
+(93%). The accuracies of the 14-channel sign language gesture
+recognition under the LDA, EGBoost, Linear-SVC, and SGD
+models are 88%, 99%, 91%, and 56%, respectively. This work
+lays a good foundation for liquid-metal strain sensors to play an
+important role in human digitization and provides a good
+learning platform for smart wearable systems.
+4. EXPERIMENTAL SECTION
+4.1. Raw Materials. Eutectic gallium indium (EGaIn) metal alloy
+(74.5 wt % Ga and 25.5 wt % In) was purchased from Dingtai Metal
+Alloys Co. It remains liquid at room temperature (melting point of 15.7
+°C). Nickel particles (99%) were purchased from CMT Xindun Alloy
+Co. The average particle size of the near-spherical, high-purity nickel
+powder particles was 40 μm (300−500 mesh). Ecoflex00-30
+(Smoothing-on Inc., Macungie, PA) is an easy-to-use, platinum-
+catalyzed silica gel. Ecoflex-gel (Smoothing-on Inc., Macungie, PA) is a
+platinum-catalyzed silicone that is tacky when cured. The NdFeB
+magnets used for patterning were purchased from Rongxinyuan
+Magnetics, with a magnetic force of 6000 GS and a magnet size of 37
+mm × 25 mm. Poly(methyl methacrylate) (PMMA) sheets were
+purchased from Qinfen Processing Customization Co., Ltd., and the
+size of the acrylic sheet was 90 mm × 20 mm × 2 mm. The PET masks
+have a thickness of 0.1 mm and were purchased from Shiwei Materials
+Co., Ltd. The PET templates were cut by using a ULS System VL4.60
+laser cutter machine.
+4.2. Preparation Process of the Ni-EGaIn Sensor Induced by
+NdFeB. The PMMA sheets of size 90 mm × 20 mm × 2 mm were
+cleaned with deionized water and alcohol, respectively, and then dried
+with an air gun. Then, parts A and B of Ecoflex00-30 were mixed in a 1:1
+ratio and stirred with a glass rod for about 1 min to mix evenly, and the
+air bubbles in the Ecoflex were drained by pumping air in the vacuum
+reactor for 5−10 min. Spin coating was performed at a rotational speed
+of 300 rpm for 60 s using a spin coater, and the obtained samples were
+dried on a hot stage at 80 °C for 10 min.
+The PET film with a size of 90 mm × 20 mm × 0.1 mm was attached
+to the cured Ecoflex surface, and the desired template shape was cut on
+the surface of the PET film by laser cutting. The optimized laser cutting
+parameters are a laser power of 6% and a laser cutting speed at 22%.
+This allows the masking plate to be cut without damaging the Ecoflex
+substrate.
+Magnetic particle dispersions were prepared by adding 40 μm
+particles of nickel powder as a filler material in liquid metal, and the
+amounts of nickel powder were 1, 3, 6, 10, 12, 14, 15, and 20 wt %,
+respectively. The two were stirred in a beaker for 10 min until
+completely mixed. A drop of the mixed sample was pipetted and placed
+on a laser-cut PET mask, and then the liquid metal was patterned with a
+rubidium iron−boron magnet with a magnetic force of 6000 GS. The
+patterned sample was spin-coated with Ecoflex00-30 at 300 rpm for 60 s
+and then dried on a hot stage at 80 °C for 10 min. Ecoflex-gel was spin-
+coated on cured Ecoflex00-30 at 600 rpm for 60 s and then dried on a
+hot platform at 80 °C for 30 min. This allows the strain sensor to be
+attached to human skin.
+4.3. Characterization of the Liquid Metal Strain Sensor. In
+order to characterize the morphology of liquid metals with different
+amounts of nickel powder and ensure the uniformity of nickel powder
+addition, the morphology of the prepared nickel-based liquid metals
+was characterized by field-emission scanning electron microscopy (FEI
+Quanta 450 FEG SEM) and EDS spectral mapping was performed
+using an AZtech Energy X-Max 20 EDS system. The tensile properties
+of the prepared strain sensors were tested using an Instron 5942 micro
+tester, in which 2000 cycles were tested at 100% strain. The
+ACS Applied Materials & Interfaces
+www.acsami.org
+Research Article
+https://doi.org/10.1021/acsami.4c19102
+ACS Appl. Mater. Interfaces 2025, 17, 6957−6968
+6965
+
+electromechanical properties of the strain sensor were examined by
+combining a material test system (Tinius Olsen H50KT) with a
+multimeter (Keithley DAQ6510), which detected tension and release
+in a controlled cycle test. The bonding of the samples to the skin in
+three states (Ecoflex00-30, Ecoflex-gel, and medical tape) was also
+tested using an Intron 5942 micro tester. The contact angle of liquid
+metal was measured using a contact angle meter model HS-WT-1 M
+manufactured by Hongyu International Trade Co., Ltd.
+4.4. Data Acquisition of Gesture Signals in Different Sign
+Languages. By wearing a Ni-containing liquid-metal sensor, signals
+are collected for different sign language gestures from 1 to 10. The
+multichannel bending strain sensor is used to recognize the human
+hand joints for different sign language gestures and to distinguish and
+detect the joints used when performing different sign language gestures.
+In our experimental data collection process, subjects relax their fingers
+and perform each gesture naturally during acquisition of the gesture
+acquisition process. Data were collected for the 10 different sign
+language gestures by holding a resting state for 3 s in each experiment,
+performing a gesture for 3 s, and then repeating the next gesture 10
+consecutive times. Five subjects participated in the collection of 10 sign
+language gestures representing number 1−10. A total of 1500 samples
+were collected, 150 samples for each gesture, of which 1200 samples of
+the collected gestures were used as the training data and 300 samples
+were used as the test data. In each experiment, a gesture was executed
+and lasted for 3 s after remaining stationary for 3 s. The QDA model
+used 80% of the data for each gesture as training data, and the remaining
+20% of the data was used as the data set.
+4.5. Sign Language Gesture Classification Based on Machine
+Learning. In order to categorize sign language gesture data, we
+collected 5-channel and 14-channel strain sensors. We utilized Python
+3.9.13 to perform machine learning on the data collected by liquid-
+metal sensors to determine the accuracy of gesture recognition. The
+Python application programming interfaces used are Scikit-learn and
+XGBoost, and five models are from each of the two Python APIs, QDA,
+LDA, Linear-SVC, SGD, and XGBoost. The first four of these models
+are from Scikit-learn, and the fifth is from XGBoost.readthedocs. The
+parameters used are default values, where the random seed for the
+QDA, SGD, and XGBoost models is 353.
+■ASSOCIATED CONTENT
+*
+sı Supporting Information
+The Supporting Information is available free of charge at
+https://pubs.acs.org/doi/10.1021/acsami.4c19102.
+Tensile diagrams without and with moisture vapor spray
+dressing, SEM surface topography of liquid metal with
+20−40% nickel powder content, different articles on the
+GF of strain sensors based on liquid-metal preparation,
+the thickness of LM conductive pathways for sensors
+prepared with different Ni concentrations, real-time
+evolution of the resistance change rate for 5-channel
+liquid-metal strain sensors with 1−10 gestures, signal
+maps for sign language gesture “10” under 5-channel and
+14-channel strain sensors for five subjects before and after
+calibration, bar charts of the accuracy rate of 5-channel
+and 14-channel strain sensors under five different models,
+convergence curves and 5-fold confusion matrix under 5
+and 14 channels using the QDA model, and confusion
+matrix of 5-channel and 14-channel strain sensors under
+four different models (LDA, XGBoost, Linear-SVC, and
+SGD) (PDF)
+DataSet1, which contains 5 subjects with 5 channels
+under gestures 1−10 (XLSX)
+DataSet2, which contains 5 subjects with 14 channels
+under gestures 1−10 (XLSX)
+Processing of magnet-patterned liquid metals (Video S1)
+(MP4)
+■AUTHOR INFORMATION
+Corresponding Author
+King Wai Chiu Lai −Centre for Robotics and Automation,
+Department of Biomedical Engineering, City University of
+Hong Kong, Hong Kong 999077, China;
+orcid.org/0000-
+0001-5002-2273; Email: kinglai@cityu.edu.hk
+Authors
+Jing Zhang −Centre for Robotics and Automation, Department
+of Biomedical Engineering, City University of Hong Kong,
+Hong Kong 999077, China
+Xiaoyang Zou −Centre for Robotics and Automation,
+Department of Biomedical Engineering, City University of
+Hong Kong, Hong Kong 999077, China
+Ziqi Li −Centre for Robotics and Automation, Department of
+Biomedical Engineering, City University of Hong Kong, Hong
+Kong 999077, China
+Colin Pak Yu Chan −Centre for Robotics and Automation,
+Department of Biomedical Engineering, City University of
+Hong Kong, Hong Kong 999077, China
+Complete contact information is available at:
+https://pubs.acs.org/10.1021/acsami.4c19102
+Author Contributions
+†J.Z. and X.Z. contributed equally to this work. J.Z. designed the
+fabrication process of the 5-channel and 14-channel strain
+sensor, and performed the experiments. J.Z., Z.L., and K.W.C.L.
+designed and performed the LM strain sensor signal measure-
+ment experiments. Z.L. and C.P.Y.C. participated in some of the
+characterization experiments of the LM strain sensor. J.Z., X.Z.,
+and K.W.C.L. composed and edited the manuscript. All authors
+discussed the results and commented on the paper.
+Notes
+The authors declare no competing financial interest.
+■ACKNOWLEDGMENTS
+The work is partially supported by grants from the Research
+Grant Council of the Hong Kong Special Administrative Region
+Government (TBRS Grant T42-717/20-R and CRF Grant
+C7100-22G).
+■REFERENCES
+(1) Sasmal, A.; Arockiarajan, A. Recent Progress in Flexible
+Magnetoelectric Composites and Devices for next Generation
+Wearable Electronics. Nano Energy 2023, 115, No. 108733.
+(2) Won, D.; Bang, J.; Choi, S. H.; Pyun, K. R.; Jeong, S.; Lee, Y.; Ko, S.
+H. Transparent Electronics for Wearable Electronics Application.
+Chem. Rev. 2023, 123, 9982−10078.
+(3) Tong, Y.; Zhang, L. Discovering the next Decade’s Synthetic
+Biology Research Trends with ChatGPT. Synth. Syst. Biotechnol. 2023,
+8, 220−223.
+(4) Shanmugam, D. K.; Anitha, S. C.; Souresh, V.; Madhavan, Y.;
+Sampath, S.; Catakapatri Venugopal, D.; Saravanan, M. Current
+Advancements in the Development of Bionic Organs Using
+Regenerative Medicine and 3D Tissue Engineering. Mater. Technol.
+2023, 38, No. 2242732.
+(5) Hu, L.; Chee, P. L.; Sugiarto, S.; Yu, Y.; Shi, C.; Yan, R.; Yao, Z.;
+Shi, X.; Zhi, J.; Kai, D.; Yu, H.-D.; Huang, W. Hydrogel-Based Flexible
+Electronics. Adv. Mater. 2023, 35, No. 2205326.
+(6) Portilla, L.; Loganathan, K.; Faber, H.; Eid, A.; Hester, J. G. D.;
+Tentzeris, M. M.; Fattori, M.; Cantatore, E.; Jiang, C.; Nathan, A.; Fiori,
+G.; Ibn-Mohammed, T.; Anthopoulos, T. D.; Pecunia, V. Wirelessly
+Powered Large-Area Electronics for the Internet of Things. Nat.
+Electron. 2022, 6, 10−17.
+ACS Applied Materials & Interfaces
+www.acsami.org
+Research Article
+https://doi.org/10.1021/acsami.4c19102
+ACS Appl. Mater. Interfaces 2025, 17, 6957−6968
+6966
+
+(7) Liu, Y.; Chen, M. The Knowledge Structure and Development
+Trend in Artificial Intelligence Based on Latent Feature Topic Model.
+IEEE Trans. Eng. Manage. 2024, 71, 12593−12604.
+(8) Grassini, S. Shaping the Future of Education: Exploring the
+Potential and Consequences of AI and ChatGPT in Educational
+Settings. Educ. Sci. 2023, 13, 692.
+(9) Wang, H.; Li, S.; Lu, H.; Zhu, M.; Liang, H.; Wu, X.; Zhang, Y.
+Carbon-Based Flexible Devices for Comprehensive Health Monitoring.
+Small Methods 2023, 7, No. 2201340.
+(10) Wu, P.; Yiu, C. K.; Huang, X.; Li, J.; Xu, G.; Gao, Y.; Yao, K.;
+Chow, L.; Zhao, G.; Yang, Y.; Jiao, Y.; Yu, X. Liquid Metal-Based Strain-
+Sensing Glove for Human-Machine Interaction. Soft Sci. 2023, 3, 35.
+(11) Aminian, K.; Najafi, B. Capturing Human Motion Using Body-
+fixed Sensors: Outdoor Measurement and Clinical Application.
+Comput. Animat. Virt. W. 2004, 15, 79−94.
+(12) Bons, Z.; Dickinson, T.; Clark, R.; Beardsley, K.; Charles, S. K.
+Compensating for Soft-Tissue Artifact Using the Orientation of Distal
+Limb Segments During Electromagnetic Motion Capture of the Upper
+Limb. J. Biomech. Eng. 2022, 144, No. 071007.
+(13) Pires, I. M.; Marques, G.; Garcia, N. M.; Pombo, N.; Flórez-
+Revuelta, F.; Spinsante, S.; Teixeira, M. C.; Zdravevski, E. Recognition
+of Activities of Daily Living and Environments Using Acoustic Sensors
+Embedded on Mobile Devices. Electronics 2019, 8, 1499.
+(14) Morrow, M. M. B.; Lowndes, B.; Fortune, E.; Kaufman, K. R.;
+Hallbeck, M. S. Validation of Inertial Measurement Units for Upper
+Body Kinematics. J. Appl. Biomech. 2017, 33, 227−232.
+(15) Lee, R.; Akhundov, R.; James, C.; Edwards, S.; Snodgrass, S. J.
+Variations in Concurrent Validity of Two Independent Inertial
+Measurement Units Compared to Gold Standard for Upper Body
+Posture during Computerised Device Use. Sens. 2023, 23, 6761.
+(16) Field, M.; Pan, Z. X.; Stirling, D.; Naghdy, F. Human Motion
+Capture Sensors and Analysis in Robotics. Ind. Robot. 2011, 38, 163−
+171.
+(17) Petrosyan, T.; Dunoyan, A.; Mkrtchyan, H. Application of
+Motion Capture Systems in Ergonomic Analysis. AJSE 2020, 4, 107−
+117.
+(18) Fong, D. T-P.; Chan, Y.-Y. The Use of Wearable Inertial Motion
+Sensors in Human Lower Limb Biomechanics Studies: A Systematic
+Review. Sensors 2010, 10, 11556−11565.
+(19) Liu, J.; Liao, F.; Chen, Z.; Zhou, R.; Zhong, X.; Liu, B.; Wang, Z.;
+He, M.; Lin, H.; Zhang, Z.; Lu, S.; Zeng, L.; Zhou, B.; Chen, G.; Huang,
+J.; Huang, A.; Luo, J. Digitizing Human Motion via Bending Sensors
+toward Humanoid Robot. Adv. Intell. Syst. 2023, 5, No. 2200337.
+(20) Li, X.; Koh, K. H.; Xue, J.; So, C. H.; Xiao, N.; Tin, C.; Wai, K.;
+Lai, C. 1D-2D Nanohybrid-Based Textile Strain Sensor to Boost
+Multiscale Deformative Motion Sensing Performance. Nano Res. 2022,
+15, 8398−8409.
+(21) Li, X.; Koh, K. H.; Farhan, M.; Lai, K. W. C. An Ultraflexible
+Polyurethane Yarn-Based Wearable Strain Sensor with a Polydime-
+thylsiloxane Infiltrated Multilayer Sheath for Smart Textiles. Nanoscale
+2020, 12, 4110−4118.
+(22) Puneetha, P.; Mallem, S. P. R.; Park, S. C.; Kim, S.; Heo, D. H.;
+Kim, C. M.; Shim, J.; An, S. J.; Lee, D.-Y.; Park, K.-I. Ultra-Flexible
+Graphene/Nylon/PDMS Coaxial Fiber-Shaped Multifunctional Sen-
+sor. Nano Res. 2023, 16, 5541−5547.
+(23) Wang, Y.; Cui, T.-R.; Gou, G.-Y.; Li, X.-S.; Qiao, Y.-C.; Li, D.; Xu,
+J.-D.; Guo, Y.-Z.; Tian, H.; Yang, Y.; et al. An Ultra-Sensitive and
+Multifunctional Electronic Skin with Synergetic Network of Graphene
+and CNT. Nanomaterials 2023, 13, 179.
+(24) Wang, R.; Sun, L.; Zhu, X.; Ge, W.; Li, H.; Li, Z.; Zhang, H.;
+Huang, Y.; Li, Z.; Zhang, Y.-F.; Zhao, J.; Xu, Q.; Lan, H. Carbon
+Nanotube-Based Strain Sensors: Structures, Fabrication, and Applica-
+tions. Adv. Mater. Technol. 2023, 8, No. 2200855.
+(25) Li, Z.; Li, Y.; Wang, Z.; Wu, P.; Liu, N.; Liu, K.; Gu, Z.; Chen, Y.;
+Nie, J.; Shao, H.; He, Y. 3D-Printable and Multifunctional Conductive
+Nanocomposite with Tunable Mechanics Inspired by Sesame Candy.
+Nano Energy 2023, 108, No. 108166.
+(26) Zhu, X.; Zhou, Y.; Ye, C. Preparation and Performance of
+AgNWs/PDMS Film-Based Flexible Strain Sensor. Materials 2023, 16,
+641.
+(27) Sun, H.; Fang, X.; Fang, Z.; Zhao, L.; Tian, B.; Verma, P.; Maeda,
+R.; Jiang, Z. An Ultrasensitive and Stretchable Strain Sensor Based on a
+Microcrack Structure for Motion Monitoring. Microsyst. Nanoeng.
+2022, 8, 111.
+(28) Zou, X.; Xue, J.; Li, X.; Chan, C. P. Y.; Li, Z.; Li, P.; Yang, Z.; Lai,
+K. W. C. High-Fidelity sEMG Signals Recorded by an on-Skin
+Electrode Based on AgNWs for Hand Gesture Classification Using
+Machine Learning. ACS Appl. Mater. Interfaces 2023, 15, 19374−19383.
+(29) Wang, S. L.; Xu, X.; Han, Z.; Li, H.; Wang, Q.; Yao, B. Highly
+Stretchable Liquid-Metal Based Strain Sensor with High Sensitivity for
+Human Activity Monitoring. Mater. Lett. 2022, 308, No. 131277.
+(30) Zhao, Z.; Soni, S.; Lee, T.; Nijhuis, C. A.; Xiang, D. Smart
+Eutectic Gallium−Indium: From Properties to Applications. Adv.
+Mater. 2023, 35, No. 2203391.
+(31) Chen, J.; Zhang, J.; Luo, Z.; Zhang, J.; Li, L.; Su, Y.; Gao, X.; Li,
+Y.; Tang, W.; Cao, C.; et al. Superelastic, Sensitive, and Low Hysteresis
+Flexible Strain Sensor Based on Wave-Patterned Liquid Metal for
+Human Activity Monitoring. ACS Appl. Mater. Interfaces 2020, 12,
+22200−22211.
+(32) Zhu, S.; So, J.-H.; Mays, R.; Desai, S.; Barnes, W. R.;
+Pourdeyhimi, B.; Dickey, M. D. Ultrastretchable Fibers with Metallic
+Conductivity Using a Liquid Metal Alloy Core. Adv. Funct. Mater. 2013,
+23, 2308−2314.
+(33) He, Y.; You, J.; Dickey, M. D.; Wang, X. Controllable Flow and
+Manipulation of Liquid Metals. Adv. Funct. Mater. 2024, 34,
+No. 2309614.
+(34) Kim, D.; Jeong, J.; Chung, S. K.; Lee, J. B. Magnetic Liquid
+Metals: A Review. Adv. Funct. Mater. 2024, 34, No. 2311153.
+(35) Yao, B.; Xu, X.; Zhang, Q.; Yu, H.; Li, H.; Ren, L.; Perini, S.;
+Lanagan, M.; Wang, Q.; Wang, H. Highly Stretchable and Mechanically
+Tunable Antennas Based on Three-Dimensional Liquid Metal
+Network. Mater. Lett. 2020, 270, No. 127727.
+(36) Lin, Y.; Genzer, J.; Li, W.; Qiao, R.; Dickey, M. D.; Tang, S.-Y.
+Sonication-Enabled Rapid Production of Stable Liquid Metal Nano-
+particles Grafted with Poly (1-Octadecene-Alt-Maleic Anhydride) in
+Aqueous Solutions. Nanoscale 2018, 10, 19871−19878.
+(37) Kim, M.; Cho, C.; Shin, W.; Park, J. J.; Kim, J.; Won, P.; Majidi,
+C.; Ko, S. H. Nanowire-Assisted Freestanding Liquid Metal Thin-Film
+Patterns for Highly Stretchable Electrodes on 3D Surfaces. npj Flex.
+Electron. 2022, 6, 1−8.
+(38) Park, Y.; Jung, J.; Lee, Y.; Lee, D.; Vlassak, J. J.; Park, Y.-L. Liquid-
+Metal Micro-Networks with Strain-Induced Conductivity for Soft
+Electronics and Robotic Skin. npj Flex. Electron. 2022, 6, 1−10.
+(39) Ren, L.; Sun, S.; Casillas-Garcia, G.; Nancarrow, M.; Peleckis, G.;
+Turdy, M.; Du, K.; Xu, X.; Li, W.; Jiang, L.; Dou, S. X.; Du, Y. A Liquid-
+Metal-Based Magnetoactive Slurry for Stimuli-Responsive Mechan-
+ically Adaptive Electrodes. Adv. Mater. 2018, 30, No. 1802595.
+(40) Joshipura, I.; Ayers, H.; Majidi, C.; Dickey, M. D. Methods to
+Pattern Liquid Metals. ACS. J. Mater. Chem, C 2015, 3, 3834−3841.
+(41) Zhu, S.; So, J.-H.; Mays, R.; Desai, S.; Barnes, W. R.;
+Pourdeyhimi, B.; Dickey, M. D. Ultrastretchable Fibers with Metallic
+Conductivity Using a Liquid Metal Alloy Core. Adv. Funct. Mater. 2013,
+23, 2308−2314.
+(42) Zheng, L. J.; Zhu, M. M.; Wu, B. H.; Li, Z. L.; Sun, S. T.; Wu, P. Y.
+Conductance-stable Liquid Metal Sheath-Core Microfibers for Stretchy
+Smart Fabrics and Self-Powdered Sensing. Sci. Adv. 2021, 7.
+DOI: 10.1126/sciadv.abg4041
+(43) Wang, R. J.; Liu, Q. Y.; Wei, J. J.; Zhu, C. L.; Wang, Y. Z.; Yu, A.
+X.; Wang, W. M.; Zou, J.; Xie, J. J.; Fu, Z. Y. Biocomposite Silk Fibroin
+Hydrogel with Stretchability, Conductivity and Biocompatibility for
+Wireless Stain Sensor. J. Mater. Sci. Technol. 2025, 210, 195−203.
+(44) Lee, D. H.; Lim, T.; Pyeon, J. S.; Park, H.; Lee, S. W.; Lee, S. K.;
+Kim, W.; Kim, M.; Lee, J. C.; Kim, D. W.; Han, S.; Kim, H.; Park, S.;
+Choi, Y. K. Self-Mixed Biphasic Liquid Metal Composite with Ultra-
+High Stretchability and Strain-Insensitivity for Neuromorphic Circuits.
+Adv. Mater. 2024, 36, No. 2310956.
+ACS Applied Materials & Interfaces
+www.acsami.org
+Research Article
+https://doi.org/10.1021/acsami.4c19102
+ACS Appl. Mater. Interfaces 2025, 17, 6957−6968
+6967
+
+(45) Koh, A.; Sietins, J.; Slipher, G.; Mrozek, R. Deformable Liquid
+Metal Polymer Composites with Tunable Electronic and Mechanical
+Properties. J. Mater. Res. 2018, 33, 2443−2453.
+(46) Xu, Y.; Su, Y.; Xu, X.; Arends, B.; Zhao, G.; Ackerman, D. N.;
+Huang, H.; Reid, S. P.; Santarpia, J. L.; Kim, C.; Chen, Z.; Mahmoud, S.;
+Ling, Y.; Brown, A.; Chen, Q.; Huang, G.; Xie, J.; Yan, Z. Porous Liquid
+Metal-Elastomer Composites with High Leakage Resistance and
+Antimicrobial Property for Skin-Interfaced Bioelectronics. Sci. Adv.
+2023, 9, No. eadf0575.
+(47) Wen, F.; Sun, Z. D.; He, T. Y. Y.; Shi, Q. F.; Zhu, M. L.; Zhang, Z.
+X.; Li, L. H.; Zhang, T.; Lee, C. K. Machine Learning Glove Using Self-
+Powdered Conductive Superhydrophobic Triboelectric Textile for
+Gesture Recognition in VR/AR Applications. Adv. Sci. 2020, 7,
+No. 2000261.
+(48) Lu, W. X.; Fang, P.; Zhu, M. L.; Zhu, Y. R.; Fan, X. J.; Zhu, T. C.;
+Zhou, X.; Wang, F. X.; Chen, T.; Sun, L. N. Artificial Intelligence-
+Enabled Gesture-Language-Recognition Feedback System Using
+Strain-Sensor-Arrays-Based Smart Glove. Adv. Intell. Syst. 2023, 5,
+No. 2200453.
+(49) Shin, S.; Yoon, H. U.; Yoo, B. Hand Gesture Recognition Using
+EGaIn-Silicone Soft Sensors. Sensors. 2021, 21, 3204.
+(50) Qiu, Y.; Zou, Z.; Zou, Z.; Setiawan, N. K.; Dikshit, K. V.; Whiting,
+G.; Yang, F.; Zhang, W.; Lu, J.; Zhong, B.; Wu, H.; Xiao, J. Deep-
+Learning-Assisted Printed Liquid Metal Sensory System for Wearable
+Applications and Boxing Training. npj Flex. Electron. 2023, 7, 1−10.
+(51) Fu, R.; Zhong, X.; Xiao, C.; Lin, J.; Guan, Y.; Tian, Y.; Zhou, Z.;
+Tan, G.; Hu, H.; Zhou, L.; Ning, C. A Stretchable, Biocompatible, and
+Self-Powered Hydrogel Multichannel Wireless Sensor System Based on
+Piezoelectric Barium Titanate Nanoparticles for Health Monitoring.
+Nano Energy 2023, 114, No. 108617.
+(52) Liu, Y. M.; Chen, C. X.; Chen, D.; Miao, J. M.; Cui, D. X.; Yu, J. J.;
+Guo, Y. P.; Li, Q. C. Sensitive Strain Sensors with Wide-Range
+Detection and High Stability for Intelligent Human Motion
+Monitoring. Sens. Actuator. A. Phys. 2024, 377, No. 115710.
+(53) Li, Z.; Guo, W.; Huang, Y. Y.; Zhu, K. H.; Yi, H. K.; Wu, H. On-
+Skin Graphene Electrodes for Large Area Electrophysiological
+Monitoring and Human-Machine Interfaces. Carbon 2020, 164,
+164−170.
+(54) Park, H.; Na, M.; Shin, D.; Kim, D.; Kim, E.; Kim, S.; Lee, D.;
+Sim, K. A Skin-Friendly Soft Strain Sensor with Direct Skin Adhesion
+Enabled by Using a Non-Toxic Surfactant. J. Mater. Chem. C 2023, 11,
+9611−9619.
+(55) Ha, D. H.; Nguyen, P. T.; Costache, R.; Al-Ansari, N.; Van
+Phong, T.; Nguyen, H. D.; Amiri, M.; Sharma, R.; Prakash, I.; Van Le,
+H.; et al. Quadratic Discriminant Analysis Based Ensemble Machine
+Learning Models for Groundwater Potential Modeling and Mapping.
+Water Resour. Manag. 2021, 35, 4415−4433.
+(56) Eker, A. M.; Dikmen, M.; Cambazoğlu, S.; Düzgün, Ş. H. B.;
+Akgün, H. Evaluation and Comparison of Landslide Susceptibility
+Mapping Methods: A Case Study for the Ulus District, Bartın, Northern
+Turkey. Int. J. Geogr. Inf. Sci. 2015, 29, 132−158.
+(57) Jeong, S. H.; Chen, S.; Huo, J. X.; Gamstedt, E. K.; Liu, J.; Zhang,
+S. L.; Zhang, Z. B.; Hjort, K.; Wu, Z. G. Mechanically Stretchable and
+Electrically Insulating Thermal Elastomer Composite by Liquid Alloy
+Droplet Embedment. Sci. Rep. 2016, 5, No. 18257.
+(58) Perlich, C. Learning Curves in Machine Learning. In Encyclopedia
+of Machine Learning; Sammut, C., Webb, G. I., Eds.; Springer, 2011; pp
+577−580.
+(59) Mohr, F.; van Rijn, J. N. Fast and Informative Model Selection
+Using Learning Curve Cross-Validation. IEEE. Trans. Pattern Anal.
+Mach. Intell. 2023, 45, 9669−9680.
+(60) Wu, Y. H.; Zhen, R. M.; Liu, H. Z.; Liu, S. Q.; Deng, Z. F.; Wang,
+P. P.; Chen, S.; Liu, L. Liquid Metal Fiber Composed of A Tubular
+Channel as A High-Performance Strain Sensor. J. Mater. Chem. C 2017,
+5, 12483−12491.
+(61) Du, J.; Han, Q. H.; Chen, A. B. A Liquid Metal/Polypyrrole
+Electrospun TPU Composite Conductive Network for Highly Sensitive
+Strain Sensing in Human Motion Monitoring. J. Mater. Chem. B 2024,
+12, 4655−4665.
+(62) Wang, X. F.; Liu, J.; Zheng, Y. Q.; Shi, B.; Chen, A. B.; Wang, L.
+L.; Shen, G. Z. Biocompatible Liquid Metal Coated Stretchable
+Electrospinning Film for Strain Sensors monitoring System. Sci. China.
+Mater. 2022, 65, 2235−2243.
+(63) Li, C.; Zhang, C. J.; Li, H. Y.; Luo, Z. X.; Zhang, Y. C.; Hou, X.;
+Yang, Q.; Chen, F. Femtosecond Laser Fabrication of High-Linearity
+Liquid Metal-Based Flexible Strain Sensor. Materials 2024, 17, 1979.
+(64) Wu, Y. Z.; Zhou, Y. L.; Asghar, W.; Liu, Y. W.; Li, F. L.; Sun, D.
+D.; Hu, C.; Wu, Z. G.; Shang, J.; Yu, Z.; Li, R. W.; Yang, H. L. Liquid
+Metal-Based Strain Sensor with Ultralow Detection Limit for Human-
+Machine Interface Applications. Adv. Intell. Syst. 2021, 3, No. 200235.
+(65) Shi, C. Q.; Zou, Z. N.; Lei, Z. P.; Zhu, P. C.; Nie, G. H.; Zhang,
+W.; Xiao, J. L. Stretchable, Rehealable, Recyclable, and Reconfigurable
+Integrated Strain Sensor for Joint Motion and Respiration Monitoring.
+Research 2021, 2021, No. 9846036.
+(66) Wang, Y. L.; Qin, W. J.; Yang, M.; Tian, Z. H.; Guo, W. J.; Sun, J.
+K.; Zhou, X.; Fei, B.; An, B. G.; Sun, R. M.; Yin, S. G.; Liu, Z. F. High
+Linearity, Low Hysteresis Ti3C2Tx MXene/AgNW/Liquid Metal Self-
+Healing Strain Sensor Modulated by Dynamic Disulfide and Hydrogen
+Bonds. Adv. Funct. Mater. 2023, 33, No. 2301587.
+(67) Wang, J.; Li, J.; Luo, W. F.; Liu, Q.; Wang, C.; Ren, B.; Cao, Y.;
+Han, J.; Li, Y. C. Effect of Sodium Alginate Modification on Low-
+Temperature Strain-Sensing Properties of Liquid Metal Hydrogel. ACS.
+Appl. Polym. Mater. 2024, 6, 4673−4686.
+(68) Dong, Y. W.; Wang, C.; Hu, Z. R.; Mao, S. J.; Wei, X. T.; Fu, Y.
+Q.; Li, J.; Han, J. A Sandwich-Structure, Low-Temperature Sensitive
+and Recyclable Liquid metal Organic Hydrogel for a Wearable Strain
+Sensor. J. Appl. Polym. Sci. 2022, 139, No. e53174.
+(69) Zhang, J. Z.; Zhang, C. J.; Li, H. Y.; Cheng, Y.; Yang, Q.; Hou, X.;
+Chen, F. Controlling the Oxidation and Wettability of Liquid Metal Via
+Femtosecond Laser for High-Resolution Flexible Electronics. Front.
+Chem. 2022, 10, No. 965891.
+ACS Applied Materials & Interfaces
+www.acsami.org
+Research Article
+https://doi.org/10.1021/acsami.4c19102
+ACS Appl. Mater. Interfaces 2025, 17, 6957−6968
+6968
+

@@ -1,0 +1,1359 @@
+Vol.:(0123456789)
+1 3
+Journal of Ambient Intelligence and Humanized Computing (2023) 14:12035–12048 
+https://doi.org/10.1007/s12652-022-03753-9
+ORIGINAL RESEARCH
+Enhanced hand‑gesture recognition by improved beetle swarm 
+optimized probabilistic neural network for human–computer 
+interaction
+Anil Kumar Dubey1
+Received: 8 November 2021 / Accepted: 31 January 2022 / Published online: 23 February 2022 
+© The Author(s), under exclusive licence to Springer-Verlag GmbH Germany, part of Springer Nature 2022
+Abstract
+The dynamic hand gesture recognition is a new research area due to the emerging nature of pervasive somatosensory devices, 
+which has been gained more attention and been broadly utilized in human–computer interaction (HCI). This paper tactics to 
+develop an intelligent hand gesture recognition model through considering the use of hand gestures for HCI. The user-friendly, 
+less intrusive, intuitive, and more natural HCI for controlling an application by executing hand gestures are presented. The 
+overall models cover diverse steps like data collection, pre-processing, segmentation, feature extraction, and recognition. 
+The hand gestures videos from different benchmark sources are collected, and further, the pre-processing is performed by 
+median filtering. Further, the goal of the segmentation is to evaluate the temporal hand trajectories from the detected hand 
+poses, which is carried out through the adaptive region-based active contour (ARAC) method based on the meta-heuristic 
+basis by the opposition strategic velocity updated beetle swarm optimization (OSV-BSO). Feature extraction is the next step, 
+which is done by combining a set of features like oriented FAST and rotated BRIEF (ORB), histogram of oriented gradients 
+(HOG), and regionprops, which are further given to the principal component analysis (PCA) for dimensionality reduction. 
+With these relevant features, the recognition phase is accomplished by the optimized probabilistic neural network (PNN). To 
+improvise the existing performance of PNN as a deep learning model, the weights in training are tuned based on the meta-
+heuristic basis by the OSV-BSO. The objective model of the optimized PNN is to minimize the error between the desired 
+and actual outcomes. Finally, the designed “gesture recognition approach” makes the HCI process more user-specific and 
+intuitive, which is proved by comparing it over the existing approaches.
+Keywords  Dynamic hand gesture recognition · Human–computer interaction · Adaptive region-based active contour · 
+Optimized probabilistic neural network · Opposition strategic velocity updated beetle swarm optimization
+1  Introduction
+HCI based on “hand gestures” plays a major role in diverse 
+modalities as humans generally lay on their hands in trans-
+mission or for interacting with their environment. The 
+existing “hand-gesture-based approaches” are different 
+from other methods by offering a common way of com-
+munication and interaction (Köpüklü et al. 2020; Hu et al. 
+2019; Maqueda et al. 2016). Numerous studies analyze 
+“gesture-based interaction” approaches, their challenges, 
+and advanced ways for enhancing its efficiency (Bao et al. 
+2017; Liu et al. 2018; Chen et al. 2019). In recent years, 
+“hand-gesture recognition” models by considering a com-
+puter vision have experienced a gradual development in 
+popularity because of the broader range of probable appli-
+cations in the area of HCI like medical systems (Ameur 
+et al. 2020) video games (Rautaray and Agrawal 2015), 
+and multimedia application control (Plouffe and Cretu 
+2016). The interfaces in hand gestures like more natural, 
+less intrusive, friendly, and intuitive are considered to each 
+user than conventional HCI devices. The usage of mouse 
+and keyboard can be more helpful to some other applica-
+tions, in which the major advantage is hand-based inter-
+faces. However, the majority of the customer devices are 
+inserted with color cameras that motivate the development 
+of HCI models with the design of color-based methods and 
+ *	 Anil Kumar Dubey 
+	
+anildudenish@gmail.com
+1	
+ABES Engineering College, Ghaziabad, 
+Uttar Pradesh 201009, India
+
+12036
+	
+A. K. Dubey 
+1 3
+hand-gesture recognition (Li et al. 2020; Su 2000; Deng 
+2020). Spectral clustering (SC) has been widely applied 
+to various computer vision tasks, where the key is to con-
+struct a robust affinity matrix for data partitioning (Zhihui 
+et al. 2018). A rank-constrained Spectral Clustering (SC) 
+is proposed with a flexible embedding framework. Spe-
+cifically, an adaptive probabilistic neighborhood learning 
+process is employed to recover the block-diagonal affinity 
+matrix of an ideal graph. Meanwhile, a flexible embed-
+ding scheme is learned to unravel the intrinsic cluster 
+structure in low-dimensional subspace, where the irrel-
+evant information and noise in high-dimensional data 
+have been effectively suppressed (Li et al. 2018). A new 
+zero-shot event detection approach is proposed, which 
+exploits the semantic correlation between an event and 
+concepts. Based on the concept detectors pre-trained from 
+external sources, this method learns the semantic corre-
+lation from the concept vocabulary and emphasizes the 
+most related concepts for the zero-shot event detection. 
+Particularly, a novel Event-Adaptive Concept Integration 
+algorithm (E-ACI) is introduced to estimate the effective-
+ness of semantically related concepts by assigning differ-
+ent weights to them (Li et al. 2019).
+Gesture recognition is a broad task for integrating 
+diverse criteria of computer science like machine learning, 
+pattern recognition, motion analysis, and motion modeling 
+(Duan et al. 2020). In the 1990s, numerous hand gesture 
+recognition methods have been developed that are catego-
+rized into two types such as “glove-based or vision-based”, 
+which is divided based on the motion capture technique. 
+Glove-based approaches are generally offered more con-
+sistent motion data and remove the requirement to middle-
+tier software for capturing the hand postures and positions 
+(Skaria et al. 2019). Though, it needs the user to wear 
+position trackers and “cumbersome data gloves” that gen-
+erally hold some connection cables, which minimizes the 
+usefulness and intuitiveness of such approaches and makes 
+it costly (Ohn-Bar and Trivedi 2014). Vision-based meth-
+ods depend on image processing approaches for extracting 
+posture and motion trajectory information (Lu et al. 2014; 
+Köpüklü et al. 2020). Its achievement is majorly based on 
+the image analysis approaches that are perceptive to the 
+environmental aspects like changes in illumination and 
+may lose fine details because of the finger and hand occlu-
+sion (Tu and Huang 2019).
+The major contributions of the designed model are 
+given here.
+•	 The hand gestures videos are collected from different 
+benchmark sources. A new intelligent hand gesture 
+recognition model is proposed through an improved 
+segmentation approach and optimized deep learning 
+approach with the aid of a new meta-heuristic-based 
+technique for HCI to get better-classified outcomes.
+•	 To implement a novel blood cell segmentation model 
+through a new segmentation approach called ARAC 
+method by optimizing the parameters of region-based 
+active contour technique by the OSV-BSO. The efficiency 
+is verified by considering the multi-objective functions 
+concerning with maximization of entropy and minimiza-
+tion of variance to get accurate segmented results.
+•	 To offer accurate classified hand gestures using opti-
+mized PNN to maximize the precision to get promising 
+results. It is performed through the OSV-BSO.
+•	 To evaluate the efficiency of the suggested hand gesture 
+classification model for HCI via evaluating some stand-
+ard measures by comparing with standard techniques.
+The remaining sections of the designed model are given 
+here. Section 2 analyzes the related works. Section 3 speci-
+fies the improved segmentation and recognition model for 
+“hand gesture recognition”. Section 4 explains the “hand 
+gesture recognition” by ARAC. Section 5 indicates the 
+proposed OSV-BSO for enhancing segmentation and clas-
+sification. Section 6 evaluates the results. Section 7 gives a 
+conclusion.
+2  Literature survey
+2.1  Related works
+In Yu et al. (2019) have proposed the semi-supervised model 
+named adaptive semi-supervised feature selection for cross-
+modal retrieval. The semantic regression was utilized to 
+strengthen the neighboring relationship between the data 
+with the same semantic framework. The correlation between 
+heterogeneous data can be optimized via keeping the pair-
+wise closeness when learning the common latent space. 
+The graph-based constraint was adopted to predict accurate 
+labels for unlabeled data, and it can also keep the geometric 
+structure consistency between the label space and the feature 
+space of heterogeneous data in the common latent space. 
+Finally, an efficient joint optimization algorithm was pro-
+posed to update the mapping matrices and the label matrix 
+for unlabeled data simultaneously and iteratively. Experi-
+ment results have demonstrated that our method performed 
+better than the state-of-the-art methods for three datasets.
+In Zhang et al. (2020) have proposed a novel deep multi-
+modal network with a top-k ranking loss to mitigate the 
+data ambiguity problem. With this strategy, query results 
+do not have been penalized unless the index of ground truth 
+was outside the range of top-k query results. Considering 
+the non-smoothness and non-convexity of the initial top-k 
+ranking loss, a tight convex upper bound was exploited to 
+
+12037
+Enhanced hand‑gesture recognition by improved beetle swarm optimized probabilistic neural…
+1 3
+approximate the loss and then utilize the traditional back-
+propagation algorithm to optimize the deep multi-modal 
+network. Empirical results on metrics have shown that our 
+method achieved comparable performance in comparison to 
+state-of-the-art methods.
+In Zhou et al. (2020) have proposed a multi-feature fusion 
+with an adaptive graph learning model for unsupervised 
+(Re-Identification) Re-ID. This model aimed to negotiate 
+comprehensive assessment on the consistent graph struc-
+ture of pedestrians with the help of special information of 
+feature descriptors. Specifically, this proposed model was 
+incorporated multi-feature dictionary learning and adaptive 
+multi-feature graph learning into a unified learning model 
+such that the learned dictionaries were discriminative and 
+the subsequent graph structure learning was accurate. An 
+alternating optimization algorithm with proved convergence 
+was developed to solve the final optimization objective. 
+Extensive experiments have demonstrated the superiority 
+and effectiveness of the proposed method for four bench-
+mark data sets.
+In Luo et al. (2018a) have exploited a novel semisuper-
+vised feature selection method from a new perspective. 
+This proposed model was the instances with similar labels 
+should have a larger probability of being neighbors. Instead 
+of using a predetermined similarity graph, this proposed 
+model was incorporated the exploration of the local struc-
+ture into the procedure of joint feature selection to learn the 
+optimal graph simultaneously. Moreover, an adaptive loss 
+function was exploited to measure the label fitness, which 
+significantly enhances the model's robustness to videos with 
+a small or substantial loss. An efficient alternating optimiza-
+tion algorithm has been proposed to solve the proposed chal-
+lenging problem, together with analyses on its convergence 
+and computational complexity in theory. Finally, extensive 
+experimental results have illustrated the effectiveness and 
+superiority of the proposed approach on video semantic 
+recognition-related tasks for benchmark datasets.
+In Ren et al. (2021) have reviewed a comprehensive and 
+systematic survey on the NAS was essential. Previously 
+related surveys have begun to classify existing work mainly 
+based on the key components of NAS: search space, search 
+strategy, and evaluation strategy. While this classification 
+method was more intuitive, it is difficult for readers to grasp 
+the challenges and the landmark work involved. Therefore, 
+this survey has provided a new perspective: beginning with 
+an overview of the characteristics of the earliest NAS algo-
+rithms, summarizing the problems in these early NAS algo-
+rithms, and then providing solutions for subsequent related 
+research work.
+In Luo et al. (2018b) have characterized the intrinsic 
+local structure by an adaptive reconstruction graph and 
+simultaneously considered its multiconnected-components 
+(multicluster) structure by imposing a rank constraint on the 
+corresponding Laplacian matrix. To achieve a desirable fea-
+ture subset, it has learned the optimal reconstruction graph 
+and selective matrix simultaneously, instead of using a pre-
+determined graph. An efficient alternative optimization algo-
+rithm has been exploited to solve the proposed challenging 
+problem, together with the theoretical analyses on its con-
+vergence and computational complexity. Finally, extensive 
+experiments on clustering tasks were conducted to verify the 
+effectiveness and superiority of the proposed unsupervised 
+feature selection algorithm for several benchmark data sets.
+In Chang et al. (2016) have proposed a novel Compound 
+Rank-K Projection (CRP) algorithm for bilinear analysis. 
+The CRP deals with matrices directly without transforming 
+them into vectors, and it, therefore, preserves the correla-
+tions within the matrix and decreases the computation com-
+plexity. Different from the existing 2-D discriminant analy-
+sis algorithms, objective function values of CRP increase 
+monotonically. In addition, the CRP utilizes multiple rank-k 
+projection models to enable a larger search space, in which 
+the optimal solution can be found. In this way, the discrimi-
+nant ability was enhanced. Experimental results have shown 
+that the performance of our proposed CRP performed better 
+than other algorithms in terms of classification accuracy.
+2.2  Problem statement
+In industries, hand gesture-based HCI models are required 
+largely. Therefore, developing a robust hand gesture rec-
+ognition model will remain a complex issue. Finite-state 
+machine-based recognition (Kılıboz and Güdükbay 2015) 
+improves the accuracy, and it can be implemented in real-
+time applications. The proposed model cannot be extended 
+for the third dimension using the depth (z-coordinate), and 
+it is also restricted for dynamic posture recognition. VS-
+LBP and SVM (Maqueda et al. 2015) are efficient based on 
+computational efforts. It attains high recognition accuracy. 
+The performance of this model is affected. GA-ELM (Qi 
+et al. 2019) improves the accuracy of gesture recognition. 
+Long-term gesture recognition can be possible. Though, it 
+requires more training time. Motion-Feature-Warping Algo-
+rithm and Shape-Feature-Warping Algorithm (Zhu and Xu 
+2002) eliminate the temporal variations and enhance the 
+recognition rate. However, it has computational complex-
+ity. HMM-PSO (Liu and Huai 2019) has a better recogni-
+tion rate and enhances a better interactive experience. On 
+the other hand, the gesture cannot be recognized accurately. 
+The performance of this model is not efficient. Component 
+labeling algorithm (Tsai et al. 2020) achieves the low cost 
+and lightweight model. It obtains better accuracy. There is 
+some interference in the model. Multi-view feature learning 
+(Song et al. 2020) can be optimizing the multimodal features 
+globally and locally. It attains better recognition accuracy 
+in less time. Some of the recognition of hand gestures is 
+
+12038
+	
+A. K. Dubey 
+1 3
+difficult by using this method. Ensemble learning (Yadav 
+and Bhattacharya 2016) improves classification accuracy. 
+It can enable to evaluate the dynamic gestures. However, 
+this model is limited to hand gestures of scroll up or down 
+depending. These limitations are considered for develop-
+ing a new Hand-Gesture Recognition model for HCI. From 
+the past researchers, it is complex to convince and clear the 
+differentiation among recently stated gesture recognition 
+models due to the two models are aimed for the same appli-
+cation. Therefore, the difficulties of each model also differ 
+regarding their command set of gestures, system settings, 
+assumptions about the background, etc. There is also a short-
+age of standard databases as compared with diverse gesture 
+recognition models.
+3  Improved segmentation and recognition 
+model for hand gesture recognition
+3.1  Proposed architecture for hand gesture 
+recognition
+The recognition of hand gestures is important to factor for 
+HCI. The gesture-based recognition models have limitations 
+for using machine learning due to the lack of meaningful 
+and rich datasets. In recent decades, diverse deep learning-
+based hand gesture recognition models have been developed 
+that have more challenges. The classifiers like SVM and 
+Naive Bayes (NB) are complex to process a huge number of 
+datasets with a requirement of more training samples. NN 
+with gesture classification (Murthy et al. 2021) is a more 
+time-consuming model due to the increase in the number of 
+training data. Fuzzy C-Means clustering (FCM) for gesture 
+recognition is affected because of the false object extraction 
+when the objects are bigger than the hand. Correspondingly, 
+the hand images with poor camera quality impact the per-
+formance of the gesture recognition model. Similarly, the 
+segmentation performance is also reduced by the lighting 
+conditions of images. The most significant segmentation 
+technique for gesture recognition is HMM tools. However, 
+this method takes more computational time. Therefore, there 
+is a need to propose a better segmentation and classification 
+approach for increasing the performance of the “proposed 
+hand gesture recognition” model. It is depicted in Fig. 1.
+The “proposed hand gesture recognition” in HCI is pro-
+posed by applying a new adaptive region-based active con-
+tour segmentation and PNN classification. The designed 
+architecture hand gesture recognition model undergoes the 
+Fig. 1   “proposed hand gesture 
+recognition” model
+
+12039
+Enhanced hand‑gesture recognition by improved beetle swarm optimized probabilistic neural…
+1 3
+following steps: (a)data collection, (b)pre-processing, (c)
+segmentation, (d)feature extraction, and (e)recognition. 
+This model collects the hand gesture images from the 
+standard dataset to process. The collected images are given 
+to the pre-processing phase for removing the noise from 
+the images, which is done by a median filtering approach 
+that intends to improve the results by detecting the edges 
+in an image. It efficiently eliminates the noise without 
+affecting the edges of an image. The pre-processed images 
+are segmented using ARAC, where the constants like 휍 and 
+휗 a maximum number of iteration J of the region-based 
+active contour are optimized (Swamy et al. 2013) using the 
+OSV-BSO algorithm. This segmentation process is a more 
+robust approach for improving the convergence behavior 
+by segmenting the regions. The segmentation considers the 
+multi-objective function concerning with maximization 
+of entropy and minimization of variance. The segmented 
+images are further given to the feature extraction phase 
+for extracting the significant features. It is performed by 
+techniques such as HOG, ORB, and region props. Gen-
+erally, feature extraction aims to reduce the number of 
+resources for describing a huge number of the dataset. All 
+the features are combined and dimensionality reduced by 
+applying the PCA technique. The dimensionality reduced 
+PCA (Huan et al. 2016) features are classified by using 
+PNN, where the weights of PNN are optimized using the 
+OSV-BSO algorithm. Finally, the classified hand gestures 
+are attained by solving the precision maximization.
+3.2  Dataset description
+The “proposed hand gesture recognition” model has col-
+lected the input images from two datasets.
+Dataset 1: It is taken from “https://​www.​kaggle.​com/​
+ayuraj/​ameri​can-​sign-​langu​age-​datas​et: accessed date: 
+2021-01-11”. This dataset consists of 25.3 k images; it also 
+includes images with sign language for alphabets with num-
+bers. Thus, it has 36 columns, where each column includes 
+a varied number of images.
+Dataset 2: It is taken for experimentation with two data-
+sets. It is one of the hand gesture recognition datasets for 
+alphabets, which includes images with sign language for 
+alphabets and gathered from “https://​www.​kaggle.​com/​
+muham​madkh​alid/​sign-​langu​age-​for-​alpha​bets: access 
+date: 2021–01-11”. It has 27 classes and the total number of 
+images are taken as 40,500, where each class includes 1500 
+images. The sign language for numbers is gathered from 
+standard Hand gesture recognition datasets for numbers from 
+the source of “https://​www.​kaggle.​com/​muham​madkh​alid/​
+sign-​langu​age-​for-​numbe​rs/​vaers​ion/1: access date: 2021-
+01-11”. It has a total number of classes of 11 and a total 
+number of images as 16,500, where each class includes 1500 
+Fig. 2   Simulation results for the “proposed hand gesture recognition” model
+
+12040
+	
+A. K. Dubey 
+1 3
+images. Thus, dataset 2 includes a total of 57,000 images for 
+experimentation.
+3.3  Segmentation results
+The sample simulation images of the “proposed hand ges-
+ture recognition” model through ARAC with the OSV-BSO 
+algorithm are given in Fig. 2.
+3.4  Objective model on segmentation 
+and classification
+The “proposed hand gesture recognition” model considers 
+two objective functions that ensure better segmentation and 
+recognition accuracy. The primary objective of the proposed 
+model is to minimize the variance and maximize the entropy 
+of images during ARAC-based segmentation, which is given 
+in Eq. (1):
+Here, the parameter 훼 and a maximum number of itera-
+tion J of the region-based active contour are optimized using 
+the OSV-BSO algorithm. The terms Ent and Var denotes the 
+entropy and variance of images. The entropy is also considered 
+as average information, which is described as the “measure of 
+the degree of randomness in the image”. The Shannon entropy 
+is formulated in Eq. (2):
+Here, the discrete random variable is termed as xd , where 
+xd = {xdij, xd2, ⋯, xdni
+}
+ , the probability of an event xdij is 
+specified as pe(xdij
+)
+ , in which pe ∈[0, 1] . The variance of 
+the image is formulated in Eq. (3):
+In Eq. (3), the term xd is mean and xdij indicates the data 
+vector. The second objective of the “proposed hand gesture 
+recognition” model is the maximization of precision that is 
+shown in Eq. (4):
+Here, the precision is termed as pre , which is “the ratio 
+of positive observations that are predicted exactly to the total 
+(1)
+FF1 = arg min
+{휍,휗,J}
+( 1
+Ent + Var
+)
+.
+(2)
+Ent(xd) = −
+ni
+∑
+ij=1
+pe(xdij
+) log2
+[pe(xdij
+)].
+(3)
+Var = 1
+NI
+NI
+∑
+ij=1
+(
+xdij −xd
+)2
+.
+(4)
+FF2 = arg min
+{WEw}
+(
+1
+pre
+)
+.
+number of observations that are positively predicted” as given 
+in Eq. (5):
+In Eq. (5), terms tpos and f pos indicates true positives and 
+false positives,” respectively.
+4  Hand gesture recognition by adaptive 
+region‑based active contour
+4.1  Image pre‑processing
+The proposed model uses median filtering (Zhu and Huang 
+2012) for preprocessing the hand gesture images, which is 
+the significant pre-processing approach that aims to elimi-
+nate the irrelevant noise from the images. It also recognizes 
+or improves the edges in images. In general, it is a non-
+linear filter for substituting the noisy and neighbor pixels 
+of images. It is sorted by using the gray level of the image. 
+The pre-processed images ImMF(pre) using median filtering 
+are given in Eq. (6):
+Here, the term Q denotes the 2-D mask, where the center 
+value of the mask is referred to as Imip(v, w) , and the original 
+image is considered as Imip(a, b) . This median filter offers 
+better performance than other filtering approaches. Finally, 
+the preprocessed images using median filtering are given 
+as Imip(MF).
+4.2  Adaptive region‑based active contour 
+segmentation
+The preprocessed images using median filtering Imip(MF) are 
+forwarded to the segmentation phase, where a new ARAC 
+approach is utilized with the help of the OSV-BSO algo-
+rithm. This new technique helps in getting suitable and accu-
+rate segmented results by considering the objective as the 
+minimization of the variance and maximization of entropy 
+among segmented and original images.
+Region-based active contour (Pratondo et al. 2017): It 
+is one of the efficient segmentation algorithms, which is 
+also efficient for poorly defined boundaries. This model is 
+implemented by Chan and Vese (Pratondo et al. 2017) that 
+is applied to the matrix for getting the optimal solutions. The 
+solutions converge faster, where a function F(q1, q2, Q) is 
+introduced by Chan and Vese as given in Eq. (7):
+(5)
+pre =
+tpos
+tpos + f pos .
+(6)
+Imip(MF)(a, b) = MF
+{Imip(a −v, b −w)v, w ∈Q
+}
+.
+
+12041
+Enhanced hand‑gesture recognition by improved beetle swarm optimized probabilistic neural…
+1 3
+Here, the energy function can be derived with the input 
+images as the preprocessed images using median filtering 
+Imip(MF) , some of the constants are given as 휍≥0 , 휗≥0 and 
+𝜆1, 𝜆2 > 0 , the evolving curve is given as Q and the values 
+of Imip(MF) inside and outside of Q are represented as q1 and 
+q2 , respectively. Further, the minimization problem can be 
+derived in Eq. (8):
+It can be addressed through the level set approach and 
+implicit representation of curve Q is given as the zero level 
+set of a Lipschitz function 휑(u, v, t) , which is derived in 
+Eq. (9):
+The initial contour is given as 휑(u, v, 0) = 휑0(u, v) 
+for t = 0 , where an artificial time variable is termed as t . 
+Further, a gradient flow is proposed by Chan and Vese as 
+derived in Eq. (10):
+Here, the normal derivative of 휑 - at the boundary is 
+denoted as 𝜕𝜑
+⃗𝜂 , the exterior normal to the boundary is denoted 
+as ⃗𝜂 , a bounded open subset of ℜ2 with its 휕휑 boundary is 
+(7)
+F(q1, q2, Q) = 휍⋅Length(Q) + 휗⋅Area(inside(Q))
++ 휆1 ∫inside(Q)
+|||Imip(MF)(u, v) −q1|||
+2
+dudv
++ 휆2 ∫outside(Q)
+|||Imip(MF)(u, v) −q2|||
+2
+dudv.
+(8)
+inf
+q1,q2,Q F(q1, q2, Q)
+.
+(9)
+Q(t) = {(u, v)|휑(u, v, t) = 0}.
+(10)
+휕휑
+휕t = 훿휀(휑)
+⎡
+⎢
+⎢
+⎢⎣
+휍⋅div
+ ∇휑
+∇휑
+
+−휗−휆1
+Imip(MF) −q1
+2
++휆2
+Imip(MF) −q2
+2
+⎤
+⎥
+⎥
+⎥⎦
+= 0 in
+Ω,
+(11)
+𝛿𝜀(𝜑)
+|∇𝜑|
+𝜕𝜑
+⃗𝜂= 0 on Ω.
+given as Ω and the regularized Dirac function is termed as 
+훿휀 . Moreover, Eq. (11) has several parameters, which have 
+to be tuned appropriately.
+To enhance the performance of segmentation, the param-
+eters 휍 and 휗 , which are constants and a maximum number of 
+iteration J of the region-based active contour are optimized 
+using the OSV-BSO algorithm. The solution encoding of the 
+designed model is given in Fig. 3.
+The parameter 휍 and 휗 a maximum number of iteration J of 
+ARAC are optimized using the OSV-BSO algorithm, where 
+the bounding limits 휍 and 휗 are given as 0.1 to 0.8, respectively. 
+The maximum number of iterations lies among [50, 500]. The 
+segmented images through ARAC are given as Imip(ARAC).
+4.3  Feature extraction
+The segmented images using ARAC are subjected to the fea-
+ture extraction stage to get the optimal features. The designed 
+“hand gesture recognition model” uses the combination of fea-
+ture extraction approaches like HOG (Kobayashi et al. 2008), 
+ORB, and region props. The extracted features are given to the 
+classification stage, where segmented images using region-
+based active contour Imip(ARAC) are given to all the techniques.
+ORB (Aglave and Kolkure 2015): It improves the perfor-
+mance of features with rotation and orientation. It is one of the 
+fast binary descriptors. It is resistant to noise, which works by 
+returning the ORB points for the object that includes informa-
+tion about key points of ORB. The identification of ORB key 
+points is performed from the input images. The extracted fea-
+tures using ORB are denoted as inORB
+fe
+.
+Region props (Yang et al. 2008): It is employed for extract-
+ing the significant features for deciding the objects in the binary 
+image, which is called a pupil. It takes the input as Imip(ARAC) . 
+The “proposed hand gesture recognition “model uses some of 
+the region props techniques like area, centroid, bounding box, 
+orientation, eccentricity, and perimeter. This approach is used 
+for measuring the properties of the image region.
+Area: This property is used for detecting the area of the 
+object, which means the number of pixels on the object.
+Centroid: It is employed for getting the coordinates of the 
+center of mass of the object for determining the center loca-
+tion. It is also denoted by rows and columns.
+Bounding box: It is a simple computational geometry tech-
+nique for computing the homeomorphisms among lattices and 
+shapes. It is invariant to translation, scaling, robust and rotation 
+against noisy shape boundaries. It considers the five steps for 
+splitting the bounding box, where the bounding box is initially 
+computed of a pixel set. The set of vertical slices is subdivided. 
+The bounding box of every resultant pixel group is determined. 
+The horizontal slices of every resultant pixel set are calculated.
+Eccentricity: It is the metric of aspect ratio, which is the 
+ratio of "the length of the major axis to the length of the minor 
+Fig. 3   Solution encoding of segmentation
+
+12042
+	
+A. K. Dubey 
+1 3
+axis." this method can be computed with minimum bounding 
+rectangle approach or principal axes approach.
+5  Proposed OSV‑BSO for enhancing 
+segmentation and classification
+5.1  Proposed OSV‑BSO
+The “proposed hand gesture recognition “model develops a 
+new algorithm called OSV-BSO for the optimization of the 
+parameters 휍 and 휗 , and a maximum number of iteration J 
+in the ARAC segmentation stage and weights of PNN WENW 
+that aims to increase the convergence rate. This new variant 
+of the BSO (Chen et al. 2018) algorithm is inspired by the 
+foraging behavior of beetles along with the formulation of 
+the PSO algorithm.
+A new OSV-BSO algorithm develops a new velocity 
+updating equations by assigning the values for cn1 and cn2 , 
+which is given here. A new velocity updating equation based 
+on best solutions is given in Eq. (12):
+Here, leadership position is given as Zj
+iv and current posi-
+tion of beetles is specified as Yj
+iv and cn1 is formulated in 
+Eq. (13):
+In Eq. (13), the term FFbest is the leading fitness, and 
+the mean of the fitness function is denoted as mean(FF) . 
+Similarly, the velocity updating equation based on the worst 
+fitness solution is equated in Eq. (14):
+In Eq. (14), the terms Zj
+gv and Yj
+gv indicate the worst and 
+current position of beetles and cn2 are given in Eq. (15):
+Here, FFworst is the worst leader function. The pro-
+posed OSV-BSO algorithm works by the random value. If 
+rand < 0.5 , then the position updating is performed with 
+new velocity updating equation using best fitness solutions; 
+or else the position updating is done by new velocity updat-
+ing equation with worst fitness solutions. The flowchart of 
+the proposed OSV-BSO algorithm is given in Fig. 4.
+(12)
+Vej+1
+iv
+= 휔Vej
+iv + cn1
+(
+Zj
+iv −Yj
+iv
+)
+(13)
+cn1 =
+FFbest
+mean(FF).
+(14)
+Vej+1
+iv
+= 휔Vej
+iv + cn2
+(
+Zj
+gv −Yj
+gv
+)
+.
+(15)
+cn2 =
+FFworst
+mean(FF).
+5.2  Optimized PNN‑based recognition
+The “proposed hand gesture recognition “model use PNN 
+(Tuccitto et al. 2019) for the classification of hand gestures 
+by using the relevant features inFe attained from the feature 
+extraction stage. It is insensitive to outliers and faster than 
+the perceptron network. PNN provides diverse features like 
+better avoidance of local minima problems, offers more 
+accuracy, better prediction, faster training, and guarantees 
+improved coverage for an optimal classifier “when the size 
+of the training set” is increased. PNN is provided an accu-
+rate classification with four diverse polymers like "Poly Sty-
+rene (PS), Poly Methyl Meth Acrylate (PMMA), Polyalpha 
+Methyl Styrene (PaMS), and Poly Ethylene Terephthalate-
+Co-Isophthalate (PETi)". Here, PNN includes multiple sub-
+networks, where each sub-network is considered as a pdf 
+estimator for each class. There are four layers in PNN, in 
+which the input layer includes two inputs such as kurtosis 
+and skewness, the second layer has 300 neurons, the third 
+layer offers an average operation of the results from the sec-
+ond layer at each class and the fourth layer consists of five 
+neurons.
+The proposed PNN architecture is given in Fig. 5.
+Start
+Initialize the population 
+and determine fitness
+Determine best and 
+worst leader position
+Compute velocity based 
+on best and worst leader 
+fitness 
+If 
+5.0
+<
+rand
+Update the solutions 
+based on worst leader 
+fitness-based velocity
+Update the solutions 
+based on best leader 
+fitness-based velocity
+Return best 
+solutions 
+End 
+Fig. 4   Flowchart of the proposed OSV-BSO algorithm
+
+12043
+Enhanced hand‑gesture recognition by improved beetle swarm optimized probabilistic neural…
+1 3
+6  Results and discussions
+6.1  Experimental setup
+The “proposed hand gesture recognition” in HCI was imple-
+mented in MATLAB 2020a, and the experimental analy-
+sis was carried out. The proposed model was executed by 
+considering the maximum number of population as 10 and 
+the maximum number of iterations as 25. Here, the perfor-
+mance of the proposed model was analyzed over the existing 
+models concerning performance measures. It was compared 
+with diverse optimization techniques like GWO (Sreedharan 
+et al. 2018), PSO (Bonyadi and Michalewicz 2016), WOA 
+(Mirjalili and Lewis 2016) and BSO (Chen et al. 2018) and 
+traditional classifiers such as DT (Tsang et al. 2011), SVM 
+(Wu and Yang 2015), NN (Wu et al. 2016) and PNN (Tuc-
+citto et al. 2019).
+6.2  Performance measures
+Performance measurement is the process of collecting, 
+analyzing, and/or reporting information regarding the per-
+formance of an individual, group, organization, system, or 
+component. Definitions of performance measurement tend 
+to be predicated upon an assumption about why the per-
+formance is being measured (https://​en.​wikip​edia.​org/​wiki/​
+Perfo​rmance_​measu​rement).
+6.3  Performance analysis on different classifiers
+The performance analysis of the suggested model with 
+diverse classifiers by varying learning percentages is given 
+for dataset 1 and dataset in Figs. 6 and 7, respectively. The 
+performance analysis for dataset 1 is validated here. The 
+accuracy of the proposed OSV-BSO-based PNN is 2%, 1%, 
+3%, and 1% better than DT, SVM, NN, and PNN, respec-
+tively at 35%.
+Likewise, the experimentation results of dataset 2 are also 
+analyzed here. The accuracy of the OSV-BSO-PNN is 2% 
+advanced than DT, 3% advanced than SVM and NN, and 1% 
+advanced than PNN at 45%. Hence, the “proposed hand ges-
+ture recognition” model establishes better performance than 
+conventional techniques with diverse performance metrics.
+6.4  Overall performance analysis for dataset 1
+The comparative analysis of the suggested hand gesture 
+recognition model for dataset 1 is represented in terms of 
+diverse optimization algorithms and classifiers as given in 
+Tables 1 and 2, respectively. The accuracy of the proposed 
+OSV-BSO-PNN is 1%, 0.68%, 0.12%, and 1.3% improved 
+than GWO-PNN, PSO-PNN, WOA-PNN, and BSO-PNN, 
+respectively. Thus, the overall performance analysis of the 
+“proposed hand gesture recognition model” using OSV-
+BSO-PNN for dataset 1 is improved than other traditional 
+approaches.
+6.5  Overall performance analysis for dataset 2
+The performance of the “proposed hand gesture recognition 
+model” for dataset 2 is analyzed with conventional optimiza-
+tion and machine learning approaches, which are given in 
+Tables 3 and 4, respectively. The specificity of the developed 
+OSV-BSO-based PNN is 0.6%, 0.69%, 0.7%, 0.75%, 0.68%, 
+0.8%, 0.66% and 0.8% improved than GWO-PNN, PSO-
+PNN, WOA-PNN, BSO-PNN, DT, SVM, NN and PNN, 
+respectively. Therefore, the performance of the suggested 
+“hand gesture recognition model” using OSV-BSO-based 
+PNN is improved than other conventional approaches.
+6.6  Running time analysis of OSV‑BSO‑PNN
+The running time analysis of the proposed OSV-BSO-PNN 
+model for two datasets is shown in Table 5. From the given 
+Table 5, the OSV-BSO-PNN is attained 36.60%, 8.75%, 
+32.70%, and 48.60% reduced than GWO-PNN, PSO-PNN, 
+WOA-PNN, and BSO-PNN, respectively. Therefore, it is 
+proved that the proposed OSV-BSO-PNN is superior to the 
+other conventional algorithms for all datasets.
+Hidden layer
+Input layer
+Output layer
+Decision layer
+1
+WE
+NW
+WE
+Weight adjustment 
+by Proposed OSV-
+BSO
+2
+WE
+Output class
+Error 
+minimization
+Fig. 5   Proposed optimized PNN for hand gesture recognition
+
+12044
+	
+A. K. Dubey 
+1 3
+7  Conclusion
+This paper has planned to implement an intelligent hand 
+gesture recognition model for HCI. The hand gestures 
+from different benchmark sources were collected, and 
+further, the pre-processing was offered through median 
+filtering. Further, the ARAC method was utilized with the 
+meta-heuristic algorithm for getting superior segmentation 
+Fig. 6   Performance analysis of the proposed hand gesture recognition model with “proposed and conventional machine learning algorithms” for 
+dataset 1 concerned with a accuracy, b sensitivity, c specificity, d precision, e FPR, f FNR, g NPV, h FDR, i F1-score and j MCC
+
+12045
+Enhanced hand‑gesture recognition by improved beetle swarm optimized probabilistic neural…
+1 3
+results. Feature extraction was the next step, where fea-
+tures like HOG, ORB, and Regionprops techniques, which 
+were dimensionality reduced by PCA. With these rele-
+vant features, the recognition phase was performed the 
+optimized PNN through the OSV-BSO algorithm. Through 
+the performance analysis, the accuracy of the proposed 
+OSV-BSO-based PNN was 0.7%, 1.3%, 0.48%, 1.4%, 
+1.1%, 0.96%, 0.78%, and 0.6% superior to GWO-PNN, 
+Fig. 7   Performance analysis of the proposed hand gesture recognition model with “proposed and conventional machine learning algorithms” for 
+dataset 2 concerned with a accuracy, b sensitivity, c specificity, d precision, e FPR, f FNR, g NPV, h FDR, i F1-score and j MCC
+
+12046
+	
+A. K. Dubey 
+1 3
+Table 1   comparative analysis of the designed and traditional “heuristic-based hand gesture recognition” model
+Measures
+GWO-PNN (Sreedharan 
+et al. 2018)
+PSO-PNN (Bonyadi and 
+Michalewicz 2016)
+WOA-PNN (Mirjalili and 
+Lewis 2016)
+BSO-PNN (Chen 
+et al. 2018)
+OSV-BSO-PNN
+Accuracy
+0.97219
+0.97622
+0.98166
+0.97012
+0.98293
+Sensitivity
+0.33228
+0.39135
+0.5026
+0.29954
+0.48394
+Specificity
+0.98939
+0.99069
+0.99057
+0.98968
+0.99696
+Precision
+0.45727
+0.50993
+0.49775
+0.45833
+0.81745
+FPR
+0.010605
+0.009306
+0.009432
+0.010323
+0.003039
+FNR
+0.66772
+0.60865
+0.4974
+0.70046
+0.51606
+NPV
+0.98939
+0.99069
+0.99057
+0.98968
+0.99696
+FDR
+0.54273
+0.49007
+0.50225
+0.54167
+0.18255
+F1-score
+0.38488
+0.44284
+0.50016
+0.3623
+0.60796
+MCC
+0.37597
+0.43485
+0.49083
+0.35596
+0.62146
+Table 2   Comparative analysis 
+of the designed and traditional 
+classifiers-based hand gesture 
+recognition model
+Measures
+DT (Tsang 
+et al. 2011)
+SVM (Wu and 
+Yang 2015)
+NN (Wu et al. 
+2016)
+PNN (Tuccitto 
+et al. 2019)
+OSV-BSO-PNN
+Accuracy
+0.97401
+0.98218
+0.97589
+0.97057
+0.98293
+Sensitivity
+0.33333
+0.52232
+0.36359
+0.29485
+0.48394
+Specificity
+0.99121
+0.99015
+0.9904
+0.99126
+0.99696
+Precision
+0.50447
+0.47859
+0.47298
+0.50826
+0.81745
+FPR
+0.008789
+0.009854
+0.0096
+0.008735
+0.003039
+FNR
+0.66667
+0.47768
+0.63641
+0.70515
+0.51606
+NPV
+0.99121
+0.99015
+0.9904
+0.99126
+0.99696
+FDR
+0.49553
+0.52141
+0.52702
+0.49174
+0.18255
+F1-score
+0.40142
+0.4995
+0.41113
+0.3732
+0.60796
+MCC
+0.39745
+0.49093
+0.40264
+0.37326
+0.62146
+Table 3   Comparative analysis of the proposed and traditional optimization algorithm-based “hand gesture recognition” model
+Measures
+GWO-PNN (Sreedharan 
+et al. 2018)
+PSO-PNN (Bonyadi and 
+Michalewicz 2016)
+WOA-PNN (Mirjalili and 
+Lewis 2016)
+BSO-PNN (Chen 
+et al. 2018)
+OSV-BSO-PNN
+Accuracy
+0.97804
+0.97253
+0.98089
+0.97126
+0.98565
+Sensitivity
+0.40271
+0.31272
+0.46346
+0.31126
+0.52261
+Specificity
+0.99147
+0.99062
+0.99065
+0.99
+0.99749
+Precision
+0.52439
+0.47758
+0.48329
+0.46922
+0.84202
+FPR
+0.008528
+0.009379
+0.009349
+0.009998
+0.002508
+FNR
+0.59729
+0.68728
+0.53654
+0.68874
+0.47739
+NPV
+0.99147
+0.99062
+0.99065
+0.99
+0.99749
+FDR
+0.47561
+0.52242
+0.51671
+0.53078
+0.15798
+F1-score
+0.45556
+0.37796
+0.47317
+0.37426
+0.64493
+MCC
+0.44859
+0.37311
+0.46354
+0.36813
+0.657
+
+12047
+Enhanced hand‑gesture recognition by improved beetle swarm optimized probabilistic neural…
+1 3
+PSO-PNN, WOA-PNN, BSO-PNN, DT, SVM, NN, and 
+PNN, respectively. Finally, the experimental results have 
+verified that the designed model has shown better perfor-
+mance with other comparative methods. Some of the fail-
+ure cases in the proposed model are rotation problem that 
+arises when the hand region is rotated in any direction in 
+the scene. Translation problem arises when the variation of 
+hand positions in different images also leads to an errone-
+ous representation of the features. Accordingly, the scale 
+problem appears when the hand poses have different sizes 
+in the gesture image. In the future, the proposed model can 
+be extended for processing larger-scale datasets by includ-
+ing the hand gesture recognition technology to achieve 
+a very effective shape of the hand, and thus allows the 
+extraction of robust and effective features and also aims to 
+extend this mechanism to a range of disabled users.
+Data availability statement  The data underlying this article are avail-
+able in “https://​www.​kaggle.​com/​ayuraj/​ameri​can-​sign-​langu​age-​
+datas​et:​Access Date: 2021-01-11”. “https://​www.​kaggle.​com/​muham​
+madkh​alid/​sign-​langu​age-​for-​alpha​bets: Access Date: 2021-01-11” and 
+“https://​www.​kaggle.​com/​muham​madkh​alid/​sign-​langu​age-​for-​numbe​
+rs/​vaers​ion/1: Access Date: 2021-01-11”.
+References
+Aglave P, Kolkure VS (2015) Implementation of high-performance 
+feature extraction method using oriented fast and rotated brief 
+algorithm. IJRET Int J Res Eng Technol 04(02):394–397
+Ameur S, Khalifa AB, Bouhlel MS (2020) A novel hybrid bidirectional 
+unidirectional LSTM network for dynamic hand gesture recogni-
+tion with leap motion. Entertain Comput 35:100373
+Bao P, Maqueda AI, del-Blanco CR, García N (2017) Tiny hand gesture 
+recognition without localization via a deep convolutional network. 
+IEEE Trans Consum Electron 63(3):251–257
+Bonyadi MR, Michalewicz Z (2016) Analysis of stability, local con-
+vergence, and transformation sensitivity of a variant of the par-
+ticle swarm optimization algorithm. IEEE Trans Evol Comput 
+20(3):370–385
+Chang X, Nie F, Wang S, Yang Y, Zhou X, Zhang C (2016) Compound 
+rank-k projections for bilinear analysis. IEEE Trans Neural Netw 
+Learn Syst 27(7):1502–1513
+Chen T, Zhu Y, Teng J (2018) Beetle swarm optimisation for solving 
+investment portfolio problems. J Eng 2018(16):1600–1605
+Chen F et al (2019) WristCam: a wearable sensor for hand trajectory 
+gesture recognition and intelligent human–robot interaction. IEEE 
+Sens J 19(19):8441–8451
+Deng M (2020) Robust human gesture recognition by leveraging multi-
+scale feature fusion. Signal Process Image Commun 83:115768
+Duan H, Huang M, Yang Y, Hao J, Chen L (2020) Ambient light-based 
+hand gesture recognition enabled by recurrent neural network. 
+IEEE Access 8:7303–7312
+Hu Y, Wong Y, Dai Q, Kankanhalli M, Geng W, Li X (2019) sEMG-
+based gesture recognition with embedded virtual hand poses and 
+adversarial learning. IEEE Access 7:104108–104120
+Huan G, Li Y, Song Z (2016) A novel robust principal component 
+analysis method for image and video processing. Appl Math 
+61:197–214
+Kang X, Xiang X, Li S, Benediktsson JA (2017) PCA-based edge-
+preserving features for hyperspectral image classification. IEEE 
+Trans Geosci Remote Sens 55(12):7140–7151
+Kılıboz NÇ, Güdükbay U (2015) A hand gesture recognition technique 
+for human–computer interaction. J Vis Commun Image Represent 
+28:97–104
+Table 4   Comparative analysis 
+of the proposed and traditional 
+classifiers-based hand gesture 
+recognition model
+Measures
+DT (Tsang 
+et al. 2011)
+SVM (Wu and 
+Yang 2015)
+NN (Wu et al. 2016)
+PNN (Tuccitto 
+et al. 2019)
+OSV-BSO-PNN
+Accuracy
+0.97475
+0.97621
+0.97796
+0.97939
+0.98565
+Sensitivity
+0.34139
+0.41328
+0.4171
+0.45321
+0.52261
+Specificity
+0.99069
+0.98918
+0.99094
+0.98939
+0.99749
+Precision
+0.47995
+0.46806
+0.5159
+0.44808
+0.84202
+FPR
+0.00931
+0.010821
+0.009061
+0.010609
+0.002508
+FNR
+0.65861
+0.58672
+0.5829
+0.54679
+0.47739
+NPV
+0.99069
+0.98918
+0.99094
+0.98939
+0.99749
+FDR
+0.52005
+0.53194
+0.4841
+0.55192
+0.15798
+F1-score
+0.39898
+0.43897
+0.46127
+0.45063
+0.64493
+MCC
+0.39232
+0.42773
+0.4528
+0.44014
+0.657
+Table 5   Comparative analysis of the proposed and traditional optimization algorithm-based “hand gesture recognition” model
+Algorithms
+GWO-PNN (Sreedharan 
+et al. 2018)
+PSO-PNN (Bonyadi and 
+Michalewicz 2016)
+WOA-PNN (Mirjalili and 
+Lewis 2016)
+BSO-PNN (Chen 
+et al. 2018)
+OSV-BSO-PNN
+Dataset1
+1.6761
+1.3344
+495.31
+1.8234
+1.227
+Dataset2
+1.4715
+1.1935
+44.566
+1.1829
+1.1136
+
+12048
+	
+A. K. Dubey 
+1 3
+Kobayashi T, Hidaka A, Kurita T (2008) Selection of histograms of ori-
+ented gradients features for pedestrian detection. In: International 
+conference on neural information processing, p 498
+Köpüklü O, Gunduz A, Kose N, Rigoll G (2020) Online dynamic hand 
+gesture recognition including efficiency analysis. IEEE Trans 
+Biom Behav Identity Sci 2(2):85–97
+Li Z, Nie F, Chang X, Yang Y, Zhang C, Sebe N (2018) Dynamic 
+affinity graph construction for spectral clustering using multiple 
+features. IEEE Trans Neural Netw Learn Syst 29(12):6323–6332
+Li Z, Yao L, Chang X, Zhan K, Sun J, Zhang H (2019) Zero-shot event 
+detection via event-adaptive concept relevance mining. Pattern 
+Recognit 88:595–603
+Li H, Wu L, Wang H, Han C, Quan W, Zhao J (2020) Hand gesture 
+recognition enhancement based on spatial fuzzy matching in leap 
+motion. IEEE Trans Ind Inf 16(3):1885–1894
+Liu Y, Zhang Y, Zeng M (2018) Novel algorithm for hand gesture 
+recognition utilizing a wrist-worn inertial sensor. IEEE Sens J 
+18(24):10085–10095
+Liu L, Huai Y (2019) Dynamic hand gesture recognition using LMC 
+for flower and plant interaction. Int J Pattern Recognit Artif Intell 
+33(01):1950003
+Lu Z, Chen X, Li Q, Zhang X, Zhou P (2014) A hand gesture recogni-
+tion framework and wearable gesture-based interaction prototype 
+for mobile devices. IEEE Trans Hum Mach Syst 44(2):293–299
+Luo M, Chang X, Nie L, Yang Y, Hauptmann AG, Zheng Q (2018a) 
+An adaptive semisupervised feature analysis for video semantic 
+recognition. IEEE Trans Cybern 48(2):648–660
+Luo M, Nie F, Chang X, Yang Y, Hauptmann AG, Zheng Q (2018b) 
+Adaptive unsupervised feature selection with structure regulariza-
+tion. IEEE Trans Neural Netw Learn Syst 29(4):944–956
+Maqueda AI, del-Blanco CR, Jaureguizar F, García N (2016) Temporal 
+pyramid matching of local binary subpatterns for hand-gesture 
+recognition. IEEE Signal Process Lett 23(8):1037–1041
+Maqueda AI, del-Blanco CR, Jaureguizar F, Garcıa N (2015) Human–
+computer interaction based on visual hand-gesture recognition 
+using volumetric spatiograms of local binary patterns. Comput 
+Vis Image Underst 141:126–137
+Mirjalili S, Lewis A (2016) The whale optimization algorithm. Adv 
+Eng Softw 95:51–56
+Murthy MYB, Koteswararao A, Babu MS (2021) Adaptive fuzzy 
+deformable fusion and optimized CNN with ensemble classifi-
+cation for automated brain tumor diagnosis. Biomed Eng Lett 
+12:37–58
+Ohn-Bar E, Trivedi MM (2014) Hand gesture recognition in real-time 
+for automotive interfaces: a multimodal vision-based approach 
+and evaluations. IEEE Trans Intell Transp Syst 15(6):2368–2377
+Plouffe G, Cretu A (2016) Static and dynamic hand gesture recognition 
+in depth data using dynamic time warping. IEEE Trans Instrum 
+Meas 65(2):305–316
+Pratondo A, Chui C-K, Ong S-H (2017) Integrating machine learning 
+with region-based active contour models in medical image seg-
+mentation. J Vis Commun Image Represent 43:1–9
+Qi J, Jiang G, Li G, Sun Y, Tao B (2019) Intelligent human–computer 
+interaction based on surface EMG gesture recognition. IEEE 
+Access 7:61378–61387
+Rautaray SS, Agrawal A (2015) Vision-based hand gesture recogni-
+tion for human-computer interaction: a survey. Artif Intell Rev 
+43:1–54
+Ren P, Xiao Y, Chang X, Huang P-Y, Li Z, Chen X, Wang X (2021) A 
+comprehensive survey of neural architecture search: challenges 
+and solutions 37(4): 111: 33
+Skaria S, Al-Hourani A, Lech M, Evans RJ (2019) Hand-gesture rec-
+ognition using two-antenna doppler radar with deep convolutional 
+neural networks. IEEE Sens J 19(8):3041–3048
+Song T, Zhao H, Liu Z, Liu H, Hu Y, Sun D (2020) Intelligent human 
+hand gesture recognition by local-global fusing quality-aware fea-
+tures. Future Gener Comput Syst 115:298–303
+Sreedharan NPN, Ganesan B, Raveendran R, Sarala P, Dennis B, 
+Boothalingam RR (2018) Grey Wolf optimization-based feature 
+selection and classification for facial emotion recognition. IET 
+Biom 7(5):490–499
+Su M-C (2000) A fuzzy rule-based approach to Spatio-temporal hand 
+gesture recognition. IEEE Trans Syst Man Cybern 30(2):276–281
+Swamy SM, Rajakumar BR and Valarmathi IR (2013) Design of hybrid 
+wind and photovoltaic power system using opposition-based 
+genetic algorithm with cauchy mutation. In: IET Chennai fourth 
+international conference on sustainable energy and intelligent sys-
+tems (SEISCON 2013)
+Tsai T, Huang C, Zhang K (2020) Design of hand gesture recognition 
+system for human-computer interaction. Multimed Tools Appl 
+79:5989–6007
+Tsang S, Kao B, Yip KY, Ho W, Lee SD (2011) Decision trees for 
+uncertain data. IEEE Trans Knowl Data Eng 23(1):64–78
+Tu P, Huang C (2019) Mechanical arm teleoperation control system by 
+dynamic hand gesture recognition based on kinect device. J Eng 
+2019(23):9110–9113
+Tuccitto N, Bombace A, Torrisi A, Licciardello A, Sciuto GL, Capizzi 
+G, Wozniak M (2019) Probabilistic neural network-based classi-
+fier of ToF-SIMS single-pixel spectra. Chemom Intell Lab Syst 
+191:138–142
+Wu J, Yang H (2015) Linear regression-based efficient SVM learning 
+for large-scale classification. IEEE Trans Neural Netw Learn Syst 
+26(10):2357–2369
+Wu D et al (2016) Deep dynamic neural networks for multimodal ges-
+ture segmentation and recognition. IEEE Trans Pattern Anal Mach 
+Intell 38(8):1583–1597
+Yadav K, Bhattacharya J (2016) Real-time hand gesture detection and 
+recognition for human–computer interaction. Intell Syst Technol 
+Appl 384
+Yang M, Kpalma K, Ronsin J (2008) A survey of shape feature extrac-
+tion techniques. Pattern Recognition. In-Tech, p 43–90
+Yu E, Sun J, Li J, Chang X, Han X-H, Hauptmann AG (2019) Adaptive 
+semi-supervised feature selection for cross-modal retrieval. IEEE 
+Trans Multimed 21(5):1276–1288
+Zhang L, Luo M, Liu J, Chang X, Yang Y, Hauptmann AG (2020) Deep 
+top-k ranking for image-sentence matching. IEEE Trans Multimed 
+22(3):775–785
+Zhihui L, Feiping N, Xiaojun C, Liqiang N, Huaxiang Z, Yi Y (2018) 
+Rank-constrained spectral clustering with flexible embedding. 
+IEEE Trans Neural Netw Learn Syst 29(12):6073–6082
+Zhou R, Chang X, Shi L, Shen Y-D, Yang Y, Nie F (2020) Person rei-
+dentification via multi-feature fusion with adaptive graph learning. 
+IEEE Trans Neural Netw Learn Syst 31(5):1592–1601
+Zhu Y, Huang C (2012) An improved median filtering algorithm for 
+image noise reduction. Phys Proc 25:609–616
+Zhu Y, Xu G (2002) A real-time approach to the spotting, representa-
+tion, and recognition of hand gestures for human-computer inter-
+action. Comput Vis Image Underst 85:189–208
+Publisher's Note  Springer Nature remains neutral with regard to 
+jurisdictional claims in published maps and institutional affiliations.
+

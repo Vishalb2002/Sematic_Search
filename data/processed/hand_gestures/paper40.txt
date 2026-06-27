@@ -1,0 +1,30 @@
+Home
+Papers
+Machine learning approaches to intelligent sign language recognition and classification
+Pricing
+Journal Article
+10.1504/ijsse.2023.131232
+Machine learning approaches to intelligent sign
+language recognition and classification
+Podcast
+Get PDF
+Save
+Cite
+Chat with Paper
+01 Jan 2023 - International Journal of System of Syste...  - Vol. 
+TL;DR: In this paper , the authors used Indian sign language to identify elementary
+sign language gestures in images/videos and compared machine language methods
+to improve the performance of deployed models and achieved a higher accuracy of
+84% and 83% precision compared to decision tree and KNN models.
+Abstract: Sign language is a great visual communication technique for those who
+have auditory or speech impairments. The deaf and dumb people have long relied on
+sign language recognition (SLR) to communicate and integrate into society. This
+research uses Indian Sign Language to identify elementary sign-language gestures in
+images/videos and compares machine language methods. Images are pre-processed
+and feature-extracted to improve the performance of deployed models. The goal is to
+create a system that uses an efficient classifier to deliver reliable hand sign-language
+read more
+Explain Abstract of this paper
+Conclusions from the paper
+Chat
+

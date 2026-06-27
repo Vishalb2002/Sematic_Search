@@ -1,0 +1,1693 @@
+ 
+Vision-Based Human Activity Recognition Utilizing 
+DCNN and Stacked Multi-stage Multimodal Fusion 
+Strategy
+Wenqin Zhu  
+School of Information Engineering 
+Wuhan University of Technology 
+Wuhan, China 
+315535@whut.edu.cn 
+Kun Chen 
+School of Information Engineering                      
+Wuhan University of Technology 
+Wuhan, China 
+kunchen@whut.edu.cn 
+Wei Meng* 
+School of Information Engineering 
+Wuhan University of Technology  
+Wuhan, China 
+weimeng@whut.edu.cn 
+Quan Liu 
+School of Information Engineering 
+Wuhan University of Technology  
+Wuhan, China 
+quanliu@whut.edu.cn 
+Nian Peng 
+School of Information Engineering 
+Wuhan University of Technology 
+Wuhan, China 
+nianpeng@whut.edu.cn 
+Abstract—Human Activity Recognition (HAR) possesses 
+significant potential in pattern recognition, machine learning, 
+wearable computing, computer vision, and notably in 
+rehabilitation assistance. With the ability to automatically track 
+patients' recovery progress, it addresses the issue of insufficient 
+human resources. Presently, improving recognition accuracy 
+hinges on the fusion of multiple information sources like 
+physiological signals, motion sensors, and visual sensors. In this 
+study, a multi-stage multimodal fusion strategy based on 
+stacked integration with Deep Convolutional Neural Network 
+(DCNN) is proposed. Firstly, the inertial sensor and depth 
+sensor data are converted into image data, and the data 
+enhancement method is used to extract edge information using 
+Prewitt, and features are extracted and spliced by the DCNN to 
+realize multimodality at the feature layer. At the decision layer, 
+the two unimodal decisions are fused using the stacking fusion 
+strategy to obtain the final classification decision. The 
+experimental results show that this strategy exhibits significant 
+advantages in human motion recognition, with accuracy rates of 
+99.85% and 99.51% on Kinect V2 and UTD-MHAD datasets, 
+respectively, exceeding the state-of-the-art deep learning 
+methods on the same dataset. 
+Keywords—Sensors Fusion; DCNN; Rehabilitation Robots; 
+Human Activity Recognition 
+I. INTRODUCTION  
+As the diseases' onset age lowers, hemiparesis becomes 
+increasingly common in cardiovascular, cerebrovascular, and 
+neurological conditions[1]. Despite the growing importance 
+of regular rehabilitation, medications and surgery do not fully 
+restore function in hemiplegic patients, and prolonged 
+immobilization can lead to complications.With rehab 
+resources lacking in China, much demand remains unmet, 
+highlighting the relevance of a comprehensive rehabilitation 
+robot system. This system would interpret the user's 
+movement intentions and physical conditions, relay real-time 
+feedback to the controller, and deliver essential assistance. 
+Human motion intention recognition technology within this 
+system optimizes user-robot synergy and comfort. The 
+accuracy of this recognition significantly affects the robot's 
+functionality and user experience, hence studying it bears 
+considerable significance. 
+Current human motion recognition techniques are mainly 
+divided into visual and wearable sensor methods. Visual 
+sensors, located within specific environments, include a 
+variety of cameras like RGB-D, infrared, time-of-flight, 
+multispectral, sprite, and thermal imaging. They recognize 
+activities through pictures or surveillance videos with the help 
+of image and video analysis technologies. The advent of cost-
+effective color depth detection devices, for example, 
+Microsoft Kinect and Asus Xtion-Pro Live RGB-D 
+cameras[2], has eased the acquisition of 3D and depth data. 
+Depth sensor's proficiency for joint tracking has intrigued 
+numerous computer vision researchers. For instance, 
+Patwary[3] used multimodal RGBDT video data and a semi-
+supervised learning algorithm, FSSL-PAR, for bedridden 
+patient activity recognition. The FSSL-PAR algorithm not 
+only effectively recognized patient activities, but also 
+substantially 
+improved 
+the 
+classifier's 
+generalization 
+capability, 
+outperforming 
+other 
+supervised 
+learning 
+algorithms. Batool et al.[4] proposed a K-Ary entropy 
+classifier 
+algorithm 
+based 
+on 
+Probabilistic 
+Boolean 
+Incremental Learning (PBIL). The experiments employed 
+depth data and RGB images of three public datasets, and 
+utilized 2.5D point cloud modeling and ridge extraction 
+techniques to extract full-body features. The results revealed 
+a high accuracy of 95.05%, 95.56%, and 95.08%. While visual 
+sensors recognize movements through image analysis, they 
+face equipment or environment-related challenges. In contrast, 
+wearable sensors, which work well in large spaces and start 
+functioning when the wearer moves, are more flexible and 
+thus commonly used in Human Activity Recognition 
+(HAR).A new strategy was proposed [5] for constructing an 
+information 
+semantic 
+space 
+based 
+on 
+IMU(Inertial 
+Measurement Unit) data for human activity recognition. The 
+experiments incorporated a combination method of video-
+based and word-based semantic spaces to improve the zero-
+shot performance in human activity recognition using IMU 
+data. The results suggested a significant potential in enhancing 
+activity recognition tasks using IMU data, with the aid of 
+videos of human activities and the related models developed 
+in the computer vision space. 
+Systems solely using inertial sensors face limits such as 
+electromechanical delay and random drift interference, which 
+may reduce their precise activity recognition capabilities. 
+Merging various types of sensors, like inertial ones prone to 
+drift, with more resilient ones can offset these issues, 
+*This work was supported in part by the National Natural Science
+Foundation of China under Grant 52275029 and Grant 52075398 and in part
+by the National Key Research and Development Program of China  under
+Grant 2023YFB2603801. 
+Corresponding authors: Wei Meng(weimeng@whut.edu.cn) 
+2024 30th International Conference on Mechatronics and Machine Vision in Practice (M2VIP) | 979-8-3503-9191-6/24/$31.00 ©2024 IEEE | DOI: 10.1109/M2VIP62491.2024.10746168
+Authorized licensed use limited to: Lovely Professional University - Phagwara. Downloaded on April 02,2026 at 14:00:54 UTC from IEEE Xplore.  Restrictions apply. 
+
+enhancing accuracy. Recently, Human Activity Recognition 
+(HAR) using mixed data has become popular, employing 
+techniques such as probability, statistics, machine learning, 
+and especially effective deep learning algorithms for  
+automatic feature representation.In Bangaru[6] et al.'s study, 
+EMG and inertial data were transmitted via Bluetooth from 
+sensors on the arm to the network side, where they were fused 
+and recognized using an ANN artificial neural network model. 
+The model was able to recognize 15 scaffolding worker 
+activities with 94% accuracy, thus providing an effective 
+activity monitoring tool for the construction industry. In the 
+Reference[7],Deep Belief Network (DBN) was applied to 
+wearable sensor-based Chinese Sign Language (CSL) 
+recognition. Experiments were conducted to collect 
+electromyography(EMG), accelerometer, and gyroscope 
+signals from eight participants as they completed 150 word 
+gestures. The results show that feature fusion using network-
+generated features and DBN can achieve an optimal 
+recognition accuracy of 95.1%, which provides a new 
+approach for sensor fusion and CSL recognition.  
+In this study, a fusion strategy grounded on the multi-
+modality concept within the Stacking framework is introduced 
+to explore the advantages of multi-modal fusion in human 
+motion recognition. The primary achievements of the study 
+are outlined below: 
+(1) A deep multimodal stacking fusion framework with a 
+multilevel structure is employed for effective integration of 
+diverse modalities. This ensures the full preservation and 
+utilization of the uniqueness of each modality and enhances 
+motion recognition accuracy. 
+(2) DCNN network model is utilized for data feature 
+extraction and feature stitching experiments on different 
+layers, providing robust support for subsequent multimodal 
+fusion. 
+(3) Experiments on public datasets demonstrate that the 
+proposed stacking multimodal fusion surpasses other 
+algorithms in recognition accuracy, underlining its superior 
+performance. 
+The remainder of the paper includes a detailed explanation 
+of the proposed method, experimental results, and a 
+conclusion. 
+II. METHODS 
+The 
+multimodal 
+motion 
+recognition 
+procedure 
+encompasses three parts: preprocessing of data, extraction of 
+features, and fusion of sensors. Preprocessing involves data 
+enhancement, conversion of sequence data into signal images, 
+and edge feature extraction via Prewitt filters. Deep learning 
+is exploited in the second stage to process sensor data, and 
+concatenate extracted features. The ultimate phase utilizes a 
+layered fusion technique for classification, where two 
+unimodal features are run through a basic classifier and then a 
+meta-classifier to yield the final motion recognition outcomes. 
+A. Data Preprocessing 
+The dataset used throughout the study is derived from the 
+Kinect V2 Dataset public dataset [8].In previous studies, the 
+characteristics of human movement activities are usually 
+extracted from each time-series sensor signal individually by 
+manual means, which often ignores possible correlations 
+between different signals, and the data volume is more 
+dimensional, which makes the processing workload larger. In 
+this study, we first convert the complex multidimensional raw 
+sequence data into more easily processed image data. For the 
+ 
+Fig. 1. The Preprocessing Process of IMU Signal Images 
+ 
+Fig. 2. Jitter Processing of Acceleration Sequences 
+ 
+Fig. 3. Jitter Processing of Gyroscope Sequence 
+ 
+Fig. 4. The Processing of Depth Data Rotation 
+ 
+Fig. 5. Prewitt filtering process for depth data 
+0
+20
+40
+60
+80
+100
+120
+140
+160
+180
+200
+-3
+-2
+-1
+0
+1
+2
+3
+Ax
+Add jitter
+Ay
+Add jitter
+Az
+Add jitter
+0
+20
+40
+60
+80
+100
+120
+140
+160
+180
+200
+-500
+-400
+-300
+-200
+-100
+0
+100
+200
+300
+400
+500
+Gx
+Add jitter
+Gy
+Add jitter
+Gz
+Add jitter
+Authorized licensed use limited to: Lovely Professional University - Phagwara. Downloaded on April 02,2026 at 14:00:54 UTC from IEEE Xplore.  Restrictions apply. 
+
+raw inertial sensor data the method proposed in the literature 
+[9] is used to stack the raw signals row by row in order to form 
+a signal image(Fig.1), and the six sequences of rows are 
+stacked in the following order: 12345613524625141536264, 
+and the length of the sequences is 24. In the signal image, each 
+signal sequence is given a chance to be adjacent to the other 
+sequences adjacent to each other in order to train the network 
+to be able to obtain the correlation of channels adjacent to each 
+other. The frequency of the acquired data is 50 HZ, and the 
+length of the signal image is determined as 52 to get the final 
+image size of 24x52. For the depth data, since the original data 
+is a three-dimensional sequence data, the third dimension data 
+represents the number of frames of the converted image, and 
+the first two dimensions represent the height-width pixel 
+values of the image, which can be converted into a two-
+dimensional image by layer-by-layer extraction. 
+For the obtained image data, we apply Prewitt filtering to 
+obtain  image data that can reflect edge features(Fig.5). This 
+is beneficial as these features can be complementary and 
+distinctive during the subsequent feature extraction phase. 
+Considering the limited dataset and interference in signal 
+acquisition, we augment the depth sensor and IMU sensor data 
+to optimize the DCNN model training. For the depth sensor 
+image data(Fig.4), we use rotation for data enhancement to 
+accommodate environmental instabilities such as sensor 
+inversion. For inertial sensor data(Fig.2 and Fig.3), we use a 
+dithering strategy to introduce tiny random noise, including 
+adding a certain amount of noise to the sensor readings and 
+Gaussian noise, thus improving the model's resistance to 
+interference. 
+B. Single-Modality Feature Extraction  
+1)  Establishment and Training of DCNN Model 
+DCNN is a traditional CNN(Convolutional Neural 
+Network) that adds depth to the network. This means that 
+DCNNs are able to extract and learn more complex and deeper 
+features. Deeper neural networks typically have better 
+performance for solving complex tasks, but also require 
+greater computational resources and more sophisticated 
+training strategies. 
+The architecture of the DCNN utilized in this study, 
+illustrated in Fig.7, fundamentally consists of four 
+convolutional layers, four pooling layers, and two dense 
+layers.The number of kernel filters in each convolutional layer 
+is sequential: 32, 64, 64, and 128, and the size of each filter is 
+3x3. After every convolutional layer, we have set a Rectified 
+Linear Unit(ReLU) activation function layer and a Batch 
+Normalization layer, followed by a pooling layer with a 2x2 
+kernel and a stride of 2. Batch Normalization's inclusion 
+expedites model training, standardizes input layer data, 
+improves layer-specific parameter learning, and accelerates 
+network learning. After the pooling layers, we added two fully 
+connected layers: one with 256 neurons and the other with the 
+same number as the activity types in the dataset.The first layer 
+maps high-level features into 256-dimensional space, while 
+the second maps these to the output space. A softmax 
+activation layer then generates category scores and classifies 
+results. ReLU is used in training for input and hidden layers, 
+addressing the vanishing gradient issue better than sigmoid 
+and tanh. These enhancements boost the DCNN model's 
+classification accuracy. 
+2) Feature concatenation 
+In the context of neural network applications, feature 
+fusion typically involves extracting feature vectors from 
+various layers or regions within the network. These vectors are 
+then assembled to compile a more comprehensive feature 
+vector. In the section related to feature concatenation, our 
+main task focuses on the processing of feature data extracted 
+via the DCNN. Firstly, attention is given to the Inertial 
+Measurement Unit (IMU) data, which is either processed with 
+ 
+Fig. 6. 
+Multimodal Stacking Fusion Framework 
+ 
+Fig. 7. 
+DCNN Network Structure Diagram 
+Authorized licensed use limited to: Lovely Professional University - Phagwara. Downloaded on April 02,2026 at 14:00:54 UTC from IEEE Xplore.  Restrictions apply. 
+
+Prewitt filtering or left unprocessed. Secondly, depth data, 
+either subjected to Prewitt filtering or left unprocessed, is also 
+dealt with. 
+In DCNN, determining which layers of features should be 
+fused is a critical step. Since the fusion of higher-level features 
+helps to obtain more representative and descriptive features, 
+we consider selecting from two fully connected layers for 
+feature extraction and splicing. In addition, the Pearson 
+correlation coefficient is used to evaluate and select the 
+selected network layers with the following formula: 
+ 
+corr(X,Y) =  cov(X,Y)/(std(X)*std(Y)) 
+(1) 
+X and Y are fully connected layer features of a single 
+modality, std(X) and std(Y) denote the standard deviation of 
+X and Y, and cov(X, Y)is their covariance. Correlation 
+coefficients with absolute values greater than 0.7, less than 0.3,  
+or in between represent strong, weak, or moderate associations 
+of the features, respectively. 
+C. Multi-modal Fusion for Action Recognition 
+This study proposes a deep multi-level feature fusion 
+framework (Figure 6). The framework uses independent 
+convolutional neural networks to process different modalities 
+of data and employs multi-branch single-modal data 
+concatenation to obtain more complementary features, 
+thereby improving classification accuracy. Additionally, it 
+utilizes a stack-based fusion strategy for multimodal fusion. 
+This strategy includes two types of models: base models and 
+meta-models. In this experiment, Random Forest, Support 
+Vector Machine (SVM), and k-nearest Neighbors (KNN) are 
+selected as meta-models because they have been proven to 
+produce 
+excellent 
+overall 
+performance 
+in 
+other 
+experiments[10], and their performance in HAR tasks 
+surpasses other classifiers. Specifically, we perform separate 
+dual-branch processing for the depth dataset and the inertial 
+sensor dataset, each using a neural network trained with a 
+DCNN model. In one branch, we first utilize Prewitt filters for 
+edge detection processing, then incorporate data enhancement 
+techniques such as rotation and perturbation to augment the 
+data and improve the robustness and generalization of the 
+model, and finally feed the processed data into the network. 
+Finally, the features obtained from the training of the two 
+branches are spliced. Similarly, the inertial sensor dataset is 
+processed in the same way. Subsequently, we perform 
+classification prediction on the spliced deep features and 
+inertial sensor features by the base model, respectively. 
+Eventually, the predictions are fed into a meta-classifier to 
+produce the final prediction.  
+III. EXPERIMENTS 
+A. Experimental Setup 
+The Kinect V2 action dataset used in the experiments is a 
+publicly available dataset containing depth and inertial sensor 
+data. The dataset consists of 10 actions performed by 6 
+subjects, with each subject repeating the action 5 times. The 
+labels of these 10 actions can be known from the horizontal 
+and vertical coordinates in the Fig12. In the experiment, we 
+randomly divide the dataset into training data and test data in 
+a 9:1 ratio. This ensures there is sufficient data for the model 
+to learn various patterns and features, while also providing 
+enough data for a preliminary estimate of model performance. 
+Since the IMU sensor data is relatively homogeneous with 
+insufficient features and a small amount of data, the IMU 
+sequences are converted to images and processed using 
+dithered data enhancement methods to prevent overfitting. 
+Similarly, in order to increase the generalization ability of the 
+trained model, the depth sensor data is processed using rotated 
+data enhancement techniques. In addition, to generate 
+additional features, we use Prewitt edge detection filtering for 
+both IMU and depth data, which enriches the spliced features 
+and contributes to the subsequent multimodal fusion 
+classification accuracy.The platform used for the experiments 
+is MATLAB 2020b, and the hardware resource is GPU. 
+B. Experiment Evaluation 
+1)  Single-modal Feature Recognition Experiment 
+We utilize the depth data and IMU data preprocessed from 
+the previous section, which includes both data sets that have 
+and have not undergone Prewitt filtering. By conducting 
+ 
+Fig. 8. visualization diagram of depth features in the fully connected 
+layer of the trained DCNN 
+ 
+Fig. 9. comparison of feature correlation between fc1 and fc2 Layers 
+-60
+-40
+-20
+0
+20
+40
+60
+-60
+-40
+-20
+0
+20
+40
+60
+t-SNE of Fully Connected Layer Outputs
+Hand Clap
+Right Hand Catch
+Right Hand Draw Circle
+Right Hand Draw Tick
+Right Hand Draw X
+Right Hand Forward Punch
+Right Hand Hammer
+Right Hand High Throw
+Right Hand High Wave
+Right Hand Horizontal Wave
+ 
+Fig. 10. visualization diagram of IMU features in the fully 
+connected layer of the trained DCNN  
+TABLE I.  
+EVALUATION INDICATORS FOR THE 
+COMBINATION OF THREE CLASSIFIERS 
+ 
+Accuracy 
+Precision 
+recall 
+F1-
+score 
+Combination1  
+99.85% 
+99.85% 
+99.85% 
+99.85% 
+Combination2 
+96.42% 
+96.59% 
+96.60% 
+96.59% 
+Combination3 
+96.14% 
+96.40% 
+96.38% 
+96.39% 
+-10
+-5
+0
+5
+10
+15
+20
+-15
+-10
+-5
+0
+5
+10
+15
+t-SNE of Fully Connected Layer Outputs
+Hand clap
+Right hand catch
+Right hand draw X
+Right hand draw circle
+Right hand draw tick
+Right hand forward punch
+Right hand hammer
+Right hand high throw
+Right hand high wave
+Right hand horizontal wave
+Authorized licensed use limited to: Lovely Professional University - Phagwara. Downloaded on April 02,2026 at 14:00:54 UTC from IEEE Xplore.  Restrictions apply. 
+
+training on the single sensor data using a neural network 
+model, we are able to carry out feature extraction.  
+In this experiment, we explore the optimal training 
+parameters for the DCNN network. The corresponding 
+parameters are as follows: we employ Stochastic Gradient 
+Descent with Momentum(SGDM) as the optimizer, and set 
+the momentum parameter to 0.9. L2 regularization is chosen  
+as the regularization method. For depth sensor data, the weight 
+is set to 0.004, and for IMU data, it is set to 0.02 to prevent 
+overfitting. We set the initial learning rate for depth sensor 
+data training at 0.005, and for IMU data, it is set at 0.001. For 
+IMU data training, the minimum batch size is set at 32, and  
+for depth sensor data, it is set at 64. Training will be stopped 
+early if the validation loss plateaus(patience=5). 
+In order to demonstrate more intuitively the performance 
+of DCNN networks on feature classification, we visualize the 
+fully connected layer neuron features using t-distributed 
+Stochastic Neighbor Embedding(t-SNE)[11].Fig.8 and Fig.10 
+illustrate the distribution of features of different behavioral 
+categories, identified by different colors, in the feature space. 
+TABLE II.  
+COMPARISON OF RECOGNITION ACCURACY OF DIFFERENT 
+MODALITY COMBINATION MODELS 
+Previous methods 
+Data 
+Accuracy(%) 
+Chen et al. [12] 
+Kinect V2 
+98.3 
+Bulbul et al. [13] 
+UTD-
+MHAD 
+88.4 
+N.Dawar et al. [14] 
+UTD-
+MHAD 
+92.8 
+Mahjoub et al. [15] 
+UTD-
+MHAD 
+98.4 
+Performance of our methods 
+IMU 
+Kinect V2 
+73.83 
+IMU+ Augmentation 
+Kinect V2 
+94.02 
+IMU+ Augmentation+Prewitt+ 
+Concatenation 
+Kinect V2 
+94.80 
+Depth 
+Kinect V2 
+96.24 
+Depth+ Augmentation 
+Kinect V2 
+97.26 
+Depth+ Augmentation+Prewitt+ 
+Concatenation 
+Kinect V2 
+98.38 
+Stacking 
+Kinect V2 
+99.85(17ms) 
+Stacking 
+UTD-
+MHAD 
+99.51(27ms) 
+ 
+Features of the same class of behavior are clustered 
+together, while those of different categories are relatively 
+separate. The occasional points far away from the same color 
+and close to different colors may be instances of model 
+misclassification.For data of two modalities, the features of 
+different behaviors extracted by the DCNN network can be 
+better distinguished, with very few overlaps of points of 
+different colors. This suggests that the DCNN network is 
+effective in feature extraction. 
+In MATLAB, the function corrcoef, which computes 
+thePearson correlation coefficient, is used to calculate the 
+correlation between the Prewitt filter signal features used for 
+the concatenation of layers fc1 and fc2 and the signal features 
+that have not been filtered. The experimental results are shown 
+in Fig.9. As can be inferred from the data in the figures and 
+tables, whether for Depth data or IMU data, the correlation of 
+the concatenated signal features in the fc1 layer is smaller, 
+thus layer fc1 is more suitable for extracting concatenated 
+features. 
+2)  Comparative Experiment on Different Classifier 
+Combinations 
+In the selection of classifiers, this experiment uses SVM, 
+KNN and Random Forest as either meta-classifiers or base 
+classifiers. The goal is to compare the recognition accuracy 
+under different classifier combinations and thus select the 
+optimal scheme. The experiment initially applies KNN, SVM, 
+and Random Forest classifiers for single-modal feature 
+classification. As per the experimental results, the KNN 
+classifier exhibits the best recognition effect for IMU features, 
+reaching up to 94.8%. The SVM classifier excels in 
+recognizing Depth features, achieving 98.31%, but its 
+performance on IMU features is subpar. Conversely, the 
+Random Forest classifier performs well on both Depth and 
+IMU features, with classification accuracy rates hitting 88.9% 
+and 97.87%, respectively. 
+Considering the classification effect of the above 
+unimodal features, the following three main combination 
+schemes are considered for the classifier of multimodal fusion 
+for Stacking: 
+• Combination 1: KNN is used for IMU features, SVM 
+is used for Depth features, and Random Forest is used 
+as the meta-classifier. 
+• 
+Combination 2: KNN is used for both IMU and Depth 
+features, and Random Forest is used as the meta-
+classifier. 
+• 
+Combination 3: Random Forest is used for IMU 
+features, SVM is used for Depth features, and KNN is 
+used as the meta-classifier. 
+As shown in the figure, the confusion matrix of 
+Combination 1 (Fig.11) for the recognition of ten kinds of 
+movements has the largest values on the diagonal, 
+representing the maximum number of positive instances and 
+the highest accuracy of motion recognition, reaching 99.71%. 
+Furthermore, in the comparative charts(Table Ⅰ) for accuracy, 
+ 
+Fig. 12. confusion matrix of human motion recognition obtained through 
+stacking fusion strategy on Kinect V2 dataset 
+1.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.997
+0.000
+0.000
+0.000
+0.000
+0.000
+0.003
+0.000
+0.000
+0.000
+0.000
+0.997
+0.000
+0.000
+0.000
+0.000
+0.003
+0.000
+0.000
+0.000
+0.000
+0.000
+1.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.003
+0.000
+0.000
+0.997
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+1.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+1.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.003
+0.000
+0.000
+0.000
+0.000
+0.997
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.998
+0.002
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.001
+0.999
+Hand Clap
+Right Hand Catch
+Right Hand Draw Circle
+Right Hand Draw Tick
+Right Hand Draw X
+Right Hand Forward Punch
+Right Hand Hammer
+Right Hand High Throw
+Right Hand High Wave
+Right Hand Horizontal Wave
+Predit label
+Hand Clap
+Right Hand Catch
+Right Hand Draw Circle
+Right Hand Draw Tick
+Right Hand Draw X
+Right Hand Forward Punch
+Right Hand Hammer
+Right Hand High Throw
+Right Hand High Wave
+Right Hand Horizontal Wave
+True label
+0
+0.1
+0.2
+0.3
+0.4
+0.5
+0.6
+0.7
+0.8
+0.9
+1
+Fig. 11. confusion matrix of human motion recognition obtained through 
+stacking fusion strategy on UTD-MHAD dataset 
+1.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.002
+0.998
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.998
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.002
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.993
+0.000
+0.002
+0.002
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.002
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.001
+0.000
+0.000
+0.996
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.002
+0.001
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.998
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.002
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.991
+0.000
+0.000
+0.000
+0.002
+0.001
+0.000
+0.001
+0.000
+0.000
+0.000
+0.001
+0.001
+0.000
+0.000
+0.000
+0.000
+0.001
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+1.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.002
+0.000
+0.000
+0.000
+0.000
+0.993
+0.000
+0.000
+0.000
+0.000
+0.002
+0.000
+0.000
+0.000
+0.000
+0.002
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+1.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.002
+0.000
+0.000
+0.000
+0.000
+0.001
+0.000
+0.000
+0.994
+0.000
+0.000
+0.000
+0.000
+0.001
+0.000
+0.000
+0.000
+0.000
+0.002
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.001
+0.002
+0.997
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.999
+0.000
+0.001
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.002
+0.000
+0.000
+0.000
+0.998
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.001
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.990
+0.002
+0.000
+0.001
+0.003
+0.000
+0.000
+0.000
+0.002
+0.002
+0.000
+0.000
+0.000
+0.000
+0.000
+0.002
+0.000
+0.002
+0.000
+0.000
+0.000
+0.002
+0.000
+0.000
+0.001
+0.000
+0.001
+0.001
+0.986
+0.000
+0.001
+0.000
+0.000
+0.000
+0.000
+0.002
+0.000
+0.003
+0.001
+0.000
+0.000
+0.000
+0.000
+0.001
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.001
+0.995
+0.000
+0.000
+0.000
+0.000
+0.000
+0.002
+0.000
+0.000
+0.000
+0.000
+0.003
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.001
+0.000
+0.000
+0.992
+0.001
+0.001
+0.000
+0.000
+0.001
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.003
+0.001
+0.000
+0.003
+0.992
+0.001
+0.001
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.003
+0.001
+0.000
+0.004
+0.000
+0.992
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.002
+0.000
+0.000
+0.002
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.995
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+1.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.001
+0.000
+0.000
+0.000
+0.000
+0.000
+0.001
+0.000
+0.000
+0.000
+0.005
+0.000
+0.001
+0.000
+0.000
+0.000
+0.000
+0.987
+0.000
+0.004
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.002
+0.000
+0.000
+0.000
+0.000
+0.002
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.002
+0.000
+0.000
+0.993
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.002
+0.000
+0.000
+0.000
+0.000
+0.002
+0.000
+0.000
+0.000
+0.995
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.001
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.001
+0.000
+0.002
+0.000
+0.000
+0.000
+0.000
+0.000
+0.996
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+1.000
+Arm cross
+Arm curl
+Baseball swing
+Basketball shoot
+Bowling
+Boxing
+Catch
+Clap
+Draw X
+Draw circle clockwise
+Draw circle counter closkwise
+Draw triangle
+Jog
+Knock
+Lunge
+Pickuo and throw
+Push
+Sit to stand
+Squat
+Stand to sit
+Swipe left
+Swipe right
+Tennis serve
+Tennis swing
+Throw
+Walk
+Wave
+Predit label
+Arm cross
+Arm curl
+Baseball swing
+Basketball shoot
+Bowling
+Boxing
+Catch
+Clap
+Draw X
+Draw circle clockwise
+Draw circle counter closkwise
+Draw triangle
+Jog
+Knock
+Lunge
+Pickuo and throw
+Push
+Sit to stand
+Squat
+Stand to sit
+Swipe left
+Swipe right
+Tennis serve
+Tennis swing
+Throw
+Walk
+Wave
+True label
+Authorized licensed use limited to: Lovely Professional University - Phagwara. Downloaded on April 02,2026 at 14:00:54 UTC from IEEE Xplore.  Restrictions apply. 
+
+recall, precision, and F1-score, it can be seen that all 
+evaluation indicators of Combination 1 are slightly higher 
+than the other two combinations. Therefore, Combination 1 
+has the optimal activity recognition effect. Therefore, this 
+study adopts a multi-modal fusion strategy with the first 
+combination. 
+3)  Comparison Experiment of Multi-modal and Single-
+modal Recognition 
+The main objective of this section is to explore the 
+differences in feature recognition between multi-modal and 
+single-modal approaches. The experiment compares the 
+recognition accuracy on IMU and depth sensor data and tests 
+the effects of data augmentation and Prewitt features 
+concatenation in improving recognition accuracy. At the same 
+time, it observes and compares whether data fusion could 
+further improve the accuracy of recognition. In order to further 
+verify the robustness of the algorithm, other datasets are used 
+for validation, and comparisons are made with past studies 
+that used the same datasets for human motion recognition. 
+From the experimental results(Table Ⅱ), it can be seen that 
+for the Kinect V2 dataset, the recognition accuracy of our 
+proposed unimodal training model is 73.83% on a single IMU 
+data.When data enhancement is performed on the IMU data, 
+the model recognition accuracy is improved to 94.02%.After 
+using data enhancement, splicing preprocessing technique, 
+and the KNN classifier, the recognition accuracy of the IMU 
+data is further improved to 94.8%. Our proposed unimodal 
+training model on single-depth sensor data has a recognition 
+accuracy of 96.24%. When the depth data is subjected to data 
+augmentation, the recognition accuracy improves to 97.26%. 
+after using data augmentation, splicing preprocessing 
+technique, and SVM classifier, the recognition accuracy of the 
+depth data further improves to 98.38%. Finally, after 
+performing our proposed Stacking multi-sensor fusion model 
+on the entire dataset, the recognition accuracy is further 
+improved to 99.85%. 
+To verify the effectiveness of the model, we applied our 
+proposed Stacking multi-modal fusion framework to the 
+UTD-MHAD[16] dataset. The final classification recognition 
+accuracy was 99.51%, and the resulting classification 
+confusion matrix is shown in Fig.12. The table presents the 
+fusion framework's inference rates for two datasets in 
+microseconds(ms), indicating the time required for the 
+classifier to process each test sample. 
+This experiment demonstrates the considerable advantage 
+of the proposed multimodal recognition framework in 
+accuracy, in comparison to unimodal recognition. The 
+addition of data augmentation and feature concatenation 
+techniques further strengthens the framework's recognition 
+accuracy. Notably, this framework surpasses the accuracy of 
+its predecessor, marking a substantial enhancement. 
+IV. CONCLUSION 
+In this paper, we innovatively propose a human motion 
+recognition method using a deep multimodal stacked 
+integrated fusion framework, where the raw sequence data of 
+KinectV2 is converted into images and the model is optimized 
+by data augmentation and the addition of Prewitt filtering 
+features.A DCNN network model is used to extract and fuse 
+features from preprocessed unimodal data. Experimental 
+results clearly show that our model exhibits high efficiency in 
+extracting discriminative features. Our chosen stacking fusion 
+strategy uses SVM, KNN, and Random Forest as fusion 
+classifiers, and different combinations of classifiers were 
+evaluated to determine the optimal model. Subsequently, we 
+perform performance tests on the KinectV2 and UTD-MHAD 
+datasets. The results show that for the same dataset, the 
+recognition accuracy of our proposed Stacking multimodal 
+fusion exceeds that of other algorithms, highlighting the 
+superior performance of our approach. 
+REFERENCES 
+[1] M. Narasimhan, R. Schwartz, and G. Halliday, "Parkinsonism and 
+cerebrovascular disease," Journal of the Neurological Sciences, vol. 
+433, p. 120011, 2022/02/15/ 2022. 
+[2] S. K. Yadav, K. Tiwari, H. M. Pandey, and A. A. Shaikh, "A Review 
+of Multimodal Human Activity Recognition with Special Emphasis on 
+Classification, Applications, Challenges and Future Directions," 
+Knowledge-based Systems, vol. 223, p. 106970, 2021. 
+[3] M. J. A. Patwary, W. Cao, X.-Z. Wang, and M. A. Haque, "Fuzziness 
+Based Semi-supervised Multimodal Learning for Patient’s Activity 
+Recognition Using RGBDT Videos," Applied Soft Computing, vol. 
+120, p. 108655, 2022/05/01/ 2022. 
+[4] M. Batool et al., "Depth Sensors-Based Action Recognition Using a 
+Modified K-Ary Entropy Classifier," IEEE Access, vol. 11, pp. 58578-
+58595, 2023. 
+[5] C. Tong, J. Ge, and N. D. Lane, "Zero-Shot Learning for IMU-Based 
+Activity Recognition Using Video Embeddings," Proc. ACM Interact. 
+Mob. Wearable Ubiquitous Technol, vol. 5, no. 4 p. 180, 2022. 
+[6] S. S. Bangaru, C. Wang, S. A. Busam, and F. Aghazadeh, "ANN-based 
+Automated Scaffold Builder Activity Recognition through Wearable 
+EMG and IMU Sensors," Automation in Construction, vol. 126, p. 
+103653, 2021/06/01/ 2021. 
+[7] Y. Yu, X. Chen, S. Cao, X. Zhang, and X. Chen, "Exploration of 
+Chinese Sign Language Recognition Using Wearable Sensors Based 
+on Deep Belief Net," (in eng), IEEE J Biomed Health Inform, vol. 24, 
+no. 5, pp. 1310-1320, May 2020. 
+[8] "Kinect2d dataset. [Online]. Available: http://www.utdallas.edu/ ∼
+kehtar/Kinect2DatasetReadme.pdf." 
+[9] Z. Ahmad and N. Khan, "Inertial Sensor Data to Image Encoding for 
+Human Action Recognition," IEEE Sensors Journal, vol. 21, no. 9, pp. 
+10978-10988, 2021. 
+[10] E. Garcia-Ceja, C. E. Galván-Tejada, and R. Brena, "Multi-view 
+stacking for activity recognition with sound and accelerometer data," 
+Information Fusion, vol. 40, pp. 45-56, 2018/03/01/ 2018. 
+[11] J. Huang, S. Lin, N. Wang, G. Dai, Y. Xie, and J. Zhou, "TSE-CNN: 
+A Two-Stage End-to-End CNN for Human Activity Recognition," 
+IEEE Journal of Biomedical and Health Informatics, vol. 24, no. 1, pp. 
+292-299, 2020. 
+[12] C. Chen, R. Jafari, and N. Kehtarnavaz, "Fusion of Depth, Skeleton, 
+and Inertial Data for Human Action Recognition," in 2016 IEEE 
+International Conference on Acoustics, Speech and Signal Processing 
+(ICASSP), Shanghai, China, 2016, pp. 2712-2716, IEEE, 2016. 
+[13] M. F. Bulbul, Y. Jiang, and J. Ma, "DMMs-Based Multiple Features 
+Fusion for Human Action Recognition," vol. 6, no. 4 %J Int. J. 
+Multimed. Data Eng. Manag., pp. 23–39, 2015. 
+[14] N. Dawar and N. Kehtarnavaz, "Action Detection and Recognition in 
+Continuous Action Streams by Deep Learning-Based Sensing Fusion," 
+IEEE Sensors Journal, vol. 18, no. 23, pp. 9660-9668, 2018. 
+[15] A. Ben Mahjoub and M. Atri, "An efficient end-to-end deep learning 
+architecture for activity classification," Analog Integrated Circuits and 
+Signal Processing, vol. 99, no. 1, pp. 23-32, 2019/04/01 2019. 
+[16] C. Chen, R. Jafari, and N. Kehtarnavaz, "UTD-MHAD: A multimodal 
+dataset for human action recognition utilizing a depth camera and a 
+wearable inertial sensor," in 2015 IEEE International Conference on 
+Image Processing (ICIP), 2015, pp. 168-172. 
+ 
+ 
+Authorized licensed use limited to: Lovely Professional University - Phagwara. Downloaded on April 02,2026 at 14:00:54 UTC from IEEE Xplore.  Restrictions apply. 
+

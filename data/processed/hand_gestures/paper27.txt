@@ -1,0 +1,652 @@
+Dynamic Hand Gesture Recognition 
+Subash Chandra Bose Jaganathan1  
+School of Computing Science and 
+Engineering 
+VIT Bhopal University 
+Bhopal-Indore Highway, Kothrikalan, 
+Sehore, Madhya Pradesh – 466114. 
+https://orcid.org/0000-0003-2497-1621 
+Krishna Basak4 
+School of Computing Science and 
+Engineering 
+VIT Bhopal University 
+Bhopal-Indore Highway, Kothrikalan, 
+Sehore, Madhya Pradesh – 466114. 
+i.krbasak@gmail.com
+Kesavan R2 
+School of Computing Science and 
+Engineering 
+VIT Bhopal University 
+Bhopal-Indore Highway, Kothrikalan, 
+Sehore, Madhya Pradesh – 466114. 
+kesavanraman.official@gmail.com 
+Shinjan Verma5 
+School of Computing Science and 
+Engineering 
+VIT Bhopal University 
+Bhopal-Indore Highway, Kothrikalan, 
+Sehore, Madhya Pradesh – 466114. 
+verma.shinjan3701@gmail.com
+Thevaprakash P3 
+School of Computing Science and 
+Engineering 
+VIT Bhopal University 
+Bhopal-Indore Highway, Kothrikalan, 
+Sehore, Madhya Pradesh – 466114. 
+thevaprakashp@gmail.com 
+Anisha Mital6 
+School of Computing Science and 
+Engineering 
+VIT Bhopal University 
+Bhopal-Indore Highway, Kothrikalan, 
+Sehore, Madhya Pradesh – 466114. 
+mital.anisha11@gmail.com  
+Abstract— Gestures were most likely utilised by our 
+ancestors to communicate. Armstrong once stated that he 
+believes movements using the hands were the earliest form of 
+complex human communication. The beginning stage of human 
+computer Interactions is a gesture recognition system. Here, we 
+have designed a Dynamic Hand Gesture Recognition (HGR) 
+System using a Neural Network, which can recognize the gesture 
+using the Computer or Laptop's Web Camera and do the 
+corresponding tasks. The model has been divided into mainly 
+three modules. Firstly, Module 1 is about building a CNN model 
+which we use to predict the gestures. Our second module is 
+about predicting the gesture through live video feed. The final 
+module is about assigning a specified task for a particular 
+predicted gesture. For the predicted gesture, we use PyAutoGUI 
+module to control devices like mouse and keyboard. Finally, the 
+system is made to do some desired tasks in response to the 
+gestures and obtains 99.84% of accuracy. 
+Keywords— Hand gestures, CNN, System Control, Hand 
+gesture recognition, PyAutoGUI 
+I.
+INTRODUCTION
+Gesture Recognition is an important and active field of 
+Computer Vision. Gestures can be Static or Dynamic 
+(Motion), but direct use of the hand can be a more attractive 
+and natural way of conveying the meaning to the humans and 
+computer. But it also depends on the speed of motion and 
+latency. Gesture recognition has several uses in human-
+computer interaction, sign language communication, video 
+surveillance, 
+dance/video 
+annotations 
+and 
+forensic 
+identification. This paper is motivated from the problem that 
+is faced by deaf and mute people that is prevailing for a long 
+period. It eliminates the direct use of hands in public places 
+especially during a pandemic situation like this. So, building 
+and designing a system which can detect the gestures and can 
+be widely used for delivering the information or controlling 
+the devices. The introduction to the techniques that we use in 
+this paper are as follows. We will use a database of images 
+that represent the gestures and make a Convolutional Neural 
+Network model, then train the model to classify the images 
+based on the gestures from the database. The next step is to 
+use the trained model to predict the gestures from real time 
+live video feed. Finally, we assign some tasks to perform 
+based on the predicted gestures. There are many applications 
+where hand gestures can be used for interaction such as video 
+games. These hand gestures can also be used by handicapped 
+people to interact with the systems. Classical interaction tools 
+like keyboard, mouse, touchscreen, etc. may limit the way we 
+use the system. 
+The purpose of this research is to apply transfer learning 
+to develop several CNN models that can detect diverse real-
+time hand motions. Gestures can interpret the same 
+functionality without physically interacting with the 
+interfacing devices. The problem lies in understanding these 
+gestures, as for different people, the same gesture may look 
+different for performing the same task. This problem may be 
+solved by the use of Deep Learning approaches. Convolution 
+neural networks (CNN's) are proving to be the ultimate tool to 
+process such recognition systems. High computing power is 
+required in order to process gestures with higher accuracy and 
+efficiency. HGR systems are used for interfacing between 
+computers and humans. The objective of this paper is to 
+develop a model for recognition of hand gestures with 
+reasonable accuracy and also to make the system to perform 
+specific tasks based on the predicted gestures. The detailed 
+summary introduces us to the basic knowledge about HGR. It 
+also throws light on the importance of this recognition system 
+and the motivation behind the work. The techniques that were 
+used are also explained along with the problem statement. The 
+final part of the introduction contains the main objective of the 
+work.. 
+II. LITERATURE REVIEW
+Hand gestures and gesticulations are a common form of 
+human communication. It is therefore natural for humans to 
+use this form of communication to interact with machines as 
+well. The main objective of this effort is to explore the utility 
+of a neural network-based approach to the recognition of the 
+hand gestures. For instance, touch-less human computer 
+interfaces can improve comfort and safety in vehicles. 
+Computer vision systems are useful tools in designing such 
+interfaces. However, real-world systems for dynamic HGR 
+present numerous open challenges. First, these systems 
+receive continuous streams of unprocessed visual data, where 
+gestures from known classes must be simultaneously detected 
+and classified. Here we have taken a vision Based Model for 
+gesture recognition as the vision based model deals with 
+Video capturing, image processing and pattern recognition. 
+The main objective of this effort is to explore the utility of a 
+neural network-based approach to the recognition of the hand 
+978-1-6654-9056-6/22/$31.00 @2022 IEEE
+2022 IEEE 2nd International Symposium on Sustainable Energy, Signal Processing and Cyber Security (iSSSC) | 978-1-6654-9056-6/22/$31.00 ©2022 IEEE | DOI: 10.1109/iSSSC56467.2022.10051259
+Authorized licensed use limited to: Lovely Professional University - Phagwara. Downloaded on March 27,2026 at 10:56:07 UTC from IEEE Xplore.  Restrictions apply. 
+
+ 
+ 
+gestures. Here we can compare with the other previous works 
+related to HGR. It can also motivate us to understand the 
+various advantages and disadvantages respected with their 
+various techniques. In this literature review, we can discuss 
+various methods for capturing hand gestures, such as using 
+physical gloves [2], or simply using a camera to capture hand 
+motions and map some of the shortcuts for opening 
+applications [1], as well as some other methods that are likely 
+more colour-oriented, such as wearing colored gloves to 
+identify the hand but this document includes four stages for 
+recognising hand motions [3]. The enhanced Adaboost 
+approach is used to identify hands. It is followed by the hand 
+tracking and segmentation operation. At last scale-space 
+features detection is applied to find palm-like and finger-like 
+structures [4]. The coloured video is taken as input and 
+converted into binary [5]. Threshold segmentation is done to 
+the RGB video to convert it to binary video. Expansion and 
+corrosion are done as a part of pre-processing. Contour 
+extraction is done in order to locate the hand. A VGG-Net 
+network is used to classify the contour region as hand or face. 
+Then finally the gesture is recognised [5]. There are several 
+additional ways for recording hand gestures [6], where they 
+employ the Microsoft Kinect to capture the human hand, 
+which offers us with a virtual 3D Skeleton model of the 
+human body, which includes the fingertip. This is how its 
+interpret its gesture, let us see the purpose of the gesture 
+recognition, basically here [6] the gesture trajectory is 
+obtained by the Microsoft Kinect skeleton tracker, it stored in 
+the sequence of the X, Y, Z coordinates to the hand tip of the 
+person, it enabling the algorithm to compare the gestures that 
+is observed independently from the relative point to the 
+person from the sensor [6]. And some other researchers had 
+done with the HGR by using sEMG Signals [7], The gesture 
+acquisition is done by sEMG acquisition equipment to store 
+and filter the electric signals that are generated by skin 
+surface [7], Here they explain why they used the sEMG signal 
+because it is a weak signal and it is easy to interface with the 
+bioelectrical signal. This technology adopts 16-channel high 
+spatio-temporal 
+resolution 
+sampling 
+technology, 
+this 
+equipment can also able to collect the upper limb signals, it 
+accompanies the most of the research tasks that are based on 
+the EMG Signals, And Here they designed a lightweight 
+glove kind of wearable [8]. That glove can capture and send 
+hand motions wirelessly and in real time. They adhered with 
+the IMU sensors on the surface of the fabric in that glove to 
+track the motion of the palm and the motion or the rotations 
+of the hand joints of the fingers [8]. The hand positions and 
+gestures are obtained from the leap motion that is recorded in 
+the coordinate to the centre of the leap motion; they have 
+done the coordinate transformation for embedding the leap 
+motion control based interaction in the existing system. They 
+did the transformation by using the affine transformation 
+method [10]. For the data fusion they used the methods kuke 
+Kalman filter. for combining the data from the leap motion 
+and Myo sensors to create 3D simulation of the Hand motion, 
+Kalman mapping also used to optimise the estimation of hand 
+position and orientation they used the interpolation based 
+resampling for the combining both the sensors and SLR. How 
+they are detecting means by using the LMC-API it allows 
+access to detect the hands or arms and also they have 
+implemented the 21 features [11]. These three fingers have 
+the Raw data returned by IMUs processed by the fusion 
+algorithm and they have done several processing and 
+extracting the hand gestures [8]. Sensors used for HGR 
+include wearable sensors such as data gloves and external 
+sensors such as video cameras. Hand position and movement 
+can be accurately measured using data gloves [9]. But data 
+gloves are very expensive. A detector is used as a switch to 
+activate the classifier if a gesture gets detected. Its job is to 
+distinguish between gesture and no gesture classes by running 
+on a sequence of images. Two models C3D and ResNet are 
+used as a classifier model [11]. 
+Hand gestures and gesticulations are an ordinary form of 
+human ideas. It is so natural for people to use this form of ideas 
+to communicate with accompanying machines as well. This 
+uses the webcam to discover salutes created for one consumer 
+and act elementary operations therefore. From the Existing 
+Research Papers, we raise that Human Computer Interaction 
+has a more important field, One of the Major Fields of 
+calculating apparition in the understanding of human gestures. 
+Hand gestures hopeful a habit of trading news accompanying 
+added crowd in a in essence scope, directing few bots to act 
+sure tasks in surroundings, or interplay accompanying the 
+calculation. In that we have two various fads of recognition 
+like One is the Vision Based model but this depends on the 
+Environment and another is sensor located accompanying 
+wanted environment belongings like lights and unique 
+Environment. In that we have two different modes of 
+recognition like One is the Vision Based model but this 
+depends on the Environment and another is sensor based with 
+needed 
+background 
+things 
+like lights 
+and isolated 
+Environment. These hardware ploys are mainly some sensors 
+or some other somewhat Arduino manoeuvre accompanying 
+some alternative of sensors contained in it. Thus, the 
+interaction between human and calculating becomes less 
+“unaffected” by way of the use of aforementioned devices. 
+Also, these schemes are not inexpensive, aesthetic and smooth 
+to claim. For these reasons, it becomes unsettled too low for 
+people to approach and use bureaucracy with ease. Human 
+Computer Interaction (HCI) electronics are briskly evolving 
+the habit we communicate by accompanying calculating 
+devices and conforming to the uniformly growing demands of 
+new paradigms. One of ultimate beneficial forms concerning 
+this is the integration of Human-to-Human Interaction 
+gestures to further ideas and meaning plans. The big objective 
+of transporting this Systematic Literature Review (SLR) 
+searches out the focal point of the state-of-the-creativity in the 
+circumstances of fantasy-located gesture acknowledgment 
+accompanying distinguishing devote effort to something hand 
+sign acknowledgment (HGR) methods and permissive 
+technologies. After a painstaking orderly excerpt process, 100 
+studies having to do with the four research questions were 
+selected. While it cannot be of excellent use for skimming 
+computer networks or article a paragraph document, it is 
+beneficial in news performers and while learning documents 
+or files. A plain nod could pause or play the picture or increase 
+the capacity even while situated a great distance away from 
+the calculating screen. One keeps a manuscript through an 
+eBook or a performance even while bearing a luncheon. 
+Existing orders for only numbers and few elementary gestures 
+so we can’t invite to do battle for all, but likely expected 
+change always we have second-hand these gestures to 
+communicate accompanying the calculation. For example, 
+appearance, your touch to increase the book, existent orders 
+Authorized licensed use limited to: Lovely Professional University - Phagwara. Downloaded on March 27,2026 at 10:56:07 UTC from IEEE Xplore.  Restrictions apply. 
+
+ 
+ 
+for only numbers and few elementary gestures so we can’t 
+invite to do battle for all - meaning likely expected change 
+forever. We have used these gestures to communicate while 
+calculating or they were utilising the fittings like Kinect or 
+leap motion that cost about nearly 100 USD that is much 
+costlier in our country and still energetic supplies are skilled 
+but that form more explosion so we have created this plan. We 
+have captured a fantasy Based Model for signal Recognition, 
+Gesture acknowledgment is a numerical understanding of a 
+human motion to a computer, the view-located approach 
+handles the Video Capturing, countenance dispose of and 
+pattern acknowledgment. For this we should use the CNN 
+classifier to decide the shape of the help. In the dream-located 
+approach they have prevented skin colour separation. The aim 
+search out identify active help gestures accompanying 
+asserting the extreme veracity and moment of truth captured 
+to acknowledged gestures from the Beginning they were 
+second hand the sensor located manoeuvres like Use of 
+photoelectric fittings, but it was Complex to use cause the 
+Physical fastening accompanying the model is necessary and 
+more explosion were caused while evolution and they create 
+the protection but it again have a concurrent Problems and 
+Kinect find a resolution but it was more expensive so 
+achieving for all it was more troublesome so we have papered 
+to work the unchanging use in our calculating arrangements 
+accompanying the use of desktop computer or calculating's 
+webcam. We are making use of implementing a plan that 
+identifies Gesture recommendation utilising webcam & 
+performs the Specified Operation. This use may be fashioned 
+to arrest the backdrop while the consumer runs added 
+programs and uses. This is very useful for a hands-free 
+approach.  In order to remove the disadvantage of 
+bureaucracy, we can train the model accompanying images 
+that contain few cry secrets. In other words, we can train the 
+model accompanying concepts accompanying the culture. The 
+training dataset concedes the possibility of a merger of 
+concepts accompanying and outside culture. Further tweaks 
+may be organised in the rule to increase the efficiency of the 
+signal acknowledgment process. The rule may be upgraded 
+for better understanding and acknowledgment of the gestures 
+and more recent gestures can be incorporated for more 
+functionalities. The program that controls display for 
+accumulating and inspecting gestures in addition to running 
+the program may be enhanced considerably, such as providing 
+an interactive GUI alternatively utilising terminal commands. 
+By this habit we can build a robust model that acts less 
+computations. So, at last we have papered to work the 
+unchanging service in our calculating arrangements with the 
+use of a desktop computer or calculating's webcam. 
+III. SYSTEM ANALYSIS 
+Introduction to our HGR system consist of Convolutional 
+Neural Network to predict the gesture and it was created using 
+the Keras, which is interface of Tensor flow to detecting the 
+gesture and control the operating system according to the 
+assigned task. Existing methods are for only numbers and 
+some basic gestures so we can’t do it for all, meaning tends to 
+be changed. We have always used these gestures to interact 
+with the computer. For example, showing your palm to 
+increase the volume, existing methods for only numbers and 
+some basic gestures so we can’t do it for all. We have used 
+these gestures to interact with the computer or they were using 
+hardware like Kinect or leap motion which costs around 100 
+USD which is much costlier in our country and also electrical 
+equipment is there but that makes more noise so we have come 
+up with this idea. We can segment our proposed work in three 
+units/modules – 6 CNN Model Generation. Here, we will use 
+a database of images and make a CNN model, train it to 
+classify the images and any other same kind of image. User 
+Feed Taking: Now, as we have made the CNN model, we will 
+use this model to predict the gesture from real time live video 
+feed. Doing the Task: As the prediction goes on, the system 
+will do the task assigned to each gesture when they are 
+predicted as shown in the Figure 1. 
+ 
+Figure 1 Process for HGR 
+IV. SYSTEM DESIGN AND IMPLEMANTATION 
+We will see the systematic design of the work along with the 
+detailed implementation of various modules which are the 
+building blocks of this paper. There are three modules in total 
+and are explained below. 
+A. Module 1 
+Module 1 is about building a CNN model which we use to 
+predict the gestures. For that we use Keras (interface for 
+Tensor Flow) to build and train the model using a local 
+database of images. This forms the basis of our work as 
+shown in the Figure 2. 
+ 
+Figure 2 Keras Model 
+Authorized licensed use limited to: Lovely Professional University - Phagwara. Downloaded on March 27,2026 at 10:56:07 UTC from IEEE Xplore.  Restrictions apply. 
+
+ 
+ 
+B. Module 2 
+Our second module is about predicting the gesture through 
+live video feed as shown in the Figure 3. From that input 
+taken at real time by web camera we predict the gestures by 
+the users by using the trained model. We used OpenCV for 
+the purpose of image and video processing. NumPy is used to 
+make images as arrays for further computations and lastly 
+TensorFlow keras to predict the gesture. The below image 
+shows various steps of processing. It includes converting the 
+image into grayscale followed by the Gaussian blur. Then we 
+find the absolute difference between the background and the 
+current frame which gives the output image. 
+ 
+Figure 3 Gesture acquisition in the model 
+C. Module 3  
+This is the final module of the work shown in the Figure 4. 
+This module is about assigning a specified task for a 
+particular predicted gesture. We use PyAutoGUI for 
+controlling devices like mouse and keyboard. Finally, the 
+system is made to do some desired tasks in response to the 
+gestures.
+ 
+Figure 4 Live Working of the model 
+V. PERFORMANCE ANALYSIS 
+Introduction Here we are going to analyse how our model was 
+performing in the stream of HGR. Our model is giving the 
+accuracy of 99.84% approximately. Here we are providing 
+the chart that shows how our model was performing while 
+training as shown in the Figure 5, Figure 6, Figure 7. 
+  
+Figure 5 Values of epoch and Training and Testing Accuracy 
+ 
+Figure 6 Epoch vs Accuracy 
+ 
+Figure 7 Epoch vs Loss 
+Here we have included the graph, table and charts, our 
+model has reached the accuracy as 0.9984999895095825 
+that is approximately 99.84%. 
+Authorized licensed use limited to: Lovely Professional University - Phagwara. Downloaded on March 27,2026 at 10:56:07 UTC from IEEE Xplore.  Restrictions apply. 
+
+ 
+ 
+A. Results 
+In order to eliminate the limitation of the system, we can train 
+the model with images that contain some noise in the 
+background. The training dataset should be a combination of 
+images with and without background to make the model more 
+robust. We can use this dynamic HGR system in industries 
+like for fighter robot, aquatic robot, disease prediction using 
+smart devices and irrigation systems etc., [20-23]. The table 
+here shows some of the work related HGR problems and the 
+comparisons between classification accuracy as shown in the 
+Table 1 and Figure 8. 
+ 
+TABLE 1: COMPARISONS OF CLASSIFICATION ACCURACY 
+Authors 
+Methods 
+Accuracy 
+% 
+Kim et al., [12] 
+Using micro-Doppler 
+Signatures with CNN  
+85.6 
+Lin [13] 
+Human HGR using a 
+CNN 
+95.96 
+Molchanov [14] 
+HGR With 3D CNN  
+77.5 
+Nagi [15] 
+Max-pooling CNN for 
+vision-based HGR 
+96 
+Zhang [16] 
+Dynamic HGR based 
+on short-term sampling 
+NN 
+95.73 
+Kopuklu [17] 
+Dynamic HGR based 
+on short-term sampling 
+NN  
+94.04 
+Lai [18] 
+CNN+RNN Depth and 
+Skeleton based 
+Dynamic HGR 
+85.46 
+Ahlawat [19]
+HGR Using CNN
+90.12
+Proposed 
+HGR Using CNN 
+99.84 
+Figure 8 Comparisons of Classification Accuracy. 
+ 
+VI. CONCLUSION 
+The following part discusses the enhancements that can be 
+made to the system in the future. HGR is inevitable in this 
+modern age of communication. Here we propose some of the 
+limitations that exist and a new way of overcoming those 
+limitations. It is very difficult to build a system for hand 
+gestures with higher efficiency. Because it involves a lot of 
+computations. In many applications, hands only occupy about 
+10% of the image, whereas the most of it contains 
+background, human face, and human body. So, we need to 
+perform image segmentation and background elimination in 
+real time. This is a constraint of the system. Hand gestures 
+are an intriguing interaction paradigm that may be used in a 
+range of computer applications. Picking a right technology to 
+extract raw hand data is crucial and is also difficult. There are 
+several promising areas of future study in HGR. This survey 
+has provided a comprehensive overview of HGR techniques. 
+To conclude, we can eliminate the existing problem in the 
+system by adding some images to the dataset that contain 
+different backgrounds. Thereby a robust model is built with a 
+reasonable accuracy and involving less computations. 
+References  
+[1]  
+HGR for Human Computer Interaction Aashni Hariaa, 
+Archanasri Subramaniana, Nivedhitha Asokkumara, Shristi 
+Poddara Jyothi S Nayaka* 7th International Conference on 
+Advances in Computing & Communications, ICACC-2017, 22-
+24 August 2017, Cochin, India 
+[2]  
+Motion tracking glove for augmented reality and virtual reality 
+Vu Trieu Minh, Nikita Katushin and John Pumwa from the 
+journal 
+Paladyn, 
+Journal 
+of 
+Behavioral 
+Robotics 
+https://doi.org/10.1515/pjbr-2019-0012 
+[3]  
+An Application of Classifier Combination Methods in HGR 
+Guan-Wei Wang,1 Chunxia Zhang,2 and Jian Zhuang1 Research 
+Article | Open Access Volume 2012 |Article ID 346951 | 
+https://doi.org/10.1155/2012/346951 
+[4]  
+Y. Fang, K. Wang, J. Cheng and H. Lu, "A Real-Time HGR 
+Method," 2007 IEEE International Conference on Multimedia 
+and Expo, 2007, pp. 995-998, doi: 10.1109/ICME.2007.4284820. 
+[5]  
+HGR with Skin Detection and Deep Learning Method Hanwen 
+Huang1, Yanwen Chong2, Congchong Nie2 and Shaoming Pan2 
+Published under licence by IOP Publishing Ltd Journal of 
+Physics: Conf erence Series, Volume 1213, Issue 2 Citation 
+Hanwen Huang et al 2019 J. Phys.: Conf. Ser. 1213 022001 
+[6]  
+Liu, F., Zeng, W., Yuan, C. et al. Kinect-based HGR using 
+trajectory information, hand motion dynamics and neural 
+networks. 
+Artif 
+Intell 
+Rev 
+52, 
+563–583 
+(2019). 
+https://doi.org/10.1007/s10462-019-09703-w 
+[7]  
+Ying Sun, Chao Xu, Gongfa Li, Wanfen Xu, Jianyi Kong, Du 
+Jiang, Bo Tao, Disi Chen, Intelligent human computer interaction 
+based on non-redundant EMG signal, Alexandria Engineering 
+Journal, Volume 59, Issue 3, 2020, Pages 1149-1157, ISSN 1110-
+0168,https://doi.org/10.1016/j.aej.2020.01.015.  
+[8]  
+Nicholas Diliberti, Chao Peng, Christopher Kaufman, Yangzi 
+Dong, and Jeffrey T. Hansberger. 2019. Real-Time Gesture 
+Recognition Using 3D Sensory Data and a Light Convolutional 
+Neural Network. In Proceedings of the 27th ACM International 
+Conference on Multimedia (MM '19). Association for Computing 
+Machinery, 
+New 
+York, 
+NY, 
+USA, 
+401–410. 
+https://doi.org/10.1145/3343031.3350958 
+[9]  
+Juan Pablo Wachs, Mathias Kölsch, Helman Stern, and Yael 
+Edan. 2011. Vision-based hand-gesture applications. Commun. 
+ACM 
+54, 
+2 
+(February 
+2011), 
+60–71. 
+https://doi.org/10.1145/1897816.1897838 
+[10]  
+Bachmann, D.; Weichert, F.; Rinkenauer, G. Review of Three-
+Dimensional Human-Computer Interaction with Focus on the 
+Leap 
+Motion 
+Controller. 
+Sensors 
+2018, 
+18, 
+2194. 
+https://doi.org/10.3390/s18072194 
+[11]  
+Köpüklü, Okan, et al. "Real-time hand gesture detection and 
+classification using convolutional neural networks." 2019 14th 
+Authorized licensed use limited to: Lovely Professional University - Phagwara. Downloaded on March 27,2026 at 10:56:07 UTC from IEEE Xplore.  Restrictions apply. 
+
+ 
+ 
+IEEE International Conference on Automatic Face & Gesture 
+Recognition (FG 2019). IEEE, 2019. 
+ [12]  
+Kim, Youngwook, and Brian Toomajian. "HGR using micro-
+Doppler signatures with convolutional neural network." IEEE 
+Access 4 (2016): 7125-7130. 
+[13]  
+Lin, Hsien-I., Ming-Hsiang Hsu, and Wei-Kai Chen. "Human 
+HGR using a convolution neural network." 2014 IEEE 
+International 
+Conference 
+on 
+Automation 
+Science 
+and 
+Engineering (CASE). IEEE, 2014. 
+[14] 
+ Molchanov, Pavlo, et al. "HGR with 3D convolutional neural 
+networks." Proceedings of the IEEE conference on computer 
+vision and pattern recognition workshops. 2015. 
+[15]  
+Nagi, Jawad, et al. "Max-pooling convolutional neural networks 
+for vision-based HGR." 2011 IEEE international conference on 
+signal and image processing applications (ICSIPA). IEEE, 2011. 
+[16]  
+Zhang, Wenjin, Jiacun Wang, and Fangping Lan. "Dynamic HGR 
+based on short-term sampling neural networks." IEEE/CAA 
+Journal of Automatica Sinica 8.1 (2020): 110-120. 
+[17]  
+Kopuklu, Okan, et al. "Real-time hand gesture detection and 
+classification using convolutional neural networks." 2019 14th 
+IEEE International Conference on Automatic Face & Gesture 
+Recognition (FG 2019). IEEE, 2019. 
+[18] 
+ Lai, Kenneth, and Svetlana N. Yanushkevich. "CNN+ RNN 
+depth and skeleton based dynamic HGR." 2018 24th international 
+conference on pattern recognition (ICPR). IEEE, 2018. 
+[19]  
+Ahlawat, Savita, et al. "HGR using convolutional neural 
+network." International conference on innovative computing and 
+communications. Springer, Singapore, 2019. 
+[20]  
+J. S. C. Bose, M. Mehrez, A. S. Badawy, W. Ghribi, H. Bangali 
+and A. Basha, "Development and designing of fire fighter 
+robotics using cyber security," 2017 2nd International 
+Conference on Anti-Cyber Crimes (ICACC), 2017, pp. 118-122, 
+doi: 10.1109/Anti-Cybercrime.2017.7905275. 
+[21]  
+A. Mubarakali, S. C. B. Jaganathan, N. Marina and A. D. Kumar, 
+"Programmed Water Management System for Irrigation Using 
+Internet of Things," 2019 International Conference on Intelligent 
+Sustainable Systems (ICISS), 2019, pp. 203-207, doi: 
+10.1109/ISS1.2019.8908110. 
+[22]  
+Bose, S.C., Mubarakali, A., Marina, N., Reshmi (2021). Design 
+and Development of the Robot for Aquatic Debris Using a 
+Smartphone. In: Raj, J.S., Iliyasu, A.M., Bestak, R., Baig, Z.A. 
+(eds) Innovative Data Communication Technologies and 
+Application. 
+Lecture 
+Notes 
+on 
+Data 
+Engineering 
+and 
+Communications Technologies, vol 59. Springer, Singapore. 
+https://doi.org/10.1007/978-981-15-9651-3_4. 
+[23]  
+Subash Chandra Bose Jaganathan. (2022). Machine Learning for 
+Smartphone-Based Early Detection of Diabetic Disease in Pima 
+Indians Diabetes Database. Journal of Algebraic Statistics, 13(1), 
+780–796. 
+ 
+Authorized licensed use limited to: Lovely Professional University - Phagwara. Downloaded on March 27,2026 at 10:56:07 UTC from IEEE Xplore.  Restrictions apply. 
+

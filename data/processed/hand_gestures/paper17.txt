@@ -1,0 +1,287 @@
+                                                                                     
+                                           e-ISSN: 2582-5208 
+International  Research Journal  of  Modernization  in  Engineering Technology and Science 
+( Peer-Reviewed, Open Access, Fully Refereed International Journal ) 
+Volume:05/Issue:05/May-2023                 Impact Factor- 7.868                                      www.irjmets.com                      
+www.irjmets.com                              @International Research Journal of Modernization in Engineering, Technology and Science 
+ 
+ 
+[6840] 
+RECOGNITION OF SIGN LANGUAGE USING MACHINE LEARNING 
+Shreya*1 
+Department Of MCA NMAM Institute Of Technology, Nitte, India. 
+DOI : https://www.doi.org/10.56726/IRJMETS39582 
+  ABSTRACT 
+Sign language recognition plays a crucial role in enabling effective communication and inclusivity for 
+individuals with hearing impairments. This abstract provides a concise overview of the progress, techniques, 
+and obstacles in sign language recognition. It explores computer vision, machine learning, and deep learning 
+methods utilized for gesture recognition. The challenges of intra-class variation, dynamic gestures, occlusions, 
+and dialect variations are discussed. Applications like real-time translation systems and interactive sign 
+language tutors are highlighted. This abstract serves as a valuable reference for researchers, practitioners, and 
+developers in advancing sign language recognition systems, fostering inclusivity, and facilitating 
+communication for the deaf community. 
+Keywords: Gesture Recognition, Hand Pose Estimation, Computer Vision, Machine Learning, Deep Learning. 
+I. 
+INTRODUCTION 
+Sign language serves as a vital means of communication for individuals who are deaf or hard-of-hearing. Unlike 
+spoken languages that rely on auditory cues, sign language utilizes visual gestures made with the hands and 
+body to convey meaningful messages. It is a complex and highly expressive visual language that encompasses a 
+unique grammar, syntax, and vocabulary. 
+Despite the recognition of sign language as an official language in numerous countries, there still exists a 
+significant communication gap between the deaf and hearing populations. This divide hampers social 
+interactions, educational opportunities, and access to various services for individuals who rely on sign language 
+as their primary mode of communication. 
+To address these challenges and bridge the gap, sign language recognition technology has emerged as a 
+promising solution. Sign language recognition involves the development of systems that can interpret and 
+understand sign language gestures, allowing for the conversion of these gestures into spoken or written 
+language. 
+Sign language recognition technology relies on the integration of computer vision and machine learning 
+techniques. Computer vision algorithms analyze visual inputs, such as images or videos, to identify and track 
+the movements and positions of hands and other relevant body parts during sign language production. Machine 
+learning models are then trained on large datasets to recognize and classify different sign language gestures. 
+The potential applications of sign language recognition technology are far-reaching. In educational settings, it 
+can facilitate the inclusion and accessibility of deaf or hard-of-hearing students by providing real-time 
+translation of sign language into spoken language. In healthcare settings, it can improve communication 
+between healthcare providers and patients with hearing impairments, ensuring accurate understanding of 
+symptoms, medical histories, and treatment instructions. Additionally, sign language recognition technology 
+can enhance customer service experiences for deaf individuals, enabling effective communication in various 
+service industries. 
+However, the development of accurate and robust sign language recognition systems poses significant 
+challenges. Variations in sign language across regions, cultural nuances, and individual preferences contribute 
+to the complexity of recognizing and interpreting gestures. Additionally, real-world scenarios often involve 
+factors such as occlusions, dynamic movements, and lighting conditions that further impact the accuracy and 
+reliability of recognition systems. 
+II. 
+LITERATURE SURVEY 
+Sign language recognition is an important area of research that aims to provide a means of communication for 
+the deaf and hard of hearing community. Sign language is a complex visual language that relies on hand 
+gestures, facial expressions, and body movements to convey meaning. The goal of sign language recognition is 
+
+                                                                                     
+                                           e-ISSN: 2582-5208 
+International  Research Journal  of  Modernization  in  Engineering Technology and Science 
+( Peer-Reviewed, Open Access, Fully Refereed International Journal ) 
+Volume:05/Issue:05/May-2023                 Impact Factor- 7.868                                      www.irjmets.com                      
+www.irjmets.com                              @International Research Journal of Modernization in Engineering, Technology and Science 
+ 
+ 
+[6841] 
+to develop a system that can interpret and translate sign language into text or speech. In this literature survey, 
+we will explore some of the primary approaches and techniques used in sign language recognition and the 
+corresponding research studies. 
+One of the most commonly used approaches in sign language recognition is computer vision. This approach 
+involves capturing the gestures and movements of sign language users using cameras and then analyzing and 
+interpreting this data to recognize the meaning of the gestures. Hand tracking, pose estimation, and gesture 
+recognition are some of the common techniques used in computer vision-based sign language recognition 
+systems. A study conducted by Pu et al. (2021) proposed a deep learning-based approach for recognizing 
+American Sign Language (ASL) gestures that achieved an accuracy of 99.33% on the ASL Finger Spelling 
+dataset. 
+Data-glove-based approaches use gloves equipped with sensors to capture hand movements, and then the data 
+is analyzed to recognize the gestures. In a study by Mohan and Kannan (2021), a sign langua recoition system 
+based on a data-glove was proposed. The syste uss a spport vctor machne (SVM) to clasify the gesures. The 
+system achieved an accuracy of 90.8%, indicating the effectiveness of data-glove-based approaches. 
+Sensor-based approaches use sensors attached to the hands to capture the hand movements, and then the data 
+is analyzed to recognize the gestures. In a study by AlZubi and Hasan (2021), a sign language recognition 
+system based on a sensor was proposed. The system uses an artificial neural network (ANN) to classify the 
+gestures. The system achieved an accuracy of 85.3%, indicating the potential of sensor-based approaches. 
+In conclusion, sign language recognition is a promising field that can significantly improve the communication 
+and quality of life for the deaf community. Vision-based, data-glove-based, and sensor-based approaches have 
+been proposed, each with their own advantages and limitations. Deep learning techniques such as CNNs and 
+ANNs have shown great potential in achieving high accuracy for sign language recognition. 
+III. 
+PROPOSED METHODOLOGY 
+Artificial intelligence called  computer vision focuses on problems . Computer vision & CNN were capable of 
+tackling. The two serious  a convolution neural network were feature extraction and classification. To extract 
+the image's features, a  convolution and pooling . As we go on  apply filters, the output matrix becomes .  Size of  
+new matrix was  (Size of matrix — Filter Size)+1. The classifier in the convolution neural netwoks will  a fully 
+connected layer. The class probability will be predicted in the last layer. Convolution Pooling Flatten are the 
+first convolution neural network phase. 
+⦁ Convolution 
+⦁ Pooling 
+⦁ Flattening 
+⦁ Full connection 
+ 
+Convolution is a technique used to extract features from images by applying a filter. These filters can be utilized 
+to extract edges and patterns from an image. The filters are generated randomly. Convolution generates a filter 
+of a specified size, typically 3x3. After creating the filter, it multiplies each element of the filter with the 
+corresponding element in the top left corner of the picture and continues to move towards the bottom right 
+corner off the picture. The resulting feature map is then extracted from the obtained results. 
+
+                                                                                     
+                                           e-ISSN: 2582-5208 
+International  Research Journal  of  Modernization  in  Engineering Technology and Science 
+( Peer-Reviewed, Open Access, Fully Refereed International Journal ) 
+Volume:05/Issue:05/May-2023                 Impact Factor- 7.868                                      www.irjmets.com                      
+www.irjmets.com                              @International Research Journal of Modernization in Engineering, Technology and Science 
+ 
+ 
+[6842] 
+ 
+ 
+The pooling layer couldl be included after convolution method. The pooling layer is used to minimise the 
+picture. Pooling was divided  2 groups.  
+Average Pooling Highest Pooling 
+Maximum pooling is simply  the greatest  pixel value from the matrix. 
+ 
+This method is helpful  high worth or ones  are significant in the image. 
+Unlike Max pooling, average pooling utilizes the pixel's average value. 
+
+                                                                                     
+                                           e-ISSN: 2582-5208 
+International  Research Journal  of  Modernization  in  Engineering Technology and Science 
+( Peer-Reviewed, Open Access, Fully Refereed International Journal ) 
+Volume:05/Issue:05/May-2023                 Impact Factor- 7.868                                      www.irjmets.com                      
+www.irjmets.com                              @International Research Journal of Modernization in Engineering, Technology and Science 
+ 
+ 
+[6843] 
+ 
+In most instances, max pooling is selected because it improves average pooling. 
+ 
+resultant matrix would be multilayere. Flattering is the procedure data into a 1-dimensiol arra for input to th 
+nex laye. We flattn the convolution layer to obtain a singe feature vector. 
+A entirely  layer is a feed-forwad nural network. Al operaton would be finished, & a predictions will be made. 
+The lss wll b cacuted and the weights will be altered usig the graient descnt backproption method based on the 
+ground truth. 
+ 
+The LeNt-5 [2] layout is composed  of to pars of convlutional and average poling layers, followed by a flattening 
+convolutional layer was  two fully cnnected laers and a SoftMax clasifier. 
+
+                                                                                     
+                                           e-ISSN: 2582-5208 
+International  Research Journal  of  Modernization  in  Engineering Technology and Science 
+( Peer-Reviewed, Open Access, Fully Refereed International Journal ) 
+Volume:05/Issue:05/May-2023                 Impact Factor- 7.868                                      www.irjmets.com                      
+www.irjmets.com                              @International Research Journal of Modernization in Engineering, Technology and Science 
+ 
+ 
+[6844] 
+ 
+MobileNetV2 is a type of convolutional neural network design that is optimized for mobile devices and has 
+shown to perform well. Its architecture includes a fully convolutional layer featuring 32 filters, as well as 19 
+residual bottleneck layers. This network is considered efficient and lightweight. 
+ 
+Own Architecture: 
+In our unique architecture, we employed The architecture consists of a series of layers for filtering, which are 
+then follow by both normaliation and  poolng. This is followed by global average pooling along with a  layer  
+noralization, and ultimately, a final  layer for the purpose of clasfication. 
+
+                                                                                     
+                                           e-ISSN: 2582-5208 
+International  Research Journal  of  Modernization  in  Engineering Technology and Science 
+( Peer-Reviewed, Open Access, Fully Refereed International Journal ) 
+Volume:05/Issue:05/May-2023                 Impact Factor- 7.868                                      www.irjmets.com                      
+www.irjmets.com                              @International Research Journal of Modernization in Engineering, Technology and Science 
+ 
+ 
+[6845] 
+ 
+In the realm of Machine Learning, one approach to improving performance is through the use of ensemble 
+models. This involves training multiple sub-models and then averaging their outputs. The popular Random 
+Forest algorithm is an example of this technique, particularly for Decision Tree models. Similarly, for Neural 
+Networks, there exist various ensemble methods, There exist several ensemble methods for neural networks 
+such as Staked Generization, Ensmble Learnng via Negatie Corelation, and Probabiistic Modellnig in Neural 
+Netwoks. For our project, we opted to use the Horizntal Voting Ensemble method o improve the perfomance of 
+or neual neworks. 
+The Horizontal Voting method is an ensemle technique for neural networks that involves training submodules 
+and making predictions using these submodules. To determine the final prediction, we add up the votes from all 
+the submodules and identify the class that received the most votes. We made sure to use an odd number of sub-
+models in our ensemble to prevent an even number of votes for two classes in a worst-case scenario. 
+Suppose we have a set of neural network models being trained on a given training set T(xi, yi), where m ∈ 
+model. Then, for the test set T’(xi ’, yi ’), we obtain predictions, denoted as y hat, from all the models. To convert 
+the resulting lists to arrays, we utilized the 'array' function. 
+Algorithm 1, also known as Horizontal Voting, takes as input a set of models, a test set T’(xi ’, yi ’), and an empty 
+y hat list. The goal is to generate a final prediction based on the ensemble of models. 
+To achieve this, we first obtain the predictions from every structure. Fo every test data point (I), we iterate 
+through each structure (m) to give a forecast. We then calculate the greatest amount of vote to the i th test data 
+and add the maximum voted cla to y hat[I]. After iterating through all test data points, we convert the resulting 
+list into an array using the 'array' function, and assign it to y hat. This array serves as our final prediction 
+output. 
+In order to optimize the MobileNetV2 model, we utilized the Adam optimizer with a learning rate of 0.001, 
+eta_1 of 0.9, beta_2 of 0.999, and epsilon of 1e-07. During training, we implemented the Reduce LROnPlateau 
+callback with a factor of 0.2, patience of 2, and minimum learning rate of 0.001. Through the use of a horizontal 
+ensemble technique, we were able to achieve an accuracy of 99.8%. The models were then deployed in the 
+Django Web Frameworks, where a simple frontend was created to allow users to input images and receive a 
+
+                                                                                     
+                                           e-ISSN: 2582-5208 
+International  Research Journal  of  Modernization  in  Engineering Technology and Science 
+( Peer-Reviewed, Open Access, Fully Refereed International Journal ) 
+Volume:05/Issue:05/May-2023                 Impact Factor- 7.868                                      www.irjmets.com                      
+www.irjmets.com                              @International Research Journal of Modernization in Engineering, Technology and Science 
+ 
+ 
+[6846] 
+response. Additionally, we developed an API that utilizes live camera footage to detect hand gestu and convert 
+them to their corresponding English alphabets. 
+IV. 
+EXPERIMENTAL RESULTS 
+ 
+All of our models were trained using a batch size of 32 and for 10-15 epochs. During testing, all of the models 
+performed exceptionally well. We achieved a 100% accuracy rate when utilizing the horizontal voting ensemble 
+method across these three models. For the project's backend, we employed Django Rest Frameworks. When a 
+user submits an image, a saple JSON reponse is set to te fontend. Additionally, we utilized OpnCV to tst ur resuls 
+on the ive caera and obtained satisfactory results. 
+ 
+V. 
+CONCLUSION 
+In conclusion, sign language recognition has the poential to revolutionze the way deaf individuals communicate 
+with the hearing world. With advances in machine learning and computer vision technologies, researchers have 
+made significant progress in developing sign language recognition systesm that can accurately recognize and 
+
+                                                                                     
+                                           e-ISSN: 2582-5208 
+International  Research Journal  of  Modernization  in  Engineering Technology and Science 
+( Peer-Reviewed, Open Access, Fully Refereed International Journal ) 
+Volume:05/Issue:05/May-2023                 Impact Factor- 7.868                                      www.irjmets.com                      
+www.irjmets.com                              @International Research Journal of Modernization in Engineering, Technology and Science 
+ 
+ 
+[6847] 
+translate sign language into text or speech. These systesm have the potntial to imprve commnication between 
+deaf and hearing indiviuals in various settings, including education, healthcare, and everyday conversations. 
+However, there are still several challenges that need to be addressed, including the development of more 
+accurate and robust recognition algorithms, the standardization of sign language across different regions, and 
+the availability of reliable datasets for training and testing these systems. Despite these challenges, the progress 
+made in sign language recognition is promising, and with continued research and development, it has the 
+potential to improve the lives of millions of deaf individuals worldwide. 
+VI. 
+REFERENCES 
+[1] 
+Zhang, Q., Zhou, Y., & Chen, W. (2020). Sign language recognition using fusion of vision-based and data-
+glove-based approaches. Journal of Ambient Intelligence and Humanized Computing, 11(5), 1837-
+1849. 
+[2] 
+Liu, W., & Chua, T. W. (2018). Deep learning for sign language recognition and translation: A survey. 
+IEEE Transactions on Multimedia, 20(8), 2017-2032. 
+[3] 
+Chaaraoui, A. A., Climent-Pérez, P., & Flórez-Revuelta, F. (2013). A review on vision techniques applied 
+to human behaviour analysis for ambient-assisted living. Expert Systems with Applications, 40(18), 
+7447-7467. 
+[4] 
+Li, H., Li, Z., Zhang, C., & Liu, L. (2021). Sign language recognition based on fusion of vision and 
+wearable sensors. Journal of Ambient Intelligence and Humanized Computing, 12(7), 7953-7963. 
+[5] 
+Martinez-Plasencia, D., Garcia-Sanchez, F., Garcia-Haro, J., & Garcia-Sanchez, A. J. (2019). Sign language 
+recognition using vision-based techniques: A comprehensive review. IEEE Access, 7, 168258-168275. 
+[6] 
+Jia, K., Wang, Y., Xie, L., & Zhao, Q. (2021). A dynamic feature fusion approach for sign language 
+recognition using RGB-D and wearable sensors. IEEE Transactions on Industrial Electronics, 68(4), 
+3487-3495. 
+[7] 
+Saleem, R., Mahmood, A., Qadir, F., & Yousaf, S. (2021). Sign language recognition using skeleton and 
+depth data with feature fusion. Pattern Recognition Letters, 141, 84-90. 
+[8] 
+Zafeiriou, S., Papaioannou, A., & Kotsia, I. (2020). Recent advances and challenges of deep learning 
+based sign language recognition. Frontiers in Robotics and AI, 7, 52. 
+[9] 
+Kanitkar, A., Shringirishi, M., & Sengupta, A. (2020). Sign language recognition using deep learning: A 
+comprehensive review. IEEE Transactions on Human-Machine Systems, 50(4), 353-363. 
+[10] 
+Fan, Z., Zhang, H., Zheng, N., Wang, J., & Zhang, J. (2020). A survey on sign language recognition: From 
+handcrafted features to deep learning-based approaches. Information Fusion, 57, 119-135. 
+ 
+ 
+ 
+ 
+

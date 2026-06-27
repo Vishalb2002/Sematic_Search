@@ -1,0 +1,619 @@
+.
+.
+Latest updates: hps://dl.acm.org/doi/10.1145/3746709.3746718
+.
+.
+RESEARCH-ARTICLE
+Dynamic gesture recognition method based on multi-head aention and
+multi-scale cavity convolution
+XINGYUE ZUO, Wuhan Donghu University, Wuhan, Hubei, China
+.
+.
+.
+Open Access Support provided by:
+.
+Wuhan Donghu University
+.
+PDF Download
+3746709.3746718.pdf
+26 March 2026
+Total Citations: 0
+Total Downloads: 256
+.
+.
+Published: 29 August 2025
+.
+.
+Citation in BibTeX format
+.
+.
+CIBDA 2025: 2025 6th International
+Conference on Computer Information
+and Big Data Applications
+March 14 - 16, 2025
+Wuhan, China
+.
+.
+CIBDA '25: Proceedings of the 2025 6th International Conference on Computer Information and Big Data Applications (March 2025)
+hps://doi.org/10.1145/3746709.3746718
+ISBN: 9798400713163
+.
+
+Dynamic gesture recognition method based on multi-head
+attention and multi-scale cavity convolution
+Xingyue Zuo∗
+Wuhan Donghu University
+Wuhan, Hubei, China
+1113207460@qq.com
+Abstract
+Since the appearance of depth sensors like Kinect, 3D hand joint
+coordinate research has expanded. Many studies create gesture
+recognition systems by calculating joint dependencies, but complex
+relationships are hard to capture, making features ineffective. This
+paper proposes an improved model using multi - head attention
+and multi - scale cavity convolution. The multi - head attention en-
+codes spatial relationships and captures node dependencies. Multi -
+scale convolution layers capture time information. An attention -
+weighted loss function boosts the model’s robustness. Experiments
+on the DHG dataset show that for 14 - classified gestures, the model
+has a 97.8% accuracy, 7% higher than others, and for 28 - classified
+ones, 92.1% accuracy, 5% higher.
+CCS Concepts
+• General and reference →Cross-computing tools and tech-
+niques; Experimentation.
+Keywords
+Dynamic gesture recognition, spatiotemporal attention, multi-scale
+dilated convolution, deep learning
+ACM Reference Format:
+Xingyue Zuo. 2025. Dynamic gesture recognition method based on multi-
+head attention and multi-scale cavity convolution. In 2025 6th International
+Conference on Computer Information and Big Data Applications (CIBDA
+2025), March 14–16, 2025, Wuhan, China. ACM, New York, NY, USA, 5 pages.
+https://doi.org/10.1145/3746709.3746718
+1
+Introduction
+As human - computer interaction tech advances, gesture recogni-
+tion is vital for VR, AR, and smart home. Skeleton - based dynamic
+gesture recognition is a research focus [1], but high - dimensional
+skeleton data and time - series complexity pose challenges. Tradi-
+tional methods design hand - crafted features, yet they can’t fully
+capture data in high - dimensional spaces. Different gesture lengths
+also make feature extraction tough [2]. To address CNNs’ limita-
+tions, researchers combine them with RNNs (e.g., LSTM). Although
+∗Corresponding author
+This work is licensed under a Creative Commons Attribution International 4.0 License.
+CIBDA 2025, Wuhan, China
+© 2025 Copyright held by the owner/author(s).
+ACM ISBN 979-8-4007-1316-3/2025/03
+https://doi.org/10.1145/3746709.3746718
+CNNs are good at handling noise, combination is still needed. At-
+tention mechanisms, especially self - attention, are beneficial [3].
+Some use STA - Res - TCN with attention for recognition, but data
+issues can affect the model. In short, skeleton - based dynamic
+gesture recognition has challenges, deep learning offers new paths,
+and model combination can boost performance [4].
+2
+Related Work
+2.1
+Spatiotemporal Positional Encoding
+The purpose of positional encoding is to inject signals about rela-
+tive or absolute positional information into the model’s input [13],
+which is particularly important for processing sequential data. Ap-
+plying positional encoding to hand joint points allows the network
+model to better leverage the relationships between joints [14], as
+shown in Equations 1) to (2).
+퐸푝표푠,2푖= sin
+
+푝표푠
+10
+000
+2푖
+푑
+
+(1)
+퐸푝표푠,2푖+1 = cos
+
+푝표푠
+10
+000
+2푖
+푑
+
+(2)
+In equations, d is encoded feature dimension, pos is gesture’s
+sequence position index, and i is feature dimension index. Sine
+and cosine provide position info, helping the model learn position
+relationships. This is crucial in sequence models like Transformers,
+as it addresses self - attention’s lack of position info. Each frame
+t in the gesture data contains positional information for N joints,
+represented as 푃푡= [푝1
+푡, 푝2
+푡, ..., 푝푁
+푡], where 푝
+푗
+푡is the 3D coordinate
+vector of the j-th joint in the t-th frame. Assuming that a positional
+encoding vector E is generated for each joint 푝
+푗
+푡at each time step
+t, it is then combined with the 3D coordinates of the joint to form
+the enhanced joint feature 퐹
+푗
+푡.
+F푗
+푡= [p푗
+푡; E]
+(3)
+In this way, the features of each joint not only contain its posi-
+tional information in space but also its temporal information in the
+sequence. The enhanced joint feature representation 퐹
+푗
+푡is input
+into subsequent network modules to help the model learn the rela-
+tive positions and temporal relationships between different joints
+in the gesture sequence.
+2.2
+Attention Mechanism
+In dynamic gesture recognition, the multi - head attention mecha-
+nism, the core of self - attention, significantly boosts the model’s
+feature extraction ability in spatial and temporal dimensions. The
+design of the multi-head attention mechanism allows the model
+to process the features of the gesture sequence in parallel across
+43
+
+CIBDA 2025, March 14–16, 2025, Wuhan, China
+Xingyue Zuo
+multiple subspaces, capturing complex relationships between joints,
+as shown in Equation 4).
+Attention(Q, K, V) = softmax
+ 
+푄KT
+p
+푑푘
+!
+V
+(4)
+In the equation, 푑푘represents the dimension of the key matrix;
+Q is the query matrix; K is the key matrix; and V is the value matrix.
+Dot-product attention typically performs better in terms of speed
+and space efficiency due to the utilization of highly optimized matrix
+multiplication [10]. For smaller values of 푑푘, the performance of
+both methods is similar; however, when 푑푘is large, dot-product
+attention may result in extremely small gradients due to overly
+large results, which can be addressed by normalization using
+p
+푑푘.
+3
+Model Architecture
+3.1
+Spatiotemporal Attention Module
+Original node features F from input hand - skeleton coordinates
+lack spatial ID info (which hand joint a node corresponds to) and
+temporal info (node’s time step). Spatiotemporal positional em-
+beddings, i.e., spatial and temporal ones, are used to add this info.
+Spatial embeddings have N vectors for hand joints; temporal em-
+beddings have N×T vectors for nodes in the hand - skeleton graph
+[11]. Node XX’s feature vector is combined with corresponding
+spatial and temporal embedding vectors before subsequent network
+processing. Thus, we have:
+∧
+푓푡,푗= 퐴T(ET
+푡,푗+ 퐴S(p푗
+푡+ ES
+푗))
+(5)
+Where ˆ푓푡,푗represents the final output characteristics of the node;
+퐸푠
+푗represents the spatial position embedding of the JTH hand joint
+[5]. 퐸푇
+푡,푗means that the JTH hand joint is embedded in the time
+position of the t time step; 퐴푇and 퐴푆are for handing the location-
+encoded information to spatial and temporal attention processing
+operations. These embeddings have the same dimension as the 푓푡,푗,
+whose values are set using sine and cosine functions of different
+frequencies.
+The attention section consists of the spatial attention model
+(AS) and the temporal attention model (AT), based on multi - head
+attention. They’re used to extract spatial and temporal info from
+the hand skeleton diagram respectively [6]. Finally, the results are
+aggregated into an average vector, which is used as the feature
+representation of the skeleton graph for classification. Specifically,
+given the input feature 퐹푗
+푡of node 푝푗
+푡in the skeleton diagram, the
+h th spatial attention head first applies three fully connected layers
+to map 퐹푗
+푡to key vector, query vector and value vector respectively,
+as shown in equations 6) ∼(8).
+Kℎ
+푡,푗= Wℎ
+퐾F푗
+푡
+(6)
+Qℎ
+푡,푗= Wℎ
+푄F푗
+푡
+(7)
+Vℎ
+푡,푗= Wℎ
+푉F푗
+푡
+(8)
+Spatial attention computes weights of spatial and self - connec-
+tion edges in two steps. First, it calculates the scaled dot - product
+Figure 1: Diagram of masking operation.
+of query and key vectors of nodes in the same time step. Then, it
+normalizes the results via the softmax function, as in Eqs. (9) - (10).
+sℎ
+푗푘=
+Qℎ
+푡,푗· Kℎ
+푡,푘
+p
+푑model/ℎ
+(9)
+훼ℎ
+푗푘= softmax(sℎ
+푗푘)
+(10)
+Where: 푑model is the size of model hidden layer; sℎ
+푗푘represents
+the scaling dot product between node 푝푗
+푡and 푝푘
+푡; 푄ℎ
+푡,푗and 퐾ℎ
+푡,푘are
+represented by query vector and key vector between skeleton nodes
+in the same time step respectively [12]. 훼ℎ
+푗푘is the attention weight
+between nodes 푝푗
+푡and 푝푘
+푡, representing the importance of edges
+between nodes. Then, the spatial attention features of node 푝푗
+푡are
+weighted and averaged with the value vector, and the results are
+combined, as shown in equations 11) ∼(12).
+Fℎ
+푡,푗=
+푁
+Õ
+푗=1
+(훼푗푘· Vℎ
+푡,푘)
+(11)
+eF푗
+푡= Concate[F1
+푡,푗, F2
+푡,푗, · · · , F퐻
+푡,푗]
+(12)
+Where: H is the number of heads of attention; Fℎ
+푡,푗is the weighted
+average sum of spatial attention weight of node 푝푗
+푡and value vector
+Vℎ
+푡,푘. eF푗
+푡is a representation of spatial attention features that com-
+bine the weighted average of multiple heads to form a node 푝푗
+푡[7].
+For the part of time attention, the output node features of spatial
+attention model are taken as input, and the attention mechanism
+mentioned above is adopted to encode. At the same time, the atten-
+tion is masked in the two dimensions of time and space respectively,
+so that the network is more focused on the current dimension [8].
+The shielding operation diagram is shown in Figure 1.
+The specific operation is that given the time step T and the
+number of joint points J, the spatio-temporal mask matrices are
+the temporal mask 푡푚푎푠푘and the spatial mask 푠푚푎푠푘, with their
+calculation formulas as follows, respectively:
+tmask[푖, 푗] =
+0
+, iandjareatthesamejointatthesametime
+1
+, othercircumstances
+(13)
+smask[푖, 푗] = 1 −tmask[푖, 푗]
+(14)
+Time masks are for masking irrelevant features at different times,
+and spatial masks filter in the spatial dimension (between nodes)
+to mask irrelevant inter - node features [9]. To ensure diagonal
+44
+
+Dynamic gesture recognition method based on multi-head attention and multi-scale cavity convolution
+CIBDA 2025, March 14–16, 2025, Wuhan, China
+Figure 2: The multi-scale dilated convolution part.
+information flow (information transfer of the same node over time),
+an identity matrix I is added to the mask matrix, i.e.:
+푡mask = 푡mask + 퐼
+(15)
+This step ensures that the same node can transmit information
+in the time dimension. Select the appropriate mask according to
+the time or space domain for constraint, as shown in equation 16).
+훼=
+훼× 푡푚푎푠푘+ (1 −푡푚푎푠푘) × 휂
+훼× 푠푚푎푠푘+ (1 −푠푚푎푠푘) × 휂
+(16)
+Where: 휂is a minimum value used to exclude irrelevant attention
+channels so that the activation function output does not consider
+these positions.
+3.2
+Fine focusing module
+Gestures possess multi - scale temporal characteristics, yet the
+attention mechanism may yield inaccurate attention distribution
+due to noise or weight - allocation errors, especially for complex
+gestures. To tackle this, a fine - focusing module is introduced
+before the spatial attention mechanism. As shown in Figure 2, it
+employs multi - scale dilated convolution to adjust dilation rates for
+extracting features at different granularities. Dilated convolution
+extends the receptive field to capture multi - scale spatial depen-
+dencies with few additional parameters, and is suitable for dealing
+with inhomogeneity and noise in skeletal joint data.
+The multi - scale dilated convolution has five branches. Four
+convolutional branches with different kernel sizes and dilation rates
+adapt to various scale features in dynamic gestures. Each branch
+extracts features from local details to large - scale global info via
+convolution. The fifth branch extracts global features by global
+average pooling, ensuring a wider spatial receptive field for the
+model. Finally, all features are splicing and unified reduction and
+fusion through convolution to generate the final output, as shown
+in equation 17).
+
+
+푌1×1 = ReLU(BN(푊1×1 ∗푋))
+푌푑= ReLU(BN(푊3×1,푑∗푋푑푖푙=푑))
+푌퐺= ReLU(BN(푊1×1∗GlobalAvgPool(푋)))
+푌= ReLU(BN(푊∗
+1×1Concat(푌1×1,푌6,푌12,푌18,푌퐺)))
+(17)
+Where, the void rate d is generated by the input feature, as shown
+in equation 18).
+r = 휎(W · P(X))
+(18)
+P(X) is a pooling op on a feature graph for void - rate context.
+W is produced by a 1×1 2D convolution mapping features to void
+rates. By adjusting the void rate, the module can flexibly adapt the
+receptive field for different inputs, better capturing spatial feature
+changes.
+3.3
+Cross entropy loss function based on
+attention weighting
+In this paper, a cross-entropy loss function combined with attention
+weighting is proposed to improve the classification performance of
+the model and effectively constrain the attention mechanism.
+The cross-entropy loss function is often used in classification
+tasks and quantifies the difference between the model output prob-
+ability distribution and the true label probability distribution. For
+a single sample, y is assumed to be the true distribution, ∧y푖is the
+model output distribution, and the formula for calculating the cross-
+entropy loss is:
+푙표푠푠CE = −
+푛
+Õ
+푖=1
+y푖ln( ∧y푖)
+(19)
+Conventional backpropagation uses cross - entropy loss to calcu-
+late output - label error and update model parameters. This paper
+builds on cross - entropy loss by introducing an attention weight
+penalty mechanism. Its core is to add constraints for misallocated
+attention, making the model focus on correct classification and
+enhancing accuracy.
+If the maximum attention score 훼max is less than 1, the model
+is not paying enough attention to the correct category. To penal-
+ize the model’s over - reliance on high attention scores during
+misclassification, a penalty term P is introduced, expressed as:
+푃= 휆
+푁
+Õ
+푖=1
+ 1 −훼max,푖
+2
+(20)
+In the formula, 휆is a hyperparameter, which is generally a small
+value to prevent the penalty item from having too large an impact
+on the total loss. The final joint loss function comprises cross -
+entropy loss and a penalty term, i.e.:
+퐿표푠푠all = 푙표푠푠퐶퐸+ 푃
+(21)
+The design improves classification accuracy with cross - entropy
+loss and uses an attention weighting mechanism to prevent over -
+allocation during misclassification, optimizing both classification
+and attention. It helps the model focus on vital features and boosts
+performance.
+4
+Experimental verification
+4.1
+Experimental data set
+DHG, a public dynamic gesture dataset [2], is challenging with 14
+right - hand gestures of various finger configs. Captured by Intel
+Real sense SDK, 20 participants performed each gesture 5 times
+in 2 configs, collecting 2,800 video seqs (20 - 70 frames). Frames
+are 3D with 22 - joint skeletons. 9 gestures are coarse - grained, 5
+45
+
+CIBDA 2025, March 14–16, 2025, Wuhan, China
+Xingyue Zuo
+Table 1: The names of the 14 gestures in the DHG dataset.
+Serial number
+Gesture names and labels
+Gesture type
+1
+Grab (G)
+Fine-grained
+2
+Tap (T)
+Coarse-grained
+3
+Expand (E)
+Fine-grained
+4
+Pinch (P)
+Fine-grained
+5
+Clockwise Rotation (RC)
+Fine-grained
+6
+Counterclockwise Rotation (RCC)
+Fine-grained
+7
+Slide Right (SR)
+Coarse-grained
+8
+Slide Left (SL)
+Coarse-grained
+9
+Slide Up (SU)
+Coarse-grained
+10
+Slide Down (SD)
+Coarse-grained
+11
+Swipe ”x”
+Coarse-grained
+12
+Swipe ”+”
+Coarse-grained
+13
+Swipe ”v”
+Coarse-grained
+14
+Shake (Sh)
+Coarse-grained
+Table 2: Comparison of recognition rate between the proposed method and other advanced methods in DHG data sets.
+Method
+Accuracy rate /%
+14 gesture categories
+28 gesture categories
+CNN+LSTM
+85.60
+81.10
+ST-GCN
+91.20
+87.10
+MVHAN
+92.36
+89.56
+MBABG
+92.00
+88.78
+MS-ISTGCN
+93.70
+91.20
+Textual method
+97.87
+93.15
+Table 3: Styles available in the Word template.
+Heads of attention
+Accuracy rate /%
+14 gesture categories
+28 gesture categories
+4
+96.10
+85.71
+8
+97.87
+93.15
+10
+96.80
+89.28
+12
+96.41
+91.42
+fine - grained. Dataset’s skeleton info for depth images is used for
+gesture recognition. Gesture names/types are in Table 1.
+4.2
+Experimental Setup
+Tests were run on NVIDIA GeForce RTX3080. 8 random frames per
+video were input. The first - frame palm pos. was subtracted from
+frame sequences, and data was enhanced per Smedt. Trained with
+Adam optimizer (lr=0.001), batch size 32, dropout 0.2.
+4.3
+Comparative experiment
+This paper experiments on the DHG dataset. To assess the model’s
+adaptability and effectiveness, it compares the proposed model
+with mainstream gesture - recognition algorithms. Table 2 shows it
+outperforms in accuracy, achieving 97.8% for 14 - gesture and 93.1%
+for 28 - gesture recognition, proving its multi - category superiority
+and the effectiveness of spatio - temporal attention. The model sets
+8 heads in the multi - head attention. Comparative experiments on
+the head number’s impact are designed, and results are in Table 3.
+Experiments indicate that setting the number of attention heads
+to 8 yields the best model performance and the highest recogni-
+tion rate. This is particularly true for the 28 - gesture categories,
+which are highly complex and more sensitive to the number of
+heads. With eight attention heads, the model can better filter out
+redundant info and focus on recognition - useful features, reducing
+misclassification. Having too many or too few heads leads to insuf-
+ficient or excessive attention to joint relationships, and may cause
+interference among heads, thus decreasing accuracy.
+46
+
+Dynamic gesture recognition method based on multi-head attention and multi-scale cavity convolution
+CIBDA 2025, March 14–16, 2025, Wuhan, China
+4.4
+Noise interference experiment
+To evaluate the network’s robustness in practical use, noise with
+a max amplitude of 0.1 is added to key points in data. A standard
+convolutional network is used as a reference for comparison under
+the same input, training, and evaluation. Integrating multi - scale
+cavity convolution, it enhances multi - scale feature extraction and
+improves the network’s anti - interference in complex scenes.
+5
+Conclusion
+This paper proposes a dynamic gesture recognition network combin-
+ing multi - scale void convolution and self - attention for skeleton
+- based tasks. It uses spatial and temporal attention to improve
+feature extraction, multi - scale cavity convolution for anti - in-
+terference, and an attention - based loss function for stability. Ex-
+periments prove its effectiveness, but there’s room for 28 - gesture
+recognition improvement. Future research may optimize feature
+extraction, use multi - scale mechanisms, enhance similar - gesture
+features, and explore multi - modal fusion.
+References
+[1] SHI Dongzi, LIN Honghui, LIU Yijiang, ZHANG Xin. Global Spatio-Temporal
+Deformable Network for Skeleton-BasedGesture Recognition [J]. Journal of
+University of Electronic Science and Technology of China,2024,53(01):60-66.
+[2] SMEDT DE Q,WANNOUS H,VANDEBORRE J P.Skeleton-based dynamic hand
+gesture recognition[C]//IEEE Conference on Computer Vision and Pattern Recog-
+nition Workshops (CVPRW).Las Vegas:IEEE Press,2016:1206-1214.
+[3] OHN-BAR E,TRIVEDI M.Joint angles similarities and HOG2 for action recogni-
+tion[C]// In Proceedings of the IEEE Conference on Computer Vision and Pattern
+Recognition Workshops (CVPRW).Porland:IEEE Press,2013:465-470.
+[4] LIN H,CHENG J ,LI Y ,et al.Temporal-spatial deformable pose network for
+skeleton-based gesture recognition[C]//IEEE International Conference on Image
+Processing (ICIP).Anchorage:IEEE Press,2021:2324-2328.
+[5] HOU J,WANG G,CHEN X,et al.Spatial-Temporal attention Res-TCN for skeleton-
+based dynamic hand gesture recognition[J].Proceedings of the European Confer-
+ence on Computer Vision (ECCV).Munich:Springer,2018:273-286 .
+[6] Deng Gansen, Ding Wenwen, Yang Chao, Ding Chongyang. Gesture recognition
+by combining spatio-temporal mask andspatial 2D position encoding [J]. Journal
+of Image and Graphics,2024,29(05):1421-1433.
+[7] ZHANG P,LAN C,ZENG W,et al.Semantics-guided neural networks for efficient
+skeleton-based human action recognition[C]//IEEE/CVF Conference on Com-
+puter Vision and Pattern Recognition (CVPR).Seattle:IEEE Press,2020:1109-1118.
+[8] SHI L,ZHANG Y,CHENG J,et al.Two-stream adaptive graph convolutional net-
+works for skeleton-based action recognition[C]//IEEE/CVF Conference on Com-
+puter Vision and Pattern Recognition (CVPR).Long Beach:IEEE Press,2019:12018-
+12027.
+[9] LIU M,YUAN J.Recognizing human actions as the evolution of pose estima-
+tion maps[C]//IEEE/CVF Conference on Computer Vision and Pattern Recogni-
+tion.Salt Lake City:IEEE Press,2018:1159-1168.
+[10] ZHANG P,LAN C,XING J,et al.View adaptive neural networks for high perfor-
+mance skeleton-based human action recognition[J].IEEE Transactions on Pattern
+Analysis and Machine Intelligence,2019,41(8):1963-1978.
+[11] SI C,CHEN W,WANG W,et al.An attention enhanced graph convolutional
+LSTM Network for Skeleton-Based Action Recognition[C]// IEEE/CVF Con-
+ference on Computer Vision and Pattern Recognition (CVPR).Long Beach:IEEE
+Press,2019:1227-1236.
+[12] DAI Z H,YANG Z L,YANG Y M,et al.Transformer-XL:Attentive language models
+beyond a fixed-length context[C]// In Proceedings of the 57th Annual Meeting
+of the Association for Computational Linguistics.Florence:ACL,2019:2978-2988.
+[13] MA C,ZHANG S,WANG A,et al.Skeleton-Based dynamic hand gesture recog-
+nition using an enhanced network with one-shot learning[J].Applied Sci-
+ences,2020,10(11):3680.
+[14] HOU J,WANG G,CHEN X,et al.Spatial-temporal attention Res-TCN for skeleton-
+based dynamic hand gesture recognition[J].Proceedings European Conference
+on Computer Vision.Munich:ECCV,2018:1-15.
+47
+

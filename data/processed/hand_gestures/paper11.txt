@@ -1,0 +1,584 @@
+RESEARCH ARTICLE
+www.advancedscience.com
+Computer-Vision Based Gesture-Metasurface Interaction
+System for Beam Manipulation and Wireless
+Communication
+Yue Teng Chen, Hai Lin Wang, Shi Sun, Zhang Wen Cheng, Yan Kai Zhang, Sen Zheng,
+Tai Yi Zhang, Hui Feng Ma,* and Tie Jun Cui*
+Hand gesture plays an important role in many circumstances, which is one of
+the most common interactive methods in daily life, especially for disabled
+people. Human–machine interaction is another popular research topic to
+realize direct and eﬃcient control, making machines intelligent and
+maneuverable. Here, a special human–machine interaction system is
+proposed and namedas computer-vision (CV) based gesture-metasurface
+interaction (GMI) system, which can be used for both direct beam
+manipulations and real-time wireless communications. The GMI system ﬁrst
+needs to select its working mode according to the gesture command to
+determine whether to perform beam manipulations or wireless
+communications, and then validate the permission for further operation by
+recognizing unlocking gesture to ensure security. Both beam manipulation
+and wireless communication functions are validated experimentally, which
+show that the GMI system can not only realize real-time switching and remote
+control of diﬀerent beams through gesture command, but also communicate
+with a remote computer in real time by translating the gesture language to
+text message. The proposed non-contact GMI system has the advantages of
+good interactivity, high ﬂexibility, and multiple functions, which can ﬁnd
+potential applications in community security, gesture-command smart home,
+barrier-free communications, and so on.
+Y. T. Chen, H. L. Wang, S. Sun, Z. W. Cheng, Y. K. Zhang, S. Zheng,
+T. Y. Zhang, H. F. Ma, T. J. Cui
+State Key Laboratory of Millimeter Waves
+School of Information Science and Engineering
+Southeast University
+Nanjing 210096, China
+E-mail: hfma@seu.edu.cn;tjcui@seu.edu.cn
+Y.T.Chen,H.L.Wang, S.Sun,Z.W.Cheng,Y.K.Zhang,S.Zheng,
+T.Y.Zhang,H.F.Ma,T.J.Cui
+Instituteof ElectromagneticSpace
+Southeast University
+Nanjing 210096,China
+The ORCID identiﬁcation number(s) for the author(s) of this article
+can be found under https://doi.org/10.1002/advs.202305152
+© 2023 The Authors. Advanced Science published by Wiley-VCH GmbH.
+This is an open access article under the terms of the Creative Commons
+Attribution License, which permits use, distribution and reproduction in
+any medium, provided the original work is properly cited.
+DOI: 10.1002/advs.202305152
+1. Introduction
+Nowadays, with the rapid development
+of smart devices, machines with interac-
+tive abilities can be well integrated into
+our lives.[1–4] As one of the most com-
+mon interactive ways, human hand ges-
+tures play an important role in people’s
+daily life. Since gesture recognition is the
+pivot technology in interactive equipment,
+there are quite a few methods reported
+to realize gesture recognition, such as ra-
+dio frequency (RF) method,[5–9] wearable
+device (WD) method,[10–12] and computer-
+vision (CV) method.[13–18] RF method can
+be regarded as a process of RF data col-
+lection and analysis by reading the pose
+of each gesture, and then extracting fea-
+tures through algorithms to ﬁnally solve the
+classiﬁcation problem. While for the WD
+method, it usually needs an additional glove
+or wristband with sensors to obtain external
+data. Gesture recognition based on the CV
+method has been proved to be a non-contact
+and low-cost technique, which mainly re-
+lies on morphology and classiﬁcation algo-
+rithms. However, to the best of our knowl-
+edge, most of the current CV-based gesture
+recognition works mainly focus the recognition accuracy im-
+provement, robot control, clinical, and health,[13–19] while there
+are few reports on CV-based human–machine interaction to con-
+trol electromagnetic (EM) ﬁelds through gesture recognitions,
+which limits the further applications of this interactive method.
+Metasurfaces, which can be regarded as a two-dimensional ver-
+sion of metamaterials, have developed quickly in the last
+decade.[20–22] Due to the ability to freely manipulate EM waves,
+metasurfaces have been widely applied in the design of invisible
+cloaks,[23,24] polarization converters,[21,25] EM absorbers,[26,27]
+and so on.[28,29] In 2014, digital coding and programmable
+metasurface were ﬁrst proposed, building a bridge between
+the digital world and physical world.[30] Thereafter, many
+impressive works have been widely reported based on digi-
+tal coding and programmable metasurfaces, like space-time
+coding metasurfaces,[31–34] reconﬁgurable intelligent surfaces
+(RIS),[35–39] and artiﬁcial intelligent machine.[40] Most recently,
+metasurface-based human–machine interaction systems have
+Adv. Sci. 2024, 11, 2305152
+© 2023 The Authors. Advanced Science published by Wiley-VCH GmbH
+2305152 (1 of 8)
+
+www.advancedsciencenews.com
+www.advancedscience.com
+Figure 1. Schematic of GMI system to realize direct beam manipulation and wireless communication. The platform of GMI system involves a webcam,
+a VGG16-loaded PC, a FPGA, and a metasurface with a high-speed control circuit. The real-time beam manipulation and wireless communication scenes
+are demonstrated in top left and top right parts, respectively.
+also attracted extensive attentions, such as speech recognition
+system,[41] brain-computer interaction systems, [42,43] and cyber-
+physical robotic system.[44] These human–machine interaction
+systems can recognize commands given by people through
+voices, brain waves, and postures, and translate them into EM
+signals, thus achieving real-time manipulation of EM waves to
+better serve people.
+Hand gestures always play an important role in people’s
+daily communication, especially for disabled people. Here, we
+propose a CV-based gesture-metasurface interaction (GMI)
+system, which is a special human–machine interaction system.
+It can recognize gestures and translate them into EM signals for
+real-time beam manipulations and wireless communications.
+A convolutional neural network (CNN) based network Visual
+Geometry Group 16 (VGG16) is adopted to assist in the training
+of gesture recognitions, and an element-individual-controlled
+2-bit programmable metasurface is meticulously designed for
+controlling the EM waves. According to the gesture commands,
+experimental results show that the system can control the meta-
+surface to generate diﬀerent types of beams in real-time, such as
+pencil-like beam, Bessel beam, and orbital angular momentum
+(OAM) beam. In addition, it also can implement real-time wire-
+less communications, by translating the gesture information to
+EM signals and further sending them to the remote terminal
+user in form of text message. The proposed system provides a
+new approach for human–machine interaction to control the EM
+waves through CV-based gesture recognition and may ﬁnd great
+application potential in community security, gesture-command
+smart home, barrier-free communication, and so on.
+2. Concept and Design of the GMI System
+The bottom of Figure 1 shows the schematic diagram of the trans-
+mitting end of the GMI system, which consists of a webcam, a
+computer, and a 2-bit programmable information metasurface.
+When the user puts his hand in front of the webcam, the system
+will be activated through skin color detection due to the invari-
+ance of color skin, then makes a quick snap to obtain gesture
+images, and displays them on the monitor in real-time for easy
+observation and adjustment. The captured gesture images will be
+further delivered to the pre-trained VGG16 network, translated
+them into 8-bit binary bit stream corresponding to the gesture in-
+formation, and further sent to the ﬁeld programmable gate array
+(FPGA) to drive the programmable metasurface. Finally, a ges-
+ture database can be established based on the pre-trained VGG16
+network to mimic the virtual keyboard for information input. In
+the practical application process, the system ﬁrst needs to be ac-
+tivated and unlocked, and then the user can select its working
+scene according to the corresponding gesture commands, such
+as real-time beam manipulations or wireless communications in
+this scheme.
+The scene 1 is real-time beam manipulation, whose concep-
+tual diagram is shown in top left part of Figure 1. Once beam
+manipulation scene is selected, the user can control the meta-
+surface to generate diﬀerent types of beams through gesture
+commands, such as Bessel beam, pencil-like beam, OAM beam,
+and so on. In addition, the Bessel beam and pencil-like beam
+can be scanned in real-time with the swing of a ﬁnger under
+the remote sub-mode, while the topological charge number
+Adv. Sci. 2024, 11, 2305152
+© 2023 The Authors. Advanced Science published by Wiley-VCH GmbH
+2305152 (2 of 8)
+ 21983844, 2024, 5, Downloaded from https://advanced.onlinelibrary.wiley.com/doi/10.1002/advs.202305152, Wiley Online Library on [02/04/2026]. See the Terms and Conditions (https://onlinelibrary.wiley.com/terms-and-conditions) on Wiley Online Library for rules of use; OA articles are governed by the applicable Creative Commons License
+
+www.advancedsciencenews.com
+www.advancedscience.com
+of OAM beam can be adjusted by using “plus” and “minus”
+gestures.
+The scene 2 is real-time wireless communication, whose con-
+ceptual diagram is shown in top right part of Figure 1. We trained
+40 gestures in advance, including alphabets based on Ameri-
+can Sign Language (ASL) standard, partially self-deﬁned punc-
+tuations, function keys, and Kaomoji, in which each of them cor-
+responds to only one unique ASCII (American Standard Code
+for Information Interchange) code number (e.g., A-01000001, B-
+01000010, C-01000011…). At the transmitting end, the captured
+gestures are ﬁrst translated to a series of the corresponding bi-
+nary bit streams in real-time according to the training database,
+and then transmitted by the metasurface using the ON-OFF Key
+(OOK) modulation. At the receiving end, the received signal is
+demodulated into corresponding text content automatically, and
+then shown in the textbox of the receiving monitor.
+3. Gesture Training Based on VGG16 Network
+Gesture training is an important part of the GMI system, which
+is implemented by using VGG16 convolutional neural networks
+in this scheme,[45,46] and three synthetic image datasets of alpha-
+bet and some homemade data based on ASL are applied as the
+training samples.[47–49] The detailed gesture training framework
+based on VGG16 network can be seen in Section S1 (Support-
+ing Information). For digital number gestures “0”–“12” used for
+beam manipulation (for more details see Appendix SI, Support-
+ing Information), named as BM (Beam Manipulation) gestures,
+≈5000 iterations and 13 epochs are required to achieve an accu-
+racy of >98% and a cross-entropy loss close to 0, as shown in
+Figure 2a,b, respectively. The confusion matrix of number ges-
+ture training result is given in Figure 2e to better demonstrate the
+training performance through 180 veriﬁcation samples, which
+shows that all prediction results are in good agreement with the
+true ones except for almost negligible errors. For 40 diﬀerent
+alphabet-symbol gestures used for wireless communication (see
+Supporting Information), named as WC (Wireless Communica-
+tion) gestures, ≈9000 iterations and 24 epochs are required to
+achieve an accuracy of 98.7% and a cross-entropy loss close to
+0, as shown in Figure 2c,d, respectively. Due to the space limi-
+tation, the whole confusion matrix of symbols and alphabets are
+illustrated in Figure 2f,g respectively. Both of them show good
+prediction accuracy. It is worth mentioning that pairs “Q-P” and
+“T-S” show relatively larger errors due to the similarity of these
+two pairs of gestures in morphology, but these errors have little
+eﬀect on the following experimental results.
+4. Design of Metasurface
+The unit element of metasurface is shown in Figure 3a, which
+is a three-metal-layer structure spaced by a dielectric substrate of
+F4B (𝜖r = 2.65, tan𝛿= 0.001) with a thickness of 1.5 mm and FR4
+(𝜖r = 4.4, tan𝛿= 0.02) with a thickness of 0.5 mm. The structure
+on the top layer is composed of an irregular octagonal patch and
+two E-shaped arms, with PIN diodes (MADCOM MADP-000909-
+14020x) loaded among them, as shown in Figure 3b. Two fan-
+shaped choke capacitors at the bottom layer are connected to two
+E-shaped arms on the top layer through metallic holes, respec-
+tively, while the irregular octagon on the top layer is connected
+to the metal ground at the middle layer. The equivalent circuit of
+the PIN diode is shown in the red dashed box in Figure 3a. When
+PIN diode is ON/OFF, the equivalent circuit is a cascade of in-
+ductor and resistor/capacitor. An 8-bit shift register is applied to
+realize independent control of PIN diodes loaded on each unit in
+every four supercells, which can manage four unit elements at
+the same time, as illustrated in Figure 3c. The left ﬁgure shows
+structure arrangement on the top layer and the right ﬁgure shows
+an arrangement of the DC bias line with the fan-shaped choke
+capacitors at the bottom layer. It should be noted that two grey
+rectangular patches shown at the bottom layer are the bonding
+pads of the Flexible Flat Cable (FFC) socket. For more details
+about the design of control board based on shift registers, see
+Section S2 (Supporting information). Figure 3d shows the sim-
+ulated magnitude and phase responses of a single element un-
+der the illumination of a linearly polarized incident wave. The
+results show that the reﬂection magnitudes are all higher than
+0.8 at 10 GHz when two PIN diodes are in OFF-OFF, ON-OFF,
+OFF-ON, and ON-ON states, while their reﬂection phases can
+be controlled to vary continuously, with a phase interval of 90°
+achieving 2-bit phase variation. The simulated electric ﬁeld in-
+tensity distributions of element with the diﬀerent working states
+of PIN diodes are demonstrated in the insets of Figure 3d, show-
+ing completely diﬀerent EM responses, which is the fundamental
+reason for achieving 2-bit phase responses.
+Finally, a programmable information metasurface composed
+of 20×20 units was designed and fabricated to serve the proposed
+system, where the PIN diodes loaded on each unit can be indi-
+vidually controlled via bias voltages. For more details about the
+design of metasurface can be seen in Section S3 (Supporting In-
+formation). It is worth mentioning that the feeding horn antenna
+is placed in front of metasurface at an oblique angle of 30° to
+avoid the shielding eﬀect of the feeding source on the reﬂected
+EM wave, as shown in Figure S4c (Supporting Information).
+Therefore, the above magnitude and phase responses of a unit
+element are also investigated based on the case of 30° oblique
+incidence.
+5. Experimental Veriﬁcation
+In practical applications, in order to protect personal privacy and
+system security, the system should be locked when not in use.
+Hence, an unlocking interface for the system based on the form
+of Sudoku was created. When the system needs to be used, it
+must be ﬁrst unlocked by drawing the correct unlock pattern with
+the ﬁnger. For more details about the design of unlock screen, see
+Section S4 (Supporting Information).
+5.1. Real-Time Beam Manipulation
+Figure 4a,b illustrates near-ﬁeld and far-ﬁeld experimental
+setups of beam manipulation system in the microwave chamber,
+respectively. A notebook computer and a webcam were used at
+the control end to store the pre-trained VGG16 Network of BM
+gestures and capture the gesture of a user, respectively. Once the
+gestures were captured by the webcam, they would be recognized
+and converted to corresponding mode commands according to
+Adv. Sci. 2024, 11, 2305152
+© 2023 The Authors. Advanced Science published by Wiley-VCH GmbH
+2305152 (3 of 8)
+ 21983844, 2024, 5, Downloaded from https://advanced.onlinelibrary.wiley.com/doi/10.1002/advs.202305152, Wiley Online Library on [02/04/2026]. See the Terms and Conditions (https://onlinelibrary.wiley.com/terms-and-conditions) on Wiley Online Library for rules of use; OA articles are governed by the applicable Creative Commons License
+
+www.advancedsciencenews.com
+www.advancedscience.com
+Figure 2. Training performance of VGG16 network in GMI system, in which each label containing 180 validation images. a,b) The accuracy and cross-
+entropy loss of the numbers from 0 to 12 for beam manipulation gestures. c,d) The accuracy and cross-entropy loss of the alphabets and symbols for
+wireless communication gestures. e–g) The confusion matrices of e) number gestures, f) special symbol gestures, and g) alphabet gestures.
+the pre-trained VGG16 Network of BM gestures as shown in
+Appendix SI (Supporting Information), and then the type of
+beam to be generated will be determined. Next, the required
+2-bit phase distributions of metasurface could be immediately
+obtained based on the phase compensation theory, which were
+further converted into corresponding bias voltages for control-
+ling the states of PIN diodes loaded on metasurface through
+an FPGA module. In the near-ﬁeld measurement, an X-band
+waveguide probe was located in front of metasurface to detect the
+electric ﬁeld distributions of EM waves, as shown in Figure 4a.
+While in the far-ﬁeld measurement, the metasurface was placed
+on a rotary table and a receiving horn antenna was located in the
+other side of microwave chamber to receive signals, as shown in
+Figure 4b.
+Five beam modes were implemented to validate the per-
+formance of the system for beam manipulation, including
+pencil-like beam, dual beam, OAM beam, diﬀusion beam, and
+Bessel beam, as shown in Figure S7 in Section S5.1 (Supporting
+Adv. Sci. 2024, 11, 2305152
+© 2023 The Authors. Advanced Science published by Wiley-VCH GmbH
+2305152 (4 of 8)
+ 21983844, 2024, 5, Downloaded from https://advanced.onlinelibrary.wiley.com/doi/10.1002/advs.202305152, Wiley Online Library on [02/04/2026]. See the Terms and Conditions (https://onlinelibrary.wiley.com/terms-and-conditions) on Wiley Online Library for rules of use; OA articles are governed by the applicable Creative Commons License
+
+www.advancedsciencenews.com
+www.advancedscience.com
+Figure 3. The design of unit element, and its reﬂection amplitude and phase responses. a) The basic geometric structure and parameters of a single
+element, mainly includes three metal layers. When the PIN diode is ON (OFF), the equivalent circuit can be regarded as a resistor (capacitor) and an
+inductor in series. b) Top and bottom views of the meta-atom. c) Top and bottom views of four cells managed by a shift register. d) Simulated reﬂection
+magnitude and phase responses of the element when the PIN diodes are in four diﬀerent states.
+Information). The phase compensation derivations for diﬀerent
+beams can be found in Section S7 (Supporting Information).
+Take the generation and real-time control of the Bessel beam
+as an example to show the process and performance of beam
+manipulation, as shown in Mode 5 of Figure S7a (Supporting In-
+formation). A gesture command was sent to the system to make
+it switch to the beam manipulation mode. Then, a ﬁve-ﬁngered
+gesture in front of the webcam was shown, so the system can
+recognize it as number ﬁve, and switch to the operation mode of
+Bessel beam according to the deﬁnition of the pre-trained VGG16
+Network of BM gestures. Under this mode, two sub-modes can
+be further selected. One was “Auto-Scanning” mode correspond-
+ing to one-ﬁngered gesture command. In this sub-mode, the
+Bessel beam will automatically and periodically scan rapidly
+within the range of −60° to 60°. The other was “Remote control”
+mode, corresponding to two-ﬁngered gesture command. In this
+sub-mode, the Bessel beam can be scanned within the range
+of −60° to 60° with the swing of a ﬁnger. Here, the function of
+“Remote control” mode. The control interface of real-time beam
+scanning with ﬁnger swing is shown in the up-left subﬁgure
+of Figure 4c. The near-ﬁeld measured results of Bessel beam at
+diﬀerent deﬂection angles are given in the other subﬁgures of
+Figure 4c, which show that the Bessel beam can be continuously
+scanned from 0° to 60° in real-time under the gesture remote
+control. It is worth mentioning that the measured results from
+−60° to 0° were not displayed here, which were symmetrical
+with the results of 0°–60° shown in Figure 4c. The results of
+other beam modes, such as pencil-like beam, dual beam, OAM
+beam, and diﬀusion beam, can be seen in Figure S8 (Supporting
+Information).
+5.2. Real-Time Wireless Communication
+Figure 5 demonstrates the experimental setup of a wireless com-
+munication system, which consists of a transmitting end and a
+receiving end. For more details about the workﬂow and frame
+of the system, see Figure S9 (Supporting Information). The pre-
+trained VGG16 Network of WC gesture that contains 40 diﬀerent
+gestures was adopted in this scheme, as shown in Appendix SII
+(Supporting Information). These gestures can be regarded as a
+virtual keyboard based on gesture deﬁnition, including alpha-
+bets, punctuations, carriage return, backspace, and Kaomoji, and
+it can be further expanded. At the transmitting end, ﬁrst wireless
+communication mode was selected and unlocked the system,
+and then input messages remotely in real-time using the deﬁned
+virtual gesture keyboard through a webcam. The captured ges-
+ture images were delivered to the pre-trained VGG16 Network of
+Adv. Sci. 2024, 11, 2305152
+© 2023 The Authors. Advanced Science published by Wiley-VCH GmbH
+2305152 (5 of 8)
+ 21983844, 2024, 5, Downloaded from https://advanced.onlinelibrary.wiley.com/doi/10.1002/advs.202305152, Wiley Online Library on [02/04/2026]. See the Terms and Conditions (https://onlinelibrary.wiley.com/terms-and-conditions) on Wiley Online Library for rules of use; OA articles are governed by the applicable Creative Commons License
+
+www.advancedsciencenews.com
+www.advancedscience.com
+Figure 4. Beam manipulation experimental scenes and setup for GMI system, and the experimental results of Bessel beam manipulation with ﬁgure
+swing. a) Near-ﬁeld experimental scene. b) Far-ﬁeld experimental scene. c) Experimental results of normalized electric ﬁeld intensity for gesture-controlled
+Bessel beam deﬂection from 0° to 60° with user interface.
+WC gestures and translated into 8-bit binary bit streams associ-
+ated with corresponding RS232 commands. Then, these RS232
+commands were further converted into corresponding ASCII
+codes and sent by the programmable information metasurface
+using OOK modulation. Take sending the message “OK” as
+an example, the associated ASCII codes for “O” and “K” were
+“0 100 1111” and “0 100 1011”, respectively. Figure 5b shows the
+time-varying coding sequences of ASCII codes for “O” and “K”,
+where digital codes “1” and “0” correspond to high gain pattern
+and low gain pattern of metasurfaces, respectively. It was worth
+mentioning that the high gain pattern and low gain pattern
+of metasurfaces were corresponding to the pencil-like beam
+and diﬀusion beam modes of metasurface, respectively, whose
+measured far-ﬁeld radiation patterns can be seen in Figure S8a,b
+(Supporting Information). More principle and detail of OOK in
+this scheme were described in Section S8 (Supporting Informa-
+tion). Here, the sampling interval time was Δts = 2.048 ms, and
+the rendering delay of the control board was Δtr = 25.6 𝜇s marked
+by green bar in Figure 5b. It was paramount that holding time
+Δth should be much longer than Δtr to prevent sampling during
+the circuit board’s rendering, which might cause inevitable bit er-
+rors. High gain pattern was set as the default state of metasurface
+when the camera was waiting for commands (gestures), more
+detail about relative setting can be seen in Section S8 (Supporting
+Information). A full wireless communication process to send a
+message “I LOVE SEU.” is demonstrated in Figure 5c, in which
+the left part was the transmitting end, showing the text message
+to be transmitted and its corresponding gesture commands.
+The right part was the receiving end, showing the received text
+message “I LOVE SEU.” that was displayed on the graphical user
+interface (GUI) of the receiving end. The results showed that the
+gesture commands could be correctly recognized and sent to the
+receiving end in form of a text message via the proposed GMI
+system, and the detailed real-time operating process can be seen
+in Video S1 (Supporting Information). In addition, two more
+wireless communication demonstrations including “Backspace”
+and “Carriage Return” functions are given in Videos S2 and S3
+(Supporting Information), respectively.
+In current version, although the processing data and metasur-
+face response could be ﬁnished in millisecond level, the response
+speed of the system was still not fast enough due to the time cost
+in gesture capture process, which was set to 3 s in this design.
+However, the gesture capture time was expected to be greatly re-
+duced through adequate sign language training. For more details
+about the discussion of time response of the system, see Section
+S9 (Supporting Information).
+Adv. Sci. 2024, 11, 2305152
+© 2023 The Authors. Advanced Science published by Wiley-VCH GmbH
+2305152 (6 of 8)
+ 21983844, 2024, 5, Downloaded from https://advanced.onlinelibrary.wiley.com/doi/10.1002/advs.202305152, Wiley Online Library on [02/04/2026]. See the Terms and Conditions (https://onlinelibrary.wiley.com/terms-and-conditions) on Wiley Online Library for rules of use; OA articles are governed by the applicable Creative Commons License
+
+www.advancedsciencenews.com
+www.advancedscience.com
+Figure 5. Wireless communication experimental scenes and setup for GMI system, time sequence of metasurface, and partial experimental demon-
+stration. a) Experimental scene, overall setup for the communication system. b) Time sequence of metasurface when “O” and “K” are transmitted,
+respectively. c) An example “I LOVE SEU.” is demonstrated at the transmitting end and receiving GUI, respectively.
+6. Conclusion
+We propose an integrated CV-based GMI system, which can im-
+plement real-time beam manipulations and wireless communi-
+cations through gesture commands. A 2-bit programmable meta-
+surface with the capability of pattern coding in quick response is
+designed to serve the system, and the deep learning technique
+is used to combine with metasurface to achieve signal conver-
+sion from hand gestures to EM waves. The performance of this
+system has been experimentally validated, and the results show
+that the system can be directly controlled by gesture commands
+of users without any peripherals to realize real-time beam ma-
+nipulations and remote wireless communications. In addition,
+the self-deﬁned gesture function keys can bring more degrees
+of freedom to realize further complicated requirements. Further
+considering the practicality of the system, a two-hand gesture
+recognition strategy can be developed in the future work, and
+more eﬀective modulation methods can be adopted for wireless
+communication mode, such as frequency-shift keying (FSK) or
+quadrature phase shift keying (QPSK). It can be expected that
+GMI system with stronger interaction capability and more in-
+telligence by involving artiﬁcial intelligence (AI) algorithms and
+some self-adaptive mechanisms, and is promising to be applied
+in non-contact sterile barrier system, gesture-command smart
+home, barrier-free community, and so on.
+Supporting Information
+Supporting Information is available from the Wiley Online Library or from
+the author.
+Acknowledgements
+This work was supported by the National Natural Science Foundation of
+China (62071117, 61831006, and 62288101), the National Key Research
+and Development Program of China (2017YFA0700200, 2017YFA0700201,
+and 2017YFA0700202), the Project for Jiangsu Specially-Appointed Pro-
+fessor, the Major Project of the Natural Science Foundation of Jiangsu
+Adv. Sci. 2024, 11, 2305152
+© 2023 The Authors. Advanced Science published by Wiley-VCH GmbH
+2305152 (7 of 8)
+ 21983844, 2024, 5, Downloaded from https://advanced.onlinelibrary.wiley.com/doi/10.1002/advs.202305152, Wiley Online Library on [02/04/2026]. See the Terms and Conditions (https://onlinelibrary.wiley.com/terms-and-conditions) on Wiley Online Library for rules of use; OA articles are governed by the applicable Creative Commons License
+
+www.advancedsciencenews.com
+www.advancedscience.com
+Province (BK20212002), the 111 Project (111-2-05), the Fundamental Re-
+search Funds for the Central Universities (2242023K5002), and the Sci-
+entiﬁc Research Foundation of Graduate School of Southeast University
+(YBPY2116).
+Conﬂict of Interest
+The authors declare no conﬂict of interest.
+Data Availability Statement
+The data that support the ﬁndings of this study are available from the cor-
+responding author upon reasonable request.
+Keywords
+computer vision, gesture-metasurface interaction system, non-contact,
+beam manipulation, wireless communication, programmable metasur-
+face
+Received: July 26, 2023
+Revised: November 2, 2023
+Published online: December 3, 2023
+[1] Q. Shi, Z. Zhang, T. He, Z. Sun, B. Wang, Y. Feng, X. Shan, B. Salam,
+C. Lee, Nat. Commun. 2020, 11, 4609.
+[2] M. Usman, J. Rains, T. J. Cui, M. Z. Khan, J. U. R. Kazim, M. A. Imran,
+Q. H. Abbasi, Light Sci. Appl. 2022, 11, 212.
+[3] Y. Takagi, S. Nishimoto, Proc. of IEEE/CVF Conference on Computer Vi-
+sion and Pattern Recognition (CVPR), CVPR, Vancouver, Canada, 2023,
+p.14453.
+[4] M. M. Shanechi, Nat. Neurosci. 2019, 22, 1554.
+[5] L. Li, Y. Shuang, Q. Ma, H. Li, H. Zhao, M. Wei, C. Liu, C. Hao, C.-W.
+Qiu, T. J. Cui, Light Sci. Appl. 2019, 8, 97.
+[6] H. P. Wang, Y. X. Zhou, G. D. Liu, S. M. Yin, P. J. Li, S. Y. Dong, C. Y.
+Gong, S. Y. Wang, Y. B. Li, T. J. Cui, Adv. Sci. 2022, 9, 20.
+[7] J. Lien, N. Gillian, M. E. Karagozler, P. Amihood, C. Schwesig, E.
+Olson, H. Raja, I. Poupyrev, ACM Trans. Graphics. 2016, 35, 1.
+[8] Z. Fu, J. Xu, Z. Zhu, A. X. Liu, X. Sun, IEEE Trans. Mobile Comput.
+2019, 18, 473.
+[9] S. Tan, J. Yang, Y. Chen, IEEE Trans. Mobile Comput. 2022, 21, 2789.
+[10] A. Moin, A. Zhou, A. Rahimi, A. Menon, S. Benatti, G. Alexandrov, S.
+Tamakloe, J. Ting, N. Yamamoto, Y. Khan, F. Burghardt, L. Benini, A.
+C. Arias, J. M. Rabaey, Nat. Electron. 2021, 4, 54.
+[11] F. Wen, Z. Zhang, T. He, C. Lee, Nat. Commun. 2021, 12, 5378.
+[12] Z. Zhou, K. Chen, X. Li, S. Zhang, Y. Wu, Y. Zhou, K. Meng, C. Sun,
+Q. He, W. Fan, E. Fan, Z. Lin, X. Tan, W. Deng, J. Yang, J. Chen, Nat.
+Electron. 2020, 3, 571.
+[13] J. Wan, C. Lin, L. Wen, Y. Li, Q. Miao, S. Escalera, G. Anbarjafari, I.
+Guyon, G. Guo, S. Z. Li, IEEE Trans. Cybern. 2022, 52, 3422.
+[14] D. S. Breland, A. Dayal, A. Jha, P. K. Yalavarthy, O. J. Pandey, L. R.
+Cenkeramaddi, IEEE Sensors J 2021,21, 26602.
+[15] J. Huang, W. Zhou, H. Li, W. Li, IEEE Trans. Circuits Syst. Video Technol.
+2019, 29, 2822.
+[16] H. Gammulle, S. Denman, S. Sridharan, C. Fookes, IEEE Trans. Image
+Process. 2021, 30, 7689.
+[17] S. Ji, W. Xu, M. Yang, K. Yu, IEEE Trans. Pattern Analysis and Machine
+Intelligence. 2013, 35, 221.
+[18] J. P. Wachs, M. Kölsch, H. Stern, Y. Edan, Commun. ACM. 2011, 54,
+60.
+[19] M. V. Bergh, D. Carton, R. D. Nijs, N. Mitsou, C. Landsiedel, K.
+Kuehnlenz, D. Wollherr, L. V. Gool, M. Buss, Proc. of IEEE Conf. on
+RO-MAN, IEEE Atlanta, USA, 2011, 357.
+[20] N. Yu, P. Genevet, M. A. Kats, F. Aieta, J.-P. Tetienne, F. Capasso, Z.
+Gaburro, Science 2011, 334, 333.
+[21] N. K. Grady, J. E. Heyes, D. R. Chowdhury, Y. Zeng, M. T. Reiten, A. K.
+Azad, A. J. Taylor, D. A. R. Dalvit, H.-T. Chen, Science 2013, 340, 1304.
+[22] A. Silva, F. Monticone, G. Castaldi, V. Galdi, A. Alù, N. Engheta, Sci-
+ence 2014, 343, 160.
+[23] X. Ni, Z. J. Wong, M. Mrejen, Y. Wang, X. Zhang, Science 2015, 349,
+1310.
+[24] Y. Yang, L. Jing, B. Zheng, R. Hao, W. Yin, E. Li, C. M. Soukoulis, H.
+Chen, Adv. Mater. 2016, 28, 6866.
+[25] L. Liu, X. Zhang, M. Kenney, X. Su, N. Xu, C. Ouyang, Y. Shi, J. Han,
+W. Zhang, S. Zhang, Adv. Mater. 2014, 26, 5031.
+[26] A. Li, S. Kim, Y. Luo, Y. Li, J. Long, D. F. Sievenpiper, IEEE Trans. Mi-
+crow. Theory Techn. 2017, 65, 2810.
+[27] C. Zhang, Q. Cheng, J. Yang, J. Zhao, T. J. Cui, Appl. Phys. Lett. 2017,
+110, 143511.
+[28] M. Khorasaninejad, W. T. Chen, R. C. Devlin, J. Oh, A. Y. Zhu, F.
+Capasso, Science 2016, 352, 1190.
+[29] G. Zheng, H. Mühlenbernd, M. Kenney, G. Li, T. Zentgraf, S. Zhang,
+Nat. Nanotech. 2015, 10, 308.
+[30] T. J. Cui, M. Q. Qi, X. Wan, J. Zhao, Q. Cheng, Light Sci. Appl. 2014, 3,
+e218.
+[31] J. Y. Dai, J. Zhao, Q. Cheng, T. J. Cui, Light Sci. Appl. 2018, 7, 90.
+[32] L. Zhang, X. Q. Chen, R. W. Shao, J. Y. Dai, Q. Cheng, G. Castaldi, V.
+Galdi, T. J. Cui, Adv. Mater. 2019, 31, 1904069.
+[33] L. Zhang, M. Z. Chen, W. Tang, J. Y. Dai, L. Miao, X. Y. Zhou, S. Jin,
+Q. Cheng, T. J. Cui, Nat. Electron. 2021, 4, 218.
+[34] J. C. Ke, J. Y. Dai, J. W. Zhang, Z. Chen, M. Z. Chen, Y. Lu, L. Zhang, L.
+Wang, Q. Y. Zhou, L. Li, J. S. Ding, Q. Cheng, T. J. Cui, Light Sci. Appl.
+2022, 11, 273.
+[35] C. Huang, A. Zappone, G. C. Alexandropoulos, M. Debbah, C. Yuen,
+IEEE Trans. Wirel. Commun. 2019, 18, 4157.
+[36] Q. Wu, R. Zhang, IEEE Commun. Mag. 2020, 58, 106.
+[37] E. Basar, M. Di Renzo, J. De Rosny, M. Debbah, M.-S. Alouini, R.
+Zhang, IEEE Access 2019, 7, 116753.
+[38] H. L. Wang, H. F. Ma, M. Chen, S. Sun, T. J. Cui, Adv. Funct. Mater.
+2021, 31, 2100275.
+[39] H. L. Wang, H. F. Ma, T. J. Cui, Adv. Sci. 2022, 9, 2204333.
+[40] C. Liu, Q. Ma, Z. J. Luo, Q. R. Hong, Q. Xiao, H. C. Zhang, L. Miao,
+W. M. Yu, Q. Cheng, L. Li, T. J. Cui, Nat. Electron. 2022, 5, 113.
+[41] L. Bai, Y. K. Liu, L. Xu, Z. Zhang, Q. Wang, W. X. Jiang, C.-W. Qiu, T. J.
+Cui, Engineering 2023, 22, 185.
+[42] R. Zhu, J. Wang, T. Qiu, Y. Han, X. Fu, Y. Shi, X. Liu, T. Liu, Z. Zhang,
+Z. Chu, C.-W. Qiu, S. Qu, eLight 2022, 2, 10.
+[43] Q. Ma, W. Gao, Q. Xiao, L. Ding, T. Gao, Y. Zhou, X. Gao, T. Yan, C.
+Liu, Z. Gu, X. Kong, Q. H. Abbasi, L. Li, C-W. Qiu, Y. Li, T. J. Cui, eLight
+2022, 2, 11.
+[44] H. Zhao, S. Hu, H. Zhang, Z. Wang, H. Dong, P. D. Hougne, T. J. Cui,
+L. Li, Natl. Sci. Rev. 2022, 11, nwac266.
+[45] H. Hameed, M. Usman, A. Tahir, A. Hussain, H. Abbas, T. J. Cui, M.
+A. Imran, Q. H. Abbasi, Nat. Commun. 2022, 13, 5168.
+[46] L. She, Y. Fan, M. Xu, J. Wang, J. Xue, J. Ou, IEEE Trans. Power Del.
+2022, 37, 2787.
+[47] O. Fahey, Synthetic image dataset of alphabet in American
+sign language, https://www.kaggle.com/datasets/lexset/synthetic-
+asl-alphabet, (accessed: June 2022).
+[48] O. Fahey, Synthetic image dataset of numbers 1 through 10 in
+American sign language, https://www.kaggle.com/datasets/lexset/
+synthetic-asl-numbers, (accessed: June 2022).
+[49] A. Nagaraj, Image dataset for alphabets in the American sign lan-
+guage, https://www.kaggle.com/datasets/grassknoted/asl-alphabet
+(accessed: September 2019).
+Adv. Sci. 2024, 11, 2305152
+© 2023 The Authors. Advanced Science published by Wiley-VCH GmbH
+2305152 (8 of 8)
+ 21983844, 2024, 5, Downloaded from https://advanced.onlinelibrary.wiley.com/doi/10.1002/advs.202305152, Wiley Online Library on [02/04/2026]. See the Terms and Conditions (https://onlinelibrary.wiley.com/terms-and-conditions) on Wiley Online Library for rules of use; OA articles are governed by the applicable Creative Commons License
+
