@@ -1,5 +1,5 @@
 import chromadb
-from sentence_transformers import SentenceTransformer
+from embeddings.embedding_model import EmbeddingModel
 
 
 class Retriever:
@@ -18,7 +18,7 @@ class Retriever:
         print("Loading Retriever...")
 
         # Load SBERT Model
-        self.model = SentenceTransformer(model_name)
+        self.model = EmbeddingModel.get_model(model_name)
 
         # Connect to ChromaDB
         self.client = chromadb.PersistentClient(
@@ -31,20 +31,56 @@ class Retriever:
 
         print("Retriever Ready.\n")
 
+    # def search(
+    #     self,
+    #     query: str,
+    #     top_k: int = 5
+    #     ):
+
+    #     query_embedding = self.model.encode(
+    #     query,
+    #     convert_to_numpy=True
+    #      ).tolist()
+
+    #     results = self.collection.query(
+    #     query_embeddings=[query_embedding],
+    #     n_results=top_k
+    #     )
+
+    #     formatted_results = []
+
+    #     documents = results["documents"][0]
+    #     metadatas = results["metadatas"][0]
+    #     distances = results["distances"][0]
+
+    #     for doc, meta, distance in zip(
+    #     documents,
+    #     metadatas,
+    #     distances
+    #     ):
+
+    #         formatted_results.append({
+    #         "source": meta["source"],
+    #         "chunk_id": meta["chunk_id"],
+    #         "distance": distance,
+    #         "text": doc
+    #         })
+
+    #     return formatted_results
     def search(
     self,
     query: str,
-    top_k: int = 5
+    top_k: int = 20
     ):
 
         query_embedding = self.model.encode(
-        query,
-        convert_to_numpy=True
-         ).tolist()
+            query,
+            convert_to_numpy=True
+        ).tolist()
 
         results = self.collection.query(
-        query_embeddings=[query_embedding],
-        n_results=top_k
+            query_embeddings=[query_embedding],
+            n_results=top_k
         )
 
         formatted_results = []
@@ -53,17 +89,38 @@ class Retriever:
         metadatas = results["metadatas"][0]
         distances = results["distances"][0]
 
-        for doc, meta, distance in zip(
-        documents,
-        metadatas,
-        distances
+        for rank, (doc, meta, distance) in enumerate(
+            zip(documents, metadatas, distances),
+            start=1
         ):
 
             formatted_results.append({
-            "source": meta["source"],
-            "chunk_id": meta["chunk_id"],
-            "distance": distance,
-            "text": doc
+                "rank": rank,
+                "source": meta["source"],
+                "chunk_id": meta["chunk_id"],
+                "distance": distance,
+                "text": doc
             })
 
         return formatted_results
+    
+    def build_context(self, retrieved_chunks):
+        """
+        Combine retrieved chunks into one context
+        for the LLM.
+        """
+
+        context = ""
+
+        for chunk in retrieved_chunks:
+
+            context += (
+                f"Rank: {chunk['rank']}\n"
+                f"Source: {chunk['source']}\n"
+                f"Chunk: {chunk['chunk_id']}\n\n"
+                f"{chunk['text']}\n"
+                "\n"
+                "----------------------------------------\n\n"
+            )
+
+        return context

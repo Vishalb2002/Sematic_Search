@@ -55,6 +55,10 @@ def main():
 
     print(results)
 
+    context = retriever.build_context(results)
+
+    print(context)
+
 
 if __name__ == "__main__":
     main()

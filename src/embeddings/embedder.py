@@ -1,7 +1,7 @@
 from pathlib import Path
 import json
 
-from sentence_transformers import SentenceTransformer
+from embeddings.embedding_model import EmbeddingModel
 
 
 class SBERTEmbedder:
@@ -18,7 +18,7 @@ class SBERTEmbedder:
 
         print("Loading SBERT Model...")
 
-        self.model = SentenceTransformer(model_name)
+        self.model = EmbeddingModel.get_model(model_name)
 
         print("Model Loaded Successfully.\n")
 
