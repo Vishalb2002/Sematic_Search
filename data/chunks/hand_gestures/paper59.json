@@ -1,0 +1,152 @@
+[
+    {
+        "chunk_id": 1,
+        "source": "paper59",
+        "text": "2022 8th International Conference on Advanced Computing and Communication Systems (ICACCS) \nVision Based Surveillance Robot for Military \nApplications\nJanani K1, Gobhinath S2, Santhosh Kumar K V3, Roshni S4, Rajesh A5  \n1, 2 Assistant Professor, Department of EEE, Dr.N.G.P Institute of Technology, Coimbatore. \n3, 4, 5 UG Scholar,Department of EEE, Dr. N.G.P Institute of Technology, Coimbatore. \n1 mailtojanani@gmail.com, 2s.gobhinath@gmail.com \nAbstract - Security and monitoring are extremely important in \nour current society. An efficient monitoring system aids in the \nanalysis of stranded places where humans are unable to access. \nWe intend to construct a surveillance robot that can conduct \nboth active and passive surveillance, with an autonomous \npatrol mode and a manual mode that alerts the operator when \nmotion is detected. The surveillance system can travel within \nthe surveillance area, allowing more areas of interest to be"
+    },
+    {
+        "chunk_id": 2,
+        "source": "paper59",
+        "text": "patrol mode and a manual mode that alerts the operator when \nmotion is detected. The surveillance system can travel within \nthe surveillance area, allowing more areas of interest to be \nviewed with the least amount of surveillance equipment \npossible on a limited budget. Furthermore, acquiring relevant \ndata becomes much easier than surveillance monitoring is \nadaptable with numerous sensors like humidity/ digital \ntemperature/ sonic/ air quality/ smoke sensors, etc., that may \nbe used for diverse applications. Using the internet as a \ncommunication medium, the robotic car can function as both \nan autonomous and a manually operated vehicle. This \nmultimodal robot was designed to sense the presence of an \nenemy, capture it on camera, and broadcast it live to an \nauthorised person. Surveillance plays a big role while we're \noperating on the border, and there's a robot for that. This \npaper shows how to build a smart surveillance robot for"
+    },
+    {
+        "chunk_id": 3,
+        "source": "paper59",
+        "text": "authorised person. Surveillance plays a big role while we're \noperating on the border, and there's a robot for that. This \npaper shows how to build a smart surveillance robot for \nmilitary use utilising a Raspberry Pi for security. A Raspberry \nPi field delivers a wireless command, which is received by an \nauthorised user on a web page, and the robot moves as a result. \nThe Raspberry Pi camera is used to stream the video. The \nRaspberry Pi is programmed in the Python programming \nlanguage. The video streamed at a rate of up to 15 frames per \nsecond, according to the results of the trial. \nKeywords - Robots, Computer Vision, Raspberry Pi, IoT and GPS \nI.\nINTRODUCTION\n  This proposal objective is to utilise modern technologies, \nwhich have undergone a revolution, in the sphere of \nsurveillance, especially for military and research initiatives. \nThis concept can be realised by utilising embedded \ntechnologies, which aid in the development of a system"
+    },
+    {
+        "chunk_id": 4,
+        "source": "paper59",
+        "text": "surveillance, especially for military and research initiatives. \nThis concept can be realised by utilising embedded \ntechnologies, which aid in the development of a system \ncapable of entering a remote location without the use of \nhuman resources. As a result, embedded systems, which are \nan integrated system of hardware and programme software \nthat can be controlled remotely, are chosen. It discusses a \nsmart surveillance system that uses a Raspberry Pi 3 and a \nwebcam, as well as sensors for specific applications. The \nRaspberry Pi 3 is popular because it is adaptable and allows \ndirect access to processor pins as GPIOs, making it ideal for \ndeveloping your concept. The Raspberry Pi 3 is connected \nto a webcam to produce vision for the Bot. The raspberry pi \nuses the information obtained from the  \ncam to control the bot and complete the desired work. Even \nwhile upgraded technologies play an important role in a \nvariety of industries, defence systems have yet to reap the"
+    },
+    {
+        "chunk_id": 5,
+        "source": "paper59",
+        "text": "cam to control the bot and complete the desired work. Even \nwhile upgraded technologies play an important role in a \nvariety of industries, defence systems have yet to reap the \nfull benefits of these innovations.  \n      The primary goal of this project is to use improvised \napproaches in defence, medical, and rescue missions. At this \ntime, trespassers and insurgents are frequently infiltrating \nour country's restricted zones (across borders), and there is \nno accurate mechanism for identifying individuals. Humans \nand animals may be distinguished using image processing, \nand a tracking ID is provided separately to avoid false \nalarms for allowed access. The Mines are the most \ndangerous portion of the battlefield. Physically detecting \nmines opens up a slew of potential dangers. The \nemployment of a remote monitoring bot minimises the \ndanger of detecting and destroying mines. GPR (Ground \nPenetrating Radar) is one of the most recent micro"
+    },
+    {
+        "chunk_id": 6,
+        "source": "paper59",
+        "text": "employment of a remote monitoring bot minimises the \ndanger of detecting and destroying mines. GPR (Ground \nPenetrating Radar) is one of the most recent micro \ntechnologies used to detect landmines, along with the use of \nNuclear Magnetic Resonance Spectroscopy (NMR) and \nother sound sensors. Controls for the arms are employed. As \na surveillance application, it can also be used in rescue \nefforts. Compact bots capable of entering regions where \npersonal contact is impossible are employed to gather \ninformation about those locations at aftermath for the \nnatural and human made disasters. Our system assists for \npre-monitoring areas, detecting location to an exact precise \npoint using GPS, live image streaming through camera, and \nroving over any tough terrain. The bot's data is accessed via \nIoT, which makes the data more secure and authentic.  \nII. PROPOSED STRUCTURE FOR HARDWARE\nIMPLEMENTATION \nThe goal of this project is to employ modern technologies,"
+    },
+    {
+        "chunk_id": 7,
+        "source": "paper59",
+        "text": "IoT, which makes the data more secure and authentic.  \nII. PROPOSED STRUCTURE FOR HARDWARE\nIMPLEMENTATION \nThe goal of this project is to employ modern technologies, \nwhich have ushered in a revolution in the sphere of \nsurveillance, especially for military and research initiatives. \nThis concept can be realised by utilising embedded \ntechnologies, which aid in the development of a system \ncapable of entering a remote location without the use of \nhuman resources. As a result, embedded systems, which are \nan integrated system of hardware and programme software \nthat can be controlled remotely, are chosen. It discusses a \nsmart surveillance system that uses a Raspberry Pi 3 and a \nwebcam, as well as sensors for specific applications. The \nRaspberry Pi 3 is popular because it is adaptable and allows \ndirect access to processor pins as GPIOs, making it ideal for \ndeveloping your concept. The Raspberry Pi 3 is connected to \na webcam to produce vision for the Bot. The raspberry pi uses"
+    },
+    {
+        "chunk_id": 8,
+        "source": "paper59",
+        "text": "direct access to processor pins as GPIOs, making it ideal for \ndeveloping your concept. The Raspberry Pi 3 is connected to \na webcam to produce vision for the Bot. The raspberry pi uses \nthe information obtained from the cam to control the bot and \ncomplete the desired work. \n462\n978-1-6654-0816-5/22/$31.00 ©2022 IEEE\n2022 8th International Conference on Advanced Computing and Communication Systems (ICACCS) | 978-1-6654-0816-5/22/$31.00 ©2022 IEEE | DOI: 10.1109/ICACCS54159.2022.9785152\nAuthorized licensed use limited to: Lovely Professional University - Phagwara. Downloaded on April 02,2026 at 15:05:17 UTC from IEEE Xplore.  Restrictions apply."
+    },
+    {
+        "chunk_id": 9,
+        "source": "paper59",
+        "text": "2022 8th International Conference on Advanced Computing and Communication Systems (ICACCS) \n \nEven while upgraded technologies play an important role \nin a variety of industries, defence systems have yet to reap the \nfull benefits of these innovations. The primary goal of this \nproject is to use improvised approaches in defense, medical, \nand rescue missions. At this time, trespassers and insurgents \nare frequently infiltrating our country's restricted zones \n(across borders), and there is no accurate mechanism for \nidentifying individuals. Humans and animals may be \ndistinguished using image processing, and a tracking ID is \nprovided separately to avoid false alarms for allowed access. \nThe Mines are the most dangerous portion of the battlefield. \nPhysically detecting mines opens up a slew of potential \ndangers. The employment of a remote monitoring bot \nminimises the danger of detecting and destroying mines. GPR \n(Ground Penetrating Radar) is one of the most recent micro"
+    },
+    {
+        "chunk_id": 10,
+        "source": "paper59",
+        "text": "dangers. The employment of a remote monitoring bot \nminimises the danger of detecting and destroying mines. GPR \n(Ground Penetrating Radar) is one of the most recent micro \ntechnologies used to detect landmines, along with the use of \nNuclear Magnetic Resonance Spectroscopy (NMR) and other \nsound sensors. Controls for the arms are employed. As a \nsurveillance application, it can also be used in rescue efforts. \nCompact bots capable of entering regions where personal \ncontact is impossible are employed to gather information \nabout those locations in the aftermath through natural and \nhuman made disasters. Our system assists in pre-monitoring \nareas, detecting location to an exact precise point using GPS, \nlive image streaming through camera, and roving over any \ntough terrain. The bot's data is accessed via IoT, which makes \nthe data more secure and authentic. \n \n \n \nFig. 1: Block diagram of Proposed Method \nA. Concept Design:"
+    },
+    {
+        "chunk_id": 11,
+        "source": "paper59",
+        "text": "tough terrain. The bot's data is accessed via IoT, which makes \nthe data more secure and authentic. \n \n \n \nFig. 1: Block diagram of Proposed Method \nA. Concept Design: \n     Through the USB 2.0 ports on the board, the Raspberry Pi \n3 Model B with 1 GB RAM is connected to a USB Webcam. \nThe board's 64bit ARM V7 Quadcore processor is capable of \nprocessing the 24bit RGB video format captured by the \nwebcam. For our data processing and interpretation, we use a \nfull-size HDMI cable to link the Raspberry Pi 3 to the display. \nWhen the system is in a location where HDMI connections are \nnot available, communication can be accomplished via IOT \nideas. The information is delivered to the cloud via the wireless \nLAN on the board and then retrieved to our display. The \nRaspberry Pi 3 board is powered by a power bank that can \ndeliver up to 2.4 amps. The DC motors that drive the robot's \nwheels are driven by 40 pin GPIO input. A 12 V DC supply"
+    },
+    {
+        "chunk_id": 12,
+        "source": "paper59",
+        "text": "Raspberry Pi 3 board is powered by a power bank that can \ndeliver up to 2.4 amps. The DC motors that drive the robot's \nwheels are driven by 40 pin GPIO input. A 12 V DC supply \npowers the DC motor. After evaluating the data from the \nwebcam, the Raspberry Pi 3 changed the input to the GPIOs at \ndifferent times. \n \n \nB. Interfacing raspberry pi 3 with 10mp webcam \n \n   Python Idle 2 is the most popular framework for interfacing \na Raspberry Pi 3 with a 10MP webcam with a resolution of \n640 x 480 pixels. Because an external webcam cannot be \ndirectly interfaced in Python idle, Open CV2 must be installed. \nThe Raspberry Pi 3 (Model B) used features an arm 11 core \narchitecture, 1GB RAM memory, and is powered by a 5V, 2A \nUSB connection, with Raspbian OS booting from a microSD \ncard. Frame rates of 40 frames per second and 20 frames per \nsecond are available on the webcam interface (VGA). The \nwebcam produces video in 24-bit RGB format. Using a USB"
+    },
+    {
+        "chunk_id": 13,
+        "source": "paper59",
+        "text": "card. Frame rates of 40 frames per second and 20 frames per \nsecond are available on the webcam interface (VGA). The \nwebcam produces video in 24-bit RGB format. Using a USB \nconnector, the data is send to the Raspberry board. \n \nC. Communication of Raspberry Pi with User \n \n  For use of Users acknowledgement of any interrupt is to be \nmade by the user there is need of remote accessibility of the \nboard. To implement this concept of Internet of Things is used. \nCommunication using IOT is more secure, fast and can \ncontrol/monitor the robot from anywhere in the world. The \nvideo from the webcam is transmitted to the webserver which \nis connected to the cloud with specific IP address. This data \ncan be accessed by any PC from the cloud server using the \nspecific IP address. Users can control the bot from the control \nunit by sending interrupts to the bot through IOT in vice-versa \nof the method explained above. \n \n \nFig. 2 Diagram for Methodology of communication \nProtocol \n463"
+    },
+    {
+        "chunk_id": 14,
+        "source": "paper59",
+        "text": "unit by sending interrupts to the bot through IOT in vice-versa \nof the method explained above. \n \n \nFig. 2 Diagram for Methodology of communication \nProtocol \n463\nAuthorized licensed use limited to: Lovely Professional University - Phagwara. Downloaded on April 02,2026 at 15:05:17 UTC from IEEE Xplore.  Restrictions apply."
+    },
+    {
+        "chunk_id": 15,
+        "source": "paper59",
+        "text": "2022 8th International Conference on Advanced Computing and Communication Systems (ICACCS) \n \nD. \nThe Raspberry Pi:  \n \nThe Raspberry Pi is a low-cost computer the width of a board \nthat connects to a computer monitor or television through a \nstandard mouse and keyboard. [2]. Regardless of its \ndiminutive size, the Raspberry processor is adept of a wide \nrange of tasks and functions similarly to a desktop computer, \nincluding Internet browsing, video game play, and word \nprocessing. Raspberry Pi, on the other hand it supports an \nopen source languages like as Python and Java, that are \ncompatible with any programming platforms. \nFig.  3: Raspberry Pi 3 Board Features \n    Due to its superior performance and specs, Raspberry \nprocessor was preferred to other controllers like ARM and \narduino for this prototype, allowing high computation \napplications to be used. The Raspberry Pi 3 is using in this \nprototype. This prototype was built on a Raspberry Pi 3. The"
+    },
+    {
+        "chunk_id": 16,
+        "source": "paper59",
+        "text": "arduino for this prototype, allowing high computation \napplications to be used. The Raspberry Pi 3 is using in this \nprototype. This prototype was built on a Raspberry Pi 3. The \nfeatures of the Raspberry Pi 3 are shown in Figure 3. GPIO \nports and pins, complete External Memory card slot, audio \njack pins and composite video ports, Ethernet pins, camera \nconnector, display connector, High-Definition Multimedia \nInterface pins, Video Core and 3-Dimensional graphics core \n[1]. The Raspberry Pi Processor is linked to the Remote \nControlled car to provide online video running through the \ncamera output as well as Internet based remote controller of \nthe RC car drive. The Raspberry Pi will be connected to the \nsame network as the monitor, and the output data will be \nshown in a web portal. \n \nE. The Camera:  \n   In this proposed project, the camera is a USB-based web \ncamera [5] linked to the Raspberry Pi. Before installing the \nweb camera, it is tested against a Raspberry processor well-"
+    },
+    {
+        "chunk_id": 17,
+        "source": "paper59",
+        "text": "E. The Camera:  \n   In this proposed project, the camera is a USB-based web \ncamera [5] linked to the Raspberry Pi. Before installing the \nweb camera, it is tested against a Raspberry processor well-\nmatched USB webcam [3] to guarantee that it will function \nproperly with the Pi. Because the camera is linked to the Pi, \nthe Pi may upload the collected real-time footage to the \nInternet over Wi-Fi. A web interface can be used to monitor \nonline live video for surveillance or to remotely operate the \ncar measure. \n \nF. Raspbian Jessie OS:  \n    The Raspberry Pi runs on the Raspbian operating system. \nRaspbian is an unofficial Debian Wheezy port with compiler \nsettings tweaked to provide optimised \"hard float\" code for \nthe Raspberry Pi. For applications that rely heavily on floating \npoint arithmetic operations, this results in much faster \nperformance. Although the main contributors to Raspbian are \nPeter Green and Mike Thompson, it has greatly benefited"
+    },
+    {
+        "chunk_id": 18,
+        "source": "paper59",
+        "text": "point arithmetic operations, this results in much faster \nperformance. Although the main contributors to Raspbian are \nPeter Green and Mike Thompson, it has greatly benefited \nfrom the actively engaging of the Raspberry community who \nwant to get the most out of their gadgets. [7]. Raspbian Jessie \nis the operating system installed on the Raspberry Pi. \n \nG. Python:  \n Updates to numerous of the Raspbian-bundled applications \nare among the other unique aspects of Raspbian Jessie. \nEpiphany web browser, Sonic Pi all has new versions, as well \nas built-in Python apps. As a result, Python users don't need \nto install anything to access the file [8]. Python language is a \nsimple and most significant object-oriented programming \nsoftware that is similar to Java and Scheme, in terms of syntax \nand readability and makes use of English keywords. To \ncommunicate data from GPIO ports to Remote Control Car's \nmotor, this project will use a Python application. \n \nH. Overall Activity Flow:"
+    },
+    {
+        "chunk_id": 19,
+        "source": "paper59",
+        "text": "and readability and makes use of English keywords. To \ncommunicate data from GPIO ports to Remote Control Car's \nmotor, this project will use a Python application. \n \nH. Overall Activity Flow:  \n \n   The Raspberry Pi based system's entire activity flow can be \nbroken down into numerous components, as displayed in \nFigure 4. When the processor is on, it will automatically look \nfor a Wi-Fi connection and interface with to the one that has \nbeen assigned to it. The USB based web camera has been \ninstantly start capturing real time camera video. Before being \nuploaded to a web live server for streaming, the videos will \nbe compressed. Simultaneously, the Pi will await human input \nor remote commands to controller the RC car's movement. \n. \n \nFig.  4: Overall Activity Flow (Raspberry Pi)  \n464\nAuthorized licensed use limited to: Lovely Professional University - Phagwara. Downloaded on April 02,2026 at 15:05:17 UTC from IEEE Xplore.  Restrictions apply."
+    },
+    {
+        "chunk_id": 20,
+        "source": "paper59",
+        "text": "2022 8th International Conference on Advanced Computing and Communication Systems (ICACCS) \n \nIII. RESULT ANALYSIS & DISCUSSION \nThe setup and configuration work that went into bringing \nall of the components together is detailed in this section. \nImages for the output snapshots are also provided in this \nsection. \n \nA. Raspberry Pi Setup  \nFor ensure that every feature functions correctly the first \ntime the Raspberry Pi 3 boots, several devices are required to \nset it up [2] \n.    \nB. Camera Installation: \n    Motion, a programme that monitors the visual signal from \ncameras in order to give live streaming video, will be \ninstalled on the USB Webcams. It can detect motion by \ndetecting if a substantial section of the image has moved. \nMotion may output JPG image format, PNG image format \nand MP4 video. Later all of the arrangement is finished, the \nonline video sharing will be viewed directly through the \nbrowser using a web link [9].. Figure 5 shows a video feed"
+    },
+    {
+        "chunk_id": 21,
+        "source": "paper59",
+        "text": "and MP4 video. Later all of the arrangement is finished, the \nonline video sharing will be viewed directly through the \nbrowser using a web link [9].. Figure 5 shows a video feed \nseen in a web browser.The resolution of the image utilised in \nthis project is the default format, is 360pixel width and \n240pixel height. MJPG Streamer could be installed and \nutilised to improve the camera's quality [9]. However, the \nframe per rate should be properly fix, else movie will stream \nfar too quickly. Another option is to lower the frame rate, \nalter for video size, and use a high-quality web cam to \ntroubleshoot for video's criteria. \nFig.  5: Interfacing with Raspberry Pi  \n \nC. OpenCV: \n    Face detection and recognition can be done with OpenCV, \na computer vision framework. The robot uses a camera to \nperform face recognition, and we manually provide \ncommands to the robot based on that. Unfortunately, the \ncurrent binary version of OpenCV (version 2.3.x), which can"
+    },
+    {
+        "chunk_id": 22,
+        "source": "paper59",
+        "text": "perform face recognition, and we manually provide \ncommands to the robot based on that. Unfortunately, the \ncurrent binary version of OpenCV (version 2.3.x), which can \nbe loaded via apt-get on the Raspbian operating system, is too \nold to include the facial recognition algorithms needed for \nthis project. However, by obtaining, creating, and installing a \nnewer version of OpenCV, you can access the facial \nrecognition algorithms. \nD. Webpage Development: \n    The creation of a web page is a critical component of our \neffort to control a robot from afar. It will be important to \ncreate a single platform from which we will accessour robot. \nWe may adjust the direction of the motor and the camera's \nposition as well as monitor the video feed from the web page. \nIt will be important to secure our website against \nunauthorised access. To keep it safe, we'll keep the IP address \na closely guarded secret. When an authorised person wants"
+    },
+    {
+        "chunk_id": 23,
+        "source": "paper59",
+        "text": "It will be important to secure our website against \nunauthorised access. To keep it safe, we'll keep the IP address \na closely guarded secret. When an authorised person wants \naccess to the robot, he will go to that page and input the static \nIP address of the Raspberry Pi, and the authorised user will \nbe granted access to the robot. \n \n   We use 000webhost to create our own website. We created \nour own website and posted all of the information about our \nrobot on it, as well as our contact information, so that anyone \nwho visits the page may learn about it and leave a remark on \nit. All of the data will be stored on the server. \n \nE. Prototype Development:  \n \n     The task was done through the Remote Controlled car that \ndelivers online live video sharing for surveillance purposes \nand can be operated remotely over the web link. Remote \nControlled car to be controlled through Raspberry board, \nwhich interfaces to web server through Wi-Fi. A Universal"
+    },
+    {
+        "chunk_id": 24,
+        "source": "paper59",
+        "text": "and can be operated remotely over the web link. Remote \nControlled car to be controlled through Raspberry board, \nwhich interfaces to web server through Wi-Fi. A Universal \nSerial Bus camera is attached to the Pi to allow live video \nbroadcasting. A car motor regulator is connected to \nRaspberry board to control car's movement. A web interface \nwas developed to give the user with both video streaming and \nan RC controller panel. The user can watch live video while \nnavigating the region by remotely managing the car's \nmovement using this interface.  \n \n \nFig.  6: Hardware Implementation   \nA test was performed for local access authorization in which \nan unauthorized locally connected user could not view the \nlive broadcast and could not control the Remote-Control Car. \nUnauthorized access is displayed on a web error for such \nusers. In another experiment, the Remote-Control car could \nonly be operated by an authorized user who had the proper id \n465"
+    },
+    {
+        "chunk_id": 25,
+        "source": "paper59",
+        "text": "Unauthorized access is displayed on a web error for such \nusers. In another experiment, the Remote-Control car could \nonly be operated by an authorized user who had the proper id \n465\nAuthorized licensed use limited to: Lovely Professional University - Phagwara. Downloaded on April 02,2026 at 15:05:17 UTC from IEEE Xplore.  Restrictions apply."
+    },
+    {
+        "chunk_id": 26,
+        "source": "paper59",
+        "text": "2022 8th International Conference on Advanced Computing and Communication Systems (ICACCS) \n \nand password, as well as access to the web browser from \nanywhere as long as the Pi was turned on.  \nIV. CONCLUSION \n     In this study, we develop a smart surveillance robot for \nmilitary use. With the help of this robot, we can determine \nthe current state of the border area in real time without relying \non any human source. The surveillance robot provides live \nstreaming video in response to our commands. The Raspberry \nPi development board is a low-cost, fully functional \ncomputing device that may be used for a wide range of \npurposes. Camera modules are also reasonably priced and can \nbe used in security systems. We were able to make our \nproduct more flexible to future advances by using Python and \nOpenCV on the Raspberry Pi.. Using this proposed \ntechnology, our security officers will have a hand in detecting \ninvaders. As parts of our border areas fall into high altitude"
+    },
+    {
+        "chunk_id": 27,
+        "source": "paper59",
+        "text": "OpenCV on the Raspberry Pi.. Using this proposed \ntechnology, our security officers will have a hand in detecting \ninvaders. As parts of our border areas fall into high altitude \nlocations, this robotic technology can also be deployed in \nhigh altitude areas where humans struggle to survive. The \nproposed robotic system can also be utilised to locate injured \npeople in disasters such as earthquakes, building collapses, \nand mine areas, as well as serving as a spy robot. \n \nREFERENCES \n \n[1]  Shamanth G S and Ashwin Kashyap ‘‘face detection using Raspberry pi \nand python”, National Conference on Product Design, 2016. \n[2] N.V.K. Ramesh, S.C.Gaddam and HemaDhanekula, “Face Recognition \nBased Attendance Management System with Raspberry PI 2 using \nEigen Faces Algorithm”, ARPN Journal of Engineering and Applied \nSciences, vol -11, 2016.  \n[3] Gobhinath.S and Dineshkumar.V, “Accident and Emergency Informer \nUsing GSM with Voice Support from SPOT Data”, International"
+    },
+    {
+        "chunk_id": 28,
+        "source": "paper59",
+        "text": "Sciences, vol -11, 2016.  \n[3] Gobhinath.S and Dineshkumar.V, “Accident and Emergency Informer \nUsing GSM with Voice Support from SPOT Data”, International \nJournal of Programmable Device Circuits and Systems, Vol 3, no 3, \n2011. \n[4] Danwei, “Distributed Compressive Sensing Based Near Infrared and \nVisible Images Fusion for Face Recognition”, International Journal of \nAdvance Research in Engineering, Science & Technologyvol.9, No.4, \npp.281- 292, 2016.  \n[5] Li Yongqiang and Panjin, ‘‘One sample image Recognition algorithm \nbased on improved sub-pattern principle component analysis’’, IJSP, \nIPPR vol.8, pp.77-84, 2015. \n[6] Jeong-Sik Park, Gil-Jin Jang and Yong-Hoseo, “Efficient Head Pose \nDetermination and its Application to face Recognition on Multi-Pose \nface DB”, International journal of multimedia and ubiquitous \nengineering Vol.11.No2 (2016).  \n[7] M.Moghaddam and Saeed Meshgini, “Automatic face Recognition via"
+    },
+    {
+        "chunk_id": 29,
+        "source": "paper59",
+        "text": "face DB”, International journal of multimedia and ubiquitous \nengineering Vol.11.No2 (2016).  \n[7] M.Moghaddam and Saeed Meshgini, “Automatic face Recognition via \nLocal Directional Patterns”, Journal of Artificial Intelligence in \nElectrical Engineering, vol.4, 2015.  \n[8] G.Senthilkumar, K.Gopalakrishnan and S.Kumar, “Embedded Image \nCapturing System Using Raspberry PI System”, International Journal \nof Emerging Trends & Technology in Computer Science Vol. 3, Issue \n2, 2014. \n[9] G.Ghinea, R.Kannan and Suresh Kannaiyan, “Gradient orientation-\nbased PCA Subspace for Novel Face Recognition ”in IEEE Access, Vol \n2, 2169-3536 2014. \n[10] M.Angur, Jarman, Samiul Arshad and Mohammed.J.Islam, \"An \nautomated Bengali sign language recognition based on finger tip finder \nAlgorithm\", International Journal of Electronics & Informatics, 2015.  \n466"
+    },
+    {
+        "chunk_id": 30,
+        "source": "paper59",
+        "text": "automated Bengali sign language recognition based on finger tip finder \nAlgorithm\", International Journal of Electronics & Informatics, 2015.  \n466\nAuthorized licensed use limited to: Lovely Professional University - Phagwara. Downloaded on April 02,2026 at 15:05:17 UTC from IEEE Xplore.  Restrictions apply."
+    }
+]

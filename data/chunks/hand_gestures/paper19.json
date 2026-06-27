@@ -1,0 +1,522 @@
+[
+    {
+        "chunk_id": 1,
+        "source": "paper19",
+        "text": "Academic Editors: Fabrizio Stasolla\nand Everardo Inzunza-González\nReceived: 19 August 2025\nRevised: 3 October 2025\nAccepted: 6 October 2025\nPublished: 26 October 2025\nCitation:\nHabib, M.K.; Yusuf, O.;\nMoustafa, M. Skeleton-Based\nReal-Time Hand Gesture Recognition\nUsing Data Fusion and Ensemble\nMulti-Stream CNN Architecture.\nTechnologies 2025, 13, 484.\nhttps://doi.org/10.3390/\ntechnologies13110484\nCopyright: © 2025 by the authors.\nLicensee MDPI, Basel, Switzerland.\nThis article is an open access article\ndistributed under the terms and\nconditions of the Creative Commons\nAttribution (CC BY) license\n(https://creativecommons.org/\nlicenses/by/4.0/).\nArticle\nSkeleton-Based Real-Time Hand Gesture Recognition Using\nData Fusion and Ensemble Multi-Stream CNN Architecture\nMaki K. Habib *\n, Oluwaleke Yusuf\nand Mohamed Moustafa\nSchool of Sciences and Engineering, MENG and RCSS, The American University in Cairo (AUC), AUC Avenue,\nNew Cairo 11835, Egypt\n* Correspondence: maki@aucegypt.edu\nAbstract"
+    },
+    {
+        "chunk_id": 2,
+        "source": "paper19",
+        "text": "and Mohamed Moustafa\nSchool of Sciences and Engineering, MENG and RCSS, The American University in Cairo (AUC), AUC Avenue,\nNew Cairo 11835, Egypt\n* Correspondence: maki@aucegypt.edu\nAbstract\nHand Gesture Recognition (HGR) is a vital technology that enables intuitive\nhuman–computer interaction in various domains, including augmented reality, smart envi-\nronments, and assistive systems. Achieving both high accuracy and real-time performance\nremains challenging due to the complexity of hand dynamics, individual morphological\nvariations, and computational limitations. This paper presents a lightweight and efficient\nskeleton-based HGR framework that addresses these challenges through an optimized\nmulti-stream Convolutional Neural Network (CNN) architecture and a trainable ensem-\nble tuner. Dynamic 3D gestures are transformed into structured, noise-minimized 2D\nspatiotemporal representations via enhanced data-level fusion, supporting robust clas-"
+    },
+    {
+        "chunk_id": 3,
+        "source": "paper19",
+        "text": "ble tuner. Dynamic 3D gestures are transformed into structured, noise-minimized 2D\nspatiotemporal representations via enhanced data-level fusion, supporting robust clas-\nsification across diverse spatial perspectives. The ensemble tuner strengthens semantic\nrelationships between streams and improves recognition accuracy. Unlike existing solutions\nthat rely on high-end hardware, the proposed framework achieves real-time inference on\nconsumer-grade devices without compromising accuracy. Experimental validation across\nfive benchmark datasets (SHREC2017, DHG1428, FPHA, LMDHG, and CNR) confirms\nconsistent or superior performance with reduced computational overhead. Additional vali-\ndation on the SBU Kinect Interaction Dataset highlights generalization potential for broader\nHuman Action Recognition (HAR) tasks. This advancement bridges the gap between\nefficiency and accuracy, supporting scalable deployment in AR/VR, mobile computing,"
+    },
+    {
+        "chunk_id": 4,
+        "source": "paper19",
+        "text": "Human Action Recognition (HAR) tasks. This advancement bridges the gap between\nefficiency and accuracy, supporting scalable deployment in AR/VR, mobile computing,\ninteractive gaming, and resource-constrained environments.\nKeywords: hand gesture recognition; data fusion; real-time processing; human–computer\ninteraction; skeleton-based; multi-stream CNN; spatiotemporal representation; low-latency\nrecognition; ensemble learning; consumer-grade hardware; computational efficiency\n1. Introduction\nHand Gesture Recognition (HGR) is a pivotal technology in perceptual computing,\nenabling computers to interpret and respond to human hand movements through advanced\nmathematical models and artificial intelligence algorithms. This capability plays a critical\nrole in applications such as human–computer interaction (HCI), behavioral analysis, assis-\ntive living technologies, augmented and virtual reality (AR/VR), and smart evironments [1]."
+    },
+    {
+        "chunk_id": 5,
+        "source": "paper19",
+        "text": "role in applications such as human–computer interaction (HCI), behavioral analysis, assis-\ntive living technologies, augmented and virtual reality (AR/VR), and smart evironments [1].\nDespite these advancements, achieving high accuracy and real-time recognition of hand\ngesture remains a formidable challenge due to the inherent complexity of hand gestures,\nvariations in morphology, occlusions, background clutter, sensor noise, and computational\nconstraints in real-world settings [2–10].\nTechnologies 2025, 13, 484\nhttps://doi.org/10.3390/technologies13110484"
+    },
+    {
+        "chunk_id": 6,
+        "source": "paper19",
+        "text": "Technologies 2025, 13, 484\n2 of 24\nA robust HGR system must address these challenges while optimizing accuracy, com-\nputational efficiency, real-time responsiveness, and hardware adaptability. Since hand\ngestures are dynamic and time-dependent, models must extract spatiotemporal features\nfrom sequential hand positions to comprehensively capture the intent of the gesture. A\nbroad spectrum of HGR frameworks has been developed using different modalities, such\nas RGB images, depth maps, skeleton data, and optical flow, alongside diverse architec-\ntures such as 3D Convolutional Neural Networks (3D-CNNs), Recurrent Neural Networks\n(RNNs), Attention Networks, and Long-Term Recurrent Convolutional Networks (LR-\nCNs) [5,11–18]. However, existing solutions often struggle to balance recognition accuracy\nand real-time processing, particularly on consumer-grade hardware [19,20].\nState-of-the-art (SOTA) HGR models often prioritize accuracy over computational"
+    },
+    {
+        "chunk_id": 7,
+        "source": "paper19",
+        "text": "and real-time processing, particularly on consumer-grade hardware [19,20].\nState-of-the-art (SOTA) HGR models often prioritize accuracy over computational\nefficiency, frequently requiring high-performance GPUs and dedicated processing units.\nThis restricts accessibility for low-power platforms such as mobile devices, wearables, and\nembedded systems, where computational resources are constrained [14,15,21,22]. Further-\nmore, many HGR architectures rely on extensive training datasets and data augmentation\nstrategies, limiting their adaptability for real-time, interactive applications [23,24].\nSkeleton-based HGR has emerged as a promising alternative, leveraging structured,\nlow-dimensional representations of dynamic gestures to enhance computational efficiency\nwhile preserving essential spatiotemporal features. By converting three-dimensional (3D)\nskeletal motion data into structured two-dimensional (2D) spatiotemporal representations,"
+    },
+    {
+        "chunk_id": 8,
+        "source": "paper19",
+        "text": "while preserving essential spatiotemporal features. By converting three-dimensional (3D)\nskeletal motion data into structured two-dimensional (2D) spatiotemporal representations,\nthese models reframe gesture recognition as an image classification task, making them\nwell-suited for CNN-based architectures [5,14,25,26]. Despite these advantages, existing\nskeleton-based HGR approaches exhibit several limitations, including noise in data fusion,\nsuboptimal view orientations, and inadequate generalization across datasets [27–29].\nOne of the primary limitations of skeleton-based HGR is the reliance on data-level\nfusion techniques, which often yield noisy, visually indistinct RGB representations of ges-\nture sequences, thereby increasing classification errors [25,30]. The effectiveness of selected\nview orientations is also critical, as suboptimal perspectives can introduce distortions\nin spatiotemporal representations, thereby reducing recognition accuracy. Additionally,"
+    },
+    {
+        "chunk_id": 9,
+        "source": "paper19",
+        "text": "view orientations is also critical, as suboptimal perspectives can introduce distortions\nin spatiotemporal representations, thereby reducing recognition accuracy. Additionally,\nmany prior frameworks lack comprehensive benchmarking on widely recognized datasets,\nraising concerns about their scalability and robustness across diverse user demograph-\nics [5,14–16,31].\nMoreover, many skeleton-based models fail to achieve real-time inference on standard\nconsumer hardware due to their reliance on multi-stream processing or deep recurrent\narchitectures, both of which impose high computational demands. These challenges limit\ntheir practical deployment in real-world applications, especially in scenarios where low-\nlatency, resource-efficient processing is crucial [20,28,32].\nTo overcome these challenges, this paper presents a novel, lightweight skeleton-based\nHGR framework that integrates optimized data-level fusion with a multi-stream CNN"
+    },
+    {
+        "chunk_id": 10,
+        "source": "paper19",
+        "text": "To overcome these challenges, this paper presents a novel, lightweight skeleton-based\nHGR framework that integrates optimized data-level fusion with a multi-stream CNN\narchitecture. The main contributions of this work include:\n1.\nEnhanced Data-Level Fusion: A refined transformation process for converting 3D\nskeleton data into high-quality 2D spatiotemporal representations, reducing noise and\nimproving gesture classification accuracy.\n2.\nOptimized Multi-Stream CNN Architecture with a fully trainable ensemble tuner\nmechanism that enhances semantic connections between multiple gesture representa-\ntions, leading to improved classification performance.\n3.\nThe presented framework significantly reduces computational complexity while real-\nizing real-time performance on standard devices, maintaining the accuracy necessary\nand comparable to state-of-the-art methods."
+    },
+    {
+        "chunk_id": 11,
+        "source": "paper19",
+        "text": "Technologies 2025, 13, 484\n3 of 24\n4.\nExtensive Benchmarking and Validation:\nEmpirical evaluations conducted on\nfive widely used benchmark datasets (SHREC2017, DHG1428, FPHA, LMDHG, and\nCNR) validate the framework’s robustness and generalizability across diverse ges-\nture categories.\nThe conducted experiments demonstrate that the developed framework achieves com-\npetitive recognition accuracy, matching or surpassing SOTA benchmarks while operating\nwith significantly lower computational overhead. Additionally, the SBU Kinect Interaction\nDataset (SBUKID) was utilized in an exploratory study to demonstrate the framework’s\nadaptability for broader Human Action Recognition (HAR) applications, thereby reinforc-\ning its scalability beyond gesture recognition. This research paves the way for real-time\nHGR applications in mobile computing, interactive gaming, and resource-limited environ-\nments by addressing the trade-off between accuracy and efficiency.\n2. Related Work"
+    },
+    {
+        "chunk_id": 12,
+        "source": "paper19",
+        "text": "HGR applications in mobile computing, interactive gaming, and resource-limited environ-\nments by addressing the trade-off between accuracy and efficiency.\n2. Related Work\nThis section provides an in-depth review of key advancements in Hand Gesture\nRecognition (HGR), which serve as the foundation for our proposed framework. The\nrelated works are categorized into three primary approaches: skeleton-based HGR, data-\nlevel fusion of temporal information, and multi-stream network architectures.\n2.1. Skeleton-Based Hand Gesture Recognition\nTraditionally, HGR frameworks have predominantly relied on RGB videos or depth\nmaps for gesture recognition. However, with the evolution of computational methodologies\nand an improved understanding of gesture intricacies, modern frameworks have increas-\ningly shifted towards skeleton-based representations. Skeleton-based models, derived from\nRGB-D data, offer a structured approach to encoding hand positions, mitigating challenges"
+    },
+    {
+        "chunk_id": 13,
+        "source": "paper19",
+        "text": "ingly shifted towards skeleton-based representations. Skeleton-based models, derived from\nRGB-D data, offer a structured approach to encoding hand positions, mitigating challenges\nrelated to occlusions, background variability, and morphological differences across individ-\nuals. Despite their advantages, these models often require offline pre-processing to extract\nskeletal information from RGB-D sources, which introduces susceptibility to errors during\ninference [15,32,33]. These limitations have also been emphasized in studies such as [34,35],\nwhich highlight the role of preprocessing variability in model robustness.\nSeveral pivotal contributions have shaped the development of skeleton-based HGR.\nTemporal Convolutional Networks (TCNs) have been explored for modeling skeleton pose\nsequences, incorporating motion summarization modules to enhance feature learning [32].\nAttention-based spatial-temporal networks have also been introduced to capture inter-joint"
+    },
+    {
+        "chunk_id": 14,
+        "source": "paper19",
+        "text": "sequences, incorporating motion summarization modules to enhance feature learning [32].\nAttention-based spatial-temporal networks have also been introduced to capture inter-joint\ndependencies without explicit knowledge of joint connections [15]. Furthermore, stream-\nlined architectures incorporating Joint Collection Distances and multi-scale motion features\nhave been proposed to enhance recognition robustness [8,36]. Deep Convolutional LSTM\n(ConvLSTM) models have demonstrated the ability to automatically extract discriminative\nspatiotemporal features by capturing gestures across multiple scales [37], as reinforced by\nnewer models evaluated in [35].\nUnimodal skeleton-based frameworks generally outperform their multimodal counter-\nparts in terms of computational efficiency, as they reduce the number of trainable parame-\nters and floating-point operations per second (FLOPS) [5,15,32]. These models exhibit lower"
+    },
+    {
+        "chunk_id": 15,
+        "source": "paper19",
+        "text": "parts in terms of computational efficiency, as they reduce the number of trainable parame-\nters and floating-point operations per second (FLOPS) [5,15,32]. These models exhibit lower\narchitectural complexity while maintaining high recognition accuracy, making them more\nfeasible for real-time deployment [5,8,15,21,38,39]. Our proposed approach capitalizes on\nthe efficiency of skeleton representations while mitigating the high computational demands\ntypically associated with deep learning-based HGR. Furthermore, skeleton-based recogni-\ntion inherently minimizes privacy concerns linked to traditional RGB-based vision systems,\nas skeletal data does not contain identifiable facial features [1,40]. These privacy advantages\nare especially significant in sensitive environments such as healthcare, as explored in [35]."
+    },
+    {
+        "chunk_id": 16,
+        "source": "paper19",
+        "text": "Technologies 2025, 13, 484\n4 of 24\n2.2. Data-Level Fusion\nThe recognition of dynamic hand gestures is inherently complex due to their temporal\nnature. Gestures comprise a sequence of hand movements, requiring a robust HGR frame-\nwork capable of discerning temporal relationships for accurate classification. This challenge\nis particularly pronounced in multi-stream and multimodal networks, where different rep-\nresentations of the same gesture must be effectively synchronized [41]. Prior studies such\nas [30,35] have shown that the choice of fusion level directly impacts computational load\nand robustness in dynamic gesture environments.\nThe effectiveness of an HGR model is primarily determined by how input modalities\nand network streams are integrated. Deep learning models typically employ integration\nat three levels: data-level, feature-level, and decision-level, each offering unique trade-\noffs [41]. Among these, data-level fusion has gained significant attention as it allows for"
+    },
+    {
+        "chunk_id": 17,
+        "source": "paper19",
+        "text": "at three levels: data-level, feature-level, and decision-level, each offering unique trade-\noffs [41]. Among these, data-level fusion has gained significant attention as it allows for\nearly integration of temporal information before deep feature extraction. This approach\nhas been particularly useful in static image-based gesture recognition, as it enables the\ntransformation of dynamic gesture sequences into condensed representations suitable for\nCNN-based classification [25,42]. In particular, [26] demonstrated how skeleton-derived\ntemporal images can preserve motion trajectories with minimal loss, improving early-\nstage classification.\nOne widely adopted technique is Temporal Information Condensation, which trans-\nforms gesture sequences into static images before training. This method enhances the\nnetwork’s ability to encode spatiotemporal patterns efficiently, facilitating transfer learn-\ning using pre-trained CNN models. Optical flow-based motion fusion, as introduced"
+    },
+    {
+        "chunk_id": 18,
+        "source": "paper19",
+        "text": "network’s ability to encode spatiotemporal patterns efficiently, facilitating transfer learn-\ning using pre-trained CNN models. Optical flow-based motion fusion, as introduced\nin [41], supplements static RGB images with motion-derived frames, thereby improving\nthe model’s sensitivity to gesture dynamics. Another notable method, star RGB, aggregates\nframe-wise intensity differences to generate a single gesture-representative image, which is\nthen classified using an ensemble of ResNet CNNs [24,31,43].\nA particularly effective approach is skeleton-based data transformation, where tempo-\nral variations in skeletal joint positions are projected onto 2D spatial representations. These\nprojections are subsequently processed using a CNN-based pipeline, as demonstrated\nin [25]. Although this approach has achieved promising results, further optimization in\ndata-level fusion techniques could enhance model adaptability across more diverse datasets."
+    },
+    {
+        "chunk_id": 19,
+        "source": "paper19",
+        "text": "in [25]. Although this approach has achieved promising results, further optimization in\ndata-level fusion techniques could enhance model adaptability across more diverse datasets.\nOur framework incorporates an improved version of temporal condensation to minimize\ninformation loss while maintaining computational efficiency. This direction aligns with\ninsights from [26,30], which advocate for hybrid condensation techniques that preserve\nboth temporal dynamics and geometric coherence in a lightweight format.\n2.3. Multi-Stream Network Architectures\nAdvanced HGR frameworks often employ multi-stream network architectures to en-\nhance recognition accuracy by integrating multiple spatiotemporal representations. These\narchitectures operate across different temporal scales, process diverse input modalities, and\nprovide comprehensive gesture embeddings during training [2,15,22,30,32,44,45]. Multi-\nstream networks effectively capture gesture context from multiple perspectives, improving"
+    },
+    {
+        "chunk_id": 20,
+        "source": "paper19",
+        "text": "provide comprehensive gesture embeddings during training [2,15,22,30,32,44,45]. Multi-\nstream networks effectively capture gesture context from multiple perspectives, improving\nclass separability and reducing the risk of overfitting. For example, studies such as [46,47]\ndemonstrated the use of LRCNs and multi-headed attention blocks to achieve synchronized\nlearning across temporal domains.\nMulti-stream models utilize two primary fusion mechanisms: feature-level fusion,\nwhere extracted feature maps from different convolutional layers are combined, and\ndecision-level fusion, which merges classification probabilities from independent streams.\nThese techniques ensure the balanced integration of information from each sub-network,\nthereby enhancing the overall model’s robustness. Recent attention-aware feature fu-"
+    },
+    {
+        "chunk_id": 21,
+        "source": "paper19",
+        "text": "Technologies 2025, 13, 484\n5 of 24\nsion techniques have also been proposed to improve cross-modal understanding, such\nas in [1], where alignment between RGB and skeleton data significantly boosted ges-\nture disambiguation.\nAmong the pioneering multi-stream models, layered 3D-CNN architectures have\ndemonstrated significant potential. For instance, ref. [2] utilized a hierarchical structure\nwhere the first 3D-CNN detects coarse gestures, triggering a secondary CNN for fine-\ngrained classification. Similarly, multimodal frameworks like [44] utilize independent\nI3D sub-networks to handle different modalities, enforcing feature consistency through\nsemantic alignment constraints. Another study [22] introduced a dual-channel CNN\narchitecture that processes high-resolution and low-resolution gesture sequences in parallel,\nwith residual branches enhancing feature propagation.\nWhile multi-stream architectures offer significant advantages, they are often com-"
+    },
+    {
+        "chunk_id": 22,
+        "source": "paper19",
+        "text": "with residual branches enhancing feature propagation.\nWhile multi-stream architectures offer significant advantages, they are often com-\nputationally intensive. Lightweight 3D CNN variants, such as Inception-ResNet with\nseparable convolutions, have been proposed for real-time gesture recognition [48]. Recent\nstudies have also introduced efficient alternatives that integrate data-level fusion with\nsingle-stream CNNs, achieving comparable accuracy at lower computational costs [25].\nAdditionally, domain-aware and attention-based mechanisms, such as the Spatio-Temporal\nDomain-Aware Network (STDA-Net), have been explored to enhance spatiotemporal fea-\nture learning and improve classification performance in skeleton-based action recognition\ntasks [31]. Our proposed framework builds upon these advancements by refining the multi-\nstream pipeline and optimizing the fusion mechanisms to enhance recognition efficiency\nand minimize processing overhead."
+    },
+    {
+        "chunk_id": 23,
+        "source": "paper19",
+        "text": "stream pipeline and optimizing the fusion mechanisms to enhance recognition efficiency\nand minimize processing overhead.\n3. Skeleton-Based Hand Gesture Recognition Framework\nThis section elaborates on the core components of the proposed skeleton-based hand\ngesture recognition framework, as depicted in Figure 1. It begins by examining the method\nof condensing temporal information to generate static, spatiotemporal RGB images. Next,\nit introduces the network architecture that utilizes this data-level fusion strategy. Finally,\nit explains how the combination of data-level fusion and network architecture forms a\nhand gesture recognition framework that is adaptable to any source of hand skeleton data,\nwhether from real-time inference or compiled datasets.\n3.1. Generation of Static Spatiotemporal Images\nThis level of data fusion represents the primary processing phase, performed either\noffline or in real time, where information from both the spatial and temporal channels of a"
+    },
+    {
+        "chunk_id": 24,
+        "source": "paper19",
+        "text": "This level of data fusion represents the primary processing phase, performed either\noffline or in real time, where information from both the spatial and temporal channels of a\ndynamic gesture sequence is integrated into a single static 2D spatiotemporal image with a\npreserved square aspect ratio. This process condenses the temporal characteristics of the\nsequence, while ensuring that essential semantic information about the gesture remains\nintact. Following a similar methodology to [10], the task of converting a dynamic gesture\nsequence into a static spatiotemporal image can be formally described as follows:\nLet gi represent a dynamic gesture, and let S = Gh\nN\nh=1 denote the set of gesture\nsequences with τ spanning N classes.\nThe temporal evolution of gi is expressed in\nEquation (1):\nGi={Gτ\ni }Ti\nτ=1\n(1)\nWithin a temporal window of length Ti,, τ ∈[1, Ti] refers to a specific time instant\nτ, and Gτ\ni designates the frame of gi at that moment. The task of dynamic hand gesture"
+    },
+    {
+        "chunk_id": 25,
+        "source": "paper19",
+        "text": "Gi={Gτ\ni }Ti\nτ=1\n(1)\nWithin a temporal window of length Ti,, τ ∈[1, Ti] refers to a specific time instant\nτ, and Gτ\ni designates the frame of gi at that moment. The task of dynamic hand gesture\nclassification is to assign the corresponding class Ch to each sequence gi accurately."
+    },
+    {
+        "chunk_id": 26,
+        "source": "paper19",
+        "text": "Technologies 2025, 13, 484\n6 of 24\nFigure 1. A schematic representation of the proposed HGR framework, illustrating the constituent\nmodules responsible for the recognition and classification of dynamic hand gestures [10].\nGesture sequences within the set S exhibit variable temporal lengths of time windows\ninfluenced by both the gesture type and the performer’s speed. To standardize input,\neach sequence gi in S is resampled to a common window Ti, chosen to be longer than any\nindividual window in the set of Ti in S. This standardization process has the following\nimplications for each gesture sequence gi:\n•\nThis process smooths out inaccuracies present in individual frames Gτ\ni that may occur\nduring pose estimation.\n•\nIt also reduces minor variations in motion trajectories and sequence durations caused\nby individual differences in gesture performance.\nTogether, these resampling steps emphasize the shared features among gesture se-"
+    },
+    {
+        "chunk_id": 27,
+        "source": "paper19",
+        "text": "by individual differences in gesture performance.\nTogether, these resampling steps emphasize the shared features among gesture se-\nquences gi ∈Ch within S, which enhances the condensation of temporal information and,\nas a result, increases the model’s classification accuracy. After resampling, each gesture gi\nis separated into spatial and temporal components:\n•\nSpatial: This channel represents changes in hand pose across frames Gτ\ni as a 3D model\nof the hand skeleton. Each finger is displayed in a unique CSS color, chosen for high\ncontrast with the background and with the others.\n•\nTemporal: This channel visualizes hand motion through 3D “temporal trails” drawn\nby the five fingertips, extending from the gesture’s start G1\ni to its end GT\ni . These trails\nconsist of sequential markers, each assigned a distinctive CSS color for its respective\nfinger. The alpha channel adjusts the transparency of each marker: those earlier in"
+    },
+    {
+        "chunk_id": 28,
+        "source": "paper19",
+        "text": "i . These trails\nconsist of sequential markers, each assigned a distinctive CSS color for its respective\nfinger. The alpha channel adjusts the transparency of each marker: those earlier in\nthe sequence (τ ≈1) are more transparent, while those later (τ ≈T) are more opaque,\nthus capturing the gesture’s temporal progression.\nCondensing the temporal information in this way produces, for each resampled\ngesture gi, a 3D spatiotemporal image. This image combines the hand’s pose at the final\nframe GT\ni with its temporal path Gτ T−1\ni τ=1 , as illustrated in Figure 2. The resulting 3D\nspatiotemporal image can be viewed from any chosen perspective; in this work, six specific\nview orientations are considered: axonometric, front-away, side-left, top-down, front-to,\nand side-right."
+    },
+    {
+        "chunk_id": 29,
+        "source": "paper19",
+        "text": "Technologies 2025, 13, 484\n7 of 24\n \nFigure 2. The data-level fusion workflow. This figure shows how 3D skeleton data for a DHG1428\nSwipe-V gesture (front-to-view orientation) is transformed into its 2D spatiotemporal RGB represen-\ntation for subsequent image classification.\nEach VO is determined by specific elevation and azimuth angles assigned to the virtual\ncamera during visualization, as depicted in Figure 3. The selection of these angles varies\ndepending on the dataset and is influenced by the approach taken to capture and process\nskeleton data from participant gestures.\nFigure 3.\nillustrates the six view orientations (VOs) used to visualize spatiotemporal gesture\nrepresentations, shown from left to right as top-down, front-to, front-away, side-right, side-left,\nand axonometric.\nFor each gesture gi, the result of data-level fusion is a single image depicting its 3D\nspatiotemporal representation from one of the six selected view orientations VOj, where"
+    },
+    {
+        "chunk_id": 30,
+        "source": "paper19",
+        "text": "and axonometric.\nFor each gesture gi, the result of data-level fusion is a single image depicting its 3D\nspatiotemporal representation from one of the six selected view orientations VOj, where\nj = 1, . . . ., 6. It is essential to adjust the virtual camera’s zoom and position during\nrendering to ensure the entire spatiotemporal representation fits neatly within the static\nimage frame, avoiding any cropping or truncation. Since the optimal settings differ for\neach gesture and the sequence set of S, these parameters are computed dynamically rather\nthan assigned fixed values.\ngi = gi −mean(gi) −(L/2)\n(2)\nP = (L/2)\n(3)\nZi = max(gi) −min(gi) + γ\n(4)"
+    },
+    {
+        "chunk_id": 31,
+        "source": "paper19",
+        "text": "Technologies 2025, 13, 484\n8 of 24\nEquation (2) shifts each gesture’s data gi so it is centred in the image by subtracting its\nmean and half the image length L to fit it within the static image. This adjustment ensures\nthe positioning of the virtual camera at P in 3D space, coincides with the static image centre\nfor all gi ∈S.\nEquation (3), the camera’s position P is fixed at a length L/2 from the midpoint of the\nstatic image’s dimension.\nEquation (4) determines the virtual camera’s zoom level Zi of the virtual camera for\neach gi based on the spatial extent of the gesture, plus an optional padding parameter γ for\ntweaking the estimated zoom level for all gi ∈S.\nThese calculations guarantee that the 3D spatiotemporal gesture representation is\noptimally centred and fully visible from the chosen viewpoint in the resulting static image.\nIn summary, the data-level fusion process converts the challenge of dynamic hand"
+    },
+    {
+        "chunk_id": 32,
+        "source": "paper19",
+        "text": "optimally centred and fully visible from the chosen viewpoint in the resulting static image.\nIn summary, the data-level fusion process converts the challenge of dynamic hand\ngesture classification into a static image classification task. By applying a mapping function\nΦ, the 3D skeleton data of a dynamic gesture gi observed from any view orientation VOj\nis projected into a single 2D spatiotemporal image Iij = Φ(Gi). This resulting image then\nserves as the input to the classification model, to assign it to the correct class Ch. This\nstrategy streamlines the gesture recognition process by making use of proven methods\nfrom image classification, thereby allowing established research and algorithms in this area\nto be directly applied.\n3.2. Multi-View Ensemble-Tuned CNN for Spatiotemporal Gesture Image Classification\nWith the set L of dynamic hand gestures gi, transformed into static spatiotemporal\nimages Iij, standard convolutional neural network (CNN) architectures become applicable"
+    },
+    {
+        "chunk_id": 33,
+        "source": "paper19",
+        "text": "With the set L of dynamic hand gestures gi, transformed into static spatiotemporal\nimages Iij, standard convolutional neural network (CNN) architectures become applicable\nfor gesture classification. The proposed HGR framework also leverages transfer learn-\ning, employing deep learning CNN models originally designed for image classification\ntasks. Transfer learning accelerates convergence during training and streamlines prototype\ndevelopment within the framework. To select the most effective network backbone, we\nassessed various CNN models pre-trained on the ImageNet dataset, each with established\nstate-of-the-art (SOTA) performance.\nIn the transfer learning process, the fully connected (FC) layers of the pre-trained\nmodel are adapted to suit the new classification task. Specifically, we replaced the original\nFC layers with a custom classifier, while retaining the core convolutional layers (and their"
+    },
+    {
+        "chunk_id": 34,
+        "source": "paper19",
+        "text": "model are adapted to suit the new classification task. Specifically, we replaced the original\nFC layers with a custom classifier, while retaining the core convolutional layers (and their\npre-trained weights) to act as an encoder. As illustrated in Figure 4, the new classifier\ncomprises additional pooling, batch normalization, dropout, linear, and activation layers,\nall of which are trained from scratch. This strategy enables the encoder’s feature maps to be\nmore effectively repurposed for the gesture recognition task. The classifier then outputs a\nset of probabilities representing the likelihood that the input image Iij belongs to any class\nCh, h ∈[1, N] within the set S.\nTo fully utilize the multiple view orientations generated during data-level fusion, the\nframework employs a specialized multi-stream CNN architecture, depicted in Figure 5. This\narchitecture integrates transfer learning with ensemble training, enabling the classification"
+    },
+    {
+        "chunk_id": 35,
+        "source": "paper19",
+        "text": "framework employs a specialized multi-stream CNN architecture, depicted in Figure 5. This\narchitecture integrates transfer learning with ensemble training, enabling the classification\nof spatiotemporal images derived from any view orientation VOj. For each gesture gi ∈S,\ndata-level fusion yields a collection of spatiotemporal images corresponding to j different\nview orientations.\nEach image Iij is sequentially passed into the multi-stream encoder, which extracts\nfeature representations from the data. These feature maps are subsequently processed\nby the multi-stream classifier, as depicted in Figure 4 (right), resulting in a set of class\nprobabilities {CP}h\nij\nN\n(h=1). By sharing the encoder and classifier components across all input\nimages, the network significantly reduces its overall computational requirements. However,\nthis approach has a limitation: the sequence in which the images (corresponding to different"
+    },
+    {
+        "chunk_id": 36,
+        "source": "paper19",
+        "text": "Technologies 2025, 13, 484\n9 of 24\nview orientations) are fed into the network is fixed rather than randomized. As a result, the\nsearch space for determining the optimal order of view orientations becomes substantially\nlarger. Within this framework, the multi-stream encoder and classifier sub-networks work\ntogether to learn the optimal combination of weights for fusing information from each view\norientation VOj, with the learning process guided by the loss computed for each image\nIij. Because each image contributes a distinct loss value, the specific order and selection of\ninput spatiotemporal images directly influence the overall performance of the multi-stream\nsub-network [10].\n \nFigure 4. Comparison between the standard ImageNet classifier (left) and the customized classifier\ndesigned for HGR tasks (right).\nFigure 5. Overview of the Ensemble Tuner Multi-Stream CNN Framework. This architecture"
+    },
+    {
+        "chunk_id": 37,
+        "source": "paper19",
+        "text": "designed for HGR tasks (right).\nFigure 5. Overview of the Ensemble Tuner Multi-Stream CNN Framework. This architecture\ndemonstrates how spatiotemporal images generated through data-level fusion are processed by\nmultiple CNN backbones for hand gesture recognition."
+    },
+    {
+        "chunk_id": 38,
+        "source": "paper19",
+        "text": "Technologies 2025, 13, 484\n10 of 24\nThe set of class probabilities {CP}h\nij\nN\n(h=1) produced by the multi-stream classifier is then\ncombined into a single RGB pseudo-image through an online decision-level fusion process.\nThis pseudo-image is subsequently passed to the ensemble tuner sub-network, which\ngenerates an additional set of class probabilities. The ensemble tuner employs a streamlined,\npre-trained CNN backbone as its encoder, while retaining the same classifier structure\ndepicted in Figure 4 (right). The entire ensemble tuner multi-stream CNN architecture\nis trained end-to-end, resulting in (j + 1) class probabilities and associated loss values\nfor each gesture gi. In this work, we report only the class probabilities and classification\naccuracies yielded by the ensemble tuner sub-network. To address the multi-task aspect\nof the framework, we utilize a specialized loss function inspired by [49]. Mirroring the"
+    },
+    {
+        "chunk_id": 39,
+        "source": "paper19",
+        "text": "accuracies yielded by the ensemble tuner sub-network. To address the multi-task aspect\nof the framework, we utilize a specialized loss function inspired by [49]. Mirroring the\nstrategy in [10], this loss formulation incorporates the homoscedastic uncertainties linked to\nthe view orientations and the ensemble tuner, assigning appropriate weights to the (j + 1)\ncross-entropy losses.\nAdopting a multi-stream network that processes multiple view orientations enables\nthe model to differentiate between gesture classes that may appear similar from a single\nviewpoint, thereby enhancing classification accuracy. Furthermore, using RGB pseudo-\nimages for decision-level fusion supports transfer learning. It helps maintain semantic\nconsistency among the class probabilities {CP}j generated for each view orientation {VO}j\nby the multi-stream sub-network. By integrating the multi-stream and ensemble tuner\nsub-networks within a unified architecture, we eliminate the need to train several models"
+    },
+    {
+        "chunk_id": 40,
+        "source": "paper19",
+        "text": "by the multi-stream sub-network. By integrating the multi-stream and ensemble tuner\nsub-networks within a unified architecture, we eliminate the need to train several models\nindependently, a common drawback of traditional ensemble learning methods.\n4. Experiments & Results\n4.1. Overview of Datasets\nIn this section, we present the five benchmark datasets employed for developing and\nevaluating our proposed HGR framework, as well as for comparative analysis against\ncurrent state-of-the-art (SOTA) methods. Each dataset introduces unique challenges and\nopportunities for advancing hand gesture recognition research.\n•\nCNR: The CNR dataset [25] comprises spatiotemporal images captured from a top-\ndown perspective, totaling 1925 gesture sequences across 16 gesture classes. The data\nis partitioned into a training set of 1348 images and a validation set of 577 images.\nNotably, this dataset does not include raw skeleton data, limiting our framework’s\ntraining to a single viewpoint.\n•"
+    },
+    {
+        "chunk_id": 41,
+        "source": "paper19",
+        "text": "Notably, this dataset does not include raw skeleton data, limiting our framework’s\ntraining to a single viewpoint.\n•\nLMDHG: The LMDHG dataset [50] consists of 608 gesture sequences spanning\n13 classes, divided into 414 sequences for training and 194 for validation. It fea-\ntures minimal overlap in subjects between subsets and provides comprehensive 3D\nskeleton data with 46 hand joints per hand.\n•\nFPHA: Containing 1175 gesture sequences distributed across 45 classes, the FPHA\ndataset [51] offers a diverse range of styles, perspectives, and scenarios. The main\nchallenges include highly similar motion patterns, varied object interactions, and a\nrelatively low ratio of gestures to classes. It is split into 600 gestures for training and\n575 for validation, with 3D skeleton data available for 21 joints per subject.\n•\nSHREC2017: This dataset [8] features 2800 gesture sequences performed by 28 subjects,\ndesigned for both coarse- and fine-grained classification via 14-gesture (14 G) and"
+    },
+    {
+        "chunk_id": 42,
+        "source": "paper19",
+        "text": "•\nSHREC2017: This dataset [8] features 2800 gesture sequences performed by 28 subjects,\ndesigned for both coarse- and fine-grained classification via 14-gesture (14 G) and\n28-gesture (28 G) benchmarks. The data provides 3D skeleton information for 22 hand\njoints and follows a 70:30 random-split protocol for training (1960 gestures) and\nvalidation (840 gestures)."
+    },
+    {
+        "chunk_id": 43,
+        "source": "paper19",
+        "text": "Technologies 2025, 13, 484\n11 of 24\n•\nDHG1428: Structured similarly to SHREC2017, the DHG1428 dataset [52] comprises\n2800 sequences executed by 20 subjects for both the 14 G and 28 G tasks. It provides\nequivalent skeleton data and employs a 70:30 split for training and validation sets.\n•\nSBUKID: The SBUKID [53], a smaller human action recognition (HAR) collection,\nincludes 282 action sequences across eight classes involving two-person interactions. It\nprovides skeleton data for 15 joints per subject and utilizes a five-fold cross-validation\nprotocol, reporting average accuracies across all folds.\nTo support a structured and transparent comparison of the six benchmark datasets\nused in this study, we provide a consolidated summary in Table 1. The table outlines\nthe critical attributes for each dataset, including the total number of gesture sequences,\ntraining-validation split, number of gesture classes, number of subjects, availability of"
+    },
+    {
+        "chunk_id": 44,
+        "source": "paper19",
+        "text": "the critical attributes for each dataset, including the total number of gesture sequences,\ntraining-validation split, number of gesture classes, number of subjects, availability of\nskeleton data, and validation protocol. This comparison enhances the interpretability of\nthe evaluation outcomes and contextualizes dataset-specific constraints that influence the\ngeneralizability and robustness of the proposed HGR framework.\nTable 1. Summary of Benchmark Datasets Used in This Study.\nDataset\nSequences\n(Train/Val)\nGesture Classes\nSubjects\nSkeleton Data\nValidation Protocol\nCNR\n1925 (1348/577)\n16\n10\nNot available (depth-based,\ncontinuous gesture)\nFixed split (top-view)\nLMDHG\n608 (414/194)\n13\n14\n46 joints\nSubject-wise split\nFPHA\n1175 (600/575)\n45\n6\n21 joints\nFixed split (per activity)\nSHREC2017\n2800 (1960/840)\n14 G/28 G\n28\n22 joints\nRandom 70:30 split\nDHG1428\n2800 (1960/840)\n14 G/28 G\n20\n22 joints\nRandom 70:30 split\nSBUKID\n282 (Cross-val)\n8\n7 pairs\n15 joints\n5-fold cross-validation"
+    },
+    {
+        "chunk_id": 45,
+        "source": "paper19",
+        "text": "2800 (1960/840)\n14 G/28 G\n28\n22 joints\nRandom 70:30 split\nDHG1428\n2800 (1960/840)\n14 G/28 G\n20\n22 joints\nRandom 70:30 split\nSBUKID\n282 (Cross-val)\n8\n7 pairs\n15 joints\n5-fold cross-validation\nAlthough modern object detection frameworks, such as YOLO, have demonstrated\nimpressive real-time performance, their design is primarily suited for bounding-box de-\ntection rather than for classifying preprocessed spatiotemporal images. Our use of a\nmulti-stream CNN maintains high classification accuracy while minimizing overhead for\nlow-resource systems.\n4.2. Generalized HGR Framework Evaluation\nOur generalized HGR framework integrates data-level fusion to generate static 2D\nspatiotemporal images, combined with an ensemble tuner multi-stream CNN architecture\nfor classification. As summarized in Table 2, the elevation and azimuth angles for the\nvirtual camera during data-level fusion are tailored for each dataset. A padding value"
+    },
+    {
+        "chunk_id": 46,
+        "source": "paper19",
+        "text": "for classification. As summarized in Table 2, the elevation and azimuth angles for the\nvirtual camera during data-level fusion are tailored for each dataset. A padding value\nof γ = 0.125 is applied during sequence fitting for all datasets, except CNR, which only\nprovides static images.\nTable 2. Virtual Camera (elevation, azimuth) Angles (in degrees) For Each View Orientation.\nView Orientation\nDHG1428\nSHREC2017\nFHPA\nLMDHG\ntop-down\n(0.0, 0.0)\n(0.0, 0.0)\n(90.0, 0.0)\n(0.0, 0.0)\nfront-to\n(90.0, 180.0)\n(90.0, 180.0)\n(0.0, 180.0)\n(−90.0, −180.0)\nfront-away\n(−90.0, 0.0)\n(−90.0, 0.0)\n(0.0, 0.0)\n(90.0, 0.0)\nside-right\n(0.0, −90.0)\n(0.0, −90.0)\n(0.0, 90.0)\n(0.0, 90.0)\nside-left\n(0.0, 90.0)\n(0.0, 90.0)\n(0.0, −90.0)\n(0.0, −90.0)\ncustom\n(30.0, −132.5)\n(30.0, −132.5)\n(25.0, 115.0)\n(−15.0, −135.0)"
+    },
+    {
+        "chunk_id": 47,
+        "source": "paper19",
+        "text": "Technologies 2025, 13, 484\n12 of 24\nTo select an optimal network, we evaluated 26 CNN architectures from the ResNet, In-\nception, EfficientNet, ResNeXt, SE-ResNeXt, SE-ResNet, and xResNet families (see Table 3).\nAll architectures were pre-trained on ImageNet and further trained using static spatiotem-\nporal images generated from the DHG1428 dataset, explicitly using the front-to-view\norientation. Based on empirical results from two training setups (TS1 and TS2), ResNet-\n50 and ResNet-18 were chosen as the base encoders for the multi-stream and ensemble\ntuner sub-networks.\nTable 3. Comparative Analysis of Various Pre-trained CNN Architectures.\nCNN Architecture\nClassification Accuracies (%)\nFamily\nVariants\nTS1\nTS2\nVariant Average\nFamily Average\nResNet\nResNet18\n0.8083\n0.7762\n0.79225\n0.8149\nResNet34\n0.8190\n0.7952\n0.8071\nResNet50\n0.8417\n0.8012\n0.82145\nResNet101\n0.8226\n0.8286\n0.8256\nResNet152\n0.8310\n0.8250\n0.828\nInception\nInception-v3\n0.8155\n0.7762\n0.79585\n0.8124\nInception-v4\n0.8310\n0.7964"
+    },
+    {
+        "chunk_id": 48,
+        "source": "paper19",
+        "text": "0.8190\n0.7952\n0.8071\nResNet50\n0.8417\n0.8012\n0.82145\nResNet101\n0.8226\n0.8286\n0.8256\nResNet152\n0.8310\n0.8250\n0.828\nInception\nInception-v3\n0.8155\n0.7762\n0.79585\n0.8124\nInception-v4\n0.8310\n0.7964\n0.8137\nInception-ResNet-v1\n0.8179\n0.8262\n0.82205\nInception-ResNet-v2\n0.8167\n0.8190\n0.81785\nEfficientNet\nEfficientNet-B0\n0.8143\n0.7964\n0.80535\n0.8083\nEfficientNet-B3\n0.8107\n0.8107\n0.8107\nEfficientNet-B5\n0.8143\n0.8131\n0.8137\nEfficientNet-B7\n0.7893\n0.8179\n0.8036\nResNeXt\nResNeXt26\n0.8048\n0.7726\n0.7887\n0.8042\nResNeXt50\n0.8298\n0.7952\n0.8125\nResNeXt101\n0.8226\n0.8000\n0.8113\nSE-ResNeXt\nSE-ResNeXt50\n0.8143\n0.7595\n0.7869\n0.8033\nSE-ResNeXt101\n0.8405\n0.7988\n0.81965\nSE-ResNet\nSE-ResNet18\n0.7881\n0.7774\n0.78275\n0.8032\nSE-ResNet26\n0.8048\n0.7726\n0.7887\nSE-ResNet50\n0.8179\n0.8024\n0.81015\nSE-ResNet101\n0.8310\n0.8131\n0.82205\nSE-ResNet152\n0.8060\n0.8190\n0.8125\nxResNet\nxResNet50\n0.7440\n0.7333\n0.73865\n0.7379\nxResNet50-Deep\n0.7226\n0.7357\n0.72915\nxResNet50-Deeper\n0.7405\n0.7512\n0.74585"
+    },
+    {
+        "chunk_id": 49,
+        "source": "paper19",
+        "text": "0.81015\nSE-ResNet101\n0.8310\n0.8131\n0.82205\nSE-ResNet152\n0.8060\n0.8190\n0.8125\nxResNet\nxResNet50\n0.7440\n0.7333\n0.73865\n0.7379\nxResNet50-Deep\n0.7226\n0.7357\n0.72915\nxResNet50-Deeper\n0.7405\n0.7512\n0.74585\nThe ideal sequence of view orientations (VOs) for feeding spatiotemporal inputs into\nthe multi-stream sub-network varies across datasets. The nature of gesture data collection\nand processing influences it. Our experiments determined that combinations of three\nunique VOs generally provide robust classification performance. The optimal sequence\nwas identified through an iterative process: first, each VO was evaluated in a single-stream\nnetwork; then, the best-performing pairs were evaluated in two-stream networks; and\nfinally, the top triples were evaluated in a three-stream configuration. This method allowed\nus to tailor the VO sequence to each dataset.\nA supplementary video demonstrating the gesture-to-image transformation and the\nreal-time application is publicly available at:"
+    },
+    {
+        "chunk_id": 50,
+        "source": "paper19",
+        "text": "us to tailor the VO sequence to each dataset.\nA supplementary video demonstrating the gesture-to-image transformation and the\nreal-time application is publicly available at:\nhttps://github.com/Outsiders17711/e2eET-Skeleton-Based-HGR-Using-Data-Level-\nFusion?tab=readme-ov-file (14 October 2025).\nThe software generated with pipreqs\nopencv_python == 4.5.3.56\nmatplotlib == 3.3.3"
+    },
+    {
+        "chunk_id": 51,
+        "source": "paper19",
+        "text": "Technologies 2025, 13, 484\n13 of 24\npytorchcv == 0.0.67\ngeffnet == 1.0.2\nvispy == 0.9.3\nscipy == 1.5.4\ntorch == 1.8.1 + cu102\nfastai == 2.5.3\nnumpy == 1.20.2\nplaysound == 1.2.2\nmediapipe == 0.8.7.1\nipython == 8.10.0\nsecrets == 1.0.2\ntensorboard == 2.8.0\n4.3. Implementation and Training Details\nThis section outlines the full implementation pipeline, including the hardware-\nsoftware stack, model training workflow, and reproducibility safeguards. It also highlights\nkey architectural parameters, image processing routines, and computational benchmarks\nachieved during inference. Together, these details ensure technical transparency and\nsupport the replicability of our results across environments and use cases.\n4.3.1. Environment and Software Setup\nTo ensure consistent model development and training, the framework was deployed\non two environments: a local Windows 10 workstation with an NVIDIA GeForce GTX\n1650 GPU (4 GB VRAM) and a remote Ubuntu 18.04.5 server with four NVIDIA GeForce"
+    },
+    {
+        "chunk_id": 52,
+        "source": "paper19",
+        "text": "on two environments: a local Windows 10 workstation with an NVIDIA GeForce GTX\n1650 GPU (4 GB VRAM) and a remote Ubuntu 18.04.5 server with four NVIDIA GeForce\nGTX TITAN X GPUs (12 GB VRAM each). Synchronization between local and remote\nenvironments was maintained using Anaconda3 and Visual Studio Code.\nThe entire framework was implemented in Python 3.8.5. Major libraries used include:\na.\nPyTorch 1.8.1 + cu102 and FastAI 2.5.3 for model design, training, and evaluation.\nb.\nOpenCV 4.0.1 and Vispy 0.9.2 for generating pseudo-images and visualizations during\ndata-level fusion.\nc.\nTensorBoard 2.8.0 was integrated into FastAI for visualizing metrics and log-\nging experiments.\nPre-trained CNNs were imported from:\na.\ntorchvision.models\nb.\nFastAI == 2.5.3\nfastai.vision.models.all\na.\npytorchcv.model_provider\nb.\ngeffnet (GenEfficientNet 1.0.2)\n4.3.2. Model Training and Hyperparameters\nTraining was carried out in staged cycles with progressively increasing input sizes"
+    },
+    {
+        "chunk_id": 53,
+        "source": "paper19",
+        "text": "a.\npytorchcv.model_provider\nb.\ngeffnet (GenEfficientNet 1.0.2)\n4.3.2. Model Training and Hyperparameters\nTraining was carried out in staged cycles with progressively increasing input sizes\n(224 px, 276 px, 328 px, 380 px). The Adam optimizer was used alongside a custom\ncomposite loss function combining cross-entropy and homoscedastic uncertainty. Learning\nrates were initialized using FastAI’s learner.lr_find() and scheduled via cosine annealing.\nEach training session used a batch size of 16. Data augmentation included ran-\ndom horizontal flips, affine and perspective transforms, zooms, rotations, and bright-\nness/contrast/color jitter to support generalization. Gesture sequences were temporally\nresampled to a fixed window of T = 250 frames, and static and pseudo-images were\nrendered at 960 × 960 and 224 × 224 pixels, respectively."
+    },
+    {
+        "chunk_id": 54,
+        "source": "paper19",
+        "text": "Technologies 2025, 13, 484\n14 of 24\n4.3.3. Reproducibility and Evaluation Protocol\nTo ensure reproducibility, random seeds were fixed across all frameworks (PyTorch,\nNumPy, Python random module, and CUDA). This step controlled for non-determinism\narising from data shuffling, network initialization, and augmentation.\nSubject-independent evaluation protocols were used for all datasets. No individual\nappeared in both the training and testing sets, ensuring robust generalization. Validation\nsubsets were drawn from training data using block-wise sampling to avoid sequence\nfragmentation. Early stopping was monitored based on validation accuracy.\n4.3.4. Inference Speed and Performance\nDuring deployment testing, the average inference speed for the final trained model\nwas 32.7 FPS on a single TITAN X GPU and 17.4 FPS on the GTX 1650 (local machine), for\nfull gesture sequence processing. Model loading and pre-processing time added 0.2–0.3 s"
+    },
+    {
+        "chunk_id": 55,
+        "source": "paper19",
+        "text": "was 32.7 FPS on a single TITAN X GPU and 17.4 FPS on the GTX 1650 (local machine), for\nfull gesture sequence processing. Model loading and pre-processing time added 0.2–0.3 s\nper sample, well within interactive response thresholds for real-time Human Gesture\nRecognition applications.\n4.3.5. Reproducibility and Evaluation Protocol\nThis subsection outlines the subject-independent evaluation strategy, validation sam-\npling, and measures taken to ensure reproducibility. These steps support fairness, general-\nizability, and experimental transparency.\nTo prevent data leakage and evaluate generalizability across unseen individuals, all\nexperiments were conducted using a subject-independent evaluation protocol. For each\ndataset, participants were assigned exclusively to either the training or testing set, ensuring\nthat no subject appeared in both splits. This approach follows best practices in gesture\nrecognition literature [18,53]."
+    },
+    {
+        "chunk_id": 56,
+        "source": "paper19",
+        "text": "that no subject appeared in both splits. This approach follows best practices in gesture\nrecognition literature [18,53].\nValidation sets were selected from the training set using temporal block-wise sampling\nto preserve sequence continuity and avoid fragment-level overfitting. Early stopping was\napplied based on validation accuracy. For reproducibility, random seeds were fixed across\nall experiments.\n4.4. Results on the CNR Dataset\nTable 4 presents a comparative evaluation of our framework with other HGR frame-\nworks on the CNR dataset. Our approach achieved slightly lower accuracy than the\nSOTA [24], with a difference of −1.73%. This decrease is attributed to the absence of raw\nskeleton data, which limits the ability to leverage advanced data-level fusion strategies,\nincluding denoising, sequence fitting, and multi-view orientation augmentation.\nTable 4. Comparison of Validation Accuracy with SOTA on the CNR Dataset.\nMethod\nClassification Accuracy (%)\nProposed Framework\n97.05"
+    },
+    {
+        "chunk_id": 57,
+        "source": "paper19",
+        "text": "Table 4. Comparison of Validation Accuracy with SOTA on the CNR Dataset.\nMethod\nClassification Accuracy (%)\nProposed Framework\n97.05\nLupinetti et al. [54]\n98.78\n4.5. Results on the LMDHG Dataset\nTable 5 presents the comparative results between our framework and other lead-\ning methods on the LMDHG dataset. Here, our framework outperformed the SOTA by\n+6.86%, a gain resulting from our improved data-level fusion approach for spatiotemporal\nimage generation. These results underscore the effectiveness of our enhancements and\ndemonstrate the utility of transforming dynamic gesture recognition into a static image\nclassification problem. Notably, optimal use of custom, front-away, and top-down view\norientations contributed to this improved performance."
+    },
+    {
+        "chunk_id": 58,
+        "source": "paper19",
+        "text": "Technologies 2025, 13, 484\n15 of 24\nTable 5. Comparison of Validation Accuracy with SOTA on the LMDHG Dataset.\nMethod\nClassification Accuracy (%)\nBoulahia et al. [50]\n84.78\nLupinetti et al. [25]\n92.11\nMohammed et al. [37]\n93.81\nProposed Framework\n98.97\n4.6. Results on the FPHA Dataset\nThe FPHA dataset presents significant challenges due to its diversity of styles and\nstrict 1:1 train/validation protocol. Table 6 shows that, despite employing the best sequence\nof view orientations ([front-away, custom, top-down]), our framework fell short of the\nSOTA [32] by −4.10%. Lupinetti et al. [54] also reported strong performance on this dataset,\nachieving 98.33% accuracy using CNNs with Leap Motion data. The complexity of gesture\nvariation and similarity in motion patterns present substantial hurdles in this dataset.\nAlternatively, appearance-based models such as PAN [55] emphasize efficient recognition\nvia persistence of appearance, though they are less tailored to depth or skeleton-based"
+    },
+    {
+        "chunk_id": 59,
+        "source": "paper19",
+        "text": "Alternatively, appearance-based models such as PAN [55] emphasize efficient recognition\nvia persistence of appearance, though they are less tailored to depth or skeleton-based\ngesture datasets like FPHA.\nTable 6. Comparison of Validation Accuracy with SOTA on the FPHA Dataset.\nMethod\nClassification Accuracy (%)\nSahbi [29]\n86.78\nLiu et al. [14]\n89.04\nLi et al. [5]\n90.26\nLiu et al. [6]\n90.96\nProposed Framework\n91.83\nNguyen et al. [26]\n93.22\nRehan et al. [30]\n93.91\nSabater et al. [32]\n95.93\n4.7. Results on the SHREC2017 Dataset\nAs shown in Table 7, our framework achieved validation accuracies of 97.86% (14 G)\nand 95.36% (28 G) on SHREC2017, with respective improvements of +0.86% and +1.46%\nover SOTA [15].\nThese results were obtained using the optimal sequence of [front-\naway, custom, front-to] view orientations, further supporting the benefit of our tailored\nVO selection.\nTable 7. Comparison of Validation Accuracy with SOTA on the SHREC2017 Dataset.\nMethod\nClassification Accuracy (%)"
+    },
+    {
+        "chunk_id": 60,
+        "source": "paper19",
+        "text": "VO selection.\nTable 7. Comparison of Validation Accuracy with SOTA on the SHREC2017 Dataset.\nMethod\nClassification Accuracy (%)\n14 G\n28 G\nAverage\nSabater et al. [32]\n93.57\n91.43\n92.50\nChen et al. [34]\n94.40\n90.70\n92.55\nYang et al. [8]\n94.60\n91.90\n93.25\nLiu et al. [6]\n94.88\n92.26\n93.57\nLiu et al. [14]\n95.00\n92.86\n93.93\nRehan et al. [30]\n95.60\n92.74\n94.17\nMohammed et al. [37]\n95.60\n93.10\n94.35\nDeng et al. [21]\n96.40\n93.30\n94.85\nMin et al. [56]\n95.90\n94.70\n95.30\nShi et al. [15]\n97.00\n93.90\n95.45\nProposed Framework\n97.86\n95.36\n96.61"
+    },
+    {
+        "chunk_id": 61,
+        "source": "paper19",
+        "text": "Technologies 2025, 13, 484\n16 of 24\n4.8. Results on the DHG1428 Dataset\nTable 8 presents a detailed evaluation of our framework on the DHG1428 dataset.\nUtilizing the optimal set of view orientations: custom, top-down, and front-away. Our\nmethod achieved validation accuracies of 95.83% for the 14-gesture (14 G) benchmark\nand 92.38% for the 28-gesture (28 G) benchmark. Compared to the state-of-the-art results\nreported in [5], our framework performed only slightly lower, with differences of −0.48%\n(14 G) and −1.67% (28 G).\nTable 8. Comparison of Validation Accuracy with SOTA on the DHG1428 Dataset.\nMethod\nClassification Accuracy (%)\n14 G\n28 G\nAverage\nLai et al. [57]\n85.46\n74.19\n79.83\nChen et al. [58]\n84.68\n80.32\n82.50\nWeng et al. [59]\n85.80\n80.20\n83.00\nDevineau et al. [22]\n91.28\n84.35\n87.82\nNguyen et al. [26]\n92.38\n86.31\n89.35\nChen et al. [34]\n91.90\n88.00\n89.95\nMohammed et al. [37]\n91.64\n89.46\n90.55\nLiu et al. [6]\n92.54\n88.86\n90.70\nLiu et al. [14]\n92.71\n89.15\n90.93\nNguyen et al. [60]"
+    },
+    {
+        "chunk_id": 62,
+        "source": "paper19",
+        "text": "Nguyen et al. [26]\n92.38\n86.31\n89.35\nChen et al. [34]\n91.90\n88.00\n89.95\nMohammed et al. [37]\n91.64\n89.46\n90.55\nLiu et al. [6]\n92.54\n88.86\n90.70\nLiu et al. [14]\n92.71\n89.15\n90.93\nNguyen et al. [60]\n94.29\n89.40\n91.85\nShi et al. [15]\n93.80\n90.90\n92.35\nProposed Framework\n95.83\n92.38\n94.11\nLi et al. [5]\n96.31\n94.05\n95.18\nIt is worth noting that the DHG1428 dataset exhibits a more balanced distribution\nof subjects across gesture classes compared to the SHREC2017 dataset, which typically\nyields somewhat lower accuracy metrics. In alignment with this trend, our framework’s\nperformance on DHG1428 was −2.03% and −2.98% lower for the 14 G and 28 G tasks,\nrespectively, compared to its results on SHREC2017 [6,14,15,34].\nFigure 6 displays the confusion matrix for the 28 G task, highlighting strong agree-\nment between predicted and actual gesture classes, as evidenced by the robust validation\naccuracy of 92.38%. In the figure, class labels are prefixed with numbers to distinguish"
+    },
+    {
+        "chunk_id": 63,
+        "source": "paper19",
+        "text": "ment between predicted and actual gesture classes, as evidenced by the robust validation\naccuracy of 92.38%. In the figure, class labels are prefixed with numbers to distinguish\nbetween single-finger gestures (01–14) and whole-hand gestures (15–28).\nConsistent with previous findings [11], our analysis reveals a persistent challenge in\ndistinguishing between the “Grab” and “Pinch” gesture classes. This difficulty is present in\nboth performance modes and becomes apparent upon visual inspection of the generated\nimages for these gestures. The pronounced visual similarity between these classes continues\nto confuse both the model and human evaluators.\n4.9. Ablation Study on the SBUKID\nGiven the structure of our data-level fusion process, we posit that the proposed\nframework is domain-agnostic and can be readily adapted to other contexts involving\nthe classification of temporal dynamic data represented as 2D or 3D coordinates. To test"
+    },
+    {
+        "chunk_id": 64,
+        "source": "paper19",
+        "text": "framework is domain-agnostic and can be readily adapted to other contexts involving\nthe classification of temporal dynamic data represented as 2D or 3D coordinates. To test\nthe generalizability of our framework, we applied it to the skeleton-based Human Action\nRecognition (HAR) domain, introducing minor modifications to the fusion pipeline. Like\nhand gesture recognition, HAR tasks require computers to recognize and interpret dynamic\nactions, but do so by analyzing the motion of the entire human body.\nFor this evaluation, we used the SBUKID to generate spatiotemporal datasets from\nall six view orientations. Each of these datasets was used individually to train a custom\nsingle-stream CNN model that employed a pre-trained ResNet-50 encoder. As shown in\nTable 9, our framework achieved an average cross-validation classification accuracy of"
+    },
+    {
+        "chunk_id": 65,
+        "source": "paper19",
+        "text": "Technologies 2025, 13, 484\n17 of 24\n93.96% using only the [front-away] view orientation. Although this does not leverage the\nfull e2eET multi-stream CNN architecture, the resulting accuracy is just 4.34% below the\nstate-of-the-art, thereby demonstrating the efficacy of our data-level fusion approach for\ntransforming temporal dynamic data from diverse domains into a format amenable to\nimage classification.\n \nFigure 6. The confusion matrix of the proposed framework on the DHG1428 28 G dataset.\nTable 9. Comparison of Validation Accuracy with SOTA on the SBUKID.\nMethod\nAverage Cross-Validation Classification Accuracy (%)\nSong et al. [61]\n91.50\nLiu et al. [62]\n93.50\nKacem et al. [13]\n93.70\nProposed Framework\n93.96\nKe et al. [63]\n94.17\nMucha & Kampel [64]\n94.90\nMaghoumi et al. [38]\n95.70\nZhang et al. [19]\n98.30\nLupinetti, et al. [54]\n98.33\nTo better contextualize the results in Table 9, it is essential to note that the proposed"
+    },
+    {
+        "chunk_id": 66,
+        "source": "paper19",
+        "text": "Mucha & Kampel [64]\n94.90\nMaghoumi et al. [38]\n95.70\nZhang et al. [19]\n98.30\nLupinetti, et al. [54]\n98.33\nTo better contextualize the results in Table 9, it is essential to note that the proposed\nframework was initially designed for hand gesture recognition (HGR), and this HAR\nevaluation serves as an ablation study to test its cross-domain adaptability with minimal\nmodification. Despite not leveraging temporal modeling layers (e.g., RNNs, LSTMs, or"
+    },
+    {
+        "chunk_id": 67,
+        "source": "paper19",
+        "text": "Technologies 2025, 13, 484\n18 of 24\nattention), the method achieves 93.96% accuracy on SBUKID using only static RGB im-\nages derived from skeleton sequences and a single-view ResNet-50 encoder. This result\ndemonstrates that the data-level fusion pipeline retains strong semantic structure even\noutside its native domain. While four existing HAR-specific methods slightly outperform\nour result, the proposed framework offers several advantages: (i) architectural modularity\nand portability, (ii) low computational overhead suitable for real-time applications, and\n(iii) flexibility to integrate additional temporal or view-based modules when needed. Thus,\nTable 9 reflects a trade-off between domain-specific tuning and generalized adaptability,\nunderscoring the versatility and efficiency of the proposed method.\n5. Real-Time HGR Application\nTo demonstrate the practical utility of our proposed framework in reducing hardware"
+    },
+    {
+        "chunk_id": 68,
+        "source": "paper19",
+        "text": "underscoring the versatility and efficiency of the proposed method.\n5. Real-Time HGR Application\nTo demonstrate the practical utility of our proposed framework in reducing hardware\nand computational demands for HGR-based applications, we developed a real-time HGR\napplication [10] based on our generalized HGR framework. This application’s underlying\nmodel was explicitly trained on the “Swipe” gestures from the DHG1428 dataset, including\ngestures like “Up”, “Down”, “Right”, “Left”, “+”, “V”, and “X”. The operational pipeline\nof the application is depicted in Figure 7 and can be summarized as follows:\n(1)\nOpenCV captures the raw gesture data as RGB videos from the built-in PC webcam.\n(2)\nThe video frames are processed for hand detection and pose estimation using Medi-\naPipe Hands.\n(3)\nData-level fusion is performed on the skeleton data, resulting in three spatiotemporal\nimages from [custom, top-down, front-away] view orientations."
+    },
+    {
+        "chunk_id": 69,
+        "source": "paper19",
+        "text": "aPipe Hands.\n(3)\nData-level fusion is performed on the skeleton data, resulting in three spatiotemporal\nimages from [custom, top-down, front-away] view orientations.\n \nFigure 7. A real-time HGR application was developed, based on our proposed framework for\ndynamic gesture recognition and classification.\nDemonstration of HRG Real-Time Application\nTo showcase the practical benefits of our framework, particularly its ability to reduce\nhardware and computational requirements for hand gesture recognition (HGR) applica-\ntions, we developed a real-time HGR system [10] utilizing our generalized approach. The\ncore model powering this application was trained exclusively on “Swipe” gestures from the\nDHG1428 dataset, which includes movements such as “Up,” “Down,” “Right,” “Left,” “+,”"
+    },
+    {
+        "chunk_id": 70,
+        "source": "paper19",
+        "text": "Technologies 2025, 13, 484\n19 of 24\n“V,” and “X.” The main steps in the system’s operational pipeline, illustrated in Figure 7,\nare as follows:\n1.\nData Acquisition. OpenCV captures live gesture data as RGB video streams from the\nbuilt-in PC webcam.\n2.\nHand Pose Estimation. Video frames are processed with MediaPipe Hands to detect\nthe hand and estimate its pose.\n3.\nData-Level Fusion. The skeleton data from the detected hand is used to generate\nthree spatiotemporal images corresponding to the [custom, top-down, front-away]\nview orientations.\n4.\nGesture Classification. These fused images are input into the trained DHG1428 model,\nwhich provides four class predictions—three from the multi-stream sub-network and\none from the ensemble tuner sub-network.\n5.\nResults Display. The application’s graphical user interface (GUI) presents the pre-\ndicted gesture classes, relevant details about the gesture sequence, and the frame-\nwork’s end-to-end latency."
+    },
+    {
+        "chunk_id": 71,
+        "source": "paper19",
+        "text": "5.\nResults Display. The application’s graphical user interface (GUI) presents the pre-\ndicted gesture classes, relevant details about the gesture sequence, and the frame-\nwork’s end-to-end latency.\nThe real-time system demonstrates that raw dynamic gesture data can be efficiently\ncollected using a standard PC webcam, eliminating the need for specialized or expensive\nhardware. On a typical PC equipped with an Intel Core i7-9750H CPU and 16 GB of RAM,\nthe application consistently maintained a latency of just 2–3 s and a capture rate of 15 frames\nper second, measured from gesture execution to final model prediction. Resource usage\nremained within acceptable limits, with negligible impact on overall system performance\nand concurrent applications.\nIt is essential to clarify that the 2–3 s latency refers to the end-to-end gesture recognition\npipeline, encompassing the entire process from the user’s completion of a dynamic gesture"
+    },
+    {
+        "chunk_id": 72,
+        "source": "paper19",
+        "text": "It is essential to clarify that the 2–3 s latency refers to the end-to-end gesture recognition\npipeline, encompassing the entire process from the user’s completion of a dynamic gesture\nto the final prediction and display. This includes the processes of skeleton extraction,\ndata-level fusion, multi-stream classification, ensemble tuning, and GUI rendering. The\nlatency does not affect the real-time capture frame rate, which remains at approximately\n15 FPS during continuous video acquisition. This prototype was implemented using a\nmodular multi-window Python interface, which contributes additional overhead for I/O\nand display. A future, integrated, or compiled implementation would likely further reduce\nlatency while preserving model accuracy.\nWhile our real-time prototype was trained on the DHG1428 dataset and achieved\nconsistent performance, the lower accuracy on the CNR dataset is attributed to its lack of"
+    },
+    {
+        "chunk_id": 73,
+        "source": "paper19",
+        "text": "While our real-time prototype was trained on the DHG1428 dataset and achieved\nconsistent performance, the lower accuracy on the CNR dataset is attributed to its lack of\nraw skeleton data and limited dynamic sequence clarity. Nonetheless, this outcome does not\ninvalidate the model’s adaptability. Instead, it highlights the architecture’s ability to operate\nunder constrained input scenarios. The ensemble tuning mechanism and multi-view image\nfusion modules were designed to mitigate such deficiencies, and future training with raw\nskeleton streams, when available, would further elevate cross-dataset generalizability.\n6. Conclusions and Future Work\n6.1. Conclusions\nThis study has examined a range of dynamic hand gesture recognition (HGR) frame-\nworks and introduced a robust skeleton-based HGR approach that streamlines dynamic\ngesture recognition by reframing it as a static image classification task. The proposed frame-"
+    },
+    {
+        "chunk_id": 74,
+        "source": "paper19",
+        "text": "works and introduced a robust skeleton-based HGR approach that streamlines dynamic\ngesture recognition by reframing it as a static image classification task. The proposed frame-\nwork preserves essential semantic information by employing an enhanced data-level fusion\nmethod to generate static RGB spatiotemporal images from hand pose data. Additionally,\nthe introduction of an ensemble tuner multi-stream CNN architecture, leveraging multiple\nview orientations, ensures accurate classification of these static images while maintaining\ncomputational efficiency."
+    },
+    {
+        "chunk_id": 75,
+        "source": "paper19",
+        "text": "Technologies 2025, 13, 484\n20 of 24\nComprehensive experiments across five benchmark datasets confirm the effective-\nness and generalizability of the framework. The proposed approach achieved validation\naccuracies ranging from −4.10% below to +6.86% above current state-of-the-art results.\nAblation studies in the human action recognition (HAR) domain further demonstrated its\nversatility, with results only 4.34% shy of the best reported validation accuracy. Collectively,\nthese findings illustrate the framework’s ability to handle temporal dynamic data across\ndifferent contexts.\nThe framework’s real-world applicability was further validated through the devel-\nopment of a real-time HGR application. Using only a standard built-in PC webcam, the\napplication demonstrated efficient performance, maintaining low CPU and RAM usage\nwhile delivering acceptable latency and frame rates. This outcome highlights the potential"
+    },
+    {
+        "chunk_id": 76,
+        "source": "paper19",
+        "text": "application demonstrated efficient performance, maintaining low CPU and RAM usage\nwhile delivering acceptable latency and frame rates. This outcome highlights the potential\nof data-level fusion to reduce hardware and computational requirements without sacrificing\nsystem responsiveness.\nWhile the proposed method achieved overall competitive results, performance gaps\nwere observed on datasets such as CNR, FPHA, and DHG1428. These datasets are charac-\nterized by challenges such as limited training size, high inter-class similarity (e.g., between\ngestures like “Grab” and “Pinch”), and significant intra-class variability. These factors can\nhinder discriminative capacity, mainly when relying solely on skeleton-based static image\nrepresentations. Future extensions may incorporate attention mechanisms to enhance\nsensitivity to temporal and joint-specific variations, or apply domain adaptation strategies\nto improve generalization under such conditions."
+    },
+    {
+        "chunk_id": 77,
+        "source": "paper19",
+        "text": "sensitivity to temporal and joint-specific variations, or apply domain adaptation strategies\nto improve generalization under such conditions.\nWhile the framework demonstrates strong performance under controlled benchmark\nconditions, its robustness under variable acquisition scenarios, such as changes in lighting,\npartial occlusions, or user-specific movement patterns, has not been explicitly assessed.\nAddressing these variations through perturbation studies and real-world deployment\nevaluations represents a critical next step to ensure broader applicability and resilience.\nFurthermore, the method’s computational efficiency stems from its design choices:\nby reframing gesture recognition as a static classification problem and using lightweight\nCNN backbones, the framework avoids the overhead associated with temporal sequence\nmodels such as RNNs or Transformers. The absence of recurrent computations, combined"
+    },
+    {
+        "chunk_id": 78,
+        "source": "paper19",
+        "text": "CNN backbones, the framework avoids the overhead associated with temporal sequence\nmodels such as RNNs or Transformers. The absence of recurrent computations, combined\nwith compact model architectures and a streamlined preprocessing pipeline, enables faster\ninference with reduced memory and hardware demands, making it suitable for real-time\nuse cases on standard consumer-grade devices.\n6.2. Future Work\nBuilding on the achievements of this work, several promising directions for future\nresearch emerge. One natural extension is to adapt and evaluate the framework in the\nbroader context of skeleton-based Human Action Recognition (HAR), capitalizing on the\nmethodological parallels between HGR and HAR for recognizing and classifying human\nactivities from skeletal data.\nFurther architectural enhancements are also worth pursuing. Incorporating attention\nmechanisms or transformer-based components into the multi-stream network architecture"
+    },
+    {
+        "chunk_id": 79,
+        "source": "paper19",
+        "text": "Further architectural enhancements are also worth pursuing. Incorporating attention\nmechanisms or transformer-based components into the multi-stream network architecture\ncould yield significant performance improvements, in line with recent advances in deep\nlearning. Investigating the benefits of such enhancements for both hand gesture and\nbroader action recognition tasks represents a fruitful avenue for exploration.\nEvaluating the framework in real-world deployment scenarios, such as healthcare or\nvirtual reality, will be essential to assess its practical impact and reveal potential limitations.\nSuch field tests can guide further refinements and adaptation to diverse use cases. Extend-\ning the current real-time HGR application and exploring its integration in these domains\nwill provide valuable, actionable insights."
+    },
+    {
+        "chunk_id": 80,
+        "source": "paper19",
+        "text": "Technologies 2025, 13, 484\n21 of 24\nGiven the focus on computational efficiency, ongoing research into advanced optimiza-\ntion techniques tailored to the framework’s requirements will be essential for maximizing\nboth performance and resource utilization. In addition, conducting thorough user experi-\nence (UX) studies will help ensure that the framework remains practical and user-friendly.\nUser feedback gathered from targeted UX evaluations can shape future iterations, promot-\ning continued improvement in usability and effectiveness.\nTo overcome the current limitation of requiring a fixed user–camera distance dur-\ning acquisition, future versions of the system could incorporate depth-aware sensors or\nstereo vision setups. For instance, integrating consumer-grade depth cameras (e.g., Intel\nRealSense, Azure Kinect) would enable scale-invariant gesture representation and support\nreal-time depth adaptation. This addition could mitigate challenges posed by variable"
+    },
+    {
+        "chunk_id": 81,
+        "source": "paper19",
+        "text": "RealSense, Azure Kinect) would enable scale-invariant gesture representation and support\nreal-time depth adaptation. This addition could mitigate challenges posed by variable\nspatial positioning, enhancing the robustness and flexibility of the system across real-world\nusage scenarios.\nWhile the current study reports classification accuracy as the primary metric, future\nevaluations will adopt a more comprehensive suite of metrics. Specifically, we will include\nclass-wise precision, recall, and F1-score, which are crucial for handling class imbalance\nand evaluating classifier discrimination. Additionally, we will implement latency distri-\nbution profiling across the end-to-end pipeline, from pose estimation to classification and\noutput rendering, to quantify real-time responsiveness under varying conditions. These\nenhancements will strengthen the robustness assessment of the proposed framework and\nsupport broader deployment readiness."
+    },
+    {
+        "chunk_id": 82,
+        "source": "paper19",
+        "text": "enhancements will strengthen the robustness assessment of the proposed framework and\nsupport broader deployment readiness.\nBy pursuing these directions, future research can continue to advance the state of\ndynamic hand gesture recognition, while deepening understanding of its practical deploy-\nment, optimization, and user-centered design.\nAuthor Contributions: Conceptualization, M.K.H., O.Y. and M.M.; methodology, O.Y., M.K.H. and\nM.M.; software, O.Y.; validation, O.Y., M.K.H. and M.M.; formal analysis, O.Y.; investigation, O.Y.,\nM.K.H. and M.M. writing—original draft preparation, O.Y. and M.K.H.; writing—review and editing,\nM.K.H.; visualization, O.Y.; supervision, M.K.H. and M.M.; project administration, M.K.H. All\nauthors have read and agreed to the published version of the manuscript.\nFunding: This research received no external funding.\nInstitutional Review Board Statement: No collection of data from human is taken and the experiment"
+    },
+    {
+        "chunk_id": 83,
+        "source": "paper19",
+        "text": "Funding: This research received no external funding.\nInstitutional Review Board Statement: No collection of data from human is taken and the experiment\nto demonstrate the work done through ion of the authors of this work with his consent according to\nthe AUC institutional Review Board (IRB) requirements.\nData Availability Statement: It is available at https://github.com/Outsiders17711/e2eET-Skeleton-\nBased-HGR-Using-Data-Level-Fusion?tab=readme-ov-file.\nConflicts of Interest: The authors declare no conflict of interest.\nReferences\n1.\nMorris, M.R. AI and Accessibility. Commun. ACM 2020, 63, 35–37. [CrossRef]\n2.\nBenitez-Garcia, G.; Olivares-Mercado, J.; Sanchez-Perez, G.; Yanai, K. IPN Hand: A Video Dataset and Benchmark for Real-Time\nContinuous Hand Gesture Recognition. arXiv 2020, arXiv:2005.02134. [CrossRef]\n3.\nGammulle, H.; Denman, S.; Sridharan, S.; Fookes, C. TMMF: Temporal Multi-Modal Fusion for Single-Stage Continuous Gesture"
+    },
+    {
+        "chunk_id": 84,
+        "source": "paper19",
+        "text": "3.\nGammulle, H.; Denman, S.; Sridharan, S.; Fookes, C. TMMF: Temporal Multi-Modal Fusion for Single-Stage Continuous Gesture\nRecognition. IEEE Trans. Image Process. 2021, 30, 7689–7701. [CrossRef]\n4.\nLai, K.; Yanushkevich, S. An Ensemble of Knowledge Sharing Models for Dynamic Hand Gesture Recognition. arXiv 2020,\narXiv:2008.05732. [CrossRef]\n5.\nLi, C.; Li, S.; Gao, Y.; Zhang, X.; Li, W. A Two-stream Neural Network for Pose-based Hand Gesture Recognition. arXiv 2021,\narXiv:2101.08926. [CrossRef]"
+    },
+    {
+        "chunk_id": 85,
+        "source": "paper19",
+        "text": "Technologies 2025, 13, 484\n22 of 24\n6.\nLiu, J.; Liu, Y.; Wang, Y.; Prinet, V.; Xiang, S.; Pan, C. Decoupled Representation Learning for Skeleton-Based Gesture Recognition.\nIn Proceedings of the 2020 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR), Seattle, WA, USA,\n13–19 June 2020; pp. 5751–5760. Available online: https://openaccess.thecvf.com/content_CVPR_2020/html/Liu_Decoupled_\nRepresentation_Learning_for_Skeleton-Based_Gesture_Recognition_CVPR_2020_paper.html (accessed on 14 October 2025).\n7.\nWang, Z.; She, Q.; Chalasani, T.; Smolic, A. CatNet: Class Incremental 3D ConvNets for Lifelong Egocentric Gesture Recognition.\narXiv 2020, arXiv:2004.09215.\n8.\nYang, F.; Sakti, S.; Wu, Y.; Nakamura, S. Make Skeleton-based Action Recognition Model Smaller, Faster and Better. arXiv 2020,\narXiv:1907.09658. [CrossRef]\n9.\nZhang, C.; Zou, Y.; Chen, G.; Gan, L. PAN: Towards Fast Action Recognition via Learning Persistence of Appearance. arXiv 2020,\narXiv:2008.03462.\n10."
+    },
+    {
+        "chunk_id": 86,
+        "source": "paper19",
+        "text": "arXiv:1907.09658. [CrossRef]\n9.\nZhang, C.; Zou, Y.; Chen, G.; Gan, L. PAN: Towards Fast Action Recognition via Learning Persistence of Appearance. arXiv 2020,\narXiv:2008.03462.\n10.\nYusuf, O.; Habib, M. Development of a Lightweight Real-Time Application for Dynamic Hand Gesture Recognition. In\nProceedings of the 2023 IEEE International Conference on Mechatronics and Automation (ICMA), Harbin, China, 6–9 August\n2023; pp. 543–548. [CrossRef]\n11.\nChen, J.; Zhao, C.; Wang, Q.; Meng, H. HMANet: Hyperbolic Manifold Aware Network for SkeletonBased Action Recognition.\nIEEE Trans. Cogn. Dev. Syst. 2023, 15, 602–614. [CrossRef]\n12.\nDe Smedt, Q.; Wannous, H.; Vandeborre, J.-P.; Guerry, J.; Le Saux, B.; Filliat, D. 3D Hand Gesture Recognition Using a Depth and\nSkeletal Dataset. In Proceedings of the 3Dor ′17: Proceedings of the Workshop on 3D Object Retrieval, Lyon, France, 23–24 April\n2017; Eurographics Association: Goslar, Germany, 2017; pp. 33–38. [CrossRef]\n13."
+    },
+    {
+        "chunk_id": 87,
+        "source": "paper19",
+        "text": "2017; Eurographics Association: Goslar, Germany, 2017; pp. 33–38. [CrossRef]\n13.\nKacem, A.; Daoudi, M.; Amor, B.B.; Berretti, S.; Alvarez-Paiva, J.C. A Novel Geometric Framework on Gram Matrix Trajectories\nfor Human Behavior Understanding. IEEE Trans. Pattern Anal. Mach. Intell. 2020, 42, 1–14. [CrossRef]\n14.\nLiu, J.; Wang, G.; Duan, L.Y.; Abdiyeva, K.; Kot, A.C. Skeleton-Based Human Action Recognition with Global Context-Aware\nAttention LSTM Networks. IEEE Trans. Image Process. 2018, 27, 1586–1599. [CrossRef]\n15.\nShi, L.; Zhang, Y.; Cheng, J.; Lu, H. Decoupled Spatial-Temporal Attention Network for Skeleton-Based Action Recognition. arXiv\n2020, arXiv:2007.03263.\n16.\nGao, S.; Zhang, D.; Tang, Z.; Wang, H. Deep fusion of skeleton spatial–temporal and dynamic information for action recognition.\nSensors 2024, 24, 7609. [CrossRef]\n17.\nYin, R.; Yin, J. A Two-Stream Hybrid CNN-Transformer Network for Skeleton-Based Human Interaction Recognition. In"
+    },
+    {
+        "chunk_id": 88,
+        "source": "paper19",
+        "text": "Sensors 2024, 24, 7609. [CrossRef]\n17.\nYin, R.; Yin, J. A Two-Stream Hybrid CNN-Transformer Network for Skeleton-Based Human Interaction Recognition. In\nProceedings of the Pattern Recognition and Computer Vision, Proceedings of the 7th Chinese Conference (PRCV 2024), Urumqi, China,\n18–20 October 2024; PRCV 2024, Part VII.; Springer: Berlin/Heidelberg, Germany, 2024; Volume 15037, pp. 395–408. [CrossRef]\n18.\nMolchanov, P.; Gupta, S.; Kim, K.; Kautz, J. Hand gesture recognition with 3D convolutional neural networks. In Proceedings of\nthe 2015 IEEE Conference on Computer Vision and Pattern Recognition Workshops (CVPRW), Boston, MA, USA, 7–12 June 2015;\npp. 1–7. [CrossRef]\n19.\nZhang, P.; Lan, C.; Xing, J.; Zeng, W.; Xue, J.; Zheng, N. View Adaptive Neural Networks for High Performance Skeleton-Based\nHuman Action Recognition. IEEE Trans. Pattern Anal. Mach. Intell. 2019, 41, 1963–1978. [CrossRef]\n20."
+    },
+    {
+        "chunk_id": 89,
+        "source": "paper19",
+        "text": "Human Action Recognition. IEEE Trans. Pattern Anal. Mach. Intell. 2019, 41, 1963–1978. [CrossRef]\n20.\nZhang, X.; Li, S.; Zeng, X.; Lu, P.; Sun, W. A Novel Multimodal Hand Gesture Recognition Model Using Combined Approach of\nInter-Frame Motion and Shared Attention Weights. Computers 2025, 14, 432. [CrossRef]\n21.\nDeng, Z.; Gao, Q.; Ju, Z.; Yu, X. Skeleton-Based Multifeatures and Multistream Network for Real-Time Action Recognition. IEEE\nSens. J. 2023, 23, 7397–7409. [CrossRef]\n22.\nAkremi, M.S.; Slama, R.; Tabia, H. SPD Siamese Neural Network for Skeleton-based Hand Gesture Recognition. In Proceedings\nof the 17th International Joint Conference on Computer Vision, Imaging and Computer Graphics Theory and Applications\n(VISIGRAPP 2022)—Volume 4: VISAPP, Online, 6–8 February 2022; SciTePress: Setúbal, Portugal, 2022; pp. 394–402. [CrossRef]\n23.\nDang, T.L.; Pham, T.H.; Dao, D.M.; Nguyen, H.V.; Dang, Q.M.; Nguyen, B.T.; Monet, N. DATE: A video dataset and benchmark"
+    },
+    {
+        "chunk_id": 90,
+        "source": "paper19",
+        "text": "23.\nDang, T.L.; Pham, T.H.; Dao, D.M.; Nguyen, H.V.; Dang, Q.M.; Nguyen, B.T.; Monet, N. DATE: A video dataset and benchmark\nfor dynamic hand gesture recognition. Neural Comput. Appl. 2024, 36, 17311–17325. [CrossRef]\n24.\nNeverova, N.; Wolf, C.; Taylor, G.W.; Nebout, F. Multi-scale Deep Learning for Gesture Detection and Localization. In Computer\nVision—ECCV 2014 Workshops; Agapito, L., Bronstein, M., Rother, C., Eds.; Springer: Berlin/Heidelberg, Germany, 2015;\nVolume 8925. [CrossRef]\n25.\nLiu, X.; Shi, H.; Hong, X.; Chen, H.; Tao, D.; Zhao, G. 3D Skeletal Gesture Recognition via Hidden States Exploration. IEEE Trans.\nImage Process. 2020, 29, 4583–4597. [CrossRef] [PubMed]\n26.\nNguyen, X.S.; Brun, L.; Lézoray, O.; Bougleux, S. A neural network based on SPD manifold learning for skeleton-based hand\ngesture recognition. arXiv 2019, arXiv:1904.12970. [CrossRef]\n27."
+    },
+    {
+        "chunk_id": 91,
+        "source": "paper19",
+        "text": "26.\nNguyen, X.S.; Brun, L.; Lézoray, O.; Bougleux, S. A neural network based on SPD manifold learning for skeleton-based hand\ngesture recognition. arXiv 2019, arXiv:1904.12970. [CrossRef]\n27.\nLiu, Y.; Jiao, J. Fusing Skeleton-Based Scene Flow for Gesture Recognition on Point Clouds. Electronics 2025, 14, 567. [CrossRef]\n28.\nAkrem, M.S. Manifold-Based Approaches for Action and Gesture Recognition/Approches Basées sur les Variétés Pour la\nReconnaissance des Actions et des Gestes. Ph.D. Dissertation, IBISC Lab, Paris-Saclay, Paris, France, 2025.\n29.\nSahbi, H. Skeleton-based Hand-Gesture Recognition with Lightweight Graph Convolutional Networks.\narXiv 2021,\narXiv:2104.04255."
+    },
+    {
+        "chunk_id": 92,
+        "source": "paper19",
+        "text": "Technologies 2025, 13, 484\n23 of 24\n30.\nRehan, M.; Wannous, H.; Alkheir, J.; Aboukassem, K. Learning Co-occurrence Features Across Spatial and Temporal Domains\nfor Hand Gesture Recognition. In Proceedings of the 19th International Conference on Content-based Multimedia Indexing\n(CBMI ’22), Graz, Austria, 14–16 September 2022; Association for Computing Machinery: New York, NY, USA, 2022; pp. 36–42.\n[CrossRef]\n31.\nHu, J.; Wu, C.; Xu, T.; Wu, X.-J.; Kittler, J. Spatio-Temporal Domain-Aware Network for Skeleton-Based Action Representation\nLearning. In Proceedings of the Pattern Recognition: 27th International Conference, ICPR 2024, Kolkata, India, 1–5 December\n2024; Proceedings, Part XXIX. Springer: Cham, Switzerland, 2024; pp. 148–163. [CrossRef]\n32.\nSabater, A.; Alonso, I.; Montesano, L.; Murillo, A.C. Domain and View-point Agnostic Hand Action Recognition. arXiv 2021,\narXiv:2103.02303. [CrossRef]\n33."
+    },
+    {
+        "chunk_id": 93,
+        "source": "paper19",
+        "text": "32.\nSabater, A.; Alonso, I.; Montesano, L.; Murillo, A.C. Domain and View-point Agnostic Hand Action Recognition. arXiv 2021,\narXiv:2103.02303. [CrossRef]\n33.\nNarayan, S.; Mazumdar, A.P.; Vipparthi, S.K. SBI-DHGR: Skeleton-based intelligent dynamic hand gestures recognition. Expert\nSyst. Appl. 2023, 232, 120735. [CrossRef]\n34.\nChen, Y.; Zhao, L.; Peng, X.; Yuan, J.; Metaxas, D.N. Construct Dynamic Graphs for Hand Gesture Recognition via Spatial-\nTemporal Attention. arXiv 2019, arXiv:1907.08871. [CrossRef]\n35.\nMohammed, A.A.Q.; Gao, Y.; Ji, Z.; Lv, J.; Islam, S.; Sang, Y. Automatic 3DSkeleton-based Dynamic Hand Gesture Recognition\nUsing Multi-Layer Convolutional, L.S.T.M. In Proceedings of the 7th International Conference on Robotics and Artificial\nIntelligence (ICRAI’21), Guangzhou, China, 19–22 November 2022; Association for Computing Machinery: New York, NY, USA,\n2022; pp. 8–14. [CrossRef]\n36."
+    },
+    {
+        "chunk_id": 94,
+        "source": "paper19",
+        "text": "Intelligence (ICRAI’21), Guangzhou, China, 19–22 November 2022; Association for Computing Machinery: New York, NY, USA,\n2022; pp. 8–14. [CrossRef]\n36.\nShanmugam, S.; A, L.S.; Dhanasekaran, P.; Mahalakshmi, P.; Sharmila, A. Hand Gesture Recognition using Convolutional Neural\nNetwork. In Proceedings of the 2021 Innovations in Power and Advanced Computing Technologies (i-PACT), Kuala Lumpur,\nMalaysia, 27–29 November 2021; pp. 1–5. [CrossRef]\n37.\nMin, Y.; Zhang, Y.; Chai, X.; Chen, X. An Efficient PointLSTM for Point Clouds Based Gesture Recognition. In Proceedings of the\nIEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR), Seattle, WA, USA, 13–19 June 2020; pp. 5761–5770.\nAvailable online: https://openaccess.thecvf.com/content_CVPR_2020/html/Min_An_Efficient_PointLSTM_for_Point_Clouds_\nBased_Gesture_Recognition_CVPR_2020_paper.html (accessed on 14 October 2025).\n38."
+    },
+    {
+        "chunk_id": 95,
+        "source": "paper19",
+        "text": "Available online: https://openaccess.thecvf.com/content_CVPR_2020/html/Min_An_Efficient_PointLSTM_for_Point_Clouds_\nBased_Gesture_Recognition_CVPR_2020_paper.html (accessed on 14 October 2025).\n38.\nMaghoumi, M.; LaViola, J.J., Jr. DeepGRU: Deep Gesture Recognition Utility. arXiv 2019, arXiv:1810.12514. [CrossRef]\n39.\nSong, J.-H.; Kong, K.; Kang, S.-J. Dynamic Hand Gesture Recognition Using Improved Spatio-Temporal Graph Convolutional\nNetwork. IEEE Trans. Circuits Syst. Video Technol. 2022, 32, 6227–6239. [CrossRef]\n40.\nMolchanov, P.; Yang, X.; Gupta, S.; Kim, K.; Tyree, S.; Kautz, J. Online Detection and Classification of Dynamic Hand Gestures\nwith Recurrent 3D Convolutional Neural Networks. In Proceedings of the 2016 IEEE Conference on Computer Vision and Pattern\nRecognition (CVPR), Las Vegas, NV, USA, 27–30 June 2016; pp. 4207–4215. [CrossRef]\n41.\nKöpüklü, O.; Köse, N.; Rigoll, G. Motion Fused Frames: Data Level Fusion Strategy for Hand Gesture Recognition. arXiv 2018,"
+    },
+    {
+        "chunk_id": 96,
+        "source": "paper19",
+        "text": "41.\nKöpüklü, O.; Köse, N.; Rigoll, G. Motion Fused Frames: Data Level Fusion Strategy for Hand Gesture Recognition. arXiv 2018,\narXiv:1804.07187. [CrossRef]\n42.\nZhou, H.; Le, H.T.; Zhang, S.; Phung, S.L.; Alici, G. Hand Gesture Recognition from Surface Electromyography Signals with\nGraph Convolutional Network and Attention Mechanisms. IEEE Sens. J. 2025, 25, 9081–9092. [CrossRef]\n43.\nWang, B.; Lu, R.; Zhang, L. Efficient Hand Gesture Recognition Using Multi-Stream CNNs with Feature Fusion Strategies. IEEE\nAccess 2021, 9, 23567–23578.\n44.\nAbavisani, M.; Joze, H.R.V.; Patel, V.M. Improving the Performance of Unimodal Dynamic Hand-Gesture Recognition with Multi-\nmodal Training. In Proceedings of the IEEE Conference on Computer Vision and Pattern Recognition (CVPR), Long Beach, CA,\nUSA, 15–20 June 2019; pp. 1165–1174. Available online: https://openaccess.thecvf.com/content_CVPR_2019/html/Abavisani_"
+    },
+    {
+        "chunk_id": 97,
+        "source": "paper19",
+        "text": "USA, 15–20 June 2019; pp. 1165–1174. Available online: https://openaccess.thecvf.com/content_CVPR_2019/html/Abavisani_\nImproving_the_Performance_of_Unimodal_Dynamic_Hand-Gesture_Recognition_With_Multimodal_CVPR_2019_paper.html\n(accessed on 14 October 2025).\n45.\nLiu, W.; Lu, B. Multi-Stream Convolutional Neural Network-Based Wearable, Flexible Bionic Gesture Surface Muscle Feature\nExtraction and Recognition. Front. Bioeng. Biotechnol. 2022, 10, 833793. [CrossRef] [PubMed]\n46.\nYang, X.; Molchanov, P.; Kautz, J. Making Convolutional Networks Recurrent for Visual Sequence Learning. In Proceedings of the\nIEEE Conference on Computer Vision and Pattern Recognition (CVPR), Salt Lake City, UT, USA, 18–23 June 2018; pp. 6469–6478.\nAvailable online: https://openaccess.thecvf.com/content_cvpr_2018/html/Yang_Making_Convolutional_Networks_CVPR_\n2018_paper.html (accessed on 14 October 2025).\n47."
+    },
+    {
+        "chunk_id": 98,
+        "source": "paper19",
+        "text": "Available online: https://openaccess.thecvf.com/content_cvpr_2018/html/Yang_Making_Convolutional_Networks_CVPR_\n2018_paper.html (accessed on 14 October 2025).\n47.\nYu, Z.; Zhou, B.; Wan, J.; Wang, P.; Chen, H.; Liu, X.; Li, S.Z.; Zhao, G. Searching Multi-Rate and Multi-Modal Temporal Enhanced\nNetworks for Gesture Recognition. IEEE Trans. Image Process. 2021, 30, 5626–5640. [CrossRef]\n48.\nLi, L.; Qin, S.; Lu, Z.; Zhang, D.; Xu, K.; Hu, Z. Real-time one-shot learning gesture recognition based on lightweight 3D\nInception-ResNet with separable convolutions. Pattern Anal. Appl. 2021, 24, 1173–1192. [CrossRef]\n49.\nKendall, A.; Gal, Y.; Cipolla, R. Multi-Task Learning Using Uncertainty to Weigh Losses for Scene Geometry and Semantics. arXiv\n2018, arXiv:1705.07115. [CrossRef]"
+    },
+    {
+        "chunk_id": 99,
+        "source": "paper19",
+        "text": "Technologies 2025, 13, 484\n24 of 24\n50.\nBoulahia, S.Y.; Anquetil, E.; Multon, F.; Kulpa, R. Dynamic hand gesture recognition based on 3D pattern assembled trajectories.\nIn Proceedings of the Seventh International Conference on Image Processing Theory, Tools and Applications (IPTA), Montreal,\nQC, Canada, 28 November–1 December 2017; pp. 1–6. [CrossRef]\n51.\nDevineau, G.; Xi, W.; Moutarde, F.; Yang, J. Deep Learning for Hand Gesture Recognition on Skeletal Data. In Proceedings of the\n2018 13th IEEE International Conference on Automatic Face & Gesture Recognition (FG 2018), Xi’an, China, 15–19 May 2018.\n[CrossRef]\n52.\nDe Smedt, Q.; Wannous, H.; Vandeborre, J.-P. Skeleton-Based Dynamic Hand Gesture Recognition. In Proceedings of the 2016\nIEEE Conference on Computer Vision and Pattern Recognition Workshops (CVPRW), Las Vegas, NV, USA, 26 June–1 July 2016;\npp. 1206–1214. [CrossRef]\n53."
+    },
+    {
+        "chunk_id": 100,
+        "source": "paper19",
+        "text": "IEEE Conference on Computer Vision and Pattern Recognition Workshops (CVPRW), Las Vegas, NV, USA, 26 June–1 July 2016;\npp. 1206–1214. [CrossRef]\n53.\nKim, S.; Jung, J.; Lee, K.J. A Real-Time Sparsity-Aware 3D-CNN Processor for Mobile Hand Gesture Recognition. IEEE Trans.\nCircuits Syst. I Regul. Pap. 2024, 71, 3695–3707. [CrossRef]\n54.\nLupinetti, K.; Ranieri, A.; Giannini, F.; Monti, M. 3D dynamic hand gestures recognition using the Leap Motion sensor and\nconvolutional neural networks. arXiv 2020, arXiv:2003.01450. [CrossRef]\n55.\nZhang, C.; Zou, Y.; Chen, G.; Gan, L. PAN: Persistent Appearance Network with an Efficient Motion Cue for Fast Action\nRecognition. In Proceedings of the MM ‘19: Proceedings of the 27th ACM International Conference on Multimedia, Nice, France,\n21–25 October 2019; pp. 500–509. [CrossRef]\n56.\nMiah, A.S.M.; Hasan, A.M.; Shin, J. Dynamic Hand Gesture Recognition Using Multi-Branch Attention Based Graph and General"
+    },
+    {
+        "chunk_id": 101,
+        "source": "paper19",
+        "text": "21–25 October 2019; pp. 500–509. [CrossRef]\n56.\nMiah, A.S.M.; Hasan, A.M.; Shin, J. Dynamic Hand Gesture Recognition Using Multi-Branch Attention Based Graph and General\nDeep Learning Model. IEEE Access 2023, 11, 4703–4716. [CrossRef]\n57.\nLai, K.; Yanushkevich, S.N. CNN+RNN Depth and Skeleton based Dynamic Hand Gesture Recognition. In Proceedings of the\n2018 24th International Conference on Pattern Recognition (ICPR), Beijing, China, 20–24 August 2018; pp. 3451–3456. [CrossRef]\n58.\nChen, X.; Guo, H.; Wang, G.; Zhang, L. Motion Feature Augmented Recurrent Neural Network for Skeletonbased Dynamic\nHand Gesture Recognition. In Proceedings of the 2017 IEEE International Conference on Image Processing (ICIP), Beijing, China,\n17–20 September 2017; pp. 2881–2885. [CrossRef]\n59.\nWeng, J.; Liu, M.; Jiang, X.; Yuan, J. Deformable Pose Traversal Convolution for 3D Action and Gesture Recognition. In"
+    },
+    {
+        "chunk_id": 102,
+        "source": "paper19",
+        "text": "17–20 September 2017; pp. 2881–2885. [CrossRef]\n59.\nWeng, J.; Liu, M.; Jiang, X.; Yuan, J. Deformable Pose Traversal Convolution for 3D Action and Gesture Recognition. In\nProceedings of the European Conference on Computer Vision (ECCV), Munich, Germany, 8–14 September 2018; pp. 136–152.\nAvailable online: https://openaccess.thecvf.com/content_ECCV_2018/html/Junwu_Weng_Deformable_Pose_Traversal_ECCV_\n2018_paper.html (accessed on 14 October 2025).\n60.\nNguyen, X.S.; Brun, L.; Lezoray, O.; Bougleux, S. Skeleton-Based Hand Gesture Recognition by Learning SPD Matrices with\nNeural Networks. arXiv 2019, arXiv:1905.07917. [CrossRef]\n61.\nSong, S.; Lan, C.; Xing, J.; Zeng, W.; Liu, J. Spatio-Temporal Attention-Based LSTM Networks for 3D Action Recognition and\nDetection. IEEE Trans. Image Process. 2018, 27, 3459–3471. [CrossRef] [PubMed]\n62.\nLiu, J.; Wang, Y.; Xiang, S.; Pan, C. HAN: An Efficient Hierarchical Self-Attention Network for Skeleton-Based Gesture Recognition."
+    },
+    {
+        "chunk_id": 103,
+        "source": "paper19",
+        "text": "62.\nLiu, J.; Wang, Y.; Xiang, S.; Pan, C. HAN: An Efficient Hierarchical Self-Attention Network for Skeleton-Based Gesture Recognition.\narXiv 2021, arXiv:2106.13391. [CrossRef]\n63.\nKe, Q.; Bennamoun, M.; An, S.; Sohel, F.; Boussaid, F. Learning Clip Representations for SkeletonBased 3D Action Recognition.\nIEEE Trans. Image Process. 2018, 27, 2842–2855. [CrossRef]\n64.\nMucha, W.; Kampel, M. Beyond Privacy of Depth Sensors in Active and Assisted Living Devices. In Proceedings of the 15th\nInternational Conference on PErvasive Technologies Related to Assistive Environments, Corfu, Greece, 29 June–1 July 2022; ACM:\nCorfu, Greece, 2022; pp. 425–429.\nDisclaimer/Publisher’s Note: The statements, opinions and data contained in all publications are solely those of the individual\nauthor(s) and contributor(s) and not of MDPI and/or the editor(s). MDPI and/or the editor(s) disclaim responsibility for any injury to"
+    },
+    {
+        "chunk_id": 104,
+        "source": "paper19",
+        "text": "author(s) and contributor(s) and not of MDPI and/or the editor(s). MDPI and/or the editor(s) disclaim responsibility for any injury to\npeople or property resulting from any ideas, methods, instructions or products referred to in the content."
+    }
+]

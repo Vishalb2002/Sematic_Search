@@ -1,0 +1,397 @@
+[
+    {
+        "chunk_id": 1,
+        "source": "paper13",
+        "text": "Academic Editor: Pietro Zanuttigh\nReceived: 5 May 2025\nRevised: 6 June 2025\nAccepted: 17 June 2025\nPublished: 19 June 2025\nCitation: Jing, D.-X.; Huang, K.; Liu,\nS.-J.; Zou, Z.; Hsu, C.-Y. Dynamic\nHypergraph Convolutional Networks\nfor Hand Motion Gesture Sequence\nRecognition. Technologies 2025, 13, 257.\nhttps://doi.org/10.3390/\ntechnologies13060257\nCopyright: © 2025 by the authors.\nLicensee MDPI, Basel, Switzerland.\nThis article is an open access article\ndistributed under the terms and\nconditions of the Creative Commons\nAttribution (CC BY) license\n(https://creativecommons.org/\nlicenses/by/4.0/).\nArticle\nDynamic Hypergraph Convolutional Networks for Hand Motion\nGesture Sequence Recognition\nDong-Xing Jing 1, Kui Huang 2, Shi-Jian Liu 2\n, Zheng Zou 3 and Chih-Yu Hsu 4,*\n1\nSchool of Information and Intelligence, Xiangxi Vocational and Technical College for Nationalities,\nXiangxi 416007, China; jing710429442@163.com\n2"
+    },
+    {
+        "chunk_id": 2,
+        "source": "paper13",
+        "text": ", Zheng Zou 3 and Chih-Yu Hsu 4,*\n1\nSchool of Information and Intelligence, Xiangxi Vocational and Technical College for Nationalities,\nXiangxi 416007, China; jing710429442@163.com\n2\nFujian Provincial Key Laboratory of Big Data Mining and Applications, Fujian University of Technology,\nFuzhou 350118, China; 2221308033@smail.fjut.edu.cn (K.H.); liusj2003@fjut.edu.cn (S.-J.L.)\n3\nCollege of Computer and Cyber Security, Fujian Normal University, Fuzhou 350117, China;\nzouzheng2018@fjnu.edu.cn\n4\nSchool of Transportation, Fujian University of Technology, Fuzhou 350118, China\n*\nCorrespondence: 61201903@fjut.edu.cn or tccnchsu@yahoo.com.tw\nAbstract: This paper introduces a novel approach to hand motion gesture recognition\nby integrating the Fourier transform with hypergraph convolutional networks (HGCNs).\nTraditional recognition methods often struggle to capture the complex spatiotemporal\ndynamics of hand gestures. HGCNs, which are capable of modeling intricate relation-"
+    },
+    {
+        "chunk_id": 3,
+        "source": "paper13",
+        "text": "Traditional recognition methods often struggle to capture the complex spatiotemporal\ndynamics of hand gestures. HGCNs, which are capable of modeling intricate relation-\nships among joints, are enhanced by Fourier transform to analyze gesture features in the\nfrequency domain. A hypergraph is constructed to represent the interdependencies among\nhand joints, allowing for dynamic adjustments based on joint movements. Hypergraph\nconvolution is applied to update node features, while the Fourier transform facilitates\nfrequency-domain analysis. The T-Module, a multiscale temporal convolution module,\naggregates features from multiple frames to capture gesture dynamics across different time\nscales. Experiments on the dynamic hypergraph (DHG14/28) and shape retrieval contest\n(SHREC’17) datasets demonstrate the effectiveness of the proposed method, achieving\naccuracies of 96.4% and 97.6%, respectively, and outperforming traditional gesture recogni-"
+    },
+    {
+        "chunk_id": 4,
+        "source": "paper13",
+        "text": "(SHREC’17) datasets demonstrate the effectiveness of the proposed method, achieving\naccuracies of 96.4% and 97.6%, respectively, and outperforming traditional gesture recogni-\ntion algorithms. Ablation studies further validate the contributions of each component in\nenhancing recognition performance.\nKeywords:\nhand gesture recognition; graph convolutional networks; hypergraph;\nFourier transform\n1. Introduction\nHand gesture recognition has become a pivotal technology in healthcare, enabling\nintuitive control of assistive devices, precise rehabilitation monitoring, sterile surgical\ninterfaces, and enhanced patient communication [1,2]. By interpreting hand movements,\nit facilitates non-intrusive interactions, improving accessibility and efficiency in medical\nsettings. Beyond healthcare, hand gesture recognition plays a crucial role in human–\ncomputer interaction (HCI), behavior analysis, and immersive technologies. In HCI, it"
+    },
+    {
+        "chunk_id": 5,
+        "source": "paper13",
+        "text": "settings. Beyond healthcare, hand gesture recognition plays a crucial role in human–\ncomputer interaction (HCI), behavior analysis, and immersive technologies. In HCI, it\nallows users to interact with systems through natural gestures, eliminating the need for\nphysical controllers [3–5]. This technology is also instrumental in virtual and augmented\nreality applications, where it enables realistic manipulation of virtual objects and environ-\nments [6,7]. Additionally, in behavior analysis, hand gestures serve as non-verbal cues that\ncan be analyzed to understand human intentions and emotions.\nIn recent times, significant progress has enabled the easy collection of multimodal\ndata for hand gesture recognition, including RGB images [8,9], depth maps [10], and\nTechnologies 2025, 13, 257\nhttps://doi.org/10.3390/technologies13060257"
+    },
+    {
+        "chunk_id": 6,
+        "source": "paper13",
+        "text": "Technologies 2025, 13, 257\n2 of 19\nskeleton sequences [11]. Devineau et al. were pioneers in directly applying a convolutional\nneural network (CNN) to skeleton joint sequences for feature extraction [12]. However,\nsince skeletons inherently form non-Euclidean graphs, graph convolutional networks\n(GCNs) have emerged as a focused approach to capture their spatial–structural patterns [7].\nConsequently, GCN-based frameworks have become the predominant choice for achieving\naccurate, real-time hand gesture recognition.\nThe graph structure, typically represented by the adjacency matrix, is a crucial com-\nponent in GCNs. Most existing methods initialize the adjacency matrix based on the\nphysiological dependence of the skeletal structure, as illustrated in Figure 1. This approach,\nthough, leads to a long-range dependency problem in graph convolution [13]. For instance,\nin Figure 1, node 10 needs a relatively large number of hops to reach node 14, despite the"
+    },
+    {
+        "chunk_id": 7,
+        "source": "paper13",
+        "text": "though, leads to a long-range dependency problem in graph convolution [13]. For instance,\nin Figure 1, node 10 needs a relatively large number of hops to reach node 14, despite the\npossibility that they are spatially close. This clearly shows that defining the relationship\nbetween nodes solely based on physiological factors is insufficient.\nFigure 1. Schematic representation of a hand-skeleton graph. The nodes are numbered from 1 to 22,\nrepresenting different joints in the hand-skeleton. The connections between the nodes illustrate the\nstructural relationships among the joints, which are essential for modeling hand gesture-related\nspatial information.\nNiepert et al. proposed Patchy-San. This method extracts fixed-size, locally ordered\nneighborhoods from arbitrary graphs. In this way, standard CNN filters can learn node\nrepresentations that are on par with those learned by graph kernels [14].\nSpatial methods commonly utilize adjacency matrices to encode the relationships"
+    },
+    {
+        "chunk_id": 8,
+        "source": "paper13",
+        "text": "representations that are on par with those learned by graph kernels [14].\nSpatial methods commonly utilize adjacency matrices to encode the relationships\nbetween nodes. For example, Yan et al.’s spatial–temporal graph convolutional network\n(ST-GCN) [15] employs a hand-skeleton adjacency matrix within a series of stacked spatial–\ntemporal GCN blocks. To address the issue of vanishing gradients, each block in ST-GCN\nincorporates residual (skip) connections, which were first introduced by He et al. [16].\nThese residual connections allow for the construction of deeper and more stable models.\nSpatial blocks are components that use GCNs to aggregate spatial information from\nindividual frames. Meanwhile, temporal blocks utilize one-dimensional convolution to\nlink information across frames in the temporal dimension. Although ST-GCN outperforms\nCNN/RNN methods, a limitation exists in its design. Specifically, the graph adjacency"
+    },
+    {
+        "chunk_id": 9,
+        "source": "paper13",
+        "text": "link information across frames in the temporal dimension. Although ST-GCN outperforms\nCNN/RNN methods, a limitation exists in its design. Specifically, the graph adjacency\nmatrix in ST-GCN remains static throughout the training process. This fixed nature of the\nadjacency matrix hinders the integration of information from nodes that are separated by a\nlarge hop-distance. As a result, ST-GCN is unable to effectively deal with the long-range\ndependency problem."
+    },
+    {
+        "chunk_id": 10,
+        "source": "paper13",
+        "text": "Technologies 2025, 13, 257\n3 of 19\nTo overcome the issue of dealing with long-range dependencies due to static adjacency\nmatrices in graph-based models, subsequent research efforts have focused on introduc-\ning learnable adjacency matrices. These matrices are designed to adaptively modify the\nrelationships between nodes during the training process.\nThe pioneering work [17] was the first to suggest uncovering node-to-node relation-\nships through network training. Following this, CTR-GCN [18] took a step further by\nenabling the specialization of an adjacency matrix for the input channel. Recognizing that\nthe dependencies among joints evolve over time, Liu et al. [19] proposed the TD-GCN. This\nmodel employs a frame-by-frame approach to calculate the adjacency matrix, effectively\naccounting for the temporal variations in joint relationships.\nAlthough the aforementioned studies have alleviated the long-range dependency"
+    },
+    {
+        "chunk_id": 11,
+        "source": "paper13",
+        "text": "accounting for the temporal variations in joint relationships.\nAlthough the aforementioned studies have alleviated the long-range dependency\nissue to some degree, they all initialize the adjacency matrix based on the physiological\nskeletal structure. This approach causes the final trained adjacency matrix to be overly\nbiased toward the inherent relationships of the physiological skeleton. However, since\nthe “key nodes” in input data may not strictly correspond to actual anatomical joints, this\nphysiological initialization introduces inherent bias.\nTo further address long-range dependencies and eliminate such biases, Lee et al. [13]\nproposed the hierarchically decomposed graph convolutional network (HD-GCN). This\nmodel effectively decomposes each joint node into multiple subsets, enabling it to capture\nboth structurally adjacent and distant node-edge relationships. Meanwhile, Duan et al. [20]\nintroduced a novel framework called DG-GCN, which improves skeleton-based action"
+    },
+    {
+        "chunk_id": 12,
+        "source": "paper13",
+        "text": "both structurally adjacent and distant node-edge relationships. Meanwhile, Duan et al. [20]\nintroduced a novel framework called DG-GCN, which improves skeleton-based action\nrecognition by addressing limitations in traditional GCNs. DG-GCN uses learnable affin-\nity matrices to capture dynamic joint relationships, enabling more flexible and accurate\nspatial modeling.\nThe research and experimental results of Lee et al. [13] and Duan et al. [20] demonstrate\nthat relationships between graph nodes should involve multiple nodes rather than just\npairwise correlations. However, traditional graph data structures are limited by edges that\ncan only connect pairs of nodes, meaning graph convolutional networks (GCNs) cannot\nsimultaneously model relationships among multiple nodes. To address this limitation, our\nwork adopts a hypergraph structure, where hyperedges can connect multiple nodes to\ncapture higher-order dependencies."
+    },
+    {
+        "chunk_id": 13,
+        "source": "paper13",
+        "text": "work adopts a hypergraph structure, where hyperedges can connect multiple nodes to\ncapture higher-order dependencies.\nIn this paper, we propose a hand gesture recognition method called the dynamic\nhypergraph convolutional network (DHGCN). The codes are provided in the link https:\n//github.com/CoderHoooK/DHGCN (accessed on 5 May 2025). Its key features and\ninnovations include the following:\n1.\nHypergraph Integration: Building on graph convolutional networks (GCNs), DHGCN\nincorporates hypergraph structures to model higher-order relational features among\nmultiple nodes. Unlike traditional graphs with pairwise edges, hyperedges in hyper-\ngraphs can connect multiple nodes simultaneously, enabling the network to capture\ncomplex, multinode dependencies.\n2.\nDynamic Hypergraph Structure: The hypergraph in DHGCN is data-driven and non-\npredefined, learned directly from input data during training. This dynamic scheme"
+    },
+    {
+        "chunk_id": 14,
+        "source": "paper13",
+        "text": "complex, multinode dependencies.\n2.\nDynamic Hypergraph Structure: The hypergraph in DHGCN is data-driven and non-\npredefined, learned directly from input data during training. This dynamic scheme\nensures objective and adaptive feature extraction, avoiding the biases of manually\npredefined structures.\n3.\nMultistream Fusion Strategy: By fusing prediction vectors from hypergraph convolu-\ntional networks with varying numbers of hyperedges, the model achieves enhanced\nperformance. This strategy leverages diverse hypergraph configurations to capture\ncomplementary information and improve recognition accuracy."
+    },
+    {
+        "chunk_id": 15,
+        "source": "paper13",
+        "text": "Technologies 2025, 13, 257\n4 of 19\n2. Materials and Methods\nThe following subsections present summaries of the mathematical framework. The\nmathematical structures we use to describe networks are graphs. In this section, we review\nsome definitions and results from basic graph theory and theories specific for hyper graphs.\nAs shown in Figure 1, a hand-skeleton graph is represented as a graph. For more advanced\nrepresentations, hypergraphs can be utilized to model higher-order relationships between\njoints, capturing more complex interactions within hand gestures.\nHand gesture recognition aims to identify and interpret human hand movements\nthrough computational models. This process typically involves mapping hand gestures—\noften represented as sequences of joint coordinates—into a structured format suitable for\nanalysis. ST-GCNs [20] are designed to model and recognize human actions by capturing\nboth spatial (structural) and temporal (sequential) dependencies in skeleton-based data."
+    },
+    {
+        "chunk_id": 16,
+        "source": "paper13",
+        "text": "analysis. ST-GCNs [20] are designed to model and recognize human actions by capturing\nboth spatial (structural) and temporal (sequential) dependencies in skeleton-based data.\nThe following subsections summarize the mathematical framework of the approach.\nGraphs are used to describe the network structures, and this section reviews key definitions\nand concepts from basic graph theory and hypergraph theory. As illustrated in Figure 1, a\nhand-skeleton is naturally represented as a graph, where nodes correspond to joints and\nedges encode physiological connections (e.g., bones). For more complex representations,\nhypergraphs are employed to model higher-order relationships between joints. Unlike\ntraditional graphs with pairwise edges, hypergraphs use hyperedges to connect multiple\nnodes simultaneously, enabling the capture of intricate, multijoint interactions within\nhand gestures.\n2.1. GCNs\nThis mathematical framework underpins various hand gesture recognition systems,"
+    },
+    {
+        "chunk_id": 17,
+        "source": "paper13",
+        "text": "nodes simultaneously, enabling the capture of intricate, multijoint interactions within\nhand gestures.\n2.1. GCNs\nThis mathematical framework underpins various hand gesture recognition systems,\nenabling accurate and efficient interpretation of hand movements in applications such\nas human–computer interaction, sign language recognition, and virtual reality interfaces.\nDefinition of Graphs are as follows:\n•\nG = (V, E) represents a graph, where V = {v1, v2, ..., vn} is the set of vertices corre-\nsponding to hand joints, and E is the set of edges representing relationships between\njoints.\n•\nX ∈Rn×d represents the matrix of node features, where each row xi is a feature vector\nfor vertex vi.\n•\nA ∈Rn×n represents the adjacency matrix, with entries Aij indicating the presence\nand weight of the edge between vertices vi and vj.\nIn GCNs, the node feature matrix is updated through the following layer-wise propa-\ngation rule as Equation (1).\nH(l+1) = σ\n\u0012\neD−1\n2 eAeD−1\n2 H(l)W(l)\n\u0013\n(1)\nwhere\n•"
+    },
+    {
+        "chunk_id": 18,
+        "source": "paper13",
+        "text": "In GCNs, the node feature matrix is updated through the following layer-wise propa-\ngation rule as Equation (1).\nH(l+1) = σ\n\u0012\neD−1\n2 eAeD−1\n2 H(l)W(l)\n\u0013\n(1)\nwhere\n•\nH(l) is the matrix of node features at layer l, with H(0) = X.\n•\neA = A + I is the adjacency matrix with added self-loops.\n•\neD is the degree matrix of eA.\n•\nW(l) is the trainable weight matrix at layer l.\n•\nσ(·) is an activation function, typically ReLU.\nThis formulation allows GCNs to capture spatial dependencies between hand joints.\nThe GCNs mainly fall into spectral methods and spatial methods. The former utilizes\nFourier transforms based on the Laplacian matrix to perform graph convolution operation\non the spectral domain. In contrast, the latter directly aggregate information from nodes and"
+    },
+    {
+        "chunk_id": 19,
+        "source": "paper13",
+        "text": "Technologies 2025, 13, 257\n5 of 19\ntheir neighboring nodes through graph connectivity, extracting and normalizing features.\nThe graph connectivity is designed by the adjacency matrix A and an example of the\nadjacency matrix is shown in Figure 2. In the adjacency matrix A, a non-zero element Aij\nimplies a connection from node i to node j, and a zero indicates no direct connection.\nFigure 2. Illustration of a graph and its corresponding adjacency matrix. On the left, a graph\nis depicted with four nodes labeled 1, 2, 3, and 4, where edges connect the nodes to show their\nrelationships. On the right, the adjacency matrix corresponding to this graph is shown. Each row and\ncolumn in the matrix corresponds to a node in the graph. A value of 1 in the matrix indicates an edge\nconnection between the corresponding nodes, while a 0 indicates no connection.\n2.2. Hypergraph Convolution\nA hypergraph is a special type of graph structure, where the main difference from"
+    },
+    {
+        "chunk_id": 20,
+        "source": "paper13",
+        "text": "connection between the corresponding nodes, while a 0 indicates no connection.\n2.2. Hypergraph Convolution\nA hypergraph is a special type of graph structure, where the main difference from\na regular graph is that multiple nodes can be connected by a single hyperedge [21]. The\nrelationships between nodes are represented using an incidence matrix. In order to apply\nthe properties of hypergraph, Feng et al. [22] proposed HGNN by drawing an analogy to\nthe spectral-based GCN method. Bai et al. [23] argued that in real-world scenarios, nodes\n(such as in recommendation systems or citation networks) are not just pairwise related but\nare involved in more complex-wise correlations. Therefore, they used the hypergraph to\nrepresent the relationships between nodes provided in the datasets and applied hypergraph\nconvolution to extract high-order relational features. Since [23] achieved remarkable results\nin node classification on three citation network datasets, demonstrating the effectiveness of"
+    },
+    {
+        "chunk_id": 21,
+        "source": "paper13",
+        "text": "convolution to extract high-order relational features. Since [23] achieved remarkable results\nin node classification on three citation network datasets, demonstrating the effectiveness of\nhypergraph convolution operation.\nHypergraph Convolution extends traditional graph convolution to model high-order\nrelationships by allowing hyperedges to connect multiple nodes. This enables richer infor-\nmation aggregation across complex structures, making it ideal for tasks like classification,\nclustering, and representation learning in domains where interactions go beyond simple\npairwise connections. Let the hypergraph be H = (V, E), where\n•\nV = {v1, v2, . . . , vn} is the set of nodes (vertices);\n•\nE = {e1, e2, . . . , em} is the set of hyperedges, where each ei ⊆V.\nLet the following definitions apply:\n•\nX ∈Rn×d: input node features (each row xi ∈Rd is a feature of node i);\n•\nH ∈Rn×d′: output node features after convolution.\nThe incidence matrix B ∈Rn×m is defined as Equation (2):\nB(i, e) =\n\n"
+    },
+    {
+        "chunk_id": 22,
+        "source": "paper13",
+        "text": "•\nX ∈Rn×d: input node features (each row xi ∈Rd is a feature of node i);\n•\nH ∈Rn×d′: output node features after convolution.\nThe incidence matrix B ∈Rn×m is defined as Equation (2):\nB(i, e) =\n\n\n\n1\nif node i ∈e\n0\notherwise\n(2)"
+    },
+    {
+        "chunk_id": 23,
+        "source": "paper13",
+        "text": "Technologies 2025, 13, 257\n6 of 19\nThe following definitions apply:\n•\nDv ∈Rn×n: diagonal matrix of vertex degrees, with the following entries: Dv(i, i) =\n∑e∈E B(i, e)w(e);\n•\nDe ∈Rm×m: diagonal matrix of hyperedge degrees, with De(e, e) = ∑i∈V B(i, e);\n•\nWe ∈Rm×m: diagonal matrix of hyperedge weights w(e).\nIn graph learning, spatial convolution means aggregating information from neighbors\n(like message passing). In hypergraphs, the neighbors of a node are defined via shared\nhyperedges—which can connect multiple nodes simultaneously. The convolution theorem\nis a well-known result in signal processing and Fourier analysis that relates the convolution\nof two signals in the time or spatial domain to the multiplication of their Fourier transforms\nin the frequency domain. This theorem is fundamental in traditional convolution, and we\ncan extend its concept to hypergraphs by utilizing the Fourier transform of the hypergraph"
+    },
+    {
+        "chunk_id": 24,
+        "source": "paper13",
+        "text": "in the frequency domain. This theorem is fundamental in traditional convolution, and we\ncan extend its concept to hypergraphs by utilizing the Fourier transform of the hypergraph\nLaplacian. A spectrally motivated hypergraph convolution layer [22] is Equation (3):\nH = σ\n\u0010\nD−1/2\nv\nBWeD−1\ne B⊤D−1/2\nv\nXW\n\u0011\n(3)\nwhere X ∈Rn×d: input node features; W ∈Rd×d′: trainable weight matrix; σ(·): non-\nlinear activation function (e.g., ReLU); and H ∈Rn×d′: output node features. The term\nS = D−1/2\nv\nBWeD−1\ne B⊤D−1/2\nv\n∈Rn×n is a hypergraph similarity matrix. This operator\ncaptures feature propagation from a node to others via shared hyperedges.\nTraditional convolution is a standard operation in signal processing, where neigh-\nboring information is aggregated using a kernel. In the context of hypergraphs, this is\ngeneralized to aggregate signals from vertices connected by hyperedges. The convolution\ntheorem provides an efficient way to compute convolutions by transforming signals to the"
+    },
+    {
+        "chunk_id": 25,
+        "source": "paper13",
+        "text": "generalized to aggregate signals from vertices connected by hyperedges. The convolution\ntheorem provides an efficient way to compute convolutions by transforming signals to the\nfrequency domain and performing multiplication in that domain. As shown in Table 1,\ntraditional convolution operates in the time or spatial domain using sine and cosine basis\nfunctions defined by the classical Fourier transform. In contrast, graph convolution gener-\nalizes this operation to non-Euclidean data by applying the Fourier transform based on the\ngraph Laplacian, enabling modeling of pairwise relationships in structured data. Hyper-\ngraph convolution further extends this framework by utilizing the hypergraph Laplacian,\nallowing for the modeling of complex, higher-order interactions among multiple nodes\nwithin hyperedges.\nTable 1. Comparison of convolution methods.\nAspect\nClassical\nConvolution\nGraph Convolution\nHypergraph\nConvolution\nDomain\nTime/Spatial\nGraph\nHypergraph\nTransform\nFourier Transform"
+    },
+    {
+        "chunk_id": 26,
+        "source": "paper13",
+        "text": "within hyperedges.\nTable 1. Comparison of convolution methods.\nAspect\nClassical\nConvolution\nGraph Convolution\nHypergraph\nConvolution\nDomain\nTime/Spatial\nGraph\nHypergraph\nTransform\nFourier Transform\nGraph Fourier transform\nHypergraph\nFourier transform\nBasis\nSine/Cosine Functions\nGraph Laplacian\neigenvectors\nHypergraph\nLaplacian\neigenvectors\nConvolution\nMultiplication\nin Frequency Domain\nPointwise multiplication\nin spectral domain\nPointwise\nmultiplication\nin hypergraph\nfrequency domain\nRelationships\nModeled\nLocal, translation\ninvariant\nPairwise node\nrelationships\nHigher-order\nrelationships\namong multiple\nnodes"
+    },
+    {
+        "chunk_id": 27,
+        "source": "paper13",
+        "text": "Technologies 2025, 13, 257\n7 of 19\n2.3. Architecture Design\nThe DHGCN architecture, as shown in Figure 3, is designed to dynamically model\nhigher-order joint relationships via learnable hypergraph convolutions, aggregate multi-\nscale temporal features through stacked T-Modules, and distill spatiotemporal representa-\ntions via hierarchical T- and N-pooling. A final fully connected layer then maps these rich\nembeddings to gesture classes.\nFigure 3. The architecture of DHGCN model. The input passes through the dynamic hypergraph\nconvolution (DHGC) block first. Subsequently, the output of the DHGC block goes through a batch\nnormalization (BN) layer, which is then added (⊕) to the input of the BN layer. The result is fed into\nthe T-module, followed by a rectified linear unit (ReLU) activation function, with another addition\noperation (⊕) applied. The output then undergoes temporal normalization (TN) pooling and is finally"
+    },
+    {
+        "chunk_id": 28,
+        "source": "paper13",
+        "text": "the T-module, followed by a rectified linear unit (ReLU) activation function, with another addition\noperation (⊕) applied. The output then undergoes temporal normalization (TN) pooling and is finally\nprocessed by a fully connected (FC) layer. The entire structure within the dashed box is repeated\nS times.\nThe principle and structure of the DHGC Block are detailed in Section 2.4.\nThe T-Module is the Multiscale TemporalConv module from [18], which is used for aggre-\ngating multiframe features from both past and future frames.\nBelow is the formal definition of the Multiscale TemporalConv module, which aggre-\ngates features across multiple frames both before and after the current time step: Suppose\nwe have an input feature tensor X ∈RT×C×V, where T is the number of frames, C the\nfeature channels, and V the number of vertices (e.g., hand joints). The Multiscale Temporal-\nConv (MSTC) module employs B parallel 1D convolutional branches, each with a different"
+    },
+    {
+        "chunk_id": 29,
+        "source": "paper13",
+        "text": "feature channels, and V the number of vertices (e.g., hand joints). The Multiscale Temporal-\nConv (MSTC) module employs B parallel 1D convolutional branches, each with a different\ndilation rate db for b = 1, . . . , B. We denote the convolution operator in branch b as Convdb\n(kernel size k); its output is\nY(b) = Act\n\u0000BN\n\u0000Convdb(X)\n\u0001\u0001\n,\n(4)\nwhere BN refers to batch normalization and Act is a nonlinear activation.\nTo fuse multiscale information, we simply sum the branch outputs element-wise, as in\nEquation (5).\nY =\nB\n∑\nb=1\nY(b).\n(5)\nThis aggregation lets small db capture short-term dynamics, while larger db capture\nlong-term dependencies. Optionally, if Y and the input X share the same shape, a residual\nconnection can be added to stabilize training and preserve the original features, as in\nEquation (6).\nYres = X + Y.\n(6)"
+    },
+    {
+        "chunk_id": 30,
+        "source": "paper13",
+        "text": "Technologies 2025, 13, 257\n8 of 19\nThis MSTC design efficiently integrates multiscale past and future context into a\nunified temporal representation.\n2.4. DHGC Block\nThis work leverages hypergraph convolution to capture higher-order relational fea-\ntures between hand joints. Building on the findings of [20], which validated the feasibility\nof dynamic graphs, we propose a dynamic hypergraph convolution approach for hand\ngesture recognition. Let the hypergraph be denoted as H = (V, E), where V represents the\nset of vertices (hand nodes) and E represents the set of hyperedges (relationships between\nnodes). Based on [23], the dynamic hypergraph convolution is defined as Equation (7).\nHout = AvgPool(Convh(H)) · W,\n(7)\nwhere\n•\nAvgPool represents the average pooling operation across the temporal dimension.\n•\nConvh is the convolution operation, with input channels Cin and output channels Cout.\n•\nW is the weight matrix that adjusts the feature channels.\n•"
+    },
+    {
+        "chunk_id": 31,
+        "source": "paper13",
+        "text": "•\nConvh is the convolution operation, with input channels Cin and output channels Cout.\n•\nW is the weight matrix that adjusts the feature channels.\n•\nThe incidence matrix A encodes the relationships between vertices and hyperedges,\nwith each element initialized randomly from a standard normal distribution and\nlearnable during training.\n•\nThe degree matrices Dv and De represent the degree of vertices and hyperedges,\nrespectively.\nThe detailed architecture of the dynamic hypergraph convolution (DHGC) block is\nshown in Figure 4. In this figure, AvgPool, Conv_h, and Conv_p correspond to the average\npooling, hypergraph convolution, and the subsequent convolution layers, respectively.\nRow normalization (Norm_row) and column normalization (Norm_col) are applied to\nnormalize the features across spatial and temporal dimensions.\n \nFigure 4. Dynamic hypergraph convolution block. This block integrates multiple operations to"
+    },
+    {
+        "chunk_id": 32,
+        "source": "paper13",
+        "text": "normalize the features across spatial and temporal dimensions.\n \nFigure 4. Dynamic hypergraph convolution block. This block integrates multiple operations to\nprocess input features fin with dimensions [Cin × T × N]. The top path first applies AvgPool to reduce\nthe spatial dimensionality of the input related to channels Cin and spatial dimension N, followed\nby Conv_h (convolution operation) to transform the feature dimensions to [M × Cin × N]; then, it\nreshapes and is multiplied by the weight matrix, Wb, and finally passes through Softmax to output\nHb ∈RM×N, which is combined with another component, Ha, via the operation denoted by α. The\nbottom path calculates a dynamic hypergraph H ∈RM×N, normalizes it row-wise (Norm_row) and\ncolumn-wise (Norm_col), multiplies with matrices W and T, respectively, and then applies Conv_p\n(convolution operation) to generate the output feature fout with the same dimensions [Cin × T × N]"
+    },
+    {
+        "chunk_id": 33,
+        "source": "paper13",
+        "text": "column-wise (Norm_col), multiplies with matrices W and T, respectively, and then applies Conv_p\n(convolution operation) to generate the output feature fout with the same dimensions [Cin × T × N]\nas the input. Here, ⊗represents matrix multiplication, and ⊕represents the summation operation.\nThe visualization of the DHGC block extracting higher-order relational features is\ndepicted in Figure 5 and can be divided into two main stages. In the first stage, the input\nfeatures are multiplied by the incidence matrix to generate the hyperedge features. In the"
+    },
+    {
+        "chunk_id": 34,
+        "source": "paper13",
+        "text": "Technologies 2025, 13, 257\n9 of 19\nsecond stage, these hyperedge features are multiplied by the transposed incidence matrix\nto produce the final output.\nFigure 5. Visualization of adaptive hypergraph convolution operation. In Stage 1, input features\nwith dimensions C × N (depicted as blue dots) are multiplied by a matrix with dimensions M × N,\ngenerating intermediate hyperedge features of size C × M (shown as green dots). In Stage 2, these\nintermediate features are multiplied by a matrix of size N × M, resulting in the final output features\nwith dimensions C × N (represented as orange dots). This two-stage process enables the extraction of\nhigher-order relational features within the hypergraph framework.\n2.5. Multistream Strategy\nFigure 6 illustrates two multistream architectures for hand gesture recognition.\nFigure 6a presents a multistream architecture that integrates joint, bone, and motion fea-\ntures for comprehensive gesture understanding. Each stream outputs a set of features"
+    },
+    {
+        "chunk_id": 35,
+        "source": "paper13",
+        "text": "Figure 6a presents a multistream architecture that integrates joint, bone, and motion fea-\ntures for comprehensive gesture understanding. Each stream outputs a set of features\n(represented by bar charts colored in grey, yellow, and orange, respectively) and specializes\nin a different modality. Their fusion enables richer representation learning for hand gesture\nclassification. The architecture of the multistream fusion strategy is shown in Figure 6a.\nThe input is a hand-skeleton sequence—a set of nodes representing hand joints over time.\nThe input is fed into three parallel streams, each designed to capture a specific aspect of the\nhand motion:\nJoint Stream:\n•\nProcesses the raw joint positions.\n•\nExtracts spatial configuration features of the hand.\nBone Stream:\n•\nProcesses bone vectors, i.e., the directional vectors between connected joints.\n•\nCaptures structural and relational features between joints.\nMotion Stream:\n•\nProcesses temporal differences (e.g., joint velocities).\n•"
+    },
+    {
+        "chunk_id": 36,
+        "source": "paper13",
+        "text": "•\nCaptures structural and relational features between joints.\nMotion Stream:\n•\nProcesses temporal differences (e.g., joint velocities).\n•\nCaptures motion dynamics, helpful for distinguishing gestures with similar poses\nbut different movements.\nTo address this limitation, Figure 6b introduces an enhanced model incorporating\nDHGCN. In this version, each input stream—corresponding to joint (j), motion (jm), and\nbone (b) features—is processed through a distinct DHGCN module. By varying the number\nof hyperedges in each stream, the architecture encourages diversity among the learned\nrepresentations. The outputs are then fused through a learnable weighted combination,\nimproving the expressiveness of the final prediction vector. This design allows the model\nto capture rich spatial–temporal dynamics of hand gestures more effectively, enabling\nfine-grained recognition. The integration of dynamic hypergraphs further empowers the"
+    },
+    {
+        "chunk_id": 37,
+        "source": "paper13",
+        "text": "to capture rich spatial–temporal dynamics of hand gestures more effectively, enabling\nfine-grained recognition. The integration of dynamic hypergraphs further empowers the\nnetwork to move beyond static priors and adaptively tailor its topology to the input data.\nHere is a description of the components in Figure 6a as follows:\n1.\nThe input is a hand-skeleton sequence.\n2.\nA data preparation module extracts three types of node features:"
+    },
+    {
+        "chunk_id": 38,
+        "source": "paper13",
+        "text": "Technologies 2025, 13, 257\n10 of 19\n•\nj: joint;\n•\njm: motion;\n•\nb: bone features (possibly inter-joint vectors).\n(a)\n(b)\nFigure 6. (a) Multistream feature fusion architecture for hand gesture recognition. The input hand-\nskeleton data is processed through three distinct streams: the Joint Stream, which focuses on features\nrelated to individual joints; the Bone Stream, handling features associated with bone connections; and\nthe Motion Stream, capturing motion-related features. Each stream generates its own set of feature\nrepresentations, depicted by differently colored bars. These representations are then combined via\nan addition operation (⊕), resulting in a unified feature vector that integrates information from all\nstreams, denoted by the final set of bars with an asterisk. (b) Feature processing and fusion pipeline.\nAfter data preparation, the input hand-skeleton data is split into different components: j (joint-related"
+    },
+    {
+        "chunk_id": 39,
+        "source": "paper13",
+        "text": "After data preparation, the input hand-skeleton data is split into different components: j (joint-related\ndata), jm (motion-related joint data), b (bone-related data), and j or jm (alternatively processed joint\ndata). Each of these components is fed into a dynamic hypergraph convolutional (DHGC) module\nwith M = 16 (except for the last one with M = 8). The output of each DHGC module is multiplied\nby a corresponding weight factor (βj, βm, βb, βo). These weighted outputs are then combined via an\naddition operation (⊕) to form the final integrated feature representation, denoted by the bars with\nan asterisk.\nA description of the components as Figure 6b. The input data is first preprocessed\ninto three distinct feature types: joint data, bone data, and motion data. The joint data\nis used in its raw form. The bone data is computed by subtracting the coordinates of\nadjacent joints, effectively representing the hand-skeleton structure. The motion data is"
+    },
+    {
+        "chunk_id": 40,
+        "source": "paper13",
+        "text": "is used in its raw form. The bone data is computed by subtracting the coordinates of\nadjacent joints, effectively representing the hand-skeleton structure. The motion data is\nobtained by calculating the temporal difference of each joint across consecutive frames,\ncapturing dynamic movement information. Each type of data is then fed into a dedicated\nmodel stream, resulting in four distinct processing paths: the j-stream (joint), jm-stream\n(motion), b-stream (bone), and o-stream (other). The o-stream, proposed in this paper,\nflexibly takes either joint or motion data as input but differs from the other streams by\nusing a different number of hyperedges, allowing it to learn complementary representations.\nDuring inference, each stream produces its own prediction vector. These outputs are then\nscaled by predefined weights (βj, βm, βb, βo) and combined through weighted summation\nto generate the final prediction. This multistream strategy enhances the model’s ability"
+    },
+    {
+        "chunk_id": 41,
+        "source": "paper13",
+        "text": "scaled by predefined weights (βj, βm, βb, βo) and combined through weighted summation\nto generate the final prediction. This multistream strategy enhances the model’s ability\nto integrate spatial and temporal features for robust hand gesture recognition. The final\nprediction vector ˆy is computed using the following Equation (8):\nˆy = ∑\nk∈K\nβkrk\n(8)"
+    },
+    {
+        "chunk_id": 42,
+        "source": "paper13",
+        "text": "Technologies 2025, 13, 257\n11 of 19\nwhere βk ∈{n/10|n = 0, 1, . . . , 10} and K = {j, m, b, o}. rk represents the prediction vectors\nof different data stream models.\n3. Results\nAll experiments in this paper are conducted using the DHG-14/28 [24] and\nSHREC’17 [25] datasets to evaluate the effectiveness of the proposed DHGCN for hand\ngesture recognition. The DHG-14/28 dataset contains 14 dynamic hand gestures; each\nperformed in two modes, namely, using a single finger and using the whole hand. These\ngestures were performed by 20 different subjects, with each gesture repeated five times.\nThis results in a total of 2800 gesture sequences. Each sequence includes both depth images\nand the 3D coordinates of 22 hand joints, captured using an Intel RealSense camera. To\nensure fair evaluation, a leave-one-subject-out cross-validation strategy is employed. In\nthis setup, the model is trained on data from all participants except one and tested on the"
+    },
+    {
+        "chunk_id": 43,
+        "source": "paper13",
+        "text": "ensure fair evaluation, a leave-one-subject-out cross-validation strategy is employed. In\nthis setup, the model is trained on data from all participants except one and tested on the\nheld-out subject, ensuring that the evaluation reflects the model’s ability to generalize to\nunseen individuals.\n3.1. Implementation Details\nAll experiments were implemented using PyTorch 1.13 and Python 3.9, running on\nUbuntu 20.04 with an NVIDIA RTX 3090 GPU with 24 GB of memory. The network was\ntrained using the stochastic gradient descent (SGD) optimizer with a batch size of 48.\nA warm-up learning rate strategy was employed during the initial training phase: the\nlearning rate was linearly increased from 0.02 to 0.1 over the first five epochs. After the\nwarm-up phase, cosine annealing was applied to gradually reduce the learning rate from\n0.1 to a minimum value of 1 × 10−5. Additionally, a weight decay of 5 × 10−4 was used to\nregularize the model and prevent overfitting.\n3.1.1. Datasets"
+    },
+    {
+        "chunk_id": 44,
+        "source": "paper13",
+        "text": "0.1 to a minimum value of 1 × 10−5. Additionally, a weight decay of 5 × 10−4 was used to\nregularize the model and prevent overfitting.\n3.1.1. Datasets\nThis study uses the publicly available DHG14/28 [24] and SHREC’17 [25] datasets\nto evaluate the proposed model. The DHG14/28 dataset contains 2800 gesture sequences\ncaptured with an Intel RealSense camera at 30 frames per second. Each sequence consists\nof 20 to over 50 frames and includes both depth images and 3D coordinates of 22 hand\njoints. Gestures are performed by 20 individuals, each executing 14 distinct dynamic\ngestures five times using only one finger. This subset forms the DHG14 dataset (14 classes).\nThe same participants then repeated the gestures using the whole hand, resulting in the\nDHG14/28 dataset (28 classes). The SHREC’17 dataset follows the same data collection\nprotocol and device settings as DHG14/28 but involves 28 performers. Like DHG14/28,"
+    },
+    {
+        "chunk_id": 45,
+        "source": "paper13",
+        "text": "DHG14/28 dataset (28 classes). The SHREC’17 dataset follows the same data collection\nprotocol and device settings as DHG14/28 but involves 28 performers. Like DHG14/28,\nSHREC’17 also includes subsets with 14 and 28 gesture classes. For dataset partition-\ning, DHG14/28 adopts a leave-one-subject-out strategy, using gesture data from the first\n19 subjects for training and the 20th subject for testing. Since SHREC’17 does not provide a\npredefined split, this study follows the partitioning method introduced by De et al. [25]. As\na result, the DHG14/28 dataset contains 2600 training samples and 140 test samples, while\nSHREC’17 includes 1960 training samples and 840 test samples. Due to varying sequence\nlengths, a sampling algorithm is applied to standardize the number of frames: 128 frames\nper sequence for DHG14/28 and 180 frames for SHREC’17. This normalization ensures\ncompatibility with batch-based deep learning training.\n3.1.2. Model Evaluation"
+    },
+    {
+        "chunk_id": 46,
+        "source": "paper13",
+        "text": "per sequence for DHG14/28 and 180 frames for SHREC’17. This normalization ensures\ncompatibility with batch-based deep learning training.\n3.1.2. Model Evaluation\nThe system’s performance was evaluated using the accuracy metric. Accuracy is\ndefined as the percentage of samples that were correctly classified out of the total number\nof samples. This metric provides a clear indication of how well the system performs in\ncorrectly identifying the appropriate classification for each sample. The calculation of"
+    },
+    {
+        "chunk_id": 47,
+        "source": "paper13",
+        "text": "Technologies 2025, 13, 257\n12 of 19\naccuracy is detailed in Equations (9) and (10), which outline the specific steps and variables\ninvolved in determining this key performance indicator (Accuracy).\np( ˆyi, yi) =\n\n\n\n1,\nif ˆyi = yi,\n0,\notherwise.\n,\n(9)\nwhere ˆyi is the predicted category of the i-th sample and yi is the true label of the\ni-th sample.\nAccuracy = 1\nN∑\nN\ni=1 p( ˆyi, yi),\n(10)\nwhere N is the total number of samples in the test set.\n3.1.3. Comparison of Results\nA quantitative performance comparison was conducted between the proposed method\nand several authoritative baseline models on the DHG14/28 and SHREC’17 datasets. The\nselected comparative methods, listed in Table 2, span a range of classical and state-of-the-art\napproaches across different architectures and modalities.\nTable 2. Summary of baseline methods used for comparison in this study, including their source\nconferences or journals and year of publication.\nMethods\nSource\nYear of Publication\nCNN + LSTM [26]\nPR"
+    },
+    {
+        "chunk_id": 48,
+        "source": "paper13",
+        "text": "Table 2. Summary of baseline methods used for comparison in this study, including their source\nconferences or journals and year of publication.\nMethods\nSource\nYear of Publication\nCNN + LSTM [26]\nPR\n2018\nST-GCN [15]\nAAAI\n2018\nST-TS-HGR-Net [27]\nCVPR\n2019\nHPEV [28]\nCVPR\n2020\nDSTA [29]\nCVPR\n2020\nNormalizedEdgeCN [30]\nCVPR\n2021\nMS-ISTGCN [31]\nTCSVT\n2022\nSkeletonGCN [32]\nICLR\n2023\nTD-GCN [19]\nTMM\n2023\nAs shown in Table 3, the proposed DHGCN model achieves superior accuracy on\nthe DHG14/28 dataset using a three-stream fusion. With the addition of the o-stream\nto form a four-stream fusion, the model attains the highest performance across both 14-\nclass and 28-class settings, highlighting the contribution of the o-stream to discriminative\nfeature learning.\nTable 3. Experimental results with dataset DHG14/28.\nMethods\nStreams\nAccuracy (%)\n14-Class\n28-Class\nCNN + LSTM [26]\n1\n85.6\n81.1\nST-GCN [15]\n1\n85.6\n81.2\nST-TS-HGR-Net [27]\n1\n87.3\n83.4\nHPEV [28]\n2\n92.5\n88.9\nDSTA [29]\n4\n93.8\n90.9"
+    },
+    {
+        "chunk_id": 49,
+        "source": "paper13",
+        "text": "Methods\nStreams\nAccuracy (%)\n14-Class\n28-Class\nCNN + LSTM [26]\n1\n85.6\n81.1\nST-GCN [15]\n1\n85.6\n81.2\nST-TS-HGR-Net [27]\n1\n87.3\n83.4\nHPEV [28]\n2\n92.5\n88.9\nDSTA [29]\n4\n93.8\n90.9\nNormalizedEdgeCN\n[30]\n2\n92.9\n91.1\nMS-ISTGCN [31]\n3\n93.7\n91.2\nSkeletonGCN [32]\n3\n95.7\n94.3\nTD-GCN [19]\n3\n93.9\n91.4\nOurs(j + jm+ b)\n3\n94.3\n94.3\nOurs(j + jm+ b + o)\n4\n96.4\n95.0\nOurs (.) are both proposed stream fusion methods."
+    },
+    {
+        "chunk_id": 50,
+        "source": "paper13",
+        "text": "Technologies 2025, 13, 257\n13 of 19\nSimilarly, Table 4 reports results on the SHREC’17 dataset, where our approach con-\nsistently outperforms existing methods under both three- and four-stream configurations.\nThese findings further confirm the generalizability and effectiveness of the proposed\nDHGCN model across diverse gesture datasets.\nTable 4. Results comparison of methods with dataset SHREC’17.\nMethods\nStreams\nAccuracy (%)\n14-Class\n28-Class\nST-GCN [15]\n1\n92.7\n87.7\nST-TS-HGR-Net [27]\n1\n94.3\n89.4\nHPEV [28]\n1\n94.9\n92.3\nDSTA [29]\n2\n97.0\n93.9\nNormalizedEdgeCN [30]\n4\n94.8\n92.9\nMS-ISTGCN [31]\n2\n96.7\n94.9\nSkeletonGCN [32]\n3\n96.9\n94.8\nTD-GCN [19]\n3\n97.0\n95.0\nOurs(j + jm + b)\n3\n97.5\n95.2\nOurs(j + jm + b + o)\n3\n97.6\n95.6\nOurs (.) are both proposed stream fusion methods.\n3.1.4. Ablation Study\nTo evaluate the effectiveness of hypergraph convolution without predefined structures\nand the proposed dynamic hypergraph convolution, we conducted a set of ablation experi-"
+    },
+    {
+        "chunk_id": 51,
+        "source": "paper13",
+        "text": "3.1.4. Ablation Study\nTo evaluate the effectiveness of hypergraph convolution without predefined structures\nand the proposed dynamic hypergraph convolution, we conducted a set of ablation experi-\nments comparing different construction strategies. As shown in Table 5, the baseline model\nST-GCN# shares the same temporal module (T-Module) as DHGCN but employs a stan-\ndard graph convolution structure. The HGCN variant, which uses a randomly initialized\nhypergraph incidence matrix without any predefined connections, achieved accuracies\nof 91.4% on the 14-class task and 89.2% on the 28-class task on the DHG14/28 dataset in\nFigure 7. These results validate the feasibility of using non-predefined hypergraphs in\nhypergraph convolution and demonstrate their potential to capture richer structural infor-\nmation. Furthermore, HGCN outperformed ST-GCN# by 1.2% and 4.2% in accuracy on the\n14-class and 28-class tasks, respectively, suggesting that hypergraph convolution is more"
+    },
+    {
+        "chunk_id": 52,
+        "source": "paper13",
+        "text": "mation. Furthermore, HGCN outperformed ST-GCN# by 1.2% and 4.2% in accuracy on the\n14-class and 28-class tasks, respectively, suggesting that hypergraph convolution is more\neffective than traditional graph convolution for gesture feature extraction. Finally, by incor-\nporating a data-driven, dynamically constructed hypergraph into HGCN, the full DHGCN\nmodel further improved performance, achieving an additional 1.5% gain in accuracy for\nthe 14-class task and 0.8% for the 28-class task. These improvements clearly demonstrate\nthe added benefit of dynamic hypergraph convolution in enhancing the model’s feature\nextraction capability and overall recognition performance.\nTable 5. Dynamic hypergraph convolution ablation experiment methods.\nMethods\nH\nNon Predefined\nDynamic\nST-GCN\n×(No Hypergraph)\n×\n×\nHGCN\nHa\n√\n×\nDHGCN (Ours)\nHa + Hb\nCombined Dynamic and\nPredefined Elements\n√\n√\nDHGCN is our proposed method. × (No), √(Yes). The shared hyperedge structure Ha and the dynamic graph\nHb in Figure 4."
+    },
+    {
+        "chunk_id": 53,
+        "source": "paper13",
+        "text": "Technologies 2025, 13, 257\n14 of 19\nFigure 7. Performance comparison experiment between STGCN, HGCN, and DHGCN using the\nj-stream on DHG14/28.\nAfter concluding the ablation study, which systematically evaluated the contribution\nof individual components within our model, we shift our focus to analyzing the fusion\nperformance of different streams. The transition from assessing standalone components to\nexamining their collaborative impact is critical for understanding how spatial, temporal,\nand structural features interact to enhance gesture recognition.\n3.2. Fusion Performance of Different Streams\nTo address the issue of feature homogeneity among different streams, as discussed\nin Section 2.5, we introduce a novel feature stream—referred to as the “o-stream”—which\nis trained using a different number of hyperedges. This stream is then fused with the\nconventional j, jm, and b streams for final gesture recognition. To evaluate the effectiveness"
+    },
+    {
+        "chunk_id": 54,
+        "source": "paper13",
+        "text": "is trained using a different number of hyperedges. This stream is then fused with the\nconventional j, jm, and b streams for final gesture recognition. To evaluate the effectiveness\nof various fusion strategies, we conducted experiments on the DHG14/28 and SHREC’17\ndatasets using the DHGCN model. These experiments tested multiple fusion configura-\ntions, including single-stream, two-stream, three-stream, and four-stream combinations.\nThe detailed performance results are reported in Table 6. The three-stream fusion strategy\n(e.g., j + jm + b), commonly adopted in prior work [19,32], already shows strong perfor-\nmance. However, as shown in Table 6, extending this to a four-stream fusion by incorpo-\nrating the o-stream (i.e., j + jm + b + o) leads to further improvements: On the DHG14/28\ndataset, the four-stream fusion achieves a 2.1% gain for the 14-class task and 0.7% for the\n28-class task compared to the three-stream setup. On the SHREC’17 dataset, improvements"
+    },
+    {
+        "chunk_id": 55,
+        "source": "paper13",
+        "text": "dataset, the four-stream fusion achieves a 2.1% gain for the 14-class task and 0.7% for the\n28-class task compared to the three-stream setup. On the SHREC’17 dataset, improvements\nof 0.1% and 0.4% are observed for the 14-class and 28-class tasks, respectively. While the per-\nformance gains on SHREC’17 are relatively small, likely due to already-high single-stream\naccuracies, the improvements still suggest that the o-stream contributes complementary\nfeatures not captured by the j, jm, or b streams. This helps mitigate feature homogeneity\nin the fusion process. Furthermore, analysis of the fusion weights in Table 6 shows that\nintegrating the o-stream consistently leads to performance improvements across various\ncombinations. Notably, in the 14-class task on the DHG14/28 dataset, the weight coefficient\nfor the b-stream drops to 0.0 in several fusion settings (e.g., j + jm + b and j + jm + b + o),\nsuggesting that the o-stream can compensate for weaker streams and enhance fusion ro-"
+    },
+    {
+        "chunk_id": 56,
+        "source": "paper13",
+        "text": "for the b-stream drops to 0.0 in several fusion settings (e.g., j + jm + b and j + jm + b + o),\nsuggesting that the o-stream can compensate for weaker streams and enhance fusion ro-\nbustness. This further confirms that the o-stream plays a crucial role in diversifying the\nfused representations and improving recognition accuracy."
+    },
+    {
+        "chunk_id": 57,
+        "source": "paper13",
+        "text": "Technologies 2025, 13, 257\n15 of 19\nTable 6. Fusion performance of different streams on SHREC’17.\nStream\nSHREC’17 14-Class\nSHREC’17 28-Class\nDHG 14-Class\nDHG 28-Class\nIndex\nAccuracy(%) Coefficient\nAccuracy(%) Coefficient\nAccuracy(%) Coefficient\nAccuracy(%) Coefficient\nj\n95.8\n1.0\n94.4\n1.0\n92.9\n1.0\n90.7\n1.0\njm\n95.2\n1.0\n92.3\n1.0\n92.1\n1.0\n87.1\n1.0\nb\n87.4\n1.0\n87.5\n1.0\n79.3\n1.0\n73.6\n1.0\no\n94.4\n1.0\n92.3\n1.0\n92.1\n1.0\n86.4\n1.0\nj + b\n96.0\n[0.8, 0.2]\n94.4\n[0.1, 0.0]\n94.2\n[0.3, 0.1]\n92.9\n[0.1, 0.1]\nj + jm\n96.5\n[0.0, 1.0]\n94.6\n[0.3, 0.2]\n92.9\n[0.4, 0.1]\n90.0\n[0.1, 0.0]\nj + o\n96.0\n[0.4, 0.1]\n94.4\n[0.1, 0.1]\n95.0\n[0.4, 0.1]\n90.7\n[0.4, 0.1]\njm + b\n96.0\n[0.0, 1.0]\n93.8\n[0.0, 1.0]\n90.0\n[0.0, 1.0]\n87.0\n[0.0, 1.0]\njm + o\n95.6\n[0.4, 0.5]\n93.6\n[0.5, 0.4]\n92.1\n[0.0, 1.0]\n90.7\n[0.3, 0.1]\no + b\n96.3\n[0.3, 0.2]\n94.8\n[0.5, 0.7]\n92.6\n[0.9, 1.1]\n87.1\n[0.4, 0.3]\nj + jm + b\n97.5\n[0.3, 0.5, 0.4]\n95.2\n[0.8, 0.7, 0.4]\n94.2\n[0.3, 0.1, 0.0]\n94.3\n[0.3, 0.6, 0.2]\njm + b + o\n96.9\n[0.2, 0.2, 0.1]\n95.2\n[0.2, 0.5, 0.3]\n93.4"
+    },
+    {
+        "chunk_id": 58,
+        "source": "paper13",
+        "text": "[0.5, 0.7]\n92.6\n[0.9, 1.1]\n87.1\n[0.4, 0.3]\nj + jm + b\n97.5\n[0.3, 0.5, 0.4]\n95.2\n[0.8, 0.7, 0.4]\n94.2\n[0.3, 0.1, 0.0]\n94.3\n[0.3, 0.6, 0.2]\njm + b + o\n96.9\n[0.2, 0.2, 0.1]\n95.2\n[0.2, 0.5, 0.3]\n93.4\n[0.7, 0.3, 0.5]\n92.9\n[0.3, 0.5, 0.4]\nj + b + o\n97.1\n[1.0, 0.6, 0.7]\n95.6\n[0.3, 0.9, 0.7]\n95.7\n[0.8, 0.1, 0.4]\n90.7\n[0.4, 0.0, 0.1]\nj + jm + o\n96.3\n[0.3, 0.4, 0.2]\n94.6\n[0.6, 0.4, 0.5]\n96.4\n[1.0, 0.4, 0.3]\n94.3\n[0.2, 0.3, 0.2]\nj + jm + b +\no\n97.6\n[0.9, 0.5, 0.7,\n0.3]\n96.6\n[0.2, 0.1, 0.7,\n0.4]\n96.4\n[1.0, 0.4, 0.0,\n0.3]\n95.0\n[0.1, 0.3, 0.1,\n0.1]\n4. Discussion\nTo gain a better understanding of the DHGCN’s classification performance across\nvarious categories, Figure 8 presents the single-stream output features of the DHGCN\nmodel on the DHG14/28 and SHREC’17 test sets. These features are reduced to two\ndimensions using the t-SNE method and depicted as scatter plots. As shown in Figure 8,\nthe DHGCN model effectively clusters samples of the same class into the same region."
+    },
+    {
+        "chunk_id": 59,
+        "source": "paper13",
+        "text": "dimensions using the t-SNE method and depicted as scatter plots. As shown in Figure 8,\nthe DHGCN model effectively clusters samples of the same class into the same region.\nWhile in subplots a and b of Figure 8, a few classes have relatively close distribution regions,\nthe boundaries between them remain fairly distinct. This demonstrates that the DHGCN\nmodel is capable of extracting similar features for different samples within the same class.\nThis ability can be attributed to the dynamic hypergraph structure in DHGCN, which is\nadept at extracting rich feature information.\nFigure 8. t-SNE visualization of DHGCN output features. (a–d) represents the output features of the\nDHG14, DHG28, Shrec’17 14-class, and Shrec’17 28-class test set respectively. Samples of the same\ncolor correspond to the same hand gesture class, and each node represents a sample feature output\nby DHGCN.\nFigure 9 shows a heatmap visualization of the first-layer incidence matrix learned"
+    },
+    {
+        "chunk_id": 60,
+        "source": "paper13",
+        "text": "color correspond to the same hand gesture class, and each node represents a sample feature output\nby DHGCN.\nFigure 9 shows a heatmap visualization of the first-layer incidence matrix learned\nby the DHGCN model. The color gradient—from blue (indicating low values) to red\n(indicating high values)—reflects the intensity of connections among nodes within learned\nhyperedges. These patterns illustrate how DHGCN autonomously identifies and prioritizes\nmeaningful node associations during training. Unlike static, manually designed graphs,\nthe hypergraph structure here is entirely data-driven and dynamically formed based on\ninput features. This adaptive hyperedge aggregation mechanism enables the model to\ncapture complex, high-order structural dependencies that are essential for accurate gesture\nrecognition. The heterogeneous connectivity patterns evident in the heatmap highlight the"
+    },
+    {
+        "chunk_id": 61,
+        "source": "paper13",
+        "text": "Technologies 2025, 13, 257\n16 of 19\nmodel’s flexibility and effectiveness in modeling intricate relationships within the data,\nultimately contributing to improved feature representations and predictive performance.\nFigure 9. Heatmap visualization of the first-layer incidence matrix learned by the DHGCN model.\nFigure 10 presents a visualization of the hyperedges corresponding to Ha and Hb in the\nDHGCN model for a sample from the “Grab” gesture category. The red lines indicate the\nrelative positions of hand nodes for reference only and are not part of the learned structure.\nEach subfigure highlights the nodes connected by a single hyperedge. Figure 10a–c show\nthe shared hyperedge structure Ha, which significantly differs from the manually defined\nhand-skeleton graph. This contrast illustrates the model’s ability to move beyond static,\npredefined priors. Comparing Figure 10a–c with Figure 10d–f, which visualize the dynamic"
+    },
+    {
+        "chunk_id": 62,
+        "source": "paper13",
+        "text": "hand-skeleton graph. This contrast illustrates the model’s ability to move beyond static,\npredefined priors. Comparing Figure 10a–c with Figure 10d–f, which visualize the dynamic\ngraph Hb, reveals that the data-driven structure places greater emphasis on nodes around\nthe thumb and index finger, which are critical for recognizing the “Grab” gesture. This\nobservation suggests that Hb adaptively refines the hypergraph topology based on input\ndata, thereby enhancing the model’s capability for fine-grained gesture interpretation.\nFigure 10. Visualization of hyperedges corresponding to Ha and Hb for a “Grab” gesture sample in\nthe SHREC’17 dataset. Subfigures (a–c) illustrate the hyperedges formed by Ha, while (d–f) show\nthose generated by Hb. In each subplot, the visible nodes represent those connected within the same\nhyperedge, with node size indicating their degree of connectivity."
+    },
+    {
+        "chunk_id": 63,
+        "source": "paper13",
+        "text": "Technologies 2025, 13, 257\n17 of 19\n5. Conclusions\nThis paper proposed a novel hand gesture recognition framework, the DHGCN, which\nadvances beyond traditional graph convolutional methods that are limited to modeling\npairwise relationships. By leveraging hypergraph convolution, DHGCN captures higher-\norder relational features among multiple nodes. A key innovation of this work lies in\nthe use of a data-driven strategy to dynamically initialize and update the hypergraph\nincidence matrix, thereby constructing adaptive hypergraph structures that reduce depen-\ndency on predefined priors and mitigate structural bias. To overcome the homogeneity\nlimitations found in existing multistream fusion approaches, our method introduced mul-\ntiple DHGCN variants with differing numbers of hyperedges. These variants generate\ndiverse and complementary feature representations, which are then integrated through a\nvoting-based fusion strategy. The voting-based fusion strategy combines prediction results"
+    },
+    {
+        "chunk_id": 64,
+        "source": "paper13",
+        "text": "diverse and complementary feature representations, which are then integrated through a\nvoting-based fusion strategy. The voting-based fusion strategy combines prediction results\nfrom multiple data streams (e.g., joint, bone, motion, and o-stream) to enhance overall\nrecognition accuracy. Each stream independently produces a prediction vector, which is\nthen weighted according to its reliability or performance. These weighted predictions are\nsummed to generate a final classification output. This approach increases robustness by\nleveraging diverse features and reducing the impact of noisy or redundant information\nfrom any single stream. This design significantly enhances gesture recognition accuracy\nacross multiple benchmark datasets. While this study focused primarily on modeling\nspatial graph structures, future work could explore incorporating CNN-based methods to\npreprocess spatial maps or applying hybrid CNN-GCN architectures for early-stage feature"
+    },
+    {
+        "chunk_id": 65,
+        "source": "paper13",
+        "text": "spatial graph structures, future work could explore incorporating CNN-based methods to\npreprocess spatial maps or applying hybrid CNN-GCN architectures for early-stage feature\nextraction, further enriching spatial–temporal representation capabilities. Additionally,\na critical avenue for future research is the exploration of initialization strategies for the\nincidence matrix and degree matrices in the dynamic hypergraph convolution framework.\nThese components have a substantial impact on training dynamics, convergence behavior,\nand generalization. A combination of rigorous theoretical analysis and comprehensive\nempirical studies will be essential to uncover optimal configurations. Advancing these\naspects will further improve the robustness, interpretability, and general applicability of\nhypergraph-based learning for dynamic gesture recognition tasks.\nAuthor Contributions: Conceptualization, D.-X.J.; methodology, K.H.; software, K.H.; formal analy-"
+    },
+    {
+        "chunk_id": 66,
+        "source": "paper13",
+        "text": "hypergraph-based learning for dynamic gesture recognition tasks.\nAuthor Contributions: Conceptualization, D.-X.J.; methodology, K.H.; software, K.H.; formal analy-\nsis, S.-J.L.; writing—original draft preparation, K.H.; writing—review and editing, S.-J.L. and C.-Y.H.;\nsupervision, Z.Z.; funding acquisition, D.-X.J. All authors have read and agreed to the published\nversion of the manuscript.\nFunding: This research was funded by Department of Science and Technology of Hunan Province,\ngrant number 2024JJ7549, Xiangxi Vocational and Technical College for Nationalities, grant number\n2024KTZ201, and Department of Education of Hunan Province, grant number 24C1236.\nInstitutional Review Board Statement: Not applicable.\nInformed Consent Statement: Not applicable.\nData Availability Statement: The dataset used in this study is publicly available at SHREC2025-3D\nShape Retrieval Challenge 2025. http://www.shrec.net/ (accessed on 5 May 2025). No new data"
+    },
+    {
+        "chunk_id": 67,
+        "source": "paper13",
+        "text": "Data Availability Statement: The dataset used in this study is publicly available at SHREC2025-3D\nShape Retrieval Challenge 2025. http://www.shrec.net/ (accessed on 5 May 2025). No new data\nwere generated in this research; all analyses were performed using the aforementioned benchmark\ndataset. For details on data usage and licensing, please refer to the dataset’s official documentation.\nConflicts of Interest: The authors declare no conflicts of interest."
+    },
+    {
+        "chunk_id": 68,
+        "source": "paper13",
+        "text": "Technologies 2025, 13, 257\n18 of 19\nAbbreviations\nThe following abbreviations are used in this manuscript:\nAbbreviation\nFull Term\nCNN\nConvolutional Neural Network\nCTR-GCN\nChannel-wise Topology Refinement Graph Convolutional Network\nDG-GCN\nDynamic Graph Convolutional Network\nDHGCN\nDynamic Hypergraph Convolutional Network\nFC\nFully Connected\nGCN\nGraph Convolutional Network\nGCNs\nGraph Convolutional Networks\nHD-GCN\nHierarchically Decomposed Graph Convolutional Network\nHGCN\nHypergraph Convolutional Network\nHGCNs\nHypergraph Convolutional Networks\nHCI\nHuman–Computer Interaction\nMSTC\nMultiscale Temporal Convolution\nRGB\nRed, Green, Blue\nRNN\nRecurrent Neural Network\nSGD\nStochastic Gradient Descent\nST-GCN\nSpatial–Temporal Graph Convolutional Network\nTD-GCN\nTemporal Difference Graph Convolutional Network\nReferences\n1.\nGu, Y.; Xu, Y.; Shen, Y.; Huang, H.; Liu, T.; Jin, L.; Ren, H.; Wang, J. A review of hand function rehabilitation systems based on"
+    },
+    {
+        "chunk_id": 69,
+        "source": "paper13",
+        "text": "TD-GCN\nTemporal Difference Graph Convolutional Network\nReferences\n1.\nGu, Y.; Xu, Y.; Shen, Y.; Huang, H.; Liu, T.; Jin, L.; Ren, H.; Wang, J. A review of hand function rehabilitation systems based on\nhand motion recognition devices and artificial intelligence. Brain Sci. 2022, 12, 1079. [CrossRef] [PubMed]\n2.\nOhn-Bar, E.; Trivedi, M.M. Hand gesture recognition in real time for automotive interfaces: A multimodal vision-based approach\nand evaluations. IEEE Trans. Intell. Transp. Syst. 2014, 15, 2368–2377. [CrossRef]\n3.\nQi, J.; Ma, L.; Cui, Z.; Yu, Y. Computer vision-based hand gesture recognition for human-robot interaction: A review. Complex\nIntell. Syst. 2024, 10, 1581–1606. [CrossRef]\n4.\nPeng, S.H.; Tsai, P.H. An efficient graph convolution network for skeleton-based dynamic hand gesture recognition. IEEE Trans.\nCogn. Dev. Syst. 2023, 15, 2179–2189. [CrossRef]\n5.\nOkano, M.; Liu, J.Q.; Tateyama, T.; Chen, Y.W. DHGD: Dynamic Hand Gesture Dataset for Skeleton-Based Gesture Recognition"
+    },
+    {
+        "chunk_id": 70,
+        "source": "paper13",
+        "text": "Cogn. Dev. Syst. 2023, 15, 2179–2189. [CrossRef]\n5.\nOkano, M.; Liu, J.Q.; Tateyama, T.; Chen, Y.W. DHGD: Dynamic Hand Gesture Dataset for Skeleton-Based Gesture Recognition\nand Baseline Evaluations. In Proceedings of the 2024 IEEE International Conference on Consumer Electronics (ICCE), Las Vegas,\nNV, USA, 6–8 January 2024; pp. 1–4. [CrossRef]\n6.\nJacob, M.G.; Wachs, J.P.; Packer, R.A. Hand-gesture-based sterile interface for the operating room using contextual cues for the\nnavigation of radiological images. J. Am. Med. Inform. Assoc. 2013, 20, e183–e186. [CrossRef] [PubMed]\n7.\nBulugu, I. Adaptive shift graph convolutional neural network for hand gesture recognition based on 3D skeletal similarity. SIViP\n2024, 18, 7583–7595. [CrossRef]\n8.\nKöpüklü, O.; Gunduz, A.; Kose, N.; Rigoll, G. Real-time Hand Gesture Detection and Classification Using Convolutional Neural\nNetworks. In Proceedings of the 2019 14th IEEE International Conference on Automatic Face & Gesture Recognition (FG 2019),"
+    },
+    {
+        "chunk_id": 71,
+        "source": "paper13",
+        "text": "Networks. In Proceedings of the 2019 14th IEEE International Conference on Automatic Face & Gesture Recognition (FG 2019),\nLille, France, 14–18 May 2019; pp. 1–8. [CrossRef]\n9.\nStrezoski, G.; Stojanovski, D.; Dimitrovski, I.; Madjarov, G. Hand Gesture Recognition Using Deep Convolutional Neural\nNetworks. In ICT Innovations 2016, Advances in Intelligent Systems and Computing; Stojanov, G., Kulakov, A., Eds.; Springer: Cham,\nSwitzerland, 2016; Volume 665, pp. 51–61. [CrossRef]\n10.\nChen, X.; Guo, H.; Wang, G.; Zhang, L. Motion Feature Augmented Recurrent Neural Network for Skeleton-Based Dynamic\nHand Gesture Recognition. In Proceedings of the 2017 IEEE International Conference on Image Processing (ICIP), Beijing, China,\n17–20 September 2017; pp. 2881–2885. [CrossRef]\n11.\nLai, K.; Yanushkevich, S.N. CNN+RNN depth and skeleton based dynamic hand gesture recognition. In Proceedings of the 2018"
+    },
+    {
+        "chunk_id": 72,
+        "source": "paper13",
+        "text": "17–20 September 2017; pp. 2881–2885. [CrossRef]\n11.\nLai, K.; Yanushkevich, S.N. CNN+RNN depth and skeleton based dynamic hand gesture recognition. In Proceedings of the 2018\n24th International Conference on Pattern Recognition (ICPR), Beijing, China, 20–24 August 2018; pp. 3451–3456. [CrossRef]\n12.\nDevineau, G.; Moutarde, F.; Xi, W.; Yang, J. Deep Learning for Hand Gesture Recognition on Skeletal Data. In Proceedings of the\n2018 13th IEEE International Conference on Automatic Face & Gesture Recognition (FG 2018), Xi’an, China, 15–19 May 2018;\npp. 106–113. [CrossRef]"
+    },
+    {
+        "chunk_id": 73,
+        "source": "paper13",
+        "text": "Technologies 2025, 13, 257\n19 of 19\n13.\nLee, J.; Lee, M.; Lee, D.; Lee, S. Hierarchically decomposed graph convolutional networks for skeleton-based action recognition.\nIn Proceedings of the 2023 IEEE/CVF International Conference on Computer Vision (ICCV), Paris, France, 1–6 October 2023;\npp. 10410–10419. [CrossRef]\n14.\nNiepert, M.; Ahmed, M.; Kutzkov, K. Learning convolutional neural networks for graphs. In Proceedings of the 33rd International\nConference on Machine Learning, Proceedings of Machine Learning Research, New York, NY, USA, 20–22 June 2016; Balcan, M.F.,\nWeinberger, K.Q., Eds.; PMLR: New York, NY, USA; Volume 48, pp. 2014–2023.\n15.\nYan, S.; Xiong, Y.; Lin, D. Spatial temporal graph convolutional networks for skeleton-based action recognition. In Proceedings of\nthe AAAI Conference on Artificial Intelligence, New Orleans, LA, USA, 2–7 February 2018; Volume 32. [CrossRef]\n16."
+    },
+    {
+        "chunk_id": 74,
+        "source": "paper13",
+        "text": "the AAAI Conference on Artificial Intelligence, New Orleans, LA, USA, 2–7 February 2018; Volume 32. [CrossRef]\n16.\nHe, K.; Zhang, X.; Ren, S.; Sun, J. Deep residual learning for image recognition. In Proceedings of the 2016 IEEE Conference\non Computer Vision and Pattern Recognition (CVPR), Las Vegas, NV, USA, 27–30 June 2016; IEEE: Las Vegas, NV, USA, 2016;\npp. 770–778. [CrossRef]\n17.\nShi, L.; Zhang, Y.; Cheng, J.; Lu, H. Two-stream adaptive graph convolutional networks for skeleton-based action recognition. In\nProceedings of the 2019 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR), Long Beach, CA, USA,\n15–20 June 2019; pp. 12018–12027. [CrossRef]\n18.\nChen, Y.; Zhang, Z.; Yuan, C.; Li, B.; Deng, Y.; Hu, W. Channel-wise topology refinement graph convolution for skeleton-based\naction recognition. In Proceedings of the 2021 IEEE/CVF International Conference on Computer Vision (ICCV), Montreal, QC,\nCanada, 10–17 October 2021; pp. 13339–13348. [CrossRef]\n19."
+    },
+    {
+        "chunk_id": 75,
+        "source": "paper13",
+        "text": "action recognition. In Proceedings of the 2021 IEEE/CVF International Conference on Computer Vision (ICCV), Montreal, QC,\nCanada, 10–17 October 2021; pp. 13339–13348. [CrossRef]\n19.\nLiu, J.; Wang, X.; Wang, C.; Gao, Y.; Liu, M. Temporal decoupling graph convolutional network for skeleton-based gesture\nrecognition. IEEE Trans. Multimed. 2024, 26, 811–823. [CrossRef]\n20.\nDuan, H.; Wang, J.; Chen, K.; Lin, D. DG-STGCN: Dynamic spatial-temporal modeling for skeleton-based action recognition.\narXiv 2022, arXiv:2210.05895.\n21.\nZhang, C.; Hu, S.; Tang, Z.G.; Chan, T.H.H. Re-revisiting learning on hypergraphs: Confidence interval and subgradient method.\nIn Proceedings of the 34th International Conference on Machine Learning, Sydney, NSW, Australia, 6–11 August 2017; Volume 70,\npp. 4026–4034.\n22.\nFeng, Y.; You, H.; Zhang, Z.; Ji, R.; Gao, Y. Hypergraph neural networks. In Proceedings of the AAAI Conference on Artificial"
+    },
+    {
+        "chunk_id": 76,
+        "source": "paper13",
+        "text": "pp. 4026–4034.\n22.\nFeng, Y.; You, H.; Zhang, Z.; Ji, R.; Gao, Y. Hypergraph neural networks. In Proceedings of the AAAI Conference on Artificial\nIntelligence, Honolulu, HI, USA, 27 January–1 February 2019; pp. 3558–3565. [CrossRef]\n23.\nBai, S.; Zhang, F.; Torr, P.H.S. Hypergraph convolution and hypergraph attention. Pattern Recognit. 2021, 110, 107637. [CrossRef]\n24.\nDe Smedt, Q.; Wannous, H.; Vandeborre, J.P. Skeleton-based dynamic hand gesture recognition. In Proceedings of the 2016\nIEEE Conference on Computer Vision and Pattern Recognition Workshops (CVPRW), Las Vegas, NV, USA, 26 June–1 July 2016;\npp. 1206–1214. [CrossRef]\n25.\nDe Smedt, Q.; Wannous, H.; Vandeborre, J.-P.; Guerry, J.; Le Saux, B.; Filliat, D. 3D hand gesture recognition using a depth and\nskeletal dataset. In Eurographics Workshop on 3D Object Retrieval; Pratikakis, I., Dupont, F., Ovsjanikov, M., Eds.; The Eurographics\nAssociation: Lyon, France, 2017; pp. 33–38. [CrossRef]\n26."
+    },
+    {
+        "chunk_id": 77,
+        "source": "paper13",
+        "text": "skeletal dataset. In Eurographics Workshop on 3D Object Retrieval; Pratikakis, I., Dupont, F., Ovsjanikov, M., Eds.; The Eurographics\nAssociation: Lyon, France, 2017; pp. 33–38. [CrossRef]\n26.\nNúñez, J.C.; Cabido, R.; Pantrigo, J.J.; Montemayor, A.S.; Vélez, J.F. Convolutional neural networks and long short-term memory\nfor skeleton-based human activity and hand gesture recognition. Pattern Recognit. 2018, 76, 80–94. [CrossRef]\n27.\nNguyen, X.S.; Brun, L.; Lézoray, O.; Bougleux, S. A neural network based on SPD manifold learning for skeleton-based hand\ngesture recognition. In Proceedings of the 2019 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR),\nLong Beach, CA, USA, 15–20 June 2019; pp. 12028–12037. [CrossRef]\n28.\nLiu, J.; Liu, Y.; Wang, Y.; Prinet, V.; Xiang, S.; Pan, C. Decoupled representation learning for skeleton-based gesture recognition. In"
+    },
+    {
+        "chunk_id": 78,
+        "source": "paper13",
+        "text": "28.\nLiu, J.; Liu, Y.; Wang, Y.; Prinet, V.; Xiang, S.; Pan, C. Decoupled representation learning for skeleton-based gesture recognition. In\nProceedings of the 2020 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR), Seattle, WA, USA, 13–19\nJune 2020; pp. 5750–5759. [CrossRef]\n29.\nShi, L.; Zhang, Y.; Cheng, J.; Lu, H. Decoupled spatial-temporal attention network for skeleton-based action-gesture recognition.\nIn Computer Vision—ACCV 2020: 15th Asian Conference on Computer Vision, Revised Selected Papers, Part V, 1st ed.; Ishikawa, H., Liu,\nC.L., Pajdla, T., Shi, J., Eds.; Springer: Berlin/Heidelberg, Germany, 2021; Volume 12626, pp. 38–53. [CrossRef]\n30.\nGuo, F.; He, Z.; Zhang, S.; Zhao, X.; Fang, J.; Tan, J. Normalized edge convolutional networks for skeleton-based hand gesture\nrecognition. Pattern Recognit. 2021, 118, 108044. [CrossRef]\n31.\nSong, J.H.; Kong, K.; Kang, S.J. Dynamic hand gesture recognition using improved spatio-temporal graph convolutional network."
+    },
+    {
+        "chunk_id": 79,
+        "source": "paper13",
+        "text": "recognition. Pattern Recognit. 2021, 118, 108044. [CrossRef]\n31.\nSong, J.H.; Kong, K.; Kang, S.J. Dynamic hand gesture recognition using improved spatio-temporal graph convolutional network.\nIEEE Trans. Circuits Syst. Video Technol. 2022, 32, 6227–6239. [CrossRef]\n32.\nHuang, X.; Zhou, H.; Wang, J.; Feng, H.; Han, J.; Ding, E.; Wang, J.; Wang, X.; Liu, W.; Feng, B. Graph contrastive learning for\nskeleton-based action recognition. In Proceedings of the International Conference on Learning Representations (ICLR), Kigali,\nRwanda, 1–5 May 2023.\nDisclaimer/Publisher’s Note: The statements, opinions and data contained in all publications are solely those of the individual\nauthor(s) and contributor(s) and not of MDPI and/or the editor(s). MDPI and/or the editor(s) disclaim responsibility for any injury to\npeople or property resulting from any ideas, methods, instructions or products referred to in the content."
+    }
+]

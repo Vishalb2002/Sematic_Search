@@ -1,0 +1,532 @@
+[
+    {
+        "chunk_id": 1,
+        "source": "paper69",
+        "text": "Schizophrenia Research 246 (2022) 112–125\nAvailable online 24 June 2022\n0920-9964/© 2022 The Authors. Published by Elsevier B.V. This is an open access article under the CC BY license (http://creativecommons.org/licenses/by/4.0/).\nMultimodal speech-gesture training in patients with schizophrenia \nspectrum disorder: Effects on quality of life and neural processing☆,☆☆ \nLydia Riedl a,b,*, Arne Nagels c, Gebhard Sammer d, Momoko Choudhury a, \nAnnika Nonnenmann a, Anne Sütterlin a, Chiara Feise a, Maxi Haslach a, Florian Bitsch a, \nBenjamin Straube a,b \na Translational Neuroimaging Lab, Department of Psychiatry and Psychotherapy, Philipps-University, Marburg, Germany \nb Center for Mind, Brain and Behavior (CMBB), Philipps-University Marburg and Justus Liebig University, Giessen, Germany \nc Department of English and Linguistics, Johannes-Gutenberg-University, Mainz, Germany \nd Department of Psychiatry and Psychotherapy, Justus-Liebig-University, Giessen, Germany   \nA R T I C L E  I N F O"
+    },
+    {
+        "chunk_id": 2,
+        "source": "paper69",
+        "text": "d Department of Psychiatry and Psychotherapy, Justus-Liebig-University, Giessen, Germany   \nA R T I C L E  I N F O   \nKeywords: \nIntervention \nfMRI \nNeural correlates \nConcretism \nMetaphor \nSocial functioning \nA B S T R A C T   \nDysfunctional social communication is one of the most stable characteristics in patients with schizophrenia \nspectrum disorder (SSD) that severely affects quality of life. Interpreting abstract speech and integrating \nnonverbal information is particularly affected. \nConsidering the difficulty to treat communication dysfunctions with usual intervention, we investigated the \npossibility to apply a multimodal speech-gesture (MSG) training. \nIn the MSG training, we offered 8 sessions (60 min each) including perceptive and expressive tasks as well as \nmeta-learning elements and transfer exercises to 29 patients with SSD. In a within-group crossover design, pa­"
+    },
+    {
+        "chunk_id": 3,
+        "source": "paper69",
+        "text": "meta-learning elements and transfer exercises to 29 patients with SSD. In a within-group crossover design, pa­\ntients were randomized to a TAU-first (treatment as usual first, then MSG training) group (N = 20) or a MSG-first \n(MSG training first, then TAU only) group (N = 9), and were compared to healthy controls (N = 17). Outcomes \nwere quality of life and related changes in the neural processing of abstract speech-gesture information, which \nwere measured pre-post training through standardized psychological questionnaires and functional Magnetic \nResonance Imaging, respectively. \nPre-training, patients showed reduced quality of life as compared to controls but improved significantly during \nthe training. Strikingly, this improvement was correlated with neural activation changes in the middle temporal \ngyrus for the processing of abstract multimodal content. Improvement during training, self-report measures and \nratings of relatives confirmed the MSG-related changes."
+    },
+    {
+        "chunk_id": 4,
+        "source": "paper69",
+        "text": "gyrus for the processing of abstract multimodal content. Improvement during training, self-report measures and \nratings of relatives confirmed the MSG-related changes. \nTogether, we provide first promising results of a novel multimodal speech-gesture training for patients with \nschizophrenia. We could link training induced changes in speech-gesture processing to changes in quality of life, \ndemonstrating the relevance of intact communication skills and gesture processing for well-being.   \n1. Introduction \nCommunication represents the fundamental basis of social life and is \ndisturbed on all linguistic levels in SSD (Covington et al., 2005; DeLisi, \n2001; Heim et al., 2019; Marini et al., 2008). Two frequently reported \nabnormalities in schizophrenia that have a particular impact on the \nsocial-communicative skills and potentially quality of life are the \nunderstanding of figurative language and nonverbal communication"
+    },
+    {
+        "chunk_id": 5,
+        "source": "paper69",
+        "text": "social-communicative skills and potentially quality of life are the \nunderstanding of figurative language and nonverbal communication \n(including gesture processing and production) which is impaired in \nschizophrenia and comprises several interacting fundamental processes \nincluding motor behavior, language, and sensory integration (Walther \net al., 2016). However, currently no effective treatment exists for these \nimpairments. \nFigurative speech is conveyed frequently through metaphors (Lakoff \n☆Clinical trial registration: DRKS.de, identifier DRKS00015118.☆☆Study protocol: Riedl L, Nagels A, Sammer G, Straube B. A multimodal speech-gesture training \nintervention for patients with schizophrenia and its neural underpinnings. The study protocol of a randomized controlled pilot trial. Front. Psychiatry. 2020;11: 110. \ndoi:https://doi.org/10.3389/fpsyt.2020.00110. \n* Corresponding author at: Department for Psychiatry and Psychotherapy, Rudolph-Bultmann-Strasse 8, Marburg 35039, Germany."
+    },
+    {
+        "chunk_id": 6,
+        "source": "paper69",
+        "text": "doi:https://doi.org/10.3389/fpsyt.2020.00110. \n* Corresponding author at: Department for Psychiatry and Psychotherapy, Rudolph-Bultmann-Strasse 8, Marburg 35039, Germany. \nE-mail address: Riedll@staff.uni-marburg.de (L. Riedl).  \nContents lists available at ScienceDirect \nSchizophrenia Research \njournal homepage: www.elsevier.com/locate/schres \nhttps://doi.org/10.1016/j.schres.2022.06.009 \nReceived 23 November 2021; Received in revised form 25 April 2022; Accepted 11 June 2022"
+    },
+    {
+        "chunk_id": 7,
+        "source": "paper69",
+        "text": "Schizophrenia Research 246 (2022) 112–125\n113\nand Johnson, 2008) which patients tend to misinterpret in a concrete \nway (‘concretism’) (Bergemann et al., 2008; de Bonis et al., 1997; \nIakimova et al., 2010; Kircher et al., 2007; Rapp and Schmierer, 2010; \nRossetti et al., 2018). The interpretation of metaphors has a tremendous \nimpact on successful social interactions (Kircher and Gauggel, 2008; \nLakoff and Johnson, 2008) and represents a real-world communication \nproblem for patients with SSD (Kircher et al., 2007; Rossetti et al., \n2018). A second key element in a person's ability of interpersonal \ncommunication is the ability to combine information from multiple \nsensory modalities (Stevenson et al., 2011): Gestures can disambiguate \nspeech (Driskell and Radtke, 2003; Holle and Gunter, 2007; Kelly et al., \n1999, 2010), increase attention (Maricchiolo et al., 2009) and play a \ncrucial role in grounding people's mental representations in action"
+    },
+    {
+        "chunk_id": 8,
+        "source": "paper69",
+        "text": "1999, 2010), increase attention (Maricchiolo et al., 2009) and play a \ncrucial role in grounding people's mental representations in action \n(Bavelas et al., 2011; Nathan and Alibali, 2011; (Beilock and Goldin- \nMeadow, 2010)). In patients with SSD, aberrations in gesture process­\ning are found in production (Goss, 2011; Matthews et al., 2013; Mittal \net al., 2006; Troisi et al., 1998; Walther et al., 2013a, 2013b, 2015, \n2016) as well as in perception and interpretation (Berndl et al., 1986; \nBucci et al., 2008; White et al., 2016). Communication skills (Kauschke, \n2019) are put forward to play a crucial role in social integration and can \nhave a serious impact on the psychiatrist-patient communication \n(McCabe et al., 2013) with further negative consequences for rehabili­\ntation. The limited participation on both personal and professional \nlevels results in a dramatically reduced quality of life (Bambini et al., \n2016; Falkai, 2016; Gaebel and W¨olwer, 2010)."
+    },
+    {
+        "chunk_id": 9,
+        "source": "paper69",
+        "text": "tation. The limited participation on both personal and professional \nlevels results in a dramatically reduced quality of life (Bambini et al., \n2016; Falkai, 2016; Gaebel and W¨olwer, 2010). \nThe conventional medical treatment of schizophrenia is often \n(Hegarty et al., 1994; J¨a¨askel¨ainen et al., 2013) successful in treating \npositive symptoms, but especially symptoms concerning communication \nremain relatively stable (Dollfus and Petit, 1995; Gaebel and W¨olwer, \n2010; Joyal et al., 2016; Lavelle et al., 2014; Wüthrich et al., 2020). \nDespite ample evidence of dysfunctional social communication in SSD \nand its association with negative outcomes for patients' quality of life \n(Bambini et al., 2016; Falkai, 2016; Gaebel and W¨olwer, 2010), there \nhave been only few studies on speech therapy (Allen et al., 1978; Baker, \n1971; (Bosco et al., 2016); Clegg et al., 2007; Foxx et al., 1988; Kondel \net al., 2006; Kramer et al., 2001; Ojeda et al., 2012; (Santos et al., 2021);"
+    },
+    {
+        "chunk_id": 10,
+        "source": "paper69",
+        "text": "1971; (Bosco et al., 2016); Clegg et al., 2007; Foxx et al., 1988; Kondel \net al., 2006; Kramer et al., 2001; Ojeda et al., 2012; (Santos et al., 2021); \nVianin et al., 2014; Wykes, 1998). Results from a first study with focus \nspecifically on concretism (Bambini et al., 2022) give reason to assume \nbeneficial effects of speech language interventions also for quality of life \nin patients with schizophrenia. However, to our knowledge, speech \nlanguage interventions have not yet been combined with a specific \nnonverbal gesture training, addressing also the nonverbal difficulties of \nSSD patients. We therefore developed a specific multimodal speech- \ngesture (MSG) training which considers verbal communication prob­\nlems with focus on concretism and problems in nonverbal \ncommunication. \nThe key element of the training is the production and perception of \nmeaningful arm and hand gestures aligned with corresponding concrete"
+    },
+    {
+        "chunk_id": 11,
+        "source": "paper69",
+        "text": "communication. \nThe key element of the training is the production and perception of \nmeaningful arm and hand gestures aligned with corresponding concrete \nor abstract speech. The integration of concrete gestures (such as forming \nthe shape of a dog's mouth with a hand while discussing a dog) has been \nrelated to processes in the posterior temporal lobe, which might be \nmainly intact in patients with SSD (Straube et al., 2013a, 2013b). The \ninferior frontal gyrus (IFG) on the other hand is more involved in \ncomplex higher-order integration processes, e.g., when lexical elements \nare combined and integrated into larger structures (unification) (Dick \net al., 2009; He et al., 2015; Straube et al., 2011). This region seems to be \nrelevant for the integration of abstract speech-gesture combinations \ninvolving metaphors (such as forming a cup with a hand while discus­\nsing an abstract concept such as love (Choudhury et al., 2021; Kircher"
+    },
+    {
+        "chunk_id": 12,
+        "source": "paper69",
+        "text": "involving metaphors (such as forming a cup with a hand while discus­\nsing an abstract concept such as love (Choudhury et al., 2021; Kircher \net al., 2009; Steines et al., 2021; Straube et al., 2009, 2011, 2013a, \n2013b, 2014)). Compared to healthy controls, subjects with high risk for \nschizophrenia (Gupta et al., 2021) and patients with schizophrenia have \ndifficulties with interpreting abstract meaning in gestures that involve \nmetaphors (such as forming a cup with a hand while discussing an ab­\nstract concept such as love) (Nagels et al., 2019; Straube et al., 2013a, \n2014) and show altered functional activation and connectivity, mostly \nin fronto-temporal regions, during the integration of metaphoric ges­\ntures (Straube et al., 2013a, 2014). However, these deviant neural \nactivation patterns seem to be modifiable. Studies have shown cognitive \nand functional activation improvements appearing to be positively \ncorrelated after cognitive remediation therapy (Penad´es et al., 2017)."
+    },
+    {
+        "chunk_id": 13,
+        "source": "paper69",
+        "text": "and functional activation improvements appearing to be positively \ncorrelated after cognitive remediation therapy (Penad´es et al., 2017). \nOther studies showed reduced group differences of sentences or \ncontinuous narratives when accompanied with gestures (comparing SSD \npatients and a control group) in neural processing (Cuevas et al., 2021; \nHe et al., 2021). Thus, a multimodal training program including gesture \ntraining tasks might help to develop, reactivate or promote communi­\ncation resources in patients with schizophrenia. Gestures that visualize \nconcepts could help patients with SSD to understand the meaning of \nabstract sentences and integrate it into the sentence context. \nThe main aim of the current study was to test the feasibility and \nefficacy of a newly developed MSG training with patients suffering from \nSSD. We focused on the feasibility regarding drop-out rates and on ef­\nficiency regarding changing dysfunctional neural processing and"
+    },
+    {
+        "chunk_id": 14,
+        "source": "paper69",
+        "text": "SSD. We focused on the feasibility regarding drop-out rates and on ef­\nficiency regarding changing dysfunctional neural processing and \ninducing positive effects on quality of life. To get a more comprehensive \nunderstanding of the potential training effects, we also explored suitable \nbehavioral outcomes from the training tasks and subjective impressions \nof the patients and their relatives about nonverbal communication and \nsocial life. We expected patients to show a reduced quality of life prior to \nthe training. Furthermore, based on former studies on psychotherapy \nand gesture related changes in neural activation, we expected the po­\ntential improvement in quality of life after the MSG training to correlate \nwith specific training-related increase in neural activation of fronto- \ntemporal brain regions. \n2. Methods \n2.1. Experimental design \nThis was a single-center randomized waiting list controlled pilot trial"
+    },
+    {
+        "chunk_id": 15,
+        "source": "paper69",
+        "text": "temporal brain regions. \n2. Methods \n2.1. Experimental design \nThis was a single-center randomized waiting list controlled pilot trial \nof intensive single MSG training versus wait-list control (TAU) being \nconducted at Philipps-University Marburg, Department of Psychiatry \nand Psychotherapy. Main outcomes were measured through pre-post- \nfMRI and standardized psychological questionnaires (German version \nof SWLS – Satisfaction with Life Scale (Glaesmer et al., 2011)). The SWLS \nis a short 5-item instrument with satisfying validity and reliability with \ncronbach alpha = 0.87 (Pavot and Diener, 2009). Secondary outcomes \nwere the improvement in gesture production during training as well as \nself-report measures and ratings of relatives after the last training ses­\nsion, regarding community functioning. \nPatients were measured in a within-subjects crossover design three \ntimes and randomly assigned (computerized random numbers) to a"
+    },
+    {
+        "chunk_id": 16,
+        "source": "paper69",
+        "text": "sion, regarding community functioning. \nPatients were measured in a within-subjects crossover design three \ntimes and randomly assigned (computerized random numbers) to a \nTAU-first group (N = 20, in order to obtain sufficient data on MSG \ncompared to TAU effects) and an MSG-first group (N = 10, in order to \nexplore possible long-term effects), see Fig. 1. The TAU-first group was \nfirst measured (ses-pre) before a TAU period and a baseline measure­\nment (ses-bl), then the MSG training and the post measurement (ses- \npost) followed. The MSG-first group conducted the MSG training right \nafter the very first measurement (ses-pre), then the second (ses-bl) \nmeasurement, the TAU period and the post measurement (ses-post) \nfollowed. During TAU, the patients did not receive any speech-gesture \ntraining. The duration of MSG training and TAU period were the same \nwithin a patient, in average three weeks. This approach allowed us to"
+    },
+    {
+        "chunk_id": 17,
+        "source": "paper69",
+        "text": "training. The duration of MSG training and TAU period were the same \nwithin a patient, in average three weeks. This approach allowed us to \ncompare MSG training versus TAU with perfectly matching participants \nand it gave all patients the possibility of benefiting from the training. \nThe comparison of three measurements provides further evidence for \npossible training-specific effects through comparing intra-individual \nrepetition and training effects. \nIn order to better interpret the differences in performance and neural \nactivation between sessions, we also measured a control group without a \ndiagnosis of mental disorders. The control group received no training \n(modification of the study design described in our study protocol (Riedl \net al., 2020))."
+    },
+    {
+        "chunk_id": 18,
+        "source": "paper69",
+        "text": "diagnosis of mental disorders. The control group received no training \n(modification of the study design described in our study protocol (Riedl \net al., 2020)). \nL. Riedl et al."
+    },
+    {
+        "chunk_id": 19,
+        "source": "paper69",
+        "text": "Schizophrenia Research 246 (2022) 112–125\n114\n2.2. Participants \nA total of 29 German patients aged between 18 and 62 and with the \ncapability to give informed consent and to participate in a fMRI study \nwere included in the final analysis. The patients were diagnosed by a \npsychiatric specialist according to the International Classification of Diseases \n(World Health Organization, 1992) with schizophrenia spectrum disorder \n(F20.0, n = 13; F20.1, n = 2; F20.3, n = 1; F20.6, n = 1; F25, n = 9; F23.0, \nn = 1; F23.1, n = 1; F23.2, n = 2; F1x.50, n = 3; F60.1, n = 1).1 Twenty- \ntwo of the patients were treated with atypical antipsychotic medication; \nsix patients received (additional) antidepressants or other psychiatric \nmedical treatment. Five patients were not medicated. Fourteen patients \nreported a history of illegal substance abuse. In order to exclude large \nnon-training related variations, only outpatients without drug intoxi­\ncation were recruited for the SSD group."
+    },
+    {
+        "chunk_id": 20,
+        "source": "paper69",
+        "text": "reported a history of illegal substance abuse. In order to exclude large \nnon-training related variations, only outpatients without drug intoxi­\ncation were recruited for the SSD group. \nIn the healthy control group, the final sample comprised n = 17. All \nparticipants reported German to be their primary language. In both \ngroups, two subjects each were left-handed. The groups were matched \nfor sex, age and education (see Table 1). \nThe study has been registered at the German Clinical Trials Register \nand the study plan including the MSG training procedure was described \nin detail in our study protocol (Riedl et al., 2020). \n2.3. The MSG training program \nThe examiners in our study were trained in detail before they \nconducted parts of the experiment with the patients. The examiners \nwere unaware of our specific neural and behavioral hypotheses \nregarding the MSG training effects on the different measures. \nWe offered eight sessions (60 min each) considering the dose-effect"
+    },
+    {
+        "chunk_id": 21,
+        "source": "paper69",
+        "text": "were unaware of our specific neural and behavioral hypotheses \nregarding the MSG training effects on the different measures. \nWe offered eight sessions (60 min each) considering the dose-effect \nrelationship (Howard et al., 1986) of individual standardized training \nin a 1:1 setting with a high frequency (3–5 training sessions per week) \nFig. 1. Stimulus conditions and experimental design. \nLeft: Illustration of the stimulus conditions: (1) sentences with abstract content accompanied with gesture (absSG); (2) sentences with concrete content accompanied \nwith gesture (conSG). \nRight: Abbreviated illustration of the experimental design and treatment groups in the patients after CONSORT guidelines (Boutron et al., 2017). \nfMRI, functional Magnet Resonance Imaging; MSG training, multimodal training program (patients only); TAU, treatment as usual: waiting period without training; \nSWLS, Satisfaction With Life Scale. \nTable 1 \nDemographics, medication and neuropsychological measures."
+    },
+    {
+        "chunk_id": 22,
+        "source": "paper69",
+        "text": "SWLS, Satisfaction With Life Scale. \nTable 1 \nDemographics, medication and neuropsychological measures.   \nPatients with SSD \nControls \nDifference \n(p) \nAge (years) \n35.48  \n±11.07 \n36.53 \n±11.77 \n0.774 \nSex male/female \n22/7  \n13/4  \n0.964 \nEducationa \n3/11/15  \n2/7/8   \nSAPS (total) \n24.54  \n±19.26 \n– \n– \n– \nSANS (total) \n22.52  \n±14.8 \n– \n– \n– \nTULIA-AST \n11.36  \n±0.93 \n– \n– \n– \nCPZ equivalent \n275.03  \n±330.27 \n– \n– \n– \nDuration of illness \n12.24  \n±9.05    \nAge of onset \n23.29  \n±8.36    \nSmokers \n(cigarettes/day) \n18 \n(16.79)  \n±23.49 \n1 \n(0.71) \n±2.82  \nValues are presented as mean ± standard deviation. \nCPZ Equivalent: chlorpromazine equivalant of antipsychotic medication (with 5 \npatients not being medicated); SAPS (Andreasen, 1984)/SANS (Andreasen, \n1981): scale for the Assessment of Positive/Negative Symptoms; SSD: schizo­\nphrenia spectrum disorder; TULIA-AST: Apraxia Screen of TULIA (AST) (Van­\nbellingen et al., 2011)."
+    },
+    {
+        "chunk_id": 23,
+        "source": "paper69",
+        "text": "1981): scale for the Assessment of Positive/Negative Symptoms; SSD: schizo­\nphrenia spectrum disorder; TULIA-AST: Apraxia Screen of TULIA (AST) (Van­\nbellingen et al., 2011). \na Education: Number of patients receiving 1: Certificate of secondary educa­\ntion/2: General certificate of secondary education/3: General qualification for \nuniversity entrance. \n1 The divergent total number of diagnoses from the number of participating \npatients results from multiple diagnoses in individual patients. \nL. Riedl et al."
+    },
+    {
+        "chunk_id": 24,
+        "source": "paper69",
+        "text": "Schizophrenia Research 246 (2022) 112–125\n115\nfor efficiency reasons (Joyal et al., 2016). After a short personal intro­\nduction, patients executed four exercises with increasing complexity in \nevery session. Considering speech production being secondary to speech \nperception (Geschwind, 1970) the training sessions started with two \nperceptual tasks. One of these tasks was a relatedness task (Schülke and \nStraube, 2019). The other task was an audiovisual working memory task \nusing speech-gesture videos, because the integration of speech and \ngesture into communicative context is strongly associated with working \nmemory capacities (Kintsch and Van Dijk, 1978; Rudner, 2018). The \nperceptive tasks were performed on a computer device and supported by \nthe examiner. The training also included a productive (imitation/mime) \nand a free productive (gesture fluency (Wende et al., 2012)) task. The \nlatter gesture fluency task is especially suitable to explore training"
+    },
+    {
+        "chunk_id": 25,
+        "source": "paper69",
+        "text": "and a free productive (gesture fluency (Wende et al., 2012)) task. The \nlatter gesture fluency task is especially suitable to explore training \nrelated improvements in gesture production. In addition, patients were \nprovided with background information about gesture and how it is \nrelated to language and communication as a meta-learning element. \nHandouts summarizing the content of this information and an expla­\nnation of the new homework were given to patients at the end of each \nsession to encourage transfer of the training effects to daily life routine. \nFor the purpose of later independent evaluation, protocols were \nwritten during the training and productive tasks were video recorded. \n2.4. FMRI data acquisition \nImaging data were collected with a 3 T whole body MRI system \n(SIEMENS MAGNETOM TrioTim syngo MR B17) equipped with a stan­\ndard head coil. Structural image acquisition consisted of 176 T1 \nweighted sagittal slices (slice thickness = 1.0 mm; FoV = 256 mm; TR ="
+    },
+    {
+        "chunk_id": 26,
+        "source": "paper69",
+        "text": "(SIEMENS MAGNETOM TrioTim syngo MR B17) equipped with a stan­\ndard head coil. Structural image acquisition consisted of 176 T1 \nweighted sagittal slices (slice thickness = 1.0 mm; FoV = 256 mm; TR =\n1900 ms; TE = 2.26 s). To measure BOLD changes in brain activity \nduring acquisition, T2* weighted gradient echo planar imaging (EPI) \nwith 34 transversal slices covering the whole brain were used (voxel \nsize = 3 × 3 × 4 mm; descending slice acquisition; TR = 1650 ms; TE =\n25 ms; flip angle = 70◦; FoV = 192 mm; GRAPPA = 2). The slices were \naligned to the anterior commissure posterior commissure (AC- PC) line. \nIn the three measurements (se-pre, ses-bl and ses-post), 936 functional \nimages were acquired during the acquisition phase. A gradient echo field \nmap sequence was measured prior to the functional runs to get infor­\nmation for unwarping B0 distortions. \n2.5. Stimuli \nThe videos clips presented during fMRI data acquisition displayed a"
+    },
+    {
+        "chunk_id": 27,
+        "source": "paper69",
+        "text": "map sequence was measured prior to the functional runs to get infor­\nmation for unwarping B0 distortions. \n2.5. Stimuli \nThe videos clips presented during fMRI data acquisition displayed a \nmale actor speaking abstract (abs) or concrete (con) sentences accom­\npanied by gestures (SG) (Fig. 1). Additionally, abstract and concrete \nunimodal conditions (S: speech only, G: gesture only) were presented. \nThis allowed us to investigate implicit speech and gesture processing in \nconcrete and abstract conditions as well as in multimodal integration \n(Straube et al., 2011, 2013a). More details about the stimuli are given in \nAppendix A. \nIn order to confirm that the subjects had watched the video and paid \nattention during all conditions, they were instructed once from the \nexaminer and again in written form right before the task started to tap \nwith their left forefinger on the buttons of a response box that was \nfixated at their left leg. \n2.6. FMRI data analysis"
+    },
+    {
+        "chunk_id": 28,
+        "source": "paper69",
+        "text": "examiner and again in written form right before the task started to tap \nwith their left forefinger on the buttons of a response box that was \nfixated at their left leg. \n2.6. FMRI data analysis \nPreprocessing was performed using fMRIPrep 20.2.0rc0 (Esteban \net al., 2019, 2020a) (RRID:SCR_016216), which is based on Nipype 1.5.1 \n(Esteban et al., 2020b; Gorgolewski et al., 2011) (RRID:SCR_002502). \nFor resampling we utilized a coarse gridding of 2 mm isotropic of the \ntarget template. Additionally, functional images were smoothed using a \nGaussian kernel of 6 mm full width at the half maximum in all directions \nto adjust for inter-subject brain anatomical variations (scripts publicly \navailable: https://github.com/LydiaRiedl/fmriprep2spm). \nFMRI data were analyzed using standard routines for first and second \nlevel analyses in SPM (Statistical Parametric Mapping, Wellcome Trust \nCenter for Neuroimaging, London; https://www.fil.ion.ucl.ac.uk/spm/"
+    },
+    {
+        "chunk_id": 29,
+        "source": "paper69",
+        "text": "level analyses in SPM (Statistical Parametric Mapping, Wellcome Trust \nCenter for Neuroimaging, London; https://www.fil.ion.ucl.ac.uk/spm/ \nsoftware/spm12/, RRID: SCR_007037) implemented in MATLAB \nR2017a (version 9.2.0 The MathWorks, Inc.). On the first level, single \nsubjects' voxel-wise BOLD activity was modeled by a General Linear \nModel (GLM) (Friston et al., 1995; Worsley and Friston, 1995). The six \nrealignment parameters extracted by fMRIPrep (head motion) were \nmodeled as regressors of no interest. The onset of each event was defined \nas the integration point (the time when the stroke of the gesture co­\nincides with the keyword of the sentence) (Green et al., 2009). All events \nwere modeled with a duration of 1 s and assigned to one of the \nconditions. \nThe single subject level parameter estimates were deployed for a full \nfactorial analysis. The main effect of condition in all three experimental \nblocks were defined as contrasts of interest for the second level analysis,"
+    },
+    {
+        "chunk_id": 30,
+        "source": "paper69",
+        "text": "factorial analysis. The main effect of condition in all three experimental \nblocks were defined as contrasts of interest for the second level analysis, \nresulting in baseline contrasts for the two conditions of interest and the \nfour control conditions. In the statistical model, group (patients, con­\ntrols) was considered as a between-subject factor, session (ses-pre, ses- \npost), content (abs, con) and modality (SG, S, G) as within-subjects \nfactors, resulting in a 2 × 2 × 2 × 3 design. A Monte-Carlo-Simulation \nwas performed (acquisition matrix: x = 64, y = 64; slices: 34; DIM: \nxy = 3 mm, z = 4 mm; FWHM = 10.3 mm; DIM resampled = 2 mm; no \nmask; iterations: 1000) to calculate the minimum voxel contiguity \nthreshold needed to correct for multiple comparisons at p < 0.05, \nassuming an individual voxel type I error of p < 0.01 (Slotnick, 2017; \nSlotnick et al., 2003). Based on this calculation, a cluster extent \nthreshold of 221 contiguous resampled voxels at p < 0.05 (whole-brain"
+    },
+    {
+        "chunk_id": 31,
+        "source": "paper69",
+        "text": "Slotnick et al., 2003). Based on this calculation, a cluster extent \nthreshold of 221 contiguous resampled voxels at p < 0.05 (whole-brain \nanalysis) was used for all contrasts of interest. Voxel coordinates re­\nported are referenced to the Montreal Neurological Institute brain (MNI) \nspace. For anatomical location, functional data were referenced to the \nAutomated Anatomical Labeling toolbox (AAL) in SPM12 (Rolls et al., \n2015; Tzourio-Mazoyer et al., 2002). \n2.7. Behavioral data analysis and correlations \nFor further statistical analyses of neural and behavioral data, R Stu­\ndio (RStudio, 2021) with ggstatsplot package for R (Patil, 2021) was \nutilized. \n2.8. Main outcome measures \nTo clarify training-induced changes of multimodal input processing in \npatients with SSD, we calculated an \nInteraction of neural activation in session X abstractness, contrast (1): \n(ses-pre(absSG>conSG)) < ses-post(absSG>conSG). \nTo investigate specific training effects, comparing MSG training and"
+    },
+    {
+        "chunk_id": 32,
+        "source": "paper69",
+        "text": "Interaction of neural activation in session X abstractness, contrast (1): \n(ses-pre(absSG>conSG)) < ses-post(absSG>conSG). \nTo investigate specific training effects, comparing MSG training and \nTAU period, we furthermore calculated \nThree-sessions-interaction X abstractness (F-test), comparing ses-pre, \nses-bl and ses-post in the patients' TAU-first group, contrast (2). \nTo examine potentially benefits of the MSG training on daily life, \nsubjective quality of life was investigated through a standardized psy­\nchological questionnaire (SWLS) at ses-pre and ses-post. To compare the \noverall quality of life, the summarized SWLS score was compared be­\ntween groups in ses-pre using a between-subjects t-test and between \nsessions (ses-pre versus ses-post) for patients using a within-subjects t- \ntest (note: SWLS in the control group was only measured in ses-pre). \nIn order to examine exploratory the relationship of outcomes in"
+    },
+    {
+        "chunk_id": 33,
+        "source": "paper69",
+        "text": "test (note: SWLS in the control group was only measured in ses-pre). \nIn order to examine exploratory the relationship of outcomes in \nquality of life (SWLS score changes) and neural activation changes, \neigenvariates of the multimodal condition regressors (absSG and conSG) \nwere extracted from the significant clusters in contrast (1) and contrast \n(2). Activation changes (ses-post - ses-pre) in the neural activation of the \nabsSG condition and changes in the SWLS score (ses-post - ses-pre) were \ncorrelated via Pearson's r. Two subjects had to be excluded from the \nanalyses (details are described in Appendix C). \nL. Riedl et al."
+    },
+    {
+        "chunk_id": 34,
+        "source": "paper69",
+        "text": "Schizophrenia Research 246 (2022) 112–125\n116\n2.9. Secondary outcome measures \nFor information regarding the speech-gesture fluency performance \nduring training, see a detailed description in Appendix E. \nTo get an impression of possible performance changes during the \nMSG training, the performance in the gesture fluency task from the first \ntraining session was compared with the performance from the last \ntraining session using a within-subjects t-test. \nThe changes in performance during the MSG training were also \ncorrelated with the neural activation changes in contrast (1) and contrast \n(2) via Pearson's r. \n3. Results \n3.1. Quality of life \nThe group comparison of the quality of life in controls versus patients \nconfirmed the assumption that patients suffer from a significant reduc­\ntion in quality of life (tWelch(35.07) = 2.45; p = 0.020; ˆgHedges = 0.74), see \nAppendix D. The pre-post-training comparison of the SWLS score in"
+    },
+    {
+        "chunk_id": 35,
+        "source": "paper69",
+        "text": "tion in quality of life (tWelch(35.07) = 2.45; p = 0.020; ˆgHedges = 0.74), see \nAppendix D. The pre-post-training comparison of the SWLS score in \npatients (Fig. 3) revealed a significant increase (with medium effect) of \nquality of life (tStudent(22) = −4.74; p = 9.85e-05; ˆgHedges = −0.95). \n3.2. Training \nDuring training, the patients showed an increase in gesture fluency \nperformance. A comparison of the performance from the first to the last \ntraining session showed a significant increase in performance (tStu­\ndent(24) = −7.30; p = 1.55e-07; ˆgHedges = −1.41), see Fig. 3. \n3.3. FMRI \nContrast (1): For the interaction of session X abstractness, significant \nactivation was found in three clusters including the left para­\nhippocampal gyrus, middle frontal and bilateral temporal regions as \nwell as superior frontal regions. Patients with SSD demonstrate a specific \nactivation increase in these regions for the processing of abstract speech-"
+    },
+    {
+        "chunk_id": 36,
+        "source": "paper69",
+        "text": "well as superior frontal regions. Patients with SSD demonstrate a specific \nactivation increase in these regions for the processing of abstract speech- \ngesture videos and an activation decrease for the processing of concrete \nspeech-gesture videos after MSG training (see Fig. 2). \nContrast (2): For the interaction (F-test) of session (ses-pre, ses-bl, ses- \npost) X abstractness, significant activation was found in a large left \nmiddle temporal cluster, in a smaller cluster in right temporal gyrus and \nin the cerebellum. Patients with SSD demonstrate a specific activation \nincrease for the processing of abstract speech-gesture videos and an \nactivation decrease for the processing of concrete speech-gesture videos \nFig. 2. Neural activation session X abstractness in SSD group. \nSlice view visualization for the interaction of session X abstractness (ses-pre(absSG>conSG)) < ses-post(absSG>conSG) in the patients (contrast (1)). Activation"
+    },
+    {
+        "chunk_id": 37,
+        "source": "paper69",
+        "text": "Slice view visualization for the interaction of session X abstractness (ses-pre(absSG>conSG)) < ses-post(absSG>conSG) in the patients (contrast (1)). Activation \nclusters were thresholded at p < 0.01, with a minimum cluster size of 221 voxels, cluster level corrected at p > 0.05. Error bars indicate the standard error of the \nmean (s.e.m.) in all cases. Crosshair point at the right MTG [x = 52, y = 2, z = −26]; left PHG [x = −30, y = −24, z = −18] and left SFG [x = −20, y = 18, z = 58]. \nMTG = middle temporal gyrus; PHG = parahippocampal gyrus; SFG = superior frontal gyrus; L = left; R = right; absSG = abstract multimodal condition; conSG =\nconcrete multimodal condition; SWLS = Satisfaction With Life Scale; ses-pre = before training measurement; ses-post = after training measurement; SSD =\nschizophrenia spectrum disorder."
+    },
+    {
+        "chunk_id": 38,
+        "source": "paper69",
+        "text": "concrete multimodal condition; SWLS = Satisfaction With Life Scale; ses-pre = before training measurement; ses-post = after training measurement; SSD =\nschizophrenia spectrum disorder. \nL. Riedl et al."
+    },
+    {
+        "chunk_id": 39,
+        "source": "paper69",
+        "text": "Schizophrenia Research 246 (2022) 112–125\n117\nafter MSG training (see Fig. 4). \n3.4. Correlations \nWe found neural changes (Table 2) for the processing of abstract \nspeech-gesture videos (absSG ses-post - absSG ses-pre) in contrast (1) to \nbe associated with the changes in quality of life (with tStudent(21) = 3.51, \npunadhusted = 0.002, pBonferroni-Holm = 0.006, rPearson = 0.61 for the right \nMTG, tStudent(21) = 2.87, punadjusted = 0.009, pBonferroni-Holm = 0.018, \nrPearson = 0.53 for the left PHG and tStudent(21) = −2.41, punadjusted =\n0.025, pBonferroni-Holm = 0.025, rPearson = −0.47 for the SFG) and for the \nprocessing of concrete speech-gesture videos (conSG ses-post - conSG \nses-pre) to be associated with the patients' improvement in the gesture \nfluency task over training (with tStudent(23) = 4.01, punadjusted = 0.001, \npBonferroni-Holm = 0.003, rPearson = 0.64 for the right MTG, tStudent(23) =\n2.19, punadjusted = 0.039, pBonferroni-Holm = 0.074, rPearson = 0.41 for the left"
+    },
+    {
+        "chunk_id": 40,
+        "source": "paper69",
+        "text": "pBonferroni-Holm = 0.003, rPearson = 0.64 for the right MTG, tStudent(23) =\n2.19, punadjusted = 0.039, pBonferroni-Holm = 0.074, rPearson = 0.41 for the left \nPHG and tStudent(23) = 2.21, punadjusted = 0.037, pBonferroni-Holm = 0.074, \nrPearson = 0.42 for the SFG), shown in Fig. 3. For contrast (2) we found \nneural changes in left temporal regions to be associated with changes in \nquality of life (with tStudent(14) = 3.34, p = 0.005, rPearson = 0.67) and \nwith the patients' improvement in the gesture fluency task over training \n(with tStudent(15) = 2.32, p = 0.035, rPearson = 0.51), shown in Fig. 5. \n3.5. Self-report measures \nOur specifically outlined post training questionnaires provide in­\nsights into subjective evaluation of training related improvement of \ncommunity functions: E.g., 94 % of the patients rated the MSG training \nas useful, 53 % of the patients' relatives reported an increase of the \npatients' social contacts and 74 % reported a gesture related improve­"
+    },
+    {
+        "chunk_id": 41,
+        "source": "paper69",
+        "text": "as useful, 53 % of the patients' relatives reported an increase of the \npatients' social contacts and 74 % reported a gesture related improve­\nment of perceptive, 66 % of expressive communication skills. \n4. Discussion \nSocial-communicative dysfunctions in schizophrenia have received \nincreased interest from the field of clinical neuroscience. Considering \nthe tremendous impact of figurative speech and the fundamental role of \ngestures in social communication and functioning, we developed a novel \nMSG training and focused on the training's effects on quality of life and \nits neural correlates in schizophrenia spectrum disorder. \nThis novel training was both feasible and tolerable, as demonstrated \nby the low drop-out rate in contrast to other successful interventions \n(Gordon et al., 2018) and the patients' positive ratings of the training \nprogram. The overwhelming majority of the patients and their relatives \nthat we analyzed exploratory, the subjective impressions about the"
+    },
+    {
+        "chunk_id": 42,
+        "source": "paper69",
+        "text": "program. The overwhelming majority of the patients and their relatives \nthat we analyzed exploratory, the subjective impressions about the \neffects of the MSG training seem to be satisfying. Consequently, we \nevaluated our design and training as well feasible for this group of \npatients. \nAs predicted, the quality of life in the patients was reduced before the \ntraining but increased significantly after the MSG training, confirming \nthe idea that patients with schizophrenia might benefit from a specific \nspeech-gesture training in their general quality of life (Heim, 2020; \nJoyal et al., 2016). \nChanges in neural activation provide further insights into the \nworking mechanisms of the MSG training program. In the session X \nabstractness interaction for multimodal speech-gesture processing in pa­\ntients, brain regions in the temporal lobe including (para-)hippocampal \nregions showed significant changes in activation and therewith seem to"
+    },
+    {
+        "chunk_id": 43,
+        "source": "paper69",
+        "text": "tients, brain regions in the temporal lobe including (para-)hippocampal \nregions showed significant changes in activation and therewith seem to \nplay a key role in training induced compensation mechanisms for the \nprocessing of abstract multimodal input, as expected (Dick et al., 2009; \nHe et al., 2018; Joue et al., 2020; Kircher et al., 2009; Rossetti et al., \n2018; Straube et al., 2011, 2013a). \nAccording to the Memory Unification Control model (Hagoort, 2013; \nHagoort et al., 2009; Holler and Levinson, 2019; Willems and Hagoort, \n2007), temporal regions are involved in integration processes and \nlexical-semantic processing. Temporal regions were also reported in \nformer studies to be active during speech-gesture integration (Dick et al., \n2014; Green et al., 2009; Joue et al., 2020; Kircher et al., 2009; Straube \net al., 2011, 2013a, 2013b, 2014) with the right hemisphere aiding in \nthe integration of speech and gesture information (Beeman, 1998;"
+    },
+    {
+        "chunk_id": 44,
+        "source": "paper69",
+        "text": "et al., 2011, 2013a, 2013b, 2014) with the right hemisphere aiding in \nthe integration of speech and gesture information (Beeman, 1998; \nKircher et al., 2009; Straube et al., 2011). The increasing activation in \nthe abstract multimodal condition (absSG) after the training might \nprovide evidence for some kind of adaptive processes toward the pat­\nterns observed in healthy control subjects, as it is reported for cognitive \nremediation therapy (Penad´es et al., 2017). The changes in neural re­\nsponses might reflect a specific training effect on brain regions relevant \nfor metaphor comprehension (impaired in concretism) or the integration \nof abstract speech-gesture combinations (Bergemann et al., 2008; de \nBonis et al., 1997; Iakimova et al., 2010; Kircher et al., 2007, 2009; \nNagels et al., 2019; Rapp and Schmierer, 2010; Straube et al., 2011, \n2014). \nStrikingly, we found the neural changes in the left and right middle"
+    },
+    {
+        "chunk_id": 45,
+        "source": "paper69",
+        "text": "Nagels et al., 2019; Rapp and Schmierer, 2010; Straube et al., 2011, \n2014). \nStrikingly, we found the neural changes in the left and right middle \ntemporal gyrus to be associated with the changes in quality of life as well \nas with the performance increase over the MSG training (shown in \nFig. 3). Although the explanatory power of correlations is limited with \nthis sample size, this links the potential benefits of a specific training of \nspeech-gesture skills with improvement in everyday life in patients with \nSSD. Reports of relatives support this finding, indicating improved \ncommunication skills and increase of social contacts after MSG training \nin the majority of patients. \nComparing all three fMRI measurements, the pattern of activation in \nthe cluster in left middle temporal gyrus (shown in Fig. 4) shows no \nsignificant differences between ses-pre and ses-bl (TAU period), but \nsignificant differences between ses-pre and ses-post (MSG training"
+    },
+    {
+        "chunk_id": 46,
+        "source": "paper69",
+        "text": "significant differences between ses-pre and ses-bl (TAU period), but \nsignificant differences between ses-pre and ses-post (MSG training \nperiod; again with an increase of activation in absSG and decrease in \nconSG), providing evidence for the specific effects during the MSG \ntraining period on the neural processing of abstract multimodal speech- \ngesture videos in patients with SSD. Again, the neural activation changes \nafter the MSG training correlate with the increase in quality of life. \nMethodological limitations to be considered for a valid interpreta­\ntion of the results concern the modification of the sample size in the \ncontrol group, due to recruitment problems during the Covid-19 \npandemic. Thus, the control group did not receive the MSG training, \nso that the effects of the training cannot be directly compared between \npatients and controls. Because our inclusion criteria were very strict, e. \ng., in terms of medical contraindications against fMRI measurements,"
+    },
+    {
+        "chunk_id": 47,
+        "source": "paper69",
+        "text": "patients and controls. Because our inclusion criteria were very strict, e. \ng., in terms of medical contraindications against fMRI measurements, \nour sample might be an imperfect representative for patients with SSD in \ngeneral, particularly regarding patients suffering from first episode \n(Kindler et al., 2019; Newton et al., 2018). This is also true for sex and \nage, since our patient sample consisted of 7 women and 22 men with a \nwide age range. While in our within-subject crossover design factors that \nTable 2 \nAnatomical regions, cluster extend, coordinates (MNI), t-values and no. of voxels \nof the interaction of session X abstractness (contrast (1)) in SSD patients.  \nAnatomical \nregion of peak \nCluster extend \nMNI coordinates \nt- \nValue \nNo. of \nvoxels \nx \ny \nz \nRight MTG \nTMP, ITG  \n52  \n2  \n−26  \n4.61  \n414 \nHIP, INS, STG  \n38  \n−8  \n−14  \n3.48 \nMTG, ITG, STG  \n58  \n−14  \n−22  \n3.24 \nLeft PHG \nHIP, FFG  \n−30  \n−24  \n−18  \n4.30  \n723 \nMTG, STG, ITG  \n−46  \n−8  \n−20  \n4.06"
+    },
+    {
+        "chunk_id": 48,
+        "source": "paper69",
+        "text": "52  \n2  \n−26  \n4.61  \n414 \nHIP, INS, STG  \n38  \n−8  \n−14  \n3.48 \nMTG, ITG, STG  \n58  \n−14  \n−22  \n3.24 \nLeft PHG \nHIP, FFG  \n−30  \n−24  \n−18  \n4.30  \n723 \nMTG, STG, ITG  \n−46  \n−8  \n−20  \n4.06 \nMTG, ITG, STG  \n−44  \n−16  \n−16  \n4.01 \nLeft SFG \nLeft MFG, SMA  \n−20  \n18  \n58  \n4.18  \n727 \nRight SFG, SMA, \nSFGmedial  \n20  \n24  \n56  \n4.01 \nRight SFG, SMA, \nMFG  \n20  \n12  \n64  \n3.82 \nFFG, fusiform gyrus; HIP, Hippocampus; INS, Insula; ITG, inferior temporal \ngyrus; MFG, middle frontal gyrus; MTG, middle temporal gyrus; PHG, para­\nhippocampal gyrus; SFG, superior frontal gyrus; SFGmedial, Superior frontal \ngyrus, medial; SMA, supplementary motor area; STG, superior temporal gyrus; \nTMP, temporal pole; SSD, schizophrenia spectrum disorder. \nL. Riedl et al."
+    },
+    {
+        "chunk_id": 49,
+        "source": "paper69",
+        "text": "Schizophrenia Research 246 (2022) 112–125\n118\n(caption on next page) \nL. Riedl et al."
+    },
+    {
+        "chunk_id": 50,
+        "source": "paper69",
+        "text": "Schizophrenia Research 246 (2022) 112–125\n119\nwe did not collect, such as IQ and neurocognitive abilities, at least \nmaintained constant across measurement points, we cannot exclude that \nthey represent an important mediator of the effects. Also the MSG \ntraining outcomes may have been influenced by other factors such as the \nexaminer-patient relationship. \nAfter this successful results using a waiting list controlled pilot trial, \nFig. 3. Changes in quality of life and SG fluency task performance and their correlation with changes in neural activation (session X abstractness) in SSD patients. \nA: Pre-post training (ses-pre versus ses-post) comparison of life quality, examined using the SWLS score, in the patients. \nB: training session (first versus last training session) comparison of the patients' performance in gesture fluency training task."
+    },
+    {
+        "chunk_id": 51,
+        "source": "paper69",
+        "text": "B: training session (first versus last training session) comparison of the patients' performance in gesture fluency training task. \nC: Correlation of the difference (ses-post - ses-pre) of SWLS score and the difference (ses-post - ses-pre) in neural activation (contrast (1)) in the absSG condition. \nD: Correlation of the patients' improvement during training (last - first training session) in the gesture fluency task and the difference (ses-post - ses-pre) in neural \nactivation (contrast (1)) in the conSG condition. \nMTG = middle temporal gyrus; PHG = parahippocampal gyrus; SFG = superior frontal gyrus; L = left; R = right; absSG = abstract multimodal condition; conSG =\nconcrete multimodal condition; SWLS = Satisfaction With Life Scale; ses-pre = before training measurement; ses-post = after training measurement. \nThe green and purple shadows overlaid on the axes of the corrections represent the marginal distributions. (For interpretation of the references to colour in this figure"
+    },
+    {
+        "chunk_id": 52,
+        "source": "paper69",
+        "text": "The green and purple shadows overlaid on the axes of the corrections represent the marginal distributions. (For interpretation of the references to colour in this figure \nlegend, the reader is referred to the web version of this article.) \nFig. 4. Neural activation three sessions X abstractness in SSD waiting-first group. \nInteraction (F-test) of all three sessions (ses-pre, ses-bl, ses-post) X abstractness in the SSD patients, waiting-first group. Activation clusters were thresholded at p <\n0.01, with a minimum cluster size of 221 voxels, cluster level corrected at p > 0.05. Error bars indicate the standard error of the mean (s.e.m.) in all cases. Crosshair \npoint at the left MTG [x = −60, y = −10, z = −18], right MTG [x = 52, y = −2, z = −30] and left CERCRU1 [x = −44, y = −58, z = −32]. \nCERCRU1 = Crus I of cerebellar hemisphere; MTG = middle temporal gyrus; L = left; R = right; absSG = abstract multimodal condition; conSG = concrete"
+    },
+    {
+        "chunk_id": 53,
+        "source": "paper69",
+        "text": "CERCRU1 = Crus I of cerebellar hemisphere; MTG = middle temporal gyrus; L = left; R = right; absSG = abstract multimodal condition; conSG = concrete \nmultimodal condition; SWLS = Satisfaction With Life Scale; ses-pre = before training measurement (first baseline measurement); ses-bl = after TAU period mea­\nsurement (second baseline measurement); ses-post = after training measurement; SSD = schizophrenia spectrum disorder. \nFig. 5. Correlations of Changes in quality of life and SG fluency task performance with changes in neural activation (three sessions x abstractness) in SSD waiting-first \ngroup. \nLeft: Correlation of the difference (ses-post - ses-pre) of SWLS score and the difference (ses-post - ses-pre) in neural activation (contrast (2)) in the abstract condition \n(abs). \nRight: Correlation of the patients' improvement during training (last - first training session) in the gesture fluency task and the difference (ses-post - ses-pre) in neural"
+    },
+    {
+        "chunk_id": 54,
+        "source": "paper69",
+        "text": "(abs). \nRight: Correlation of the patients' improvement during training (last - first training session) in the gesture fluency task and the difference (ses-post - ses-pre) in neural \nactivation (contrast (2)) in the concrete condition (con). \nMTG = middle temporal gyrus; L = left; R = right; abs = abstract multimodal condition; con = concrete multimodal condition; SWLS = Satisfaction With Life Scale; \nses-pre = before training measurement (first baseline measurement); ses-post = after training measurement. \nThe green and purple shadows overlaid on the axes of the corrections represent the marginal distributions. (For interpretation of the references to colour in this figure \nlegend, the reader is referred to the web version of this article.) \nL. Riedl et al."
+    },
+    {
+        "chunk_id": 55,
+        "source": "paper69",
+        "text": "Schizophrenia Research 246 (2022) 112–125\n120\ncomparing two active treatment arms would be important to demon­\nstrate the unique contribution of the MSG training intervention. \nFurthermore, specific conclusions which therapeutic mechanisms \ncaused the outcome have to be examined by further research (e.g., most \neffective training task or the influence of the trainers' interpersonal style \nare yet unknown). After demonstrating feasibility with few dropouts, it \nalso seems feasible to collect other relevant performance data, e.g., via \nthe brief self-rating scale for the assessment of individual differences in \ngesture perception and production (BAG: Nagels et al., 2015) or the \nrating scale for the assessment of objective and subjective formal \nThought and Language Disorder (TALD: Kircher et al., 2014). Impor­\ntantly, the results of this exploratory study require further validation in \nindependent, ideally double-blind studies. For this purpose, we provide"
+    },
+    {
+        "chunk_id": 56,
+        "source": "paper69",
+        "text": "tantly, the results of this exploratory study require further validation in \nindependent, ideally double-blind studies. For this purpose, we provide \ndetailed descriptions of the study design, fMRI paradigms as well as \ntraining material on our public project on the open science framework \n(OSF: DOI 10.17605/OSF.IO/UH4F9), which is freely available under \nCCBy Attribution 4.0 International license. \n5. Conclusion \nThe overall analyses evaluating the MSG training provide extraor­\ndinarily promising results which should be validated and extended in \nfurther independent studies. Especially the subjectively reported bene­\nfits on everyday life and the associated neural changes in brain regions \nin the temporal lobe provide evidence for potentially beneficial effects of \ninnovative add-on treatments. Future studies should investigate com­\nbinations of speech-gesture training with neural stimulation techniques \nlike transcranial magnetic stimulation (Walther et al., 2020) or trans­"
+    },
+    {
+        "chunk_id": 57,
+        "source": "paper69",
+        "text": "binations of speech-gesture training with neural stimulation techniques \nlike transcranial magnetic stimulation (Walther et al., 2020) or trans­\ncranial direct current stimulation (Schülke and Straube, 2019), which \nseem to be further promising approaches (Cavelti et al., 2018). \nStatement of ethics \nThis study was carried out in accordance with the recommendations \nof the local ethics committee (Philipps-University Marburg, Department \nof Medicine, Deanery/Ethics Committee, Reference: R1, Study 01/17) \non 28th February 2017 with written informed consent from all subjects. \nAll subjects gave written informed consent in accordance with the \nDeclaration of Helsinki. The protocol was approved by the local ethics \ncommittee. All information collected is kept confidential, stored \nsecurely and archived in accordance with the research governance \npolicy of the university. Participant anonymity is retained by allocating \na unique identification number for the trial and any identifiable"
+    },
+    {
+        "chunk_id": 58,
+        "source": "paper69",
+        "text": "policy of the university. Participant anonymity is retained by allocating \na unique identification number for the trial and any identifiable \ninformation stored separately from this. \nData availability statement \nAnonymized behavioral and clinical data as well as MSG training \nmaterial and detailed information about our assessments are freely \navailable under CCBy Attribution 4.0 International license on the Open \nScience Framework: DOI 10.17605/OSF.IO/UH4F9. \nFunding \nThis work was supported by a grant from the von behring|r¨ontgen| \nfoundation (grant number 64-0001) and supported by “The Adaptive \nMind”, funded by the Excellence Program of the Hessian Ministry of \nHigher Education, Science, Research and Art. LR was supported by the \nHeinrich B¨oll Foundation. BS is supported by the ‘Deutsche For­\nschungsgemeinschaft’ (Project no. DFG: STR 1146/11–2, STR 1146/ \n15–1). \nCRediT authorship contribution statement \nBS, AN and GS conceived of the presented intervention approach. LR,"
+    },
+    {
+        "chunk_id": 59,
+        "source": "paper69",
+        "text": "schungsgemeinschaft’ (Project no. DFG: STR 1146/11–2, STR 1146/ \n15–1). \nCRediT authorship contribution statement \nBS, AN and GS conceived of the presented intervention approach. LR, \nAN, MC, AS, CF, MH and FB carried out the experiment. AN, MC, AS, CF, \nand MH conducted the trainings. LR performed the computations and \nanalytic calculations and wrote the manuscript. BS supervised the study \nand verified the analytical methods. All authors discussed the results, \ncontributed to the final manuscript and agree to be accountable for all \naspects of the work. \nDeclaration of competing interest \nThe Authors have declared that there are no conflicts of interest in \nrelation to the subject of this study. \nAcknowledgements \nSpecial thanks to the Core Facility Brain Imaging Marburg for \nassistance with data collections and Dr. Christoph Vogelbacher for his \nhelp with installing singularity container images for usage on the local"
+    },
+    {
+        "chunk_id": 60,
+        "source": "paper69",
+        "text": "assistance with data collections and Dr. Christoph Vogelbacher for his \nhelp with installing singularity container images for usage on the local \nserver system. We would like to thank Johanna Funk and Katrin Lein­\nweber who rated the patient videos from the training as well as Thomas \nS. Hartmann, who was a great help in preparing the study materials for \npublication.  \nAppendix A. Details about the video stimuli \nThe videos clips presented during fMRI data acquisition were standardized, extensively evaluated and had been successfully applied in a large \nnumber of studies (Choudhury et al., 2021; Green et al., 2009; He et al., 2018; Kircher et al., 2009; Nagels et al., 2019; Schülke and Straube, 2019; \nStraube et al., 2009, 2011, 2013a, 2014; (Wroblewski et al., 2020)). The video sequences had a duration of five seconds. \nThe videos were displayed on an MRI-compatible screen using the software Presentation® (Version 18.3, Neurobehavioral Systems, Inc.; https://"
+    },
+    {
+        "chunk_id": 61,
+        "source": "paper69",
+        "text": "The videos were displayed on an MRI-compatible screen using the software Presentation® (Version 18.3, Neurobehavioral Systems, Inc.; https:// \nwww.neurobs.com/presentation) made visible via a mirror attached to the head coil. The experiment comprised 30 video sequences per condition, \n180 video sequences in total, presented in a pseudo-randomized order in three blocks with a duration of ~9 min each. The participants were pseudo- \nrandomly assigned to one of eight different counterbalanced versions of stimuli presentation to avoid sequence effects. \nAppendix B. FMRI data quality control \nDiverging from the planned preprocessing procedure (Riedl et al., 2020), for quality control, MRIQC was used based on different parameters like \nco-registration, motion and temporal signal-to-noise (Esteban et al., 2017). No data had to be excluded."
+    },
+    {
+        "chunk_id": 62,
+        "source": "paper69",
+        "text": "co-registration, motion and temporal signal-to-noise (Esteban et al., 2017). No data had to be excluded. \nL. Riedl et al."
+    },
+    {
+        "chunk_id": 63,
+        "source": "paper69",
+        "text": "Schizophrenia Research 246 (2022) 112–125\n121\nAppendix C. SWLS data quality control \nOutcomes (overall SWLS scores) were checked for statistical outliers. Data from two patients2 had to be excluded from further analysis (in one case \ndue to a massive reported increase in wellbeing and in another case due to worsening of negative symptoms accompanied by temporary discontin­\nuation of medication during the training period). In ses-pre (before the MSG training started), one patient and in ses-post (after the MSG training), \nthree patients withheld information regarding satisfaction with life or filled in the SWLS questionnaire incompletely. As consequence, only incomplete \ndata were available for four patients, so that the session differences could not be calculated and therefore could not be included in the correlation. \nAppendix D. SWLS comparison of SSD group versus control group (in ses-pre)\nFig. D1. Quality of life group differences (control group versus SSD patients)."
+    },
+    {
+        "chunk_id": 64,
+        "source": "paper69",
+        "text": "Appendix D. SWLS comparison of SSD group versus control group (in ses-pre)\nFig. D1. Quality of life group differences (control group versus SSD patients).  \nGroup comparison of SSD patients versus control group in ses-pre (before the MSG training) of life quality, examined using the SWLS score. \nSSD = schizophrenia spectrum disorder; SWLS = Satisfaction With Life Scale; ses-pre = before training measurement. \nAppendix E. Speech-gesture fluency task \n2 One of the excluded participants reported an exceptional increase (by 10 points) and another an exceptional decrease (by −9 points) pre to post training in the \nSWLS questionnaire. \nL. Riedl et al."
+    },
+    {
+        "chunk_id": 65,
+        "source": "paper69",
+        "text": "Schizophrenia Research 246 (2022) 112–125\n122\nFig. E1. Improvement of SSD patients in the SG fluency task over all 8 training sessions.  \nOverview over all eight MSG training sessions: comparison of the patients' performance in speech-gesture fluency training task (sum of correctly \nproduced speech-gesture pairs in all three categories per session). \nThe speech-gesture fluency task was a fixed component in every session of the MSG training and therefore suitable to explore training related \nchanges across training sessions. Similar to verbal fluency tasks (Rosenkranz et al., 2019; Wende et al., 2012), the patients were instructed to generate \nas many words with accompanying suitable gesture as possible for each of the three semantic fields per session, resulting in a total of 24 categories. \nTime was limited to 1 min per semantic field. \nSince the stimulus material in the gesture fluency task was designed with a primary focus on eligibility for therapeutic intervention, the gesture"
+    },
+    {
+        "chunk_id": 66,
+        "source": "paper69",
+        "text": "Time was limited to 1 min per semantic field. \nSince the stimulus material in the gesture fluency task was designed with a primary focus on eligibility for therapeutic intervention, the gesture \nfluency word categories differed in every session in order to achieve the best possible training effects. Thus, a direct comparison between the indi­\nvidual training sessions is difficult to interpret. However, the patients tend to improve from the first to the last training session. Together with the \nsubjective information on the effectiveness of the training, this leads to a positive overall picture of the training's impact. \nIt seems that the SSD patients already benefit from the training in the second MSG training session. Previous studies using stimulation techniques to \nimprove gesture performance or speech-gesture perception in patients with schizophrenia have also demonstrated improvement after only one session"
+    },
+    {
+        "chunk_id": 67,
+        "source": "paper69",
+        "text": "improve gesture performance or speech-gesture perception in patients with schizophrenia have also demonstrated improvement after only one session \n(Schülke and Straube, 2019; Walther et al., 2020). Although the interpretation of MSG training data is difficult, as mentioned above, it would be an \ninteresting research question for future studies to investigate how many training sessions are necessary to achieve a benefit. \nReferences \nAllen, D.J., Antonitis, J.J., Magaro, P.A., 1978. Reinforcing effects of prerecorded words \nand delayed speech feedback on the verbal behavior of a neologistic schizophrenic. \nPercept. Mot. Skills 46, 343–346. https://doi.org/10.2466/pms.1978.46.2.343. \nAndreasen, Nancy C., 1981. Scale for the assessment of negative symptoms (SANS). \nUniversity of Iowa Press, Iowa City.  \nAndreasen, Nancy C., 1984. The scale for the assessment of positive symptoms.. \nUniversity of Iowa Press, Iowa City."
+    },
+    {
+        "chunk_id": 68,
+        "source": "paper69",
+        "text": "University of Iowa Press, Iowa City.  \nAndreasen, Nancy C., 1984. The scale for the assessment of positive symptoms.. \nUniversity of Iowa Press, Iowa City.  \nBaker, R., 1971. The use of operant conditioning to reinstate speech in mute \nschizophrenics. Behav. Res. Ther. 9, 329–336. https://doi.org/10.1016/0005-7967 \n(71)90045-3. \nBambini, V., Arcara, G., Bechi, M., Buonocore, M., Cavallaro, R., Bosia, M., 2016. The \ncommunicative impairment as a core feature of schizophrenia: frequency of \npragmatic deficit, cognitive substrates, and relation with quality of life. Compr. \nPsychiatry 71, 106–120. https://doi.org/10.1016/j.comppsych.2016.08.012. \nBambini, V., Agostoni, G., Buonocore, M., Tonini, E., Bechi, M., Ferri, I., Sapienza, J., \nMartini, F., Cuoco, F., Cocchi, F., Bischetti, L., Cavallaro, R., Bosia, M., 2022. It is \ntime to address language disorders in schizophrenia: a RCT on the efficacy of a novel \ntraining targeting the pragmatics of communication (PragmaCom). J. Commun."
+    },
+    {
+        "chunk_id": 69,
+        "source": "paper69",
+        "text": "time to address language disorders in schizophrenia: a RCT on the efficacy of a novel \ntraining targeting the pragmatics of communication (PragmaCom). J. Commun. \nDisord. 106196 https://doi.org/10.1016/j.jcomdis.2022.106196. \nBavelas, J.B., Gerwing, G., Allison, M., Sutton, C., 2011. Dyadic evidence for grounding \nwith abstract deictic gestures. In: Stam, G., Ishino, M. (Eds.), Integrating Gestures: \nThe Interdisciplinary Nature of Gesture. John Benjamins Publishing Company, \nAmsterdam, pp. 49–60. \nBeeman, M., 1998. Coarse semantic coding and discourse comprehension. In: \nChiarello, C., Beeman, M. (Eds.), Right Hemisphere Language Comprehension: \nPerspectives from Cognitive Neuroscience. Lawrence Erlbaum Associates Inc, \nPublishers, Mahwah, New Jersey, pp. 255–284. \nBeilock, S.L., Goldin-Meadow, S., 2010. Gesture Changes Thought by Grounding It in \nAction. Psychological Science 21 (11), 1605–1610. https://doi.org/10.1177/ \n0956797610385353."
+    },
+    {
+        "chunk_id": 70,
+        "source": "paper69",
+        "text": "Beilock, S.L., Goldin-Meadow, S., 2010. Gesture Changes Thought by Grounding It in \nAction. Psychological Science 21 (11), 1605–1610. https://doi.org/10.1177/ \n0956797610385353. \nBergemann, N., Parzer, P., Jaggy, S., Auler, B., Mundt, C., Maier-Braunleder, S., 2008. \nEstrogen and comprehension of metaphoric speech in women suffering from \nschizophrenia: results of a double-blind, placebo-controlled trial. Schizophr. Bull. 34, \n1172–1181. https://doi.org/10.1093/schbul/sbm138. \nBerndl, K., von Cranach, M., Grüsser, O.-J., 1986. Impairment of perception and \nrecognition of faces, mimic expression and gestures in schizophrenic patients. Eur. \nArch. Psychiatr. Neurol. Sci. 235, 282–291. https://doi.org/10.1007/BF00515915. \nBosco, Francesca M., Gabbatore, Ilaria, Gastaldo, Luigi, Sacco, Katiuscia, 2016. \nCommunicative-Pragmatic Treatment in Schizophrenia: A Pilot Study. Frontiers in \nPsychology. https://doi.org/10.3389/fpsyg.2016.00166."
+    },
+    {
+        "chunk_id": 71,
+        "source": "paper69",
+        "text": "Communicative-Pragmatic Treatment in Schizophrenia: A Pilot Study. Frontiers in \nPsychology. https://doi.org/10.3389/fpsyg.2016.00166. \nBoutron, Isabelle, Altman, Douglas G., Moher, David, Schulz, Kenneth F., \nRavaud, Philippe, 2017. CONSORT statement for randomized trials of \nnonpharmacologic treatments: a 2017 update and a CONSORT extension for \nnonpharmacologic trial abstracts. Annals of internal medicine 167 (1), 40–47. \nhttps://doi.org/10.7326/M17-0046. \nBucci, S., Startup, M., Wynn, P., Baker, A., Lewin, T.J., 2008. Referential delusions of \ncommunication and interpretations of gestures. Psychiatry Res. 158, 27–34. https:// \ndoi.org/10.1016/j.psychres.2007.07.004. \nCavelti, M., Kircher, T., Nagels, A., Strik, W., Homan, P., 2018. Is formal thought disorder \nin schizophrenia related to structural and functional aberrations in the language \nnetwork? A systematic review of neuroimaging findings. Schizophr. Res. 199, 2–16. \nhttps://doi.org/10.1016/j.schres.2018.02.051."
+    },
+    {
+        "chunk_id": 72,
+        "source": "paper69",
+        "text": "network? A systematic review of neuroimaging findings. Schizophr. Res. 199, 2–16. \nhttps://doi.org/10.1016/j.schres.2018.02.051. \nL. Riedl et al."
+    },
+    {
+        "chunk_id": 73,
+        "source": "paper69",
+        "text": "Schizophrenia Research 246 (2022) 112–125\n123\nChoudhury, M., Steines, M., Nagels, A., Riedl, L., Kircher, T., Straube, B., 2021. Neural \nbasis of speech-gesture mismatch detection in schizophrenia spectrum disorders. \nSchizophr. Bull. https://doi.org/10.1093/schbul/sbab059. \nClegg, J., Brumfitt, S., Parks, R.W., Woodruff, P.W.R., 2007. Speech and language \ntherapy intervention in schizophrenia: a case study. Int. J. Lang. Commun. Disord. \n42, 81–101. https://doi.org/10.1080/13682820601171472. \nCovington, M.A., He, C., Brown, C., Naçi, L., McClain, J.T., Fjordbak, B.S., Semple, J., \nBrown, J., 2005. Schizophrenia and the structure of language: the linguist’s view. \nSchizophr. Res. 77, 85–98. https://doi.org/10.1016/j.schres.2005.01.016. \nCuevas, P., He, Y., Steines, M., Straube, B., 2021. The Processing of Semantic Complexity \nand Co-speech Gestures in Schizophrenia: A Naturalistic, Multimodal fMRI Study. \nbioRxiv. https://doi.org/10.1101/2021.05.18.444612, 2021.05.18.444612."
+    },
+    {
+        "chunk_id": 74,
+        "source": "paper69",
+        "text": "and Co-speech Gestures in Schizophrenia: A Naturalistic, Multimodal fMRI Study. \nbioRxiv. https://doi.org/10.1101/2021.05.18.444612, 2021.05.18.444612.  \nde Bonis, M., Epelbaum, C., Deffez, V., F´eline, A., 1997. The comprehension of metaphors \nin schizophrenia. Psychopathology 30, 149–154. https://doi.org/10.1159/ \n000285041. \nDeLisi, L.E., 2001. Speech disorder in schizophrenia: review of the literature and \nexploration of its relation to the uniquely human capacity for language. Schizophr. \nBull. 27, 481–496. https://doi.org/10.1093/oxfordjournals.schbul.a006889. \nDick, A.S., Goldin-Meadow, S., Hasson, U., Skipper, J.I., Small, S.L., 2009. Co-speech \ngestures influence neural activity in brain regions associated with processing \nsemantic information. Hum. Brain Mapp. 30, 3509–3526. https://doi.org/10.1002/ \nhbm.20774. \nDick, A.S., Mok, E.H., Beharelle, A.R., Goldin-Meadow, S., Small, S.L., 2014. Frontal and"
+    },
+    {
+        "chunk_id": 75,
+        "source": "paper69",
+        "text": "semantic information. Hum. Brain Mapp. 30, 3509–3526. https://doi.org/10.1002/ \nhbm.20774. \nDick, A.S., Mok, E.H., Beharelle, A.R., Goldin-Meadow, S., Small, S.L., 2014. Frontal and \ntemporal contributions to understanding the iconic co-speech gestures that \naccompany speech. Hum. Brain Mapp. 35, 900–917. \nDollfus, S., Petit, M., 1995. Negative symptoms in schizophrenia: their evolution during \nan acute phase. Schizophr. Res. 17, 187–194. https://doi.org/10.1016/0920-9964 \n(94)00087-O. \nDriskell, J.E., Radtke, P.H., 2003. The effect of gesture on speech production and \ncomprehension. Hum. Factors 45, 445–454. https://doi.org/10.1518/ \nhfes.45.3.445.27258. \nEsteban, O., Birman, D., Schaer, M., Koyejo, O.O., Poldrack, R.A., Gorgolewski, K.J., \n2017. MRIQC: advancing the automatic prediction of image quality in MRI from \nunseen sites. PLOS ONE 12, e0184661. https://doi.org/10.1371/journal. \npone.0184661."
+    },
+    {
+        "chunk_id": 76,
+        "source": "paper69",
+        "text": "2017. MRIQC: advancing the automatic prediction of image quality in MRI from \nunseen sites. PLOS ONE 12, e0184661. https://doi.org/10.1371/journal. \npone.0184661. \nEsteban, O., Markiewicz, C.J., Blair, R.W., Moodie, C.A., Isik, A.I., Erramuzpe, A., Kent, J. \nD., Goncalves, M., DuPre, E., Snyder, M., Oya, H., Ghosh, S.S., Wright, J., Durnez, J., \nPoldrack, R.A., Gorgolewski, K.J., 2019. fMRIPrep: a robust preprocessing pipeline \nfor functional MRI. Nat. Methods 16, 111–116. https://doi.org/10.1038/s41592- \n018-0235-4. \nEsteban, O., Markiewicz, C.J., DuPre, E., Goncalves, M., Kent, J.D., Ciric, R., Blair, R.W., \nPoldrack, R.A., Gorgolewski, K.J., 2020a. fMRIPrep: a robust preprocessing pipeline \nfor functional MRI. Zenodo. https://doi.org/10.5281/zenodo.3754722. \nEsteban, O., Markiewicz, C.J., Johnson, H., Ziegler, E., Manh˜aes-Savio, A., Jarecka, D., \nBurns, C., Ellis, D.G., Hamalainen, C., Notter, M.P., Yvernault, B., Salo, T.,"
+    },
+    {
+        "chunk_id": 77,
+        "source": "paper69",
+        "text": "Esteban, O., Markiewicz, C.J., Johnson, H., Ziegler, E., Manh˜aes-Savio, A., Jarecka, D., \nBurns, C., Ellis, D.G., Hamalainen, C., Notter, M.P., Yvernault, B., Salo, T., \nWaskom, M., Goncalves, M., Jordan, K., Wong, J., Dewey, B.E., Madison, C., \nBenderoff, E., Clark, Daniel, Loney, F., Clark, Dav, Keshavan, A., Joseph, M., \nNielson, D.M., Dayan, M., Modat, M., Gramfort, A., Bougacha, S., Pinsard, B., \nBerleant, S., Christian, H., Rokem, A., Visconti di Oleggio Castello, M., Halchenko, Y. \nO., Kaczmarzyk, J., Varoquaux, G., ´Ciri´c, R., Moloney, B., DuPre, E., Koudoro, S., \nClark, M.G., Cipollini, B., Wassermann, D., Guillon, J., Markello, R., Hanke, M., \nBuchanan, C., Tungaraza, R., Gillman, A., Pauli, W.M., de Hollander, G., Sikka, S., \nForbes, J., Mordom, D., Iqbal, S., Mancini, M., Malone, I.B., Dubois, M., Schwartz, Y., \nFrohlich, C., Tabas, A., Welch, D., Richie-Halford, A., Tilley II, S., Watanabe II, A.,"
+    },
+    {
+        "chunk_id": 78,
+        "source": "paper69",
+        "text": "Forbes, J., Mordom, D., Iqbal, S., Mancini, M., Malone, I.B., Dubois, M., Schwartz, Y., \nFrohlich, C., Tabas, A., Welch, D., Richie-Halford, A., Tilley II, S., Watanabe II, A., \nNichols II, B.N., Huntenburg II, J.M., Eshaghi II, A., Ginsburg II, D., Schaefer II, A., \nBottenhorn II, K., Cumba II, C., Acland II, B., Heinsfeld II, A.S., Kastman II, E., \nKent II, J.D., Kleesiek II, J., Ghayoor II, A., Erickson II, D., Giavasis II, S., De La \nVega II, A., Liem II, F., Küttner II, R., Perez-Guevara II, M.F., Lee II, J.A., \nMillman II, J., Lai II, J., Zhou II, D., Haselgrove II, C., Glen II, D., Doll II, A., \nRenfro II, M., Correa II, C., Liu II, S., Lampe II, L., Kong II, X.-Z., Hallquist II, M., \nKim II, S., Kahn II, A.E., Glatard II, T., Triplett II, W., Chawla II, K., Salvatore II, J., \nP´erez-García II, F., Ma II, F., Park II, A., Craddock II, R.C., Hinds II, O., \nPoldrack II, R., Perkins II, L.N., Stojic II, H., Chetverikov II, A., Inati II, S.,"
+    },
+    {
+        "chunk_id": 79,
+        "source": "paper69",
+        "text": "P´erez-García II, F., Ma II, F., Park II, A., Craddock II, R.C., Hinds II, O., \nPoldrack II, R., Perkins II, L.N., Stojic II, H., Chetverikov II, A., Inati II, S., \nGrignard II, M., Snoek II, L., Sisk II, L.M., Leinweber II, K., WEN II, Junhao, \nUrchs II, S., Blair II, R., Matsubara II, K., Floren II, A., Mattfeld II, A., Gerhard II, S., \nStadler II, J., Cooper II, G., Haehn II, D., Broderick II, W., Andberg II, S.K., \nNoel II, M., Cieslak II, M., Durnez II, J., Condamine II, E., Papadopoulos \nOrfanos II, D., Geisler II, D., Meyers II, B., Tambini II, A., Weinstein II, A., Gonz´alez \nOrozco II, A.A., Harms II, R., Khanuja II, R., Sharp II, P., Stanley II, O., Lee II, N., \nCrusoe II, M.R., Brett II, M., Falkiewicz II, M., Weninger II, L., Podranski II, K., \nLinkersd¨orfer II, J., Flandin II, G., Lerma-Usabiaga II, G., Tarbert II, C., Cheung II, B., \nVan II, A., Davison II, A., Shachnev II, D., Molina-Romero II, M., Rothmei II, S.,"
+    },
+    {
+        "chunk_id": 80,
+        "source": "paper69",
+        "text": "Linkersd¨orfer II, J., Flandin II, G., Lerma-Usabiaga II, G., Tarbert II, C., Cheung II, B., \nVan II, A., Davison II, A., Shachnev II, D., Molina-Romero II, M., Rothmei II, S., \nBilgel II, M., Schlamp II, K., Ort II, E., McNamee II, D., Arias II, J., Bielievtsov II, D., \nSteele II, C.J., Huang II, L., Gonzalez II, I., Warner II, J., Margulies II, D.S., \nContier II, O., Marina II, A., Saase II, V., Nickson II, T., Varada II, J., \nSchwabacher II, I., Pellman II, J., Khanuja II, R., Pannetier II, N., \nMcDermottroe II, C., Mihai II, P.G., Lai II, J., Gorgolewski II, K.J., Ghosh II, S., 2020. \nnipy/nipype: 1.4.2. Zenodo. https://doi.org/10.5281/zenodo.3668316. \nFalkai, P. (Ed.), 2016. Praxishandbuch Schizophrenie – Diagnostik Therapie \nVersorgungsstrukturen, 1st ed. Fortschritte der Neurologischen Psychiatrie. Thieme, \nNew York.  \nFoxx, R.M., McMorrow, M.J., Davis, L.A., Bittle, R.G., 1988. Replacing a chronic \nschizophrenic man's delusional speech with stimulus appropriate responses."
+    },
+    {
+        "chunk_id": 81,
+        "source": "paper69",
+        "text": "New York.  \nFoxx, R.M., McMorrow, M.J., Davis, L.A., Bittle, R.G., 1988. Replacing a chronic \nschizophrenic man's delusional speech with stimulus appropriate responses. \nJ. Behav. Ther. Exp. Psychiatry 19, 43–50. https://doi.org/10.1016/0005-7916(88) \n90009-2. \nFriston, K.J., Holmes, A.P., Poline, J.-B., Grasby, P.J., Williams, S.C.R., Frackowiak, R.S. \nJ., Turner, R., 1995. Analysis of fMRI time-series revisited. NeuroImage 2, 45–53. \nhttps://doi.org/10.1006/nimg.1995.1007. \nGaebel, W., W¨olwer, W., 2010. Gesundheitsberichterstattung Des Bundes Heft, 50. Rober \nKoch Institut, Berlin.  \nGeschwind, N., 1970. The organization of language and the brain. Science 170, 940–944. \nGlaesmer, H., Grande, G., Braehler, E., Roth, M., 2011. The german version of the \nsatisfaction with life scale (SWLS). Eur. J. Psychol. Assess. 27, 127–132. https://doi. \norg/10.1027/1015-5759/a000058. \nGordon, A., Davis, P.J., Patterson, S., Pepping, C.A., Scott, J.G., Salter, K., Connell, M.,"
+    },
+    {
+        "chunk_id": 82,
+        "source": "paper69",
+        "text": "org/10.1027/1015-5759/a000058. \nGordon, A., Davis, P.J., Patterson, S., Pepping, C.A., Scott, J.G., Salter, K., Connell, M., \n2018. A randomized waitlist control community study of social cognition and \ninteraction training for people with schizophrenia. Br. J. Clin. Psychol. 57, 116–130. \nhttps://doi.org/10.1111/bjc.12161. \nGorgolewski, K., Burns, C.D., Madison, C., Clark, D., Halchenko, Y.O., Waskom, M.L., \nGhosh, S.S., 2011. Nipype: a flexible, lightweight and extensible neuroimaging data \nprocessing framework in python. Front. Neuroinform. 5 https://doi.org/10.3389/ \nfninf.2011.00013. \nGoss, J., 2011. Speech-Gesture Mismatches and Dynamic Coordination in Schizophrenia \n(Ph.D.). The University of Chicago, United States –, Illinois.  \nGreen, A., Straube, B., Weis, S., Jansen, A., Willmes, K., Konrad, K., Kircher, T., 2009. \nNeural integration of iconic and unrelated coverbal gestures: a functional MRI study. \nHum. Brain Mapp. 30, 3309–3324. https://doi.org/10.1002/hbm.20753."
+    },
+    {
+        "chunk_id": 83,
+        "source": "paper69",
+        "text": "Neural integration of iconic and unrelated coverbal gestures: a functional MRI study. \nHum. Brain Mapp. 30, 3309–3324. https://doi.org/10.1002/hbm.20753. \nGupta, T., Osborne, K.J., Mittal, V.A., 2021. Abnormal gesture perception and clinical \nhigh-risk for psychosis. Schizophr. Bull. 47, 938–947. https://doi.org/10.1093/ \nschbul/sbab056. \nHagoort, P., 2013. MUC (memory, unification, control) and beyond. Front. Psychol. 4 \nhttps://doi.org/10.3389/fpsyg.2013.00416. \nHagoort, P., Baggio, G., Willems, R.M., 2009. Semantic unification. In: Gazzaniga, M.S. \n(Ed.), The Cognitive Neurosciences. MIT Press, Cambridge, MA, pp. 819–836. \nHe, Y., Gebhardt, H., Steines, M., Sammer, G., Kircher, T., Nagels, A., Straube, B., 2015. \nThe EEG and fMRI signatures of neural integration: an investigation of meaningful \ngestures and corresponding speech. Neuropsychologia 72, 27–42. https://doi.org/ \n10.1016/j.neuropsychologia.2015.04.018."
+    },
+    {
+        "chunk_id": 84,
+        "source": "paper69",
+        "text": "gestures and corresponding speech. Neuropsychologia 72, 27–42. https://doi.org/ \n10.1016/j.neuropsychologia.2015.04.018. \nHe, Y., Steines, M., Sommer, J., Gebhardt, H., Nagels, A., Sammer, G., Kircher, T., \nStraube, B., 2018. Spatial–temporal dynamics of gesture–speech integration: a \nsimultaneous EEG-fMRI study. Brain Struct. Funct. 1–17 https://doi.org/10.1007/ \ns00429-018-1674-5. \nHe, Y., Steines, M., Sammer, G., Nagels, A., Kircher, T., Straube, B., 2021. Modality- \nspecific dysfunctional neural processing of social-abstract and non-social-concrete \ninformation in schizophrenia. NeuroImage 29, 102568. https://doi.org/10.1016/j. \nnicl.2021.102568. \nHegarty, J.D., Baldessarini, R.J., Tohen, M., Waternaux, C., Oepen, G., 1994. One \nhundred years of schizophrenia: a meta-analysis of the outcome literature. Am. J. \nPsychiatr. 151, 1409–1416. \nHeim, S., 2020. Kognitive Kommunikationsst¨orungen bei schizophrenie und ihre"
+    },
+    {
+        "chunk_id": 85,
+        "source": "paper69",
+        "text": "hundred years of schizophrenia: a meta-analysis of the outcome literature. Am. J. \nPsychiatr. 151, 1409–1416. \nHeim, S., 2020. Kognitive Kommunikationsst¨orungen bei schizophrenie und ihre \nrelevanz für die Logop¨adie/Sprachtherapie. Sprache Stimme Geh¨or. https://doi.org/ \n10.1055/a-1043-7838. \nHeim, S., Dehmer, M., Berger-Tunkel, M., 2019. Beeintr¨achtigungen von sprache und \nkommunikation bei schizophrenie. Nervenarzt 90, 485–489. https://doi.org/ \n10.1007/s00115-018-0647-5. \nHolle, H., Gunter, T.C., 2007. The role of iconic gestures in speech disambiguation: ERP \nevidence. J. Cogn. Neurosci. 19, 1175–1192. https://doi.org/10.1162/ \njocn.2007.19.7.1175. \nHoller, J., Levinson, S.C., 2019. Multimodal language processing in human \ncommunication. Trends Cogn. Sci. 23, 639–652. https://doi.org/10.1016/j. \ntics.2019.05.006. \nHoward, K.I., Kopta, S.M., Krause, M.S., Orlinsky, D.E., 1986. The dose–effect \nrelationship in psychotherapy. Am. Psychol. 41, 159."
+    },
+    {
+        "chunk_id": 86,
+        "source": "paper69",
+        "text": "tics.2019.05.006. \nHoward, K.I., Kopta, S.M., Krause, M.S., Orlinsky, D.E., 1986. The dose–effect \nrelationship in psychotherapy. Am. Psychol. 41, 159. \nIakimova, G., Passerieux, C., Denhi`ere, G., Laurent, J.-P., Vistoli, D., Vilain, J., Hardy- \nBayl´e, M.-C., 2010. The influence of idiomatic salience during the comprehension of \nambiguous idioms by patients with schizophrenia. Psychiatry Res. 177, 46–54. \nhttps://doi.org/10.1016/j.psychres.2010.02.005. \nJ¨a¨askel¨ainen, E., Juola, P., Hirvonen, N., McGrath, J.J., Saha, S., Isohanni, M., Veijola, J., \nMiettunen, J., 2013. A systematic review and meta-analysis of recovery in \nschizophrenia. Schizophr. Bull. 39, 1296–1306. https://doi.org/10.1093/schbul/ \nsbs130. \nJoue, G., Boven, L., Willmes, K., Evola, V., Demenescu, L.R., Hassemer, J., Mittelberg, I., \nMathiak, K., Schneider, F., Habel, U., 2020. Metaphor processing is supramodal \nsemantic processing: the role of the bilateral lateral temporal regions in multimodal"
+    },
+    {
+        "chunk_id": 87,
+        "source": "paper69",
+        "text": "Mathiak, K., Schneider, F., Habel, U., 2020. Metaphor processing is supramodal \nsemantic processing: the role of the bilateral lateral temporal regions in multimodal \ncommunication. Brain Lang. 205, 104772 https://doi.org/10.1016/j. \nbandl.2020.104772. \nJoyal, M., Bonneau, A., Fecteau, S., 2016. Speech and language therapies to improve \npragmatics and discourse skills in patients with schizophrenia. Psychiatry Res. 240, \n88–95. https://doi.org/10.1016/j.psychres.2016.04.010. \nKauschke, C., 2019. Linguistische Perspektiven auf Emotion und Sprache. In: \nKappelhoff, H., Bakels, J.-H., Lehmann, H., Schmitt, C. (Eds.), Emotionen: Ein \ninterdisziplin¨ares Handbuch. J.B. Metzler, Stuttgart, pp. 262–271. https://doi.org/ \n10.1007/978-3-476-05353-4_41. \nKelly, S.D., Barr, D.J., Church, R.B., Lynch, K., 1999. Offering a hand to pragmatic \nunderstanding: the role of speech and gesture in comprehension and memory. \nJ. Mem. Lang. 40, 577–592. https://doi.org/10.1006/jmla.1999.2634."
+    },
+    {
+        "chunk_id": 88,
+        "source": "paper69",
+        "text": "understanding: the role of speech and gesture in comprehension and memory. \nJ. Mem. Lang. 40, 577–592. https://doi.org/10.1006/jmla.1999.2634. \nKelly, S.D., ¨Ozyürek, A., Maris, E., 2010. Two sides of the same coin: speech and gesture \nmutually interact to enhance comprehension. Psychol. Sci. 21, 260–267. https://doi. \norg/10.1177/0956797609357327. \nKindler, J., Michel, C., Schultze-Lutter, F., Felber, G., Hauf, M., Schimmelmann, B.G., \nKaess, M., Hubl, D., Walther, S., 2019. Functional and structural correlates of \nL. Riedl et al."
+    },
+    {
+        "chunk_id": 89,
+        "source": "paper69",
+        "text": "Schizophrenia Research 246 (2022) 112–125\n124\nabnormal involuntary movements in psychosis risk and first episode psychosis. \nSchizophr. Res. 212, 196–203. https://doi.org/10.1016/j.schres.2019.07.032. \nKintsch, W., Van Dijk, T.A., 1978. Toward a model of text comprehension and \nproduction. Psychol. Rev. 85, 363. \nKircher, T., Gauggel, S., 2008. Neuropsychologie der Schizophrenie: Symptome, \nKognition. Springer-Verlag, Berlin Heidelberg, Berlin, Heidelberg, Gehirn.  \nKircher, T., Leube, D., Erb, M., Grodd, W., Rapp, A., 2007. Neural correlates of metaphor \nprocessing in schizophrenia. NeuroImage 34, 281–289. https://doi.org/10.1016/j. \nneuroimage.2006.08.044. \nKircher, T., Straube, B., Leube, D., Weis, S., Sachs, O., Willmes, K., Konrad, K., Green, A., \n2009. Neural interaction of speech and gesture: differential activations of \nmetaphoric co-verbal gestures. Neuropsychologia 47, 169–179. https://doi.org/ \n10.1016/j.neuropsychologia.2008.08.009."
+    },
+    {
+        "chunk_id": 90,
+        "source": "paper69",
+        "text": "2009. Neural interaction of speech and gesture: differential activations of \nmetaphoric co-verbal gestures. Neuropsychologia 47, 169–179. https://doi.org/ \n10.1016/j.neuropsychologia.2008.08.009. \nKircher, T., Krug, A., Stratmann, M., Ghazi, S., Schales, C., Frauenheim, M., Turner, L., \nF¨ahrmann, P., Hornig, T., Katzev, M., Grosvald, M., Müller-Isberner, R., Nagels, A., \n2014. A rating scale for the assessment of objective and subjective formal thought \nand language disorder (TALD). Schizophr. Res. 160, 216–221. https://doi.org/ \n10.1016/j.schres.2014.10.024. \nKondel, T., Hirsch, S., Laws, K., 2006. Name relearning in elderly patients with \nschizophrenia: episodic and temporary, not semantic and permanent. Cogn. \nNeuropsychiatry 11, 1–12. https://doi.org/10.1080/13546800444000137. \nKramer, S., Bryan, K., Frith, C.D., 2001. Mental illness and communication. Int. J. Lang. \nCommun.Disord. 36, 132–137. https://doi.org/10.3109/13682820109177872."
+    },
+    {
+        "chunk_id": 91,
+        "source": "paper69",
+        "text": "Kramer, S., Bryan, K., Frith, C.D., 2001. Mental illness and communication. Int. J. Lang. \nCommun.Disord. 36, 132–137. https://doi.org/10.3109/13682820109177872. \nLakoff, G., Johnson, M., 2008. Metaphors We Live by. University of Chicago Press. \nLavelle, M., Healey, P.G.T., McCabe, R., 2014. Nonverbal behavior during face-to-face \nsocial interaction in schizophrenia: a review. J. Nerv. Ment. Dis. 202, 47–54. https:// \ndoi.org/10.1097/NMD.0000000000000031. \nMaricchiolo, F., Gnisci, A., Bonaiuto, M., Ficca, G., 2009. Effects of different types of \nhand gestures in persuasive speech on receivers' evaluations. Lang. Cogn. Process. \n24, 239–266. https://doi.org/10.1080/01690960802159929. \nMarini, A., Spoletini, I., Rubino, I.A., Ciuffa, M., Bria, P., Martinotti, G., Banfi, G., \nBoccascino, R., Strom, P., Siracusano, A., Caltagirone, C., Spalletta, G., 2008. The \nlanguage of schizophrenia: an analysis of micro and macrolinguistic abilities and"
+    },
+    {
+        "chunk_id": 92,
+        "source": "paper69",
+        "text": "Boccascino, R., Strom, P., Siracusano, A., Caltagirone, C., Spalletta, G., 2008. The \nlanguage of schizophrenia: an analysis of micro and macrolinguistic abilities and \ntheir neuropsychological correlates. Schizophr. Res. 105, 144–155. https://doi.org/ \n10.1016/j.schres.2008.07.011. \nMatthews, N., Gold, B.J., Sekuler, R., Park, S., 2013. Gesture imitation in schizophrenia. \nSchizophr. Bull. 39, 94–101. https://doi.org/10.1093/schbul/sbr062. \nMcCabe, R., Healey, P.G.T., Priebe, S., Lavelle, M., Dodwell, D., Laugharne, R., Snell, A., \nBremner, S., 2013. Shared understanding in psychiatrist–patient communication: \nassociation with treatment adherence in schizophrenia. Patient Educ. Couns. 93, \n73–79. https://doi.org/10.1016/j.pec.2013.05.015. \nMittal, V.A., Tessner, K.D., McMillan, A.L., Delawalla, Z., Trotman, H.D., Walker, E.F., \n2006. Gesture behavior in unmedicated schizotypal adolescents. J. Abnorm. Psychol. \n115, 351–358. https://doi.org/10.1037/2F0021-843X.115.2.351."
+    },
+    {
+        "chunk_id": 93,
+        "source": "paper69",
+        "text": "2006. Gesture behavior in unmedicated schizotypal adolescents. J. Abnorm. Psychol. \n115, 351–358. https://doi.org/10.1037/2F0021-843X.115.2.351. \nNagels, A., Kircher, T., Steines, M., Grosvald, M., Straube, B., 2015. A brief self-rating \nscale for the assessment of individual differences in gesture perception and \nproduction. Learn. Individ. Differ. 39, 73–80. \nNagels, A., Kircher, T., Grosvald, M., Steines, M., Straube, B., 2019. Evidence for gesture- \nspeech mismatch detection impairments in schizophrenia. Psychiatry Res. 15–21 \nhttps://doi.org/10.1016/j.psychres.2018.12.107. \nNathan, M.J., Alibali, M.W., 2011. How gesture use enables intersubjectivity in the \nclassroom. In: Stam, G., Ishino, M. (Eds.), Integrating Gestures: The Interdisciplinary \nNature of Gesture, pp. 257–266. \nNewton, R., Rouleau, A., Nylander, A.-G., Loze, J.-Y., Resemann, H.K., Steeves, S., \nCrespo-Facorro, B., 2018. Diverse definitions of the early course of schizophrenia—a"
+    },
+    {
+        "chunk_id": 94,
+        "source": "paper69",
+        "text": "Newton, R., Rouleau, A., Nylander, A.-G., Loze, J.-Y., Resemann, H.K., Steeves, S., \nCrespo-Facorro, B., 2018. Diverse definitions of the early course of schizophrenia—a \ntargeted literature review. npj Schizophr 4, 1–10. https://doi.org/10.1038/s41537- \n018-0063-7. \nOjeda, N., Pe˜na, J., S´anchez, P., Bengoetxea, E., Elizag´arate, E., Ezcurra, J., Guti´errez \nFraile, M., 2012. Efficiency of cognitive rehabilitation with REHACOP in chronic \ntreatment resistant hispanic patients. NeuroRehabilitation 30, 65–74. https://doi. \norg/10.3233/NRE-2011-0728. \nPatil, I., 2021. Visualizations with statistical details: the “ggstatsplot” approach. J. Open \nSource Softw. 6, 3167. https://doi.org/10.21105/joss.03167. \nPavot, W., Diener, E., 2009. Review of the satisfaction with Life Scale. In: Diener, E. \n(Ed.), Assessing Well-Being: The Collected Works of Ed Diener, Social Indicators \nResearch Series. Springer, Netherlands, Dordrecht, pp. 101–117. https://doi.org/ \n10.1007/978-90-481-2354-4_5."
+    },
+    {
+        "chunk_id": 95,
+        "source": "paper69",
+        "text": "(Ed.), Assessing Well-Being: The Collected Works of Ed Diener, Social Indicators \nResearch Series. Springer, Netherlands, Dordrecht, pp. 101–117. https://doi.org/ \n10.1007/978-90-481-2354-4_5. \nPenad´es, R., Gonz´alez-Rodríguez, A., Catal´an, R., Segura, B., Bernardo, M., Junqu´e, C., \n2017. Neuroimaging studies of cognitive remediation in schizophrenia: a systematic \nand critical review. World J. Psychiatry 7, 34–43. https://doi.org/10.5498/wjp.v7. \ni1.34. \nRapp, A., Schmierer, P., 2010. Proverbs and nonliteral language in schizophrenia. A \nsystematic methodological review of all studies published 1931-2010. In: \nSchizophrenia Research, 2nd Biennial Schizophrenia International Research \nConference, 117, p. 422. https://doi.org/10.1016/j.schres.2010.02.775. \nRiedl, L., Nagels, A., Sammer, G., Straube, B., 2020. A multimodal speech-gesture \ntraining intervention for patients with schizophrenia and its neural underpinnings –"
+    },
+    {
+        "chunk_id": 96,
+        "source": "paper69",
+        "text": "Riedl, L., Nagels, A., Sammer, G., Straube, B., 2020. A multimodal speech-gesture \ntraining intervention for patients with schizophrenia and its neural underpinnings – \nthe study protocol of a randomized controlled pilot trial. Front. Psychiatry 11, 110. \nhttps://doi.org/10.3389/fpsyt.2020.00110. \nRolls, E.T., Joliot, M., Tzourio-Mazoyer, N., 2015. Implementation of a new parcellation \nof the orbitofrontal cortex in the automated anatomical labeling atlas. NeuroImage \n122, 1–5. https://doi.org/10.1016/j.neuroimage.2015.07.075. \nRosenkranz, A., Kircher, T., Nagels, A., 2019. Neuropsychological correlates underlying \nverbal fluency deficits in schizophrenia: the role of attention and executive function. \nIn: Interdisciplinary Linguistics and Psychiatric Research on Language Disorders, \npp. 45–54. \nRossetti, I., Brambilla, P., Papagno, C., 2018. Metaphor comprehension in schizophrenic \npatients. Front. Psychol. 9, 670. https://doi.org/10.3389/fpsyg.2018.00670."
+    },
+    {
+        "chunk_id": 97,
+        "source": "paper69",
+        "text": "pp. 45–54. \nRossetti, I., Brambilla, P., Papagno, C., 2018. Metaphor comprehension in schizophrenic \npatients. Front. Psychol. 9, 670. https://doi.org/10.3389/fpsyg.2018.00670. \nRStudio, P., 2021. RStudio: Integrated Development Environment for R. Boston, MA. \nRudner, M., 2018. Working memory for linguistic and non-linguistic manual gestures: \nevidence, theory, and application. Front. Psychol. 9 https://doi.org/10.3389/ \nfpsyg.2018.00679. \nSantos, Ariana Elite dos, Pedr˜ao, Luiz Jorge, Zamberlan-Amorim, Nelma Ellen, \nFurlan, Julia Del Lama, Carvalho, Ana Maria Pimenta, 2021. Effectiveness of the \nspeech language intervention on the communicative behavior in groups of \nindividuals diagnosed with schizophrenia. CoDAS. https://doi.org/10.1590/2317- \n1782/20202020088. \nSchülke, R., Straube, B., 2019. Transcranial direct current stimulation improves semantic \nspeech-gesture matching in patients with schizophrenia Spectrum disorder."
+    },
+    {
+        "chunk_id": 98,
+        "source": "paper69",
+        "text": "1782/20202020088. \nSchülke, R., Straube, B., 2019. Transcranial direct current stimulation improves semantic \nspeech-gesture matching in patients with schizophrenia Spectrum disorder. \nSchizophr. Bull. 45, 522–530. https://doi.org/10.1093/schbul/sby144. \nSlotnick, S.D., 2017. Cluster success: fMRI inferences for spatial extent have acceptable \nfalse-positive rates. Cogn. Neurosci. 8, 150–155. https://doi.org/10.1080/ \n17588928.2017.1319350. \nSlotnick, S.D., Moo, L.R., Segal, J.B., Hart, J., 2003. Distinct prefrontal cortex activity \nassociated with item memory and source memory for visual shapes. Cogn. Brain Res. \n17, 75–82. https://doi.org/10.1016/S0926-6410(03)00082-X. \nSteines, M., Nagels, A., Kircher, T., Straube, B., 2021. The role of the left and right \ninferior frontal gyrus in processing metaphoric and unrelated co-speech gestures. \nNeuroImage 237, 118182. https://doi.org/10.1016/j.neuroimage.2021.118182."
+    },
+    {
+        "chunk_id": 99,
+        "source": "paper69",
+        "text": "inferior frontal gyrus in processing metaphoric and unrelated co-speech gestures. \nNeuroImage 237, 118182. https://doi.org/10.1016/j.neuroimage.2021.118182. \nStevenson, R.A., VanDerKlok, R.M., Pisoni, D.B., James, T.W., 2011. Discrete neural \nsubstrates underlie complementary audiovisual speech integration processes. \nNeuroImage 55, 1339–1345. https://doi.org/10.1016/j.neuroimage.2010.12.063. \nStraube, B., Green, A., Weis, S., Chatterjee, A., Kircher, T., 2009. Memory effects of \nspeech and gesture binding: cortical and hippocampal activation in relation to \nsubsequent memory performance. J. Cogn. Neurosci. 21, 821–836. https://doi.org/ \n10.1162/jocn.2009.21053. \nStraube, B., Green, A., Bromberger, B., Kircher, T., 2011. The differentiation of iconic \nand metaphoric gestures: common and unique integration processes. Hum. Brain \nMapp. 32, 520–533. https://doi.org/10.1002/hbm.21041. \nStraube, B., Green, A., Sass, K., Kirner-Veselinovic, A., Kircher, T., 2013a. Neural"
+    },
+    {
+        "chunk_id": 100,
+        "source": "paper69",
+        "text": "Mapp. 32, 520–533. https://doi.org/10.1002/hbm.21041. \nStraube, B., Green, A., Sass, K., Kirner-Veselinovic, A., Kircher, T., 2013a. Neural \nintegration of speech and gesture in schizophrenia: evidence for differential \nprocessing of metaphoric gestures. Hum. Brain Mapp. 34, 1696–1712. https://doi. \norg/10.1002/hbm.22015. \nStraube, B., He, Y., Steines, M., Gebhardt, H., Kircher, T., Sammer, G., Nagels, A., 2013b. \nSupramodal neural processing of abstract information conveyed by speech and \ngesture. Front. Behav. Neurosci. 7, 51–64. https://doi.org/10.3389/ \nfnbeh.2013.00120. \nStraube, B., Green, A., Sass, K., Kircher, T., 2014. Superior temporal sulcus \ndisconnectivity during processing of metaphoric gestures in schizophrenia. \nSchizophr. Bull. 40, 936–944. https://doi.org/10.1093/schbul/sbt110. \nTroisi, A., Spalletta, G., Pasini, A., 1998. Non-verbal behaviour deficits in schizophrenia: \nan ethological study of drug-free patients. Acta Psychiatr. Scand. 97, 109–115."
+    },
+    {
+        "chunk_id": 101,
+        "source": "paper69",
+        "text": "Troisi, A., Spalletta, G., Pasini, A., 1998. Non-verbal behaviour deficits in schizophrenia: \nan ethological study of drug-free patients. Acta Psychiatr. Scand. 97, 109–115. \nTzourio-Mazoyer, N., Landeau, B., Papathanassiou, D., Crivello, F., Etard, O., \nDelcroix, N., Mazoyer, B., Joliot, M., 2002. Automated anatomical labeling of \nactivations in SPM using a macroscopic anatomical parcellation of the MNI MRI \nsingle-subject brain. NeuroImage 15, 273–289. https://doi.org/10.1006/ \nnimg.2001.0978. \nVanbellingen, T., Kersten, B., Winckel, A. Van de, Bellion, M., Baronti, F., Müri, R., \nBohlhalter, S., 2011. A new bedside test of gestures in stroke: the apraxia screen of \nTULIA (AST). Journal of Neurology, Neurosurgery & Psychiatry 82 (4), 389–392. \nhttps://doi.org/10.1136/jnnp.2010.213371. \nVianin, P., Urben, S., Magistretti, P., Marquet, P., Fornari, E., Jaugey, L., 2014. Increased \nactivation in Broca’s area after cognitive remediation in schizophrenia. Psychiatry"
+    },
+    {
+        "chunk_id": 102,
+        "source": "paper69",
+        "text": "Vianin, P., Urben, S., Magistretti, P., Marquet, P., Fornari, E., Jaugey, L., 2014. Increased \nactivation in Broca’s area after cognitive remediation in schizophrenia. Psychiatry \nRes. Neuroimaging 221, 204–209. https://doi.org/10.1016/j. \npscychresns.2014.01.004. \nWalther, S., Vanbellingen, T., Müri, R., Strik, W., Bohlhalter, S., 2013a. Impaired gesture \nperformance in schizophrenia: particular vulnerability of meaningless pantomimes. \nNeuropsychologia 51, 2674–2678. https://doi.org/10.1016/j. \nneuropsychologia.2013.08.017. \nWalther, S., Vanbellingen, T., Müri, R., Strik, W., Bohlhalter, S., 2013b. Impaired \npantomime in schizophrenia: association with frontal lobe function. Cortex 49, \n520–527. https://doi.org/10.1016/j.cortex.2011.12.008. \nWalther, S., Stegmayer, K., Sulzbacher, J., Vanbellingen, T., Müri, R., Strik, W., \nBohlhalter, S., 2015. Nonverbal social communication and gesture control in \nschizophrenia. Schizophr. Bull. 41, 338–345. https://doi.org/10.1093/schbul/"
+    },
+    {
+        "chunk_id": 103,
+        "source": "paper69",
+        "text": "Bohlhalter, S., 2015. Nonverbal social communication and gesture control in \nschizophrenia. Schizophr. Bull. 41, 338–345. https://doi.org/10.1093/schbul/ \nsbu222. \nWalther, S., Eisenhardt, S., Bohlhalter, S., Vanbellingen, T., Müri, R., Strik, W., \nStegmayer, K., 2016. Gesture performance in schizophrenia predicts functional \noutcome after 6 months. Schizophr. Bull. 42, 1326–1333. https://doi.org/10.1093/ \nschbul/sbw124. \nWalther, S., Kunz, M., Müller, M., Zürcher, C., Vladimirova, I., Bachofner, H., Scherer, K. \nA., Nadesalingam, N., Stegmayer, K., Bohlhalter, S., Viher, P.V., 2020. Single session \ntranscranial magnetic stimulation ameliorates hand gesture deficits in \nschizophrenia. Schizophr. Bull. 46, 286–293. https://doi.org/10.1093/schbul/ \nsbz078. \nWende, K., Straube, B., Stratmann, M., Sommer, J., Kircher, T., Nagels, A., 2012. Neural \ncorrelates of continuous causal word generation. NeuroImage 62, 1399–1407. \nhttps://doi.org/10.1016/j.neuroimage.2012.06.003."
+    },
+    {
+        "chunk_id": 104,
+        "source": "paper69",
+        "text": "correlates of continuous causal word generation. NeuroImage 62, 1399–1407. \nhttps://doi.org/10.1016/j.neuroimage.2012.06.003. \nWhite, T.P., Borgan, F., Ralley, O., Shergill, S.S., 2016. You looking at me?: interpreting \nsocial cues in schizophrenia. Psychol. Med. 46, 149–160. https://doi.org/10.1017/ \nS0033291715001622. \nL. Riedl et al."
+    },
+    {
+        "chunk_id": 105,
+        "source": "paper69",
+        "text": "Schizophrenia Research 246 (2022) 112–125\n125\nWillems, R.M., Hagoort, P., 2007. Neural evidence for the interplay between language, \ngesture, and action: a review. Brain Lang. Gesture Brain Lang. 101, 278–289. \nhttps://doi.org/10.1016/j.bandl.2007.03.004. \nWorld Health Organization, 1992. The ICD-10 Classification of Mental and Behavioural \nDisorders: Clinical Descriptions and Diagnostic Guidelines. World Health \nOrganization. \nWorsley, K.J., Friston, K.J., 1995. Analysis of fMRI time-series Revisited—Again. \nNeuroImage 2, 173–181. https://doi.org/10.1006/nimg.1995.1023. \nWroblewski, Adrian, He, Yifei, Straube, Benjamin, 2020. Dynamic Causal Modelling \nsuggests impaired effective connectivity in patients with schizophrenia spectrum \ndisorders during gesture-speech integration 216, 175–183. https://doi.org/10.1016/ \nj.schres.2019.12.005. \nWüthrich, F., Pavlidou, A., Stegmayer, K., Eisenhardt, S., Moor, J., Sch¨appi, L.,"
+    },
+    {
+        "chunk_id": 106,
+        "source": "paper69",
+        "text": "disorders during gesture-speech integration 216, 175–183. https://doi.org/10.1016/ \nj.schres.2019.12.005. \nWüthrich, F., Pavlidou, A., Stegmayer, K., Eisenhardt, S., Moor, J., Sch¨appi, L., \nVanbellingen, T., Bohlhalter, S., Walther, S., 2020. Nonverbal communication \nremains untouched: no beneficial effect of symptomatic improvement on poor \ngesture performance in schizophrenia. Schizophr. Res. 223, 258–264. https://doi. \norg/10.1016/j.schres.2020.08.013. \nWykes, T., 1998. What are we changing with neurocognitive rehabilitation?: illustrations \nfrom two single cases of changes in neuropsychological performance and brain \nsystems as measured by SPECT. Schizophr. Res. 34, 77–86. https://doi.org/10.1016/ \nS0920-9964(98)00076-0. \nL. Riedl et al."
+    }
+]

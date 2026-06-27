@@ -7,10 +7,10 @@ __pycache__/
 *.pyc
 
 # Data (videos, frames, splits)
-src/data/raw/
-src/data/interim/
-src/data/processed/
-src/data/splits/
+data/raw/
+data/interim/
+data/processed/
+data/splits/
 
 # Artifacts & outputs
 artifacts/

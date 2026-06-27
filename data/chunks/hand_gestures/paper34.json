@@ -1,0 +1,382 @@
+[
+    {
+        "chunk_id": 1,
+        "source": "paper34",
+        "text": "Citation: Tan, C.K.; Lim, K.M.;\nChang, R.K.Y.; Lee, C.P.; Alqahtani, A.\nHGR-ViT: Hand Gesture Recognition\nwith Vision Transformer. Sensors\n2023, 23, 5555. https://doi.org/\n10.3390/s23125555\nAcademic Editor: George D.\nMagoulas\nReceived: 17 April 2023\nRevised: 20 May 2023\nAccepted: 22 May 2023\nPublished: 14 June 2023\nCopyright:\n© 2023 by the authors.\nLicensee MDPI, Basel, Switzerland.\nThis article is an open access article\ndistributed\nunder\nthe\nterms\nand\nconditions of the Creative Commons\nAttribution (CC BY) license (https://\ncreativecommons.org/licenses/by/\n4.0/).\nsensors\nArticle\nHGR-ViT: Hand Gesture Recognition with Vision Transformer\nChun Keat Tan 1, Kian Ming Lim 1,*\n, Roy Kwang Yang Chang 1, Chin Poo Lee 1\nand Ali Alqahtani 2,3\n1\nFaculty of Information Science and Technology, Multimedia University, Jalan Ayer Keroh Lama,\nMelaka 75450, Malaysia; 1181101099@student.mmu.edu.my (C.K.T.); kychang@mmu.edu.my (R.K.Y.C.);\ncplee@mmu.edu.my (C.P.L.)\n2"
+    },
+    {
+        "chunk_id": 2,
+        "source": "paper34",
+        "text": "Melaka 75450, Malaysia; 1181101099@student.mmu.edu.my (C.K.T.); kychang@mmu.edu.my (R.K.Y.C.);\ncplee@mmu.edu.my (C.P.L.)\n2\nDepartment of Computer Science, King Khalid University, Abha 61421, Saudi Arabia; amosfer@kku.edu.sa\n3\nCenter for Artiﬁcial Intelligence (CAI), King Khalid University, Abha 61421, Saudi Arabia\n*\nCorrespondence: kmlim@mmu.edu.my\nAbstract: Hand gesture recognition (HGR) is a crucial area of research that enhances communication\nby overcoming language barriers and facilitating human-computer interaction. Although previous\nworks in HGR have employed deep neural networks, they fail to encode the orientation and position\nof the hand in the image. To address this issue, this paper proposes HGR-ViT, a Vision Transformer\n(ViT) model with an attention mechanism for hand gesture recognition. Given a hand gesture image,\nit is ﬁrst split into ﬁxed size patches. Positional embedding is added to these embeddings to form"
+    },
+    {
+        "chunk_id": 3,
+        "source": "paper34",
+        "text": "(ViT) model with an attention mechanism for hand gesture recognition. Given a hand gesture image,\nit is ﬁrst split into ﬁxed size patches. Positional embedding is added to these embeddings to form\nlearnable vectors that capture the positional information of the hand patches. The resulting sequence\nof vectors are then served as the input to a standard Transformer encoder to obtain the hand gesture\nrepresentation. A multilayer perceptron head is added to the output of the encoder to classify the\nhand gesture to the correct class. The proposed HGR-ViT obtains an accuracy of 99.98%, 99.36%\nand 99.85% for the American Sign Language (ASL) dataset, ASL with Digits dataset, and National\nUniversity of Singapore (NUS) hand gesture dataset, respectively.\nKeywords: hand gesture recognition; sign language recognition; vision transformer; ViT; attention\n1. Introduction\nHand gestures are a primary mode of communication for humans, with sign language"
+    },
+    {
+        "chunk_id": 4,
+        "source": "paper34",
+        "text": "Keywords: hand gesture recognition; sign language recognition; vision transformer; ViT; attention\n1. Introduction\nHand gestures are a primary mode of communication for humans, with sign language\nbeing a natural form of hand gesture used by the hearing-impaired community to commu-\nnicate. Unfortunately, most people in society are unable to interpret sign language, creating\na language barrier for the mute and deaf community. In general, there are two categories\nof hand gesture recognition: static hand gesture recognition and dynamic hand gesture\nrecognition. Static hand gesture recognition [1–8] involves interpreting hand gestures in\na stationary position, resulting in higher accuracy due to less susceptibility to environmen-\ntal factors. On the other hand, dynamic hand gesture recognition [9–13] recognises gestures\nwith complex movements and temporal dynamics, which are more intuitive, natural, and\nversatile. However, static hand gestures have limitations in the variety of complex hand"
+    },
+    {
+        "chunk_id": 5,
+        "source": "paper34",
+        "text": "with complex movements and temporal dynamics, which are more intuitive, natural, and\nversatile. However, static hand gestures have limitations in the variety of complex hand\ngestures that can be recognised. In view of this, this work is focusing on static hand gesture\nrecognition. Static hand gesture recognition can be divided into two types: vision-based\nand wearable device-based. Vision-based static hand gesture recognition captures hand\ngestures using a camera, while wearable device-based static hand gesture recognition\nacquires hand gestures using wearable devices such as data gloves. The main focus of this\nwork will be on vision-based static hand gesture recognition.\nOver the years, researchers have proposed different methods to address the problem\nof static hand gesture recognition. These methods fall into two categories: hand-crafted ap-\nproaches and deep learning approaches. Hand-crafted approaches, such as Scale Invariant"
+    },
+    {
+        "chunk_id": 6,
+        "source": "paper34",
+        "text": "of static hand gesture recognition. These methods fall into two categories: hand-crafted ap-\nproaches and deep learning approaches. Hand-crafted approaches, such as Scale Invariant\nFeature Transform (SIFT) [14], Histogram of Oriented Gradient (HOG) [15], and Discrete\nWavelet Transform (DWT) [16], extract features from hand gesture images using manual\nfeature extraction methods before passing them to a classiﬁer. These methods are generally\nSensors 2023, 23, 5555. https://doi.org/10.3390/s23125555\nhttps://www.mdpi.com/journal/sensors"
+    },
+    {
+        "chunk_id": 7,
+        "source": "paper34",
+        "text": "Sensors 2023, 23, 5555\n2 of 20\nmore time-consuming compared to deep learning approaches, and they require trial and\nerror processes to ﬁnd the best features for the speciﬁc task, which also consumes a lot of\ncomputational resources. Moreover, hand-crafted approaches may be biased towards the\ndomain expert’s understanding, resulting in extracted features that may not accurately\nrepresent the most important or relevant features for the classiﬁcation task, negatively\nimpacting performance.\nIn contrast, deep learning approaches [17–21] extract features using hidden layers\nof neural networks, such as convolutional neural networks (CNN) and artiﬁcial neural\nnetworks (ANN). The extracted features can be classiﬁed by the same neural network or\npassed to another neural network for classiﬁcation. Deep learning approaches extract more\nsigniﬁcant features, thereby improving classiﬁcation performance. However, while deep"
+    },
+    {
+        "chunk_id": 8,
+        "source": "paper34",
+        "text": "passed to another neural network for classiﬁcation. Deep learning approaches extract more\nsigniﬁcant features, thereby improving classiﬁcation performance. However, while deep\nlearning approaches have achieved better performance than hand-crafted approaches, there\nis still room for improvement or optimization in hand gesture recognition. The proposed\nHGR-ViT addresses this issue by utilising the Vision Transformer model with a self-attention\nmechanism. With the self-attention mechanism, it can enhance the recognition performance\nby capturing complex relationships between image patches. This is particularly useful\nin addressing the challenges posed by visually similar hand gestures. Additionally, the\nproposed HGR-ViT utilises early stopping and adaptive learning rate to prevent overﬁtting\nand reduce generalisation error during the neural network training process.\nThe main contributions of this paper are as follows:\n•"
+    },
+    {
+        "chunk_id": 9,
+        "source": "paper34",
+        "text": "and reduce generalisation error during the neural network training process.\nThe main contributions of this paper are as follows:\n•\nThe Vision Transformer model leverages the self-attention mechanism to capture\ncomplex relationships between the image patches which enables it to better handle\nthe similarity problem between hand gestures as well as variations in pose, lighting,\nbackground and occlusions.\n•\nEarly stopping and adaptive learning rate are introduced to prevent overﬁtting and\nreduce generalisation error.\n•\nEvaluating the proposed HGR-ViT method on three benchmark hand gesture datasets,\nincluding American Sign Language (ASL), ASL with Digits, and National University\nof Singapore (NUS) hand gesture datasets, and achieving promising performance on\nall three datasets.\n2. Related Works\nIn general, static hand gesture recognition can be categorized into two approaches:\nhand-crafted and deep learning. Hand-crafted approaches aim to extract features from"
+    },
+    {
+        "chunk_id": 10,
+        "source": "paper34",
+        "text": "2. Related Works\nIn general, static hand gesture recognition can be categorized into two approaches:\nhand-crafted and deep learning. Hand-crafted approaches aim to extract features from\nhand gesture images using manual feature extraction methods before being classiﬁed by\nclassiﬁers. Scale Invariant Feature Transform (SIFT) was used as the feature extraction\nmethod in [14,22,23]. In [14], SIFT was used to extract the features, followed by a sparse\nautoencoder neural network for the classiﬁcation of hand gesture images. A similar\nwork [22] proposed to utilise SIFT as feature extraction and used a feedforward neural\nnetwork to classify the hand gestures. The authors of [23] proposed a slightly different\napproach where Histogram of Oriented Gradient (HOG) and SIFT feature extractors were\nused together to extract the features which were then fused and classiﬁed by k-nearest\nneighbors (KNN). HOG was used to determine intensity distribution and local edges"
+    },
+    {
+        "chunk_id": 11,
+        "source": "paper34",
+        "text": "used together to extract the features which were then fused and classiﬁed by k-nearest\nneighbors (KNN). HOG was used to determine intensity distribution and local edges\nwhile the SIFT was utilised to capture the gradient orientations with weighted magnitude\nvalues. Later, HOG took over as the feature extraction method of choice by the researchers\nof [15,24] as it involves fewer computations and is more robust to geometric transformations\nsuch as scaling and rotation when compared to SIFT. The authors of [24] used Local\nBinary Pattern (LBP) and HOG together for feature extraction and Adaptive Boosting\n(AdaBoost) for classiﬁcation of hand gestures. They found that the combination of both\nfeature extractors was more robust against nonlinear illumination and image blurring\nand showed an improved recognition rate compared to using them individually. A later\nwork [15] also proposed HOG for feature extraction of hand gesture images."
+    },
+    {
+        "chunk_id": 12,
+        "source": "paper34",
+        "text": "and showed an improved recognition rate compared to using them individually. A later\nwork [15] also proposed HOG for feature extraction of hand gesture images.\nLater, Discrete Wavelet Transform (DWT) emerged as a replacement for HOG as DWT\nis able to capture both local and global features of an image. It is also more robust to noise"
+    },
+    {
+        "chunk_id": 13,
+        "source": "paper34",
+        "text": "Sensors 2023, 23, 5555\n3 of 20\nand illumination changes than HOG which is crucial in hand gesture recognition. The work\nof [25] determined the DWT coefﬁcients using F-ratio to reduce the dimensionality of the\nfeature vector, resulting in a more efﬁcient and faster recognition of hand gesture images.\nSimilarly, Ref. [16] utilised DWT for feature extraction in hand gesture recognition. They\ncreated a characteristic matrix for each image by averaging the values in the contour pixel\nrow and column pair, which produced four different sub-bands. The extracted features\nwere then passed to a Hidden Markov Model (HMM) for classiﬁcation. Recently, Ref. [26]\nproposed a two-dimensional DWT for feature extraction, Speed Up Robust Feature (SURF)\nfor key point detection, and Bag of Feature (BoF) for feature space conversion. Then,\nk-means clustering was used to cluster the key points before passing them to a Support\nVector Machine (SVM) for classiﬁcation. Hand-crafted approaches are time-consuming"
+    },
+    {
+        "chunk_id": 14,
+        "source": "paper34",
+        "text": "k-means clustering was used to cluster the key points before passing them to a Support\nVector Machine (SVM) for classiﬁcation. Hand-crafted approaches are time-consuming\nand require trial and error to ﬁnd the best feature extraction method for hand gesture\nrecognition. Additionally, these methods can be biased towards the domain expert or\nresearcher’s intuition, which may not always represent the most relevant or important\nfeatures. Moreover, these methods have limited generalisability since they are designed for\nspeciﬁc tasks and may not be able to generalize for other tasks.\nIn view of this, researchers have begun utilising deep learning approaches such as\nCNNs [1–4,6,17,27–32] and ANNs [33] over conventional hand-crafted methods. Deep\nlearning approaches have the ability to automatically discover complex and important\nfeatures through their hidden layers, saving time and reducing bias during feature extrac-"
+    },
+    {
+        "chunk_id": 15,
+        "source": "paper34",
+        "text": "learning approaches have the ability to automatically discover complex and important\nfeatures through their hidden layers, saving time and reducing bias during feature extrac-\ntion. Moreover, these models can generalize well to new data as they learn features that\nare useful for a variety of tasks, rather than relying on manually designed hand-crafted\nfeatures. In [17], a parallel CNN was proposed for hand gesture recognition that combined\nthe predictions of an RGB-CNN and Depth-CNN. The RGB-CNN processed RGB hand\ngesture images, while the Depth-CNN processed depth hand gesture images. The ﬁnal\nprediction was determined by combining the predictions from both CNNs. In [27], the\nauthors describe a study that explores the use of image processing techniques and convolu-\ntional neural networks (CNNs) to classify static hand gestures with invariance features. In\naddition, in [31], the authors proposed a six-layer CNN model that consists of conv1, conv2,"
+    },
+    {
+        "chunk_id": 16,
+        "source": "paper34",
+        "text": "tional neural networks (CNNs) to classify static hand gestures with invariance features. In\naddition, in [31], the authors proposed a six-layer CNN model that consists of conv1, conv2,\nSoftMax, max pooling, and fully connected layers to recognise hand gestures. Additionally,\ndigital image processing techniques are utilised to detect a better region of interest that\ncontains the hand sign and reduce errors caused by complex image backgrounds and\nvariable illumination. Later, an adapted deep CNN [28] was proposed, with tuning of\ninitialization and L2 regularization. The authors used uniform He initialization for ReLU\nlayers and uniform Xavier initialization for the SoftMax layer of their proposed CNN model.\nL2 regularization was used to penalize large magnitude weights and reduce the model’s\ncomplexity. Moreover, in [29], a Directed Acyclic Graph (DAG)-CNN network architecture\nfor recognising hand gestures is proposed. The Inception architecture is utilised to increase"
+    },
+    {
+        "chunk_id": 17,
+        "source": "paper34",
+        "text": "complexity. Moreover, in [29], a Directed Acyclic Graph (DAG)-CNN network architecture\nfor recognising hand gestures is proposed. The Inception architecture is utilised to increase\nthe network’s depth and learn more features for each gesture category, compensating for\nvariations in lighting and noise.\nThe authors of [1] proposed a method for hand gesture recognition that employed\ntransfer learning and ﬁne-tuning of a pre-trained VGG19 CNN model. Two VGG19 models\nwere trained, one for RGB images and one for depth images from an augmented ASL\ndataset. Then, the color and depth information from both models were concatenated\nfor classiﬁcation. Similarly, Ref. [2] adopted a pre-trained AlexNet CNN model with\noptimization using the Artiﬁcial Bee Colony (ABC) algorithm. In [30], a two-stage hand\ngesture recognition named HGR-Net was proposed, which involved training of three CNN\nmodels. In the ﬁrst stage, a CNN model was trained for hand gesture segmentation. In"
+    },
+    {
+        "chunk_id": 18,
+        "source": "paper34",
+        "text": "gesture recognition named HGR-Net was proposed, which involved training of three CNN\nmodels. In the ﬁrst stage, a CNN model was trained for hand gesture segmentation. In\nthe second stage, two CNN models were trained on the segmented image and the original\nimage, respectively. The outputs of both models were fused using a fusion function and\nsummed up to obtain the ﬁnal prediction. A recent work by Mujahid et al. [4] proposed a\nmodel for hand gesture recognition using You Only Look Once (YOLO) v3 and DarkNet-53\nCNN. Later, Tan et al. [3] proposed a CNN-SPP architecture that utilised Spatial Pyramid\nPooling (SPP) to capture more spatial information, allowing the network to generalize to"
+    },
+    {
+        "chunk_id": 19,
+        "source": "paper34",
+        "text": "Sensors 2023, 23, 5555\n4 of 20\ncomplex features. Additionally, Tan et al. introduced an enhanced version of DenseNet,\ncalled EDenseNet, in [6]. The modiﬁcation was made to the transition layer by changing the\nﬁrst layer of the transition layer and adding a new layer before the pooling layer, resulting\nin better generalisation. Recently, the authors of [32] introduced a new method that utilises\na standard RGB camera to extract 21 landmarks on the hand and focuses on the cloud of\n3D reference points. They trained the network on hand KeyPoints and developed a new\nnetwork based on the PointNet architecture, which has few hidden layers, allowing for\ndirect CPU usage.\nMost existing works in hand gesture recognition rely on CNNs due to their high\nperformance, but they require a large number of training samples and fail to encode the\nprecise position and orientation of objects. In light of these limitations, this paper proposes"
+    },
+    {
+        "chunk_id": 20,
+        "source": "paper34",
+        "text": "performance, but they require a large number of training samples and fail to encode the\nprecise position and orientation of objects. In light of these limitations, this paper proposes\nleveraging the ViT model, which has the ability to propagate information clearly from\nlower to higher levels. Additionally, the proposed HGR-ViT model can capture the position\nand orientation of complex hand gestures through positional embeddings. Furthermore,\nthe HGR-ViT model obtains global information from the hand gesture images with the\nself-attention mechanism. Table 1 below provides a summary of related works in hand\ngesture recognition.\nTable 1. Table of Summary of Related Works.\nCategory\nMethod\nReference\nHand-Crafted\nSIFT feature extraction with Sparse Autoencoder neural network classiﬁcation\n[14]\nSIFT feature extraction with feedforward neural network classiﬁcation\n[22]\nHOG and SIFT feature extraction with K-Nearest Neighbour classiﬁcation\n[23]"
+    },
+    {
+        "chunk_id": 21,
+        "source": "paper34",
+        "text": "[14]\nSIFT feature extraction with feedforward neural network classiﬁcation\n[22]\nHOG and SIFT feature extraction with K-Nearest Neighbour classiﬁcation\n[23]\nLBP and HOG feature extraction with AdaBoost classiﬁcation\n[24]\nHOG feature extraction with SVM and ANN classiﬁcation\n[15]\nDWT with F-ratio coefﬁcient selection feature extraction with SVM classiﬁcation\n[25]\nDWT feature extraction with HMM classiﬁcation\n[16]\nTwo-dimensional DWT feature extraction, SURF key point extraction and BOF\nfeature space conversion with SVM classiﬁcation\n[26]\nDeep Learning\nRGB and Depth parallel CNN\n[17]\nSmoothing and contrast enhancement, segmentation and delimitation and\nextraction of object of interest before classiﬁcation using CNN\n[27]\nSmoothing and disturbance removal, feature extraction with dilation and erosion\nbefore classiﬁcation using CNN\n[31]\nCNN with network initialisation and L2 regularisation\n[28]\nApplication of CNN with DAG network structure\n[29]\nRGB and Depth parallel transfer learning VGG19"
+    },
+    {
+        "chunk_id": 22,
+        "source": "paper34",
+        "text": "before classiﬁcation using CNN\n[31]\nCNN with network initialisation and L2 regularisation\n[28]\nApplication of CNN with DAG network structure\n[29]\nRGB and Depth parallel transfer learning VGG19\n[1]\nPre-trained AlexNet with optimisation using ABC algorithm\n[2]\nTwo-stage HGR: 1 CNN model trained for hand gesture recognition in ﬁrst stage;\n2 CNN model, 1 trained on segmented image, 1 trained on original image in\nsecond stage\n[30]\nYOLOv3 with DarkNet-53 CNN\n[4]\nCNN with spatial pyramid pooling (CNN-SPP)\n[3]\nDenseNet with modiﬁed transition layer (EDenseNet)\n[6]\nNetwork based on PointNet architecture\n[32]\n3. Hand Gesture Recognition with Vision Transformer (HGR-ViT)\nIn this paper, we propose HGR-ViT, a Vision Transformer model for hand gesture\nrecognition. The input images undergo a preprocessing step where they are resized to\na ﬁxed size and normalized. The resized images are then partitioned into non-overlapping"
+    },
+    {
+        "chunk_id": 23,
+        "source": "paper34",
+        "text": "recognition. The input images undergo a preprocessing step where they are resized to\na ﬁxed size and normalized. The resized images are then partitioned into non-overlapping\npatches and treated as a sequence of pixel values. To embed the patch sequences into\na lower-dimensional space, we use a trainable linear projection layer. To retain the spatial\ninformation, each patch embedding is augmented with a learnable positional encoding. The\npatch embeddings and positional encodings are then processed by a stack of Transformer"
+    },
+    {
+        "chunk_id": 24,
+        "source": "paper34",
+        "text": "Sensors 2023, 23, 5555\n5 of 20\nencoder layers, enabling the model to capture interactions between patches. Finally, the\noutput of the last Transformer encoder layer is fed into a linear projection layer and softmax\nactivation function to obtain the class probabilities. The entire model is trained end-to-end\nusing supervised learning and cross-entropy loss. Figure 1 illustrates the architecture of\nthe proposed HGR-ViT, including the patch embedding, positional encoding, Transformer\nencoder, and classiﬁcation head. Additionally, Algorithm 1 outlines the training procedure\nfor the proposed method.\nFigure 1. Architecture of the proposed HGR-ViT.\nAlgorithm 1 Algorithm of the training procedure of the proposed HGR-ViT\nRequire: Hand gesture training data Dtrain\n1: for e epochs do\n2:\nfor b batch_size do\n3:\nx, y ←Dtrain\n4:\nvit_model(x, y)\n5:\nend for\n6:\nGet es_monitor, es_patience, lr_monitor, lr_patience\n7:\nif es_monitor < self.best and es_patience ⩾self.wait then\n8:\nbreak\n9:\nend if\n10:"
+    },
+    {
+        "chunk_id": 25,
+        "source": "paper34",
+        "text": "3:\nx, y ←Dtrain\n4:\nvit_model(x, y)\n5:\nend for\n6:\nGet es_monitor, es_patience, lr_monitor, lr_patience\n7:\nif es_monitor < self.best and es_patience ⩾self.wait then\n8:\nbreak\n9:\nend if\n10:\nif lr_monitor < self.best and lr_patience ⩾self.wait and lr > min_delta then\n11:\nUpdate learning rate\n12:\nend if\n13: end for\n14: return vit_model\nThe Vision Transformer (ViT) is a neural network model adapted from the Transformer\narchitecture, which is commonly used in Natural Language Processing (NLP) tasks such as\ntext classiﬁcation and translation. ViT was developed by the Google Research Brain Team\nand was ﬁrst published in [34]. Unlike traditional convolutional neural networks (CNNs),\nViT processes the image as a sequence of tokens, similar to how NLP processes text. This\napproach allows ViT to scale to larger image sizes and generalize better to different tasks\nwithout requiring task-speciﬁc modiﬁcations to the architecture. The authors found that ViT"
+    },
+    {
+        "chunk_id": 26,
+        "source": "paper34",
+        "text": "approach allows ViT to scale to larger image sizes and generalize better to different tasks\nwithout requiring task-speciﬁc modiﬁcations to the architecture. The authors found that ViT\noutperforms state-of-the-art CNN models while using only a quarter of the computational\nresources. However, ViT has a weaker inductive bias regarding translation equivariance\nand locality compared to CNN, which limits its ability to generalize well with smaller\namounts of data. To overcome this limitation, ViT requires training on large datasets with\nat least 14 million images. If trained on smaller datasets, ViT’s performance is inferior to"
+    },
+    {
+        "chunk_id": 27,
+        "source": "paper34",
+        "text": "Sensors 2023, 23, 5555\n6 of 20\nother CNN alternatives such as ResNet or EfﬁcientNets. Therefore, in this research, we use\nthe ViT model pre-trained on ImageNet as it is trained on a sufﬁciently large dataset to\nsurpass the performance of state-of-the-art CNNs. The ViT model comes in various sizes\nand patch sizes. For this research, we adopted the ViT-Base 32 (ViT-B32) model, which has\n86 million parameters and a patch size of 32 × 32.\nTo ensure that the hand gesture image can be divided into patches of size 32 × 32, it\nis ﬁrst resized to a dimension of 256 × 256. This particular dimension is chosen because\nit has been found that ﬁne-tuning the ViT at a higher resolution than the pre-training\ndataset (ImageNet-21k at 224 × 224 image dimension) can be more beneﬁcial. Using\nhigher resolution images while maintaining the same patch size results in a larger effective\nsequence length, which can improve performance. Once resized, the hand gesture image"
+    },
+    {
+        "chunk_id": 28,
+        "source": "paper34",
+        "text": "higher resolution images while maintaining the same patch size results in a larger effective\nsequence length, which can improve performance. Once resized, the hand gesture image\nis partitioned into ﬁxed-size patches. The image with height H, width W, and C channels\nis then reshaped into a sequence of ﬂattened 2D patches, represented by xP ∈RN×(P2·C).\nHere, N = HW\nP2 denotes the number of patches as well as the effective sequence length for\nthe transformer, while (P, P) represents the resolution of each image patch.\n3.1. Linear Projection of Flattened Patches\nBefore passing the patches into the Transformer Encoder blocks, they undergo a lin-\near projection process. Each patch is ﬁrst ﬂattened into a vector xn\np of length P2 × C,\nwhere n = 1, . . . , N. Next, a trainable embedding matrix E maps the ﬂattened patches\nto D dimensions to generate a sequence of embedded image patches. To introduce po-\nsitional information and facilitate learning, the patch embeddings are augmented with"
+    },
+    {
+        "chunk_id": 29,
+        "source": "paper34",
+        "text": "to D dimensions to generate a sequence of embedded image patches. To introduce po-\nsitional information and facilitate learning, the patch embeddings are augmented with\none-dimensional positional embeddings Epos, which are learned during the training pro-\ncess. To represent the classiﬁcation output y, a learnable class embedding xclass, similar\nto the class token in Bidirectional Encoder Representations from Transformers (BERT), is\nprepended to the sequence of embedded image patches. The output of the linear projection\nprocess, z0, can be represented using the following equation:\nz0 =\nh\nxclass; x1\npE; x2\npE; . . . ; xpNE\ni\n+ Epos,\n(1)\nwhere E ∈R(P2·C)×D and Epos ∈R(N+1)×D.\nThe formation process of patch embeddings is illustrated in Figure 2. The patch\nembeddings serve as input to the transformer encoder, which allows ViT to effectively\ncapture global patterns and dependencies in the image while also maintaining some spatial\ninformation through the use of patches."
+    },
+    {
+        "chunk_id": 30,
+        "source": "paper34",
+        "text": "capture global patterns and dependencies in the image while also maintaining some spatial\ninformation through the use of patches.\n3.2. Transformer Encoder\nThe Transformer encoder is an important component of the Transformer model. It\nis composed of a stack of L layers, each consisting of two sublayers: a Multi-head Self-\nAttention (MSA) layer and a position-wise feedforward layer, also known as a Multi-Layer\nPerceptron (MLP). These sublayers are arranged sequentially, where the output of each\nlayer serves as the input to the next layer, as shown in Figure 3.\nAt each layer ℓ, the input sequence from the previous layer zℓ−1 is normalized using\nLayer Normalization (LN), which independently normalizes the inputs across the features\ndimension for each example. This improves the stability of the model representations and\ngeneralization performance. The output of LN is passed through the MSA layer, and the\nresulting sequence is normalized again using LN. Finally, the output of the second LN"
+    },
+    {
+        "chunk_id": 31,
+        "source": "paper34",
+        "text": "generalization performance. The output of LN is passed through the MSA layer, and the\nresulting sequence is normalized again using LN. Finally, the output of the second LN\nis passed through the MLP layer, which produces a set of updated patch embeddings.\nResidual connections are added to the MLP layer to address the vanishing gradients prob-\nlem, enabling the model to learn residual functions. The process ﬂow in the Transformer\nEncoder block can be represented using the following equations:\nzℓ′ = MSA(LN(zℓ−1)) + zℓ−1,\nℓ= 1 · · · L\n(2)"
+    },
+    {
+        "chunk_id": 32,
+        "source": "paper34",
+        "text": "Sensors 2023, 23, 5555\n7 of 20\nzℓ= MLP\n\u0000LN\n\u0000zℓ′\u0001\u0001 + z′\nℓ,\nℓ= 1 · · · L\n(3)\nIn summary, the Transformer encoder uses self-attention mechanisms to capture\nglobal dependencies between input tokens, and MLPs to process the resulting represen-\ntations. The residual connections and layer normalization ensure efﬁcient training and\nbetter performance.\nFigure 2. Linear projection process of ViT (* denotes multiplication).\nFigure 3. Architecture of the Transformer Encoder."
+    },
+    {
+        "chunk_id": 33,
+        "source": "paper34",
+        "text": "Sensors 2023, 23, 5555\n8 of 20\n•\nMulti-head Self-Attention (MSA)\nThe MSA (Multi-Head Self-Attention) layer is a critical component of the Transformer\nEncoder block in the ViT (Vision Transformer) model. This layer enables the model to\ncapture the contextual relationships between different parts of an image by analyzing the\ninteractions between the patch embeddings. To achieve this, the MSA layer utilises the\nself-attention mechanism, which allows the model to assign varying importance to different\nelements in a sequence based on their relationships with other elements. In the case of\nViT, the self-attention mechanism is employed to weigh the signiﬁcance of different patch\nembeddings based on their relationships with other patches in the image. The MSA layer\nin ViT is referred to as “multi-head” because it consists of multiple self-attention heads,\neach of which learns to attend to different parts of the input."
+    },
+    {
+        "chunk_id": 34,
+        "source": "paper34",
+        "text": "in ViT is referred to as “multi-head” because it consists of multiple self-attention heads,\neach of which learns to attend to different parts of the input.\nEach self-attention head in the MSA layer comprises three fully connected layers that\nare responsible for computing the queries (Q), keys (K), and values (V) for the attention\nmechanism. The queries, keys, and values are then utilised to compute the attention scores,\nwhich determine the importance of each patch embedding, based on its relationships with\nother patches. These attention scores are then used to weight the values, producing a\nweighted sum that represents the output of the self-attention mechanism. The MSA layer is\ncomposed of several components, including query, key, and value projections, dot product\nattention, multi-head attention, concatenation, and linear projection layers, as illustrated\nin Figure 4.\nFigure 4. Architecture of the Multi-Head Self-Attention."
+    },
+    {
+        "chunk_id": 35,
+        "source": "paper34",
+        "text": "attention, multi-head attention, concatenation, and linear projection layers, as illustrated\nin Figure 4.\nFigure 4. Architecture of the Multi-Head Self-Attention.\nTo begin with, the MSA layer takes an input sequence of patch embeddings\nz = x1, x2, · · · , xn, where each patch embedding has a dimension of d. The MSA layer\nﬁrst applies linear projections to the input sequence to generate query, key, and value matri-\nces Q, K, and V. These matrices have a dimension of d × h, where h represents the number\nof heads. This is achieved using learnable weight matrices Wq, Wk, and Wv, respectively,\nwhich form the equation:\nQ = zWq,\nK = zWk,\nV = zWv\n(4)\nNext, the self-attention mechanism is applied to the queries, keys, and values matrices.\nThe attention scores are computed using the dot product between the queries and keys,\nscaled by the square root of the dimension of the queries and keys:\nAttention(Q, K, V) = softmax\n\nQKT\nq\nd\nh\n\nV\n(5)"
+    },
+    {
+        "chunk_id": 36,
+        "source": "paper34",
+        "text": "Sensors 2023, 23, 5555\n9 of 20\nHere, the softmax function is applied along the last dimension of the attention scores,\nand the output is a weighted sum of the values, where the weights are determined by\nthe attention scores. Finally, the outputs of the self-attention mechanism are concatenated\nacross the heads dimension and linearly projected back to the original dimension d. This is\nachieved using a learnable weight matrix Wo, resulting in the ﬁnal output of the MSA layer:\nMSA(z) = concat(Attention1, Attention2, · · · , Attentionh)Wo\n(6)\n•\nMulti-Layer Perceptron (MLP)\nThe ViT encoder includes an MLP block that follows the MSA layer. The MLP block\nis responsible for transforming the representations obtained from the self-attention layer\ninto a higher-level feature space. It comprises two linear transformations separated by\na non-linear activation function, as shown in Figure 5.\nFigure 5. Architecture of the Multi-Layer Perceptron."
+    },
+    {
+        "chunk_id": 37,
+        "source": "paper34",
+        "text": "into a higher-level feature space. It comprises two linear transformations separated by\na non-linear activation function, as shown in Figure 5.\nFigure 5. Architecture of the Multi-Layer Perceptron.\nTo begin, the patch embeddings X are multiplied with a learnable weight matrix w1 in\nthe ﬁrst linear transformation. The output is then added with a bias b1, producing MLP1 of\nshape (batch_size, num_patches, mlp_hidden_size):\nMLP1 = zw1 + b1.\n(7)\nAfterwards, a non-linear activation function called Gaussian Error Linear Unit (GELU) is\napplied to the output, producing MLP2 of shape (batch_size, num_patches, mlp_hidden_size):\nMLP2 = GELU(MLP1).\n(8)\nThe GELU function introduces non-linearity to the model, allowing it to learn complex\nand non-linear relationships between the input and output features, as shown\nin Equation (9):\nGELU(x) = xP(X ≤x) = xΦ(x) = x · 1\n2[1 + erf(x/\n√\n2)],\n(9)\nwhere erf is the error function and P(X ≤x) is the cumulative distribution function"
+    },
+    {
+        "chunk_id": 38,
+        "source": "paper34",
+        "text": "in Equation (9):\nGELU(x) = xP(X ≤x) = xΦ(x) = x · 1\n2[1 + erf(x/\n√\n2)],\n(9)\nwhere erf is the error function and P(X ≤x) is the cumulative distribution function\nof a Gaussian distribution with mean 0 and variance 1 evaluated at x. MLP2 is then\nmultiplied with another learnable weight matrix w2 in the second linear transformation. The\noutput is then added with a bias b2, producing MLP3 of shape (batch_size, num_patches,\nmlp_hidden_size):\nMLP3 = MLP2 w2 + b2.\n(10)\nAfter the MLP layer, another MSA layer and MLP layer follow in the ViT encoder\nblock. This process is repeated L times to learn increasingly complex and abstract features\nof the input image."
+    },
+    {
+        "chunk_id": 39,
+        "source": "paper34",
+        "text": "Sensors 2023, 23, 5555\n10 of 20\nAt the end of the encoder block, the encoder selects the ﬁrst token of the sequence\nz0\nL and generates the image representation y by performing layer normalization, which is\nrepresented by:\ny = LN\n\u0010\nz0\nL\n\u0011\n.\n(11)\nThe output y is then passed through a pooling layer to obtain a single feature vector\nrepresentation of the entire image. The output is then passed through a ﬂatten layer to\nconvert the multi-dimensional input tensor into a one-dimensional vector. Finally, the\noutputs are passed through a batch normalization layer to improve the performance and\nstability of the network before passing through a fully-connected layer with a SoftMax\nfunction to perform the ﬁnal classiﬁcation.\nDuring the training process, the Rectiﬁed Adam optimizer is used to efﬁciently update\nthe model parameters. For multi-class classiﬁcation problems, the categorical cross-entropy\nloss function is employed to measure the difference between the predicted probability"
+    },
+    {
+        "chunk_id": 40,
+        "source": "paper34",
+        "text": "the model parameters. For multi-class classiﬁcation problems, the categorical cross-entropy\nloss function is employed to measure the difference between the predicted probability\ndistribution and the true probability distribution of the target variable. The SoftMax proba-\nbilities and labels are used to compute the loss function, as shown in the equation below:\nLCE = −∑\ni=1\nTi log(Si)\n(12)\nwhere S represents the SoftMax probabilities and T represents the labels. To prevent\noverﬁtting and improve model performance, early stopping and adaptive learning rate\ncallback methods are also employed during the training process.\n3.3. Early Stopping\nEarly stopping is an important technique used in deep learning to improve model gen-\neralisation by preventing overﬁtting. The technique involves monitoring the performance\nof the model on a selected metric during training and stopping the training process when\nthe performance on the selected metric begins to degrade. In this research, we achieved this"
+    },
+    {
+        "chunk_id": 41,
+        "source": "paper34",
+        "text": "of the model on a selected metric during training and stopping the training process when\nthe performance on the selected metric begins to degrade. In this research, we achieved this\nby comparing the current training set performance with the best training set performance\nrecorded during training. If the current performance has not improved for a certain number\nof epochs, training is stopped, and the weights of the best performing model are returned.\nThe idea behind early stopping is that as the model trains, it becomes increasingly\nbetter at ﬁtting the training data, but may begin to overﬁt and perform poorly on the\ntraining set. By monitoring the performance of the selected metric, we can stop the training\nprocess before the model overﬁts, thereby preventing it from learning spurious patterns in\nthe training data that do not generalise well to new, unseen data.\nIn summary, early stopping is a powerful technique to improve the generalisation"
+    },
+    {
+        "chunk_id": 42,
+        "source": "paper34",
+        "text": "the training data that do not generalise well to new, unseen data.\nIn summary, early stopping is a powerful technique to improve the generalisation\nperformance of deep learning models. By monitoring the performance of the selected\nmetric and stopping the training process before overﬁtting occurs, we can prevent the\nmodel from learning spurious patterns in the training data that do not generalise well to\nnew, unseen data. The technique can be customised with different hyperparameters to\nachieve optimal results.\n3.4. Adaptive Learning Rate\nAdaptive learning rate or reduce learning rate on plateau is a technique used to modify\nthe learning rate of a neural network during the training process. The purpose of adaptive\nlearning rate is to help in the convergence of the model so that the model does not converge\ntoo fast that it overshoots the local minimum and not too slow that training takes a long\ntime which also helps in overcoming the overﬁtting problem. Adaptive learning rate"
+    },
+    {
+        "chunk_id": 43,
+        "source": "paper34",
+        "text": "too fast that it overshoots the local minimum and not too slow that training takes a long\ntime which also helps in overcoming the overﬁtting problem. Adaptive learning rate\nadjusts the learning rate to optimize the training process.\nAdaptive learning rate reduces the learning rate when a certain metric, such as the\nvalidation loss or accuracy, has stopped improving for a set number of epochs. This\ntechnique is useful when the learning rate is too high, causing the model to overshoot the"
+    },
+    {
+        "chunk_id": 44,
+        "source": "paper34",
+        "text": "Sensors 2023, 23, 5555\n11 of 20\nlocal minimum and become stuck, or too low, causing slow convergence and an increased\nrisk of overﬁtting.\nThe adaptive learning rate can be customized using its hyperparameters. The monitor\nparameter determines the metric to be monitored, such as validation loss or accuracy. The\nfactor parameter determines the factor by which the learning rate is reduced when the mon-\nitored quantity has stopped improving. The patience parameter determines the number of\nepochs with no improvement in the monitored quantity before the learning rate is reduced.\nThe mode parameter determines whether the monitored quantity should be increasing\nor decreasing to trigger the learning rate reduction. Finally, the minimum learning rate\nparameter sets a lower bound for the learning rate, preventing it from becoming too small.\nMathematically, the adaptive learning rate can be represented as follows:\nif Mt−p ≤Mt :\nLRt+1 = LRt × f\nelse :\nLRt+1 = LRt\n(13)"
+    },
+    {
+        "chunk_id": 45,
+        "source": "paper34",
+        "text": "Mathematically, the adaptive learning rate can be represented as follows:\nif Mt−p ≤Mt :\nLRt+1 = LRt × f\nelse :\nLRt+1 = LRt\n(13)\nwhere LRt be the learning rate at epoch t, and Mt be the monitored quantity at epoch t. If\nMt does not improve for p epochs, the learning rate is reduced by a factor of f. p is the\npatience parameter, which determines the number of epochs with no improvement in the\nmonitored quantity before the learning rate is reduced.\n4. Experiment and Analysis\nIn this paper, three benchmark datasets are used to evaluate the proposed HGR-ViT:\nthe American Sign Language (ASL) dataset, ASL with digits dataset, and NUS hand gesture\ndataset. Additionally, the performance of the proposed HGR-ViT is compared with several\nexisting works.\n4.1. Datasets\nThe ASL dataset is composed of 65,774 images of 24 static hand gestures representing\nalphabets from A to Y. It was created by the authors of [35] and includes variations signed"
+    },
+    {
+        "chunk_id": 46,
+        "source": "paper34",
+        "text": "4.1. Datasets\nThe ASL dataset is composed of 65,774 images of 24 static hand gestures representing\nalphabets from A to Y. It was created by the authors of [35] and includes variations signed\nby ﬁve different signers. However, the dataset does not contain dynamic hand gestures\nsuch as J and Z. Figure 6 displays the images of each class, where the alphabet W has the\nhighest number of samples at 6221 and the alphabet F has the lowest at 5235.\nFigure 6. Image samples for each class from the ASL dataset.\nThe ASL with digits dataset, introduced in [36], consists of 36 hand gesture classes,\nincluding alphabets from A to Z and numbers from 0 to 9. It contains 2515 samples with"
+    },
+    {
+        "chunk_id": 47,
+        "source": "paper34",
+        "text": "Sensors 2023, 23, 5555\n12 of 20\nvariations signed by ﬁve different signers. The ﬁrst and second signers signed 25 times\neach except alphabet T which has 20 samples, while the third and fourth signers signed ﬁve\ntimes each and the last signer signed ten times. Figure 7 displays the samples for each class.\nFigure 7. Image samples for each class from the ASL with digits dataset.\nThe NUS hand gesture dataset, proposed in [37], contains 10 hand gesture classes\nincluding alphabets from A to J, with a total of 2000 image samples. The dataset fea-\ntures 40 signers, with each signer signing ﬁve times for each class, resulting in a total of\n200 samples per class to increase the variation in hand gestures. Figure 8 shows the image\nsamples for each class in the dataset.\nFigure 8. Image samples for each class from the NUS hand gesture dataset.\n4.2. Experimental Setup\nThis section presents an experimental evaluation of the proposed solution using the"
+    },
+    {
+        "chunk_id": 48,
+        "source": "paper34",
+        "text": "Figure 8. Image samples for each class from the NUS hand gesture dataset.\n4.2. Experimental Setup\nThis section presents an experimental evaluation of the proposed solution using the\nsame three datasets selected for benchmarking: the ASL dataset, ASL with digits dataset,\nand NUS hand gesture dataset. The transfer learning approach of pretraining Vision\nTransformer, as discussed earlier, will be implemented and evaluated.\nTwo validation techniques will be used in the experiments: holdout and k-fold cross-\nvalidation, speciﬁcally Leave-One-Out Cross-Validation (LOOCV). Holdout validation\ninvolves using 80% of the dataset for training and 20% for testing. LOOCV divides the\ndataset into k subsets, with each subset taking turns as the test set. This method reduces\nbias estimation and the chance of overﬁtting. In this study, we use 5-fold cross-validation,"
+    },
+    {
+        "chunk_id": 49,
+        "source": "paper34",
+        "text": "Sensors 2023, 23, 5555\n13 of 20\nwhere the dataset is divided into ﬁve subsets, each taking turns as the training and testing\nset, as shown in Table 2.\nTable 2. Dataset distribution for training and testing sets.\nDataset\nFolds\nTraining Set (80%)\nTesting Set (20%)\nTotal (100%)\nASL\n5\n52,619\n13,155\n65,774\nASL with Digits\n5\n2012\n503\n2515\nNUS Hand Gesture\n5\n1600\n400\n2000\n4.3. Experimental Analysis\nExperiments are conducted to determine the optimal conﬁguration of the Vision\nTransformer for achieving the best performance across all three benchmark datasets. To\nprepare the data, all images are resized to 256 × 256. This is followed by a ﬂatten and batch\nnormalization layer. Then, a dense layer with a softmax activation function is added to\noutput the predictions. Rectiﬁed Adam optimizer with a learning rate of 0.0001, categorical\ncross-entropy as the loss function, and accuracy as the evaluation metric, is utilised. In"
+    },
+    {
+        "chunk_id": 50,
+        "source": "paper34",
+        "text": "output the predictions. Rectiﬁed Adam optimizer with a learning rate of 0.0001, categorical\ncross-entropy as the loss function, and accuracy as the evaluation metric, is utilised. In\naddition, early stopping with patience of 5 is employed. Furthermore, adaptive learning\nrate with factor of 0.2, patience of 2, minimum delta of 0.0001, and minimum learning rate\nof 0.000001 is adopted.\nWe compare the performance of the pre-trained base ViT with a patch size of 32 × 32\n(ViT B32) using two different weights: ImageNet21k and ImageNet21k + ImageNet2012. To\nachieve maximum performance, all 19 layers were ﬁne-tuned. The results show that the\nViT pre-trained on ImageNet21k + ImageNet2012 outperforms the ViT pre-trained on Ima-\ngeNet21k, across all three benchmark datasets. The ViT with ImageNet21k + ImageNet2012\nweights achieves an impressive average testing accuracy of 99.97% for the ASL dataset,\n99.01% for the ASL with digits dataset, 99.85% for the NUS hand gesture dataset, and an"
+    },
+    {
+        "chunk_id": 51,
+        "source": "paper34",
+        "text": "weights achieves an impressive average testing accuracy of 99.97% for the ASL dataset,\n99.01% for the ASL with digits dataset, 99.85% for the NUS hand gesture dataset, and an\noverall average accuracy of 99.61%. Therefore, the ViT with ImageNet21k + ImageNet2012\nweights is selected for the following experiment, which involve ﬁne-tuning the model.\nThe ﬁne-tuning involves unfreezing layers of the pre-trained ViT model to train the\nmodel further. The results show that as more layers are unfrozen, the model’s performance\nimproved. The proposed HGR-ViT achieves the highest performance when 12 layers are\nunfreezed, with an average testing accuracy of 99.98%, 99.36%, and 99.85% for ASL dataset,\nASL with digits dataset, and NUS hand gesture dataset, respectively. An average of 99.73%\naccuracy is obtained across all three datasets.\n4.4. Experimental Results and Discussions\nThis work aims to propose a Vision Transformer (ViT) model for static hand gesture"
+    },
+    {
+        "chunk_id": 52,
+        "source": "paper34",
+        "text": "accuracy is obtained across all three datasets.\n4.4. Experimental Results and Discussions\nThis work aims to propose a Vision Transformer (ViT) model for static hand gesture\nrecognition. ViT leverages the self-attention mechanism to capture complex relationships\nbetween image patches, which can better handle the similarity problem between hand\ngestures and variations in pose, lighting, background, and occlusions. Moreover, pre-\ntrained ViT can reduce the data requirements during training, showing some ability to\nperform well with smaller datasets. Additionally, ViT can improve the interpretability of\nthe hand gesture recognition system, generating attention maps that highlight the most\nimportant parts of an image for classiﬁcation. These maps enable users to better understand\nwhy certain gestures are being recognized or not, improving the system’s transparency and\naccountability.\nThe proposed HGR-ViT, which employs ﬁne-tuning of a pre-trained Vision Trans-"
+    },
+    {
+        "chunk_id": 53,
+        "source": "paper34",
+        "text": "why certain gestures are being recognized or not, improving the system’s transparency and\naccountability.\nThe proposed HGR-ViT, which employs ﬁne-tuning of a pre-trained Vision Trans-\nformer with ImageNet21k + ImageNet2012 weights, has demonstrated outstanding perfor-\nmance in static hand gesture recognition. The ﬁne-tuning process was optimised with the\nunfreezing of 12 layers, using 256 × 256 image dimensions. Early stopping and adaptive\nlearning rate were utilised to reduce overﬁtting and model error. Table 3 highlights the\nbest results achieved by the proposed solution, demonstrating its superior performance\nover existing methods. In addition, confusion matrix of the ASL dataset, ASL with digits\ndataset, and NUS hand gesture dataset, are presented in Figures 9, 10 and 11, respectively."
+    },
+    {
+        "chunk_id": 54,
+        "source": "paper34",
+        "text": "Sensors 2023, 23, 5555\n14 of 20\nTable 3. Performance of the proposed HGR-VIT on the three datasets.\nDataset\nCross Validation Set\nTrain Accuracy (%)\nTest Accuracy (%)\nASL\n1\n100.00\n99.98\n2\n100.00\n99.98\n3\n100.00\n99.98\n4\n100.00\n99.98\n5\n100.00\n99.99\nAverage\n100.00\n99.98\nASL with digits\n1\n100.00\n99.20\n2\n100.00\n99.60\n3\n100.00\n99.80\n4\n100.00\n99.20\n5\n100.00\n99.01\nAverage\n100.00\n99.36\nNUS hand gesture\n1\n100.00\n99.50\n2\n100.00\n99.75\n3\n100.00\n100.00\n4\n100.00\n100.00\n5\n100.00\n100.00\nAverage\n100.00\n99.85\nIn addition to the quantitative performance evaluation, we also conducted a qualitative\ninspection of the proposed HGR-ViT. Figure 12 illustrates attention maps generated by\nthe model for selected image samples from the three datasets. These attention maps\ndemonstrate that the model is capable of focusing its attention on the relevant hand\ngestures while ignoring the background of the images. For instance, for the ASL dataset,"
+    },
+    {
+        "chunk_id": 55,
+        "source": "paper34",
+        "text": "demonstrate that the model is capable of focusing its attention on the relevant hand\ngestures while ignoring the background of the images. For instance, for the ASL dataset,\nthe attention maps show that the model correctly identiﬁes the hand gestures. In the case of\nthe ASL with digits dataset, the model attends to the speciﬁc ﬁngers that make up the hand\ngestures, thanks to the solid black background. Similarly, for the NUS hand gesture dataset,\nthe attention maps reveal that the model focuses on the hand gestures and disregards the\ncomplex background.Overall, these results indicate that the proposed HGR-ViT performs\nwell both quantitatively and qualitatively.\nFigure 13 depicts misclassiﬁed images from the ASL dataset, ASL with digits dataset,\nand NUS hand gesture dataset, which were generated from the confusion matrix of\nFigures 9, 10 and 11, respectively. Three samples were misclassiﬁed in the ASL dataset:"
+    },
+    {
+        "chunk_id": 56,
+        "source": "paper34",
+        "text": "and NUS hand gesture dataset, which were generated from the confusion matrix of\nFigures 9, 10 and 11, respectively. Three samples were misclassiﬁed in the ASL dataset:\na hand gesture of class N was misclassiﬁed as class T, a hand gesture of class R was\nmisclassiﬁed as class X, and a hand gesture of class X was misclassiﬁed as class L. The\nmisclassiﬁcation of hand gesture N as T can be attributed to the fact that these two classes\nshare a similar appearance, with only slight variations in the thumb’s positioning, which\ncan be difﬁcult to distinguish even for humans in some angles. The misclassiﬁcation of\nhand gesture R as X may be due to the slight blur in the image, which can lead to confusion\nbetween classes R and X, as they share some similarities. Finally, the misclassiﬁcation of\nhand gesture X as L may be attributed to the fact that hand gestures X and L are similar in\nappearance, or it could be due to errors in image labeling by the authors."
+    },
+    {
+        "chunk_id": 57,
+        "source": "paper34",
+        "text": "Sensors 2023, 23, 5555\n15 of 20\nFigure 9. Confusion matrix for ASL dataset.\nFigure 10. Confusion matrix for ASL with digits dataset.\n\nSensors 2023, 23, 5555\n16 of 20\nFigure 11. Confusion matrix for NUS hand gesture dataset.\nFigure 12. Sample attention map images for different alphabets in the benchmark datasets."
+    },
+    {
+        "chunk_id": 58,
+        "source": "paper34",
+        "text": "Sensors 2023, 23, 5555\n17 of 20\nFigure 13. Sample of misclassiﬁed images for different alphabets in the benchmark datasets.\nAs for ASL with digits dataset, there were ﬁve misclassiﬁed samples. One of them\nwas the hand gesture of class N, which was misclassiﬁed as class M. This misclassiﬁcation\ncan be attributed to the similarity between the hand gestures, with only slight variations in\nthe positioning of the thumb. Similarly, the hand gesture of class V that was misclassiﬁed\nas class 2 can also be attributed to the similarity in the hand gesture with slight variations\nin the positioning of the thumb. Another misclassiﬁcation occurred for the hand gesture\nof class O, which was misclassiﬁed as class 0. This is due to the similarity between the\ntwo hand gestures, which might also be misclassiﬁed by humans if presented without\ncontext. Finally, the hand gesture of class Z was misclassiﬁed as class D, which might be"
+    },
+    {
+        "chunk_id": 59,
+        "source": "paper34",
+        "text": "two hand gestures, which might also be misclassiﬁed by humans if presented without\ncontext. Finally, the hand gesture of class Z was misclassiﬁed as class D, which might be\ndue to the similarity between the hand gestures or errors in image labeling by the dataset\nauthors. Overall, these misclassiﬁcations might occur due to the similarity between the\nhand gestures or errors in the dataset.\nIn the NUS hand gesture dataset, one misclassiﬁed sample was found where the hand\ngesture of class H was misclassiﬁed as class D. This misclassiﬁcation might have been\ncaused by the complex background of the image, where the model mistakenly identiﬁed\nthe tree branches as ﬁngers of the signer.\nTable 4 presents the classiﬁcation accuracy of various methods that were evaluated\non the three benchmark datasets. The HGR-ViT method proposed in this research study\ndemonstrates superior performance compared to all other existing methods across all three"
+    },
+    {
+        "chunk_id": 60,
+        "source": "paper34",
+        "text": "on the three benchmark datasets. The HGR-ViT method proposed in this research study\ndemonstrates superior performance compared to all other existing methods across all three\ndatasets, achieving the highest classiﬁcation accuracy. This remarkable performance is\nattributed to the self-attention mechanism of the ViT model, which enables the model to\ncapture complex relationships between image patches. The HGR-ViT approach surpasses\nconventional CNN models in this aspect and effectively addresses similarity issues be-\ntween hand gestures, as well as variations in pose, lighting, background, and occlusions.\nThis results in a signiﬁcant improvement in accuracy, allowing the HGR-ViT method to\noutperform existing methods. The proposed method achieves a classiﬁcation accuracy of\n99.98% for the ASL dataset, 99.36% for the ASL with digits dataset, and 99.85% for the\nNUS hand gesture dataset. Moreover, the average classiﬁcation accuracy across the three"
+    },
+    {
+        "chunk_id": 61,
+        "source": "paper34",
+        "text": "99.98% for the ASL dataset, 99.36% for the ASL with digits dataset, and 99.85% for the\nNUS hand gesture dataset. Moreover, the average classiﬁcation accuracy across the three\ndatasets is 99.73%. These results demonstrate the effectiveness of the proposed HGR-ViT\nmethod in hand gesture recognition and its superiority over other existing methods."
+    },
+    {
+        "chunk_id": 62,
+        "source": "paper34",
+        "text": "Sensors 2023, 23, 5555\n18 of 20\nTable 4. Classiﬁcation accuracy (%) of the state-of-the-art methods and the proposed HGR-ViT on the\nthree hand gesture datasets.\nMethod\nASL Dataset\nASL with Digits Dataset\nNUS Hand Gesture Dataset\nAverage Accuracy\nCNN Baseline A [27]\n99.85\n98.69\n89.15\n95.90\nCNN Baseline B [31]\n99.78\n98.65\n89.30\n95.91\nADCNN [28]\n98.50\n98.49\n83.10\n93.36\nDAG-CNN [29]\n99.89\n98.13\n91.05\n96.36\nEdenseNet [6]\n99.89\n98.85\n96.75\n98.50\nCNN-SPP [3]\n99.94\n99.17\n95.95\n98.35\nHGR-ViT (Ours)\n99.98\n99.36\n99.85\n99.73\n5. Conclusions\nIn conclusion, this paper proposes a ﬁne-tuning of pre-trained Vision Transformer\ncalled HGR-ViT for static hand gesture recognition. The proposed method outperforms\nexisting state-of-the-art CNN models, as demonstrated in the comparison with other\nmethods. To prevent overﬁtting during the training process, early stopping and adaptive\nlearning rate are utilised, contributing to the enhancement of the model’s performance."
+    },
+    {
+        "chunk_id": 63,
+        "source": "paper34",
+        "text": "methods. To prevent overﬁtting during the training process, early stopping and adaptive\nlearning rate are utilised, contributing to the enhancement of the model’s performance.\nThe experimental results show that the proposed method achieves better performance than\nexisting approaches on three benchmark datasets. However, ViT requires a large amount\nof data to be trained on, which may not always be available in hand gesture recognition\ndatasets. Additionally, ViT may not be able to capture ﬁne-grained details in images, which\ncould be important in recognising subtle differences between hand gestures. In terms of\nfuture research, one possible direction is to optimise the training process of ViT and reduce\nthe amount of data required. The combination of ViT with other models such as CNNs can\nalso improve recognition of ﬁne-grained details. Lastly, researchers can also investigate\nways to incorporate temporal information into hand gesture recognition systems, which"
+    },
+    {
+        "chunk_id": 64,
+        "source": "paper34",
+        "text": "also improve recognition of ﬁne-grained details. Lastly, researchers can also investigate\nways to incorporate temporal information into hand gesture recognition systems, which\ncan improve accuracy and robustness. Overall, the proposed approach provides a robust\nand effective solution for vision-based static hand gesture recognition.\nAuthor Contributions: Conceptualization, C.K.T. and K.M.L.; methodology, C.K.T., K.M.L., R.K.Y.C.,\nC.P.L. and A.A.; software, C.K.T. and K.M.L.; validation, C.K.T., K.M.L., R.K.Y.C., C.P.L. and A.A.;\nformal analysis, C.K.T.; investigation, C.K.T. and K.M.L.; resources, C.K.T. and K.M.L.; data curation,\nC.K.T. and C.P.L.; writing—original draft preparation, C.K.T. and K.M.L.; writing—review and\nediting, C.K.T., K.M.L., R.K.Y.C., C.P.L. and A.A.; visualization, C.K.T. and C.P.L.; supervision, K.M.L.\nand R.K.Y.C.; project administration, K.M.L. and A.A.; funding acquisition, K.M.L. and A.A. All"
+    },
+    {
+        "chunk_id": 65,
+        "source": "paper34",
+        "text": "and R.K.Y.C.; project administration, K.M.L. and A.A.; funding acquisition, K.M.L. and A.A. All\nauthors have read and agreed to the published version of the manuscript.\nFunding: The research in this work was supported by the Telekom Malaysia Research & Development\nunder grant number RDTC/231075 and Deanship of Scientiﬁc Research, King Khalid University,\nSaudi Arabia, under Grant number RGP1/357/43.\nInstitutional Review Board Statement: Not applicable.\nInformed Consent Statement: Not applicable.\nData Availability Statement: Not applicable.\nConﬂicts of Interest: The authors declare no conﬂict of interest.\nReferences\n1.\nKhari, M.; Garg, A.K.; Crespo, R.G.; Verdú, E. Gesture Recognition of RGB and RGB-D Static Images Using Convolutional Neural\nNetworks. Int. J. Interact. Multim. Artif. Intell. 2019, 5, 22–27. [CrossRef]\n2.\nOzcan, T.; Basturk, A. Transfer learning-based convolutional neural networks with heuristic optimization for hand gesture"
+    },
+    {
+        "chunk_id": 66,
+        "source": "paper34",
+        "text": "2.\nOzcan, T.; Basturk, A. Transfer learning-based convolutional neural networks with heuristic optimization for hand gesture\nrecognition. Neural Comput. Appl. 2019, 31, 8955–8970. [CrossRef]\n3.\nTan, Y.S.; Lim, K.M.; Tee, C.; Lee, C.P.; Low, C.Y. Convolutional neural network with spatial pyramid pooling for hand gesture\nrecognition. Neural Comput. Appl. 2021, 33, 5339–5351. [CrossRef]\n4.\nMujahid, A.; Awan, M.J.; Yasin, A.; Mohammed, M.A.; Damaševiˇcius, R.; Maskeli¯unas, R.; Abdulkareem, K.H. Real-time hand\ngesture recognition based on deep learning YOLOv3 model. Appl. Sci. 2021, 11, 4164. [CrossRef]\n5.\nEwe, E.L.R.; Lee, C.P.; Kwek, L.C.; Lim, K.M. Hand Gesture Recognition via Lightweight VGG16 and Ensemble Classiﬁer. Appl.\nSci. 2022, 12, 7643. [CrossRef]"
+    },
+    {
+        "chunk_id": 67,
+        "source": "paper34",
+        "text": "Sensors 2023, 23, 5555\n19 of 20\n6.\nTan, Y.S.; Lim, K.M.; Lee, C.P. Hand gesture recognition via enhanced densely connected convolutional neural network. Expert\nSyst. Appl. 2021, 175, 114797. [CrossRef]\n7.\nTan, Y.S.; Lim, K.M.; Lee, C.P. Wide Residual Network for Vision-based Static Hand Gesture Recognition. IAENG Int. J. Comput.\nSci. 2021, 48, 906–914.\n8.\nLim, K.M.; Tan, A.W.; Tan, S.C. A four dukkha state-space model for hand tracking. Neurocomputing 2017, 267, 311–319. [CrossRef]\n9.\nChen, X.; Wang, G.; Guo, H.; Zhang, C.; Wang, H.; Zhang, L. Mfa-net: Motion feature augmented network for dynamic hand\ngesture recognition from skeletal data. Sensors 2019, 19, 239. [CrossRef]\n10.\nRahim, M.A.; Islam, M.R.; Shin, J. Non-touch sign word recognition based on dynamic hand gesture using hybrid segmentation\nand CNN feature fusion. Appl. Sci. 2019, 9, 3790. [CrossRef]\n11."
+    },
+    {
+        "chunk_id": 68,
+        "source": "paper34",
+        "text": "10.\nRahim, M.A.; Islam, M.R.; Shin, J. Non-touch sign word recognition based on dynamic hand gesture using hybrid segmentation\nand CNN feature fusion. Appl. Sci. 2019, 9, 3790. [CrossRef]\n11.\nVaitkeviˇcius, A.; Taroza, M.; Blažauskas, T.; Damaševiˇcius, R.; Maskeli¯unas, R.; Wo´zniak, M. Recognition of American sign\nlanguage gestures in a virtual reality using leap motion. Appl. Sci. 2019, 9, 445. [CrossRef]\n12.\nDong, Y.; Liu, J.; Yan, W. Dynamic hand gesture recognition based on signals from specialized data glove and deep learning\nalgorithms. IEEE Trans. Instrum. Meas. 2021, 70, 1–14. [CrossRef]\n13.\nAthira, P.; Sruthi, C.; Lijiya, A. A signer independent sign language recognition with co-articulation elimination from live videos:\nAn Indian scenario. J. King Saud Univ.-Comput. Inf. Sci. 2022, 34, 771–781. [CrossRef]\n14.\nMa, L.; Huang, W. A static hand gesture recognition method based on the depth information. In Proceedings of the 2016 8th"
+    },
+    {
+        "chunk_id": 69,
+        "source": "paper34",
+        "text": "14.\nMa, L.; Huang, W. A static hand gesture recognition method based on the depth information. In Proceedings of the 2016 8th\nInternational Conference on Intelligent Human-Machine Systems and Cybernetics (IHMSC), Hangzhou, China, 27–28 August\n2016; Volume 2, pp. 136–139.\n15.\nBamwenda, J.; Özerdem, M.S. Recognition of static hand gesture with using ANN and SVM. Dicle Univ. J. Eng. 2019, 10, 561–568.\n16.\nCandrasari, E.B.; Novamizanti, L.; Aulia, S. Discrete Wavelet Transform on static hand gesture recognition. J. Phys. Conf. Ser.\n2019, 1367, 012022. [CrossRef]\n17.\nGao, Q.; Liu, J.; Ju, Z.; Li, Y.; Zhang, T.; Zhang, L. Static hand gesture recognition with parallel CNNs for space human-robot\ninteraction. In Proceedings of the International Conference on Intelligent Robotics and Applications, Wuhan, China, 16–18\nAugust 2017; pp. 462–473.\n18.\nXie, B.; He, X.; Li, Y. RGB-D static gesture recognition based on convolutional neural network. J. Eng. 2018, 2018, 1515–1520.\n[CrossRef]\n19."
+    },
+    {
+        "chunk_id": 70,
+        "source": "paper34",
+        "text": "August 2017; pp. 462–473.\n18.\nXie, B.; He, X.; Li, Y. RGB-D static gesture recognition based on convolutional neural network. J. Eng. 2018, 2018, 1515–1520.\n[CrossRef]\n19.\nAdithya, V.; Rajesh, R. A deep convolutional neural network approach for static hand gesture recognition. Procedia Comput. Sci.\n2020, 171, 2353–2361.\n20.\nLi, Y.; Deng, J.; Wu, Q.; Wang, Y. Eye-Tracking Signals Based Affective Classiﬁcation Employing Deep Gradient Convolutional\nNeural Networks. Int. J. Interact. Multimed. Artif. Intell. 2021, 7, 34–43. [CrossRef]\n21.\nAdimoolam, M.; Mohan, S.; A., J.; Srivastava, G. A Novel Technique to Detect and Track Multiple Objects in Dynamic Video\nSurveillance Systems. Int. J. Interact. Multimed. Artif. Intell. 2022, 7, 112–120. [CrossRef]\n22.\nKaur, G.; Bathla, G. Hand Gesture Recognition based on Invariant Features and Artiﬁcal Neural Network. Indian J. Sci. Technol.\n2016, 9, 1–6. [CrossRef]\n23."
+    },
+    {
+        "chunk_id": 71,
+        "source": "paper34",
+        "text": "22.\nKaur, G.; Bathla, G. Hand Gesture Recognition based on Invariant Features and Artiﬁcal Neural Network. Indian J. Sci. Technol.\n2016, 9, 1–6. [CrossRef]\n23.\nGupta, B.; Shukla, P.; Mittal, A. K-nearest correlated neighbor classiﬁcation for Indian sign language gesture recognition using\nfeature fusion. In Proceedings of the 2016 International Conference on Computer Communication and Informatics (ICCCI),\nCoimbatore, India, 7–9 January 2016; pp. 1–5.\n24.\nLahiani, H.; Neji, M. Hand gesture recognition method based on HOG-LBP features for mobile device. Procedia Comput. Sci. 2018,\n126, 254–263. [CrossRef]\n25.\nSahoo, J.P.; Ari, S.; Ghosh, D.K. Hand gesture recognition using DWT and Fratio based feature descriptor. IET Image Process. 2018,\n12, 1780–1787. [CrossRef]\n26.\nParvathy, P.; Subramaniam, K.; Venkatesan, G.K.P.; Karthikaikumar, P.; Varghese, J.; Jayasankar, T. Development of hand gesture"
+    },
+    {
+        "chunk_id": 72,
+        "source": "paper34",
+        "text": "12, 1780–1787. [CrossRef]\n26.\nParvathy, P.; Subramaniam, K.; Venkatesan, G.K.P.; Karthikaikumar, P.; Varghese, J.; Jayasankar, T. Development of hand gesture\nrecognition system using machine learning. J. Ambient Intell. Humaniz. Comput. 2021, 12, 6793–6800. [CrossRef]\n27.\nFlores, C.J.L.; Cutipa, A.G.; Enciso, R.L. Application of convolutional neural networks for static hand gestures recognition under\ndifferent invariant features. In Proceedings of the 2017 IEEE XXIV International Conference on Electronics, Electrical Engineering\nand Computing (INTERCON), Cusco, Peru, 15–18 August 2017; pp. 1–4.\n28.\nAlani, A.A.; Cosma, G.; Taherkhani, A.; McGinnity, T.M. Hand gesture recognition using an adapted convolutional neural\nnetwork with data augmentation. In Proceedings of the 2018 4th International Conference on Information Management (ICIM),\nOxford, UK, 25–27 May 2018. [CrossRef]\n29."
+    },
+    {
+        "chunk_id": 73,
+        "source": "paper34",
+        "text": "network with data augmentation. In Proceedings of the 2018 4th International Conference on Information Management (ICIM),\nOxford, UK, 25–27 May 2018. [CrossRef]\n29.\nArenas, J.O.P.; Moreno, R.J.; Bele no, R.D.H. Convolutional neural network with a dag architecture for control of a robotic arm by\nmeans of hand gestures. Contemp. Eng. Sci. 2018, 11, 547–557. [CrossRef]\n30.\nDadashzadeh, A.; Targhi, A.T.; Tahmasbi, M.; Mirmehdi, M. HGR-Net: A fusion network for hand gesture segmentation and\nrecognition. IET Comput. Vis. 2019, 13, 700–707. [CrossRef]\n31.\nAhuja, R.; Jain, D.; Sachdeva, D.; Garg, A.; Rajput, C. Convolutional neural network based american sign language static hand\ngesture recognition. Int. J. Ambient Comput. Intell. (IJACI) 2019, 10, 60–73. [CrossRef]\n32.\nOsimani, C.; Ojeda-Castelo, J.J.; Piedra-Fernandez, J.A. Point Cloud Deep Learning Solution for Hand Gesture Recognition. Int. J.\nInteract. Multimed. Artif. Intell. 2023, 1–10. in press. [CrossRef]\n33.\nBadi, H."
+    },
+    {
+        "chunk_id": 74,
+        "source": "paper34",
+        "text": "Interact. Multimed. Artif. Intell. 2023, 1–10. in press. [CrossRef]\n33.\nBadi, H.\nRecent methods in vision-based hand gesture recognition.\nInt.\nJ. Data Sci.\nAnal.\n2016, 1, 77–87.\n[CrossRef]"
+    },
+    {
+        "chunk_id": 75,
+        "source": "paper34",
+        "text": "Sensors 2023, 23, 5555\n20 of 20\n34.\nDosovitskiy, A.; Beyer, L.; Kolesnikov, A.; Weissenborn, D.; Zhai, X.; Unterthiner, T.; Dehghani, M.; Minderer, M.; Heigold, G.;\nGelly, S.; et al. An image is worth 16 × 16 words: Transformers for image recognition at scale. arXiv 2020, arXiv:2010.11929.\n35.\nPugeault, N.; Bowden, R. Spelling it out: Real-time ASL ﬁngerspelling recognition. In Proceedings of the 2011 IEEE International\nConference on Computer Vision Workshops (ICCV Workshops), Barcelona, Spain, 6–13 November 2011; pp. 1114–1119. [CrossRef]\n36.\nBarczak, A.L.C.; Reyes, N.H.; Abastillas, M.; Piccio, A.; Susnjak, T. A New 2D Static Hand Gesture Colour Image Dataset for ASL\nGestures. Res. Lett. Inf. Math. Sci 2011, 15, 12–20.\n37.\nPisharady, P.K.; Vadakkepat, P.; Loh, A.P. Attention based detection and recognition of hand postures against complex back-\ngrounds. Int. J. Comput. Vis. 2013, 101, 403–419. [CrossRef]"
+    },
+    {
+        "chunk_id": 76,
+        "source": "paper34",
+        "text": "37.\nPisharady, P.K.; Vadakkepat, P.; Loh, A.P. Attention based detection and recognition of hand postures against complex back-\ngrounds. Int. J. Comput. Vis. 2013, 101, 403–419. [CrossRef]\nDisclaimer/Publisher’s Note: The statements, opinions and data contained in all publications are solely those of the individual\nauthor(s) and contributor(s) and not of MDPI and/or the editor(s). MDPI and/or the editor(s) disclaim responsibility for any injury to\npeople or property resulting from any ideas, methods, instructions or products referred to in the content."
+    }
+]

@@ -1,0 +1,167 @@
+[
+    {
+        "chunk_id": 1,
+        "source": "paper22",
+        "text": "Real-time Hand Gesture Recognition Based on Deep Learning in\nComplex Environments\nWeixin Wu1, Meiping Shi1, Tao Wu1, Dawei Zhao1, Shuai Zhang1, Junxiang Li1\n1. College of Artiﬁcial Intelligent Science, National University of Defense Technology, Changsha, 410005\nE-mail: fdwwxzxd@163.com, shimeip@163.com, wt.cs@163.com\nAbstract:\nReal-time hand gesture recognition in complex environments has many challenges, such as poor real-time\nperformances and robustness to environmental changes. This paper takes the hand gesture control of the unmanned\nvehicle as the application background, and focuses on the gesture detection and recognition of video streams based on\ndeep learning in the complex environment. In this paper, we detect the hand in a complex environment by training the\nssd mobilenet model, and initialize the tracking with kalman ﬁlter. Then, we detect the hand keypoints by following the"
+    },
+    {
+        "chunk_id": 2,
+        "source": "paper22",
+        "text": "ssd mobilenet model, and initialize the tracking with kalman ﬁlter. Then, we detect the hand keypoints by following the\narchitecture of Convolutional Pose Machines(CPMs), in order to obtain the belief maps for all keypoints that are used\nas the train sets of Convolutional Neural Networks(CNNs). Finally, based on the results obtained by our classiﬁcation,\nthis paper proposes a method of multi-frame recursion to minimize the inﬂuences of redundant frames and error frames.\nIn this paper, eight kinds of gestures for controlling vehicle are identiﬁed. The experimental results show that our\nmethod can successfully realize real-time hand gesture recognition in the video streams. The recognition accuracy can\nreach 96.7%, and the average recognition speed reaches 12 fps, which basically meets the real-time requirements and\nsuccessfully applys to mobile terminals such as TX2 for engineering practice.\nKey Words:"
+    },
+    {
+        "chunk_id": 3,
+        "source": "paper22",
+        "text": "successfully applys to mobile terminals such as TX2 for engineering practice.\nKey Words:\nSsd mobilenet; Convolutional Pose Machines(CPMs); Hand keypoints; Convolutional Neural Net-\nworks(CNNs); Multi-frame recursion.\n1\nINTRODUCTION\nThe development of artiﬁcial intelligence technology has\ngreatly promoted the process of commercialization of\ndriverless. At present, the autonomous driving technology\nis not mature enough, and it still needs people to assist driv-\ning. Therefore, human-computer interaction technology is\nthe key to marketization of driverless. Now, the natural\nhuman-computer interaction methods mainly include voice\ninteraction and gesture interaction etc. The voice interac-\ntion technology is relatively mature at present, but it is still\nsusceptible to noise interference in the wild environment.\nWhile the gestures contain a lot of information that can\nconvey semantics, emotions and conform to human daily\nlife habits, that are the research focus of human-computer"
+    },
+    {
+        "chunk_id": 4,
+        "source": "paper22",
+        "text": "While the gestures contain a lot of information that can\nconvey semantics, emotions and conform to human daily\nlife habits, that are the research focus of human-computer\ninteraction technology.\nWith the rapid development of computer vision technol-\nogy, gesture recognition based on vision has low cost and\nconvenient remote interaction [1], so it is the focus of ges-\nture recognition. Vision-based gesture recognition meth-\nods can be roughly divided into two types: one is to use\nKinect,Leapmotion and other depth cameras [2] [3]or neu-\nral networks to obtain image depth information, such as po-\nsition information of gestures; the other one is to split the\ngesture from the background by traditional methods and\nthen extract the apparent image characteristics of the ges-\nture itself to perform gesture recognition.\nThere are several challenges in gesture recognition based\non the video streams:\nThis work is supported by National Nature Science Foundation of\nChina grant number 61790565."
+    },
+    {
+        "chunk_id": 5,
+        "source": "paper22",
+        "text": "There are several challenges in gesture recognition based\non the video streams:\nThis work is supported by National Nature Science Foundation of\nChina grant number 61790565.\n1)The background is complex and easily affected by\nlight [4].\n2)There will be a large number of redundant gesture pic-\ntures.\n3)The multi-view of the human hand and the inconsistent\nshape size.\nIn this paper, there are two contributions : First, we pro-\npose to ﬁne-tune the ssd mobilenet model [5] [6] to train\nour manually labeled data sets in order to detect the posi-\ntion of the human hand in real time, and remove a part of\nthe complex background environment. Second, we add the\nbackground class and multi-frame recursion: take the belief\nmaps of hand keypoints and background class as CNNs’ in-\nput to get the classiﬁcation result; Then, the classiﬁcation\nresult is recursively calculated multiple frames and the ﬁ-\nnal classiﬁcation result is obtained. Compared with the tra-"
+    },
+    {
+        "chunk_id": 6,
+        "source": "paper22",
+        "text": "put to get the classiﬁcation result; Then, the classiﬁcation\nresult is recursively calculated multiple frames and the ﬁ-\nnal classiﬁcation result is obtained. Compared with the tra-\nditional classiﬁcation method, our method achieves good\nperformances.\nThe remainder of this paper is organized as follows. Sec-\ntion II introduces the related works. Section III introduce\nthe system framework and details of our method. Discus-\nsion and analysis of experimental results in Section IV. Fi-\nnally, Section V summarize the paper and future work.\n2\nRELATED WORK\nThe video-based gesture recognition process can be\nroughly divided into three steps:\n1)Hand detection and segmentation.\nThe mainstream\ndirection of the traditional methods is to establish a skin\ncolor model [7], segmenting the hand from the complex\nbackground.\n5950\n978-1-7281-0106-4/19/$31.00 c⃝2019 IEEE"
+    },
+    {
+        "chunk_id": 7,
+        "source": "paper22",
+        "text": "The mainstream\ndirection of the traditional methods is to establish a skin\ncolor model [7], segmenting the hand from the complex\nbackground.\n5950\n978-1-7281-0106-4/19/$31.00 c⃝2019 IEEE\nAuthorized licensed use limited to: Lovely Professional University - Phagwara. Downloaded on March 11,2026 at 07:18:00 UTC from IEEE Xplore.  Restrictions apply."
+    },
+    {
+        "chunk_id": 8,
+        "source": "paper22",
+        "text": "Figure 1: System framework\n2)Tracking of the hand. The purpose of tracking is mainly\nto be able to accurately locate the position of the hand\nin each frame of the vedio in real time, showing the\ncharacteristic trajectory of the hand.\n3)hand classiﬁcation and recognition.\nThe traditional\nmethod is to match the candidate image with the template\nimage similarity, but this method is susceptible to complex\nbackground.\nYoungJoo Lee et al. [8] employ chain code and entropy\nanalysis to segment gesture regions and contours from\ncomplex backgrounds.\nThe recognition accuracy can\nreach more than 90%, but the inﬂuence of illumination\nis obvious. The image depth information can effectively\nsolve the interference in the complex illumination back-\nground. And because of the development of deep learning\nin recent years, researchers have focused more on the\nimage depth information of gestures.\nDue to the low\naccuracy of Kinect’s depth datas and the small detection"
+    },
+    {
+        "chunk_id": 9,
+        "source": "paper22",
+        "text": "in recent years, researchers have focused more on the\nimage depth information of gestures.\nDue to the low\naccuracy of Kinect’s depth datas and the small detection\nrange of leapmotion, the researchers try to use the deep\nlearning method to output the position information of\nhand keypoints [9] [10]. Oberweger M et al. [11]not only\napply CNNs to directly output the joint positions ,but also\ncombine a constrained prior hand model and a speciﬁc\nreﬁnement stage to increase the joint localization accuracy.\nShih-En Wei et al. [12] design a sequential multi-stage\nconvolution network which directly operates on belief\nmaps from previous stages,that is now one of the best body\nand hand 2D pose estimation methods. Tomas Simon et\nal. [13] propose a multi-camera system to train the hand\nkeypoint detector that effectively solves the occlusion\nproblems of the keypoints, and output the 3D position of\nhand keypoints.\nIn recent years, many methods focus on many spatio-"
+    },
+    {
+        "chunk_id": 10,
+        "source": "paper22",
+        "text": "keypoint detector that effectively solves the occlusion\nproblems of the keypoints, and output the 3D position of\nhand keypoints.\nIn recent years, many methods focus on many spatio-\ntemporal features which capture shape, appearance, and\nmotion cues via image gradientsand optical ﬂow.\nK.\nSimonyan et al.\n[14] propose a dual-ﬂow CNN that\ncombines spatial and temporal networks to verify that\nCNNs trained on multi-frame dense optical streams with\nsmaller training data sets can get very good performances.\nTran et al. [15] employ deep 3-dimensional convolu-\ntional networks (3D ConvNets) to learn spatiotemporal\nfeatures for videos.\nIn order to solve many challenges\nof human computer interaction in real-world systems,\nPavlo Molchanov et al. [16] apply a recurrent three\ndimensional convolutional neural network to detect and\nclassify dynamic gestures from multi-modal data. These\nvision-based methods mostly require expensive depth\ncamera equipments or are difﬁcult to meet the real-time"
+    },
+    {
+        "chunk_id": 11,
+        "source": "paper22",
+        "text": "classify dynamic gestures from multi-modal data. These\nvision-based methods mostly require expensive depth\ncamera equipments or are difﬁcult to meet the real-time\nrequirements of engineering practices.\nOur proposed\nmethod can be effectively migrated to engineering practice\nfor the vehicle control.\n3\nMETHOD\nThe gesture interaction control for unmanned vehicles\nmainly faces two major challenges: the complex lighting\nconditions and poor real-time performances. In order to\nsolve these problems, this paper ﬁrst proposes to train our\nown hand detection data set based on the ssd mobilenet\nmodel to obtain the detection box {cx, cy, w, h} of the\nhand and initialize the hand position.\nThen the square\npatch is cropped at the hand position in the images, that\ncan avoid the full image search and speed up the recogni-\ntion speed. Since the ssd mobilenet detection method does\nnot accurately detect the hand in every frame, we propose\na method of presetting the hand keypoints in the square"
+    },
+    {
+        "chunk_id": 12,
+        "source": "paper22",
+        "text": "tion speed. Since the ssd mobilenet detection method does\nnot accurately detect the hand in every frame, we propose\na method of presetting the hand keypoints in the square\npatch of images and using the Kalman ﬁlter to track the\nhand keypoints. In order to obtain the characteristics which\nare easy to classify, we follow CPMs to output the belief\nmap of each keypoint, that remove the inﬂuences of illu-\nmination and other factors. Subsequently the image fea-\ntures are extracted by CNNs. Then the multi-frame clas-\nsiﬁcation results are recursively counted to obtain the ﬁnal\nresults. The system framework includes: hand detection,\nhand keypoints tracking, belief maps output, CNNs classi-\nﬁcation and multi-frame prediction (see Fig. 1).\n3.1\nDetect hand by ssd mobilenet model\nThis paper proposes a method of migration learning to\nﬁne-tune ssd mobilenet v1 coco model to detect hand.\nThe output of the convolutional layer in Single Shot\nMultiBox Detector (SSD) is convolved with two dif-"
+    },
+    {
+        "chunk_id": 13,
+        "source": "paper22",
+        "text": "ﬁne-tune ssd mobilenet v1 coco model to detect hand.\nThe output of the convolutional layer in Single Shot\nMultiBox Detector (SSD) is convolved with two dif-\nThe 31th Chinese Control and Decision Conference (2019 CCDC)\n5951\nAuthorized licensed use limited to: Lovely Professional University - Phagwara. Downloaded on March 11,2026 at 07:18:00 UTC from IEEE Xplore.  Restrictions apply."
+    },
+    {
+        "chunk_id": 14,
+        "source": "paper22",
+        "text": "Figure 2: Structure of CPMs\nferent 3×3 convolution kernels, one for the classiﬁed\nconﬁdence and the other one for the localization of the\nregression location called bounding-boxes {cx, cy, w, h}.\nThe ssd mobilenet model is based on SSD to replace\nthe Backbone network(VisualGeometryGroup16) with a\nlightweight deep network model called mobilent that can\nimprove detection speed and suit engineering practice on\nmobile terminals such as TX2.\nWe normalize each 640 × 480 image captured by the orig-\ninal video stream to size 320 × 280. Then, we take each\n320 × 280 image as the input of the trained ssd mobilenet\nmodel, and integrate the offset value of each border and\nthe score of the classiﬁcation. We get the bounding-boxes\nD1 {cx, cy, w, h} of the hand in the original frame(640 ×\n480). The speed of ssd mobilenet model operates at 30\nframes per second (FPS) on 4G GPU, which meets both\nrealtime and high precision.\n3.2\nHand keypoint estimation and tracking"
+    },
+    {
+        "chunk_id": 15,
+        "source": "paper22",
+        "text": "480). The speed of ssd mobilenet model operates at 30\nframes per second (FPS) on 4G GPU, which meets both\nrealtime and high precision.\n3.2\nHand keypoint estimation and tracking\nFor the hand keypoint estimation, we follow the CPMs to\npredict the conﬁdence map for each keypoint. We denote\neach hand keypoint as Yp = (x, y) in the image,there\nare 21 keypoints in a hand(see Fig.\n3), denoted as\nY = (Y1, · · · , YP ), P = 21. We follow the center of\nthe bounding-boxes C(cx, cy) ,and preset 21 keypoints\nY ′ = (Y ′\n1, · · · , Y ′\n21) in the detection frame.Then we crop\nthe image area DCP Ms {cx, cy, w1, h1} with the area 2\n× D2(the minimum area surrounding the 21 keypoints) as\ninput of the CPMs.\nIn the ﬁrst stage S1 of CPMs (see Fig. 2), we normalize\nthe image area DCP Ms {cx, cy, w1, h1} obtained from\nthe detection to size 256×256 as the original input image\nof the CPMs. The feature map extraction is followed by\nthe ﬁrst prediction stage that produces all the beliefs of\npart p + 1, B1 =\n\u0002\nB1"
+    },
+    {
+        "chunk_id": 16,
+        "source": "paper22",
+        "text": "the detection to size 256×256 as the original input image\nof the CPMs. The feature map extraction is followed by\nthe ﬁrst prediction stage that produces all the beliefs of\npart p + 1, B1 =\n\u0002\nB1\n1 · · · , B1\nP +1\n\u0003\n, P = 21, so that the\nbelief maps B1 ∈Rw1×h1×(P +1) for all the keypoints\ncan be obtained(P parts plus one for background), which\nare 22 belief maps 32 × 32. Then, in all remaining stages\nSt, t ≥2, the belief maps of the previous stage St−1 is\nconnected to the image feature F, in order to produce a\nmore accurate new belief maps Bt.\nAfter 6 prediction\nstages, we adjust the belief maps 32 × 32 of 21 hand\nkeypoints to the original image size of 256 × 256. And\nﬁnally, the accurate new belief maps Bt ∈Rw1×h1×P and\nthe position Yc = (Y1, · · · , YP ) of 21 hand keypoints can\nbe obtained.\nIn order to carry out continuous position estimation for the\nFigure 3: Deﬁnition of 21 hand keypoints\nhand, this paper uses the Kalman ﬁlter to track 21 hand"
+    },
+    {
+        "chunk_id": 17,
+        "source": "paper22",
+        "text": "be obtained.\nIn order to carry out continuous position estimation for the\nFigure 3: Deﬁnition of 21 hand keypoints\nhand, this paper uses the Kalman ﬁlter to track 21 hand\nkeypoints.We take the preseted position of 21 keypoints\nY ′ = (Y ′\n1, · · · , Y ′\n21) as the values of the Kalman ﬁlter at\ntime instant k −1, and predict Y ′\nk = Y ′\nk−1 = Y ′ as the\nposition of keypoints at the current time instant k in Eqn\n1. We take Yc = (Y1, · · · , YP ) obtained by CPMs as the\nmeasured value at current time instant k.\nThe Kalman\ngain Kk can be calculated by Eqn. 2 and Eqn. 3. We\nfurther update and correct the position in Eqn. 4, in order\nto obtain a more accurate new estimate Y r\nk , which is\nused to calculate and update the image region DCP Ms\n{cx, cy, w1, h1}. If the tracking fails, we restart detection\nand perform tracking initialization. Finally, we continu-\nously output the belief maps Bt ∈Rw1×h1×P of 21 hand\nkeypoints, thereby eliminating the inﬂuence of complex"
+    },
+    {
+        "chunk_id": 18,
+        "source": "paper22",
+        "text": "and perform tracking initialization. Finally, we continu-\nously output the belief maps Bt ∈Rw1×h1×P of 21 hand\nkeypoints, thereby eliminating the inﬂuence of complex\nbackground and ensuring the real-time performance. This\npaper expects to extract features from these belief maps\nfor accurate classiﬁcation. For this classiﬁcation is easy to\nobtain a large number of train sets, we must think of CNNs.\nY ′\nk = A · Y ′\nk−1 + B · uk−1.\n(1)\nPk = A · Pk−1 · AT + Q.\n(2)\nKk = Pk · HT · (H · Pk · HT + R)−1.\n(3)\nY r\nk = Y ′\nk + Kk · (Yc −H · Y ′\nk).\n(4)\n3.3\nCNNs classiﬁcation and multi-frame prediction\nThe AlexNet network [17] consists of 5 convolutional\nlayers and 3 fully connected layers.\nCompared with\nother CNNs (LeNet,GoogLeNet), it has the advantages\nof shallow network structure, few parameters and strong\ngeneralization abilities. And the ﬁne-tuning method can\n5952\nThe 31th Chinese Control and Decision Conference (2019 CCDC)"
+    },
+    {
+        "chunk_id": 19,
+        "source": "paper22",
+        "text": "of shallow network structure, few parameters and strong\ngeneralization abilities. And the ﬁne-tuning method can\n5952\nThe 31th Chinese Control and Decision Conference (2019 CCDC)\nAuthorized licensed use limited to: Lovely Professional University - Phagwara. Downloaded on March 11,2026 at 07:18:00 UTC from IEEE Xplore.  Restrictions apply."
+    },
+    {
+        "chunk_id": 20,
+        "source": "paper22",
+        "text": "(a) Indoor pictures of 8 gestures\n(b) Outdoor pictures of 8 gestures\n(c) Redundant pictures generated during handover\nFigure 4: Sample pictures of data sets.(Labels are deﬁned in turn as: go forward 0 , go backward 7, turn left 2, turn right 3,\nspeed up 4, slow down 5, stop 1 and hide 6 in (a) and (b))\nmake the AlexNet learn the characteristics of new data\nsets fast, so this paper proposes a method to increase the\nbackground class for ﬁne-tuning training by the AlexNet,\nand multi-frame recursive results.\nWe divide the belief maps of the eight gestures into\neight types of images, each of which has 500 images\n(train set: validation set = 8: 2).\nThe ﬁnal validation\naccuracy is 100%, indicating that the ﬁne-tuning AlexNet\nhas a good effect of feature extraction.\nHow to solve\nthe problem of redundant frames in the video streams is\nthe key to real-time gesture recognition. We propose to\nadd a background class.\nFirstly, the redundant frames"
+    },
+    {
+        "chunk_id": 21,
+        "source": "paper22",
+        "text": "How to solve\nthe problem of redundant frames in the video streams is\nthe key to real-time gesture recognition. We propose to\nadd a background class.\nFirstly, the redundant frames\ngenerated in the eight gesture switching processes are also\noutputted their belief maps by CPMs, that is grouped into\na background class with a total data set of 600. Then we\nretrain the AlexNet and collect total 9 classes(8 gestures\nplus 1 background). After 30 generations of training, the\nﬁnal validation accuracy is 99.3%.\nIn this paper, the belief maps Bt ∈Rw1×h1×P outputted\nby CPMs are used as the input of the trained AlexNet(see\nFig. 5) to obtain the label of each frame. We have consid-\nered that the background class is easily misjudged, and the\nproject actually requires 100% accuracy rate . Therefore,\nthis paper proposes a multi-frame recursive method to\neliminate redundant frames and error frames. We deﬁne\na series of frames produced by the video stream as"
+    },
+    {
+        "chunk_id": 22,
+        "source": "paper22",
+        "text": "this paper proposes a multi-frame recursive method to\neliminate redundant frames and error frames. We deﬁne\na series of frames produced by the video stream as\n{S1, S2, · · · , SF } . Starting from the ﬁrst frame, we takes\nthe labels of n frames as a set L = {LS1, LS2, · · · , LSn}.\nThen we count the class with the highest frequency of\nthe same label in set L as the result of these n frames.\nThrough our method, although the recognition speed drops\nslightly, we effectively improve the accuracy and stability\nof gesture recognition in the video streams.\n4\nEXPERIMENTS\n4.1\nExperiment platform and data sets\nIn engineering, we migrate the method to the mobile TX2\nand placed a USB camera on top of the helmet.\nThis\nFigure 5: Structure of trained CNNs\nFigure 6: Gesture recognition helmet\nFigure 7: Belief maps of 8 gestures\nenabled us to implement a low-cost, easy-to-wear gesture\nrecognition helmet(see Fig. 6). We used the helmet to\ncollect image data and experiments."
+    },
+    {
+        "chunk_id": 23,
+        "source": "paper22",
+        "text": "Figure 7: Belief maps of 8 gestures\nenabled us to implement a low-cost, easy-to-wear gesture\nrecognition helmet(see Fig. 6). We used the helmet to\ncollect image data and experiments.\nCombined with our habits, we deﬁne 8 gestures:\ngo\nforward, go backward, turn left, turn right, speed up, slow\ndown, stop and hide, for controling the unmanned vehicle.\nIn the complex indoor and outdoor environment: sunlight,\ncloudy, and wild, we collect 4600 pictures of 8 gestures\nswitching between each other.\nEach of these types of\ngesture pictures is 500, and the total background class is\n600. Part of the collection is shown in Fig. 4. And we can\nget belief maps for 8 gestures with CPMs.(see Fig. 7)\nThe 31th Chinese Control and Decision Conference (2019 CCDC)\n5953\nAuthorized licensed use limited to: Lovely Professional University - Phagwara. Downloaded on March 11,2026 at 07:18:00 UTC from IEEE Xplore.  Restrictions apply."
+    },
+    {
+        "chunk_id": 24,
+        "source": "paper22",
+        "text": "(a)\n(b)\n(c)\nFigure 8: (a) is original pictures of hand. (b) is the effect of hand detection and keypoints tracking. (c): After CNNs\nclassiﬁcation, we get the label of each picture, we further carry out multi-frame recursion\nFigure 9: During the switching process of gesture 6 and gesture 3, the background class 8 is misidentiﬁed as gesture 4, and\nwe use this method to eliminate the error frame.\nFigure 10: Training loss curve\n4.2\nHand detection model training\nWe manually labeled 1000 hand images in different\nenvironments and poses as train set from our own data sets\n(train set: validation set: test set = 7.6: 1.4: 1), when the\nlearning rate is 0.0005, after 60000 iterations, the total loss\nstabilized at 1.211 (see Fig. 10) and the Mean Average\nPrecision (mAP) was 0.96.\n4.3\nClassiﬁcation result analysis\nFrom the original picture to the ﬁnal result(see Fig. 8),\nthe average recognition speed of the experiment generally\nﬂoats at 10-13 fps, so we take the continuous 12 frames in"
+    },
+    {
+        "chunk_id": 25,
+        "source": "paper22",
+        "text": "From the original picture to the ﬁnal result(see Fig. 8),\nthe average recognition speed of the experiment generally\nﬂoats at 10-13 fps, so we take the continuous 12 frames in\nthe process of gesture switching in the video streams for\nTable 1: Comparison of different methods\nMethod\nSingle frame\nclassiﬁcation time (t/s)\nAccuracy\nAverage\nFPS\nHog+svm\n0.15\n87%\n4.1\nVGG19\n0.023\n97%\n9.7\nOurs\n0.006\n96.7%\n11.6\nanalysis. After hand detection and keypoints tracking, we\nuse the belief maps obtained by CPMs to perform AlexNet\nclassiﬁcation and display the classiﬁcation results on the\nbelief maps. After many experiments, the number of the\nredundant frames generated by gesture switching are about\n1-3 frames at 10-13fps, so we recursively take n=5 frames\nin order to minimize the impact of redundant frames. Even\nwith a very small number of misclassiﬁed frames, we can\nexclude the effects in this way, as shown in Fig. 9.\n4.4\nComparative experiment\nWe capture 300 video stream frames generated by switch-"
+    },
+    {
+        "chunk_id": 26,
+        "source": "paper22",
+        "text": "with a very small number of misclassiﬁed frames, we can\nexclude the effects in this way, as shown in Fig. 9.\n4.4\nComparative experiment\nWe capture 300 video stream frames generated by switch-\ning between 8 gestures from the video streams as test sets.\nThis paper compares the traditional classiﬁcation method\nhog+svm with the deeper network structure VGG19 than\nAlexnet in the same test environment.\nThe traditional method is far less than the deep learn-\ning model in terms of average fps and accuracy, and it is\nnot possible to classify background classes and 8 gestures\nvery well. The VGG19 network is about the same as the\nAlexNet in accuracy, but not as good as the AlexNet net-\n5954\nThe 31th Chinese Control and Decision Conference (2019 CCDC)\nAuthorized licensed use limited to: Lovely Professional University - Phagwara. Downloaded on March 11,2026 at 07:18:00 UTC from IEEE Xplore.  Restrictions apply."
+    },
+    {
+        "chunk_id": 27,
+        "source": "paper22",
+        "text": "Figure 11: Red: accuracy of validation set. Green: loss\nvalue of validation set. Yellow: loss value of train set\nwork on average fps. The comparative experimental results\nof these three methods are shown in Table 1. When we ﬁne-\ntune AlexNet, the effect is the best in learning rate 0.0006.\nOn the basis of ﬁne-tuning, the loss value of the train set\nand validation set can easily drop to a low point, and the\nconvergence speed is faster(see Fig. 11).\n5\nConclusion\nThis paper proposes a method for real-time recognition of\nvideo streams based on deep learning in complex environ-\nments. It is applied to human-computer interaction con-\ntrol of vehicle in engineering. The ssd mobilenet model\nis used to effectively detect the hand, and the Kalman ﬁl-\nter is used to track the hand keypoints. We use the CNNs\nto classify the keypionts belief maps which are outputted\nby the CPMs. The proposed algorithm has an accuracy of\nmore than 96% for gesture recognition in complex environ-"
+    },
+    {
+        "chunk_id": 28,
+        "source": "paper22",
+        "text": "to classify the keypionts belief maps which are outputted\nby the CPMs. The proposed algorithm has an accuracy of\nmore than 96% for gesture recognition in complex environ-\nments, effectively reduces the false alarm rates. The set-\nting of the background class and the multi-frame recursion\nmethod make us more reliable in the practical application\nof the project. The recognition speed achieves on the TX2\nis 2fps, and the recognition accuracy is about 97%, which\nbasically meets the engineering practice requirements. In\nour future work, we will focus on expanding our data sets\nto make them more robust and improve the computational\nefﬁciency of mobile devices such as TX2 for better real-\ntime performances.\nREFERENCES\n[1] E. Ueda, Y. Matsumoto, M. Imai, and T. Ogasawara, Hand\npose estimation for vision-based human interface, in IEEE\nInternational Workshop on Robot and Human Interactive\nCommunication, 2001. Proceedings, 2002, pp. 473478."
+    },
+    {
+        "chunk_id": 29,
+        "source": "paper22",
+        "text": "pose estimation for vision-based human interface, in IEEE\nInternational Workshop on Robot and Human Interactive\nCommunication, 2001. Proceedings, 2002, pp. 473478.\n[2] Z. Ren, J. Yuan, J. Meng, and Z. Zhang, Robust part-based\nhand gesture recognition using kinect sensor, IEEE Trans-\nactions on Multimedia, vol. 15, no. 5, pp. 11101120, 2013.\n[3] C. Keskin, F. Kra, Y. E. Kara, and L. Akarun, Real time\nhand pose estimation using depth sensors, in IEEE Inter- na-\ntional Conference on Computer Vision Workshops, 2011, pp.\n12281234.\n[4] E. Ohn-Bar and M. M. Trivedi, Hand gesture recognition in\nreal time for automotive interfaces: A multimodal vision-\nbased approach and evaluations, IEEE Transactions on In-\ntelligent Transportation Systems, vol. 15, no. 6, pp. 2368\n2377, 2014.\n[5] W. Liu, D. Anguelov, D. Erhan, C. Szegedy, S. Reed, C. Y.\nFu, and A. C. Berg, Ssd: Single shot multibox detector,in\nEuropean Conference on Computer Vision, 2016, pp. 21 37."
+    },
+    {
+        "chunk_id": 30,
+        "source": "paper22",
+        "text": "2377, 2014.\n[5] W. Liu, D. Anguelov, D. Erhan, C. Szegedy, S. Reed, C. Y.\nFu, and A. C. Berg, Ssd: Single shot multibox detector,in\nEuropean Conference on Computer Vision, 2016, pp. 21 37.\n[6] A. G. Howard, M. Zhu, B. Chen, D. Kalenichenko, W. Wang,\nT. Weyand, M. Andreetto, and H. Adam, Mo- bilenets: Efﬁ-\ncient convolutional neural networks for mobile vision appli-\ncations, 2017.\n[7] H. Francke, J. Ruiz-Del-Solar, and R. Verschae, Real-time\nhand gesture detection and recognition using boosted clas-\nsiﬁers and active learning, in Paciﬁc-Rim Symposium on Im-\nage and Video Technology, 2007, pp. 533547.\n[8] J. Lee, Y. Lee, E. Lee, and S. Hong, Hand region ex- trac-\ntion and gesture recognition from video stream with complex\nbackground through entropy analysis, Conf Proc IEEE Eng\nMed Biol Soc, vol. 2, no. 2, pp. 15131516, 2004.\n[9] U. Iqbal, M. Garbade, and J. Gall, Pose for action - action for\npose, 2016\n[10] V. Ramakrishna, D. Munoz, M. Hebert, J. A. Bagnell, and"
+    },
+    {
+        "chunk_id": 31,
+        "source": "paper22",
+        "text": "Med Biol Soc, vol. 2, no. 2, pp. 15131516, 2004.\n[9] U. Iqbal, M. Garbade, and J. Gall, Pose for action - action for\npose, 2016\n[10] V. Ramakrishna, D. Munoz, M. Hebert, J. A. Bagnell, and\nY. Sheikh, Pose machines: Articulated pose estimation via\ninference machines, vol. 8690, pp. 3347, 2014.\n[11] M. Oberweger, P. Wohlhart, and V. Lepetit, Hands deep\nin deep learning for hand pose estimation, CoRR, vol.\nabs/1502.06807, 2015.\n[12] S. E. Wei, V. Ramakrishna, T. Kanade, and Y. Sheikh, Con-\nvolutional pose machines, pp. 47244732, 2016.\n[13] T. Simon, H. Joo, I. Matthews, and Y. Sheikh, Hand key-\npoint detection in single images using multiview bootstrap-\nping, in IEEE Conference on Computer Vision and Pattern\nRecognition, 2017, pp. 46454653.\n[14] K. Simonyan and A. Zisserman, Two-stream convolutional\nnetworks for action recognition in videos, vol. 1, no. 4, pp.\n568576, 2014.\n[15] T. Du, L. Bourdev, R. Fergus, L. Torresani, and M. Paluri,"
+    },
+    {
+        "chunk_id": 32,
+        "source": "paper22",
+        "text": "[14] K. Simonyan and A. Zisserman, Two-stream convolutional\nnetworks for action recognition in videos, vol. 1, no. 4, pp.\n568576, 2014.\n[15] T. Du, L. Bourdev, R. Fergus, L. Torresani, and M. Paluri,\nLearning spatiotemporal features with 3d convolutional net-\nworks, in IEEE International Conference on Computer Vi-\nsion, 2015, pp. 44894497.\n[16] P. Molchanov, X. Yang, S. Gupta, K. Kim, S. Tyree, and\nJ. Kautz, Online detection and classiﬁcation of dynamic\nhand gestures with recurrent 3d convolutional neural net-\nworks, in Computer Vision and Pattern Recognition, 2016,\npp. 42074215.\n[17] A. Krizhevsky, I. Sutskever, and G. E. Hinton, Imagenet\nclassiﬁcation with deep convolutional neural networks, in In-\nternational Conference on Neural Information Process- ing\nSystems, 2012, pp. 10971105.\nThe 31th Chinese Control and Decision Conference (2019 CCDC)\n5955"
+    },
+    {
+        "chunk_id": 33,
+        "source": "paper22",
+        "text": "ternational Conference on Neural Information Process- ing\nSystems, 2012, pp. 10971105.\nThe 31th Chinese Control and Decision Conference (2019 CCDC)\n5955\nAuthorized licensed use limited to: Lovely Professional University - Phagwara. Downloaded on March 11,2026 at 07:18:00 UTC from IEEE Xplore.  Restrictions apply."
+    }
+]

@@ -1,0 +1,162 @@
+[
+    {
+        "chunk_id": 1,
+        "source": "paper46",
+        "text": "Hand Gesture Signature Recognition\nwith Machine Learning Algorithms\nAzra Izni Anis binti Azlin, Pang Ying Han, Khoh Wee How,\nand Ooi Shih Yin\nAbstract Hand gesture recognition is regarded as an imperative Human–Computer\nInteraction technology for non-verbal communication and interaction between\nhuman and computers. Inspired by hand gesture recognition systems, hand gesture\nsignature recognition is proposed to replace the existing online handwritten signa-\nture recognition which requires a stylus pen and tablet as middleware between users\nand the systems. The possibility of germs contamination on these shared devices\nalerts public concerns, especially during this COVID-19 pandemic. Hence, an in-air\nsignature recognition, termed as iSign, that utilizes hand gesture signing movement\nis proposed in this paper. In iSign, a Kinect Sensor is adopted to detect and capture\nthe hand movement of the users while signing. This mode of data acquisition does"
+    },
+    {
+        "chunk_id": 2,
+        "source": "paper46",
+        "text": "is proposed in this paper. In iSign, a Kinect Sensor is adopted to detect and capture\nthe hand movement of the users while signing. This mode of data acquisition does\nnot require users for any direct touch on any devices. Next, the captured video\ndata is transformed into feature template. Various machine learning algorithms, i.e.\nBayesian network, Naïve Bayes, Decision Tree, Random Forest etc., are examined\nto classify the hand gesture signatures. Empirical results demonstrate that Random\nForest performs the best among the machine learning algorithms with accuracy of\n93%.\nKeywords Hand gesture · Signature recognition · Machine learning · Random\nforest\nA. I. A. binti Azlin · P. Y. Han (B) · K. W. How · O. S. Yin\nFaculty of Information Science and Technology, Multimedia University, 75450 Ayer Keroh,\nMelacca, Malaysia\ne-mail: yhpang@mmu.edu.my\nA. I. A. binti Azlin\ne-mail: 1171201765@student.mmu.edu.my\nK. W. How\ne-mail: whkhoh@mmu.edu.my\nO. S. Yin\ne-mail: syooi@mmu.edu.my"
+    },
+    {
+        "chunk_id": 3,
+        "source": "paper46",
+        "text": "Melacca, Malaysia\ne-mail: yhpang@mmu.edu.my\nA. I. A. binti Azlin\ne-mail: 1171201765@student.mmu.edu.my\nK. W. How\ne-mail: whkhoh@mmu.edu.my\nO. S. Yin\ne-mail: syooi@mmu.edu.my\n© The Author(s), under exclusive license to Springer Nature Singapore Pte Ltd. 2023\nD.-K. Kang et al. (eds.), Proceedings of the 9th International Conference\non Computational Science and Technology, Lecture Notes in Electrical Engineering 983,\nhttps://doi.org/10.1007/978-981-19-8406-8_30\n389"
+    },
+    {
+        "chunk_id": 4,
+        "source": "paper46",
+        "text": "390\nA. I. A. binti Azlin et al.\n1\nIntroduction\nSignatures have been counted as an identity authentication form in the society for\nhundredsofyears.Signaturerecognitionisthemostusedapproachincommercialand\nlegal industries for personal authentication. There are two mode of signature analysis\nmethods: ofﬂine and online [1]. In ofﬂine signature mode, the signature patterns are\nsigned on papers and scanned. The digitized signature data is further processed and\nanalysed for veriﬁcation. Online signature system requires data acquisition devices,\nsuch as stylus pen and tablet to capture the static and dynamic signing data such as\ngeometrical shapes, pressure sensitivity, velocity, acceleration, etc.\nIn these recent years, the world has been acutely affected by Coronavirus disease\n(COVID-19). This global virus is an infectious disease and has a catastrophic effect\nworldwide causing nearly 5.4 million deaths [2]. There are almost 280 million"
+    },
+    {
+        "chunk_id": 5,
+        "source": "paper46",
+        "text": "(COVID-19). This global virus is an infectious disease and has a catastrophic effect\nworldwide causing nearly 5.4 million deaths [2]. There are almost 280 million\nconﬁrmed cases globally. This COVID-19 pandemic has accelerated the use of touch-\nless technology due to hygiene desires. Hence, the classical ofﬂine and online hand\nsignature systems which involve shared or touch-based properties (i.e., paper, pen,\nstylus pen, and tablet) should be replaced to minimize the spread of the virus through\nthe contaminated shared/common device. One of the alternatives is to use touchless\nhandwritten signature recognition technology.\nDynamic hand gesture is a pattern of a temporal sequence of points concerning the\nhand centroid of the individual while performing a hand motion [3]. Hand gesture\nrecognition is a popular Human–Computer Interaction technology for non-verbal\ntouchless communication and interaction between humans and computers. Inspired"
+    },
+    {
+        "chunk_id": 6,
+        "source": "paper46",
+        "text": "recognition is a popular Human–Computer Interaction technology for non-verbal\ntouchless communication and interaction between humans and computers. Inspired\nby the hand gesture system, hand gesture signature recognition is proposed to replace\nthe existing handwritten signature recognition as a means of touchless personal iden-\ntity veriﬁcation technology. In this paper, an in-air handwritten signature recognition,\ntermed as iSign, that utilizes hand gesture signing movement is proposed. Signing\nusing hand gestures offers several discriminative characteristics for classiﬁcation\nsuch as signature shape, hand motion orientation, position or trajectory, and motion\nspeed or direction. Orientation is how the hand is being rotated whether in left or\nright directions; the signature shape is regarding how the signature is formed due to\nthe unique signing behaviour of individuals; position or trajectory is about how users"
+    },
+    {
+        "chunk_id": 7,
+        "source": "paper46",
+        "text": "right directions; the signature shape is regarding how the signature is formed due to\nthe unique signing behaviour of individuals; position or trajectory is about how users\nmove their hands while signing; motion speed or direction is how fast the hands’\nmovements are when the users are signing.\nThe iSign system is non-intrusive and reliable since the hand gesture signature\nis utterly untraceable. The touchless characteristic of iSign resolves the hygiene\nissue and diminishes the likelihood of the outspread of contagious viruses. In iSign,\nthere are four main phases: signing data acquisition, data pre-processing, feature\nextraction/projection and data classiﬁcation. The overview of iSign is illustrated in\nFig. 1. During the data acquisition, a Microsoft Kinect Sensor is adopted to detect and\ncapture the hand signing movement into a video format. This mode of data acquisition\ndoes not require users for any direct touch on any devices. Next, the captured video"
+    },
+    {
+        "chunk_id": 8,
+        "source": "paper46",
+        "text": "capture the hand signing movement into a video format. This mode of data acquisition\ndoes not require users for any direct touch on any devices. Next, the captured video\ndata is pre-processed for enhanced quality before data analysis. In this phase, pre-\nprocessing processes such as region of interest localization, background subtraction,"
+    },
+    {
+        "chunk_id": 9,
+        "source": "paper46",
+        "text": "Hand Gesture Signature Recognition with Machine Learning Algorithms\n391\nFig. 1 Overview of the proposed system\ndenoising, etc. are performed. Then, this pre-processed data is transformed into\nfeature template. Lastly, various machine learning algorithms, i.e. Bayesian network,\nNaïve Bayes, Decision Tree, Random Forest etc., are examined to classify the hand\ngesture signatures.\n2\nRelated Works\nSince Microsoft Kinect sensor is the main acquisition device in iSign, a brief descrip-\ntion of this sensor is discussed here. The affordable price and ample availability of\nKinect sensor propagate the application of Kinect sensor in the gesture recognition\n[4]. In recent years, Kinect camera is gradually replacing time-of-ﬂight camera and\nstereo camera in Human–Computer Interaction community for visual computation.\nThis is because Kinect camera is not only able to capture colour information, but\nit also affords depth information as an additional knowledge for computer vision"
+    },
+    {
+        "chunk_id": 10,
+        "source": "paper46",
+        "text": "This is because Kinect camera is not only able to capture colour information, but\nit also affords depth information as an additional knowledge for computer vision\nprocessing [5]. Hand gesture signature recognition can be grouped as an online\nsignature recognition. The core difference between both is that the latter is using a\nstylus pen and digital tablet for signature acquisition; whereas, the former is using\ncamera, i.e., Kinect sensor, to capture the signing movement of the hand. In literature,\nDynamic Time Warping is one of the popular techniques used in online signature\nrecognition [6, 7]. Tian et al. [8] proposed in-air password recognition using a Kinect\ncamera. Password signing trajectory was computed by associating the user’s ﬁngertip\nin each video frame. Then, Dynamic Time Warping was employed to analyse and\nclassify the signing trajectory. There is another similar work that utilizes the depth"
+    },
+    {
+        "chunk_id": 11,
+        "source": "paper46",
+        "text": "in each video frame. Then, Dynamic Time Warping was employed to analyse and\nclassify the signing trajectory. There is another similar work that utilizes the depth\ninformation captured by the Kinect sensor for hand gesture signature recognition [9].\nIn this work, the positional trajectory was determined by connecting the ﬁngertip and"
+    },
+    {
+        "chunk_id": 12,
+        "source": "paper46",
+        "text": "392\nA. I. A. binti Azlin et al.\npalm mass centre points. Besides, additional information, such as velocity and accel-\neration, was considered as features. Dynamic Time Warping was used as distance\nclassiﬁer on the extracted features.\nFurthermore, a personal identiﬁcation for home entertainment based on hand\ngesture signature was proposed [10]. In this work, point distribution model and neigh-\nbourhood components analysis were utilized for measuring the signature trajectory\ndistance. Instead of using Kinect camera, Google glasses was adopted as a data acqui-\nsition device for hand gesture recognition [11]. Google glasses was used to track the\nﬁnger movement of the hand gesture. Motion vectors were computed by using Optical\nFlow calculation. Besides, Gaussian Mixture Modelling and Principal Component\nAnalysis were used for binary mark representative feature. Lastly, Dynamic Time\nWarping is used for signature classiﬁcation. Sun et al. [12] presented a hand gesture"
+    },
+    {
+        "chunk_id": 13,
+        "source": "paper46",
+        "text": "Analysis were used for binary mark representative feature. Lastly, Dynamic Time\nWarping is used for signature classiﬁcation. Sun et al. [12] presented a hand gesture\nrecognition for personal veriﬁcation to unlock mobile phone. This system utilized\nthree-dimensional (3D) acceleration information. A template updating strategy was\nproposed for persistent template update to tackle the physiological variations of the\nhand gestures.\nBesides, an imagery-based hand gesture signature recognition system was\nproposed [13]. This system manipulated both temporal and spatial information of\nthe signing hand gesture. To be speciﬁc, hand movement orientation and hand shape\nwere examined to learn the hand gesture signature. This rich feature analysis resulted\nan encouraging performance in personal identiﬁcation and veriﬁcation. Additionally,\nthe authors further improved their hand gesture signature recognition with multi-view"
+    },
+    {
+        "chunk_id": 14,
+        "source": "paper46",
+        "text": "an encouraging performance in personal identiﬁcation and veriﬁcation. Additionally,\nthe authors further improved their hand gesture signature recognition with multi-view\nspatiotemporal analysis based on spectral histogramming [14]. In this system, data\nfeature learning is performed via ﬁlter convolution and nonlinear feature analysis\nthrough a series of feature binarization, block-wise histogramming and histogram\nconcatenation for a global descriptor. In recent years, deep learning methods have\nbeenexploredinhandgesturerecognition.Forinstances,aLongShort-TermMemory\n(LSTM) had been applied in a hand gesture recognition based on trajectories features\n[15]. This proposed deep learning model was constructed for self-learning the spatial,\ntemporal, andDoppler features of thehandmotions. Yuet al. [16] proposedadynamic\nhand gesture recognition based on 2D convolutional neural network and feature\nfusion. The authors adopted a fractional-order model to extract optical ﬂow frames"
+    },
+    {
+        "chunk_id": 15,
+        "source": "paper46",
+        "text": "hand gesture recognition based on 2D convolutional neural network and feature\nfusion. The authors adopted a fractional-order model to extract optical ﬂow frames\nof the data video and then incorporated the fractional-order into the neural network.\nEmpirical results showed a promising performance of this deep learning approach.\n3\nThe Proposed System\nAs aforementioned, iSign system comprises of four phases: signing data acquisition,\ndata pre-processing, feature extraction/projection and data classiﬁcation. Microsoft\nKinect camera is employed to capture the hand gesture signature data. The captured\ndata is in a video format, a sequence of depth images which describes the hand motion\nof a subject while signing. Next, this raw data is pre-processed to segment the region\nof interest (ROI). The nearest point from the camera (i.e., the nearest ﬁngertip from"
+    },
+    {
+        "chunk_id": 16,
+        "source": "paper46",
+        "text": "Hand Gesture Signature Recognition with Machine Learning Algorithms\n393\nFig. 2 (Left) the detection of the nearest point, i.e., signing ﬁngertip. (Right) the loss of signing\nmotion tracing, i.e., the detection of another body part as the nearest point (the picture is adopted\nfrom [13])\nthe camera) is utilized to trace the signing motion. There is always a challenge that the\nsigning hand may be moving backward during the signing. Hence, an abrupt change\nof the nearest point from the ﬁngertip to other parts such as nose tip or chest could\nbe possible. This results the loss of signing motion tracing, as illustrated in Fig. 2.\nA predictive palm segmentation method is proposed to assure the hand allocation\nprecision. More explanation of the method can be found in this paper [17].\nAfter the pre-processing phase, the resultant data is a 3D binary spatio-temporal\nimagery sequence, as illustrated in Fig. 3. From the ﬁgure, we can observe that the"
+    },
+    {
+        "chunk_id": 17,
+        "source": "paper46",
+        "text": "After the pre-processing phase, the resultant data is a 3D binary spatio-temporal\nimagery sequence, as illustrated in Fig. 3. From the ﬁgure, we can observe that the\nresultant data embraces the detected hand location, hand shape, signing motion and\nspeed. Next, feature projection is performed to produce a compact but informative\nfeature template. In this work, x-proﬁle projection is computed by projecting the\n3D binary imagery sequence along the y-axis. This projection unveils the pattern of\nthe time and signing motion horizontally in a compact projected template. Besides,\ny-proﬁle projection is calculated by projecting the 3D sequence along the x-axis,\nexhibiting the pattern of the time, and signing motion vertically. The x-proﬁle and\ny-proﬁle projections are illustrated in Fig. 4.\nAfter the feature projection phase, the projected templates, i.e., x-proﬁle and\ny-proﬁle, are further analysed using multiple machine learning algorithms for signa-"
+    },
+    {
+        "chunk_id": 18,
+        "source": "paper46",
+        "text": "After the feature projection phase, the projected templates, i.e., x-proﬁle and\ny-proﬁle, are further analysed using multiple machine learning algorithms for signa-\nture classiﬁcation. In this work, the performances of the classiﬁcation algorithms,\nsuch as Bayesian network, Naïve Bayes, Decision Tree, Random Forest and nearest-\nneighbour classiﬁer, in recognizing hand gesture signatures are analysed using\nWEKA software, a java-based machine learning tool.\nBayesian Network is a probabilistic graphical model, composing modes and\ndirected edges, captures conditionally dependent and independent relationships\nbetween random variables. It adopts Bayesian inferences for probability computa-\ntions. Naïve Bayes is an effective classiﬁer algorithm based on the class conditional\nindependence assumption. This classiﬁer estimates the likelihood of a feature vector\nbeing connected with a label. J48 decision tree is a statistical classiﬁer that could"
+    },
+    {
+        "chunk_id": 19,
+        "source": "paper46",
+        "text": "394\nA. I. A. binti Azlin et al.\nFig. 3 3D binary spatio-temporal imagery sequence of a signing process\ny-profile\nProjection along x-axis\nx-profile\nProjection along y-axis\nFig. 4 x-proﬁle (upper) and y-proﬁle (lower) projections\ncategorize new unlabeled data based on its similarity to those previously classiﬁed\ndata. Random Forest is a collection of decision trees in such a way that the tree results\nare aggregated into a unit result. In other words, this classiﬁer creates a “forest” out\nof a cluster of decision trees. Nearest-neighbour classiﬁer uses a distance metric to\nﬁnd the nearest occurrences in the training data for each test case."
+    },
+    {
+        "chunk_id": 20,
+        "source": "paper46",
+        "text": "Hand Gesture Signature Recognition with Machine Learning Algorithms\n395\n4\nDatabase and Experimental Protocol\nIn this work, the proposed system is assessed by using a self-collected Hand\nGesture Signature (HGS) database [13]. By using a Microsoft Kinect camera, image\nsequences of hand signing movement are recorded in a video format. There were 100\nvolunteers participated in this data collection with age ranging from 18 to 40 years.\nEach participant contributed 20 HGS samples and these HGS samples would be sepa-\nrated into training and testing sets depending on the implemented testing protocol.\nTraining set is used to train the system model; whereas testing samples are new and\nunseen to the system model, i.e., there is no overlap in samples between the training\nand testing sets and used for system performance evaluation.\nTwo testing protocols were carried out in this work: cross-validation protocol and"
+    },
+    {
+        "chunk_id": 21,
+        "source": "paper46",
+        "text": "and testing sets and used for system performance evaluation.\nTwo testing protocols were carried out in this work: cross-validation protocol and\ntesting split protocol. In the ﬁrst protocol, tenfold cross-validation was performed.\nThe HGS database was partitioned into ten equal-sized subsets. A single subset was\nheld for testing the model, and the remaining nine subsets were integrated and used\nfor model learning. The cross-validation process was repeated for 10 folds with each\nof the 10 subsets was used once as the testing sample set. Then, the obtained ten\nresults from the folds were averaged for performance indicator. In the testing split\nprotocol, the HGS database was randomly split into two subsets: testing and training\nsets. In this work, different ratio of splitting was performed with 60:40, 70:30 and\n80:20 (ratio of training set: testing set).\n5\nPerformance Results and Discussion\nIn this work, several performance measure metrics were used to assess the system"
+    },
+    {
+        "chunk_id": 22,
+        "source": "paper46",
+        "text": "80:20 (ratio of training set: testing set).\n5\nPerformance Results and Discussion\nIn this work, several performance measure metrics were used to assess the system\nperformance, such as True Positive (TP) rate, False Positive (FP) rate, Mean Absolute\nError (MAE) and Root Mean Squared Error (RMSE). In cross-validation testing, x-\nproﬁle,y-proﬁle,andconcatenationofx-proﬁlewithy-proﬁlewereassessed.Tables1\nand 2 record the performance results of x-proﬁle and y-proﬁle feature sets, respec-\ntively. Table 3 records the performance result of the concatenation of x-proﬁle and\ny-proﬁle feature sets, known as xy-proﬁle.\nTable 1 Performance results of iSign on x-proﬁle feature set\nClassiﬁer\nAccuracy (%)\nTP rate\nFP rate\nMAE\nRMSE\nBayesian network\n54\n0.540\n0.005\n0.0092\n0.0948\nNaïve Bayes\n42.05\n0.421\n0.006\n0.0116\n0.1073\nJ48 decision tree\n50\n0.500\n0.005\n0.0104\n0.0954\nRandom forest\n76.9\n0.769\n0.002\n0.0117\n0.0675\nNearest-neighbor classiﬁer\n72\n0.720\n0.003\n0.0063\n0.073"
+    },
+    {
+        "chunk_id": 23,
+        "source": "paper46",
+        "text": "396\nA. I. A. binti Azlin et al.\nTable 2 Performance results of iSign on y-proﬁle feature set\nClassiﬁer\nAccuracy (%)\nTP Rate\nFP Rate\nMAE\nRMSE\nBayesian network\n62.9\n0.629\n0.004\n0.0073\n0.0839\nNaïve Bayes\n55.05\n0.551\n0.005\n0.0088\n0.0934\nJ48 decision tree\n57\n0.570\n0.004\n0.0088\n0.0872\nRandom forest\n78.1\n0.781\n0.002\n0.0104\n0.0634\nNearest-neighbor classiﬁer\n70.95\n0.710\n0.003\n0.0064\n0.0736\nTable 3 Performance results of iSign on xy-proﬁle feature set\nClassiﬁer\nAccuracy (%)\nTP rate\nFP rate\nMAE\nRMSE\nBayesian network\n84.75\n0.848\n0.002\n0.0029\n0.0538\nNaïve Bayes\n72.8\n0.728\n0.003\n0.0052\n0.0723\nJ48 decision tree\n69.9\n0.699\n0.003\n0.0062\n0.0733\nRandom forest\n93\n0.930\n0.001\n0.0083\n0.0507\nNearest-neighbor classiﬁer\n90.1\n0.901\n0.001\n0.0028\n0.0428\nFrom the tables, we can notice that xy-proﬁle showing superior performance. It\ncan be deduced that the integrated features (i.e., xy-proﬁle) is able to provide richer\ninformation for signature hand gesture recognition. To be speciﬁc, the xy-proﬁle"
+    },
+    {
+        "chunk_id": 24,
+        "source": "paper46",
+        "text": "can be deduced that the integrated features (i.e., xy-proﬁle) is able to provide richer\ninformation for signature hand gesture recognition. To be speciﬁc, the xy-proﬁle\nfeature delivers the time and signing motion pattern characteristics in both horizontal\nand vertical directional analysis. Among the classiﬁers, Random Forest shows the\nbest performance in this application. Random Forest improves on bagging since it\ncould decorrelate the individual tree with the splitting on a random subset of features.\nIn other words, at each tree split, Random Forest only considers for a small subset\nof features, instead of the entire features of the model.\nNext, the system performance was evaluated using testing split protocol with a\nratio of M:N training and test samples by using xy-proﬁle. In this work, different ratio\nof splitting was conducted with 60:40, 70:30 and 80:20 (ratio of training set: testing\nset). Tables 4, 5 and 6 summarize the performance of iSign with ratios of 60:40,"
+    },
+    {
+        "chunk_id": 25,
+        "source": "paper46",
+        "text": "of splitting was conducted with 60:40, 70:30 and 80:20 (ratio of training set: testing\nset). Tables 4, 5 and 6 summarize the performance of iSign with ratios of 60:40,\n70:30 and 80:20, respectively. The purpose of this experiment is mainly to study the\ninﬂuence of training samples towards the feature learning efﬁciency. From the experi-\nmental results, it is observed that the ratio of 80:20 training-test samples shows higher\naccuracy rates. More training samples always supply extra information which helps\nmachines to learn the underlying data structure and make predictions. In other words,\nthe utilization of more training samples can produce better recognition. It is because\ndifferent kinds of data characteristics are available and extracted from multiple data\nsamples to provide richer information for feature analysis. More training samples,\nmore opportunities for the learning algorithms to learn and understand the underlying\nmapping of the input data to the output."
+    },
+    {
+        "chunk_id": 26,
+        "source": "paper46",
+        "text": "Hand Gesture Signature Recognition with Machine Learning Algorithms\n397\nTable 4 Performance with 60:40 training-test samples in testing split protocol\nClassiﬁer\nAccuracy (%)\nTP rate\nFP rate\nMAE\nRMSE\nBayesian network\n78.63\n0.786\n0.002\n0.0042\n0.0639\nNaïve Bayes\n67.75\n0.678\n0.003\n0.0062\n0.0787\nJ48 decision tree\n61.13\n0.611\n0.004\n0.0079\n0.0836\nRandom forest\n89.13\n0.891\n0.001\n0.0098\n0.0577\nNearest-neighbor classiﬁer\n87.13\n0.871\n0.001\n0.0038\n0.0484\nTable 5 Performance with 70:30 training-test samples in testing split protocol\nClassiﬁer\nAccuracy (%)\nTP rate\nFP rate\nMAE\nRMSE\nBayesian network\n80.5\n0.805\n0.002\n0.0037\n0.0607\nNaïve Bayes\n68.83\n0.688\n0.003\n0.006\n0.0774\nJ48 decision tree\n59.5\n0.595\n0.004\n0.0081\n0.0848\nRandom forest\n89.17\n0.892\n0.001\n0.0094\n0.0558\nNearest-neighbor classiﬁer\n87.33\n0.873\n0.001\n0.0036\n0.0481\nTable 6 Performance with 80:20 training-test samples in testing split protocol\nClassiﬁer\nAccuracy (%)\nTP rate\nFP rate\nMAE\nRMSE\nBayesian network\n83.25\n0.833\n0.002\n0.0032\n0.0565"
+    },
+    {
+        "chunk_id": 27,
+        "source": "paper46",
+        "text": "0.001\n0.0036\n0.0481\nTable 6 Performance with 80:20 training-test samples in testing split protocol\nClassiﬁer\nAccuracy (%)\nTP rate\nFP rate\nMAE\nRMSE\nBayesian network\n83.25\n0.833\n0.002\n0.0032\n0.0565\nNaïve Bayes\n71.25\n0.713\n0.003\n0.0055\n0.0743\nJ48 decision tree\n64.25\n0.643\n0.004\n0.0072\n0.0802\nRandom forest\n92.25\n0.923\n0.001\n0.0088\n0.0529\nNearest-neighbor classiﬁer\n88.75\n0.888\n0.001\n0.0032\n0.0455\n6\nConclusion\nThispaperpresentsacontactlesshandgesturesignaturerecognitionbyusingmachine\nlearning technology. In this system, there are four stages to recognize the detected in-\nair hand gesture handwritten signatures: data acquisition, data pre-processing, feature\ntransformation and data classiﬁcation. Data acquisition is to detect and capture the\nsigning hand movements using Microsoft Kinect. In data pre-processing, the quality\nof the captured data is enhanced. Next, the pre-processed data is transformed to\nthe desired form. In this stage, directional projections are performed vertically and"
+    },
+    {
+        "chunk_id": 28,
+        "source": "paper46",
+        "text": "of the captured data is enhanced. Next, the pre-processed data is transformed to\nthe desired form. In this stage, directional projections are performed vertically and\nhorizontally to generate x-proﬁle and y-proﬁle. Lastly, classiﬁcation is performed.\nIn this work, multiple machine learning algorithms are explored, such as Random\nForest, Nearest-neighbour classiﬁer, Bayes Net, Naïve Bayes, and J48 Decision Tree.\nEmpirical results show that Random Forest classiﬁer is able to achieve the best\nhand gesture signature recognition performance among the other machine learning\nclassiﬁers."
+    },
+    {
+        "chunk_id": 29,
+        "source": "paper46",
+        "text": "398\nA. I. A. binti Azlin et al.\nAcknowledgements This research is supported by Fundamental Research Grant Scheme (FRGS),\nFRGS/1/2021/ICT02/MMU/03/3. Authors acknowledged the Ministry of Higher Education\nMalaysia (MOHE).\nReferences\n1. Karouni A, Daya B, Bahlak S (2011) Ofﬂine signature recognition using neural networks\napproach. Procedia CS 3:155–161. https://doi.org/10.1016/j.procs.2010.12.027\n2. Covid ﬂight cancellations delay holiday travel—BBC News. https://www.bbc.com/news/\nworld-59798682. Last accessed 28 Feb 2022\n3. Giang D, Vu D, Hai V, Hai T (2016) Dynamic hand gesture recognition using spatial-temporal\nfeatures. https://doi.org/10.15625/vap.2015.00158\n4. Khoh WH, Pang YH, Teoh ABJ, Ooi SY (2021) In-air hand gesture signature using transfer\nlearning and its forgery attack. Appl Soft Comput 113. [108033]. https://doi.org/10.1016/j.\nasoc.2021.108033\n5. Han J, Shao L, Xu D, Shotton J (2013) Enhanced computer vision with Microsoft Kinect"
+    },
+    {
+        "chunk_id": 30,
+        "source": "paper46",
+        "text": "learning and its forgery attack. Appl Soft Comput 113. [108033]. https://doi.org/10.1016/j.\nasoc.2021.108033\n5. Han J, Shao L, Xu D, Shotton J (2013) Enhanced computer vision with Microsoft Kinect\nsensor: a review. IEEE Trans Cybern 43(5):1318–1334. https://doi.org/10.1109/TCYB.2013.\n2265378\n6. Sharma A, Sundaram S (2016) An enhanced contextual DTW based system for online signature\nveriﬁcation using vector quantization. Pattern Recogn Lett 84. https://doi.org/10.1016/j.patrec.\n2016.07.015\n7. Durrani M, Khan S, Khalid S (2019) VerSig: a new approach for online signature veriﬁcation.\nCluster Comput 22. https://doi.org/10.1007/s10586-017-1129-4\n8. Tian J, Qu C, Xu W, Wang S (2013) KinWrite: handwriting-based authentication using\nKinect. NDSS\n9. Jeon JH, Oh BS, Toh KA (2012) A system for hand gesture-based signature recognition. In:\n2012 12th international conference on control, automation, robotics and vision, ICARCV 2012\n[6485153], pp 171–175. https://doi.org/10.1109/ICARCV.2012.6485153"
+    },
+    {
+        "chunk_id": 31,
+        "source": "paper46",
+        "text": "2012 12th international conference on control, automation, robotics and vision, ICARCV 2012\n[6485153], pp 171–175. https://doi.org/10.1109/ICARCV.2012.6485153\n10. Mendels O, Stern H, Berman S (2014) User identiﬁcation for home entertainment based on free-\nair hand motion signatures. IEEE Trans Syst Man Cybern Syst 44(11):1461–1473 [6842691].\nhttps://doi.org/10.1109/TSMC.2014.2329652\n11. Sajid H, Cheung SS (2015) VSig: hand-gestured signature recognition and authentication with\nwearable camera. In: 2015 IEEE international workshop on information forensics and security\n(WIFS), pp 1–6\n12. Sun Z, Wang Y, Qu G, Zhou Z (2016) A 3-D hand gesture signature based biometric authenti-\ncation system for smartphones. Sec Commun Netw 9, 11:1359–1373. https://doi.org/10.1002/\nsec.1422\n13. Khoh WH, Pang Y, Teoh AB (2018) In-air hand gesture signature recognition system based on\n3-dimensional imagery. Multimedia Tools Appl 78:6913–6937"
+    },
+    {
+        "chunk_id": 32,
+        "source": "paper46",
+        "text": "sec.1422\n13. Khoh WH, Pang Y, Teoh AB (2018) In-air hand gesture signature recognition system based on\n3-dimensional imagery. Multimedia Tools Appl 78:6913–6937\n14. Khoh WH, Pang YH, Ooi SY, Yap HY (2021) Spatiotemporal spectral histogramming analysis\nin hand gesture signature recognition. J Intell Fuzzy Syst 40(3):4275–7286\n15. Yang Z, Zheng X (2021) Hand gesture recognition based on trajectories features and\ncomputation-efﬁcient reused LSTM network. IEEE Sens J 21(15):16945–16960\n16. Yu J, Qin M, Zhou S (2022) Dynamic gesture recognition based on 2D convolutional neural\nnetwork and feature fusion. Sci Rep 12(1):1–15\n17. Khoh WH, Pang YH, Teoh AB, Ooi SY (2021) In-air hand gesture signature using transfer\nlearning and its forgery attack. Appl Soft Comput 113, Part A, 108033. ISSN 1568-4946.\nhttps://doi.org/10.1016/j.asoc.2021.108033"
+    }
+]

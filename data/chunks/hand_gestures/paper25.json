@@ -1,0 +1,367 @@
+[
+    {
+        "chunk_id": 1,
+        "source": "paper25",
+        "text": "JOURNAL HOME (/OE/HOME.CFM)\nABOUT (/OE/JOURNAL/OE/ABOUT.CFM)\nISSUES IN PROGRESS (/OE/UPCOMINGISSUE.CFM)\nCURRENT ISSUE (/OE/ISSUE.CFM)\nALL ISSUES (/OE/BROWSE.CFM)\nFEATURE ISSUES (/OE/FEATURE.CFM)\n(https://opg.optica.org)\nJOURNALS (/ABOUT.CFM)\nCONFERENCES (/CONFERENCES.CFM)\nPREPRINTS (HTTPS://OPTICAPREPRINTS.FIGSHARE.COM/)\nOTHER RESOURCES \nMY FAVORITES \nRECENT PAGES \nOptics Express\nVol. 28, Issue 13 (/oe/issue.cfm?volume=28&issue=13), pp. 19711-19725 (2020)\n• https://doi.org/10.1364/OE.396339 (https://doi.org/10.1364/OE.396339)\nHuman gesture recognition under degraded\nenvironments using 3D-integral imaging and\ndeep learning\nGokul Krishnan, Rakesh Joshi, Timothy O’Connor, Filiberto Pla, and Bahram Javidi\nAuthor Information \n Find other works by these authors \n Open Access"
+    },
+    {
+        "chunk_id": 2,
+        "source": "paper25",
+        "text": "\nGet PDF\n(viewmedia.cfm?\nuri=oe-28-13-\n19711&seq=0)\n\nEmail (mailto:?subject=Article Published in Optics\nExpress&body=I would like to notify you about\nthe following article published in Optics\nExpress:%0AGokul Krishnan, Rakesh Joshi,\nTimothy O’Connor, Filiberto Pla, and Bahram\nJavidi, \"Human gesture recognition under\ndegraded environments using 3D-integral\nimaging and deep learning,\" Opt. Express 28,\n19711-19725\n(2020)%0Ahttps://opg.optica.org/oe/abstract.cfm?\nURI=oe-28-13-19711%0A------------------------------------\n---------------------------------------%0AThis is sent to you\nas an email notification feature from Optica\nPublishing Group: https://opg.optica.org)\n\nCitation\nalert\n\nSave article\n(/user/favorites_add_article.cfm?\narticles=432792)\nCheck for updates\n\nShare \n\nGet Citation \nSpatio-temporal continuous\ngesture recognition under\ndegraded environments:\nperformance comparison\nbetween 3D integral imaging\n(InIm) and RGB-D sensors\n(/oe/abstract.cfm?uri=oe-29-\n19-30937)"
+    },
+    {
+        "chunk_id": 3,
+        "source": "paper25",
+        "text": "Spatio-temporal continuous\ngesture recognition under\ndegraded environments:\nperformance comparison\nbetween 3D integral imaging\n(InIm) and RGB-D sensors\n(/oe/abstract.cfm?uri=oe-29-\n19-30937)\nGokul Krishnan, et al.\nOpt. Express 29(19) 30937-30951\n(2021)\nSpatial-temporal human\ngesture recognition under\ndegraded conditions using\nthree-dimensional integral\nimaging (/oe/abstract.cfm?\nuri=oe-26-11-13938)\nXin Shen, et al.\n\nMore Like This\nPDF Article\n(viewmedia.cfm?\nuri=oe-28-13-\n19711&seq=0)\nFigures (9)\nTables (1)\nEquations (10)\nReferences (40)\nCited By (22)\nMetrics\nBack to Top\nArticle Outline\nAbstract\nIn this paper, we propose a spatio-temporal human gesture recognition\nalgorithm under degraded conditions using three-dimensional integral\nimaging and deep learning. The proposed algorithm leverages the\nadvantages of integral imaging with deep learning to provide an efficient\nhuman gesture recognition system under degraded environments such as"
+    },
+    {
+        "chunk_id": 4,
+        "source": "paper25",
+        "text": "advantages of integral imaging with deep learning to provide an efficient\nhuman gesture recognition system under degraded environments such as\nocclusion and low illumination conditions. The 3D data captured using\nintegral imaging serves as the input to a convolutional neural network\n(CNN). The spatial features extracted by the convolutional and pooling layers\nof the neural network are fed into a bi-directional long short-term memory\n(BiLSTM) network. The BiLSTM network is designed to capture the temporal\nvariation in the input data. We have compared the proposed approach with\nconventional 2D imaging and with the previously reported approaches using\nspatio-temporal interest points with support vector machines (STIP-SVMs)\nand distortion invariant non-linear correlation-based filters. Our\nexperimental results suggest that the proposed approach is promising,"
+    },
+    {
+        "chunk_id": 5,
+        "source": "paper25",
+        "text": "Opt. Express 26(11) 13938-13951\n(2018)\nFundamentals of automated\nhuman gesture recognition\nusing 3D integral imaging: a\ntutorial (/aop/abstract.cfm?\nuri=aop-12-4-1237)\nBahram Javidi, et al.\nAdv. Opt. Photon. 12(4) 1237-1299\n(2020)\n\nRelated Topics\nHistory\nOriginal Manuscript: April 28, 2020\nRevised Manuscript: June 14, 2020\nManuscript Accepted: June 14,\n2020\nPublished: June 19, 2020\n\nAbout this Article\nespecially in degraded environments. Using the proposed approach, we find\na substantial improvement over previously published methods and find 3D\nintegral imaging to provide superior performance over the conventional 2D\nimaging system. To the best of our knowledge, this is the first report that\nexamines deep learning algorithms based on 3D integral imaging for human\nactivity recognition in degraded environments.\n© 2020 Optical Society of America under the terms of the OSA Open Access\nPublishing Agreement (https://doi.org/10.1364/OA_License_v1)\n1. Introduction"
+    },
+    {
+        "chunk_id": 6,
+        "source": "paper25",
+        "text": "activity recognition in degraded environments.\n© 2020 Optical Society of America under the terms of the OSA Open Access\nPublishing Agreement (https://doi.org/10.1364/OA_License_v1)\n1. Introduction\nHuman gesture recognition involves deriving meaningful inference from\nhuman motions and has a wide range of applications in human-computer\ninteraction, patient monitoring, surveillance, robotics, sign language\nrecognition, etc. [1]. In recent years, human gesture and action recognition\nhave attracted wide interest among the computer science and computer\nvision communities. Numerous approaches have been proposed for gesture\nrecognition, including the use of mathematical models such as Hidden\nMarkov Models (HMM) [2], spatio-temporal interest points-based detectors\n(STIPs) [3], correlation filter-based approaches [4], etc. Recently, deep\nlearning-based models for gesture recognition have gained wide acceptance\ndue to their generalization capabilities and high accuracy in detecting and"
+    },
+    {
+        "chunk_id": 7,
+        "source": "paper25",
+        "text": "learning-based models for gesture recognition have gained wide acceptance\ndue to their generalization capabilities and high accuracy in detecting and\nclassifying gestures [5,6]. While these methods have been shown to work\nwell for clean datasets, gesture recognition under degraded conditions\nremains a challenge, especially in cases where gestures are partially\noccluded, or in low illumination conditions. In degraded environments, the\nfeatures of the gestures may not be fully recorded during the camera pickup\nprocess, which can make gesture recognition under such conditions more\nchallenging.\nMost of the state-of-the-art vision-based gesture recognition methodologies\nconsider non-occluded cases and typically only contain a single gesture\npresent in the scene [1]. However, in real-world scenarios, multiple gestures\nmay be present, and in many cases, the gestures may be partially occluded,\nand the illumination conditions may not be perfect. In multi-gesture"
+    },
+    {
+        "chunk_id": 8,
+        "source": "paper25",
+        "text": "may be present, and in many cases, the gestures may be partially occluded,\nand the illumination conditions may not be perfect. In multi-gesture\nscenarios, hand-to-hand occlusions may occur, which can make gesture"
+    },
+    {
+        "chunk_id": 9,
+        "source": "paper25",
+        "text": "detection difficult. The three-dimensional (3D) reconstruction algorithm\nbased on integral imaging provides an efficient way of removing occlusions\nand detecting gestures [7,8]. In addition, our experiments suggest that the\nvariable focusing and depth-sectioning capabilities of 3D integral imaging aid\nin the gesture detection capabilities when multiple gestures are present.\nTherefore, in this paper, we leverage the advantages of passive 3D integral\nimaging with deep learning to propose an efficient human multi-gesture\nrecognition system under degraded conditions. The degraded conditions\nconsidered in this paper include partial occlusions in low illumination\nconditions.\nConvolutional neural networks (CNNs) are a class of deep neural networks,\nwidely used for tasks such as object recognition and image classification\n[5,9]. As the name suggests, CNNs consist of stacked convolutional and\npooling layers followed by one or more fully connected layers and a"
+    },
+    {
+        "chunk_id": 10,
+        "source": "paper25",
+        "text": "[5,9]. As the name suggests, CNNs consist of stacked convolutional and\npooling layers followed by one or more fully connected layers and a\nclassification layer. The convolutional layers use a series of convolutional\nkernels for feature learning. The output of the convolutional layers will be\nfeature vectors, which represent the spatial features representing an image.\nThe pooling layer combines semantically similar features into a single\nfeature [9]. In the case of gesture recognition, the temporal dependency of\nfeature vectors extracted from adjacent frames are also important, which\nCNN alone cannot capture. Therefore, we have used a cascaded network\ncomprising of CNN and bi-directional long short-term memory (BiLSTM)\nnetwork. The convolutional layers of the CNN produce the feature vectors,\nwhich are used by the BiLSTM network for gesture classification.\nFurthermore, we compare the results of the proposed deep learning-based"
+    },
+    {
+        "chunk_id": 11,
+        "source": "paper25",
+        "text": "which are used by the BiLSTM network for gesture classification.\nFurthermore, we compare the results of the proposed deep learning-based\nmethod with respect to the previously reported 3D integral imaging-based\nspatio-temporal interest point with support vector machines (STIP-SVM) [8]\nand distortion invariant non-linear correlation filter-based approaches [7].\nThis paper is organized into four different sections: Section 1 provides the\nintroduction and a brief review of gesture recognition and the various\napproaches by which it may be achieved. Section 2 discusses the proposed\napproach and its details. Section 3 deals with the experimental results,"
+    },
+    {
+        "chunk_id": 12,
+        "source": "paper25",
+        "text": "including the performance of the proposed system, and comparison with\npreviously reported methodologies. Finally, section 4 provides the\nconclusions of the paper.\n2. Methodology\n2.1 Computational volumetric reconstruction using integral imaging\n(InIm)\nIntegral imaging is a passive three-dimensional (3D) imaging technique that\ncaptures both the intensity and directional information of a scene using an\narray of cameras, lenslet array, or a moving camera system [10–16].\nOriginally proposed by Lippmann, the integral imaging-based techniques\nhave proved to be useful for human action and gesture recognition [7,8]. In\nthe original work, in which the method was defined as integral photography,\nLippmann used a microlens array (MLA) in front of photographic film in\norder to capture the multiple 2D images, each having a different perspective\nof the scene [16,17]. The individual 2D images are usually called elemental\nimages (EIs). Following the advancements in digital sensors to replace"
+    },
+    {
+        "chunk_id": 13,
+        "source": "paper25",
+        "text": "of the scene [16,17]. The individual 2D images are usually called elemental\nimages (EIs). Following the advancements in digital sensors to replace\nphotographic film, this technique is now generally referred to as integral\nimaging. As in the original conception, integral imaging may still be\nperformed using a lenslet array in front of an imaging sensor. However,\nanother interesting approach for implementing the concept of integral\nimaging to capture the 3D information is by using an array of digital cameras\n[18]. The advantage of this approach is that the captured 3D scenes can\nhave higher parallax and better resolution at a longer distance. Another\npossibility is using a single camera on a moving translation stage. This has\nbeen named as the synthetic-aperture integral imaging [17], but this method\nis not suitable for dynamic scenes. By capturing the scene from multiple\nviewing perspectives, integral imaging helps in reducing noise due to partial"
+    },
+    {
+        "chunk_id": 14,
+        "source": "paper25",
+        "text": "is not suitable for dynamic scenes. By capturing the scene from multiple\nviewing perspectives, integral imaging helps in reducing noise due to partial\nocclusions [19], low-light illumination [20,21], and scattering medium [22–\n24], etc. The computational reconstruction algorithm is an inverse mapping\nprocedure, which integrates the elemental images by back-projecting the\nelemental images through a virtual pinhole array into the object space at the\ndesired reconstruction depth [10]. It has been shown that this process is"
+    },
+    {
+        "chunk_id": 15,
+        "source": "paper25",
+        "text": "optimal in a maximum likelihood sense [17,25]. The integral imaging pickup\nprocess and the computational reconstruction process are shown in Fig.  1\n(a) and Fig.  1 (b), respectively. The spatio-temporal volume video data is\nreconstructed as follows [7]:\nwhere, \n is the integral imaging reconstructed video. The\nreconstructed video is obtained by shifting and overlapping K × L\nelemental images at reconstruction depth. The , y represents the pixel\nindices and t is the frame index. Here, \n represents the \nelemental image. The \n, \n and \n, \n in Eq. ( 1 ) represent the resolution\nand physical size of the image sensor, respectively. The \n, and \nindicate the pitch of adjacent image sensors on the camera array in the\nx, and y directions, respectively. The \n matrix contains\ninformation regarding the number of overlapping pixels, and the\nmagnification factor is \n, where  represents the focal length.\n(1)\nr (x, y, z; t) =\n1\nO(x, y; t)\nK −1\n∑\ni = 0\nL −1\n∑\nj = 0\nE I i,j ( x −i r x × px\nM × dx"
+    },
+    {
+        "chunk_id": 16,
+        "source": "paper25",
+        "text": "magnification factor is \n, where  represents the focal length.\n(1)\nr (x, y, z; t) =\n1\nO(x, y; t)\nK −1\n∑\ni = 0\nL −1\n∑\nj = 0\nE I i,j ( x −i r x × px\nM × dx\n, y −j r y × py\nM × dy\n; t)\nr (x, y, z; t)\nx\nE I i,j\ni, j th\nr x r y\ndx dy\npx\npy\nO(x, y; t)\nM =\nz\nf\nf"
+    },
+    {
+        "chunk_id": 17,
+        "source": "paper25",
+        "text": "Fig. 1. (a) Integral imaging pickup process, (b) computational volumetric\nreconstruction process using integral imaging.\nDownload Full Size (/viewmedia.cfm?uri=oe-28-13-19711&figure=oe-28-13-19711-\ng001&imagetype=full) | PDF (/viewmedia.cfm?uri=oe-28-13-19711&figure=oe-28-13-\n19711-g001&imagetype=pdf)\n2.2 Video encoding using convolutional neural network (CNN)\nThe 3D reconstructed video obtained using Eq. ( 1 ) is encoded using a CNN.\nThe CNN consists of a series of convolutional and pooling layers, which\nspatially filter the input data to yield relevant features. The output of the last\npooling layer produces the feature vector representing the spatial\ninformation of the video. This feature vector can be used for high-level\ninterpretation tasks such as object detection and classification. In order to\nmitigate the effect of lesser training data, we have used the deep GoogLeNet\nnetwork pretrained on the well-known ImageNet [26] dataset for feature"
+    },
+    {
+        "chunk_id": 18,
+        "source": "paper25",
+        "text": "mitigate the effect of lesser training data, we have used the deep GoogLeNet\nnetwork pretrained on the well-known ImageNet [26] dataset for feature\nextraction. The GoogLeNet uses an inception module. The inception module\narchitecture is similar to that proposed by Serre et al. [27], which uses a\nseries of Gabor filters to handle multiple scales. The filters in the inception\nmodule are learned, and the inception layers are repeated multiple times in\norder to get a deep neural network model [28]. The inception module\nconsists of multiple filters in parallel, 1×1, 3×3, 5×5 convolution, and max-\npooling operations [28]. The resulting filter outputs are concatenated. The\ninput size of the network is 224×224 and takes the RGB color channels with\nthe mean subtracted. The CNN architecture we used is 22 layers deep,\nexcluding the pooling layers. As we go deeper, the feature representations\nbecome more abstract and informative. We have used a total of 9 inception"
+    },
+    {
+        "chunk_id": 19,
+        "source": "paper25",
+        "text": "excluding the pooling layers. As we go deeper, the feature representations\nbecome more abstract and informative. We have used a total of 9 inception\nmodules and global average pooling in order to generate the feature\nestimates. A series of max-pooling layers have been stacked in between the\ninception modules in order to reduce the dimensionality of the features\nlearned at each stage. The convolution layers, including those present in the\ninception module use the rectified linear unit (ReLU) as the activation\nfunction [28]."
+    },
+    {
+        "chunk_id": 20,
+        "source": "paper25",
+        "text": "Assuming the 3D reconstructed video consists of N frames, for each frame \n, \n, the convolutional and pooling layers of the CNN produces a\nK dimensional feature vector \n. Therefore, when also\nconsidering the temporal dimension of the data, the input can be\nrepresented by a feature matrix \n, i.e.\nwhere, ⊙ represents the concatenation operator. Thus, for each input\nvideo, the CNN produces the corresponding feature matrix\n, where P represents the number of input\nvideos. The rows and columns of \n encode the spatial and\ntemporal information of each input video, respectively.\n2.3 LSTM network\nFor applications involving sequential inputs, such as in gesture recognition,\nthe recurrent neural networks (RNNs) have been shown to be useful for\ncapturing the temporal dependency of the data. Recurrent neural networks\n(RNNs) are a very powerful dynamical system, but training them has been a\ndifficult task due to the problem of vanishing and exploding gradients [9]. In"
+    },
+    {
+        "chunk_id": 21,
+        "source": "paper25",
+        "text": "(RNNs) are a very powerful dynamical system, but training them has been a\ndifficult task due to the problem of vanishing and exploding gradients [9]. In\norder to deal with the problems present in conventional RNNs, Hochreiter\nand Schmidhuber [29] proposed long short-term memory networks (LSTMs).\nThese networks have improved the “memory” of the cell by introducing a\n“gate” into it. Consider an input sequence of T time steps,\n which is fed to a recurrent neural network, a standard\nRNN computes the hidden vector \n and the output vector\n as follows [30]:\nI n\n= {1, 2, … , N }\nxi ϵ RK , i = 1, 2, … , N\nX ϵ RK × N\n(2)\nX = x1 ⊙x2 ⊙x3 ⊙… ⊙xN\nXj ϵ RK × N , j = {1, 2, … , P }\nXj ϵ RK × N\nx = [x1, x2, x3, … , xT ]\nh = [h 1, h 2, h 3, … , h T ]\nh = [h 1, h 2, h 3, … , h T ]\n(3)\nh t = σ(W ihxt + W hhh t −1 + bh )"
+    },
+    {
+        "chunk_id": 22,
+        "source": "paper25",
+        "text": "and\nfor time instants \n. In the above equations,\n represents the element-wise logistic sigmoid function.\nHere, \n and \n represent the corresponding weight\nmatrices and bias terms of the network, respectively. Unlike standard\nRNNs, LSTMs [29] use memory cells to extract the long-term temporal\nrelationships hidden inside the sequential input. The memory cells have\na multiplicatively gated self-connection with unity weight, which copies\nits state and accumulates the external signal. This multiplicative gating is\ncontrolled by another unit that learns to decide when to clear the\nmemory [9]. A standard LSTM network computes the hidden vector\nusing the following relationships [29,30],\n(4)\nyt = W hoh t + bo\nt = (1, 2, 3, … , T)\nσ(x) = 1/ (1 + e−x )\nWkk\nbk,\nk ϵ {o, c, f , i, x, h}\n(5)\nit =\nσ(W xixt + W hih t −1 + bi )\n(6)\nf t =\nσ(W xf xt + W hf h t −1 + bf )\n(7)\nct = f tct −1 + it tanh(W xcxt + W hch t −1 + bc)\n(8)\not =\nσ(W xoxt + W hoh t −1 + bo)\n(9)"
+    },
+    {
+        "chunk_id": 23,
+        "source": "paper25",
+        "text": "where, i, f, o, are respectively the input, forget and output gates, and c is\nthe cell state vector.\nThe bi-directional long short-term memory (BiLSTM) network [31] is a variant\nof long short-term memory (LSTM) network, where two separate networks\nare used to extract all the available input information. It has been previously\nreported that the BiLSTM networks outperform unidirectional LSTM\nnetworks [32]. In a BiLSTM network, one network will be responsible for\nlearning in the forward time direction, which outputs \n while the other\nwill be for learning in reverse time direction outputs \n. The output of\nthese two layers will be merged, i.e., \n. We have chosen\nthe merging operator f to be a concatenation operator; therefore,\n. The structure of an LSTM cell and the BiLSTM\narchitecture has been shown in Fig.  2 (a) and Fig.  2 (b), respectively. Finally,\nthe merged output is fed to a fully connected layer and a Softmax layer for"
+    },
+    {
+        "chunk_id": 24,
+        "source": "paper25",
+        "text": "architecture has been shown in Fig.  2 (a) and Fig.  2 (b), respectively. Finally,\nthe merged output is fed to a fully connected layer and a Softmax layer for\nclassification purposes. We used a BiLSTM layer with 100 hidden units to\nlearn the temporal dependency of the feature vectors. The recurrent\nweights of the network are randomly initialized from a unit normal\ndistribution. We have used hyperbolic tangent (tanh) and sigmoid function\nfor the state activation function and the gate activation function,\nrespectively. The forward and backward layers of BiLSTM network do not\ninteract with each other. This allows us to use the standard training\nalgorithms used for RNNs to train our network. The network was optimized\nusing Adam optimizer with a gradient decay factor of 0.9, and a learning rate\nof 10\n. To mitigate overfitting, we have used the dropout layer with a\ndropout rate of 0.5. The network was trained for 25 training epochs with a\nbatch size of 20 for each training iteration."
+    },
+    {
+        "chunk_id": 25,
+        "source": "paper25",
+        "text": "of 10\n. To mitigate overfitting, we have used the dropout layer with a\ndropout rate of 0.5. The network was trained for 25 training epochs with a\nbatch size of 20 for each training iteration.\nh t = ottanh(ct )\nhf orward\nhreverse\nh = f (hf orward, hreverse)\nh = [hf orward, hreverse]\n−4"
+    },
+    {
+        "chunk_id": 26,
+        "source": "paper25",
+        "text": "Fig. 2. (a) Structure of a long short-term memory (LSTM) cell (b) a bi-directional\nlong short-term memory (BiLSTM) network architecture.\nDownload Full Size (/viewmedia.cfm?uri=oe-28-13-19711&figure=oe-28-13-19711-\ng002&imagetype=full) | PDF (/viewmedia.cfm?uri=oe-28-13-19711&figure=oe-28-13-\n19711-g002&imagetype=pdf)\nThe block diagram of the proposed system is shown in Fig.  3 . The human\ngesture data has been recorded using the integral imaging technique. The\n3D computational reconstruction algorithm has been used to reconstruct\nthe data at the correct depth. The reconstructed data is fed into a\nconvolutional neural network for feature extraction. The convolution and"
+    },
+    {
+        "chunk_id": 27,
+        "source": "paper25",
+        "text": "pooling layers of the network extract a set of spatial feature vectors that are\ninput into a Bi-directional LSTM network (BiLSTM) that is designed to capture\nthe temporal variation between the feature vectors. Finally, the Softmax and\nclassification layers categorize different gestures.\nFig. 3. Block diagram for Integral imaging-based gesture recognition using\nproposed deep learning architecture. InIm: Integral imaging, CNN: convolutional\nneural network, LSTM: Long Short-Term Memory Network.\nDownload Full Size (/viewmedia.cfm?uri=oe-28-13-19711&figure=oe-28-13-19711-\ng003&imagetype=full) | PDF (/viewmedia.cfm?uri=oe-28-13-19711&figure=oe-28-13-\n19711-g003&imagetype=pdf)\n3. Experimental results and discussions\nIn this section, we discuss the performance of the proposed approach on\nexperimental data. To that end, a 3×3 camera array was used for integral\nimaging, as shown in Fig.  4 (a). In our experiments, we used Mako G192C"
+    },
+    {
+        "chunk_id": 28,
+        "source": "paper25",
+        "text": "experimental data. To that end, a 3×3 camera array was used for integral\nimaging, as shown in Fig.  4 (a). In our experiments, we used Mako G192C\nmachine vision cameras. All the cameras have identical intrinsic parameters.\nThe pitch of the camera array was designed to be 80 mm in both x and y\ndirections. The pixel size is 4.5 µm × 4.5 µm, the resolution of each camera is\n1200 × 1600, and the focal length was set to be 15 mm. The quantum\nefficiency of the camera is 0.44 at a wavelength of 525 nm, and the sensor\nread noise is 20.47 electrons rms/pixel. All the cameras in the array are\nsynchronized to record the data with a frame rate of 10 frames per second"
+    },
+    {
+        "chunk_id": 29,
+        "source": "paper25",
+        "text": "(fps). The data is recorded with camera lens F-number of 1.8 and an\nexposure time of 30 milliseconds (ms). In our experiments, we considered\ntwo classes of gestures in order to demonstrate the potential benefits of the\nproposed approach. The gesture motions are depicted in Fig.  4 (b). The data\nwere collected from 4 participants with 5 different backgrounds, as shown in\nFig.  4 (c). The gestures are captured at a distance of about 3 meters away\nalong the axial direction from the camera array. The participants were asked\nto repeat each gesture twice to capture both fast and slow variations of the\nsame gesture. The low illumination effects considered in the experiments\nhave been simulated by computational models applied to the\nexperimentally captured elemental images in order to generate a large\nnumber of low light data for testing.\nFig. 4. Figures showing (a) 3 × 3 camera array for integral imaging capture stage\nused for our experiments, (b) depicts the two different gesture motions"
+    },
+    {
+        "chunk_id": 30,
+        "source": "paper25",
+        "text": "number of low light data for testing.\nFig. 4. Figures showing (a) 3 × 3 camera array for integral imaging capture stage\nused for our experiments, (b) depicts the two different gesture motions\nconsidered in this paper, (c) shows a single gesture with different scene\nbackgrounds used for our experiments.\nDownload Full Size (/viewmedia.cfm?uri=oe-28-13-19711&figure=oe-28-13-19711-\ng004&imagetype=full) | PDF (/viewmedia.cfm?uri=oe-28-13-19711&figure=oe-28-13-\n19711-g004&imagetype=pdf)"
+    },
+    {
+        "chunk_id": 31,
+        "source": "paper25",
+        "text": "We have conducted three different experiments and collected data under\nthree different conditions: 1) single gesture without any occlusion, 2) single\ngesture with partial occlusion, 3) multiple gestures in the scene at different\ndepths without added occlusion, plus low light effects. For all the\nexperiments, we assume the depth of gesture of interest is known a priori.\nThis assumption is for convenience, and it is not necessary as integral\nimaging can reconstruct the in-focus object of interest in the 3D scene. In\nthe first experiment, we collected data without occlusion, as shown in Fig.  5\n(a) and in the second experiment, we recorded data with partial occlusion,\nas shown in Fig.  5 (b). The integral imaging-based computational\nreconstruction algorithm, as outlined in section 2.1 , has been used to\nreconstruct the 3D data at the correct depth, where the gesture of interest is\nlocated. As shown in Fig.  5 (c), the integral imaging technique helps us to"
+    },
+    {
+        "chunk_id": 32,
+        "source": "paper25",
+        "text": "reconstruct the 3D data at the correct depth, where the gesture of interest is\nlocated. As shown in Fig.  5 (c), the integral imaging technique helps us to\nremove the effect of partial occlusion and thereby improving the visibility\nand thus enhancing the classification performance."
+    },
+    {
+        "chunk_id": 33,
+        "source": "paper25",
+        "text": "Fig. 5. Images of gesture 1 and gesture 2 (a) 2D imaging without occlusion (b) 2D\nimaging with occlusion (c) reconstructed image using integral imaging with\nocclusion (d) 2D imaging with occlusion under simulated low illumination\ncondition (Gesture 1: SNR = 0.0438, Gesture 2: SNR = 0.0643) (e) 3D Integral\nimaging reconstruction with occlusion under simulated low illumination (Gesture\n1: SNR = 0.1404, Gesture 2: SNR = 0.1699).\nDownload Full Size (/viewmedia.cfm?uri=oe-28-13-19711&figure=oe-28-13-19711-\ng005&imagetype=full) | PDF (/viewmedia.cfm?uri=oe-28-13-19711&figure=oe-28-13-\n19711-g005&imagetype=pdf)"
+    },
+    {
+        "chunk_id": 34,
+        "source": "paper25",
+        "text": "To study the performance of the proposed system in low illumination\nconditions, we have computationally simulated the low illumination\nconditions using the degradation model \n, where  is\nthe attenuation factor, and n represents the camera noise, modeled as\nGaussian noise with mean µ and variance \n. For our analysis, we considered\nthe attenuation factor \n. The Gaussian noise with mean µ equal to zero\nand variance equal to 0.05 has been added after attenuating the videos. In\n2D imaging, a single frame representing the low illumination condition for\ngesture 1 and gesture 2 has been shown in Fig.  5 (d). The signal-to-noise\nratio \n for the corresponding simulated low illumination images is\ncalculated using [21,33], \n, where \n, \n correspond\nto the means of the signal (the object of interest) area and the background\narea, respectively, and \n denote their corresponding variances. Thus,\nthe SNR calculated for the degraded image shown in Fig.  5 (d) is 0.0438 and"
+    },
+    {
+        "chunk_id": 35,
+        "source": "paper25",
+        "text": "area, respectively, and \n denote their corresponding variances. Thus,\nthe SNR calculated for the degraded image shown in Fig.  5 (d) is 0.0438 and\n0.0643 for gesture 1 and gesture 2, respectively. The number of photons per\npixel \n for the degraded image can be calculated as [7,21]:\nwhere, \n represents the camera read noise, and \n represents the\nquantum efficiency of the camera. Using Eq. ( 10 ), the estimated\nphotons per pixel for the degraded 2D frame is 2.0376 and 2.99 photons\nper pixel for gesture 1 and gesture 2, respectively. The integral imaging\ncomputational reconstruction algorithm is used to reconstruct the\ndegraded image at the depth of the object of interest, as shown in Fig.  5\n(e). The \n of the 3D reconstructed frame for gesture 1 and gesture 2\nare 0.1404 and 0.1699, respectively.\nIn the next experiment, we considered a multiple-gesture scenario. In this\ncase, we considered two gestures present in the scene. One of the gestures"
+    },
+    {
+        "chunk_id": 36,
+        "source": "paper25",
+        "text": "are 0.1404 and 0.1699, respectively.\nIn the next experiment, we considered a multiple-gesture scenario. In this\ncase, we considered two gestures present in the scene. One of the gestures\nis considered as the gesture of interest (true class), and the other is\nconsidered a random false class gesture happening elsewhere in the scene.\nThe two gestures are assumed to be happening at different depths. Since a\nI degraded =\nα × I original + n\nα\nσ2\nα = 0.2\n(SN R)\nSN R =\n(μs −μn )/ √σ2s + σ2n\nμs μn\nσ2\ns , σ2\nn\n(N photons )\n(10)\nN photons = SN R ∗n r/ QE\nn r\nQE\nSN R"
+    },
+    {
+        "chunk_id": 37,
+        "source": "paper25",
+        "text": "random gesture can happen anywhere in the scene, for our experiments, we\nhave chosen three different locations for the background gesture, as shown\nin Fig.  6 .\nFig. 6. Scene for multiple gestures experiments. Three different locations for the\nbackground gesture (false class) considered in our experiments. (a) behind and to\nthe left of the true class gesture of interest, (b) behind and to the right of the true\nclass gesture of interest, and (c) in front and to the left of the true class gesture of\ninterest.\nDownload Full Size (/viewmedia.cfm?uri=oe-28-13-19711&figure=oe-28-13-19711-\ng006&imagetype=full) | PDF (/viewmedia.cfm?uri=oe-28-13-19711&figure=oe-28-13-\n19711-g006&imagetype=pdf)\nTo study the effect of low illumination degradation, we have computationally\nsimulated the low light degradation condition for the multi-gesture\nscenarios. The degradation has been simulated using the same degradation\nmodel as described in the above paragraph, by attenuating the recorded"
+    },
+    {
+        "chunk_id": 38,
+        "source": "paper25",
+        "text": "scenarios. The degradation has been simulated using the same degradation\nmodel as described in the above paragraph, by attenuating the recorded\nvideo and adding additive Gaussian noise. Figure  7 depicts one such\nscenario where both gestures are clearly visible in the case of conventional\n2D imaging with normal illumination, as shown in Fig.  7 (a), whereas the 3D\nintegral imaging in-focus reconstruction allows us to extract the gesture of\ninterest from the other out-of-focus objects in the scene as shown in Fig.  7\n(b). The low light 2D frame is shown in Fig.  7 (c) with \n equal to 0.1092\nand 0.1413 for gesture 1 and gesture 2, respectively. Using Eq. ( 10 ), the\nphotons per pixel \n has been calculated and equals to 5.0802 and\n6.5735 photons per pixel, for gesture 1 and gesture 2, respectively. As shown\nSN R\n(N photons )"
+    },
+    {
+        "chunk_id": 39,
+        "source": "paper25",
+        "text": "in Fig.  7 (d), the integral imaging reconstruction algorithm reduces noise and\nimproves the visibility in low illumination. The \n of the 3D reconstructed\nframes for gesture 1 and gesture 2 are 0.2957 and 0.3875, respectively.\nFig. 7. Visualization of the multi-gesture scenario. (a) 2D elemental image, (b) 3D\nreconstructed image using integral imaging, (c) 2D elemental image in low\nillumination (Gesture 1: SNR = 0.1092, Gesture 2: SNR = 0.1413), (d) 3D\nreconstructed image in low illumination using integral imaging (Gesture 1: SNR = \n0.2957, Gesture 2: SNR = 0.3875).\nDownload Full Size (/viewmedia.cfm?uri=oe-28-13-19711&figure=oe-28-13-19711-\ng007&imagetype=full) | PDF (/viewmedia.cfm?uri=oe-28-13-19711&figure=oe-28-13-\n19711-g007&imagetype=pdf)\nIn total, 240 gesture videos were recorded, 80 videos (2 gestures x 4\nparticipants x 5 backgrounds x 2 repetitions) corresponding to each of the\nthree experiments as following: (1) no occlusion, (2) with partial occlusion,"
+    },
+    {
+        "chunk_id": 40,
+        "source": "paper25",
+        "text": "participants x 5 backgrounds x 2 repetitions) corresponding to each of the\nthree experiments as following: (1) no occlusion, (2) with partial occlusion,\nand (3) multi-gesture. Out of the 80 videos, 40 videos belong to the first\ngesture and 40 videos belong to the second gesture. The data collected\nwithout occlusion has been used for training the system since it is assumed\nthat only clean datasets may be available for training the network, as one\nshould not expect to know the occlusion a priori in a real-world scenario.\nThe degraded datasets, such as those degraded conditions considered in\nthis report, appear unpredictably over time and may be unknown to the\nsystem. To improve the performance and the generalization capabilities of\nthe neural network model, we have used data augmentation to increase the\nsize of the training dataset. We have used six different data augmentation\ntechniques, including affine transformation, flipping, resizing, inversion,"
+    },
+    {
+        "chunk_id": 41,
+        "source": "paper25",
+        "text": "size of the training dataset. We have used six different data augmentation\ntechniques, including affine transformation, flipping, resizing, inversion,\nblurring, and noising. Thus, after data augmentation, we generated a total of\nSN R"
+    },
+    {
+        "chunk_id": 42,
+        "source": "paper25",
+        "text": "560 videos for both gesture classes, which we used for training the model.\nWe have tested our model using the data with occlusion, the occlusion data\nwith simulated low illumination, the multi-gesture data, and the multi-\ngesture data with simulated low illumination. We have obtained the receiver\noperating characteristics (ROC) curves for comparing the proposed\ntechnique with 1) a conventional 2D imaging-based deep learning technique,\n2) the previously reported STIP-SVM approach [8], and 3) the distortion\ninvariant non-linear correlation-based approach (using k = 0.3) [7,34,35]. For\ncomparing the performance of different classifiers using ROC analysis, we\nuse the area under the ROC curve (AUC), which is widely used for assessing\nthe overall performance of classifiers based on their ROC curves [36,37]. For\ndata with occlusion, we achieved an area under the curve (AUC) of 0.958\nusing the proposed 3D integral imaging-based CNN-bi-directional long short-"
+    },
+    {
+        "chunk_id": 43,
+        "source": "paper25",
+        "text": "data with occlusion, we achieved an area under the curve (AUC) of 0.958\nusing the proposed 3D integral imaging-based CNN-bi-directional long short-\nterm memory (CNN-BiLSTM) technique. For 2D imaging-based CNN-BiLSTM\nand 3D integral imaging-based STIP-SVM approaches, we obtained AUC\nvalues of 0.696 and 0.572, respectively. In the case of occlusion in simulated\nlow illumination conditions, the proposed 3D technique yields an AUC of\n0.941 while the 2D imaging-based CNN-BiLSTM and 3D integral imaging-\nbased STIP-SVM approach each yielded an AUC of 0.574 and 0.476,\nrespectively. For the cases of environmental degradation, such as occlusion\nand occlusion with low light illumination, the distortion invariant non-linear\ncorrelation approach produces an AUC of 0.471 and 0.477, respectively.\nThese eight ROC curves for the scene with occlusion data are illustrated for\ncomparison in Fig.  8 .\nFig. 8. ROC curves for comparison of different gesture classification"
+    },
+    {
+        "chunk_id": 44,
+        "source": "paper25",
+        "text": "These eight ROC curves for the scene with occlusion data are illustrated for\ncomparison in Fig.  8 .\nFig. 8. ROC curves for comparison of different gesture classification\nmethodologies under partial occlusion. (a) 3D integral imaging (InIm)-based CNN-\nBiLSTM network in high illumination condition (3D InIm + CNN-BiLSTM, dark blue"
+    },
+    {
+        "chunk_id": 45,
+        "source": "paper25",
+        "text": "line), (b) 3D integral imaging-based CNN-BiLSTM with low illumination (3D InIm + \nCNN-BiLSTM, red line), (c) 2D elemental imaging (EI)-based CNN-BiLSTM in high\nillumination condition (2D EI + CNN-BiLSTM, yellow line) (d) 2D elemental imaging\n(EI)-based CNN-BiLSTM with low illumination (2D EI + CNN-BiLSTM, violet line), (e)\n3D integral imaging (InIm)-based spatio-temporal interest points (STIP) - SVM\nclassifier in high illumination condition (3D InIm + STIP-SVM, green line), (f) 3D\nintegral imaging (InIm)-based spatio-temporal interest points (STIP) - SVM\nclassifier with low illumination (3D InIm + STIP-SVM, light blue line), (g) 3D integral\nimaging (InIm)-based distortion invariant non-linear correlation (k = 0.3) approach\nin high illumination (3D InIm + Non-linear correlation, black line), (h) 3D integral\nimaging (InIm)-based distortion invariant non-linear correlation (k = 0.3) approach\nwith low illumination (3D InIm + Non-linear correlation, light green line)."
+    },
+    {
+        "chunk_id": 46,
+        "source": "paper25",
+        "text": "imaging (InIm)-based distortion invariant non-linear correlation (k = 0.3) approach\nwith low illumination (3D InIm + Non-linear correlation, light green line).\nDownload Full Size (/viewmedia.cfm?uri=oe-28-13-19711&figure=oe-28-13-19711-\ng008&imagetype=full) | PDF (/viewmedia.cfm?uri=oe-28-13-19711&figure=oe-28-13-\n19711-g008&imagetype=pdf)\nThe effect of low illumination on the performance of different\nmethodologies has been studied based on the percent reduction in area\nunder the curve (AUC). In our experiments, the introduction of low\nillumination reduces the AUC by 1.77%. For the proposed 3D integral\nimaging-based CNN approach, while for 2D imaging and STIP-based\napproaches, the AUC decreases by 17.53% and 16.78%, respectively. In the\ncase of distortion invariant non-linear correlation approach, the percentage\nchange in AUC is 1.27%.\nThe ROC analysis for the multi-gesture scenario is presented in Fig.  9 . We\nhave presented eight ROC curves for comparison. For the multi-gesture"
+    },
+    {
+        "chunk_id": 47,
+        "source": "paper25",
+        "text": "change in AUC is 1.27%.\nThe ROC analysis for the multi-gesture scenario is presented in Fig.  9 . We\nhave presented eight ROC curves for comparison. For the multi-gesture\ncase, the proposed 3D CNN-BiLSTM approach achieves an AUC of 0.998 and\nin the multi-gesture with the low-illumination scenario, the proposed\napproach yields an AUC of 0.964. The 2D imaging-based CNN-BiLSTM and 3D\nintegral imaging-based STIP-SVM approaches give AUC values of 0.958, and\n0.426 respectively, for the multi-gesture scenario, and 0.705, and 0.519,\nrespectively, for the multi-gesture data with simulated low-illumination\nconditions. The non-linear correlation approach produces an AUC of 0.467"
+    },
+    {
+        "chunk_id": 48,
+        "source": "paper25",
+        "text": "and 0.444 for multi-gesture scenarios in high illumination and low\nillumination, respectively. As in the case of occlusion, the effect of\ndegradation on the multi-gestures case has been analyzed by the\npercentage reduction in AUC due to degradation. The percentage reduction\nin AUC for the proposed approach is 3.41%, while the percentage change for\n2D imaging and STIP-based SVM technique is 26.41% and 21.83%,\nrespectively. For the case of distortion invariant non-linear correlation\napproach, the percentage change in AUC is 4.93%.\nFig. 9. ROC curves for comparison of different gesture classification\nmethodologies in multi-gestures scenario. (a) 3D integral imaging (InIm)-based\nCNN-BiLSTM network in high illumination condition (3D InIm + CNN-BiLSTM, dark\nblue line), (b) 3D integral imaging-based CNN-BiLSTM network with low\nillumination (3D InIm + CNN-BiLSTM, red line), (c) 2D elemental imaging (EI)-based\nCNN-BiLSTM network in high illumination condition (2D EI + CNN-BiLSTM, yellow"
+    },
+    {
+        "chunk_id": 49,
+        "source": "paper25",
+        "text": "illumination (3D InIm + CNN-BiLSTM, red line), (c) 2D elemental imaging (EI)-based\nCNN-BiLSTM network in high illumination condition (2D EI + CNN-BiLSTM, yellow\nline), (d) 2D elemental imaging (EI) based CNN-BiLSTM with low illumination (2D EI \n+ CNN-BiLSTM, violet line), (e) 3D integral imaging (InIm)-based spatio-temporal\ninterest points (STIP) - SVM classifier in high illumination condition, (3D InIm + \nSTIP-SVM, green line), (f) 3D integral imaging (InIm)-based spatio-temporal interest\npoints (STIP) - SVM classifier with low illumination (3D InIm + STIP-SVM, light blue\nline), (g) 3D integral imaging (InIm)-based distortion invariant non-linear\ncorrelation (k = 0.3) approach in high illumination (3D InIm + Non-linear\ncorrelation, black line), (h) 3D integral imaging (InIm)-based distortion invariant\nnon-linear correlation (k = 0.3) approach with low illumination (3D InIm + Non-\nlinear correlation, light green line)."
+    },
+    {
+        "chunk_id": 50,
+        "source": "paper25",
+        "text": "non-linear correlation (k = 0.3) approach with low illumination (3D InIm + Non-\nlinear correlation, light green line).\nDownload Full Size (/viewmedia.cfm?uri=oe-28-13-19711&figure=oe-28-13-19711-\ng009&imagetype=full) | PDF (/viewmedia.cfm?uri=oe-28-13-19711&figure=oe-28-13-\n19711-g009&imagetype=pdf)"
+    },
+    {
+        "chunk_id": 51,
+        "source": "paper25",
+        "text": "In the multi-gesture scenario, we have only considered experimentally the\ncases wherein the false gesture takes place either in front of or behind the\ngesture of interest. However, the approach may also be effective when both\ngestures occur at the same plane, especially in degraded conditions. The\nintegral imaging reconstruction acts as a depth-based filter and removes\nnoise from the depths outside the depth of reconstruction. This depth-\nsectioning may improve performance over conventional 2D imaging\nstrategies regardless of the depth of the false gesture. In particular, under\ndegraded environments such as low-illumination or partial occlusion, the 3D\nintegral imaging helps to mitigate the effects of degradation. Thus, the\nproposed approach provides better performance as compared to the 2D\nimaging-based CNN-BiLSTM and the other approaches used for comparison.\nThe STIPs-based feature extraction is defined based on the variations of"
+    },
+    {
+        "chunk_id": 52,
+        "source": "paper25",
+        "text": "imaging-based CNN-BiLSTM and the other approaches used for comparison.\nThe STIPs-based feature extraction is defined based on the variations of\nlocal gradients in spatial and temporal dimensions. Thus, the STIPs are\nsuitable for detecting moving objects in a video, including for human gesture\nrecognition tasks [8]. In our experiments, this approach achieves better\nperformance for the single gesture case, as shown in Fig.  8 compared to the\nmulti-gesture scenario, as shown in Fig.  9 . In low light illumination\nconditions, the number of STIPs detected will be greatly reduced. Thus, the\nperformance decreases in low illumination for the single gesture scenario,\nas shown in Fig.  8 . Under the multi-gesture scenario, even though the\nintegral imaging helps to mitigate the effects of the false gesture to a certain\nextent, there will still be local gradient variations due to the false gesture,\nespecially when it is moving. The STIPs detected from the false gesture may"
+    },
+    {
+        "chunk_id": 53,
+        "source": "paper25",
+        "text": "extent, there will still be local gradient variations due to the false gesture,\nespecially when it is moving. The STIPs detected from the false gesture may\nstill be prominent, especially in cases where the false gesture is present in\nfront of the gesture of interest. Thus, the false classification may increase\nwhen the STIPs are detected from false gesture, in addition to the STIPs\ndetected from the gesture of interest. In low light illumination, the number\nof STIPs detected will be much less, so the recognition performance is\nsimilar to that of a random classifier. As shown in Table  1 , the STIP-based\nSVM recognition methods did not achieve an accuracy above 55.00% or an\nAUC above 0.572 in any case. These results suggest that the STIP-based SVM\nrecognition method may not be an effective gesture recognition strategy for\nthe experimental conditions considered in this work."
+    },
+    {
+        "chunk_id": 54,
+        "source": "paper25",
+        "text": "Table 1. Comparison of gesture recognition performance\nunder various experimental conditions.\nView Table\nFrom Fig.  8 and Fig.  9 , our experimental comparison shows that while the\nprevious works demonstrated that the correlation-based approach\noutperformed the STIP-based recognition method, under more challenging\nexperimental conditions including occlusion and low light illumination, both\nSTIP-based and correlation-based gesture recognition strategies may be less\neffective than the proposed CNN-BiLSTM approach. The correlation-based\nclassification is particularly useful for narrower tasks when limited datasets\nare available for classification, and the training and testing datasets are\nmore consistent with each other. However, the correlation filters may have\nlimitations [4], and their performance decreases when the intra-class\nvariations are high, and the testing and training data are not consistent. The\nCNN-based feature extraction technique consist of a series of multi-scale"
+    },
+    {
+        "chunk_id": 55,
+        "source": "paper25",
+        "text": "variations are high, and the testing and training data are not consistent. The\nCNN-based feature extraction technique consist of a series of multi-scale\nnon-linear filters, which increases its generalization capability as compared\nto a single trained correlation filter and provides a more robust strategy for\ngesture recognition, especially in challenging conditions. In our experiments,\nwe have considered multiple backgrounds with fast and slow gesture\nmovements as well as multi-gesture scenarios, which increase the intra-class\nvariability in the training and testing datasets, thus degrading the\nperformance of the non-linear correlation-based method proposed in [7].\nThe detection performance of the proposed approach has been compared\nusing several performance metrics, which are summarized in Table  1 . In\naddition to accuracy, we have also considered the F1 score and Mathew's\ncorrelation coefficient (MCC) for better evaluation of the performance of the"
+    },
+    {
+        "chunk_id": 56,
+        "source": "paper25",
+        "text": "addition to accuracy, we have also considered the F1 score and Mathew's\ncorrelation coefficient (MCC) for better evaluation of the performance of the\nproposed approach [38,39]. The F1 score represents the harmonic mean\nbetween precision and recall. Its value varies between 0 and 1, with 1\nindicating perfect classification performance. The MCC indicates the\ncorrelation between the observed and predicted classification, and its value\na"
+    },
+    {
+        "chunk_id": 57,
+        "source": "paper25",
+        "text": "ranges between -1 to 1. An MCC value of 1 indicates a perfect classifier, and\n-1 indicates complete disagreement between true and predicted classes. The\nresults have been summarized in Table  1 .\nFrom Table  1 , we observe that in our experiments, the proposed system\nhas a better performance in terms of all the metrics considered. In addition,\nthe percentage reduction in AUC due to the effect of low illumination for\nvarious conditions considered in our experiments are significantly lower for\nthe proposed approach as compared to the 2D imaging-based approach. In\nthe case of occlusion and multi-gesture scenarios, for all the metrics\nconsidered (as shown in Table  1 ) the proposed approach with low\nillumination performs better than even the 2D approach and other\nmethodologies in high illumination as well as low illumination conditions\nwhich shows the effectiveness of the proposed approach as compared to\nother methodologies considered. Thus, the proposed 3D Integral imaging-"
+    },
+    {
+        "chunk_id": 58,
+        "source": "paper25",
+        "text": "which shows the effectiveness of the proposed approach as compared to\nother methodologies considered. Thus, the proposed 3D Integral imaging-\nbased deep learning approach is promising for gesture recognition,\nespecially under degraded environments.\n4. Conclusion\nIn this paper, we have presented a system for human gesture classification\nusing integral imaging and deep learning. Our experimental results show\nthat using the proposed 3D integral imaging-based deep learning approach\nimproves the performance under degraded environments such as occlusion\nand low light in comparison to the conventional 2D imaging approach and\nthe other methodologies considered. In addition, the percent reduction in\nAUC for 3D imaging-based CNN-BiLSTM network due to degradation\n(simulated low illumination) is significantly lower than that of the 2D\nimaging-based approach. The proposed approach could be further extended\nfor detecting human activities, sentiment analysis, etc., especially under"
+    },
+    {
+        "chunk_id": 59,
+        "source": "paper25",
+        "text": "imaging-based approach. The proposed approach could be further extended\nfor detecting human activities, sentiment analysis, etc., especially under\nmore challenging conditions. Future work may consider other integral\nimaging approaches [40], comparison with time of flight sensing, and\nincreased scene complexity."
+    },
+    {
+        "chunk_id": 60,
+        "source": "paper25",
+        "text": "Funding\nAir Force Office of Scientific Research (FA9550-18-1-0338); Office of Naval\nResearch (N000141712405, N000141712561).\nAcknowledgments\nT. O'Connor acknowledges support via the GAANN fellowship through the\nDepartment of Education. B. Javidi acknowledges support under Air Force\nOffice of Scientific Research (FA9550-18-1-0338) and Office of Naval\nResearch (N000141712405, N00014-17-1-2561).\nDisclosures\nThe authors declare no conflicts of interest.\nReferences\n1. S. Mitra and T. Acharya, “Gesture Recognition: A Survey,” IEEE Trans. Syst.,\nMan, Cybern. C 37(3), 311–324 (2007).\nCrossref (http://dx.doi.org/10.1109/TSMCC.2007.893280)  \n2. M. H. Kolekar and D. P. Dash, “Hidden Markov Model based human activity\nrecognition using shape and optical flow based features,” in 2016 IEEE\nRegion 10 Conference (TENCON) (2016), pp.393–397.\n3. I. Everts, J. C. van Gemert, and T. Gevers, “Evaluation of Color Spatio-\nTemporal Interest Points for Human Action Recognition,” IEEE Trans. on"
+    },
+    {
+        "chunk_id": 61,
+        "source": "paper25",
+        "text": "Region 10 Conference (TENCON) (2016), pp.393–397.\n3. I. Everts, J. C. van Gemert, and T. Gevers, “Evaluation of Color Spatio-\nTemporal Interest Points for Human Action Recognition,” IEEE Trans. on\nImage Process. 23(4), 1569–1580 (2014).\nCrossref (http://dx.doi.org/10.1109/TIP.2014.2302677)  \n4. S. Ali and S. Lucey, “Are Correlation Filters Useful for Human Action\nRecognition?” in 2010 20th International Conference on Pattern Recognition\n(2010), pp. 2608–2611.\n5. S. Ji, W. Xu, M. Yang, and K. Yu, “3D Convolutional Neural Networks for\nHuman Action Recognition,” IEEE Trans. Pattern Anal. Mach. Intell. 35(1),\n221–231 (2013)."
+    },
+    {
+        "chunk_id": 62,
+        "source": "paper25",
+        "text": "Crossref (http://dx.doi.org/10.1109/TPAMI.2012.59)  \n6. Y. Zhang, Z. Zhang, Y. Zhang, J. Bao, Y. Zhang, and H. Deng, “Human\nActivity Recognition Based on Motion Sensor Using U-Net,” IEEE Access 7,\n75213–75226 (2019).\nCrossref (http://dx.doi.org/10.1109/ACCESS.2019.2920969)  \n7. X. Shen, H. Kim, K. Satoru, A. Markman, and B. Javidi, “Spatial-temporal\nhuman gesture recognition under degraded conditions using three-\ndimensional integral imaging,” Opt. Express 26(11), 13938–13951 (2018).\nCrossref (http://dx.doi.org/10.1364/OE.26.013938)  \n8. V. J. Traver, P. Latorre-Carmona, E. Salvador-Balaguer, F. Pla, and B. Javidi,\n“Three-Dimensional integral imaging for Gesture Recognition Under\nOcclusions,” IEEE Signal Process. Lett. 24(2), 171–175 (2017).\nCrossref (http://dx.doi.org/10.1109/LSP.2016.2643691)  \n9. Y. LeCun, Y. Bengio, and G. Hinton, “Deep learning,” Nature 521(7553),\n436–444 (2015).\n10. S.-H. Hong, J.-S. Jang, and B. Javidi, “Three-dimensional volumetric object"
+    },
+    {
+        "chunk_id": 63,
+        "source": "paper25",
+        "text": "9. Y. LeCun, Y. Bengio, and G. Hinton, “Deep learning,” Nature 521(7553),\n436–444 (2015).\n10. S.-H. Hong, J.-S. Jang, and B. Javidi, “Three-dimensional volumetric object\nreconstruction using computational integral imaging,” Opt. Express 12(3),\n483–491 (2004).\nCrossref (http://dx.doi.org/10.1364/OPEX.12.000483)  \n11. G. Lippmann, “Epreuves reversibles donnant la sensation du relief,” J.\nPhys. 7(1), 821–825 (1908).\nCrossref (http://dx.doi.org/10.1051/jphystap:019080070082100)  \n12. C. B. Burckhardt, “Optimum Parameters and Resolution Limitation of\nIntegral Photography,” J. Opt. Soc. Am. 58(1), 71–76 (1968).\nCrossref (http://dx.doi.org/10.1364/JOSA.58.000071)  \n13. N. Davies, M. McCormick, and L. Yang, “Three-dimensional imaging\nsystems: a new development,” Appl. Opt. 27(21), 4520–4528 (1988).\nCrossref (http://dx.doi.org/10.1364/AO.27.004520) "
+    },
+    {
+        "chunk_id": 64,
+        "source": "paper25",
+        "text": "14. F. Okano, H. Hoshino, J. Arai, and I. Yuyama, “Real-time pickup method\nfor a three-dimensional image based on integral photography,” Appl. Opt.\n36(7), 1598–1603 (1997).\nCrossref (http://dx.doi.org/10.1364/AO.36.001598)  \n15. M. Tanimoto, M. P. Tehrani, T. Fujii, and T. Yendo, “Free-Viewpoint TV,”\nIEEE Signal Process. Mag. 28(1), 67–76 (2011).\nCrossref (http://dx.doi.org/10.1109/MSP.2010.939077)  \n16. M. Martínez-Corral and B. Javidi, “Fundamentals of 3D imaging and\ndisplays: a tutorial on integral imaging, light-field, and plenoptic systems,”\nAdv. Opt. Photonics 10(3), 512–566 (2018).\nCrossref (http://dx.doi.org/10.1364/AOP.10.000512)  \n17. J.-S. Jang and B. Javidi, “Three-dimensional synthetic aperture integral\nimaging,” Opt. Lett. 27(13), 1144–1146 (2002).\nCrossref (http://dx.doi.org/10.1364/OL.27.001144)  \n18. B. Wilburn, N. Joshi, V. Vaish, E.-V. Talvala, E. Antunez, A. Barth, A. Adams,\nM. Horowitz, and M. Levoy, “High performance imaging using large camera"
+    },
+    {
+        "chunk_id": 65,
+        "source": "paper25",
+        "text": "18. B. Wilburn, N. Joshi, V. Vaish, E.-V. Talvala, E. Antunez, A. Barth, A. Adams,\nM. Horowitz, and M. Levoy, “High performance imaging using large camera\narrays,” ACM Trans. Graph. 24(3), 765–776 (2005).\nCrossref (http://dx.doi.org/10.1145/1073204.1073259)  \n19. B. Javidi, R. Ponce-Díaz, and S.-H. Hong, “Three-dimensional recognition\nof occluded objects by using computational integral imaging,” Opt. Lett.\n31(8), 1106–1108 (2006).\nCrossref (http://dx.doi.org/10.1364/OL.31.001106)  \n20. A. Stern, D. Aloni, and B. Javidi, “Experiments With Three-Dimensional\nIntegral imaging Under Low Light Levels,” IEEE Photonics J. 4(4), 1188–1195\n(2012).\nCrossref (http://dx.doi.org/10.1109/JPHOT.2012.2205912)  \n21. A. Markman, X. Shen, and B. Javidi, “Three-dimensional object\nvisualization and detection in low light illumination using integral imaging,”\nOpt. Lett. 42(16), 3068–3071 (2017).\nCrossref (http://dx.doi.org/10.1364/OL.42.003068) "
+    },
+    {
+        "chunk_id": 66,
+        "source": "paper25",
+        "text": "22. I. Moon and B. Javidi, “Three-dimensional visualization of objects in\nscattering medium by use of computational integral imaging,” Opt. Express\n16(17), 13080–13089 (2008).\nCrossref (http://dx.doi.org/10.1364/OE.16.013080)  \n23. M. Cho and B. Javidi, “Peplography—a passive 3D photon counting\nimaging through scattering media,” Opt. Lett. 41(22), 5401–5404 (2016).\nCrossref (http://dx.doi.org/10.1364/OL.41.005401)  \n24. R. Joshi, T. O’Connor, X. Shen, M. Wardlaw, and B. Javidi, “Optical 4D\nsignal detection in turbid water by multi-dimensional integral imaging using\nspatially distributed and temporally encoded multiple light sources,” Opt.\nExpress 28(7), 10477–10490 (2020).\nCrossref (http://dx.doi.org/10.1364/OE.389704)  \n25. H. Arimoto and B. Javidi, “Integral three-dimensional imaging with digital\nreconstruction,” Opt. Lett. 26(3), 157–159 (2001).\nCrossref (http://dx.doi.org/10.1364/OL.26.000157) "
+    },
+    {
+        "chunk_id": 67,
+        "source": "paper25",
+        "text": "25. H. Arimoto and B. Javidi, “Integral three-dimensional imaging with digital\nreconstruction,” Opt. Lett. 26(3), 157–159 (2001).\nCrossref (http://dx.doi.org/10.1364/OL.26.000157)  \n26. J. Deng, W. Dong, R. Socher, L. Li, K. Li, and L. Fei-Fei, “ImageNet: A large-\nscale hierarchical image database,” in 2009 IEEE Conference on Computer\nVision and Pattern Recognition (2009), pp.248–255.\n27. T. Serre, L. Wolf, S. Bileschi, M. Riesenhuber, and T. Poggio, “Robust\nObject Recognition with Cortex-Like Mechanisms,” IEEE Trans. Pattern Anal.\nMach. Intell. 29(3), 411–426 (2007).\nCrossref (http://dx.doi.org/10.1109/TPAMI.2007.56)  \n28. C. Szegedy, W. Liu, Y. Jia, P. Sermanet, S. Reed, D. Anguelov, D. Erhan, V.\nVanhoucke, and A. Rabinovich, “Going deeper with convolutions,” in 2015\nIEEE Conference on Computer Vision and Pattern Recognition (CVPR) (2015),\npp. 1–9.\n29. S. Hochreiter and J. Schmidhuber, “Long Short-Term Memory,” Neural\nComput. 9(8), 1735–1780 (1997)."
+    },
+    {
+        "chunk_id": 68,
+        "source": "paper25",
+        "text": "IEEE Conference on Computer Vision and Pattern Recognition (CVPR) (2015),\npp. 1–9.\n29. S. Hochreiter and J. Schmidhuber, “Long Short-Term Memory,” Neural\nComput. 9(8), 1735–1780 (1997).\nCrossref (http://dx.doi.org/10.1162/neco.1997.9.8.1735) "
+    },
+    {
+        "chunk_id": 69,
+        "source": "paper25",
+        "text": "30. J. Y.-H. Ng, M. Hausknecht, S. Vijayanarasimhan, O. Vinyals, R. Monga,\nand G. Toderici, “Beyond short snippets: Deep networks for video\nclassification,” in 2015 IEEE Conference on Computer Vision and Pattern\nRecognition (CVPR) (2015), pp. 4694–4702.\n31. M. Schuster and K. K. Paliwal, “Bidirectional recurrent neural networks,”\nIEEE Trans. Signal Process. 45(11), 2673–2681 (1997).\nCrossref (http://dx.doi.org/10.1109/78.650093)  \n32. P. Baldi, S. Brunak, P. Frasconi, G. Soda, and G. Pollastri, “Exploiting the\npast and the future in protein secondary structure prediction,”\nBioinformatics 15(11), 937–946 (1999).\nCrossref (http://dx.doi.org/10.1093/bioinformatics/15.11.937)  \n33. X. Shen, A. Carnicer, and B. Javidi, “Three-dimensional polarimetric\nIntegral imaging under low illumination conditions,” Opt. Lett. 44(13), 3230–\n3233 (2019).\nCrossref (http://dx.doi.org/10.1364/OL.44.003230)  \n34. B. Javidi and D. Painchaud, “Distortion-invariant pattern recognition with"
+    },
+    {
+        "chunk_id": 70,
+        "source": "paper25",
+        "text": "3233 (2019).\nCrossref (http://dx.doi.org/10.1364/OL.44.003230)  \n34. B. Javidi and D. Painchaud, “Distortion-invariant pattern recognition with\nFourier-plane nonlinear filters,” Appl. Opt. 35(2), 318–331 (1996).\nCrossref (http://dx.doi.org/10.1364/AO.35.000318)  \n35. P. Refregier, V. Laude, and B. Javidi, “Nonlinear joint-transform\ncorrelation: an optimal solution for adaptive image discrimination and input\nnoise robustness,” Opt. Lett. 19(6), 405–407 (1994).\nCrossref (http://dx.doi.org/10.1364/OL.19.000405)  \n36. E. Keedwell, “An analysis of the area under the ROC curve and its use as a\nmetric for comparing clinical scorecards,” in 2014 IEEE International\nConference on Bioinformatics and Biomedicine (BIBM) (2014), pp. 24–29.\n37. S. Alam, O. Odejide, O. Olabiyi, and A. Annamalai, “Further results on\narea under the ROC curve of energy detectors over generalized fading\nchannels,” in 34th IEEE Sarnoff Symposium (2011), pp. 1–6."
+    },
+    {
+        "chunk_id": 71,
+        "source": "paper25",
+        "text": " Previous Article (abstract.cfm?uri=oe-28-13-19700)\nNext Article  (abstract.cfm?uri=oe-28-13-19726)\n38. I. Martin-Diaz, D. Morinigo-Sotelo, O. Duque-Perez, and R. D. J. Romero-\nTroncoso, “Advances in Classifier Evaluation: Novel Insights for an Electric\nData-Driven Motor Diagnosis,” IEEE Access 4, 7028–7038 (2016).\nCrossref (http://dx.doi.org/10.1109/ACCESS.2016.2622679)  \n39. D. Chicco and G. Jurman, “The advantages of the Matthews correlation\ncoefficient (MCC) over F1 score and accuracy in binary classification\nevaluation,” BMC Genomics 21(1), 6 (2020).\nCrossref (http://dx.doi.org/10.1186/s12864-019-6413-7)  \n40. A. Castro, Y. Frauel, and B. Javidi, “Integral imaging with large depth of\nfield using an asymmetric phase mask,” Opt. Express 15(16), 10266–10273\n(2007).\nCrossref (http://dx.doi.org/10.1364/OE.15.010266)  \n Top\nPublishing Home (/)\nJournals (/about.cfm)\nConferences\n(/conferences.cfm)\nPreprints (Optica Open) \n(https://opticapreprints.figshare.com/)\nINFORMATION FOR"
+    },
+    {
+        "chunk_id": 72,
+        "source": "paper25",
+        "text": " Top\nPublishing Home (/)\nJournals (/about.cfm)\nConferences\n(/conferences.cfm)\nPreprints (Optica Open) \n(https://opticapreprints.figshare.com/)\nINFORMATION FOR\nAuthors (/content/author/)\nReviewers\n(/content/reviewer/)\nLibrarians (/library/)\nOPEN ACCESS\nINFORMATION\nOpen Access Statement and\nPolicy\n(/content/author/portal/item/review-\nopen-access-policy-stat/)\nTerms for Journal Article\nReuse\n(/library/license_v2.cfm)\nOTHER RESOURCES\nOptica Open \n(https://opticapreprints.figshare.com/)\nACCESSIBILITY\nINFORMATION\nOPG Accessibility Statement\n(/content/library/portal/item/accessibility-\nstatement)\nABOUT\nAbout Optica Publishing\nGroup (/about.cfm)\nAbout My Account\n(/content/info/portal/item/benefitslog)\nSign up for Alerts\n(/user/toc_alerts_subscribe.cfm)\nMy Favorites \nRecent Pages"
+    },
+    {
+        "chunk_id": 73,
+        "source": "paper25",
+        "text": "Optica Publishing Group\nBookshelf\n(/content/bookshelf/)\nOptics ImageBank\n(/info/opticsimagebank.cfm)\nOptics & Photonics News \n(https://www.optica-\nopn.org/home/)\nSpotlight on Optics\n(/spotlight/)\nOptica Home\n(https://www.optica.org)\nContact Us\n(/content/info/portal/item/contactus/)\nSend Us Feedback\nX\n(HTTPS://WWW.TWITTER.COM/OPTICAPUBSGROUP)\n \n(HTTPS://WWW.FACEBOOK.COM/OPTICAWORLDWID\n \n(HTTPS://WWW.LINKEDIN.COM/COMPANY/OPTICA-\nWORLDWIDE/) \n(/TOC_ALERTS_SUBSCRIBE.CFM)\n© Copyright 2026 | Optica Publishing Group. All rights reserved, including rights for text and data mining and training of\nartificial technologies or similar technologies.\nPrivacy\n(/content/info/portal/item/privacy)\n| Terms of Use\n(/content/info/portal/item/termsofuse)"
+    }
+]

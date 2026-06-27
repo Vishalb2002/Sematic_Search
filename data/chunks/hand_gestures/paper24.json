@@ -1,0 +1,172 @@
+[
+    {
+        "chunk_id": 1,
+        "source": "paper24",
+        "text": "*Corresponding author: Dr. Mahanthesha U \nAssociate Professor, Department of Artificial Intelligence and Machine Learning, B N M Institute of Technology, Bengaluru. \n \n \n \n \n \nISSN: 0976-3031 \nResearch Article \n \nMACHINE LEARNING APPROACH TO THE CLASSIFICATION AND IDENTIFICATION \nOF HAND GESTURE RECOGNITION USING PYTHON \n \n1Dr. Anjaneya L H., 2Dr.Mahanthesha U and 3Banumathi K L      \n \n1Associate Professor, Department. of Electrical and Electronics Engineering, \n Bapuji Institute of Engineering and Technology, Davanagere, Karnataka, India \n2Associate Professor, Department of Artificial Intelligence & Machine Learning,  \nB N M Institute of Technology, Bangalore, Karnataka, India \n3Assistant Professor, Department of Electronics and Communication Engineering,  \nBapuji Institute of Engineering and Technology, Davanagere, Karnataka, India \n \nDOI: http://dx.doi.org/10.24327/ijrsr.20231411.0821"
+    },
+    {
+        "chunk_id": 2,
+        "source": "paper24",
+        "text": "Bapuji Institute of Engineering and Technology, Davanagere, Karnataka, India \n \nDOI: http://dx.doi.org/10.24327/ijrsr.20231411.0821 \n \nARTICLE INFO                                                ABSTRACT                                    \n \n \n \n \n \nPeople who are deaf or dumb express themselves through gestures. Numerous applications \nutilizing gesture detection, computer vision, machine learning, etc. have been created. \nPython-based hand gesture recognition is an interesting area of computer vision that seeks to \nread and comprehend hand motions and movements recorded by cameras. It is utilized in a \nvariety of fields, including robotics, virtual reality, sign language interpretation, and human-\ncomputer interface.The classification and interpretation of hand gestures is the aim of hand \ngesture recognition.In this paper, a straightforward method for gesture recognition is \nprovided. Opencv and Numpy are two Python libraries used here. The method entails"
+    },
+    {
+        "chunk_id": 3,
+        "source": "paper24",
+        "text": "gesture recognition.In this paper, a straightforward method for gesture recognition is \nprovided. Opencv and Numpy are two Python libraries used here. The method entails \ncapturing real-time gestures and utilizing OpenCV tools to recognize them. The screen for \noutput displays the output as a computer webcam stream. \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \nINTRODUCTION \n \nPython offers a potent environment for creating hand \ngesture detection systems thanks to its extensive collection \nof libraries and frameworks, which includes OpenCV.There \nare usually multiple steps in the procedure. Prior to \nsegmenting or detecting the hand region, background \nsubtraction, skin colour identification, or hand tracking \nalgorithms may be used. Several features can be retrieved \nfrom the hand region once it has been isolated. \n \nNext, a data set of hand gestures with labels can be used to \ntrain an algorithm that uses machine learning or a model"
+    },
+    {
+        "chunk_id": 4,
+        "source": "paper24",
+        "text": "from the hand region once it has been isolated. \n \nNext, a data set of hand gestures with labels can be used to \ntrain an algorithm that uses machine learning or a model \nthat uses deep learning .Once trained, the model will be \nused \nto \nanticipate \nand \nidentify \nhand \nmovements \ninstantaneously or on captured films. Gesture-based \nmanagement of devices is then made possible by mapping \nthe recognised gestures to certain commands or actions. \nPython's adaptability and large library of resources make it \nideal for developing and implementing a variety of hand \nmotion recognition methods. It offers a convenient setting \nfor academics, programmers, and hobbyists to investigate \nand create cutting-edge applications that make use of the \ncapabilities of computer vision and machine learning. \n \nLITERATURE SURVEY \n \nMachine learning can be used in a variety of ways to apply \npicture identification. Work has been done on video \nprocessing and depth camera sensing in addition to static"
+    },
+    {
+        "chunk_id": 5,
+        "source": "paper24",
+        "text": "LITERATURE SURVEY \n \nMachine learning can be used in a variety of ways to apply \npicture identification. Work has been done on video \nprocessing and depth camera sensing in addition to static \npicture identification. Utilizing vibrant other programming \nlanguages, a variety of procedures were built into the \nsystem to apply the procedural methods for the ultimate \nsystem's greatest efficiency.  \n \nThe issue can be resolved and completely categorized into \nthree similar approaches, namely the initial use of static \npicture \nidentification \nmethods \nand \npreprocessing \ntechniques, the second use of deep learning models, and the \nthird use of retired Markov Models. Colourful exploration \npapers used a variety of preprocessing methods and feature \nextraction techniques, including MATLAB as the primary \nprogramming language, Python, scale-invariant feature \ntransform (SIFT), and Histogram of Gradients (HOG) to \nextract the image's feature descriptors. Ashish Sharma et"
+    },
+    {
+        "chunk_id": 6,
+        "source": "paper24",
+        "text": "programming language, Python, scale-invariant feature \ntransform (SIFT), and Histogram of Gradients (HOG) to \nextract the image's feature descriptors. Ashish Sharma et \nal./Support Vector Machine was then used to classify these \nAvailable Online at http://www.recentscientific.com \nInternational Journal of \nRecent Scientific \n Research \nInternational Journal of Recent Scientific Research \nVol. 14, Issue, 11, pp.4372-4377, November, 2023 \nCopyright© The author(s) 2023,This is an open-access article distributed under the terms of the Creative Commons Attribution License, which \npermits unrestricted use, distribution and reproduction in any medium, provided the original work is properly cited. \nDOI: 10.24327/IJRSR \nCODEN: IJRSFP (USA) \nArticle History: \n \nReceived 30th September, 2023 \nReceived in revised form 11th October, 2023 \nAccepted 17th November, 2023 \nPublished online 28th November, 2023 \nKeywords:  \n \nGesture recognition, OpenCV, human-computer"
+    },
+    {
+        "chunk_id": 7,
+        "source": "paper24",
+        "text": "Received in revised form 11th October, 2023 \nAccepted 17th November, 2023 \nPublished online 28th November, 2023 \nKeywords:  \n \nGesture recognition, OpenCV, human-computer \ninteraction, python, machine learning"
+    },
+    {
+        "chunk_id": 8,
+        "source": "paper24",
+        "text": "International Journal of Recent Scientific Research Vol. 14, Issue, 11, pp.4372-4377, November 2023 \n \n \n \n \n 4373 | P a g e  \nfeature descriptors into colourful rudiments [1]. Gestures \nhave also been recognised using webcam images [2]. Xbox \nKinect camera was used to recover the photos, and as part \nof the image pre-processing procedure, these images were \nconverted to YCbCr format. HOG was used to extract \nfeatures from the images, and SVM was used to classify the \nimages \naccording \nto \ntheir \nindividual \nletters \n[3]. \nCombination of an OpenCV library-supported technique \nthat uses videotape sequencing to obtain images and \nconversion into the YCbCr image format, followed by \nadditional segmentation of the hand to produce images \nwith less noise for improved recognition [4].  \n \nTo \nidentify \ngestures, \nan \nimproved \nand \noptimized \ninheritable algorithm and adaptive filtering have been used \n[5]. Intricate signal processing techniques have also been"
+    },
+    {
+        "chunk_id": 9,
+        "source": "paper24",
+        "text": "To \nidentify \ngestures, \nan \nimproved \nand \noptimized \ninheritable algorithm and adaptive filtering have been used \n[5]. Intricate signal processing techniques have also been \napplied to create a precise model that resembles a DWT and \nF-rate combination [6]. A novel recognition system using k-\nnearest neighbours (KNN) and the Bayesian approach to \nclassify the images was demonstrated using videotape as \nthe input[7]. Principal Component Analysis (PCA) and self-\ndeveloped hand segmentation techniques were used to \nclassify the images [8]. To interpret the change in kernel \neffect on the image recognition system, different types of \nSVM kernels and Multi-Class SVM with their comparison \nwere used [9]. Various forms of segmentation Additionally, \ngraph kernels have been contrasted to determine their \nimpact on the dataset of American sign language-related \nimages[10]. To analyze the behaviour, a similar method \nthat uses a labelled graph kernel is also available [11]."
+    },
+    {
+        "chunk_id": 10,
+        "source": "paper24",
+        "text": "impact on the dataset of American sign language-related \nimages[10]. To analyze the behaviour, a similar method \nthat uses a labelled graph kernel is also available [11]. \nModern methods focused on using deep learning models to \nimprove delicacy and speed up prosecution. To obtain \ninformation about the depth variation in the image and \nlocate a new point for comparison, a model incorporating \nspecial tackling factors similar to depth cameras has been \nemployed. A Convolutional Neural Network (CNN) has also \nbeen built to obtain the results [12]. \n \nBy using a capsule network and adaptive pooling, a novel \nmethod of not using a pretrained model for system \nexecution was developed [13]. Additionally, it was \nestablished that creating a deep belief network and \nlowering the layers of CNN-which uses a greedy strategy to \naccomplish this-produced better results than other \nmethods [14]. To achieve the desired results, feature \nextraction using SIFT and classification using neural"
+    },
+    {
+        "chunk_id": 11,
+        "source": "paper24",
+        "text": "accomplish this-produced better results than other \nmethods [14]. To achieve the desired results, feature \nextraction using SIFT and classification using neural \nnetworks (CNN) were developed [15]. One of the models \ninvolved converting the photos to an RGB color scheme, \ndeveloping the data using the motion depth channel, and \nafterwards creating the functioning system using 3D \nrecurrent convolutional neural networks (3DRCNN) [16].  \nAnother well-known method is HMM models for the \nrecognition of sign language [7],[17],[18]. Since each of \nthese publications uses a separate dataset with various \nfigures and image kinds, comparing them becomes \nlaborious. The majority of the systems were configured to \nuse nearly noise-free images. \n \nResearch Gap \n \nIllumination and Background Variations: It can be \nchallenging to precisely separate the hand region due to \nshadows, reflections, and changes in illumination levels. \nPalm Articulation and Occlusion: It might be difficult to"
+    },
+    {
+        "chunk_id": 12,
+        "source": "paper24",
+        "text": "challenging to precisely separate the hand region due to \nshadows, reflections, and changes in illumination levels. \nPalm Articulation and Occlusion: It might be difficult to \nprecisely identify movements of the fingertips because \nfingers can occlude one another.  \n \nLimited Gesture Vocabulary: Current methods frequently \nconcentrate \non \nidentifying \na \nsmall \nnumber \nof \npredetermined hand motions. It can be challenging to \nexpand the system's ability to recognise more motions or to \ndynamically learn new movements. \n \nSensitivity to Camera Position and Observation Angle: \nThe size and shape of the hand may change depending on \nthe camera angle, which may impact the precision of hand \nsegmentation and extraction of features. \n \nFalse positives must be kept to a minimum and robustness \nto noise must be ensured for dependable results. \n \nPROPOSED SOLUTION \n \nA. Block Diagram \n \nUtilizing computer vision techniques and machine learning"
+    },
+    {
+        "chunk_id": 13,
+        "source": "paper24",
+        "text": "to noise must be ensured for dependable results. \n \nPROPOSED SOLUTION \n \nA. Block Diagram \n \nUtilizing computer vision techniques and machine learning \nalgorithms is necessary for hand gesture recognition. The \nsystem records and analyses hand gestures in the form of \npictures or video frames, extracting pertinent aspects \nincluding hand motion, shape, and spatial relationships \nusing PCA and ORB. In order to identify and recognise \nvarious hand movements, these attributes are then fed into \na machine learning model, such as a convolutional neural \nnetwork (CNN). To achieve precise recognition, the model \nis trained using a labelled collection of hand gesture photos. \nReal-time and reliable hand gesture detection is the goal of \nthe suggested approach, which has applications in virtual \nreality, sign language translation, and human-computer \ninteraction. \n \n \n \nFig. 1: Block Diagram   \nMETHODOLOGY \nB. Image Acquisition \n \nFig B.1.1: Trained dataset for A"
+    },
+    {
+        "chunk_id": 14,
+        "source": "paper24",
+        "text": "Machine Learning Approach to the Classification And Identification of Hand Gesture Recognition Using Python \n \n \n \n4374 | P a g e  \n \n \nFig B.1.2 Trained dataset for B \n \n \n \nFig B.1.3 Trained dataset for C \n \nB.2 Image pre-Processing \n \nImage Resizing: Resizing the input images to a standardized \nresolution \nhelps \nmaintain \nconsistency \nand \nreduces \ncomputational complexity during processing. Open CV's resize \n() function can be used for resizing images. Image \nNormalization: Normalizing the pixel values of images ensures \nthat the data has a consistent range, making it easier for the \nmodel to learn. Common normalization techniques include \nmin-max scaling and mean normalization. \n \nBackground Subtraction: If the hand gesture is performed \nagainst a static or cluttered background, applying background \nsubtraction techniques can help isolate the hand region.  \n \nHand Segmentation: Hand segmentation techniques aim to \nseparate the hand region from the rest of the image. Techniques"
+    },
+    {
+        "chunk_id": 15,
+        "source": "paper24",
+        "text": "subtraction techniques can help isolate the hand region.  \n \nHand Segmentation: Hand segmentation techniques aim to \nseparate the hand region from the rest of the image. Techniques \nsuch as thresholding, color-based segmentation, or skin tone \ndetection can be used to identify and extract the hand region. \nNoise reduction: Image noise can negatively impact how well \nhand gestures are recognised. \n \nB.1Hand Region detection \n \n \nFig B.3.1 Hand Region Detection \nB.4 Feature Extraction  \nPCA \n \nIn image processing, PCA (principal component analysis) is \nused frequently. It includes preserving essential details while \nconverting visuals into a lower-dimensional representation. The \ncovariance matrix is computed using vectors that PCA creates \nby treating images as matrices. The associations between pixel \nvalues are captured by the covariance matrix. PCA determines \nthe major components of the picture data by breaking down the \nmatrix of covariance into eigenvectors and eigenvalues. The"
+    },
+    {
+        "chunk_id": 16,
+        "source": "paper24",
+        "text": "values are captured by the covariance matrix. PCA determines \nthe major components of the picture data by breaking down the \nmatrix of covariance into eigenvectors and eigenvalues. The \nhighest \nvariance \ndirections \nare \nrepresented \nby \nthese \ncomponents. PCA decreases the overall dimensionality of the \npicture by choosing a subset of eigenvectors with the largest \neigenvalues. Feature extraction can be done using this \nreduction. It is possible to reassemble the reduced-dimensional \nrepresentation back into an image. \n \nORB \n \nA popular approach for detection of features  in image \nprocessing is ORB (Oriented FAST and Rotated BRIEF). For \npurposes including object recognition, picture registration, and \nimage stitching, it recognises different key points in images. \nKey point detection algorithm, FAST and feature description \nalgorithm, BRIEF are combined in ORB. Pixel intensity \ncomparisons are used to locate corners and edges during key"
+    },
+    {
+        "chunk_id": 17,
+        "source": "paper24",
+        "text": "Key point detection algorithm, FAST and feature description \nalgorithm, BRIEF are combined in ORB. Pixel intensity \ncomparisons are used to locate corners and edges during key \npoint detection. In order achieve rotational invariance, ORB \nassigns rotations to key points. This process creates binary \nattribute descriptors by analysing sets of pixels in each point's \nimmediate vicinity. With the help of these descriptors, tasks \nlike picture registration and object recognition are made \npossible by the ability to match up key points in various \nimages. Typical matching methods like nearest neighbour \nsearch and RANSAC are used. Combination of PCA and \nORBFor feature extraction in image processing, Oriented \nFAST and Rotated BRIEF (ORB) and Principal Component \nAnalysis (PCA) can be used together. While PCA helps lessen \nthe dimensionality of these attributes, ORB can be used to \nidentify and define different key points in images. The most"
+    },
+    {
+        "chunk_id": 18,
+        "source": "paper24",
+        "text": "Analysis (PCA) can be used together. While PCA helps lessen \nthe dimensionality of these attributes, ORB can be used to \nidentify and define different key points in images. The most \nimportant features can be kept while decreasing the feature \nspace by using PCA for the descriptors produced by ORB. This \ncombined approach of ORB and PCA enables efficient feature \nextraction, which can be beneficial for tasks such as object \nrecognition, image classification, and image retrieval. \n \nB.5Classification \n \nConvolution Neural Network (CNN)- For classifying hand \ngestures, a pre-trained CNN model is utilized, and the model \nweights are kept in a file called \"Model/keras_model.h5\" that is \ncommonly related to the Keras deep learning library. CNN-like \nneural network models are frequently built and trained using \nKeras. \nThe \nclass \nnamed \nClassifier \nfrom \nCVZ \none. \nClassification Module, The pre-trained CNN model which \ngenerates forecasts based on input photos of hands. The hand"
+    },
+    {
+        "chunk_id": 19,
+        "source": "paper24",
+        "text": "Keras. \nThe \nclass \nnamed \nClassifier \nfrom \nCVZ \none. \nClassification Module, The pre-trained CNN model which \ngenerates forecasts based on input photos of hands. The hand \nmotion in the img White image is classified using the CNN \nmodel by the Classifier class's get Prediction function. \n \n \n𝑌 𝑖, 𝑗 =  𝑀−1\n𝑚=0\n \n𝑋 𝑖−𝑚, 𝑗−𝑛 . 𝑊+ 𝑏\n𝑁−1\n𝑛=0\n ------1  \n \nEquation B.5.1 Convolution Equation \n \nThe convolution operation applies a filter (kernel) to the input \nimage to extract features. The equation for the convolution \noperation can be represented as follows:"
+    },
+    {
+        "chunk_id": 20,
+        "source": "paper24",
+        "text": "International Journal of Recent Scientific Research Vol. 14, Issue, 11, pp.4372-4377, November 2023 \n \n \n \n \n 4375 | P a g e  \nHere,  \nY(i, j) is the output feature map at position (i, j) \nX(i-m, j-n) is the input value at position (i-m, j-n),  \nW(m, n) is the filter weight at position (m, n),  \nb is the bias term. \nk = imgSize / w \nhCal = math.ceil(k * h) \n \n \n \nFig B.5.1: Classification and identification \n \nRESULTS AND ANALYSIS  \n \nThe hand gesture recognition systemdemonstrates the system's \noverall competence in correctly extracting features using the \nPCA and ORB combination and categorising hand motions \nusing CNN. \n \nGesture-wise Performance: For each distinct hand gesture, the \nsystem's performance was examined. \n \nReal-time \nPerformance: \nThe \nsystem's \neffectiveness \nat \nrecognising hand gestures in real-time was assessed, taking into \naccount elements like processing time per frame and the \ncapacity to handle a range of hand positions and movements."
+    },
+    {
+        "chunk_id": 21,
+        "source": "paper24",
+        "text": "at \nrecognising hand gestures in real-time was assessed, taking into \naccount elements like processing time per frame and the \ncapacity to handle a range of hand positions and movements. \n \nLimitations & Future Improvements: Any restrictions or flaws \nin the system were noted, including its sensitivity to lighting \nconditions and the requirement for a controlled environment. \nPossible avenues for development included adding more \nsophisticated algorithms, investigating multi-modal input \nsources, and broadening the dataset diversity. \nCONCLUSION \nSuccessful recognition of hand motions using computer vision \ntechniques and machine learning algorithms is demonstrated by \nthe Python-based hand gesture identification system. The \nsystem's ability to extract informative information and employ \nmachine learning models allowed for robust and real-time \nrecognition. Due to the attained recognition accuracy and \nprocessing efficiency, the system is perfect for applications in"
+    },
+    {
+        "chunk_id": 22,
+        "source": "paper24",
+        "text": "machine learning models allowed for robust and real-time \nrecognition. Due to the attained recognition accuracy and \nprocessing efficiency, the system is perfect for applications in \nvirtual reality, sign language translation, and human-computer \ninteraction. The employment of more advanced algorithms, \nresearch into multi-modal input sources, and dataset extension \nfor  \n \n \nFig IV.1 Project Demonstration for A \n \n \n \nFig IV.2 Project Demonstration for B \n \n \n \nFig IV.3 Project Demonstration for C \n \nACKNOWLEDGMENT \n \nWe are grateful to the friends, well wishers of Department of \nArtificial Intelligence and Machine Learning, BNMIT, BIET"
+    },
+    {
+        "chunk_id": 23,
+        "source": "paper24",
+        "text": "Machine Learning Approach to the Classification And Identification of Hand Gesture Recognition Using Python \n \n \n \n4376 | P a g e  \nDavangere for their insightful feedback and constant \nencouragement. \nWithout \nthem \nand \ntheir \ncollective \ncontributions, this research project would not have been \npossible. \n \nReferences \n \n1. Anita \nJadhav, \nRohit \nAsnani, \nRolanCrasto, \nOmprasadNi-lande&Anamol \nPonkshe. \n(2015). \nGesture Recognition using Support Vector Machine. \nInternational Journal of Electrical, Electronics and \nData Communication, 36-41. \n2. RuslanKurdyumov, Phillip Ho & Justin Ng. (2011). \nSign Language Classification Using Webcam Images.  \n3. Lahoti, S. K. (2018). Android based American Sign \nLanguage \nRecognition \nSystem \nwith \nSkin \nSegmentation and SVM. International Conference on \nComputing, \nCommunication \nand \nNetworking \nTechnologies (ICCCNT) (p. 6). IEEE.  \n4. Rajeshree S. Rokade & Dharmpal D. Doye. (2015). \nSpelled sign word recognition using key frame. IET"
+    },
+    {
+        "chunk_id": 24,
+        "source": "paper24",
+        "text": "Computing, \nCommunication \nand \nNetworking \nTechnologies (ICCCNT) (p. 6). IEEE.  \n4. Rajeshree S. Rokade & Dharmpal D. Doye. (2015). \nSpelled sign word recognition using key frame. IET \nImage Processing, 381-388.  \n5. Rajesh Kaluri& Ch. Pradeep Reddy. (2016). A \nframework for sign gesture recognition using \nimproved genetic algorithm and adaptive filter. \nCogent Engineering.  \n6. Jaya Prakash Sahoo , Samit Ari & Dipak Kumar \nGhosh. (2018). Hand gesture recognition using DWT \nand F-ratio based feature descriptor. IET Image \nProcessing, 1780-1787.  \n7. Tamer Shanableh, KhaledAssaleh& M. Al-Rousan. \n(2007). \nSpatio-Temporal \nFeature-Extraction \nTechniques for Isolated Gesture Recognition in Arabic \nSign Language. IEEE Transactions on Systems, Man, \nand Cybernetics, Part B (Cybernetics), 641-650.K. \nElissa, “Title of paper if known,” unpublished. \n8. Marwa Elpeltagy, MoatazAbdelwahab, Mohamed E. \nHussein; \nAmin \nShoukry; \nAsmaaShoala \n& \nMoustafaGalal. (2018). Multi-modalitybased Arabic"
+    },
+    {
+        "chunk_id": 25,
+        "source": "paper24",
+        "text": "Elissa, “Title of paper if known,” unpublished. \n8. Marwa Elpeltagy, MoatazAbdelwahab, Mohamed E. \nHussein; \nAmin \nShoukry; \nAsmaaShoala \n& \nMoustafaGalal. (2018). Multi-modalitybased Arabic \nsign language recognition. IET Computer Vision, \n1031-1039. 190 Ashish Sharma et al. / Procedia \nComputer Science 173 (2020) 181–190 10 Author \nname / Procedia Computer Science 00 (2019) 000–000  \n9. Islam, M. R. (2018). Hand Gesture Feature Extraction \nUsing Deep Convolutional Network for Recognizing \nAmerican Sign Language. International Conference on \nFrontiers of Signal Processing (ICFSP) (p. 5). IEEE.  \n10. Harchaoui, \nZ., \n& \nBach, \nF. \n(2007). \nImage \nClassification with Segmentation Graph Kernels. 2007 \nIEEE Conference on Computer Vision and Pattern \nRecognition.  \n11. Ruiqi Zhao & Aleix M. Martinez. (2015). Labeled \nGraph \nKernel \nfor \nBehavior \nAnalysis. \nIEEE \nTransactions on Pattern Analysis and Machine \nIntelligence, 1640-1650.  \n12. Bin Xie, Xiaoyu He & Yi Li. (2018). RGB-D static"
+    },
+    {
+        "chunk_id": 26,
+        "source": "paper24",
+        "text": "Graph \nKernel \nfor \nBehavior \nAnalysis. \nIEEE \nTransactions on Pattern Analysis and Machine \nIntelligence, 1640-1650.  \n12. Bin Xie, Xiaoyu He & Yi Li. (2018). RGB-D static \ngesture recognition based on convolutional neural \nnetwork. The Journal of Engineering, 1515-1520.  \n13. Jalal, M. A. (2018). American Sign Posture \nUnderstanding \nwith \nDeep \nNeural \nNetworks. \nInternational Conference on Information Fusion \n(FUSION) (p. 7). IEEE.  \n14. Ma, M. X. (2018). Design and Analyze the Structure \nbased \non \nDeep \nBelief \nNetwork \nfor \nGesture \nRecognition. International Conference on Advanced \nComputational Intelligence (ICACI) (p. 5). IEEE. [15] \nShanta, S. S. (2018). Bangla Sign Language Detection \nUsing SIFT and CNN. International Conference on \nComputing, \nCommunication \nand \nNetworking \nTechnologies (ICCCNT) (p. 6). IEEE.  \n15. Ye, Y., Tian, Y., Huenerfauth, M., & Liu, J. (2018). \nRecognizing American Sign Language Gestures from \nWithin \nContinuous \nVideos. \n2018 \nIEEE/CVF"
+    },
+    {
+        "chunk_id": 27,
+        "source": "paper24",
+        "text": "Technologies (ICCCNT) (p. 6). IEEE.  \n15. Ye, Y., Tian, Y., Huenerfauth, M., & Liu, J. (2018). \nRecognizing American Sign Language Gestures from \nWithin \nContinuous \nVideos. \n2018 \nIEEE/CVF \nConference \non \nComputer \nVision \nand \nPattern \nRecognition Workshops (CVPRW), 2145-214509, \nIEEE.  \n16. Daniel Kelly, John Mc Donald & Charles Markham. \n(2011). Weakly Supervised Training of a Sign \nLanguage \nRecognition \nSystem \nUsing \nMultiple \nInstance \nLearning \nDensity \nMatrices. \nIEEE \nTransactions on Systems, Man, and Cybernetics, Part \nB (Cybernetics), 526-541.  \n17. Jeroen F. Lichtenauer, Emile A. Hendriks & Marcel \nJ.T. Reinders. (2008). Sign Language Recognition by \nCombining \nStatistical \nDTW \nand \nIndependent \nClassification. IEEE Transactions on Pattern Analysis \nand Machine Intelligence, 2040-2046. \n18. Dr. H S Mohana and Mr. Mahanthesha U Published a \nTechnical Book “ROBOTICS MADE SIMPLE- \nBeginners Guide to Building Robots” by Mantech"
+    },
+    {
+        "chunk_id": 28,
+        "source": "paper24",
+        "text": "and Machine Intelligence, 2040-2046. \n18. Dr. H S Mohana and Mr. Mahanthesha U Published a \nTechnical Book “ROBOTICS MADE SIMPLE- \nBeginners Guide to Building Robots” by Mantech \nPublications Pvt. Ltd. Ghaziabad, Dehli/NCR, 2021, \nISBN: 978-81-948050-8-3. The book is available in \nAmazon \nlink: \nhttps://www.amazon.in/Robotics-\nSimple-Beginners-Building-Robots/dp/8194805082 \n19. Mr. Mahanthesha U and Dr. H S Mohana, Published a \nresearch \narticle \n\"Covid-19 \nSocial \nDistance \nIdentification and Suspicious Activity Detection in \nLocal and Remote Environments\" International \nJournal Of Advance Research And Innovative Ideas In \nEducation (IJARIIE), Volume 7 Issue 6 2021 Page \n1003-1011. \n20. Mr. Mahanthesha U, Anusha AU, Anusha C, Bhumika \nS and Harshini S, “Development of Real Time Facial \nEmotional Video Analysis with Speech Data Fusion \nusing Random Forest Algorithm”, International \nJournal of Engineering Research & Technology \n(IJERT) ISSN: 2278-0181 Published by,www.ijert.org"
+    },
+    {
+        "chunk_id": 29,
+        "source": "paper24",
+        "text": "Emotional Video Analysis with Speech Data Fusion \nusing Random Forest Algorithm”, International \nJournal of Engineering Research & Technology \n(IJERT) ISSN: 2278-0181 Published by,www.ijert.org \nNCCDS-2021 Conference Proceedings, Volume 9, \nIssue 12. \n21. Dr. H S Mohana and Mr. Mahanthesha U Published \nResearch Article titled “Human Action Recognition \nUsing Stip Evaluation Techniques” in Progress in \nAdvanced Computing and Intelligent Engineering. \nAdvances in Intelligent Systems and Computing, vol \n1198. \nSpringer, \nSingapore. \nhttps://doi.org/10.1007/978-981-15-6584-7_38, Print \nISBN: 978-981-15-6583-0, Online ISBN: 978-981-15-\n6584-7, 30 October 2020.  \n22. Dr. H S Mohana and Mr. Mahanthesha U, published a \nresearch paper titled “Human Action Recognition \nUsing Stip Evaluation Techniques” in Progress in \nAdvanced Computing and Intelligent Engineering. \nAdvances in Intelligent Systems and Computing, vol \n1198. \nSpringer, \nSingapore."
+    },
+    {
+        "chunk_id": 30,
+        "source": "paper24",
+        "text": "Using Stip Evaluation Techniques” in Progress in \nAdvanced Computing and Intelligent Engineering. \nAdvances in Intelligent Systems and Computing, vol \n1198. \nSpringer, \nSingapore. \nhttps://doi.org/10.1007/978-981-15-6584-7_38, Print \nISBN: 978-981-15-6583-0, Online ISBN: 978-981-15-\n6584-7, 30 October 2020."
+    },
+    {
+        "chunk_id": 31,
+        "source": "paper24",
+        "text": "International Journal of Recent Scientific Research Vol. 14, Issue, 11, pp.4372-4377, November 2023 \n \n \n \n \n 4377 | P a g e  \n23. Dr. H S Mohana and Mr. Mahanthesha U, published a \nresearch paper titled “Human Action Recognition \nUsing Stip Techniques” in International Journal of \nInnovative Technology and Exploring Engineering \n(IJITEE), Scopus Indexed Journal ISSN: 2278-3075, \nVolume-9 Issue-7, May 2020. \n24. Dr. H S Mohana and Mr. Mahanthesha U, published \nresearch paper titled “Smart Digital Monitoring For \nAttendance \nSystem” \nIn \nIeee \nXplore, \nDoi: \n10.1109/Icrieece44171.2018.9009166, 27 February \n2020.  \n25. Dr. H S Mohana and Mr. Mahanthesha U, published \nresearch paper titled “Smart Digital Monitoring For \nAttendance \nSystem” \nin \nthe \nproceedings \nof \nInternational Conference on Recent Innovations in \nElectrical, Electronics & Communication Engineering \n- (ICRIEECE), School of Electrical Engineering, \nKalinga Institute of Industrial Technology (KIIT),"
+    },
+    {
+        "chunk_id": 32,
+        "source": "paper24",
+        "text": "Electrical, Electronics & Communication Engineering \n- (ICRIEECE), School of Electrical Engineering, \nKalinga Institute of Industrial Technology (KIIT), \nBhubaneswar, India. (Deemed to be University U/S 3 \nof the UGC Act, 1956), July 27th & 28th 2018. \n26. Mr. Mahanthesha U, Pooja, Rakshitha R, Sherley \nVincent, Smitha S Potdar,  published a technical paper \n“Depth Based Tracking Of Moving Objects Using \nKinect” in International Journal of Engineering \nResearch and Technology (IJERT), Volume 6, Issue \n13, ISSN No: 2278-0181, 17th May 2018. \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n27. Mr. Mahanthesha U, Supriya K S, Supriya Pal, \nSushma Bhagavathi B S, Vidya P G, published a \ntechnical paper “A THERAPY SYSTEM FOR \nARTICULATION DISORDER CORRECTION” in \nthe Journal of Engineering Research and Technology \n(IJERT Volume 6, Issue 13, ISSN No: 2278-0181, \n17th May 2018. \n28. Mr. Mahanthesha U and Dr. H S Mohana, published a"
+    },
+    {
+        "chunk_id": 33,
+        "source": "paper24",
+        "text": "the Journal of Engineering Research and Technology \n(IJERT Volume 6, Issue 13, ISSN No: 2278-0181, \n17th May 2018. \n28. Mr. Mahanthesha U and Dr. H S Mohana, published a \ntechnical paper “Identification Of Human Facial \nExpression \nSignal \nClassification \nUsing \nSpatial \nTemporal Algorithm” in International Journal of \nEngineering Research in Electrical and Electronic \nEngineering (IJEREEE), Vol 2, Issue 5, ISSN \n(Online) 2395-2717,May 2016. \n29. Mr. Mahanthesha U, Bindu K, Kavyashree A L, \nLakshmi Kiran V, Mallika, published a technical \npaper “Wireless Data Transmission Through Light” in \nthe International Research Journal of Engineering and \nTechnology (IRJET), Volume: 03 Issue: 06, e-ISSN: \n2395 -0056, p-ISSN: 2395-0072, June-2016. \n30. Smt. Geetha Jayaram Bhat and Mr. Mahanthesha U, \npublished a technical paper titled “Application \nDependent Geo-Routing Protocol On Multi-Radio \nNetworks” in “International Journal on Recent and \nInnovation Trends in Computing and Communication”"
+    },
+    {
+        "chunk_id": 34,
+        "source": "paper24",
+        "text": "published a technical paper titled “Application \nDependent Geo-Routing Protocol On Multi-Radio \nNetworks” in “International Journal on Recent and \nInnovation Trends in Computing and Communication” \n(IJRITCC), Volume 2, Issue 7, ISSN: 2321-8169, \nJuly-2014. \nHow to cite this article:  \n \nAnjaneya L H., Mahanthesha U and Banumathi K L, 2023. Machine Learning Approach to the Classification and Identification \nof Hand Gesture Recognition Using Python. Int J Recent Sci Res. 14(11), pp.4372-4377."
+    }
+]

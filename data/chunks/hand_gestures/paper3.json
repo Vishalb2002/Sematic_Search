@@ -1,0 +1,182 @@
+[
+    {
+        "chunk_id": 1,
+        "source": "paper3",
+        "text": "Efficient sign language recognition system and dataset creation method\nbased on deep learning and image processing\nA. L. Cavalcante Carneiroa, L. Brito Silvaa, D. H. Pinheiro Salvadeoa\naDept. of statistics, applied mathematics, and computation, State Univ. of São Paulo, Av. 24 A, 1515,\nRio Claro, SP, Brazil, 13506-700\nABSTRACT\nNew deep-learning architectures are created every year, achieving state-of-the-art results in image recognition\nand leading to the belief that, in a few years, complex tasks such as sign language translation will be considerably easier,\nserving as a communication tool for the hearing-impaired community. On the other hand, these algorithms still need a lot\nof data to be trained and the dataset creation process is expensive, time-consuming, and slow. Thereby, this work aims to\ninvestigate techniques of digital image processing and machine learning that can be used to create a sign language"
+    },
+    {
+        "chunk_id": 2,
+        "source": "paper3",
+        "text": "investigate techniques of digital image processing and machine learning that can be used to create a sign language\ndataset effectively. We argue about data acquisition, such as the frames per second rate to capture or subsample the\nvideos, the background type, preprocessing, and data augmentation, using convolutional neural networks and object\ndetection to create an image classifier and comparing the results based on statistical tests. Different datasets were created\nto test the hypotheses, containing 14 words used daily and recorded by different smartphones in the RGB color system.\nWe achieved an accuracy of 96.38% on the test set and 81.36% on the validation set containing more challenging\nconditions, showing that 30 FPS is the best frame rate subsample to train the classifier, geometric transformations work\nbetter than intensity transformations, and artificial background creation is not effective to model generalization. These"
+    },
+    {
+        "chunk_id": 3,
+        "source": "paper3",
+        "text": "better than intensity transformations, and artificial background creation is not effective to model generalization. These\ntrade-offs should be considered in future work as a cost-benefit guideline between computational cost and accuracy gain\nwhen creating a dataset and training a sign recognition model.\nKeywords: Deep learning, sign language recognition, convolutional neural networks, image classification, object\ndetection.\n1. INTRODUCTION\nCommunication is fundamental in any society and culture, which people daily use to express themselves and\nhave access to the most basic services like public transport, school, and health care. Sign language is the form of\ncommunication used in all countries by people with severe hearing loss, a condition that reaches, at some level, around\n466 million people worldwide19. The problem is that most hearing people do not know how to speak by signs, creating a\nbarrier that makes it difficult for the deafs to have social interactions."
+    },
+    {
+        "chunk_id": 4,
+        "source": "paper3",
+        "text": "466 million people worldwide19. The problem is that most hearing people do not know how to speak by signs, creating a\nbarrier that makes it difficult for the deafs to have social interactions.\nThe areas of computer vision and deep learning are advancing rapidly through the creation of new algorithms,\nwhich can be used as a novel interface for human communication, ensuring accessibility for the hearing impaired.\nAlthough there are different sign languages ​around the world, the same deep-learning algorithm can be generalized to all\nof them with just minimal training and hyperparameters changes. Nevertheless, the dataset creation must be done for all\nlanguages, which is complicated, expensive, and time-consuming, being desirable to find techniques that contribute to\noptimize this process.\nMost of the existing work in sign recognition focuses only on the hands, which limits detection to alphanumeric"
+    },
+    {
+        "chunk_id": 5,
+        "source": "paper3",
+        "text": "optimize this process.\nMost of the existing work in sign recognition focuses only on the hands, which limits detection to alphanumeric\nsigns or simple hands configurations, compelling deafs to use the spelled speech, which is difficult to understand and"
+    },
+    {
+        "chunk_id": 6,
+        "source": "paper3",
+        "text": "impractical. However, to perform word detection it is necessary to consider the entire image, once the meaning of a word\ndepends not only on the hand configuration but also on its position concerning other parts of the body.\nBased on this, our work aims to create a Convolutional Neural Network (CNN) algorithm to classify different\nwords in Brazilian Sign Language (BSL) and to investigate the techniques of digital image processing and machine\nlearning that more contributes to accuracy gain, considering a reasonable computational cost and a cheap dataset, created\nusing a smartphone camera in RGB color system, few interpreters and the same background.\n2. RELATED WORK\nWe can categorize previous works in this area by the different sensors used to capture the signs: data gloves,\ndepth sensors, and photographic sensors. Data gloves are hardware devices14 attached to the user in a glove format to"
+    },
+    {
+        "chunk_id": 7,
+        "source": "paper3",
+        "text": "depth sensors, and photographic sensors. Data gloves are hardware devices14 attached to the user in a glove format to\ncapture the hand movements. The problem with these gadgets is they are expensive, not practical to use daily, and must\nbe unique for each user given the differences in hand morphology. Furthermore, these gloves only capture hand\ninformation, limiting the ability to recognize words.\nAnother approach is the use of depth sensors like leap motion or Microsoft Kinect, but just the second one is\nadequate to word recognition, once it is not only limited to hands. Machado10 created a dataset containing over 21,000\nimages extracted from RGB-D videos captured using Kinect and achieved 79.80% accuracy with a 3-D CNN to\nrecognize words in BSL. However, this is still an expensive and not practical sensor and requires more computational\npower due to the extra depth channel.\nThe last approach is based on photographic sensors like smartphone cameras. The use of these sensors makes"
+    },
+    {
+        "chunk_id": 8,
+        "source": "paper3",
+        "text": "power due to the extra depth channel.\nThe last approach is based on photographic sensors like smartphone cameras. The use of these sensors makes\ndata acquisition harder12 but with the advantage of being less costly, very common, and practical to use in the quotidian.\nMagalhães11 created a BSL dataset with over 660 videos using a mobile camera, and achieved 99,8% accuracy using data\naugmentation techniques and creating its own CNN architecture, but the details concerning the dataset creation were not\nexplored. Rao et al.15 created a dataset containing over 200 signs in Indian sign language, but no data augmentation was\nused and the dataset was limited to signs performed with one hand. Ji et al.8 classified signs performing image sampling\nand using grayscale, achieving an accuracy of 86%, however just 6 signs were recognized, and no further exploration\nwas done concerning data augmentation."
+    },
+    {
+        "chunk_id": 9,
+        "source": "paper3",
+        "text": "and using grayscale, achieving an accuracy of 86%, however just 6 signs were recognized, and no further exploration\nwas done concerning data augmentation.\nHuang et al.7 used a 3-D CNN framework and RGB videos to form sentences using Hierarchical Attention\nNetwork (HAN) and Latent Space for temporal information and word alignment, but they do not use image transforming\nto augment data, which could improve the 82.7% accuracy reached by the authors. Finally, Cruz2 used a variant of 3-D\nCNN with transfer learning and data augmentation techniques to reach 83.75% in a large BSL sign dataset with more\nthan 23,000 images and 560 different signs. The transformations applied were a good starting point, but a better\nexploration could be made, such as changing the background (once the background of all the dataset videos was the\nsame), and the test of the most impactful data augmentation techniques for sign recognition. In general, previous works"
+    },
+    {
+        "chunk_id": 10,
+        "source": "paper3",
+        "text": "same), and the test of the most impactful data augmentation techniques for sign recognition. In general, previous works\ndo not explore details about the data acquisition, augmentation, and model generalization, which can help future research\nto create large-scale datasets and sign translation systems.\n3. MATERIAL AND METHODS\n3.1 Dataset creation\nOur dataset was created using different smartphone cameras in the RGB color system, facilitating the\nreproduction of the method once the sensor is accessible. We captured 14 different signs that are used daily by deaf\npeople, shown in table 1, where each sign was repeated 3 times by 2 different interpreters due to small variations present\nin each sign execution, totaling 84 videos."
+    },
+    {
+        "chunk_id": 11,
+        "source": "paper3",
+        "text": "Table 1. Words that compound dataset.\nCategory\nWords\nPronoun\nI,\nmy,\nyou,\nwe,\nyou\n(plural), your.\nNoun\nwoman,\nman,\ncar,\nmotorcycle,\nbus,\nsupermarket,\nhospital,\nbank.\nWe took the videos during the day using natural light and taking care of the brightness and light reflections. The\ncaptured resolution was 1920x1080 pixels, but the frames were later rescaled to 331x331 pixels to reduce the\ncomputational cost, and the background was the same for all the videos, which can be a disadvantage to the model\ngeneralization in a real-world scenario2, but it is considerably faster and easier than changing the scene\nprogrammatically. Therefore, artificial background creation may be an important technique to leave faster dataset\nacquisition while decreasing model bias.\nWe initially recorded at 60 Frames Per Second (FPS) to test the performance of the model using different frame\nrates by subsampling the original video, which can lead to distinct results2. Capturing videos at 60 FPS requires a better"
+    },
+    {
+        "chunk_id": 12,
+        "source": "paper3",
+        "text": "rates by subsampling the original video, which can lead to distinct results2. Capturing videos at 60 FPS requires a better\nsensor and more storage space, but can mitigate the motion blur during the sign execution, being an important trade-off\nto consider. Based on this, we created another dataset following the same steps as the first one, but capturing the signs at\n30 FPS, to test if there is a significant difference between the FPS used to record the sign.\nSince we will use a 2-D CNN architecture it is necessary to get the frames individually instead of using the\nentire video, thus, an algorithm was developed to subsample the frames in 60 to 30 and 20 FPS totaling 18300, 9299, and\n6244 images respectively. In addition to all the words in table 1, a new category was created, called “formation” which\nare signs that have no meaning because the hand is beginning or finishing the sign formation, or the interpreter is in the"
+    },
+    {
+        "chunk_id": 13,
+        "source": "paper3",
+        "text": "are signs that have no meaning because the hand is beginning or finishing the sign formation, or the interpreter is in the\nrest position, waiting to do the sign, as illustrated in figure 1.\nFigure 1. Rest position and sign formation respectively, both categorized as “formation” in our dataset.\nLastly, a validation set was created repeating the same 14 signs twice by 2 interpreters (56 videos and 3782\nimages at 60 FPS) but in different backgrounds and light conditions, to test the performance and generalization of the\nmodel in more adverse situations.\n3.2 Data augmentation\nData augmentation is a technique used to modify the dataset samples using transformations, which is important\nto reduce overfitting and make the model more robust5, improving its performance2,3. In this context, it is especially\nuseful to work with different data augmentation techniques, to make it cheaper to create a sign language dataset. We"
+    },
+    {
+        "chunk_id": 14,
+        "source": "paper3",
+        "text": "useful to work with different data augmentation techniques, to make it cheaper to create a sign language dataset. We\napply geometric and intensity transformations and investigate the impact of each transformation on the model accuracy,\nas some operations may not work properly depending on the problem and the dataset3, introducing classification errors,\nand every new transformation includes extra training time2, requiring the choice of appropriate techniques."
+    },
+    {
+        "chunk_id": 15,
+        "source": "paper3",
+        "text": "Geometric transformations are characterized by mapping the pixel position in the original image to a new\nposition in the resulting image. Rotation, translation, shear, and scale were the techniques used for these\ntransformations6. On the other hand, intensity transformations are modifications in the pixel value by applying\nmathematical formulas and changing the brightness and color conditions6. The transformations and their possible range\nof application are illustrated in table 2 and were done randomly in training time.\nTable 2. Transformations that were applied to augment data and the possible ranges of application.\nTransformation type\nRange\nZoom\n-0.2 - 0.2%\nRotation\n0 - 30º\nShear\n0 - 10°\nTranslation\nTrue\nBrightness\n0.5% -  1.2%\nHeight Shift\n0 - 0.15º\nChannel Inversion\n0.8 - 1.2%\nThe application ranges were chosen empirically based on tests and assumptions about the data. For example, the"
+    },
+    {
+        "chunk_id": 16,
+        "source": "paper3",
+        "text": "True\nBrightness\n0.5% -  1.2%\nHeight Shift\n0 - 0.15º\nChannel Inversion\n0.8 - 1.2%\nThe application ranges were chosen empirically based on tests and assumptions about the data. For example, the\nranges of zoom and height shift transformations can not be greater than those chosen for our dataset (where all the\ninterpreters are centered in the image), as this would cause the hands to be cut. Also, it does not make sense to use over\n30 degrees in the rotation range, once it can deform the signal, creating a new one and because we assume the\ninterpreters were in the vertical position.\nBackground replacement can also be considered as a data augmentation technique but it was not done in\ntraining time due to computational cost. To perform this task, semantic segmentation was used with transfer learning\nfrom the state-of-the-art system DeepLabV31. The pixels corresponding to the segmented person are preserved but the"
+    },
+    {
+        "chunk_id": 17,
+        "source": "paper3",
+        "text": "from the state-of-the-art system DeepLabV31. The pixels corresponding to the segmented person are preserved but the\nbackground is replaced by a new one, randomly chosen among five possible scenes.\n3.4 Model training\nThe dataset was split into 80% of samples for training and 20% for testing, once it is a common dataset partition\nratio5 and accuracy was the evaluation metric, as observed in other works2, 10, 11, 15, given by the division between the\nnumber of correct predictions and the total number of samples. Transfer learning is another important technique used to\nimprove model performance2 and decrease the training time, even with a small dataset5. We transferred the learned\nparameters from XCeption4 architecture trained on ImageNet9 to our network, replacing only the last layers to address\nthe given problem.\nThe training was carried out for 25 epochs with a batch size of 128, which showed empirically to be enough to"
+    },
+    {
+        "chunk_id": 18,
+        "source": "paper3",
+        "text": "the given problem.\nThe training was carried out for 25 epochs with a batch size of 128, which showed empirically to be enough to\ntrain the model, using a P100 GPU as dedicated hardware. Every test was repeated 3 times in the same setup, capturing\nthe average results and comparing them statistically, using analysis of variance (ANOVA) to compare 3 or more results\nand T-student, when the comparison is between two groups.\nAs a final test for the findings of this paper, we created and fine-tuned a multi-stream CNN architecture, having\none channel to extract the features of the entire image and another two channels for each hand, forcing the model to\nfocus on local and global information. Each stream of the CNN was based on EfficientNet-B017 with an image resolution\nof 224x224 pixels, to keep the number of parameters low. We also trained an object detection algorithm using a public"
+    },
+    {
+        "chunk_id": 19,
+        "source": "paper3",
+        "text": "of 224x224 pixels, to keep the number of parameters low. We also trained an object detection algorithm using a public\ndataset13 and based on EfficientDet18, to separate the hand of the image and pass it to the feature extractor, which is later\nmerged into a multi-layer perceptron, as figure 2 illustrates."
+    },
+    {
+        "chunk_id": 20,
+        "source": "paper3",
+        "text": "We initially trained the multi-stream CNN for 20 epochs with a learning rate of 10e-3. To fine-tune, we unfreeze\nabout 60% of each CNN channel, training again for 20 epochs but with a learning rate of 10e-6.\nFigure 2. The multi-stream CNN architecture created to capture local and global information in the image.\n4. RESULTS AND DISCUSSION\n4.1 Investigating data augmentation techniques\nWe trained the model with each data augmentation technique individually, shown in table 2, to search for the\nmore suitable options for the sign recognition task. Table 3 shows the average accuracy of the operations.\nTable 3. Average accuracy comparison between each data augmentation technique trained individually, considering the 20 FPS\ndataset.\nTransformation type\nTest set\nValidation set\nZoom\n90.65\n56.93\nRotation\n87.23\n61.22\nShear\n90.07\n53.31\nTranslation\n89.87\n49.49\nBrightness\n91.20\n49.91\nHeight Shift\n89.90\n55.63\nChannel Inversion\n91,17\n50,94"
+    },
+    {
+        "chunk_id": 21,
+        "source": "paper3",
+        "text": "Test set\nValidation set\nZoom\n90.65\n56.93\nRotation\n87.23\n61.22\nShear\n90.07\n53.31\nTranslation\n89.87\n49.49\nBrightness\n91.20\n49.91\nHeight Shift\n89.90\n55.63\nChannel Inversion\n91,17\n50,94\nAs the main goal of data augmentation is to improve the model invariance, we focus our attention on the results\nof the validation set, where there is a statistical difference, proved by the ANOVA test with a p-value of 0.00039. Thus,\nwe conclude that in general, geometrical transformations perform better than intensity transformations, which make\nsense considering how a human sees the sign, where the shape and spatial location has real importance in the word\nrecognition, different from color, background, and clothes.\nWith these results, in table 4, we compare the model subjecting it to various circumstances."
+    },
+    {
+        "chunk_id": 22,
+        "source": "paper3",
+        "text": "Table 4. We trained the model without and with data augmentation as baselines. Then, we trained with the best performance\ntechniques (highlighted in table 3) and with the worst performance (not highlighted in table 3), to compare the results.\nTest set\nValidation set\nWithout augmentation\n91.46\n52.37\nAll  augmentation techniques\n85.50\n60.32\nBest performance techniques\n85.50\n60.97\nWorse performance techniques\n90.01\n51.29\nTable 4 highlights that just using the data augmentations with the best individual performance is enough to\nachieve similar results as using all the techniques, maintaining the pattern observed individually. On the other hand, the\ndata augmentation techniques with a worse individual performance prove statistically (with a p-value of 0.0396 in the\nT-student test) to degrade the model performance.\nAlthough the accuracy decreased in the test set when using data augmentation, by the invariance introduced in"
+    },
+    {
+        "chunk_id": 23,
+        "source": "paper3",
+        "text": "T-student test) to degrade the model performance.\nAlthough the accuracy decreased in the test set when using data augmentation, by the invariance introduced in\nthe model, the effectiveness of the method is proven due to the increased performance of the validation set and also by\nthe reduction of overfitting as shown in figure 3.\nFigure 3. Accuracy without and with data augmentation in the 20 FPS, showing how it mitigates train (orange) and test (blue)\nvariance.\n4.2 Frames per second comparison\nAt first, we studied the most suitable FPS to subsample the videos into images to train the model by recording at\n60 FPS. Table 5 brings the results.\nTable 5. Average model accuracy over different subsamples from the videos captured at 60 FPS.\nFPS Rate\nTest set\nValidation\nset\n60\n91.14\n50.27\n30\n90.09\n59.65\n20\n85.50\n60.97\nRemarkably, 60 FPS does not compensate for the computational resource required, since it obtained about 10%"
+    },
+    {
+        "chunk_id": 24,
+        "source": "paper3",
+        "text": "FPS Rate\nTest set\nValidation\nset\n60\n91.14\n50.27\n30\n90.09\n59.65\n20\n85.50\n60.97\nRemarkably, 60 FPS does not compensate for the computational resource required, since it obtained about 10%\nless accuracy in the validation set. This is probably because this frame rate has almost 2 and 3 times more images than 30"
+    },
+    {
+        "chunk_id": 25,
+        "source": "paper3",
+        "text": "and 20 FPS, as figure 2 showed, which may contribute to overfitting, causing a greater variance in the validation set.\nBesides that, the consecutive images of a video are similar to each other, generating a low gain of information.\nThe T-student test reveals that 30 and 20 FPS have a significant difference in the test set, leading to the\nconclusion that it is the best choice for this situation, but this should vary depending on the dataset size, once the training\ntime is bigger for 30 FPS, and the exploration of spatio-temporal features, influencing the amount of information needed\nto be extracted from the video.\nThe last test involving frame rates was to compare the performance between a dataset captured at 30 FPS and\nanother one captured at 60 FPS, shown in table 6.\nTable 6. Average accuracy between datasets captured at 30 and 60 FPS.\nTest set\nValidation\nset\n30\nFPS\ncaptured at 60\n90.09\n59.65\n30\nFPS\ncaptured at 30\n85.54\n60.47\n20\nFPS\ncaptured at 60\n85.50\n60.97\n20\nFPS\ncaptured at 30"
+    },
+    {
+        "chunk_id": 26,
+        "source": "paper3",
+        "text": "Test set\nValidation\nset\n30\nFPS\ncaptured at 60\n90.09\n59.65\n30\nFPS\ncaptured at 30\n85.54\n60.47\n20\nFPS\ncaptured at 60\n85.50\n60.97\n20\nFPS\ncaptured at 30\n76.84\n55.76\nIn the test set, the results are favorable to the dataset captured at 60 FPS, as the greater number of images helps\nthe model to fit better during training (as shown in table 5). On the other side, In the validation set, there is no significant\ndifference between the dataset capture at 60 or 30 FPS (with a p-value of 0.58). Another relevant fact is that the dataset\ncaptured at 30 FPS had fewer images than the captured at 60 FPS and subsampled to 30, owing to the faster execution of\nthe signs, which is a normal variation depending on the interpreter and the situation. Therefore, instructing the\ninterpreters to execute the sign slowly should help to further mitigate these accuracy differences in capture rate, mainly\nin a well-lit scenery, where the motion blur is less perceptive."
+    },
+    {
+        "chunk_id": 27,
+        "source": "paper3",
+        "text": "interpreters to execute the sign slowly should help to further mitigate these accuracy differences in capture rate, mainly\nin a well-lit scenery, where the motion blur is less perceptive.\nThus, in an uncontrolled scenario, with different lighting conditions and sign speed execution by the\ninterpreters, capturing the video at 60 FPS and resampling it to 30 FPS should be the best choice, getting a large number\nof images while avoiding motion blur, with the drawback to require a better sensor and more storage space. Despite that,\nin a well-controlled scenario, capture at 30 FPS will produce satisfactory results.\n4.3 Artificial background effect\nThe background changing was not applied to the 60 FPS set, once we show that this frame rate is not as\neffective as 20 or 30 FPS. Figure 4 shows the results of the semantic segmentation.\nFigure 4. Signs with different backgrounds using the DeepLabV3 segmentation method."
+    },
+    {
+        "chunk_id": 28,
+        "source": "paper3",
+        "text": "The training was done as before and the results, shown in table 7, highlights that the extra effort to replace the\nimage background is not compensated, due to accuracy worsening.\nTable 7. Comparing average model accuracy with artificial background replacement (‘background suffix’) and without it.\nTest set\nValidation set\n30\nFPS\nbackground\n85.54\n60.47\n30 FPS\n90.09\n59.65\n20\nFPS\nbackground\n76.84\n55.76\n20 FPS\n85.50\n60.97\nTo understand more about these results, we used a tool to explain the model predictions called LIME16,\nhighlighting the parts of the image that contributed more to the inference, as illustrated in figure 5. Explanations suggest\nthat the model is focusing on the correct part of the image, considering the position of the hand of the interpreters to infer\nthe signal. This shows that the background is not biasing the results and that is why the replacement does not aggregate"
+    },
+    {
+        "chunk_id": 29,
+        "source": "paper3",
+        "text": "the signal. This shows that the background is not biasing the results and that is why the replacement does not aggregate\nrelevant features, acting just like a color transformation, which has a low contribution to the accuracy, as shown in table\n7.\nFigure 5. Using LIME to explain model predictions in the validation set.\n4.4 Improving validation accuracy with multi-stream CNN\nFigure 6 shows a confusion matrix of the model trained in the 30 FPS dataset, helping to investigate the\nmistakes in sign prediction, once the validation accuracy suggests a poor model generalization."
+    },
+    {
+        "chunk_id": 30,
+        "source": "paper3",
+        "text": "Figure 6. Confusion matrix of the model prediction over the 15 signs.\nAs observed, most of the errors occur in sign 3, which is the “formation” class, because the transition between\nthis sign and the word is gradual, creating an intersection that can easily confuse the model. To overcome this limitation,\nwe trained the multi-stream CNN to increase the attention of the model for the hands, achieving an accuracy of 96% on\nthe test set and 81% on the validation set, improving the accuracy and generalization of the model to more challenging\nconditions.\n5. CONCLUSIONS\nIn this paper, digital image processing and machine learning techniques were investigated to assist future works\ninvolving sign recognition tasks to create a dataset effectively. We show that geometric transformations are more\neffective than intensity transformations, since the model infers the sign based on the hand shape and position in the"
+    },
+    {
+        "chunk_id": 31,
+        "source": "paper3",
+        "text": "effective than intensity transformations, since the model infers the sign based on the hand shape and position in the\nimage, also being invariant to the background type. We also argued that 60 FPS was the best rate to record the videos of\nthe dataset, but it depends on the context such as the speed of the sign execution and lighting conditions. Equally, when\ntraining the model, 30 FPS was a better subsample choice over 60 or 20 FPS but it should vary depending on how the\nspatio-temporal features are explored. Finally, we created a multi-stream CNN architecture, based on our findings, that\nachieved an accuracy of 96% on the test set and 81% on the validation set. In future works, a larger dataset can be\ncreated, considering the findings of this paper and using different techniques for classification such as a spatio-temporal\nclassifier and ensemble methods.\nREFERENCES\n[1] Chen, L.-C., Papandreou, G., Schroff, F., & Adam, H. (2017). Rethinking Atrous Convolution for Semantic Image"
+    },
+    {
+        "chunk_id": 32,
+        "source": "paper3",
+        "text": "classifier and ensemble methods.\nREFERENCES\n[1] Chen, L.-C., Papandreou, G., Schroff, F., & Adam, H. (2017). Rethinking Atrous Convolution for Semantic Image\nSegmentation. http://arxiv.org/abs/1706.05587\n[2] Cruz, A. R. S. (2020). Uma estratégia para reconhecimento de sinais de Língua Brasileira de Sinais utilizando\naprendizado\nprofundo.\n[Unpublished\nmaster’s\ndegree\ndissertation],\nfederal\nuniversity\nof\nAmazonas.\nhttps://tede.ufam.edu.br/handle/tede/7855\n[3] Cubuk, E. D., Zoph, B., Mané, D., Vasudevan, V., & Le, Q. V. (2019). AutoAugment: Learning Augmentation\nStrategies From Data. Conference on Computer Vision and Pattern Recognition (CVPR), Long Beach, CA, USA, pp.\n113-123, doi: 10.1109/CVPR.2019.00020."
+    },
+    {
+        "chunk_id": 33,
+        "source": "paper3",
+        "text": "[4] Chollet, F. (2017). Xception: Deep Learning with Depthwise Separable Convolutions. IEEE Conference on Computer\nVision and Pattern Recognition (CVPR), Honolulu, HI, pp. 1800-1807, doi: 10.1109/CVPR.2017.195.\n[5] Géron, A. (2019). Hands-on machine learning with Scikit-Learn, Keras, and TensorFlow: Concepts, tools, and\ntechniques to build intelligent systems. O'Reilly Media. 31.\n[6] Gonzalez, R. C.; Woods, R. E. (2007). Digital image processing, Pearson. 3\n[7] Huang, J., Zhou, W., Zhang, Q., Li, H., & Li, W. (2018). Video-based sign language recognition without temporal\nsegmentation. 32nd AAAI Conference on Artificial Intelligence, AAAI 2018, 2257–2264.\n[8] Ji, Y., Kim, S., & Lee, K. B. (2017, April). Sign language learning system with image sampling and convolutional\nneural network. In 2017 First IEEE International Conference on Robotic Computing (IRC) (pp. 371-375). IEEE."
+    },
+    {
+        "chunk_id": 34,
+        "source": "paper3",
+        "text": "neural network. In 2017 First IEEE International Conference on Robotic Computing (IRC) (pp. 371-375). IEEE.\n[9] Deng, J., Dong, W., Socher, R., Li, L., Li, K. & Fei-Fei, L. (2009). ImageNet: A large-scale hierarchical image\ndatabase. IEEE Conference on Computer Vision and Pattern Recognition, Miami, FL, 2009, pp. 248-255, doi:\n10.1109/CVPR.2009.5206848.\n[10] Machado, M. C. (2018). Classificação automática de sinais visuais da Língua Brasileira de Sinais representados por\ncaracterização espaço-temporal.\n[11] Magalhães, G. I, M.Sc. Thesis, Instituto Tecnológico de Aeronáutica - ITA, 2018 (Portuguese).\n[12] Mekala, P., Gao, Y., Fan, J., & Davari, A. (2011). Real-time sign language recognition based on neural network\narchitecture.\nProceedings\nof\nthe\nAnnual\nSoutheastern\nSymposium\non\nSystem\nTheory,\n195–199.\nhttps://doi.org/10.1109/SSST.2011.5753805\n[13] Mittal, A., Zisserman, A., & Torr, P. H. (2011, September). Hand detection using multiple proposals. In Bmvc (Vol.\n2, No. 3, p. 5)."
+    },
+    {
+        "chunk_id": 35,
+        "source": "paper3",
+        "text": "Theory,\n195–199.\nhttps://doi.org/10.1109/SSST.2011.5753805\n[13] Mittal, A., Zisserman, A., & Torr, P. H. (2011, September). Hand detection using multiple proposals. In Bmvc (Vol.\n2, No. 3, p. 5).\n[14] Preetham, C., Ramakrishnan, G., Kumar, S., Tamse, A., & Krishnapura, N. (2013). Hand talk-implementation of a\ngesture recognizing glove. Proceedings - 2013 Texas Instruments India Educators’ Conference, TIIEC 2013, 328–331.\nhttps://doi.org/10.1109/TIIEC.2013.65\n[15] Rao, G. A., Syamala, K., Kishore, P. V. V., & Sastry, A. S. C. S. (2018, January). Deep convolutional neural\nnetworks for sign language recognition. In 2018 Conference on Signal Processing And Communication Engineering\nSystems (SPACES) (pp. 194-197). IEEE.\n[16] Ribeiro, M. T., Singh, S., & Guestrin, C. (2016). “Why should i trust you?” Explaining the predictions of any\nclassifier. Proceedings of the ACM SIGKDD International Conference on Knowledge Discovery and Data Mining,"
+    },
+    {
+        "chunk_id": 36,
+        "source": "paper3",
+        "text": "classifier. Proceedings of the ACM SIGKDD International Conference on Knowledge Discovery and Data Mining,\n13-17-Augu, 1135–1144. https://doi.org/10.1145/2939672.2939778\n[17] Tan, M., & Le, Q. V. (2019). EfficientNet: Rethinking model scaling for convolutional neural networks. 36th\nInternational Conference on Machine Learning, ICML 2019, 2019-June, 10691–10700.\n[18] Tan, M., Pang, R., & Le, Q. V. (2020). Efficientdet: Scalable and efficient object detection. In Proceedings of the\nIEEE/CVF conference on computer vision and pattern recognition (pp. 10781-10790).\n[19]\nWorld\nHealth\nOrganization.\n(2020,\nMarch\n1).\nDeafness\nand\nhearing\nloss.\nhttps://www.who.int/news-room/fact-sheets/detail/deafness-and-hearing-loss."
+    }
+]

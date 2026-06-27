@@ -1,0 +1,367 @@
+[
+    {
+        "chunk_id": 1,
+        "source": "paper23",
+        "text": "Citation: Yang, K.; Kim, M.; Jung, Y.;\nLee, S. Hand Gesture Recognition\nUsing FSK Radar Sensors. Sensors\n2024, 24, 349. https://doi.org/\n10.3390/s24020349\nAcademic Editor: Cosimo Distante\nReceived: 8 December 2023\nRevised: 25 December 2023\nAccepted: 5 January 2024\nPublished: 6 January 2024\nCopyright: © 2024 by the authors.\nLicensee MDPI, Basel, Switzerland.\nThis article is an open access article\ndistributed\nunder\nthe\nterms\nand\nconditions of the Creative Commons\nAttribution (CC BY) license (https://\ncreativecommons.org/licenses/by/\n4.0/).\nsensors\nArticle\nHand Gesture Recognition Using FSK Radar Sensors\nKimoon Yang 1,2, Minji Kim 1,2, Yunho Jung 3,4\nand Seongjoo Lee 2,5,*\n1\nDepartment Semiconductor Systems Engineering, Sejong University, Gunja-dong, Gwangjin-gu,\nSeoul 05006, Republic of Korea; ykm3563@itsoc.sejong.ac.kr (K.Y.); minji@itsoc.sejong.ac.kr (M.K.)\n2\nDepartment of Convergence Engineering of Intelligent Drone, Sejong University, Gunja-dong, Gwangjin-gu,"
+    },
+    {
+        "chunk_id": 2,
+        "source": "paper23",
+        "text": "2\nDepartment of Convergence Engineering of Intelligent Drone, Sejong University, Gunja-dong, Gwangjin-gu,\nSeoul 05006, Republic of Korea\n3\nDepartment of Smart Drone Convergence, Korea Aerospace University,\nGoyang 10540, Gyeonggi-do, Republic of Korea; yjung@kau.ac.kr\n4\nSchool of Electronics and Information Engineering, Korea Aerospace University,\nGoyang 10540, Gyeonggi-do, Republic of Korea\n5\nDepartment Electrical Engineering, Sejong University, Gunja-dong, Gwangjin-gu,\nSeoul 05006, Republic of Korea\n*\nCorrespondence: seongjoo@sejong.ac.kr\nAbstract: Hand gesture recognition, which is one of the fields of human–computer interaction (HCI)\nresearch, extracts the user’s pattern using sensors. Radio detection and ranging (RADAR) sensors\nare robust under severe environments and convenient to use for hand gestures. The existing studies\nmostly adopted continuous-wave (CW) radar, which only shows a good performance at a fixed"
+    },
+    {
+        "chunk_id": 3,
+        "source": "paper23",
+        "text": "are robust under severe environments and convenient to use for hand gestures. The existing studies\nmostly adopted continuous-wave (CW) radar, which only shows a good performance at a fixed\ndistance, which is due to its limitation of not seeing the distance. This paper proposes a hand gesture\nrecognition system that utilizes frequency-shift keying (FSK) radar, allowing for a recognition method\nthat can work at the various distances between a radar sensor and a user. The proposed system adopts\na convolutional neural network (CNN) model for the recognition. From the experimental results, the\nproposed recognition system covers the range from 30 cm to 180 cm and shows an accuracy of 93.67%\nover the entire range.\nKeywords: human–computer interaction; hand gesture recognition; micro-Doppler signature; FSK\nradar; Doppler radar; convolutional neural network; data preprocessing\n1. Introduction\nHuman–computer interaction (HCI) is a research field that develops various interac-"
+    },
+    {
+        "chunk_id": 4,
+        "source": "paper23",
+        "text": "radar; Doppler radar; convolutional neural network; data preprocessing\n1. Introduction\nHuman–computer interaction (HCI) is a research field that develops various interac-\ntions between humans and computers [1,2]. Typically, a keyboard and mouse have been\nused for human–computer interactions. However, research in regard to developing simpler\ninteraction methods, such as voice and gesture recognition, is rapidly progressing, with\nthe development of hardware and software in recent years [3]. Hand gesture recognition\nis one of the most effective human recognition methods among the various recognition\ntechniques. Various technologies are still being widely studied on the Internet of Things\n(IoT) [4]. A remote control without a remote controller in a smart home environment is\none of the important research areas [5,6]. This type of remote control includes various user\ninterfaces, such as human gestures, the voice, the iris, and fingerprints. Human gestures"
+    },
+    {
+        "chunk_id": 5,
+        "source": "paper23",
+        "text": "one of the important research areas [5,6]. This type of remote control includes various user\ninterfaces, such as human gestures, the voice, the iris, and fingerprints. Human gestures\nare the simplest and most natural gestures among them. They are also the most intuitive in\na smart environment, as they can interact with devices as well as be universally used in\nvarious applications. User demands about hand gesture recognition have recently been\ncontinuously increased, and the research is being actively developed with regard to improv-\ning the gesture-recognition rate [7,8]. The hand gesture system is being applied to various\ndevices, such as drones, robots, and smart home devices, as hand gesture recognition\ndevelops [9,10].\nHand gesture recognition detects and analyzes hand movements, which can control a\ndevice using a predetermined movement pattern. Sensors are essential devices for hand\nSensors 2024, 24, 349. https://doi.org/10.3390/s24020349\nhttps://www.mdpi.com/journal/sensors"
+    },
+    {
+        "chunk_id": 6,
+        "source": "paper23",
+        "text": "Sensors 2024, 24, 349\n2 of 22\ngesture recognition, which mainly involve camera sensors, acceleration sensors, and radio\ndetection and ranging (RADAR) sensors [11,12]. The recognition based on camera sensors\nis widely and easily conducted by photographing a hand gesture and by using vision\ntechnology. However, a vision sensor includes an infringement of personal information,\nand it is heavily influenced by the surrounding environment, such as low illuminance.\nAccelerometers have the advantage of recognizing the minute movements of hand gestures\nor being strong against environmental factors. However, they have the inconvenience\nof constantly being worn by the user [11]. On the other hand, radar sensors are hardly\naffected by the recognition environment, and they are relatively free from the infringement\nof personal information [13,14]. In addition, there is no need to wear a sensor, so radar\nsensors are useful for IoT services, such as smart homes."
+    },
+    {
+        "chunk_id": 7,
+        "source": "paper23",
+        "text": "of personal information [13,14]. In addition, there is no need to wear a sensor, so radar\nsensors are useful for IoT services, such as smart homes.\nThe previous studies based on the radar sensors mainly adopted the continuous-\nwave (CW) radar. However, the CW radar cannot measure the distance, so there is a\nproblem with a low recognition rate when the distance between a radar sensor and a user\nis changed [15]. The restricted utilization by working at a fixed distance is critical to the\ndevelopment of commercial products and services [16–18]. The algorithm proposed in\nthis paper can address this problem by obtaining distance information via radar. There\nare three radar options for obtaining distance information: the frequency-shift keying\n(FSK) radar, frequency-modulated continuous-wave (FMCW) radar, and stepped-frequency\ncontinuous-wave (SFCW) radar. The FSK radar has the least hardware complexity and is the"
+    },
+    {
+        "chunk_id": 8,
+        "source": "paper23",
+        "text": "(FSK) radar, frequency-modulated continuous-wave (FMCW) radar, and stepped-frequency\ncontinuous-wave (SFCW) radar. The FSK radar has the least hardware complexity and is the\nmost cost-effective among the three radars. Moreover, it requires simpler signal processing,\nresulting in a relatively lower computational load. Devices commonly employed for gesture\nrecognition in IoT emphasize real-time performance and power efficiency. Therefore, the\nFSK radar is adopted in this paper.\nExisting research that adopts radar has only focused on improving the accuracy of\nhand gesture recognition. Few studies have addressed the decrease in accuracy due to\nchanges in the distance between the user and the radar. This point is important for the\nreal user. Furthermore, most of the research only utilized the CW radar or the FMCW\nradar for gesture recognition, not the FSK radar. The employment of the FSK radar benefits\nfrom the low signal processing computational load of the CW radar and the distance"
+    },
+    {
+        "chunk_id": 9,
+        "source": "paper23",
+        "text": "radar for gesture recognition, not the FSK radar. The employment of the FSK radar benefits\nfrom the low signal processing computational load of the CW radar and the distance\nmeasurement advantages of the FMCW radar. Therefore, this paper presents a novel\ncontribution compared to existing methods.\nFurthermore, the proposed algorithm can be applied to various fields. It is especially\nvaluable for drone control in warfare situations, where illumination and power are limited.\nBecause radar has robust characteristics related to the surrounding environment, adopting\nthe FSK radar has benefits in terms of the power consumption.\nThe remaining sequence of this paper is composed as follows. A micro-Doppler\nsystem, Doppler radar sensors, and a micro-Doppler signature signal are introduced in\nSection 2, and then the CW and FSK radar sensors are compared. Section 3 describes\nan existing Doppler radar real-time hand gesture recognition system. A hand gesture"
+    },
+    {
+        "chunk_id": 10,
+        "source": "paper23",
+        "text": "Section 2, and then the CW and FSK radar sensors are compared. Section 3 describes\nan existing Doppler radar real-time hand gesture recognition system. A hand gesture\nrecognition system using the FSK radar is proposed in Section 4, and Section 5 explains\nthe five methods of the CNN training and inference in the system. Section 6 proposes\na preprocessing method to improve the model’s performance. The experimental setting\nis shown in Section 7, and the results are presented in Section 8. Finally, the paper is\nsummarized and concluded in Section 9.\n2. Micro-Doppler System\nThe basic operating principle of a radar sensor is to measure the speed and distance\nof an object by emitting a microwave signal toward an object and receiving the signal\nreflected by the object. A moving object changes the frequency of a reflected signal by\nDoppler effects, and the radar sensor can detect the moving object by the Doppler frequency\nestimation [19–21]."
+    },
+    {
+        "chunk_id": 11,
+        "source": "paper23",
+        "text": "Sensors 2024, 24, 349\n3 of 22\nFigure 1 shows the principle of a CW Doppler radar sensor. The Doppler effects\noccur when either a wave source or a target is in motion. The magnitude of a frequency\ndifference between the emitted signal and the reflected signal is proportional to the relative\nvelocity between the wave sensor and the target [22–24]. Figure 1 illustrates that the\nradar sensor is fixed, so only the target movement can generate the Doppler frequency.\nA voltage-controlled oscillator (VCO) generates a carrier wave, and the corresponding\nsignal is transmitted via the TX antenna, which goes into a mixer at the same time. Both\nthe transmission and the reflected waves, with frequencies of fTX and fRX, are fed into the\nmixer and mixed into the Doppler frequency.\nFigure 1. The process of extracting data using the transmit frequency and the receive frequency in a\nCW radar sensor.\nA micro-Doppler signature refers to the time-varying frequency modulation where a"
+    },
+    {
+        "chunk_id": 12,
+        "source": "paper23",
+        "text": "Figure 1. The process of extracting data using the transmit frequency and the receive frequency in a\nCW radar sensor.\nA micro-Doppler signature refers to the time-varying frequency modulation where a\ntransmitted signal is reflected at a moving point of a target [25–27]. The frequency estimated\nby the radar sensor changes over time in regard to a moving object. The micro-Doppler\nsignature refers to a unique characteristic with respect to a distinguished change in the\nfrequency that is caused by the movement of a target. Micro-Doppler signatures have been\nresearched in various fields, which include human behavior, biosignals, and distinction\nfrom animals, and they are widely utilized in real life [28,29].\nA micro-Doppler signature can be analyzed from a spectrogram, which is obtained\nby the short-time Fourier transform (STFT) process. It is generally difficult to find out the\noverall pattern change in the frequency over time when the frequency of a signal changes with"
+    },
+    {
+        "chunk_id": 13,
+        "source": "paper23",
+        "text": "by the short-time Fourier transform (STFT) process. It is generally difficult to find out the\noverall pattern change in the frequency over time when the frequency of a signal changes with\nthe passage of time. A large part of the temporal change does not appear in the calculated\nspectrum for the long-time captured nonperiodic signal, so it is advantageous to use the STFT\ntechnique, which continuously analyzes a short section where the spectrum component does\nnot change. The STFT repeatedly performs the fast Fourier transform (FFT) process for a\nmoving window. A spectrogram can be formed from the FFT result calculated for each time\nthat can be expressed in three-dimensions (time, frequency, and magnitude).\nFigure 2 depicts that the FSK radar transmits the signal by switching two carrier\nfrequencies, f1 and f2. Switching rapidly occurs and the gap of the two frequencies is very\nsmall. The operational principle of each frequency is similar to the CW doppler radar"
+    },
+    {
+        "chunk_id": 14,
+        "source": "paper23",
+        "text": "frequencies, f1 and f2. Switching rapidly occurs and the gap of the two frequencies is very\nsmall. The operational principle of each frequency is similar to the CW doppler radar\nsystem. However, it can estimate the target distance due to using two frequencies. More\ndetailed explanations will be provided in Section 4 regarding the FSK radar."
+    },
+    {
+        "chunk_id": 15,
+        "source": "paper23",
+        "text": "Sensors 2024, 24, 349\n4 of 22\nFigure 2. Time–frequency representation of FSK radar.\n3. Existing Hand Gesture Recognition Systems\nHand gesture recognition means classifying and recognizing specific actions by mea-\nsuring the data of moving hand gestures, extracting unique features, and analyzing them.\nThe data of hand gestures can be measured using various sensors. A CW radar sensor is con-\nventionally used for gesture recognition. Figure 3 shows a block diagram of a hand gesture\nrecognition system using a CW Doppler radar sensor. The hand gesture recognition system\nis divided into an analog signal processing section, a digital signal processing section, and\na software section. The analog signal processing section measures the micro-Doppler signal\nof the hand gestures by using a CW radar sensor. A micro-Doppler signal generates both\nthe in-phase (I) and the quadrature-phase (Q) data. The I/Q data are digitalized using"
+    },
+    {
+        "chunk_id": 16,
+        "source": "paper23",
+        "text": "of the hand gestures by using a CW radar sensor. A micro-Doppler signal generates both\nthe in-phase (I) and the quadrature-phase (Q) data. The I/Q data are digitalized using\nan analog-to-digital converter (ADC), which is then fed into the digital signal processing\nsection. The received raw data are adjusted to the required sampling rate via the decimation\nprocess in the package block of the digital signal processing section. The preprocessing that\nis used in order to merge the adjusted I/Q signals is followed for easier data management\nin the dual-port random access memory (DPRAM). The reorganized data are addressed in a\nround-robin method and stored in the DPRAM space. The detection module continuously\nfinds a valid frame during this process by analyzing the adjusted signals in real-time. The\nvalid frame means a dataset that consists of useful data samples captured by radar sensors\nduring the motion of the hand gesture. When the detection module claims to have found"
+    },
+    {
+        "chunk_id": 17,
+        "source": "paper23",
+        "text": "valid frame means a dataset that consists of useful data samples captured by radar sensors\nduring the motion of the hand gesture. When the detection module claims to have found\nthe valid frame, trigger and control signals are sent to the DPRAM and STFT module. The\nSTFT module reads the valid data stored in the DPRAM and then creates a spectrogram for\na software section. The software section analyzes the micro-Doppler signature by using the\nspectrogram for the hand gesture recognition. The convolutional neural network (CNN)\ninference is generally performed on hardware accelerators or graphics processing units\n(GPUs) for the recognition.\n \nFigure 3. A block diagram of a typical real-time hand gesture recognition system.\nIt is important to detect a valid frame for a real-time hand gesture system. If the valid\ndata of a hand gesture are not detected properly, the spectrogram that does not contain"
+    },
+    {
+        "chunk_id": 18,
+        "source": "paper23",
+        "text": "Sensors 2024, 24, 349\n5 of 22\na meaningful pattern is fed into a neural network, which results in a severe performance\ndegradation with respect to the recognition rate. In an existing method [30], the trigger\npoint is found by the average of the difference between the adjacent time samples in a\nframe by using Equation (1).\nT[i] = 1\nS\nS−1\n∑\nk=0\n|x[i −k] −x[i −k −1]|\n(1)\nwhere S is the frame size, which is set as the number of time samples that cover the motion\nduration of a hand gesture. Because a frame is moving sample-by-sample, a frame works\nlike a moving window. Here, |x[i]| denotes the magnitude of x[i]; T[i] is a trigger value of\nthe i-th frame, which is compared to the predefined threshold value for the frame detection.\nThe i-th frame consists of the i-th time sample and the previous S-1 samples. If the trigger\nvalue is smaller than the threshold, the trigger value is recalculated in the next frame."
+    },
+    {
+        "chunk_id": 19,
+        "source": "paper23",
+        "text": "The i-th frame consists of the i-th time sample and the previous S-1 samples. If the trigger\nvalue is smaller than the threshold, the trigger value is recalculated in the next frame.\nOtherwise, the current frame is declared as a valid frame. This method has as a limit the\nperformance degradation with respect to the detection probability, which is due to both the\nuse without noise estimation and the use of a partial magnitude of a signal, which heavily\ndepends on the motion range of a hand gesture and the noise level.\nAnother approach [31] determines a valid frame by using the change rate of the trigger\nvalue, which consists of the two steps. The first step detects the approximate frame position,\nlike the existing method [30]; the second step verifies the previous decision by using the\nchange rate of the trigger value. The change rate of the trigger value is defined as the\ntrigger ratio, which is calculated using Equation (2).\nR[i] = T[i + ∆d]\nT[i]\n(2)"
+    },
+    {
+        "chunk_id": 20,
+        "source": "paper23",
+        "text": "change rate of the trigger value. The change rate of the trigger value is defined as the\ntrigger ratio, which is calculated using Equation (2).\nR[i] = T[i + ∆d]\nT[i]\n(2)\nwhere T[i + ∆d] means the delayed trigger value. The trigger ratio is the ratio of the trigger\nvalue of the current frame to the trigger value of the previous frames before a specific time.\nThe trigger ratio can be used in order to find the starting and ending points of the hand\ngestures. The method using the trigger ratio demonstrates a higher probability of detecting\na valid frame and robustness to noise compared to the conventional method utilizing the\ntrigger value. This is attributed to the identification of actual gestures based on the rate of\nchange in the trigger values.\n4. Proposed Hand Gesture Recognition System Using the FSK Radar\nThe distance information is hardly obtained in CW radar sensors. In addition, the\nminimum or maximum detection range of the radar sensors is limited, because it varies"
+    },
+    {
+        "chunk_id": 21,
+        "source": "paper23",
+        "text": "The distance information is hardly obtained in CW radar sensors. In addition, the\nminimum or maximum detection range of the radar sensors is limited, because it varies\ndepending on both the transmit power and the specifications of the radar sensors. Varying\nthe received power of the radar sensors caused by the change in the motion distance makes\naccurate hand gesture recognition difficult in the existing hand gesture recognition system\nutilizing the CW radar sensors. The sensing position of a hand gesture was fixed in previous\nstudies due to this problem. This paper proposes a system adopting the FSK radar sensor\nthat can acquire a comparable gesture-recognition rate, regardless of the motion distance of\nthe hand gestures, by utilizing the distance information.\nFigure 4 is a block diagram of the proposed real-time hand gesture recognition system\nthat uses the FSK radar sensor. The proposed system is divided into an analog section, a"
+    },
+    {
+        "chunk_id": 22,
+        "source": "paper23",
+        "text": "Figure 4 is a block diagram of the proposed real-time hand gesture recognition system\nthat uses the FSK radar sensor. The proposed system is divided into an analog section, a\ndigital section, and a software section. The analog block receives the analog signal that is\nmeasured by the FSK radar, and then converts it into I/Q digital time samples for the digital\ndevice. The data packaging first adjusts the sampling speed that is required by the system\nvia the decimation process in the digital device. Since the FSK radar sensor alternately\ntransmits two carrier frequencies, the samples are supposed to be divided according to\nthe changing period of the carrier frequency. The received samples that correspond to\nthe same transmit carrier frequency are collected during the data package process based\non the frequency-changing period. The system does not know the distance information,"
+    },
+    {
+        "chunk_id": 23,
+        "source": "paper23",
+        "text": "Sensors 2024, 24, 349\n6 of 22\nand it should save power by preventing wasteful transactions for the motionless state, so\na predetection is needed in order to coarsely find a valid frame by using the main data\nstream, x0[n]. The predetection is similar to the existing algorithms [30]. The data stored\nin the DPRAM are transferred to the range estimation block whenever the predetection\nmodule declares the coarse detection. The detection module searches for the exact valid\nframe and then sends the center position of the valid frame, which is denoted as nc, and the\nfrequency indices, p[n], to the estimation module. The FSK radar sensor adopts two carrier\nfrequencies, which is unlike a CW radar sensor that uses a single carrier frequency, and\nit utilizes the phase difference of the received signal in order to measure the distance [32].\nThe distance information estimated in the estimation module,\n∼\nR, is utilized for the CNN"
+    },
+    {
+        "chunk_id": 24,
+        "source": "paper23",
+        "text": "it utilizes the phase difference of the received signal in order to measure the distance [32].\nThe distance information estimated in the estimation module,\n∼\nR, is utilized for the CNN\ninference. The stored data streams in the DPRAM are normalized based on the received\npower in the preprocessing module, which are fed into the other DPRAM. A spectrogram\ncalculation of the valid frame, which is denoted as X0[k, l], is performed in the STFT module,\nand the image-merging preprocessing is performed. This is based on the characteristics\nof the FSK radar, and a further explanation will be provided in Section 6. The output\nspectrogram is inferred by using a CNN processor with the estimated distance. The CNN\nprocessor is separately trained by using the hand gesture datasets, which consist of the\nclassified spectrograms that are generated while changing the distance.\nFigure 4. Block diagram of the proposed hand gesture recognition system."
+    },
+    {
+        "chunk_id": 25,
+        "source": "paper23",
+        "text": "classified spectrograms that are generated while changing the distance.\nFigure 4. Block diagram of the proposed hand gesture recognition system.\nThe FSK radar sensor transmits two carrier waves by turns, which have f1 and f2\nfrequencies. Figure 5 displays an example of the data sample classification method of a\nreceived signal in the FSK radar sensor. When assuming that there are four sample positions\nof a received signal, S0, S1, S2, and S3, during every transmission of two carrier waves, the\nfirst data stream, x0[n], is sampled at every S0 point, and the second one, x1[n], is sampled\nat every S1 point. The first data stream, x0[n], is mainly used for the frame detection and\nrecognition, and the other streams are used for the image-merging preprocessing. The"
+    },
+    {
+        "chunk_id": 26,
+        "source": "paper23",
+        "text": "Sensors 2024, 24, 349\n7 of 22\nrelation between the output data stream of ADC, which is denoted as x[n], and the classified\ndata streams, xi[n], are defined by Equation (3).\nxi[n] = x[2 × SS × n + i]\n(3)\nwhere SS is the number of sample positions per each carrier wave. Increasing the number\nof sample positions per each carrier wave and the samples per each data stream can\nobtain accurate hand gesture recognition, but it increases the number of FFT points and\nFFT operations, which require heavy computing power. A decimation process as well\nas classification are also needed for a reasonable cost of computing power, which can be\nproperly defined by the performance and objectives of a sensor system.\nFigure 5. An example of the data sample classification of a received signal in the FSK radar sensor\n(SS = 2).\nThere are differences among the spectrograms based on the received power. Figure 6\nillustrates the difference between the two types of data, which have an influence on the"
+    },
+    {
+        "chunk_id": 27,
+        "source": "paper23",
+        "text": "(SS = 2).\nThere are differences among the spectrograms based on the received power. Figure 6\nillustrates the difference between the two types of data, which have an influence on the\nCNN model training and inference. Thus, the power normalization preprocessing has\nto be conducted for effective neural network training and recognition accuracy. The\nnormalization equations are provided in Equations (4) and (5).\nD_N[n] = G × D[n]\n(4)\nG = P_const/P_avg\n(5)\nD[n] represents the original radar data and D_N[n] is the normalized data. G denotes\nthe gain value, P_avg is the average power value of the original data, and P_const refers\nto the power normalization coefficient, which is set to 106 in this paper. The result of the\npower normalization is displayed in Figure 7. Finally, these preprocessed spectrograms are\nused for training and inferencing the gestures."
+    },
+    {
+        "chunk_id": 28,
+        "source": "paper23",
+        "text": "Sensors 2024, 24, 349\n8 of 22\n \n(a) \n(b) \nFigure 6. The spectrogram images generated from data collected at various power levels: (a) a\nspectrogram of a high received power signal; (b) a spectrogram of a low received power signal.\n \n(a) \n(b) \nFigure 7. The result of the power normalization related to the data in Figure 6: (a) a normalized\nspectrogram of a high received power signal; (b) a normalized spectrogram of a low received power\nsignal.\n5. Proposed CNN Training and Inference Methods\nThis paper introduces five methods for creating a distance-adaptive hand gesture\nrecognition system using the FSK radar. One is the proposed method in this paper, while\nthe remaining four methods are the candidates that we explored. The system aims to cover\na range from 30 cm to 180 cm. To train the CNN models for these methods, we collected\ntraining data at 30 cm intervals—specifically, data measured at distances of 30, 60, 90, 120,"
+    },
+    {
+        "chunk_id": 29,
+        "source": "paper23",
+        "text": "a range from 30 cm to 180 cm. To train the CNN models for these methods, we collected\ntraining data at 30 cm intervals—specifically, data measured at distances of 30, 60, 90, 120,\n150, and 180 cm. Also, the model was tested using data measured at 10 cm intervals.\nThe proposed method and candidates 1, 2, and 3 train multiple models via the training\ndata, and the proper model was selected by utilizing the estimated distance from the FSK\nradar. On the other hand, candidate 4 combines the data from various distances and trains\nwith the combined dataset. Figure 8 displays block diagrams of each method, and the detail\nof each method will be explained.\nThe common CNN model structure used in the explored methods is summarized in\nTable 1. The neural network in this paper has advantages in terms of complexity. Gesture\nrecognition systems, commonly employed in environments such as smart homes and edge\ndevices, require a low power consumption and computational speed for real-time operation."
+    },
+    {
+        "chunk_id": 30,
+        "source": "paper23",
+        "text": "recognition systems, commonly employed in environments such as smart homes and edge\ndevices, require a low power consumption and computational speed for real-time operation.\nThis paper considered the number of parameters so to choose its own CNN model instead\nof traditionally renowned models, which include ResNet, MobileNet, and EfficientNet. The\nincrease in the parameter count induces a rise in computational resources and a degradation\nin the inference speed. Furthermore, models with many parameters are unsuitable for"
+    },
+    {
+        "chunk_id": 31,
+        "source": "paper23",
+        "text": "Sensors 2024, 24, 349\n9 of 22\nedge devices because they demand significant memory. Additionally, the memory read\nand write operations are time-consuming tasks with considerable power consumption.\nTherefore, a model with fewer parameters is advantageous for a hand gesture recognition\nsystem. Table 2 presents a comparison of the total parameters between our CNN model\nand classical models. We compared our CNN model with ResNet18, which has the fewest\nlayers among the ResNet variants, and with EfficientNetB0, the lightest version of the\nEfficientNet architecture.\n \n \n(a) \n(b) \n(c) \n \n \n \n(d) \n(e) \n \nFigure 8. Block diagram of the introduced methods: (a) candidate 1; (b) candidate 2; (c) candidate 3;\n(d) candidate 4; (e) proposed method.\nTable 1. Specifications of the CNN model structure used for hand gesture recognition.\nLayer\nOutput Shape\ninput\n656 × 875 × 3\nConv1 + batch normalization+ ReLU + max pooling\n328 × 437 × 16\nConv2 + batch normalization + ReLU + max pooling\n164 × 218 × 32"
+    },
+    {
+        "chunk_id": 32,
+        "source": "paper23",
+        "text": "Layer\nOutput Shape\ninput\n656 × 875 × 3\nConv1 + batch normalization+ ReLU + max pooling\n328 × 437 × 16\nConv2 + batch normalization + ReLU + max pooling\n164 × 218 × 32\nConv3 + batch normalization + ReLU + max pooling\n82 × 109 × 64\nConv4 + batch normalization + ReLU + max pooling\n41 × 54 × 128\nConv5 + batch normalization + ReLU\n41 × 54 × 256\nFully connected layer\n4\nTable 2. A comparison of the number of the total parameters between the paper’s own CNN model\nand classical models.\nModel\nCNN in This Paper\nResNet18\nMobileNet\nEfficientNet\nTotal parameters\n947,556\n21,069,956\n4,282,564\n5,365,415"
+    },
+    {
+        "chunk_id": 33,
+        "source": "paper23",
+        "text": "Sensors 2024, 24, 349\n10 of 22\n5.1. Candidate 1\nCandidate 1 involves training models corresponding to each distance by utilizing data\nthat are measured at each distance. A total of six trained models are obtained with the\ntraining data that are available at 30 cm intervals. The key point is selecting the appropriate\nmodel based on the estimated distance information from the radar. In this method, the\nnearest model from the estimated distance is chosen. For instance, if the distance is 40 cm,\nthe 30 cm model, which is the closest from the estimated distance, will be selected.\n5.2. Candidate 2\nCandidate 2 also trains six models with the corresponding distance. However, the\ndifference lies in the inference stage. This method uses two models that are adjacent to the\nestimated distance. First, the method conducts inference with the two models, respectively.\nFor example, if the estimated distance is 50 cm, the 30 cm model and 60 cm model will be"
+    },
+    {
+        "chunk_id": 34,
+        "source": "paper23",
+        "text": "estimated distance. First, the method conducts inference with the two models, respectively.\nFor example, if the estimated distance is 50 cm, the 30 cm model and 60 cm model will be\nchosen for the inference. The predicted values from each model are obtained, averaged,\nand the final recognition decision is based on the highest average value across all classes.\n5.3. Candidate 3\nCandidate 3 also involves training models for each distance, which is similar to the\nprevious methods. As in candidate 2, adjacent models are used during the inference.\nHowever, the key difference lies in the handling of the results of the inference. Candidate\n3 utilizes a weighted average based on the distance instead of averaging the probability\nof the adjacent models. For instance, if the measured distance is 40 cm, a higher weight is\nassigned to the 30 cm model, whereas a lower weight is assigned to the 60 cm model. After\nthat, the weighted average is conducted. Equation (6) expresses the weighted average."
+    },
+    {
+        "chunk_id": 35,
+        "source": "paper23",
+        "text": "assigned to the 30 cm model, whereas a lower weight is assigned to the 60 cm model. After\nthat, the weighted average is conducted. Equation (6) expresses the weighted average.\nweighted mean value = pred_1 × (30 −R)\n30\n+ pred_2 × R\n30\n(6)\nHere, pred_1 represents the prediction of the model closer to the radar between the\ntwo adjacent models, while pred_2 is the prediction farther away from the model.\n5.4. Candidate 4\nCandidate 4 integrates the entire training dataset into a single set. In this case, inference\nis conducted regardless of the estimated distance.\n5.5. Proposed Method\nThe proposed method involves training models by combining the training data from\nadjacent distances. Specifically, data from 30 cm and 60 cm are merged into one training set,\nfollowed by merging data from 60 cm and 90 cm into another training set. Plus, datasets\nthat consist of only 30 cm and 180 cm are utilized in order to cover the distance from 0"
+    },
+    {
+        "chunk_id": 36,
+        "source": "paper23",
+        "text": "followed by merging data from 60 cm and 90 cm into another training set. Plus, datasets\nthat consist of only 30 cm and 180 cm are utilized in order to cover the distance from 0\nto 30 cm and beyond 180 cm. A total of seven trained models are obtained. The distance\ninformation is used to select the appropriate model during the inference. For instance, if\nthe distance is measured as 40 cm, the model trained on the combined dataset of 30 cm and\n60 cm is chosen. Also, if the estimated distance is 110 cm, the model that was trained on\nthe combined dataset of 90 cm and 120 cm is selected.\n6. Image-Merging Preprocessing\nThe data preprocessing method related to the FSK radar system is also proposed in\nthis paper. It is used for the AI training and inference.\nFigure 5 in Section 4 explains the four data streams in the FSK radar system. The x0[n]\nand x1[n] data streams correspond to the f1 frequency, whereas the x2[n] and x3[n] data"
+    },
+    {
+        "chunk_id": 37,
+        "source": "paper23",
+        "text": "Figure 5 in Section 4 explains the four data streams in the FSK radar system. The x0[n]\nand x1[n] data streams correspond to the f1 frequency, whereas the x2[n] and x3[n] data\nstreams correspond to the f2 frequency. It is expected that the spectrograms of the data\nstreams at the same frequency exhibit the same shape. Consequently, four spectrograms\nhave the same appearance due to the small frequency gap between the two carrier fre-\nquencies. However, in real radar data, the spectrograms show different shapes at the same"
+    },
+    {
+        "chunk_id": 38,
+        "source": "paper23",
+        "text": "Sensors 2024, 24, 349\n11 of 22\ncarrier frequency. In other words, x0[n] and x1[n] have distinct spectrograms. Similarly,\nthe x2[n] and x3[n] data streams also show differences despite sharing the same frequency.\nFigure 9 explains this phenomenon, which has distinct features on the top-right side and\nthe bottom-left side. The original images are used in Figure 9 for the visibility, while the\npower-normalized images are utilized in the real model training and inference.\n \n(a) \n(b) \n \n(c) \n(d) \nFigure 9. Examples of the phenomenon that shows distinct spectrograms at the same carrier frequency:\n(a) data stream x0[n] at frequency f1; (b) data stream x1[n] at frequency f1; (c) data stream x2[n] at\nfrequency f2; (d) data stream x3[n] at frequency f2.\nA phase-locked loop (PLL) cannot ideally switch instantaneously between two fre-\nquencies. It takes time to go into a stable state. If the data stream was captured at an"
+    },
+    {
+        "chunk_id": 39,
+        "source": "paper23",
+        "text": "A phase-locked loop (PLL) cannot ideally switch instantaneously between two fre-\nquencies. It takes time to go into a stable state. If the data stream was captured at an\nunstable frequency, this phenomenon can occur. In other words, even-numbered data\nstreams are in a stable state and odd-numbered streams are in an unstable state; or, it can\nbe the opposite.\nAlthough commercial radar aims to set the position of the data samples at a stable\nstate, this phenomenon can occur due to slight instabilities. The levels of instability from the\nPLL vary for each radar, and creating an ideal PLL is challenging. Thus, it is feasible to use\nthis phenomenon in other FSK radar systems by utilizing the data from the corresponding\nradar.\nSimilar patterns of each gesture are observed during the spectrogram analysis. Figure 10\nillustrates that the UPtoDOWN and LEFTtoRIGHT gestures show relatively small spec-\ntrogram differences between each of the data streams, whereas the RIGHTtoLEFT and"
+    },
+    {
+        "chunk_id": 40,
+        "source": "paper23",
+        "text": "illustrates that the UPtoDOWN and LEFTtoRIGHT gestures show relatively small spec-\ntrogram differences between each of the data streams, whereas the RIGHTtoLEFT and\nDOWNtoUP gestures show more distinct appearances. Also, the UPtoDOWN, RIGHT-\ntoLEFT, and DOWNtoUP gestures have more differences at the upper-right side, while the\nLEFTtoRIGHT gesture displays more changes at the bottom-left side. Consequently, this\npaper proposes utilizing these patterns for the AI model training in order to improve the\nrecognition accuracy."
+    },
+    {
+        "chunk_id": 41,
+        "source": "paper23",
+        "text": "Sensors 2024, 24, 349\n12 of 22\n \n \n(a) \n(b) \n \n \n(c) \n(d) \nFigure 10. The changing pattern of the spectrograms for each gesture: (a) UPtoDOWN; (b) RIGHT-\ntoLEFT; (c) LEFTtoRIGHT; (d) DOWNtoUP.\nThe CNN shows a high performance in regard to finding the features and patterns\nof the images. Thus, it is helpful to forcibly generate patterns to improve the CNN per-\nformance by merging the spectrogram images from each data stream. This merging-data\npreprocessing is illustrated in Figure 11.\nFigure 11. An example of the image merging-data preprocessing.\nWe conducted experiments by applying this preprocessing method to the proposed\nFSK radar systems, which are described in Section 5, and compared the results. To ensure\na fair comparison, the model structures were kept the same. Therefore, the size of the\nresulting image was maintained to be the same as that of the original image, even when the\nimages were merged.\n7. Experiment"
+    },
+    {
+        "chunk_id": 42,
+        "source": "paper23",
+        "text": "resulting image was maintained to be the same as that of the original image, even when the\nimages were merged.\n7. Experiment\nA commercial FSK radar was utilized to verify the performance of the proposed\nalgorithm in this paper, and the system parameters were set up as shown in Table 3. The"
+    },
+    {
+        "chunk_id": 43,
+        "source": "paper23",
+        "text": "Sensors 2024, 24, 349\n13 of 22\nADC sampling rate was 125 ksps and the sample time duration of the data stream was 32 us,\nbecause the data are classified into four groups by the package block. Figure 12 illustrates\nthe four hand gesture types, including UPtoDOWN, DOWNtoUP, RIGHTtoLEFT, and\nLEFTtoRIGHT. Figure 13 shows examples of the obtained spectrograms corresponding to\neach gesture. Eight volunteers participated in the radar measurement. The measurements\nwere taken from participants with varying genders and body sizes to ensure general\nperformance across different users. A total of 230 samples were taken at distances of 30, 60,\n90, 120, 150, and 180 cm for each gesture, which were used for the neural network training\nand testing. Additionally, data at distances of 40, 50, 70, 80, 100, 110, 130, 140, 160, and\n170 cm, which were exclusively used for the inference, were captured at 60 samples per\ngesture. Consequently, a total of 4080 samples were used in the training and 3840 samples"
+    },
+    {
+        "chunk_id": 44,
+        "source": "paper23",
+        "text": "170 cm, which were exclusively used for the inference, were captured at 60 samples per\ngesture. Consequently, a total of 4080 samples were used in the training and 3840 samples\nwere used in the testing. The ratio for the test dataset was higher than usual, given that the\ninference was conducted for sixteen distances.\nTable 3. Experimental specifications.\nRADAR Specifications and\nSystem Parameters\nDescriptions\nRadar model\nK-MC1 [33]\nADC sampling rate\n125 ksps\nSS\n2\nTS\n32 us (=1/31.25 ksps)\n∆f\n9 MHz\nf1\n24.125 GHz\nf2\n24.134 GHz\nHand gesture types\nUPtoDOWN, RIGHTtoLEFT, LEFTtoRIGHT,\nDOWNtoUP\nDistance from the sensor\n10 cm interval from 30 cm to 180 cm\nNumber of datasets per each label for the CNN\n1980\nNumber of test participants\n8\n \n \n(a) \n(b) \n \n \n(c) \n(d) \nFigure 12.\nExamples of each gesture.\n(a) UPtoDOWN; (b) RIGHTtoLEFT; (c) LEFTtoRIGHT;\n(d) DOWNtoUP."
+    },
+    {
+        "chunk_id": 45,
+        "source": "paper23",
+        "text": "Sensors 2024, 24, 349\n14 of 22\n \n(a) \n(b) \n \n(c) \n(d) \nFigure 13. Examples of the spectrograms obtained when the motion for each label was taken.\n(a) UPtoDOWN; (b) RIGHTtoLEFT; (c) LEFTtoRIGHT; (d) DOWNtoUP.\nFour hand gestures were tested with the proposed methods by using the FSK radar\nsensor. Additionally, the test included the case not using the distance information in the\nCW radar system. The time indices of the ideal time positions were manually checked for\nevery dataset for the test of the valid frame detection. The other system parameters were\nexperimentally selected to achieve the best system performance.\n8. Result\n8.1. Result of the Existing Method\nTable 4 summarizes the inference result of the existing CW radar system. The 90 cm\nmodel, which was positioned at the center of 30~180 cm, was used to assess the recognition\naccuracy across the entire range of distances. The table also includes the results of the"
+    },
+    {
+        "chunk_id": 46,
+        "source": "paper23",
+        "text": "model, which was positioned at the center of 30~180 cm, was used to assess the recognition\naccuracy across the entire range of distances. The table also includes the results of the\nimage-merging preprocessing that was applied to the 90 cm model. In this case, the FSK\nradar was utilized due to the preprocessing. Figure 14 shows the graph of Table 4. The\ninference at 90 cm showed the highest accuracy, which decreased as the distance increased\nfrom 90 cm. Furthermore, it exhibited an average accuracy that was 4.14% higher compared\nto the case without the preprocessing when applying the image-merging preprocessing.\nFigure 14. Graph of Table 4."
+    },
+    {
+        "chunk_id": 47,
+        "source": "paper23",
+        "text": "Sensors 2024, 24, 349\n15 of 22\nTable 4. The recognition accuracy of the existing method and the case of adopting the proposed data\npreprocessing on an existing method.\nDistance (cm)\nModel_90 (Existing Method)\nModel_90 with Merging\nPreprocessing\n30\n30.83%\n39.17%\n40\n41.67%\n48.33%\n50\n61.67%\n69.58%\n60\n57.08%\n53.75%\n70\n87.92%\n88.75%\n80\n88.75%\n90.83%\n90\n95.42%\n96.67%\n100\n95.00%\n93.33%\n110\n92.92%\n94.17%\n120\n83.33%\n84.17%\n130\n90.42%\n87.92%\n140\n81.67%\n87.92%\n150\n72.08%\n82.50%\n160\n79.58%\n79.58%\n170\n69.17%\n82.08%\n180\n60.83%\n75.83%\naverage\n74.27%\n78.41%\nAs a result, users have to keep their fixed position to achieve a better recognition\nperformance in the existing method. Therefore, this system cannot cover a wide range. On\nthe other hand, the preprocessing demonstrates that it improves the recognition accuracy.\n8.2. Result of the Proposed Method\nThe experiments for the proposed method and candidates were conducted for four"
+    },
+    {
+        "chunk_id": 48,
+        "source": "paper23",
+        "text": "8.2. Result of the Proposed Method\nThe experiments for the proposed method and candidates were conducted for four\ndifferent scenarios. The experiments were divided into two cases, which include one with\nthe image-merging preprocessing and another without it. Each of these two cases was\nfurther divided into two subcases based on whether the real distance information, which\nwas estimated from the FSK radar, or an ideal distance was used. These four scenarios are\nsummarized in Table 5.\nTable 5. The four scenarios for the experiments of the introduced method.\nScenario Name\nDescription\nImage-Merging\nPreprocessing\nDistance Information\nNormal_real\nNo\nReal value\nNormal_ideal\nNo\nIdeal value\nMerging_real\nYes\nReal value\nMerging_ideal\nYes\nIdeal value\nThe results of each of the scenarios are indicated in Tables 6–9, respectively, and\nFigures 15–18 illustrate the graphs that correspond to Tables 6–9. The analysis of each result\nis conducted in Section 8.3."
+    },
+    {
+        "chunk_id": 49,
+        "source": "paper23",
+        "text": "Sensors 2024, 24, 349\n16 of 22\nTable 6. The results of scenario Normal_real.\nDistance (cm)\nCandidate 1\nCandidate 2\nCandidate 3\nCandidate 4\nProposed\n30\n93.28%\n92.86%\n94.12%\n81.67%\n92.44%\n40\n94.14%\n94.14%\n94.98%\n92.08%\n94.98%\n50\n75.00%\n76.67%\n75.83%\n77.50%\n82.92%\n60\n85.59%\n88.98%\n85.59%\n86.67%\n91.53%\n70\n86.19%\n92.05%\n86.19%\n87.08%\n92.47%\n80\n84.87%\n88.66%\n86.55%\n85.42%\n91.18%\n90\n93.94%\n86.58%\n93.94%\n88.33%\n92.21%\n100\n93.72%\n96.65%\n94.56%\n95.00%\n96.65%\n110\n92.02%\n95.80%\n92.02%\n95.00%\n94.12%\n120\n95.30%\n95.73%\n95.30%\n90.83%\n96.15%\n130\n92.05%\n90.38%\n92.89%\n91.25%\n86.61%\n140\n85.17%\n87.29%\n85.17%\n92.92%\n90.68%\n150\n93.15%\n94.52%\n93.15%\n90.00%\n94.52%\n160\n74.67%\n80.79%\n75.55%\n84.58%\n86.90%\n170\n77.49%\n83.55%\n78.35%\n86.25%\n80.95%\n180\n92.13%\n91.67%\n93.06%\n91.25%\n93.06%\naverage\n88.05%\n89.77%\n88.58%\n88.49%\n91.08%\nTable 7. The results of scenario Normal_ideal.\nDistance (cm)\nCandidate 1\nCandidate 2\nCandidate 3\nCandidate 4\nProposed\n30\n93.33%\n93.33%\n93.33%\n81.67%\n93.33%\n40\n94.58%\n94.17%\n94.58%\n92.08%"
+    },
+    {
+        "chunk_id": 50,
+        "source": "paper23",
+        "text": "91.08%\nTable 7. The results of scenario Normal_ideal.\nDistance (cm)\nCandidate 1\nCandidate 2\nCandidate 3\nCandidate 4\nProposed\n30\n93.33%\n93.33%\n93.33%\n81.67%\n93.33%\n40\n94.58%\n94.17%\n94.58%\n92.08%\n95.00%\n50\n76.67%\n76.67%\n76.67%\n77.50%\n82.50%\n60\n92.08%\n89.17%\n92.08%\n86.67%\n93.33%\n70\n79.17%\n91.67%\n80.42%\n87.08%\n92.50%\n80\n88.75%\n89.58%\n90.00%\n85.42%\n90.83%\n90\n95.42%\n91.67%\n95.42%\n88.33%\n95.00%\n100\n95.00%\n97.50%\n95.42%\n95.00%\n94.58%\n110\n92.50%\n96.67%\n92.50%\n95.00%\n95.83%\n120\n95.42%\n92.50%\n95.42%\n90.83%\n92.50%\n130\n91.67%\n91.25%\n91.25%\n91.25%\n91.67%\n140\n88.75%\n87.50%\n88.75%\n92.92%\n90.00%\n150\n95.42%\n94.58%\n95.42%\n90.00%\n95.83%\n160\n78.33%\n87.50%\n79.17%\n84.58%\n89.17%\n170\n81.25%\n87.92%\n84.58%\n86.25%\n82.08%\n180\n93.75%\n93.75%\n93.75%\n91.25%\n93.33%\naverage\n89.51%\n90.96%\n89.92%\n88.49%\n91.72%\nFigure 15. Graph of scenario Normal_real."
+    },
+    {
+        "chunk_id": 51,
+        "source": "paper23",
+        "text": "Sensors 2024, 24, 349\n17 of 22\nTable 8. The results of scenario Merging_real.\nDistance (cm)\nCandidate 1\nCandidate 2\nCandidate 3\nCandidate 4\nProposed\n30\n93.28%\n93.28%\n93.28%\n87.92%\n95.38%\n40\n94.56%\n94.98%\n94.56%\n94.17%\n93.72%\n50\n77.50%\n79.17%\n77.92%\n84.17%\n86.25%\n60\n88.14%\n91.95%\n88.56%\n92.50%\n95.34%\n70\n88.28%\n92.05%\n89.96%\n90.83%\n92.47%\n80\n89.08%\n91.18%\n89.92%\n84.17%\n91.18%\n90\n95.24%\n90.91%\n95.67%\n92.50%\n95.67%\n100\n92.89%\n92.89%\n93.31%\n96.25%\n97.07%\n110\n92.02%\n94.54%\n92.86%\n97.08%\n94.12%\n120\n97.44%\n97.44%\n97.44%\n96.25%\n99.15%\n130\n92.05%\n90.38%\n92.05%\n93.33%\n92.05%\n140\n89.41%\n89.83%\n89.41%\n94.58%\n94.49%\n150\n96.80%\n94.52%\n96.80%\n93.33%\n94.98%\n160\n85.15%\n82.10%\n85.15%\n86.25%\n88.21%\n170\n83.12%\n85.28%\n83.55%\n87.08%\n87.88%\n180\n95.83%\n95.83%\n95.83%\n92.50%\n98.15%\naverage\n90.67%\n91.02%\n91.02%\n91.43%\n93.51%\nTable 9. The results of scenario Merging_ideal.\nDistance (cm)\nCandidate 1\nCandidate 2\nCandidate 3\nCandidate 4\nProposed\n30\n93.33%\n93.33%\n93.33%\n87.92%\n94.58%\n40\n95.00%\n95.00%\n95.00%\n94.17%"
+    },
+    {
+        "chunk_id": 52,
+        "source": "paper23",
+        "text": "93.51%\nTable 9. The results of scenario Merging_ideal.\nDistance (cm)\nCandidate 1\nCandidate 2\nCandidate 3\nCandidate 4\nProposed\n30\n93.33%\n93.33%\n93.33%\n87.92%\n94.58%\n40\n95.00%\n95.00%\n95.00%\n94.17%\n92.92%\n50\n78.75%\n79.17%\n79.17%\n84.17%\n88.33%\n60\n96.25%\n92.50%\n96.25%\n92.50%\n95.42%\n70\n79.17%\n91.67%\n81.25%\n90.83%\n92.08%\n80\n90.83%\n91.25%\n91.25%\n84.17%\n89.17%\n90\n96.67%\n91.67%\n96.67%\n92.50%\n97.08%\n100\n93.33%\n95.83%\n93.33%\n96.25%\n96.67%\n110\n91.25%\n95.83%\n92.92%\n97.08%\n97.50%\n120\n98.33%\n96.25%\n98.33%\n96.25%\n98.75%\n130\n93.33%\n90.83%\n93.33%\n93.33%\n92.08%\n140\n91.25%\n90.00%\n90.83%\n94.58%\n93.75%\n150\n98.33%\n94.17%\n98.33%\n93.33%\n96.67%\n160\n86.25%\n91.25%\n87.92%\n86.25%\n88.75%\n170\n86.67%\n90.42%\n86.67%\n87.08%\n87.08%\n180\n98.33%\n98.33%\n98.33%\n92.50%\n97.92%\naverage\n91.69%\n92.34%\n92.06%\n91.43%\n93.67%\nFigure 16. Graph of scenario Normal_ideal."
+    },
+    {
+        "chunk_id": 53,
+        "source": "paper23",
+        "text": "Sensors 2024, 24, 349\n18 of 22\nFigure 17. Graph of scenario Merging_real.\nFigure 18. Graph of scenario Merging_ideal.\n8.3. Comparative Analysis of the Results of the Introduced Methods\nThe average accuracy for each distance was used as a performance metric. Table 10\nshows the comparison of the Normal_real and Normal_ideal cases. The methods include\nthe distance information, except for candidate 4, which improved the accuracy when the\nideal distance was utilized. The performance improvement of the proposed method was\nrelatively low among them. The reason for this is that the proposed method exhibits an\nintermediate characteristic between candidate 4 and candidates 1, 2, and 3. A smaller\ngap between the two cases results in a more reliable system because it means that the\nsystem is less influenced by the distance-estimation algorithm. This robustness also implies\nan advantage in the scalability across various fields, as there is less need to consider the"
+    },
+    {
+        "chunk_id": 54,
+        "source": "paper23",
+        "text": "system is less influenced by the distance-estimation algorithm. This robustness also implies\nan advantage in the scalability across various fields, as there is less need to consider the\ndistance estimation. Therefore, the proposed method and candidate 4 offer benefits in\ncreating a more robust system.\nTable 10. A comparison between Normal_real and Normal_ideal.\nScenario\nProp1\nProp2\nProp3\nProp4\nProp5\nNormal_real\n88.05%\n89.77%\n88.58%\n88.49%\n91.08%\nNormal_ideal\n89.51%\n90.96%\n89.92%\n88.49%\n91.72%\ngap\n1.46%\n1.19%\n1.34%\n0.00%\n0.63%"
+    },
+    {
+        "chunk_id": 55,
+        "source": "paper23",
+        "text": "Sensors 2024, 24, 349\n19 of 22\nA comparison between Merging_real and Merging_ideal is summarized in Table 11.\nIn the case of applying preprocessing, the accuracy gap, similar to the normal case, is also\nsmall for the proposed method and candidate 4 with respect to the distance information.\nTable 11. A comparison between Merging_real and Merging_ideal.\nScenario\nProp1\nProp2\nProp3\nProp4\nProp5\nMerging_real\n90.67%\n91.02%\n91.02%\n91.43%\n93.51%\nMerging_ideal\n91.69%\n92.34%\n92.06%\n91.43%\n93.67%\ngap\n1.02%\n1.32%\n1.04%\n0.00%\n0.17%\nTables 12 and 13 show a comparison of the differences between applying and not\napplying the image-merging preprocessing for both the real distance and ideal distance\ncases, respectively. It was demonstrated that the preprocessing improves the recognition\naccuracy for every case. Therefore, it is appropriate to apply the mentioned preprocessing\nwhen using the FSK radar.\nTable 12. A comparison between Normal_real and Merging_real.\nScenario\nProp1\nProp2\nProp3\nProp4\nProp5"
+    },
+    {
+        "chunk_id": 56,
+        "source": "paper23",
+        "text": "when using the FSK radar.\nTable 12. A comparison between Normal_real and Merging_real.\nScenario\nProp1\nProp2\nProp3\nProp4\nProp5\nNormal_real\n88.05%\n89.77%\n88.58%\n88.49%\n91.08%\nMerging_real\n90.67%\n91.02%\n91.02%\n91.43%\n93.51%\ngap\n2.63%\n1.25%\n2.44%\n2.94%\n2.42%\nTable 13. A comparison between Normal_ideal and Merging_ideal.\nScenario\nProp1\nProp2\nProp3\nProp4\nProp5\nNormal_ideal\n89.51%\n90.96%\n89.92%\n88.49%\n91.72%\nMerging_ideal\n91.69%\n92.34%\n92.06%\n91.43%\n93.67%\ngap\n2.19%\n1.38%\n2.14%\n2.94%\n1.95%\nFigures 15–18 show the worst accuracy at the distance of 50 cm. This paper was\ngiven training data from distances of 30, 60, 90, 120, 150, and 180 cm. It is normal that the\nperformance of the intermediate distances might not be high, because the intermediate\ndistances are supplemented with an algorithm using the given data. For distances of 90 cm\nand 120 cm, as well as 120 cm and 150 cm, the patterns between the training datasets show"
+    },
+    {
+        "chunk_id": 57,
+        "source": "paper23",
+        "text": "distances are supplemented with an algorithm using the given data. For distances of 90 cm\nand 120 cm, as well as 120 cm and 150 cm, the patterns between the training datasets show\nless variation compared to other areas, resulting in a high similarity and less degradation\nin the inference performance in ungiven areas. During the experiments, even when the\nsame participant performed the same action repeatedly, pattern differences could occur.\nDistances like 30 and 60 cm, 60 and 90 cm, and 150 and 180 cm exhibited significant\npattern differences between training datasets, while 90 and 120 cm and 120 and 150 cm\nshowed less pattern difference. This phenomenon is observed in Figures 15–18. To properly\nvalidate the effectiveness of the proposed method in the depicted figures, it is crucial to\nexamine the regions with substantial pattern differences between training datasets (i.e.,\nthe intervals between 30 and 60 cm, 60 and 90 cm, and 150 and 180 cm). The proposed"
+    },
+    {
+        "chunk_id": 58,
+        "source": "paper23",
+        "text": "examine the regions with substantial pattern differences between training datasets (i.e.,\nthe intervals between 30 and 60 cm, 60 and 90 cm, and 150 and 180 cm). The proposed\nmethod demonstrates a significant mitigation for performance degradation compared to\nother candidates in these areas, indicating its effectiveness as a highly efficient approach.\nConsequently, the proposed method showed the highest performance in every scenario,\nwhich is summarized in Table 14."
+    },
+    {
+        "chunk_id": 59,
+        "source": "paper23",
+        "text": "Sensors 2024, 24, 349\n20 of 22\nTable 14. Accuracy ranking for each of the cases among the introduced methods.\nScenario\n1st\n2nd\n3rd\n4th\n5th\nNormal_real\nproposed\ncandidate 2\ncandidate 3\ncandidate 4\ncandidate 1\nNormal_ideal\nproposed\ncandidate 2\ncandidate 3\ncandidate 1\ncandidate 4\nMerging_real\nproposed\ncandidate 4\ncandidate 2\ncandidate 3\ncandidate 1\nMerging_ideal\nproposed\ncandidate 2\ncandidate 3\ncandidate 1\ncandidate 4\nThe conventional method using the CW radar demonstrated a maximum hand gesture\nrecognition accuracy of 94.21% [31]. However, when the proposed method and preprocess-\ning techniques were applied, it achieved an accuracy of 93.67%, maintaining a similar level\nof accuracy while covering a wide range of distances.\n9. Conclusions\nThe FSK radar sensor system for real-time hand gesture recognition was proposed\nin this paper. The proposed system utilized the dataset-adjustment scheme depending\non the distance information. The existing methods adopting CW radar sensors could"
+    },
+    {
+        "chunk_id": 60,
+        "source": "paper23",
+        "text": "in this paper. The proposed system utilized the dataset-adjustment scheme depending\non the distance information. The existing methods adopting CW radar sensors could\nnot deal with the variance of the received signal caused by the change in the distance,\nwhereas the proposed method could maintain a reasonable recognition performance due\nto the dataset correction depending on the change in the distance. This made sense,\nbecause the CNN model could be trained and tested by using the useful dataset with\ndistinguishable patterns regardless of the distance. This paper also proposed a spectrogram\nimage preprocessing method using the characteristics of the FSK radar in order to enhance\nthe gesture-recognition accuracy. The deep-learning performance was improved due to the\nnew features that distinguished each gesture by adopting the image preprocessing.\nA commercial FSK radar sensor was utilized for the experiments. The hand gestures"
+    },
+    {
+        "chunk_id": 61,
+        "source": "paper23",
+        "text": "new features that distinguished each gesture by adopting the image preprocessing.\nA commercial FSK radar sensor was utilized for the experiments. The hand gestures\nconsisted of a total of four movements, and the distances between the user and the radar\nsensor were from 30 cm to 180 cm with spaces every 10 cm. The labels were defined for\neach movement and distance. The recognition and classification probabilities were defined\nbased on the CNN model, which was trained based on the data.\nIt was found from the experimental results that (1) adopting the existing system for\ncovering the wide range is unsuitable. The average accuracy was 74.27%, and it showed at\nmost 78.41%, even when utilizing the proposed preprocessing method. (2) The recognition\nprobability of the proposed method was the highest in every scenario. It was 93.51% with\nthe real estimated distance, and 93.67% with the ideal value. (3) The proposed image-\nmerging preprocessing increased the accuracy in all cases."
+    },
+    {
+        "chunk_id": 62,
+        "source": "paper23",
+        "text": "the real estimated distance, and 93.67% with the ideal value. (3) The proposed image-\nmerging preprocessing increased the accuracy in all cases.\nThe proposed real-time hand gesture recognition system showed considerable recogni-\ntion performance even under the change in distance, which is useful for various application\nsystems that require effective and secure human–computer interaction techniques. In future\nwork, we plan to improve the degradation in the recognition accuracy when the hand\ngestures deviate in the vertical or horizontal directions, rather than occurring directly in\nfront of the radar. As another research direction, we are contemplating studies aimed at\ndealing with variations in the recognition results from the differences in the execution\nspeed of the human hand gestures.\nAuthor Contributions: Conceptualization, K.Y. and S.L.; Formal analysis, K.Y.; Investigation, K.Y.,\nM.K. and S.L.; Methodology, S.L. and Y.J.; Project administration, S.L.; Software, K.Y. and M.K.;"
+    },
+    {
+        "chunk_id": 63,
+        "source": "paper23",
+        "text": "Author Contributions: Conceptualization, K.Y. and S.L.; Formal analysis, K.Y.; Investigation, K.Y.,\nM.K. and S.L.; Methodology, S.L. and Y.J.; Project administration, S.L.; Software, K.Y. and M.K.;\nSupervision, S.L.; Writing—original draft, K.Y.; Writing—review and editing, Y.J. and S.L. All authors\nhave read and agreed to the published version of the manuscript.\nFunding: This research was supported in part by the Unmanned Vehicles Core Technology Research\nand Development Program through the National Research Foundation of Korea (NRF) and Un-\nmanned Vehicle Advanced Research Center (UVARC) funded by the Ministry of Science and ICT,\nthe Republic of Korea (2023M3C1C1A01098414), by Institute of Information and Communications\nTechnology Planning and Evaluation (IITP) under the metaverse support program to nurture the best\ntalents (No. IITP-2023-RS-2023-00254529) grant funded in part by the Korea government (MSIT), and"
+    },
+    {
+        "chunk_id": 64,
+        "source": "paper23",
+        "text": "Sensors 2024, 24, 349\n21 of 22\nby an NRF grant funded by the Korean government (MSIT) (no. 2023R1A2C1006340); the EDA tools\nwere supported by the IC Design Education Center (IDEC), Korea.\nInstitutional Review Board Statement: Not applicable.\nInformed Consent Statement: Not applicable.\nData Availability Statement: Data are contained within the article.\nConflicts of Interest: The authors declare no conflicts of interest.\nReferences\n1.\nMeho, L.I.; Rogers, Y. Citation Counting, Citation Ranking, and h-Index of Human–Computer Interaction Researchers: A\nComparison of Scopus and Web of Science. J. Am. Soc. Inf. Sci. Technol. 2008, 59, 1711–1726. [CrossRef]\n2.\nHenry, N.; Goodell, H.; Elmqvist, N.; Fekete, J.-D. 20 Years of Four HCI Conferences: A Visual Exploration. Int. J. Hum. Comput.\nInteract. 2007, 23, 239–285. [CrossRef]\n3.\nSonkusare, J.S.; Chopade, N.B.; Sor, R.; Tade, S.L. A Review on Hand Gesture Recognition System. In Proceedings of the 2015"
+    },
+    {
+        "chunk_id": 65,
+        "source": "paper23",
+        "text": "Interact. 2007, 23, 239–285. [CrossRef]\n3.\nSonkusare, J.S.; Chopade, N.B.; Sor, R.; Tade, S.L. A Review on Hand Gesture Recognition System. In Proceedings of the 2015\nInternational Conference on Computing Communication Control and Automation, Pune, India, 26–27 February 2015; pp. 790–794.\n[CrossRef]\n4.\nAlam, M.R.; Reaz, M.B.I.; Ali, M.A.M. A Review of Smart Homes—Past, Present, and Future. IEEE Trans. Syst. Man Cybern. Part\nC Appl. Rev. 2012, 42, 1190–1203. [CrossRef]\n5.\nParavati, G.; Gatteschi, V. Human-Computer Interaction in Smart Environments. Sensors 2015, 15, 19487–19494. [CrossRef]\n6.\nKang, B.; Kim, S.; Choi, M.-I.; Cho, K.; Jang, S.; Park, S. Analysis of Types and Importance of Sensors in Smart Home Services. In\nProceedings of the 2016 IEEE 18th International Conference on High Performance Computing and Communications; IEEE 14th\nInternational Conference on Smart City; IEEE 2nd International Conference on Data Science and Systems (HPCC/SmartCity/DSS),"
+    },
+    {
+        "chunk_id": 66,
+        "source": "paper23",
+        "text": "International Conference on Smart City; IEEE 2nd International Conference on Data Science and Systems (HPCC/SmartCity/DSS),\nSydney, NSW, Australia, 12–14 December 2016; pp. 1388–1389. [CrossRef]\n7.\nTan, C.K.; Lim, K.M.; Chang, R.K.Y.; Lee, C.P.; Alqahtani, A. HGR-ViT: Hand Gesture Recognition with Vision Transformer.\nSensors 2023, 23, 5555. [CrossRef]\n8.\nKhan, F.; Leem, S.K.; Cho, S.H. Hand-Based Gesture Recognition for Vehicular Applications Using IR-UWB Radar. Sensors 2017,\n17, 833. [CrossRef]\n9.\nOudah, M.; Al-Naji, A.; Chahl, J. Hand Gesture Recognition Based on Computer Vision: A Review of Techniques. J. Imaging 2020,\n6, 73. [CrossRef]\n10.\nAhmed, S.; Khan, F.; Ghaffar, A.; Hussain, F.; Cho, S.H. Finger-Counting-Based Gesture Recognition within Cars Using Impulse\nRadar with Convolutional Neural Network. Sensors 2019, 19, 1429. [CrossRef]\n11.\nAhmed, S.; Kallu, K.D.; Ahmed, S.; Cho, S.H. Hand Gestures Recognition Using Radar Sensors for Human-Computer-Interaction:"
+    },
+    {
+        "chunk_id": 67,
+        "source": "paper23",
+        "text": "11.\nAhmed, S.; Kallu, K.D.; Ahmed, S.; Cho, S.H. Hand Gestures Recognition Using Radar Sensors for Human-Computer-Interaction:\nA Review. Remote Sens. 2021, 13, 527. [CrossRef]\n12.\nGuo, L.; Lu, Z.; Yao, L. Human-Machine Interaction Sensing Technology Based on Hand Gesture Recognition: A Review. IEEE\nTrans. Hum. Mach. Syst. 2021, 51, 300–309. [CrossRef]\n13.\nChoi, J.-W.; Ryu, S.-J.; Kim, J.-H. Short-Range Radar Based Real-Time Hand Gesture Recognition Using LSTM Encoder. IEEE\nAccess 2019, 7, 33610–33618. [CrossRef]\n14.\nHazra, S.; Santra, A. Robust Gesture Recognition Using Millimetric-Wave Radar System. IEEE Sens. Lett. 2018, 2, 1–4. [CrossRef]\n15.\nKim, Y.; Brian, T. Hand Gesture Recognition Using Micro-Doppler Signatures With Convolutional Neural Network. IEEE Access\n2016, 4, 7125–7130. [CrossRef]\n16.\nPramudita, A.A.; Lukas; Edwar. Contactless Hand Gesture Sensor Based on Array of CW Radar for Human to Machine Interface.\nIEEE Sens. J. 2021, 21, 15196–15208. [CrossRef]\n17."
+    },
+    {
+        "chunk_id": 68,
+        "source": "paper23",
+        "text": "16.\nPramudita, A.A.; Lukas; Edwar. Contactless Hand Gesture Sensor Based on Array of CW Radar for Human to Machine Interface.\nIEEE Sens. J. 2021, 21, 15196–15208. [CrossRef]\n17.\nKim, S.Y.; Han, H.G.; Kim, J.W.; Lee, S.; Kim, T.W. A Hand Gesture Recognition Sensor Using Reflected Impulses. IEEE Sens. J.\n2017, 17, 2975–2976. [CrossRef]\n18.\nSkaria, S.; Al-Hourani, A.; Lech, M.; Evans, R.J. Hand-Gesture Recognition Using Two-Antenna Doppler Radar With Deep\nConvolutional Neural Networks. IEEE Sens. J. 2019, 19, 3041–3048. [CrossRef]\n19.\nTahmoush, D.; Silvious, J. Radar Micro-Doppler for Long Range Front-View Gait Recognition. In Proceedings of the 2009 IEEE\n3rd International Conference on Biometrics: Theory, Applications, and Systems, Washington, DC, USA, 28–30 September 2009;\npp. 1–6. [CrossRef]\n20.\nKim, Y.; Ling, H. Human Activity Classification Based on Micro-Doppler Signatures Using a Support Vector Machine. IEEE Trans.\nGeosci. Remote Sens. 2009, 47, 1328–1337. [CrossRef]\n21."
+    },
+    {
+        "chunk_id": 69,
+        "source": "paper23",
+        "text": "20.\nKim, Y.; Ling, H. Human Activity Classification Based on Micro-Doppler Signatures Using a Support Vector Machine. IEEE Trans.\nGeosci. Remote Sens. 2009, 47, 1328–1337. [CrossRef]\n21.\nFairchild, D.P.; Narayanan, R.M. Classification of Human Motions Using Empirical Mode Decomposition of Human Micro-\nDoppler Signatures. IET Radar Sonar Navig. 2014, 8, 425–434. [CrossRef]\n22.\nFairchild, D.P.; Narayanan, R.M. Multistatic Micro-Doppler Radar for Determining Target Orientation and Activity Classification.\nIEEE Trans. Aerosp. Electron. Syst. 2016, 52, 512–521. [CrossRef]\n23.\nCammenga, Z.A.; Smith, G.E.; Baker, C.J. Combined High Range Resolution and Micro-Doppler Analysis of Human Gait. In\nProceedings of the 2015 IEEE Radar Conference (RadarCon), Arlington, VA, USA, 10–15 May 2015; pp. 1038–1043. [CrossRef]"
+    },
+    {
+        "chunk_id": 70,
+        "source": "paper23",
+        "text": "Sensors 2024, 24, 349\n22 of 22\n24.\nGhaleb, A.; Vignaud, L.; Nicolas, J.M. Micro-Doppler Analysis of Wheels and Pedestrians in ISAR Imaging. IET Signal Process.\n2008, 2, 301–311. [CrossRef]\n25.\nLi, Y.; Du, L.; Liu, H. Noise Robust Classification of Moving Vehicles via Micro-Doppler Signatures. In Proceedings of the 2013\nIEEE Radar Conference (RadarCon13), Ottawa, ON, Canada, 29 April 2013–3 May 2013; pp. 1–4. [CrossRef]\n26.\nLi, Y.; Du, L.; Liu, H. Hierarchical Classification of Moving Vehicles Based on Empirical Mode Decomposition of Micro-Doppler\nSignatures. IEEE Trans. Geosci. Remote Sens. 2013, 51, 3001–3013. [CrossRef]\n27.\nChen, V.C.; Miceli, W.J.; Himed, B. Micro-Doppler Analysis in ISAR-Review and Perspectives. In Proceedings of the 2009\nInternational Radar Conference “Surveillance for a Safer World” (RADAR 2009), Bordeaux, France, 12–16 October 2009; pp. 1–6.\n28."
+    },
+    {
+        "chunk_id": 71,
+        "source": "paper23",
+        "text": "International Radar Conference “Surveillance for a Safer World” (RADAR 2009), Bordeaux, France, 12–16 October 2009; pp. 1–6.\n28.\nMolchanov, P.; Harmanny, R.I.A.; de Wit, J.J.M.; Egiazarian, K.; Astola, J. Classification of Small UAVs and Birds by Micro-Doppler\nSignatures. Int. J. Microw. Wirel. Technol. 2014, 6, 435–444. [CrossRef]\n29.\nNanzer, J.A. Simulations of the Millimeter-Wave Interferometric Signature of Walking Humans. In Proceedings of the 2012 IEEE\nInternational Symposium on Antennas and Propagation, Chicago, IL, USA, 8–14 July 2012; pp. 1–2. [CrossRef]\n30.\nShe, L.; Wang, G.; Zhang, S.; Zhao, J. An Adaptive Threshold Algorithm Combining Shifting Window Difference and Forward-\nBackward Difference in Real-Time R-Wave Detection. In Proceedings of the 2009 2nd International Congress on Image and Signal\nProcessing, Tianjin, China, 17–19 October 2009; pp. 1–4. [CrossRef]\n31."
+    },
+    {
+        "chunk_id": 72,
+        "source": "paper23",
+        "text": "Backward Difference in Real-Time R-Wave Detection. In Proceedings of the 2009 2nd International Congress on Image and Signal\nProcessing, Tianjin, China, 17–19 October 2009; pp. 1–4. [CrossRef]\n31.\nYu, M.; Kim, N.; Jung, Y.; Lee, S. A Frame Detection Method for Real-Time Hand Gesture Recognition Systems Using CW-Radar.\nSensors 2020, 20, 2321. [CrossRef] [PubMed]\n32.\nST200 Radar Evaluation System User Manual. RFbeam. Available online: https://rfbeam.ch/wp-content/uploads/dlm_\nuploads/2022/10/ST200_UserManual.pdf (accessed on 30 November 2023).\n33.\nK-MC1 Radar Transceiver Data Sheet. RFbeam. Available online: https://rfbeam.ch/wp-content/uploads/dlm_uploads/2022/1\n1/K-MC1_Datasheet.pdf (accessed on 1 December 2023).\nDisclaimer/Publisher’s Note: The statements, opinions and data contained in all publications are solely those of the individual\nauthor(s) and contributor(s) and not of MDPI and/or the editor(s). MDPI and/or the editor(s) disclaim responsibility for any injury to"
+    },
+    {
+        "chunk_id": 73,
+        "source": "paper23",
+        "text": "author(s) and contributor(s) and not of MDPI and/or the editor(s). MDPI and/or the editor(s) disclaim responsibility for any injury to\npeople or property resulting from any ideas, methods, instructions or products referred to in the content."
+    }
+]

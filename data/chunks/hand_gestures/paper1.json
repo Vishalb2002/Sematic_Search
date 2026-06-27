@@ -1,0 +1,97 @@
+[
+    {
+        "chunk_id": 1,
+        "source": "paper1",
+        "text": "Engineering Applications of Artificial\nIntelligence\nVolume 100, April 2021, 104204\nA better way of extracting dominant colors using salient objects with\nsemantic segmentation\nAyse Bilge Gunduz\n, Berk Taskin, Ali Gokhan Yavuz, Mine Elif Karsligil\nShow more\nhttps://doi.org/10.1016/j.engappai.2021.104204\nGet rights and content\nAbstract\nOne of the most prominent parts of professional design consists of combining the right colors. This combination can affect emotions,\npsychology, and user experience since each color in the combination has a unique effect on each other. It is a very challenging to determine the\ncombination of colors since there are no universally accepted rules for it. Yet finding the right color combination is crucial when it comes to\ndesigning a new product or decorating the interiors of a room. The main motivation of this study is to extract the dominant colors of a salient"
+    },
+    {
+        "chunk_id": 2,
+        "source": "paper1",
+        "text": "designing a new product or decorating the interiors of a room. The main motivation of this study is to extract the dominant colors of a salient\nobject from an image even if the objects overlap each other. In this way, it is possible to find frequent and popular color combinations of a\nspecific object. So, first of all, a modified Inception-ResNet architecture was designed semantically segmentate objects in the image. Then,\nSALGAN was applied to find the salient object in the image since the aim here is to find the dominant colors of the salient object in a given\nimage. After that, the outputs consisted of the SALGAN applied image and segmented image were combined to obtain the corresponding\nsegment for the purpose of finding the salient object on the image. Finally, since we aimed to quantize the pixels of the corresponding segment\nShare\nCite"
+    },
+    {
+        "chunk_id": 3,
+        "source": "paper1",
+        "text": "in the image, we applied k-means clustering which partitions samples into K clusters. The algorithm works iteratively to assign each data point\nto one of the K groups based on their features. Data points were clustered according to feature similarity. As a result the clustering, the most\nrelevant dominant colors were extracted. Our comprehensive experimental survey has demonstrated the effectiveness of the proposed method.\nIntroduction\nPlaying a vital role in designs, color has been used by artists and designers for decades. Color is a key element for professional design. Color\ncombinations can affect emotions, psychology and user experience since each color in the combination has a unique effect on each other and\nthe balance of the combination has significant importance (Machajdik and Hanbury, 2010, Terwogt and Hoeksma, 1995). Furthermore, the"
+    },
+    {
+        "chunk_id": 4,
+        "source": "paper1",
+        "text": "the balance of the combination has significant importance (Machajdik and Hanbury, 2010, Terwogt and Hoeksma, 1995). Furthermore, the\nmajority of people match colors with an intuitions developed at a young age. As there is no universally accepted combination of colors, it is a\nvery challenging task to determine popular combinations of colors to be preferred.\nFinding the right color combination is crucial for each and every aspect of our lives from designing a new product or combining clothes to create\nthe perfect combination to decorating a space either at home or in the office. However, there is no single right color combination but rather\npreferred or popular color combinations. In this paper, we present a novel approach that finds the most significant dominant colors of the\nsalient object in an image containing an extensive number of different objects either separate from or overlapped the salient object in question."
+    },
+    {
+        "chunk_id": 5,
+        "source": "paper1",
+        "text": "salient object in an image containing an extensive number of different objects either separate from or overlapped the salient object in question.\nThus, our approach enables people to perceive the most suitable combination of colors for a given occasion. Designing a new product or dressing\nfor a special event could be considered as an example for this occasion. Furthermore, when our approach is applied to images of different\ncategories, including fashion, fragrance, interior design, etc., the spatial, temporal, and cultural variations of popular color combinations in these\ncategories could be discerned. This data could also be used to predict the future color combination preferences for a given category\ne.g. determining a country level color preference for a certain type of object, or yearly most popular colors, etc.\nIt is common to have more than one object in an image, unless there is a special shooting setup for photographs. Moreover, whether professional"
+    },
+    {
+        "chunk_id": 6,
+        "source": "paper1",
+        "text": "It is common to have more than one object in an image, unless there is a special shooting setup for photographs. Moreover, whether professional\nor casual, in a there is always a background in a photograph. First of all we segmentate the image via semantic segmentation to obtain different\nobjects in order to determine the salient object. Then, the original image is submitted to salient object detection and the outputs of this stage\nare intersected with the segmented image from the previous step. This process gives us the salient object as a whole. Finally, the colors of the\nsalient object are quantized and then clustered to determine the dominant colors. Our contributions are as follows:\n•\nwe have extracted the most accurate dominant colors of the focused object in a given image when compared to existing\nresearch focusing primarily on extracting the dominant colors of either the entire image or the foreground only."
+    },
+    {
+        "chunk_id": 7,
+        "source": "paper1",
+        "text": "•\nwe successfully applied deep learning architectures in order to semantically understand and detect the focused object in a\ngiven image.\nThe rest of the manuscript is organized as follows: Related Work is given in Section 2, both of the models developed for our novel approach is\nintroduced in Section 3, Section 4 is used to represent Experimental Results with the Conclusion given in Section 5.\nAccess through your organization\nCheck access to the full text by signing in through your organization.\nAccess through your organization\nSection snippets\nRelated work\nA review of related work on dominant color extraction reveals the fact that this method has been mainly used for color theme extraction and\ncontent-based image retrieval. Salient regions and salient features are only mention on Liu et al. (2018) and Xing et al. (2018) respectively.\nHowever, they do not perform an independent salient object detection as both research focuses on images containing a single object. Therefore,"
+    },
+    {
+        "chunk_id": 8,
+        "source": "paper1",
+        "text": "However, they do not perform an independent salient object detection as both research focuses on images containing a single object. Therefore,\nthe aforementioned saliency only refers to the most notable regions …\nSystem design\nThe main motivation of this study is to extract the dominant colors of a salient object from an image even if the objects overlap each other. It is\nobvious that the dominant colors of an image do not always represent the dominant colors of the salient object within the image. Therefore,\nmethods proposed in the related work section is mostly limited to dominant colors extraction of the entire image. It is evident that objects in an\nimage must be segmentated before extracting the dominant colors. …\nExperimental results"
+    },
+    {
+        "chunk_id": 9,
+        "source": "paper1",
+        "text": "In this section, we demonstrated and put forward the experiments carried out to ascertain the performance of our proposed approach. We used\ntwo different datasets to obtain the experimental results. The first dataset is the MIT Scene Parsing dataset, which was used for semantic\nsegmentation (Zhou et al., 2017). The second dataset is a custom dataset provided by HueData (Lechner and Harrington, 0000). It was used to\nevaluate the performance of our dominant colors detection approach. The MIT …\nConclusion\nIn this paper, we have investigated the problem of extracting the dominant colors of the focused object in a given image and successfully\npresented a novel approach for the dominant color extraction. Our approach is primarily based on semantic segmentation complemented by\nsalient object detection. Our key contribution is the extraction of the most representative dominant colors of the salient object in an image in"
+    },
+    {
+        "chunk_id": 10,
+        "source": "paper1",
+        "text": "salient object detection. Our key contribution is the extraction of the most representative dominant colors of the salient object in an image in\ncontrast to the current research, which produces the dominant colors treating the …\nCRediT authorship contribution statement\nAyse Bilge Gunduz: Conceptualization, Methodology, Software, Visualization, Writing - review & editing. Berk Taskin: Methodology, Software,\nVisualization. Ali Gokhan Yavuz: Writing - review & editing, Supervision. Mine Elif Karsligil: Supervision. …\nDeclaration of Competing Interest\nThe authors declare the following financial interests/personal relationships which may be considered as potential competing interests: Name: A.\nBilge GUNDUZ Address: Davutpasa Mah. Yildiz Technical University, Department of Computer Engineering 34220 Esenler/Istanbul/Turkey\nPhone: +90 554 666 18 90 E-mail: aysebilgegunduz@gmail.com …\nAcknowledgments"
+    },
+    {
+        "chunk_id": 11,
+        "source": "paper1",
+        "text": "Phone: +90 554 666 18 90 E-mail: aysebilgegunduz@gmail.com …\nAcknowledgments\nWe would like to thank the HUEDATA for providing us with necessary datasets. Special thanks to VRAY GUILLAUME MARC GEORGES and M.\nYASIN SAGLAM for their contribution in running the experimental tests. …\nRecommended articles"
+    },
+    {
+        "chunk_id": 12,
+        "source": "paper1",
+        "text": "References (57)\nFengZ. et al.\nFinding intrinsic color themes in images with human visual perception\nNeurocomputing (2018)\nWangC. et al.\nQuaternion polar harmonic Fourier moments for color images\nInform. Sci. (2018)\nYangN.-C. et al.\nA fast MPEG-7 dominant color extraction with new similarity measure for image retrieval\nJ. Vis. Commun. Image Represent. (2008)\nZhouW. et al.\nFashion recommendations through cross-media information retrieval\nJ. Vis. Commun. Image Represent. (2019)\nAbdiH.\nThe Kendall rank correlation coefficient\nArthurD. et al.\nk-means++: The Advantages of Careful SeedingTech. Rep.\n(2006)\nBadrinarayananV. et al.\nSegnet: A deep convolutional encoder-decoder architecture for image segmentation\nIEEE Trans. Pattern Anal. Mach. Intell. (2017)\nBaldevbhaiP.J. et al.\nColor image segmentation for medical images using L* a* b* color space\nIOSR J. Electron. Commun. Eng. (2012)"
+    },
+    {
+        "chunk_id": 13,
+        "source": "paper1",
+        "text": "BarnardK.\nModeling scene illumination colour for computer vision and image reproduction: A survey of computational approaches\nComput. Sci. Simon Fraser Univ. (1998)\nBylinskii, Z., Judd, T., Borji, A., Itti, L., Durand, F., Oliva, A., Torralba, A., 0000. MIT saliency benchmark....\nView more references\nCited by (19)\nTree trunk detection in urban scenes using a multiscale attention-based deep learning method\n2023, Ecological Informatics\nCitation Excerpt :\n…Salient object detection (SOD) follows human visual attention to recognize the objects or regions that are visually distinctive or attention-attracting in images\n(Gupta et al., 2020; Wang et al., 2021; Wu et al., 2022). SOD can extract the contours of salient objects at the pixel level to preserve their shape and size, and has\nbeen playing a significant role in a variety of computer vision tasks, including person re-identification (Liao et al., 2023), autopilot (Kim et al., 2019), image"
+    },
+    {
+        "chunk_id": 14,
+        "source": "paper1",
+        "text": "been playing a significant role in a variety of computer vision tasks, including person re-identification (Liao et al., 2023), autopilot (Kim et al., 2019), image\nretrieval (Liu and Fan, 2013), vision comprehension (Gunduz et al., 2021), object tracking (Luo and Yuan, 2013), and so forth. Benefiting from the visual logic\nfollowed by SOD, salient tree trunk detection enables the segmentation of tree trunks and their branches with features that are more obvious and attention-\ngrabbing, even if they are significantly diverse in appearance.…\nShow abstract\nGlobal contextually guided lightweight network for RGB-thermal urban scene understanding\n2023, Engineering Applications of Artificial Intelligence\nCitation Excerpt :\n…Scene understanding is a special semantic segmentation method that performs scene object retrieval, outdoor scene segmentation, and 3D reconstruction"
+    },
+    {
+        "chunk_id": 15,
+        "source": "paper1",
+        "text": "Citation Excerpt :\n…Scene understanding is a special semantic segmentation method that performs scene object retrieval, outdoor scene segmentation, and 3D reconstruction\n(Cheng et al., 2021); in addition, it can be applied to remote sensing (Tang et al., 2022; Wu et al., 2022b), and medical image understanding (Zhou et al., 2022e).\nMoreover, it is crucial for the development of advanced driver assistance systems (Bai et al., 2022; Zhou et al., 2022a; Gunduz et al., 2021) as well as in modern"
+    },
+    {
+        "chunk_id": 16,
+        "source": "paper1",
+        "text": "robots, for performing sub-tasks, such as road recognition, pedestrian detection, or understanding traffic scenes. Urban scene understanding requires marking the\nwhole traffic scene in the form of semantic pixels and distinguishing these into multiple categories, such as cars, buildings, pedestrians, and roadblocks.…\nShow abstract\nEdge-aware and spectral–spatial information aggregation network for multispectral image semantic segmentation\n2022, Engineering Applications of Artificial Intelligence\nCitation Excerpt :\n…It is widely used in environmental monitoring (Thomazella et al., 2018), urban planning (Saha et al., 2021), national defense security, and other fields (Kumar et\nal., 2020). In recent years, artificial intelligence technology represented by deep neural networks has been greatly developed in the field of image processing (Wu"
+    },
+    {
+        "chunk_id": 17,
+        "source": "paper1",
+        "text": "al., 2020). In recent years, artificial intelligence technology represented by deep neural networks has been greatly developed in the field of image processing (Wu\net al., 2021; Mou et al., 2020; Gunduz et al., 2021). In view of the particularity of remote sensing data, some researchers have begun to try to migrate the natural\nimage semantic segmentation network model to the remote sensing image semantic segmentation task (He et al., 2022; Zhao et al., 2021).…\nShow abstract\nDecoupling Urban Street Attractiveness: An Ensemble Learning Analysis of Color and Visual Element Contributions\n2025, Land\nHarmonizing culture and consumer psychology: optimizing color schemes for children’s product design inspired by traditional\nornaments\n2024, BMC Psychology\nA Dominant Color Extraction Method Based on Salient Object Detection\n2023, 2023 3rd International Symposium on Computer Technology and Information Science Isctis 2023\nView all citing articles on Scopus\nView full text"
+    },
+    {
+        "chunk_id": 18,
+        "source": "paper1",
+        "text": "2023, 2023 3rd International Symposium on Computer Technology and Information Science Isctis 2023\nView all citing articles on Scopus\nView full text\n© 2021 Elsevier Ltd. All rights reserved."
+    },
+    {
+        "chunk_id": 19,
+        "source": "paper1",
+        "text": "All content on this site: Copyright © 2026 Elsevier B.V., its licensors, and contributors. All rights are reserved, including those for text and data mining, AI training, and similar technologies. For all open access content, the relevant licensing terms\napply."
+    }
+]

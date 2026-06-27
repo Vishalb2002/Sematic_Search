@@ -1,0 +1,437 @@
+[
+    {
+        "chunk_id": 1,
+        "source": "paper39",
+        "text": "Vis Comput (2014) 30:1107–1122\nDOI 10.1007/s00371-014-0921-x\nORIGINAL ARTICLE\nXKin: an open source framework for hand pose\nand gesture recognition using kinect\nFabrizio Pedersoli · Sergio Benini · Nicola Adami ·\nRiccardo Leonardi\nPublished online: 31 January 2014\n© Springer-Verlag Berlin Heidelberg 2014\nAbstract\nThis work targets real-time recognition of both\nstatic hand-poses and dynamic hand-gestures in a uniﬁed\nopen-source framework. The developed solution enables nat-\nural and intuitive hand-pose recognition of American Sign\nLanguage (ASL), extending the recognition to ambiguous\nletters not challenged by previous work. While hand-pose\nrecognition exploits techniques working on depth infor-\nmation using texture-based descriptors, gesture recognition\nevaluates hand trajectories in the depth stream using angu-\nlar features and hidden Markov models (HMM). Although\nclassiﬁers come already trained on ASL alphabet and 16\nuni-stroke dynamic gestures, users are able to extend these"
+    },
+    {
+        "chunk_id": 2,
+        "source": "paper39",
+        "text": "lar features and hidden Markov models (HMM). Although\nclassiﬁers come already trained on ASL alphabet and 16\nuni-stroke dynamic gestures, users are able to extend these\ndefault sets by adding their personalized poses and ges-\ntures. The accuracy and robustness of the recognition system\nhave been evaluated using a publicly available database and\nacross many users. The XKin open project is available online\n(Pedersoli, XKin libraries. https://github.com/fpeder/XKin,\n2013) under FreeBSD License for researchers in human–\nmachine interaction.\nKeywords\nKinect · Hand pose · Gesture recognition ·\nOpen-source · XKin · Human computer interaction\n1 Introduction\nDuring the past years efforts have been made to achieve more\nnatural interactions between human and computer communi-\ncation. In this context, gesture recognition capabilities play a\nF. Pedersoli (B) · S. Benini · N. Adami · R. Leonardi\nDepartment of Information Engineering, University of Brescia,\nvia Branze 38, 25125 Brescia, Italy"
+    },
+    {
+        "chunk_id": 3,
+        "source": "paper39",
+        "text": "F. Pedersoli (B) · S. Benini · N. Adami · R. Leonardi\nDepartment of Information Engineering, University of Brescia,\nvia Branze 38, 25125 Brescia, Italy\ne-mail: fabrizio.pedersoli@ing.unibs.it\nkey role in the design of innovative Human–Computer Inter-\naction (HCI) systems. Among human body signiﬁcant activ-\nities, the expressive power of hands will assume a pivotal\nrole. In particular, more sophisticated gesture-based inter-\nfaces will enable the user to overcome the limitations of\nkeyboard and mouse, increasing efﬁciency and realism, thus\nempowering users to interact with a computer in a more intu-\nitive way.\nBeyond the automatic interpretation of hand sign lan-\nguages such as American Sign Language (ASL) [2], a wide\nrange of real scenarios would beneﬁt from novel paradigms\nof natural interaction, especially medicine, domotics, and the\ngame industry. In addition to these, a gesture-based inter-\naction system could boost users’ experience in all applica-"
+    },
+    {
+        "chunk_id": 4,
+        "source": "paper39",
+        "text": "of natural interaction, especially medicine, domotics, and the\ngame industry. In addition to these, a gesture-based inter-\naction system could boost users’ experience in all applica-\ntions that suffer from the limitation imposed by traditional\nmouse and keyboard-based interaction, like 3D modeling and\nCAD/CAM.\nUntil few years ago the only non-intrusive HCI technology\nable to accomplish the above tasks was vision-based hand-\ngesture recognition. Due to the introduction on the consumer\nmarket of low-cost devices such as the Kinect sensor, today it\nis possible to improve the tradeoff between performance and\nprice in the design of gesture interfaces. Kinect approach is\nnon-intrusive, sensing is passive, silent, and permits to over-\ncome the limitation of robustness, speed, and accuracy of typ-\nical image processing algorithms by combining color images\nand depth information. In fact the complementary nature of\nthe depth and visual (RGB) information in the Kinect sensor"
+    },
+    {
+        "chunk_id": 5,
+        "source": "paper39",
+        "text": "ical image processing algorithms by combining color images\nand depth information. In fact the complementary nature of\nthe depth and visual (RGB) information in the Kinect sensor\nopens up new opportunities to solve fundamental problems\nin human activity recognition for HCI.\nSo far the ability of the Kinect of enabling full-body 3D\nmotion estimation has been exploited to track body joints,\nwhile little attention has been directed towards small ges-\ntures, in particular hand motions, especially because of the\ndifﬁculty of the task.\n123"
+    },
+    {
+        "chunk_id": 6,
+        "source": "paper39",
+        "text": "1108\nF. Pedersoli et al.\n1.1 Paper aims and organization\nIn this work we propose the ﬁrst (and to the best of our knowl-\nedge, the only available at the moment) open source solution\ntargeting real-time recognition of hand-poses and gestures\nwith Kinect sensor. As a ﬁrst advance with respect to state of\nthe art, the proposed method targets recognition of both static\nposture (hand-pose in the following) and dynamic movement\n(hand-gesture in the following) in a uniﬁed framework, while\nmost of the existing methods focus either on static signs or\non dynamic gestures. As a result, being able to classify both\ntypes of hand expressivity allows for understanding the most\nof the non-verbal language.\nRegarding hand-poses, the adoption of multi-scale Gabor\nﬁlters (as in [6] and [28]) applied on the depth image results in\nan effective description for recognizing ASL ﬁnger-spelling\nalphabet. Beyond obtaining high recognition accuracy on\ncommonly recognized ASL letters by a Support Vector"
+    },
+    {
+        "chunk_id": 7,
+        "source": "paper39",
+        "text": "an effective description for recognizing ASL ﬁnger-spelling\nalphabet. Beyond obtaining high recognition accuracy on\ncommonly recognized ASL letters by a Support Vector\nMachine classiﬁer, we have also extended the recognition\ncapabilities on the whole ASL ﬁnger-spelling alphabet, thus\nincluding also letters ‘j’ and ‘z’, which involve motion and\nthat were not challenged by previous work. For what con-\ncerns dynamic hand trajectories, gesture recognition relies\non the use of angular features on trajectories in the depth\nstream and hidden Markov models (HMM). We then com-\npare our recognition method on gestures against a geometric\ntemplate matcher named $1 described in [40] on the same\ndataset of 16 uni-stroke gestures.\nAs a second novel contribution, although both hand-pose\nand gesture classiﬁers come already trained on two default\ndatasets(i.e.theASLalphabet,andthe16uni-strokedynamic\ngestures as in [40]), users are able to extend these default"
+    },
+    {
+        "chunk_id": 8,
+        "source": "paper39",
+        "text": "and gesture classiﬁers come already trained on two default\ndatasets(i.e.theASLalphabet,andthe16uni-strokedynamic\ngestures as in [40]), users are able to extend these default\nsets by adding their personalized poses and gestures. These\npersonalizedtrainingproceduresareproposedasapossibility\nfor each user for “extending” the default sets of recognizable\npostures and gestures to those that he/she decide should be\nrecognized by the system beyond the already provided sets,\nor for improving the recognition performance with respect\nto the standard non-personalized training.\nLast, since the ﬁrst solution described in [24], the open\nsource framework has been made freely available to the sci-\nentiﬁc community on github [23] to encourage and support\ncontributions from other researchers and developers in build-\ning an open and effective system for empowering natural\nmodalities for human-machine interaction.\nOur proposed solution is complying with the following"
+    },
+    {
+        "chunk_id": 9,
+        "source": "paper39",
+        "text": "ing an open and effective system for empowering natural\nmodalities for human-machine interaction.\nOur proposed solution is complying with the following\nrequirements of HCI: ﬁrst we meet the responsiveness [37]\ncriterium by building a real-time an effective interaction. In\naddition, the system is usable by more users and not bounded\nto a particular one (adaptability requirement in [37]). Hand-\npose in ASL and the 16 uni-stroke gestures in [40] are easy\nto perform and remember; they also present a clear cognitive\nassociation with the performed function (thus meeting learn-\nability criterium, as in [37]). Beyond showing high recogni-\ntion accuracy [37], at least for this prototyping phase, the pro-\nposed system also respects the come-as-you-are paradigm of\ninteraction [37], not posing requirement on the user to wear\nmarker, gloves, long sleeves, ﬁx background or choose a par-\nticular illumination.\nThe rest of the paper is organized as follows. In Sect. 2"
+    },
+    {
+        "chunk_id": 10,
+        "source": "paper39",
+        "text": "marker, gloves, long sleeves, ﬁx background or choose a par-\nticular illumination.\nThe rest of the paper is organized as follows. In Sect. 2\nwe explore recent advances in the use of Kinect for hand-\npose and gesture recognition. Section 3 provides the over-\nall methodology, while Sect. 4 discusses the details of the\nhand segmentation stage, which is preparatory for both pose\nand gesture classiﬁcation. Hand-pose recognition employ-\ning depth information only is discussed in Sect. 5, while\nthe statistical characterization of dynamic hand-gestures is\nprovided in Sect. 6. Section 7 describes the user tests which\nhave been carried out to assess performance and potentialities\nof the proposed framework for Kinect. Finally, concluding\nremarks are gathered in Sect. 8.\n2 Previous work\nDespite the recent release of the sensor, some attempts to\ndevelop pose and gesture recognition systems employing\nKinect have been already made in the past. The Kinect ability"
+    },
+    {
+        "chunk_id": 11,
+        "source": "paper39",
+        "text": "2 Previous work\nDespite the recent release of the sensor, some attempts to\ndevelop pose and gesture recognition systems employing\nKinect have been already made in the past. The Kinect ability\nof providing full-body 3D motion capture has been initially\nexploited to track body joints, as in the work by Microsoft\n[35]. As an example, Biawas et al. [4] proposed a method to\nrecognize human body postures showing fair results. The ﬁrst\noperation consisted in the background removal from depth\nimage using an auto-thresholding technique on the depth his-\ntogram. Then a grid was placed on the foreground, and the\nbody pose parametrized using depth variation and motion\ninformation of each cell of the grid. Finally, a multiclass\nSupport Vector Machine (SVM) was used to train the system\nfor the classiﬁcation.\nFurther attempts started to shift the attention towards\nsmaller gestures, in particular hand motions. Ren et al.\n[30,31] developed a hand-pose recognition system which"
+    },
+    {
+        "chunk_id": 12,
+        "source": "paper39",
+        "text": "for the classiﬁcation.\nFurther attempts started to shift the attention towards\nsmaller gestures, in particular hand motions. Ren et al.\n[30,31] developed a hand-pose recognition system which\noperates in uncontrolled environments and is insensitive to\nhand-pose variations and distortions, by using both depth\nand color information from Kinect. Hand segmentation is\naccomplished using the depth stream and requires the user to\nwear a black bracelet. For the hand-pose recognition, a novel\nshape distance metric called Finger-Earth Mover’s Distance\n(FEMD)abletodistinguishamongtenhand-poseswasdevel-\noped. In particular, FEMD represents the hand shape consid-\nering each ﬁnger as a cluster, and the dissimilarity distance\nbetween two shapes is deﬁned as the sum of work needed\nto move the earth piles and the penalty on the unmatched\nﬁngers.\nAs an attempt to recognize a larger set of hand-poses, [28]\nimplemented “Spelling It Out”, an interactive user interface\n123"
+    },
+    {
+        "chunk_id": 13,
+        "source": "paper39",
+        "text": "XKin: an open source framework\n1109\nfor American Sign Language (ASL) ﬁnger-spelling recog-\nnition. Hand-poses corresponding to letters of the alphabet\nare characterized using appearance and depth images and are\nclassiﬁed using random forests. The best performance on 24\nsigns of the ASL, on a dataset collected on 5 users, reaches\na mean precision of 75 %. However, the system overcomes\nclassiﬁcation problems by offering an easy way for the user\nto select between ambiguous choices and is integrated with\nan English dictionary for efﬁcient writing.\nAlso Uebersax et al. [36] presented an effective sys-\ntem for recognizing letters and ﬁnger-spelled words of the\nAmerican Sign Language (ASL) in real time. The novelty\nof this method lies in the fact that letter classiﬁcation—\nbased on average neighborhood margin maximization—\nrelies only on depth data coming from a Mesa SR400 TOF\ncamera.\nAnother approach recognizing ASL letters by working\nonly on depth information is described in [11]. Authors"
+    },
+    {
+        "chunk_id": 14,
+        "source": "paper39",
+        "text": "relies only on depth data coming from a Mesa SR400 TOF\ncamera.\nAnother approach recognizing ASL letters by working\nonly on depth information is described in [11]. Authors\nadapted the methodology of body pose estimation used in\n[35] to the hand, using Randomized Decision Forests (RDF)\nfor hand shape recognition. According to this scheme, every\npixel is classiﬁed with a speciﬁc hand-pose label, and the\nﬁnal class label is determined by majority vote. At a price of\na huge amount of training samples, they achieve high recog-\nnition accuracy.\nPeris et al. [25] implemented a real-time pose recogni-\ntion system for both hands reconstructing the 3D volume\nof the hand shape using a sequence of multi-view depth\nimages acquired by Kinect. The hand detection is performed\nusing the Robot Operating System [32] and functionalities of\nOpenNI libraries [21] that extract the hand position in a 3D\nspace as a point cloud. Then left- and right-hand volume sub-"
+    },
+    {
+        "chunk_id": 15,
+        "source": "paper39",
+        "text": "using the Robot Operating System [32] and functionalities of\nOpenNI libraries [21] that extract the hand position in a 3D\nspace as a point cloud. Then left- and right-hand volume sub-\nspaces are calculated by the Kernel Orthogonal Mutual Sub-\nspace Method, a powerful algorithm for 3D object recogni-\ntion that exploits the canonical angles between nonlinear sub-\nspaces generated by a kernel Principal Component Analysis\n(PCA).\nMihali et al. [17] proposed a robust hand-pose recogni-\ntion algorithm that makes use of two Kinect sensors. This\nsetup provides a rich point cloud within which the hand is\ndetected considering the volume included between the clos-\nest point and a ﬁxed empirical 3D offset. The volume is then\nsubdivided into 63, 83, 103 evenly distributed voxels. For\neach sub-division two descriptors are taken, one related to\nthe point count in each voxel, and the other related to pres-\nence of one or more pixels in each voxel. Nearest neighbor"
+    },
+    {
+        "chunk_id": 16,
+        "source": "paper39",
+        "text": "each sub-division two descriptors are taken, one related to\nthe point count in each voxel, and the other related to pres-\nence of one or more pixels in each voxel. Nearest neighbor\nclassiﬁer in combination with majority rule voting scheme is\nused to recognize the unknown posture.\nTo improve accuracy in hand-pose recognition, some\nworks started to target the problem of detection and track-\ning of single hand articulations. Li et al. [13] developed a\nsystem based on Kinect that is able to detect hand-poses, to\nidentify single ﬁngers, and to recognize nine postures exe-\ncuted both with one or two hands. Hands are distinguished\nfromthebackgroundusingadepthrangebetween0.5to0.8m\nand k-means algorithm is employed to obtain two clusters for\nhand pixels. Fingertips are detected applying the three-point\nalignment algorithm to points which are both on the hand-\ncontour and on the convex hull. Finger names are determined\naccording to their relative distance, while postures are recog-"
+    },
+    {
+        "chunk_id": 17,
+        "source": "paper39",
+        "text": "alignment algorithm to points which are both on the hand-\ncontour and on the convex hull. Finger names are determined\naccording to their relative distance, while postures are recog-\nnized using a three-layer classiﬁer.\nOikonomidis et al. [19] proposed a novel approach to the\nproblem of 3D tracking of hand articulations making use of\nKinect.Theproblemwasformulatedasanoptimizationprob-\nlem to minimize the discrepancy between the 3D structure\nand appearance of the hypothesized 3D hand-pose model.\nOptimization is performed by a variant of Particle Swarm\nOptimization, while hand extraction is achieved by skin color\ndetection followed by depth segmentation.\nLiang et al. [14] proposed a method to estimate six hand\nposes evaluating a simpliﬁed inverse kinematic of ﬁngers.\nThis method exploits temporal constraints and spatial fea-\ntures of the input depth sequence to detect the 3D ﬁngertip\nposition. Hand segmentation is performed through a pixel"
+    },
+    {
+        "chunk_id": 18,
+        "source": "paper39",
+        "text": "This method exploits temporal constraints and spatial fea-\ntures of the input depth sequence to detect the 3D ﬁngertip\nposition. Hand segmentation is performed through a pixel\nlabeling procedure based on Bayesian inference, while ﬁn-\ngertip localization is based on the geodesic extrema extrac-\ntion and employs a novel path rewriting and k-means clus-\ntering.\nA key challenge for hand-pose and gesture recognition is\nthat they need to operate in complex scenes with cluttered\nbackgrounds. Doliotis et al. [7] proposed a clutter-tolerant\nhand segmentation algorithm where 3D pose estimation is\nformulated as a retrieval problem: given a segmented hand\nthe best matches are extracted from a large database of syn-\nthetically generated hand images. However, the need to solve\noptimization problems for computing the axis of elongation\n(minimum enclosing ellipsoid) and the local regressions for\nsmoothing the sequence of widths during the hand segmen-"
+    },
+    {
+        "chunk_id": 19,
+        "source": "paper39",
+        "text": "optimization problems for computing the axis of elongation\n(minimum enclosing ellipsoid) and the local regressions for\nsmoothing the sequence of widths during the hand segmen-\ntation process do not allow the algorithm to achieve real-time\nperformance, by admission of the same authors.\nAgain Doliotis et al. [8] used Kinect to target dynamic\nhand-gesture recognition as a natural way of communication\nbetween humans and devices. They proposed a method to\ndetect hands in complex and cluttered background, using the\nscene depth information from the Kinect, and a dynamic pro-\ngramming method, namely Dynamic Time Warping (DTW)\nfor gesture recognition. According to this framework, the\ngesturing hand is detected using a motion detection method\nbased on frame differencing and depth segmentation. Tra-\njectory recognition instead is performed using the nearest\nneighbor classiﬁcation framework which uses the similarity\nmeasure returned by DTW.\nWith the aim to extend the set of recognizable ges-"
+    },
+    {
+        "chunk_id": 20,
+        "source": "paper39",
+        "text": "jectory recognition instead is performed using the nearest\nneighbor classiﬁcation framework which uses the similarity\nmeasure returned by DTW.\nWith the aim to extend the set of recognizable ges-\ntures, Wan et al. [38] proposed a method to recognize\nﬁve gestures: start, no hand, left, right, back using Kinect.\nThe procedure consists of gesture segmentation, feature\n123"
+    },
+    {
+        "chunk_id": 21,
+        "source": "paper39",
+        "text": "1110\nF. Pedersoli et al.\nextraction, trajectory extraction, and classiﬁcation. A hand is\ndetected through the depth thresholding of the closest object\nusing a ﬁxed empirical value that represents the thickness of\nthe palm. To uniquely identify the gesture start, the algorithm\nuses a feature vector that takes into account the hand area, the\nnumber of non-zero pixels, and the farthermost points of the\nconvexity defects to the convex hull. The left, right, and back\ngestures are identiﬁed by the trajectory in the (x, z) sub space\nand classiﬁed by means of linear discriminant analysis. How-\never, one severe limitation of this work is the impossibility\nto detect vertical gestures.\nRegarding software solutions, Microsoft released the\nKinect device with a Software Development Kit (SDK) [16],\nwhich is oriented to skeleton and joint tracking, not consid-\nering speciﬁc hand movement recognition. As an alterna-\ntive multi-platform solution, PrimeSense [27] has created"
+    },
+    {
+        "chunk_id": 22,
+        "source": "paper39",
+        "text": "which is oriented to skeleton and joint tracking, not consid-\nering speciﬁc hand movement recognition. As an alterna-\ntive multi-platform solution, PrimeSense [27] has created\nNiTE [26], a middleware which provides almost the same\nfeatures as the Microsoft SDK, but again constitutes a closed\nsource software. In addition to this, NiTE is not a complete\nsolution: in order to work it needs to be included in OpenNI,\nan open source framework which provides Application Pro-\ngramming Interfaces (APIs) for natural interaction applica-\ntions. In addition NiTE also requires ad-hoc drivers to com-\nmunicate with other devices.\nCurrently, the proprietary solution from 3Gear [1] can be\nconsidered the state-of-the-art for hand-tracking software. In\nparticular, 3Gear focuses on a small number of simple hand\nposes and gestures (pinching and pointing poses in particu-\nlar) so that at the moment poses outside of the database may\nbe tracked poorly. The system, as largely described on the"
+    },
+    {
+        "chunk_id": 23,
+        "source": "paper39",
+        "text": "poses and gestures (pinching and pointing poses in particu-\nlar) so that at the moment poses outside of the database may\nbe tracked poorly. The system, as largely described on the\nwork in [39], works best when the user is seated at a desk\nand the camera (or the Kinect in the most recent release)\nis looking down at the user’s hands. As a big advantage,\nthis conﬁguration allows the user to rest his hands on the\ndesk most of the time. However, this setup limits interactivity\nonly to desktop scenarios, excluding, for example, medical\napplications in operating rooms, interactive games (Kinect,\nXbox, etc.), and all systems that are not constrained by the\nusage of a desktop station. By the same authors’ admission,\n3Gear system is not yet a general purpose hand-tracking sys-\ntem, since it solves the pose estimation problem by querying\na precomputed database that relates hand silhouettes to 3D\nconﬁgurations.\nDespite these proprietary high-level solutions, the open"
+    },
+    {
+        "chunk_id": 24,
+        "source": "paper39",
+        "text": "tem, since it solves the pose estimation problem by querying\na precomputed database that relates hand silhouettes to 3D\nconﬁgurations.\nDespite these proprietary high-level solutions, the open\nsource community has been recently developing a low-level\nmodule for acquiring raw data stream from the Kinect:\nlibfreenect [20]. Libfreenect is developed by the OpenK-\ninect community and exclusively targets Kinect hardware. It\nrepresents a simple, clean, and easy to use solution that pro-\nvides the possibility to use the device with PCs running either\nGNU/Linux, MacOS or Windows. It comes also with many\nwrappers towards programming languages such as C++, C#,\nPython, Java, Matlab, and Ruby. Building up on libfreenect,\nhold\nhold\n(a)\n(b)\nmovement\nhold\nhold\nmovement\nhold\nhold\nmovement\nhold\nhold\nmovement\nhold\nhold\nmovement\nFig. 1 Examples of a different hand-poses and b different hand-\ngestures. Note that gestures are temporally included within a sequence"
+    },
+    {
+        "chunk_id": 25,
+        "source": "paper39",
+        "text": "hold\nhold\nmovement\nhold\nhold\nmovement\nhold\nhold\nmovement\nFig. 1 Examples of a different hand-poses and b different hand-\ngestures. Note that gestures are temporally included within a sequence\nhold-movement-hold [15], independently by the hand shape assumed\nduring the gesture\nwe are able to acquire raw Kinect data streams and build up\nthe ﬁrst available open-source, reliable, and real-time solu-\ntion to hand-pose and gesture recognition, as described in the\nfollowing.\n3 Overview of the system\nIn order to provide a complete solution to hand motions,\nwe developed a system that recognizes both poses and ges-\ntures. While with pose we intend the static appearance of the\nhand, a gesture is meant as a dynamic sequence that com-\nprises the information related to the hand trajectory in time.\nDynamic gesture assumes the presence of a sequence hold-\nmovement-hold (using the terminology of [15]), which many\nsign phonologists have claimed to be the sequence of three"
+    },
+    {
+        "chunk_id": 26,
+        "source": "paper39",
+        "text": "Dynamic gesture assumes the presence of a sequence hold-\nmovement-hold (using the terminology of [15]), which many\nsign phonologists have claimed to be the sequence of three\nelements necessary to account for the form of a sign in which\nthe hand moves from one location to another. Examples of\ndifferent hand-poses are given in Fig. 1a, while examples of\nhand-gestures are provided in Fig. 1b.\nThe proposed system consists of three main modules, each\nspeciﬁcally dealing with a deﬁned problem: hand segmenta-\ntion (Fig. 2a), hand-pose classiﬁcation (Fig. 2b), and gesture\nrecognition (Fig. 2c).\nThe hand segmentation stage relies only on depth infor-\nmation supplied by the Kinect and provides as output a depth\nimage with the segmented hand, while other objects and\nbackground are removed. Depending on the recognition goal,\nthe obtained depth hand image acts as input of either the\nhand-pose processing chain or the hand-gesture classiﬁer.\nIn order to distinguish among a number of different pos-"
+    },
+    {
+        "chunk_id": 27,
+        "source": "paper39",
+        "text": "the obtained depth hand image acts as input of either the\nhand-pose processing chain or the hand-gesture classiﬁer.\nIn order to distinguish among a number of different pos-\ntures, the hand-pose module ﬁrst extracts from the depth\nimage features based on multi-scale Gabor ﬁltering which\nprovide insights into hand local patterns. Learning and clas-\nsiﬁcation are then performed by using a Support Vector\nMachine (SVM).\n123"
+    },
+    {
+        "chunk_id": 28,
+        "source": "paper39",
+        "text": "XKin: an open source framework\n1111\nDepth image\nHAND \nSEGMENTATION\nSegmented hand\nHAND-POSE RECOGNITION\nGabor Feat. \nExtraction\nSVM Pose\nClassifier\nMode switch\nHAND-GESTURE RECOGNITION\nTemporal \nSegmentation\nHMM Gesture\nhold\nhold\nAngular Feat. \nExtraction\n(b)\n(b)\n(c)\n(c)\nmovement\nClassifier\n(a)\nFig. 2 Overview of the system workﬂow and its principal modules: a\nhand segmentation, b hand-pose classiﬁer, and c hand-gesture classiﬁer\nThe hand-gesture module instead receives as input a con-\ntinuous stream of depth hand-segmented images. Classiﬁca-\ntion is then performed by means of HMM adopting a descrip-\ntion of gesture trajectories based on angular features com-\nputed between successive trajectory points extracted from\nthe depth stream.\nThe switch between the two modalities (pose versus ges-\nture) depends on the higher level application making use of\nthe framework libraries. As an example, a word processor\napplication for the composition, editing, and formatting of"
+    },
+    {
+        "chunk_id": 29,
+        "source": "paper39",
+        "text": "ture) depends on the higher level application making use of\nthe framework libraries. As an example, a word processor\napplication for the composition, editing, and formatting of\nwritten material would make better use of the hand-pose\nmodule, to translate into text the performed ASL ﬁnger-\nspelling. Conversely, in medical applications or in domotics,\nthe adoption of gesture-based commands would be more con-\nvenient, as an example, for browsing tomographical content,\nor to act as handy remote controllers, respectively.\nCurrently, the two classiﬁers are released as independent\nmodules. Therefore, there are no technical constraints avoid-\ning the two of them to run simultaneously and returning a\nsequence of distinguished poses captured while the hand per-\nforms a dynamic gesture. Depending on the ﬁnal application,\nit will be required to develop a higher logical module for com-\nbining the outputs of the two classiﬁers in the desired manner.\n4 Hand segmentation"
+    },
+    {
+        "chunk_id": 30,
+        "source": "paper39",
+        "text": "it will be required to develop a higher logical module for com-\nbining the outputs of the two classiﬁers in the desired manner.\n4 Hand segmentation\nThe process of segmenting the user’s hand is depth-based, as\nshown in Fig. 2a. The role of this procedure is critical since\nit provides a hand depth image which is a fundamental input\nfor both pose and gesture classiﬁcations. This segmentation\nprocessing has to be fast to be employed in a real-time appli-\ncation, and robust to illumination changes, skin color vari-\nations, and user’s position. Furthermore, this method must\nnot pose any particular limitations on the user, to meet the\ncome-as-you-are paradigm of interaction. The only obvious\nFig. 3 a Reference rgb image (not used), b corresponding depth map,\nc depth image after Otsu’s thresholding, d image\n˜H containing a\nroughly segmented hand by mean shift segmentation, e density image\nD and palm detection by circle ﬁtting, f ﬁnally segmented hand region\n(image H)"
+    },
+    {
+        "chunk_id": 31,
+        "source": "paper39",
+        "text": "˜H containing a\nroughly segmented hand by mean shift segmentation, e density image\nD and palm detection by circle ﬁtting, f ﬁnally segmented hand region\n(image H)\nconstraint to successfully complete this step is that no large\nobject should be interposed between the user and the Kinect.\nThe hand segmentation process is composed by two prin-\ncipal steps: a mean shift segmentation, followed by a palm\ndetection procedure. Examples of the outputs of the different\nstages of the hand segmentation process are given in Fig. 3.\n4.1 Mean shift segmentation\nThe mean shift algorithm [5] performed on the depth data\nconstitutes the ﬁrst step of the hand segmentation process.\nThis algorithm is a non-parametric clustering technique\nwhich does not require prior knowledge of the number of\nclusters. Its peculiar ability lies in being attracted by the prin-\ncipal modes (local maxima) of an underlying density func-\ntion. Aiming at segmenting the depth image, we apply it to"
+    },
+    {
+        "chunk_id": 32,
+        "source": "paper39",
+        "text": "clusters. Its peculiar ability lies in being attracted by the prin-\ncipal modes (local maxima) of an underlying density func-\ntion. Aiming at segmenting the depth image, we apply it to\nthe empirical probability density function (pdf) of the depth\n123"
+    },
+    {
+        "chunk_id": 33,
+        "source": "paper39",
+        "text": "1112\nF. Pedersoli et al.\nimage. Starting from a full tessellation of the feature space\nby Gaussian windows with proﬁle as in [5]\nkN(x) = exp\n\u0002\n−1\n2 x\n\u0003\n,\nx > 0\n(1)\nthe algorithm forces the kernel windows to evolve towards\nthe modes of the considered depth density function by itera-\ntively computing the mean shift vector m(x) as the difference\nbetween the weighted mean of the density in the kernel win-\ndow, and x, i.e. the center of the kernels:\nm(x) =\n\u0004\ni g(∥x−xi\nh ∥2) · xi\n\u0004\ni g(∥x−xi\nh ∥2)\n−x,\n(2)\nwhere g(x) = −k′\nN(x) and h is the bandwidth. The mean\nshift vector thus always points towards the direction of max-\nimum increase in the density. By associating each pixel with\nits signiﬁcant mode, we are able to segment a rough hand\nregion as constituted by all pixels associated with the mode\nat minimum mean depth. As a result, the returned rough hand\nregion is stored as a binary image ˜H, as shown in Fig. 3d.\nBecause the classic mean shift algorithm is time intensive,"
+    },
+    {
+        "chunk_id": 34,
+        "source": "paper39",
+        "text": "at minimum mean depth. As a result, the returned rough hand\nregion is stored as a binary image ˜H, as shown in Fig. 3d.\nBecause the classic mean shift algorithm is time intensive,\nto meet the requirement of having a real-time interaction, two\npractical schemes are adopted. First the depth density func-\ntion is computed after a masking process by Otsu’s algorithm\n[22] for isolating the foreground depths from the background\nones (Fig. 3c). Second, the mean shift is not run on all sin-\ngle depth frames, but on a periodical update interval of 1 s.\nUnder the realistic assumption that the number of principal\nmodes of the pdf does not abruptly change within the update\ninterval, the number of k principal modes returned by the\nmean shift algorithm is exploited to run an efﬁcient k-means\nclustering algorithm on each depth frame contained in the\nupdate interval.\n4.2 Palm detection\nIn order to better isolate the hand from the rest of the forearm,"
+    },
+    {
+        "chunk_id": 35,
+        "source": "paper39",
+        "text": "clustering algorithm on each depth frame contained in the\nupdate interval.\n4.2 Palm detection\nIn order to better isolate the hand from the rest of the forearm,\nthe hand image in ˜H is then reﬁned by estimating the largest\ncircle ﬁtting the palm region. By assuming that the palm\nshould have a higher density than the ﬁnger and the forearm\nareas, we ﬁrst compute the density image D as the convolu-\ntion between ˜H and a Gaussian kernel G. By thresholding in\nD high-density regions, we select the center for circle ﬁtting\nas the centroid of the densest one, as shown in Fig. 3e. Then\nthe circle ﬁtting procedure expands a circular window from\nthe region centroid until a large majority of the points inside\nit belongs to ˜H. Then, similarly to the mean shift algorithm,\nthe center is shifted towards the direction that maximizes the\ndensity in the window. The expansion and shifting process\nis iteratively repeated until the largest ﬁtting circle is found."
+    },
+    {
+        "chunk_id": 36,
+        "source": "paper39",
+        "text": "the center is shifted towards the direction that maximizes the\ndensity in the window. The expansion and shifting process\nis iteratively repeated until the largest ﬁtting circle is found.\nDepending on both the orientation of the principal axes of\nthe rough hand in ˜H and the mutual position of ﬁngers and\nforearm with respect to the isolated palm, the information\nprovided by the palm detection is exploited to cut the hand\nregion by the wrist, obtaining the ﬁnal segmented hand region\nH (as in Fig. 3f).\n5 Hand-pose recognition\nWhen the objective is to distinguish among many non-trivial\nposes (as those belonging to the ASL alphabet shown in\nFig. 4), a representative set of features for describing the\nhand shape is needed. The hand-pose features we use are\nbased on Gabor ﬁltering of the depth image, while the learn-\ning and classiﬁcation stage of the hand pose is performed by\na SVM classiﬁer, as shown in Fig. 2b. Operations of feature"
+    },
+    {
+        "chunk_id": 37,
+        "source": "paper39",
+        "text": "based on Gabor ﬁltering of the depth image, while the learn-\ning and classiﬁcation stage of the hand pose is performed by\na SVM classiﬁer, as shown in Fig. 2b. Operations of feature\nextraction are fastened by restricting the processing to the\nsmall region identiﬁed by the minimum bounding box that\nfully encloses the hand depth image.\n5.1 Gabor features\nThe application of Gabor ﬁlters with different frequencies\nand orientations allows to reveal local patterns in images.\nTheir use in image analysis is supported by the fact that they\nmodel the response of the receptive ﬁelds of the orientation-\nselective simple cells in the human visual cortex [6]. In 2D-\nimages a Gabor ﬁlter is a Gaussian kernel function modulated\nFig. 4 ASL ﬁnger-spelling alphabet (reproduced from [3])\n123"
+    },
+    {
+        "chunk_id": 38,
+        "source": "paper39",
+        "text": "XKin: an open source framework\n1113\nFig. 5 System set-up in a real-time scenario. In the bottom-left corner,\nthe number corresponding to the currently performed hand-pose (in this\ncase number ‘3’) is shown\nby a sinusoidal plane wave, that is,\ng(x, y, λ, θ, ϕ) = exp\n\u0002\n−x′2 + y′2\n2σ 2\n\u0003\ncos\n\u00022πx′\nλ\n+ ϕ\n\u0003\n,\n(3)\nwhere 1/λ is the spatial frequency, ϕ the initial phase, x′ =\nx cos θ + y sin θ, y′ = −x sin θ + y cos θ, where θ is the\norientation. Note that the spatial frequency and the variance\nσ 2 are not completely independent: in our experiments we\nuse σ = 0.56λ (corresponding to bandwidth b = 1, see [6]\nfor details).\nIn order to extract the local patterns in the image, a ﬁl-\nter bank consisting of Gabor ﬁlters with various scales and\nrotations is created with a procedure similar to [28], but per-\nformed only on depth information. Starting from the isolated\nhand in image H, the hand bounding box with the depth\ndata is resized to 128 × 128 and convolved with a bank of"
+    },
+    {
+        "chunk_id": 39,
+        "source": "paper39",
+        "text": "formed only on depth information. Starting from the isolated\nhand in image H, the hand bounding box with the depth\ndata is resized to 128 × 128 and convolved with a bank of\nGabor ﬁlters at four scales (s = 1/2, 1/4, 1/8, 1/16) and\nfour orientations (θ = 0, π/4, π/2, 3π/4). Filter responses\nare then averaged by 8 × 8 overlapping Gaussian functions\npositioned on the 16 resulting images on a regular grid to\nobtain the resulting feature vector of 1,024 elements used for\nclassiﬁcation.\n5.2 SVM classiﬁcation\nHand-pose recognition is performed using a SVM classiﬁer.\nSince the system is supposed to work in a real-time scenario,\nthe classiﬁed hand-pose is determined as the most recur-\nrent pose within a classiﬁcation sliding window on temporal\nframes, which ensures the system performance even in the\nmost difﬁcult conditions, such as those with fast hand move-\nments or rapid pose changes. An example of the system setup\nin a real-time scenario is given in Fig. 5."
+    },
+    {
+        "chunk_id": 40,
+        "source": "paper39",
+        "text": "most difﬁcult conditions, such as those with fast hand move-\nments or rapid pose changes. An example of the system setup\nin a real-time scenario is given in Fig. 5.\nFor each hand-pose a multiclass SVM is trained on the\ncombined feature set using the one-against-one approach,\nthus creating the models for the classiﬁcation task. For each\nSVM, the penalty term C and parameter ξ of a standard RBF\nkernel K(x, y) = exp(−ξ∥x −y∥2) are obtained performing\ncross-validationonthetrainingsetviaaprocessofgridsearch\nto maximize cross-validation accuracy. The best couples\n( ˆC, ˆξ) are then used to learn the training sets and generate\nthe ﬁnal models.\n6 Hand-gesture recognition\nAn accurate hand-gesture classiﬁcation requires both a cor-\nrect temporal segmentation of the action and an accurate\nrecognition of hand trajectory. For what concerns the tempo-\nral segmentation, for each hand-gesture we look for the pres-\nence of a hold-movement-hold sequence: the three phonolog-"
+    },
+    {
+        "chunk_id": 41,
+        "source": "paper39",
+        "text": "recognition of hand trajectory. For what concerns the tempo-\nral segmentation, for each hand-gesture we look for the pres-\nence of a hold-movement-hold sequence: the three phonolog-\nical elements necessary to account for a gesture, according to\n[15].Therefore,whileinourpreviouswork[24]agesturewas\nincluded in the temporal interval between two speciﬁc poses\n(start and a stop-pose, respectively), in the proposed solution\ngesture segmentation is based on measures of motion activ-\nity. In order to evaluate recognition performance we adopt the\nset of 16 uni-stroke gesture types [40] shown in Fig. 6 and\nperform gesture classiﬁcation by means of Hidden Markov\nmodels working on trajectory angular features of the hand\ncentroid.\n6.1 Temporal segmentation\nAccording to the hold-movement-hold phonological seq-\nuence, we assume that a person interposes a punctuating\npause in the middle of two distinct gestures. The localization\nFig. 6 The set of 16 uni-stroke gestures used in several works, such as"
+    },
+    {
+        "chunk_id": 42,
+        "source": "paper39",
+        "text": "uence, we assume that a person interposes a punctuating\npause in the middle of two distinct gestures. The localization\nFig. 6 The set of 16 uni-stroke gestures used in several works, such as\nin the $1 system (reproduced from [40])\n123"
+    },
+    {
+        "chunk_id": 43,
+        "source": "paper39",
+        "text": "1114\nF. Pedersoli et al.\nof the temporal endpoints of a gesture relies on spotting the\npresence of local minima in the total activity of the sequence,\nas proposed by Le et al. [12]. With respect to other methods\nfor gesture segmentation based on the location of peaks of\nmotion activities [11], the adopted method which works on\ndepth data only, ensures higher performance (recall 94 %,\nprecision 98 % on CHALEARN dataset [10]).\n6.2 Trajectory description\nOnce the gesture has been segmented, we extract angular\nfeatures from the hand trajectory, intended as the sequence\nof points corresponding to the hand centroid in consecutive\nframes. However, if we regularly sample a real-time acquired\ngesture sequence, this is constituted by points that are not\nevenly distributed along the spatial trajectory. This is due to\nthe acceleration introduced by the user when performing a\ngesture that requires big changes of direction (e.g. for ges-"
+    },
+    {
+        "chunk_id": 44,
+        "source": "paper39",
+        "text": "evenly distributed along the spatial trajectory. This is due to\nthe acceleration introduced by the user when performing a\ngesture that requires big changes of direction (e.g. for ges-\ntures such as ‘triangle’, ‘delete’, etc. in Fig. 6). If we extracted\nangular features from one of these trajectories, feature val-\nues would not faithfully reﬂect the characteristics of the ideal\ngesture evolution. Therefore, a resampling step similar to that\nproposed in [40] ensures that the entire sequence of trajectory\npoints is resampled at equal distance.\nFrom the point sequence of the resampled hand trajec-\ntory, we extract two angular features which are invariant\nto position and scale. In fact, the trajectory itself, if taken\nas a sequence of points corresponding to the hand centroid\n{(xt, yt), t = 0, 1, . . . , T −1} in consecutive samples, does\nnot satisfy the property of invariance to translation and scale.\nThe ﬁrst proposed feature is given by the sequence of"
+    },
+    {
+        "chunk_id": 45,
+        "source": "paper39",
+        "text": "{(xt, yt), t = 0, 1, . . . , T −1} in consecutive samples, does\nnot satisfy the property of invariance to translation and scale.\nThe ﬁrst proposed feature is given by the sequence of\nangular variations between the hand centroid in consecutive\nsamples, as shown in Fig. 7.\nBy computing from the sequence of T centroids the\nsequence of (T −1) angles between consecutive couples\nTrajectory (xt,yt)\nhold\nhold\nmovement\nFig. 7 An example of a gesture trajectory, characterized by a sequence\nhold-movement-hold and the angular variations θi\nof samples\nθt = atan2 (yt −yt−1, xt −xt−1)\nt = 1, 2, . . . , T −1 (4)\neach angle θt is quantized to a value θq among 16 possible\ndirections:\nθq = i ∈[1, 2, . . . , 16] if θt ∈\n\u00052πi\n16 , 2π(i + 1)\n16\n\u0006\n(5)\nso that the ﬁrst feature is ¯\b = [θq\n1 , θq\n2 , . . . , θq\nT −1]T. The\nsecond feature is deﬁned as the integral of the quantized angle\ndifferences:\nψt =\nt\u0007\ni=1\nθq\ni ,\nt = 1, 2, . . . , T −1,\n(6)\nwhich introduces a memory element in the trajectory descrip-"
+    },
+    {
+        "chunk_id": 46,
+        "source": "paper39",
+        "text": "T −1]T. The\nsecond feature is deﬁned as the integral of the quantized angle\ndifferences:\nψt =\nt\u0007\ni=1\nθq\ni ,\nt = 1, 2, . . . , T −1,\n(6)\nwhich introduces a memory element in the trajectory descrip-\ntion. As a result, the sequence of trajectory points is repre-\nsented by a two-dimensional feature vector in which each\nelement represents the angle and the summation of differ-\nence of all previous angles.\n6.3 Classiﬁcation by HMM\nThe classiﬁcation of a gesture trajectory is accomplished by\nmeans of hidden Markov models (HMM) [29]. These are\ndiscrete state-space stochastic models which work well for\ntemporally correlated data streams, where the observations\nare a probabilistic function of a hidden state. The idea in this\ncase is to break up a trajectory into different traits of homoge-\nnous motion direction, and model each trait by a different\nHMM state, so that the total number of HMM states corre-\nspondstothenumberofpeculiartraitsofthegesture.Possible"
+    },
+    {
+        "chunk_id": 47,
+        "source": "paper39",
+        "text": "nous motion direction, and model each trait by a different\nHMM state, so that the total number of HMM states corre-\nspondstothenumberofpeculiartraitsofthegesture.Possible\ntransitions from one state are towards the same state, if the\nhand trajectory endures in the same trait (with high proba-\nbility between consecutive frames), or towards the state that\ndescribes the next trait (with lower probability) in case of\nchanged direction. For example, imagining the trivial exam-\nple of a gesture that consists of a straight horizontal line, the\ntrajectory is made up of only one homogeneous trait, corre-\nsponding to a single-state HMM.\nDue to the fact that each gesture follows a deterministic\npath through the HMM states, this choice gives us the pos-\nsibility to model a trajectory in a way that does not depend\non the length of the sequence, allowing us to classify ges-\ntures with invariance with respect to the execution speed. In\nparticular, we model each gesture with a left–right hidden"
+    },
+    {
+        "chunk_id": 48,
+        "source": "paper39",
+        "text": "on the length of the sequence, allowing us to classify ges-\ntures with invariance with respect to the execution speed. In\nparticular, we model each gesture with a left–right hidden\nMarkov model \n = (A, b, π), endowed with the following\ndistributions:\n123"
+    },
+    {
+        "chunk_id": 49,
+        "source": "paper39",
+        "text": "XKin: an open source framework\n1115\n– the state transition probability distribution A is left–right\ninitialized:\nA =\n⎡\n⎢⎢⎢⎣\na\nb\nc\nd\n· · · e\n0\nf\ng\nh\n· · · i\n...\n...\n...\n...\nl\nm\n0\n0\n0\n0\n0\n1\n⎤\n⎥⎥⎥⎦,\n(7)\nand initial probability values are uniformly distributed\n(summing up to one);\n– the observation symbol distribution b is initially uni-\nformly distributed among all the possible observation\nsymbols, because the system is not aware of the trajec-\ntory direction that will be gestured;\n– the initial state distribution is uniformly distributed\namong all states.\nTo train the HMM, the Baum–Welch re-estimation algo-\nrithm [29] is applied. Classiﬁcation is ﬁnally performed\nby means of the forward algorithm [29] by evaluating the\nmaximum likelihood of an unknown hand-gesture sequence\nagainst all HMM models.\n7 Experimental results\nTo evaluate the performance of the proposed system, we have\ncarried out a series of experiments on both hand-pose and"
+    },
+    {
+        "chunk_id": 50,
+        "source": "paper39",
+        "text": "against all HMM models.\n7 Experimental results\nTo evaluate the performance of the proposed system, we have\ncarried out a series of experiments on both hand-pose and\nhand-gesture recognition. The ﬁrst test considers a hand-pose\nscenario of 24 different letters of the ASL dataset in [28], as\nthose shown in Fig. 4. With respect to hand-gesture recog-\nnition, the two performed experiments employ the 16 uni-\nstroke gestures used in [40] and shown in Fig. 6, which we\nanalyze in both single-user and multi-user scenario. We then\ncompare our recognition method on gestures against a geo-\nmetric template matcher named $1 on the same dataset [40].\nIn the last experiment, exploiting our uniﬁed framework for\nhand-pose and gesture classiﬁcation, we extend the recogni-\ntion capabilities on the whole ASL ﬁnger-spelling alphabet,\nthus including also letters ‘j’ and ‘z’, which involve motion\nand that were not challenged by previous work.\n7.1 Test I: Hand-pose recognition"
+    },
+    {
+        "chunk_id": 51,
+        "source": "paper39",
+        "text": "thus including also letters ‘j’ and ‘z’, which involve motion\nand that were not challenged by previous work.\n7.1 Test I: Hand-pose recognition\nIn order to compare the system capabilities against previ-\nous work, we carried out the following experiment on the\npublicly available ASL dataset used in [28]. It consists of\n65,000 depth and color hand images acquired from Kinect\nstream, corresponding to 24 of the 26 ASL letters (omitting\nnon-static letters ‘j’ and ‘z’) performed by ﬁve subjects, with\na good variety in size, background, and orientation. In our\nworkwekeeponlydepthimagesanddisregardthecolorones.\nPugeault et al. [28] report their results on this dataset using\nTable 1 Comparison of our method with the approach in [28]\nMethod\nData\n50 vs. 50 %\nCross-valid.\n[28]\nColor & depth\n75 %\n47 %\nOur\nDepth\n91 %\n56 %\nboth leave-one-subject-out cross-validation and using half of\nthe set for training and half for testing employing multi-class"
+    },
+    {
+        "chunk_id": 52,
+        "source": "paper39",
+        "text": "50 vs. 50 %\nCross-valid.\n[28]\nColor & depth\n75 %\n47 %\nOur\nDepth\n91 %\n56 %\nboth leave-one-subject-out cross-validation and using half of\nthe set for training and half for testing employing multi-class\nrandom forest classiﬁcation. Therefore, we similarly split the\nentire database randomly in training and testing using a ratio\nof 0.5, learning the models on the training part and classi-\nfying the testing half and then repeat the experiment using\nthe same cross-validation procedure. Obtained performance\nachieves 91 % of recognition rate for the half versus half\nsplit and 56 % for the leave-one-subject-out cross-validation,\nrespectively. A comparison of the proposed method based on\nGabor ﬁltering and SVM classiﬁer with the latter method is\nprovided in Table 1, showing the superiority of our presented\napproach. With respect to the work in [28], our better per-\nformance is probably justiﬁed by the fact that Pugeault et al.\ndo not operate background subtraction before the hand-pose"
+    },
+    {
+        "chunk_id": 53,
+        "source": "paper39",
+        "text": "approach. With respect to the work in [28], our better per-\nformance is probably justiﬁed by the fact that Pugeault et al.\ndo not operate background subtraction before the hand-pose\nclassiﬁcation stage.\nTable 2 details the confusion matrix for all letters using the\nproposed SVM radial classiﬁer. This shows that the most sig-\nniﬁcant amount of confusion comes from letters ‘o’ (87 %),\n‘s’ (83 %), ‘t’ (84 %), ‘u’ (86 %), while the most certain\nclasses are ‘b’ (96 %), ‘i’ (97 %), and ‘y’ (97 %).\nFor the purpose of comparison with other state-of-the-art\nmethods, we have also tested categorization performance on\nthe same database using the Random Forest Classiﬁer, as\nperformed in [11]. In this experiment we achieve a recog-\nnition rate of 79.0 % for the half–half conﬁguration, while\n[11] report 97.8 %. Regarding the performance using leave-\none-subject-out cross-validation we score a recognition rate\nof 46.0 %, while [11] reports 84.3 %. Per letter details can"
+    },
+    {
+        "chunk_id": 54,
+        "source": "paper39",
+        "text": "[11] report 97.8 %. Regarding the performance using leave-\none-subject-out cross-validation we score a recognition rate\nof 46.0 %, while [11] reports 84.3 %. Per letter details can\nbe inspected in the confusion matrix of Table 3, where deﬁ-\nnitely inferior performance with respect to those declared in\n[11] (and with respect to those obtained by our method) is\nprobably due to different choices in the classiﬁer parameter\nconﬁguration.\nLast, our proposed method, showing average recogni-\ntion accuracy (ARR) of 91 %, slightly outperforms the\napproach presented in [36], which employs a MESA SR4000\nTOF camera, average neighborhood margin maximization\n(ANMM) on segmented hand depth images, and declares an\nARR of 88 %, even if on a different database.\n7.1.1 Limitations\nLike all classiﬁers, our proposed pose-recognizer has lim-\nitations. First the candidate hand-pose is compared against\npreviously trained SVM classes. Therefore, if the user per-\n123"
+    },
+    {
+        "chunk_id": 55,
+        "source": "paper39",
+        "text": "1116\nF. Pedersoli et al.\nTable 2 Confusion matrix for the ASL letter classiﬁcation task using SVM radial ( ˆC = 10, ˆξ = 0.001) on the dataset [28] with 24 letters and ﬁve\nsubjects\na\nb\nc\nd\ne\nf\ng\nh\ni\nk\nl\nm\nn\no\np\nq\nr\ns\nt\nu\nv\nw\nx\ny\na\n0.90\n0.02 0.02\nb\n0.96\nc\n0.91\n0.02\n0.02\nd\n0.90\n0.02\ne\n0.03\n0.90\nf\n0.94\n0.03\ng\n0.91 0.03\nh\n0.95\ni\n0.97\nk\n0.89\n0.04\nl\n0.94\nm\n0.90\n0.02\nn\n0.05 0.88\n0.02\no\n0.03\n0.87\np\n0.90 0.04\nq\n0.07 0.88\nr\n0.91\n0.03\ns\n.03\n0.04\n0.83 0.04\nt\n0.03\n0.03 0.03\n0.05 0.84\nu\n0.06\n0.86 0.07\nv\n0.04 0.91\nw\n0.02 0.93\nx\n0.02\n0.02\n0.90\ny\n0.97\nforms an unknown hand-pose, the system will anyway return\nthe most likely one. Second, the hand segmentation process\nis critical to the entire process. Despite our approach does not\nrequire any manual segmentation or aid by bracelets, gloves,\nmarkers or other invasive tool, any error in the palm detec-\ntion procedure inevitably harms the hand-pose classiﬁcation.\nThird, the selected features for hand-pose description are not"
+    },
+    {
+        "chunk_id": 56,
+        "source": "paper39",
+        "text": "markers or other invasive tool, any error in the palm detec-\ntion procedure inevitably harms the hand-pose classiﬁcation.\nThird, the selected features for hand-pose description are not\nrotation invariant. Last, in real-time pose classiﬁcation, the\noptimal choice of the parameters such as the length of the\nsliding window on frames used for classiﬁcation, and the\nrelated delay for returning the classiﬁcation result in a usable\ninteractive interface, still needs an accurate investigation.\n7.2 Test II: Hand-gesture recognition\nTo test the hand-gesture classiﬁer, ten users are asked to per-\nform the 16 gestures in Fig. 6 ten times each, using indiffer-\nently his/her right or left hand. Having ten users performing\n160 gestures each, this results in a total amount of 1,600 ges-\ntures available for classiﬁcation, showing high variability in\nhand-writing style among users.\nTable 4 shows the confusion matrix by using for each\ngesture a half versus half split of the database, therefore, in"
+    },
+    {
+        "chunk_id": 57,
+        "source": "paper39",
+        "text": "hand-writing style among users.\nTable 4 shows the confusion matrix by using for each\ngesture a half versus half split of the database, therefore, in\na multi-user scenario (i.e. using a unique training set for all\nusers).\nInspecting Table 4, it is noticeable that among the 16 ges-\ntures there are at least ﬁve classes which are above 90 %\nof recognition rates (i.e. ‘triangle’, ‘rectangle’, ‘caret’, ‘]’,\n‘star’), while 3 gestures are far from being acceptable, since\nbelow the level of 50 % of recognition rates, that are ‘check’,\n‘[’, and ‘{’. While it was easily predictable that simple uni-\nstroke gestures such as ‘triangle’, ‘rectangle’, ‘caret’ would\ncorrespond to the most certain classes, the high recognition\nrate on the ‘star’ gesture is probably due to the fact that no\nother signs is characterized by such a high number of traits (5)\nalong different directions. Conversely, it looks rather pecu-\nliar that while class ‘]’ has a high recognition rate (93 %), its"
+    },
+    {
+        "chunk_id": 58,
+        "source": "paper39",
+        "text": "other signs is characterized by such a high number of traits (5)\nalong different directions. Conversely, it looks rather pecu-\nliar that while class ‘]’ has a high recognition rate (93 %), its\ncounterpart class ‘[’ performs so badly (33 %).\nTable 5 shows instead the confusion matrix obtained\nwhen each user trains the classiﬁer with his/her own train-\ning sequences (single-user scenario), averaged on all users.\nIn particular we adopted a leave-one-out procedure for each\nuser gesture, thus using nine of the ten recorded sequences\n123"
+    },
+    {
+        "chunk_id": 59,
+        "source": "paper39",
+        "text": "XKin: an open source framework\n1117\nTable 3 Confusion matrix for the ASL letter classiﬁcation task using a Random Forest Classiﬁer on the dataset [28] with 24 letters and ﬁve subjects\na\nb\nc\nd\ne\nf\ng\nh\ni\nk\nl\nm\nn\no\np\nq\nr\ns\nt\nu\nv\nw\nx\ny\na\n0.81\n0.04\n0.02 0.03\nb\n0.89\n0.02\n0.02\nc\n0.83\n0.03\n0.04\nd\n0.83\n0.02\n0.02\n0.03\ne\n0.03 0.02 0.77\n0.05\n0.02\n0.02\nf\n0.03 0.02\n0.87\n0.02\ng\n0.87 0.06\nh\n0.02 0.92\ni\n0.91\nk\n0.73\n0.04\n0.03 0.07\n0.02\nl\n0.93\nm 0.06\n0.68 0.08 0.03\n0.02 0.04\nn\n0.04\n0.14 0.65\n0.02 0.04\no\n0.04\n0.02\n0.76\n0.02\n0.03\np\n0.021\n0.02 0.03\n0.76 0.05\n0.02\n0.02\nq\n0.02 0.04\n0.08 0.74\nr\n0.05\n0.04\n0.04\n0.73\n0.05 0.02\ns\n0.05\n0.02\n0.02\n0.04\n0.03\n0.73 0.04\nt\n0.07\n0.07 0.14 0.03\n0.05 0.57\nu\n0.03\n0.10\n0.74 0.08\nv\n0.03\n0.02\n0.02\n0.06 0.76 0.02\nw\n0.05\n0.07 0.79\nx\n0.03\n0.02\n0.79\ny\n0.02\n0.88\nas training sequences, and the remaining one as test set, and\nrepeating the procedure for all sequences.\nInspecting Table 5, we can observe that the confusion on"
+    },
+    {
+        "chunk_id": 60,
+        "source": "paper39",
+        "text": "x\n0.03\n0.02\n0.79\ny\n0.02\n0.88\nas training sequences, and the remaining one as test set, and\nrepeating the procedure for all sequences.\nInspecting Table 5, we can observe that the confusion on\nthe least recognized gestures in Table 4 is mitigated in case\nof the single-user scenario, i.e. when users operate a person-\nalized training on each gesture. In fact, out of the three ges-\ntures below the level of 50 % of recognition rates, (‘check’,\n‘[’ and ‘{’) only ‘{’ is still below 50 %, while the other two\nhave considerably increased their recognition rates: ‘check’\nfrom 33 to 58 % (+25 %) , and ‘[’ from 33 to 54 % (+21 %).\nOther considerable improvements (>10 %) are reported for\ngestures ‘x’ (+15 %), ‘arrow’ (+30 %). Conversely, gesture\n‘}’ which in Table 4 scored 67 % has now fallen under 50 %\n(46 %), which we admit is still far from being acceptable\neven for a prototype gesture classiﬁer. One possible reason\nhas to be found in the dimensions of the training set which, in"
+    },
+    {
+        "chunk_id": 61,
+        "source": "paper39",
+        "text": "(46 %), which we admit is still far from being acceptable\neven for a prototype gesture classiﬁer. One possible reason\nhas to be found in the dimensions of the training set which, in\ncase of personalized learning, are considerably smaller with\nrespect to the training samples in the multi-user scenario (i.e.\n9 samples only, instead of 80 in the half versus half conﬁgu-\nration).\nFinally, we compared our HMM-based gesture classiﬁer\nwith a geometric template matcher named $1 [40], which is a\npopular uni-stroke recognizer previously used in HCI, which\nis supposed to outperform other gesture classiﬁers (such as\nDTW [8,18], and the Rubine classiﬁer [33]). In particular,\nwe integrated the code of $1 classiﬁer (available here [34])\nin our framework, thus replacing our hand-gesture classiﬁer.\nAs training set, $1 needs only one template for each of the 16\nuni-stroke gestures. Using the same test set as in our multi-\nuser scenario, we obtained with $1 classiﬁer the confusion"
+    },
+    {
+        "chunk_id": 62,
+        "source": "paper39",
+        "text": "As training set, $1 needs only one template for each of the 16\nuni-stroke gestures. Using the same test set as in our multi-\nuser scenario, we obtained with $1 classiﬁer the confusion\nmatrix reported in Table 6.\nInspecting Table 6, it is possible to observe that among the\n16 gestures there are only 3 classes which are above 90 % of\nrecognition rates (i.e. ‘rectangle’, ‘circle’, ‘star’), while 11\ngestures are far from being acceptable, since being below the\nlevel of 50 % of recognition rates. By comparing our HMM-\nbased method (in Table 4) and the $1 classiﬁer (in Table 6)\non the same multi-user scenario, our proposed hand-gesture\nclassiﬁer outperforms $1 matcher on 14 of the 16 uni-stroke\ngestures. Although $1 is a popular and fast system, the last\ntest shows that this approach has some important limitations.\nBeside the inherent weakness of using a single template, $1\nworks on the “raw” sequence of points, without representing"
+    },
+    {
+        "chunk_id": 63,
+        "source": "paper39",
+        "text": "test shows that this approach has some important limitations.\nBeside the inherent weakness of using a single template, $1\nworks on the “raw” sequence of points, without representing\nit in a feature space. Thus the similarity measure is pretty\nsimple, since it depends only on the geometrical similarity\nbetween the sequence and the template. Second, the non-\nuniform scaling of gesture to a squared area can strongly\nalter the gesture appearance.\n123"
+    },
+    {
+        "chunk_id": 64,
+        "source": "paper39",
+        "text": "1118\nF. Pedersoli et al.\nTable 4 Confusion matrix for the gesture classiﬁcation task using angular features and HMM on the dataset with 16 uni-stroke gestures as in [40]\nin the multi-user scenario (one training set for all users)\n1\n2\n3\n4\n5\n6\n7\n8\n9\n10\n11\n12\n13\n14\n15\n16\n1\n1.0\n2\n0.83\n0.17\n3\n1.0\n4\n0.27\n0.57\n0.17\n5\n0.33\n0.30\n0.07\n0.30\n6\n0.07\n0.90\n0.03\n7\n0.07\n0.60\n0.10\n0.23\n8\n0.03\n0.53\n0.30\n0.13\n9\n0.10\n0.13\n0.33\n0.43\n10\n0.93\n0.07\n11\n0.03\n0.17\n0.80\n12\n0.20\n0.73\n0.07\n13\n0.17\n0.17\n0.30\n0.37\n14\n0.27\n0.03\n0.03\n0.67\n15\n1.0\n16\n0.10\n0.17\n0.03\n0.70\nTable 5 Confusion matrix for the gesture classiﬁcation task using angular features and HMM on the dataset with 16 uni-stroke gestures as in [40]\nin the single-user scenario (personalized training set deﬁned by each users)\n1\n2\n3\n4\n5\n6\n7\n8\n9\n10\n11\n12\n13\n14\n15\n16\n1\n0.97\n0.03\n2\n0.98\n0.01\n0.02\n3\n0.98\n0.01\n0.01\n4\n0.22\n0.66\n0.09\n0.03\n5\n0.02\n0.58\n0.14\n0.01\n0.05\n0.15\n0.02\n0.03\n6\n.06\n0.66\n0.20\n0.08\n7\n0.52\n.02\n0.02\n0.02\n0.05\n0.38\n8\n0.09\n0.02\n0.83\n0.05\n0.02\n9\n0.02"
+    },
+    {
+        "chunk_id": 65,
+        "source": "paper39",
+        "text": "16\n1\n0.97\n0.03\n2\n0.98\n0.01\n0.02\n3\n0.98\n0.01\n0.01\n4\n0.22\n0.66\n0.09\n0.03\n5\n0.02\n0.58\n0.14\n0.01\n0.05\n0.15\n0.02\n0.03\n6\n.06\n0.66\n0.20\n0.08\n7\n0.52\n.02\n0.02\n0.02\n0.05\n0.38\n8\n0.09\n0.02\n0.83\n0.05\n0.02\n9\n0.02\n0.19\n0.54\n0.25\n10\n0.98\n0.02\n11\n0.10\n0.01\n0.01\n0.78\n0.10\n12\n0.07\n0.02\n0.40\n0.50\n0.02\n13\n0.24\n0.01\n0.22\n0.17\n0.36\n14\n0.06\n0.46\n0.01\n0.02\n0.46\n15\n0.03\n0.15\n0.79\n0.02\n16\n0.10\n0.02\n0.21\n0.05\n0.03\n0.02\n0.01\n0.56\n7.2.1 Limitations\nLike all classiﬁers, our proposed gesture recognizer has\ninherent limitations. First the candidate gestures are com-\npared to previously stored models, and the result produced is\nthe one that maximizes the likelihood score. Therefore, if the\nuser performs an unknown gesture, the system will anyway\nreturn the most likely one. Second, because of the resampling\nprocedure, gestures cannot be differentiated on the basis of\nthe hand speed while gesturing.\n7.3 Test III: Whole ASL alphabet\nAs a novel contribution, exploiting our uniﬁed framework for"
+    },
+    {
+        "chunk_id": 66,
+        "source": "paper39",
+        "text": "procedure, gestures cannot be differentiated on the basis of\nthe hand speed while gesturing.\n7.3 Test III: Whole ASL alphabet\nAs a novel contribution, exploiting our uniﬁed framework for\nhand-pose and gesture classiﬁcation, we extend the recog-\nnition capabilities to the whole ASL ﬁnger-spelling alpha-\n123"
+    },
+    {
+        "chunk_id": 67,
+        "source": "paper39",
+        "text": "XKin: an open source framework\n1119\nTable 6 Confusion matrix for the gesture classiﬁcation task using $1 system classiﬁer [40]\n1\n2\n3\n4\n5\n6\n7\n8\n9\n10\n11\n12\n13\n14\n15\n16\n1\n0.86\n0.02\n0.10\n0.02\n2\n0.34\n0.06\n0.08\n0.02\n0.02\n0.14\n0.02\n0.32\n3\n0.98\n0.02\n4\n1.0\n5\n0.10\n0.02\n0.68\n0.02\n0.02\n0.04\n0.06\n0.06\n6\n0.22\n0.78\n7\n0.02\n0.86\n0.12\n8\n0.06\n0.20\n0.74\n9\n0.02\n0.90\n0.06\n0.02\n10\n0.02\n0.90\n0.08\n11\n0.86\n0.04\n0.10\n12\n0.02\n0.54\n0.44\n13\n0.16\n0.04\n0.26\n0.06\n0.32\n0.04\n0.12\n14\n0.02\n0.02\n0.04\n0.22\n0.04\n0.02\n0.54\n0.06\n0.04\n15\n0.02\n0.98\n16\n0.02\n0.02\n0.78\n0.18\nTable 7 Average recognition rates (ARR) for motion-involving ASL\nletters ‘j’ and ‘z’\nASL\nARR\nj\n0.87\nz\n1.0\nbet, thus proposing speciﬁc classiﬁers for letters ‘j’ and ‘z’,\nwhich involve motion and that were not challenged by previ-\nous work. This extension is possible by running simultane-\nously both hand-pose and gesture recognition modules, and\nby switching from pose to gesture recognition by means of\na simple motion activated mechanism which uses two cut-"
+    },
+    {
+        "chunk_id": 68,
+        "source": "paper39",
+        "text": "ously both hand-pose and gesture recognition modules, and\nby switching from pose to gesture recognition by means of\na simple motion activated mechanism which uses two cut-\noff thresholds in a twin-comparison fashion [41]. Doing so,\nASL letter ‘j’ is recognizable by the initial presence of a ‘j’\nhand-pose (which is the same as for letter ‘i’) followed by a\n‘j’-letter related trajectory. Similarly, ASL letter ‘z’ is recog-\nnized as a combination of an initial ‘z’ hand-pose (which is\nthe same as for letter ‘d’) and the following ‘z’ related tra-\njectory. To test the ‘j’ and ‘z’ classiﬁers, the same ten users\nof the previous test (non-native to ASL) are asked to perform\nthe 2 letters ‘j’ and ‘z’, ten times each. Having ten users per-\nforming 20 letters each, this results in a total amount of 200\nletters available for classiﬁcation. Table 7 illustrates the aver-\nage recognition accuracy for ASL ‘j’ and ‘z’ by using a half\nversus half database conﬁguration in a multi-user scenario."
+    },
+    {
+        "chunk_id": 69,
+        "source": "paper39",
+        "text": "letters available for classiﬁcation. Table 7 illustrates the aver-\nage recognition accuracy for ASL ‘j’ and ‘z’ by using a half\nversus half database conﬁguration in a multi-user scenario.\n7.3.1 Limitations\nWith respect to the previous experiment, lower performance\nin recognition of letter ‘j’ are probably due to inter-user dif-\nferences in performing the sign, especially because the initial\npose rapidly changes during the trajectory evolution with a\nhand rotation movement.\nFull ASL alphabet recognition (including ‘j’ and ‘z’) is\nfurther complicated in real-time usage by a severe synchro-\nnization issue, due to the fact that both hand-pose and gesture\nclassiﬁer are concurrently running. As an effect, ambiguities\nmight arise for example in the interpretation of a punctuating\npause (i.e. a ‘still’ posture) which can be both classiﬁed with\nthe associated hand-pose, or exploited by the gesture classi-\nﬁer to spot a temporal endpoint of a gesture. This synchro-"
+    },
+    {
+        "chunk_id": 70,
+        "source": "paper39",
+        "text": "pause (i.e. a ‘still’ posture) which can be both classiﬁed with\nthe associated hand-pose, or exploited by the gesture classi-\nﬁer to spot a temporal endpoint of a gesture. This synchro-\nnization problem is partially mitigated by the use of a twin-\ncomparison method [41], which employs a double thresh-\nold mechanism (i.e. two distinct thresholds to be satisﬁed at\nthe same time: one on frame difference and another on the\naccumulated frame difference) in order to activate the ges-\nture recognition module. Another limitation due to synchro-\nnization is the need to delay the classiﬁcation output until\nmotion triggers (or inhibits) the gesture classiﬁer for solv-\ning the ambiguities between letter couples “i, j”, and “z, d”\n(which both share the same pose, and are only distinguished\nby the following motion trajectory).\n8 Conclusions\nWe have here developed the ﬁrst open source package for\nKinect sensor device which targets both hand-pose and ges-"
+    },
+    {
+        "chunk_id": 71,
+        "source": "paper39",
+        "text": "by the following motion trajectory).\n8 Conclusions\nWe have here developed the ﬁrst open source package for\nKinect sensor device which targets both hand-pose and ges-\nture recognition. By relying only on depth information, we\nhave created an accurate, real-time, and adaptable solution\nfor empowering natural interaction with computer devices,\nwhich enables recognition on full ASL ﬁnger-spelling alpha-\nbet and a rich set of 16 uni-stroke gestures. Beyond these two\n123"
+    },
+    {
+        "chunk_id": 72,
+        "source": "paper39",
+        "text": "1120\nF. Pedersoli et al.\nsets of recognizable hand movements, the developed frame-\nwork also allows the user to deﬁne and train the system with\nhis/her own set of hand poses and gestures. This solution\nrespects the come-as-you-are paradigm of interaction, not\nrequiring the user to wear markers, gloves, or long sleeves.\nThe accuracy and robustness of recognition have been tested\nacross many users and compared with other state-of-the-\nart solutions using publicly available datasets. The overall\nhigh performance and robustness of hand-pose recognition\n(average recognition rates above 90 % on 24 poses), and\nhand-gesture classiﬁcation (average recognition rates above\n70 % on 16 gestures) allow to open up to promising capabil-\nities in the design of innovative natural interaction applica-\ntions. Moreover, the provided libraries represent a complete\nnovelty in the open source community since similar appli-\ncations do not exist so far even under the form of propri-"
+    },
+    {
+        "chunk_id": 73,
+        "source": "paper39",
+        "text": "tions. Moreover, the provided libraries represent a complete\nnovelty in the open source community since similar appli-\ncations do not exist so far even under the form of propri-\netary software solutions. By making available the developed\nAPI under FreeBSD License, we encourage contributions\nfrom other researchers and developers in building an open\nand effective system for empowering natural modalities of\nhuman–machine interaction. Further research attempts will\nbe devoted to extend the current approach to accurate full-\nbody gesture, to learn and recognize human activity and face\nchallenging data such as those in CHALEARN set [9].\nReferences\n1. 3Gear systems: Gestural user interfaces. http://www.threegear.\ncom/ (2013)\n2. American sign language. http://en.wikipedia.org/wiki/American\nLanguage (2013)\n3. Gibson Hasbrouck & Associates. http://www.gha-pd.com/ (2013)\n4. Biswas, K., Basu, S.: Gesture recognition using Microsoft\nKinectTM. In: 2011 5th International Conference on Automation,"
+    },
+    {
+        "chunk_id": 74,
+        "source": "paper39",
+        "text": "3. Gibson Hasbrouck & Associates. http://www.gha-pd.com/ (2013)\n4. Biswas, K., Basu, S.: Gesture recognition using Microsoft\nKinectTM. In: 2011 5th International Conference on Automation,\nRobotics and Applications (ICARA), pp. 100–103 (2011). doi:10.\n1109/ICARA.2011.6144864\n5. Comaniciu, D., Meer, P.: Mean shift: a robust approach toward\nfeature space analysis. IEEE Trans. Pattern Anal. Mach. Intell.\n24(5), 603–619 (2002). doi:10.1109/34.1000236\n6. Daugman, J.G.: Uncertainty relation for resolution in space, spatial\nfrequency, and orientation optimized by two-dimensional visual\ncortical ﬁlters. J. Opt. Soc. Am. A Opt. Image Sci. Vis. 2(7), 1160–\n1169 (1985)\n7. Doliotis, P., Athitsos, V., Kosmopoulos, D.I., Perantonis, S.J.: Hand\nshape and 3d pose estimation using depth data from a single clut-\ntered frame. In: Bebis, G., Boyle, R., Parvin, B., Koracin, D.,\nFowlkes, C., Wang, S., Choi, M.H., Mantler, S., Schulze, J.P.,\nAcevedo, D., Mueller, K., Papka, M.E. (eds.) International Sym-"
+    },
+    {
+        "chunk_id": 75,
+        "source": "paper39",
+        "text": "tered frame. In: Bebis, G., Boyle, R., Parvin, B., Koracin, D.,\nFowlkes, C., Wang, S., Choi, M.H., Mantler, S., Schulze, J.P.,\nAcevedo, D., Mueller, K., Papka, M.E. (eds.) International Sym-\nposium on Visual Computing (ISVC). Springer, Springer (2012)\n8. Doliotis, P., Stefan, A., McMurrough, C., Eckhard, D., Athitsos,\nV.: Comparing gesture recognition accuracy using color and depth\ninformation. In: Proceedings of the 4th International Conference\non Pervasive Technologies Related to Assistive Environments,\nPETRA ’11, pp. 20:1–20:7. ACM (2011). doi:10.1145/2141622.\n2141647\n9. Escalera, S., Gonzlez, J., Bar, X., Reyes, M., Lopes, O., Guyon, I.,\nAthitsos, V., Escalante, H.: Multi-modal gesture recognition chal-\nlenge 2013: Dataset and results. In: Proceedings of the 15th ACM\non International Conference on Multimodal Interaction, p. 445452\n(2013). http://dl.acm.org/citation.cfm?id=2532595\n10. Guyon, I., Athitsos, V., Jangyodsuk, P., Hamner, B., Escalante, H.:"
+    },
+    {
+        "chunk_id": 76,
+        "source": "paper39",
+        "text": "on International Conference on Multimodal Interaction, p. 445452\n(2013). http://dl.acm.org/citation.cfm?id=2532595\n10. Guyon, I., Athitsos, V., Jangyodsuk, P., Hamner, B., Escalante, H.:\nChalearn gesture challenge: Design and ﬁrst results. In: 2012 IEEE\nComputer Society Conference on Computer Vision and Pattern\nRecognition Workshops (CVPRW), pp. 1–6 (2012) doi:10.1109/\nCVPRW.2012.6239178\n11. Keskin, C., Kirac, F., Kara, Y., Akarun, L.: Hand pose estima-\ntion and hand shape classiﬁcation using multi-layered randomized\ndecision forests. In: ECCV12, pp. VI: 852–863 (2012)\n12. Le, T.L., Nguyen, V.N., Tran, T.T.H., Nguyen, V.T., Nguyen, T.T.:\nTemporal gesture segmentation for recognition. In: 2013 Inter-\nnational Conference on Computing, Management and Telecom-\nmunications (ComManTel), pp. 369–373 (2013). doi:10.1109/\nComManTel.6482422\n13. Li, Y.: Hand gesture recognition using Kinect. In: 2012 IEEE 3rd\nInternationalConferenceonSoftwareEngineeringandServiceSci-"
+    },
+    {
+        "chunk_id": 77,
+        "source": "paper39",
+        "text": "ComManTel.6482422\n13. Li, Y.: Hand gesture recognition using Kinect. In: 2012 IEEE 3rd\nInternationalConferenceonSoftwareEngineeringandServiceSci-\nence (ICSESS), pp. 196–199 (2012). doi:10.1109/ICSESS.2012.\n6269439\n14. Liang, H., Yuan, J., Thalmann, D., Zhang, Z.: Model-based hand\npose estimation via spatial-temporal hand parsing and 3D ﬁngertip\nlocalization. Vis. Comput. 29(6–8), 837–848 (2013). doi:10.1007/\ns00371-013-0822-4\n15. Liddel, S., Johnson, R.E.: American sign language—compound\nformation processes, lexicalization, and phonological remnants.\nNat. Lang. Ling. Theory 4, 445–513 (1986)\n16. Microsoft Kinect for Windows. http://www.microsoft.com/en-us/\nkinectforwindows (2013)\n17. Mihail, R.P., Jacobs, N., Goldsmith, J.: Real time gesture recogni-\ntion with 2 Kinect sensors. In: International Conference on Image\nProcessing, Computer Vision, and Pattern Recognition (IPCV)\n(2012)\n18. Myers, C.S., Rabiner, L.R.: Comparative Study of several dynamic"
+    },
+    {
+        "chunk_id": 78,
+        "source": "paper39",
+        "text": "Processing, Computer Vision, and Pattern Recognition (IPCV)\n(2012)\n18. Myers, C.S., Rabiner, L.R.: Comparative Study of several dynamic\ntime-warping algorithms for connected-word recognition. Bell\nSyst. Tech. J. 60(7) (1981)\n19. Oikonomidis, I., Kyriazis, N., Argyros, A.: Efﬁcient model-based\n3D tracking of hand articulations using Kinect. In: British Machine\nVision Conference, pp. 101.1-101.11. British Machine Vision\nAssociation (2011). doi:10.5244/C.25.101\n20. Libfreenect. http://openkinect.org (2013)\n21. Standard framework for 3D sensing. http://www.openni.org (2013)\n22. Otsu, N.: A threshold selection method from gray-level histograms.\nIEEE Trans. Syst. Man Cybern. 9(1), 62–66 (1979)\n23. Pedersoli, F.: XKin libraries. https://github.com/fpeder/XKin\n(2013)\n24. Pedersoli, F., Adami, N., Benini, S., Leonardi, R.: XKin - eXtend-\nable hand pose and gesture recognition library for Kinect. In: Pro-\nceedings of ACM Conference on Multimedia 2012—Open Source\nCompetition, Nara (2012)"
+    },
+    {
+        "chunk_id": 79,
+        "source": "paper39",
+        "text": "able hand pose and gesture recognition library for Kinect. In: Pro-\nceedings of ACM Conference on Multimedia 2012—Open Source\nCompetition, Nara (2012)\n25. Peris, M., Fukui, K.: Both-hand gesture recognition based on\nkomsm with volume subspaces for robot teleoperation. In: IEEE-\nCyber (2012)\n26. PrimeSense: NiTE. http://www.primesense.com/nite (2013)\n27. PrimeSense: sensing and natural interaction. http://www.prime\nsense.com (2013)\n28. Pugeault, N., Bowden, R.: Spelling it out: real-time asl ﬁnger-\nspelling recognition. IEEE International Conference on Computer\nVision Workshops, ICCV, vol. 2011, pp. 1114–1119 (2011)\n29. Rabiner, L.R.: A tutorial on hidden Markov models and selected\napplications in speech recognition. Proc IEEE 77(2), 257–286\n(1989). doi:10.1109/5.18626\n30. Ren, Z., Meng, J., Yuan, J., Zhang, Z.: Robust hand gesture recog-\nnition with Kinect sensor. In: Proceedings of the 19th ACM inter-\nnational conference on Multimedia, MM ’11, pp. 759–760. ACM"
+    },
+    {
+        "chunk_id": 80,
+        "source": "paper39",
+        "text": "30. Ren, Z., Meng, J., Yuan, J., Zhang, Z.: Robust hand gesture recog-\nnition with Kinect sensor. In: Proceedings of the 19th ACM inter-\nnational conference on Multimedia, MM ’11, pp. 759–760. ACM\n(2011). doi:10.1145/2072298.2072443\n123"
+    },
+    {
+        "chunk_id": 81,
+        "source": "paper39",
+        "text": "XKin: an open source framework\n1121\n31. Ren, Z., Yuan, J., Meng, J., Zhang, Z.: Robust part-based hand\ngesture recognition using kinect sensor. IEEE Trans. Multimedia\n15(5), 1110–1120 (2013). doi:10.1109/TMM.2013.2246148\n32. Robot Operating System. http://www.ros.org/wiki/ (2013)\n33. Rubine, D.: Specifying gestures by example. SIGGRAPH Comput.\nGraph. 25(4), 329–337 (1991). doi:10.1145/127719.122753\n34. $1 Unistroke Recognizer. http://depts.washington.edu/aimgroup/\nproj/dollar/ (2013)\n35. Shotton, J., Fitzgibbon, A., Cook, M., Sharp, T., Finocchio, M.,\nMoore, R., Kipman, A., Blake, A.: Real-time human pose recogni-\ntion in parts from single depth images. In: Proceedings of the 2011\nIEEE Conference on Computer Vision and Pattern Recognition,\nCVPR ’11, pp. 1297–1304. IEEE Computer Society, Washington,\nDC, USA (2011). doi:10.1109/CVPR.2011.5995316\n36. Uebersax, D., Gall, J., den Bergh, M.V., Gool, L.J.V.: Real-time\nsign language letter and word recognition from depth data. IEEE"
+    },
+    {
+        "chunk_id": 82,
+        "source": "paper39",
+        "text": "DC, USA (2011). doi:10.1109/CVPR.2011.5995316\n36. Uebersax, D., Gall, J., den Bergh, M.V., Gool, L.J.V.: Real-time\nsign language letter and word recognition from depth data. IEEE\nInternational Conference on Computer Vision Workshops, ICCV,\nvol. 2011, pp. 383–390 (2011)\n37. Wachs, J.P., Kölsch, M., Stern, H., Edan, Y.: Vision-based hand-\ngesture applications. Commun. ACM 54(2), 60–71 (2011). doi:10.\n1145/1897816.1897838\n38. Wan, T., Wang, Y., Li, J.: Hand gesture recognition system using\ndepth data. In: Consumer Electronics, Communications and Net-\nworks (CECNet), 2012 2nd International Conference on, pp. 1063–\n1066 (2012). doi:10.1109/CECNet.6201837\n39. Wang, R., Paris, S., Popovi´c, J.: 6d hands: markerless hand-tracking\nfor computer aided design. In: Proceedings of the 24th Annual\nACM Symposium on User Interface Software and Technology,\nUIST ’11, pp. 549–558. ACM, New York (2011). doi:10.1145/\n2047196.2047269\n40. Wobbrock, J.O., Wilson, A.D., Li, Y.: Gestures without libraries,"
+    },
+    {
+        "chunk_id": 83,
+        "source": "paper39",
+        "text": "UIST ’11, pp. 549–558. ACM, New York (2011). doi:10.1145/\n2047196.2047269\n40. Wobbrock, J.O., Wilson, A.D., Li, Y.: Gestures without libraries,\ntoolkits or training: a $1 recognizer for user interface prototypes.\nIn: Proceedings of the 20th Annual ACM Symposium on User\nInterface Software and Technology, UIST 07, pp. 159–168. ACM,\nNew York (2007). doi:10.1145/1294211.1294238\n41. Zhang, H.J., Kankanhalli, A., Smoliar, S.: Automatic partitioning\nof full-motion video. Multimedia Syst. 1(1), 10–28 (1993). doi:10.\n1007/BF01210504\nFabrizio Pedersoli received his\nM.Sc. in Telecommunications\nEngineering in 2012 at the Uni-\nversity of Brescia with a thesis\nwhich won a prize granted by an\nItalian Academy of Science. He\nis currently a Ph.D. candidate in\nthe same university working on\ngesture recognition by means of\nRGB-D devices.\nSergio\nBenini\nwas\nborn\nin\nVerona, Italy. He has received\nhis M.Sc. degree in Electronic\nEngineering (cum laude) at the\nUniversity of Brescia in 2000"
+    },
+    {
+        "chunk_id": 84,
+        "source": "paper39",
+        "text": "gesture recognition by means of\nRGB-D devices.\nSergio\nBenini\nwas\nborn\nin\nVerona, Italy. He has received\nhis M.Sc. degree in Electronic\nEngineering (cum laude) at the\nUniversity of Brescia in 2000\nwith a thesis which won a prize\ngranted by Italian Academy of\nScience. Between May 2001 and\nMay 2003 he has been work-\ning in Siemens Mobile Commu-\nnication R&D, on mobile net-\nwork management projects. He\nreceived his Ph.D. degree in\nInformation Engineering from\ntheUniversityofBresciain2006,\nworking on video content analysis. During his Ph.D. studies, between\nSeptember 2003 and September 2004 he has conducted a placement\nin British Telecom Research, Ipswich, UK working in the “Content &\nCoding Lab”. He is currently an Assistant Professor in the Telecommu-\nnications group of DII at the University of Brescia, Italy.\nNicola\nAdami\nreceived\nthe\ndegree in Electronic Engineer-\ning from University of Brescia\nin 1998 and his Ph.D. degree in\n2002, respectively. Since 2004"
+    },
+    {
+        "chunk_id": 85,
+        "source": "paper39",
+        "text": "Nicola\nAdami\nreceived\nthe\ndegree in Electronic Engineer-\ning from University of Brescia\nin 1998 and his Ph.D. degree in\n2002, respectively. Since 2004\nhe has been assistant professor\nat University of Brescia, Italy,\nworking in Telecommunications\narea. His main research interests\ncover the ﬁeld of digital signal\nprocessing, with speciﬁc exper-\ntise on multimedia content-based\nanalysis and scalable image and\nvideo coding. His teaching activ-\nities focus mainly on Image\nProcessing and Digital Communications. He has been involved in the\ndevelopment of innovative techniques for automatic indexing of video\nsequences and models for content descriptions and representation of\naudiovisual documents. He also studied and developed a wavelet-based\ntechniques for scalable video coding. Nicola is also working on high\ndynamic image coding.\n123"
+    },
+    {
+        "chunk_id": 86,
+        "source": "paper39",
+        "text": "1122\nF. Pedersoli et al.\nRiccardo Leonardi has obtained\nhis Diploma (1984) and Ph.D.\n(1987)\ndegrees\nin\nElectrical\nEngineering from the Swiss Fed-\neral Institute of Technology in\nLausanne. He spent one year\n(1987–1988) as a post-doctoral\nfellow\nwith\nthe\nInformation\nResearch Laboratory at the Uni-\nversity of California, Santa Bar-\nbara (USA). From 1988 to 1991,\nhe was a Member of Technical\nStaff at AT&T Bell Laboratories,\nperforming research activities on\nimage communication systems.\nIn 1991, he returned brieﬂy to the Swiss Federal Institute of Tech-\nnology in Lausanne to coordinate the research activities of the Signal\nProcessing Laboratory. Since February 1992, he has been appointed at\nthe University of Brescia to lead research and teaching in the ﬁeld of\nTelecommunications. His main research interests cover the ﬁeld of Dig-\nital Signal Processing applications, with a speciﬁc expertise on visual\ncommunications, and content-based analysis of audio-visual informa-"
+    },
+    {
+        "chunk_id": 87,
+        "source": "paper39",
+        "text": "ital Signal Processing applications, with a speciﬁc expertise on visual\ncommunications, and content-based analysis of audio-visual informa-\ntion. He has published more than 100 papers on these topics. Since\n1997, he acts also as an evaluator and auditor for the European Union\nIST and COST programmes.\n123"
+    }
+]

@@ -1,0 +1,382 @@
+[
+    {
+        "chunk_id": 1,
+        "source": "paper28",
+        "text": "Received September 30, 2020, accepted October 8, 2020, date of publication October 19, 2020, date of current version November 2, 2020.\nDigital Object Identifier 10.1109/ACCESS.2020.3032140\nDeep Learning-Based Approach for Sign\nLanguage Gesture Recognition With\nEfficient Hand Gesture Representation\nMUNEER AL-HAMMADI\n1,2, (Member, IEEE),\nGHULAM MUHAMMAD\n1,2, (Senior Member, IEEE), WADOOD ABDUL1,2, (Member, IEEE),\nMANSOUR ALSULAIMAN1,2, MOHAMMED A. BENCHERIF1,2, TAREQ S. ALRAYES3, HASSAN\nMATHKOUR2,4, AND MOHAMED AMINE MEKHTICHE2\n1Department of Computer Engineering, College of Computer and Information Sciences, King Saud University, Riyadh 11543, Saudi Arabia\n2Center of Smart Robotics Research, College of Computer and Information Sciences, King Saud University, Riyadh 11543, Saudi Arabia\n3Department of Special Education, College of Education, King Saud University, Riyadh 11543, Saudi Arabia"
+    },
+    {
+        "chunk_id": 2,
+        "source": "paper28",
+        "text": "3Department of Special Education, College of Education, King Saud University, Riyadh 11543, Saudi Arabia\n4Department of Computer Science, College of Computer and Information Sciences, King Saud University, Riyadh 11543, Saudi Arabia\nCorresponding author: Ghulam Muhammad (ghulam@ksu.edu.sa)\nThis research project was funded by the Targeted Research Grant Program - The National Transformation Program in King Abdulaziz City\nfor Science and Technology - Kingdom of Saudi Arabia - Grant No. 5-18-03-001-0003.\nABSTRACT Hand gesture recognition is an attractive research ﬁeld with a wide range of applications,\nincluding video games and telesurgery techniques. Another important application of hand gesture recognition\nis the translation of sign language, which is a complicated structured form of hand gestures. In sign\nlanguage, the ﬁngers’ conﬁguration, the hand’s orientation, and the hand’s relative position to the body"
+    },
+    {
+        "chunk_id": 3,
+        "source": "paper28",
+        "text": "language, the ﬁngers’ conﬁguration, the hand’s orientation, and the hand’s relative position to the body\nare the primitives of structured expressions. The importance of hand gesture recognition has increased\ndue to the prevalence of touchless applications and the rapid growth of the hearing-impaired population.\nHowever, developing an efﬁcient recognition system needs to overcome the challenges of hand segmentation,\nlocal hand shape representation, global body conﬁguration representation, and gesture sequence modeling.\nIn this paper, a novel system is proposed for dynamic hand gesture recognition using multiple deep\nlearning architectures for hand segmentation, local and global feature representations, and sequence feature\nglobalization and recognition. The proposed system is evaluated on a very challenging dataset, which consists\nof 40 dynamic hand gestures performed by 40 subjects in an uncontrolled environment. The results show"
+    },
+    {
+        "chunk_id": 4,
+        "source": "paper28",
+        "text": "of 40 dynamic hand gestures performed by 40 subjects in an uncontrolled environment. The results show\nthat the proposed system outperforms state-of-the-art approaches, demonstrating its effectiveness.\nINDEX TERMS 3DCNN, hand gesture recognition, hand segmentation, deep learning, computer vision,\nsign language recognition.\nI. INTRODUCTION\nHand gesture recognition is the ﬁrst step for a computer to\nunderstand human body language. It plays a pivotal role in\na wide range of human-computer interaction (HCI) applica-\ntions such as smart TV control, video games, telesurgery,\nand virtual reality [1]. Sign language translation is one of\nthe most important applications of hand gesture recognition.\nThe hand gestures involved in sign language are structured\nin a very complex way as they convey important human\ncommunication information and feelings. The primitives of\nthese manual expressions are the global conﬁguration (the\nhand’s orientation and its relative position to the body) and the"
+    },
+    {
+        "chunk_id": 5,
+        "source": "paper28",
+        "text": "communication information and feelings. The primitives of\nthese manual expressions are the global conﬁguration (the\nhand’s orientation and its relative position to the body) and the\nlocal ﬁngers’ conﬁguration. An efﬁcient recognition system\nThe associate editor coordinating the review of this manuscript and\napproving it for publication was Mostafa M. Fouda\n.\nshould consider all these complementary primitives in a\nsequence of frames. However, the time dependence of these\nframes makes it difﬁcult to directly compare the primitives\nin Euclidean space. Most of the existing recognition systems\nonly consider the local conﬁguration of the hand. These sys-\ntems either receive a segmented hand region as input or per-\nform a hand segmentation preprocessing step using skin color\nmodels or colored gloves [2]–[10]. However, such systems\nperform well only for gestures involving simple alphabets and\nnumbers, which slightly rely on the global conﬁguration, but\nnot for real sign language gestures."
+    },
+    {
+        "chunk_id": 6,
+        "source": "paper28",
+        "text": "perform well only for gestures involving simple alphabets and\nnumbers, which slightly rely on the global conﬁguration, but\nnot for real sign language gestures.\nOther existing systems ignore the local conﬁguration of\nthe ﬁngers and consider only the global body conﬁguration.\nThese systems have been successful for some HCI applica-\ntions with a small number of simple and well-deﬁned gestures\nbut have failed for real sign language gesture recognition [11].\nVOLUME 8, 2020\nThis work is licensed under a Creative Commons Attribution 4.0 License. For more information, see https://creativecommons.org/licenses/by/4.0/\n192527"
+    },
+    {
+        "chunk_id": 7,
+        "source": "paper28",
+        "text": "M. Al-Hammadi et al.: Deep Learning-Based Approach for Sign Language Gesture Recognition\nTraditionally, dynamic hand gesture recognition systems\nuse different techniques to extract handcrafted features fol-\nlowed by a sequence modeling technique such as a hid-\nden Markov model (HMM). However, the recent success\nof deep learning techniques in image classiﬁcation, object\nrecognition, speech recognition, and human activity recog-\nnition [12]–[14] has encouraged many researchers to exploit\nthem for hand gesture recognition. For example, convolu-\ntional neural networks (CNN) have been widely used for\nlearning visual features in computer vision.\nOn the other hand, a 3D convolutional neural network\n(3DCNN) has been used for video modeling, which is an\nextended version of standard CNNs that uses spatiotempo-\nral ﬁlters. This architecture has been explored previously\nin several video analysis ﬁelds for spatiotemporal feature\nrepresentation; e.g., [15]–[18]. The most important charac-"
+    },
+    {
+        "chunk_id": 8,
+        "source": "paper28",
+        "text": "ral ﬁlters. This architecture has been explored previously\nin several video analysis ﬁelds for spatiotemporal feature\nrepresentation; e.g., [15]–[18]. The most important charac-\nteristic of 3DCNN is its ability to directly create hierarchical\nrepresentations of spatiotemporal data. However, it requires\nmore parameters than 2DCNN, which is one of its disadvan-\ntages. Moreover, 3DCNN has an additional kernel dimension,\nwhich makes it harder to train. Hence, instead of training a\n3DCNN from scratch, using domain adaptation on pretrained\ninstances is preferred.\nIn a previous hand gesture recognition work [19],\nwe implemented a variation of the C3D architecture [17] and\nused knowledge transfer from human action recognition to\nhand gesture recognition. The C3D architecture comprises\neight convolutional layers, ﬁve pooling layers, and two fully\nconnected (FC) layers. However, even though we obtained\nencouraging results in that work, we noticed that the direct"
+    },
+    {
+        "chunk_id": 9,
+        "source": "paper28",
+        "text": "eight convolutional layers, ﬁve pooling layers, and two fully\nconnected (FC) layers. However, even though we obtained\nencouraging results in that work, we noticed that the direct\napplication of 3DCNN for hand gesture modeling has two\nmain drawbacks. Firstly, 3DCNN modeling is not robust\nenough to capture the long-term temporal dependence of\nthe hand gesture signal. Secondly, modeling the hand ges-\nture signal in a video should be slightly different than other\nvideo-based analysis for human activity recognition or event\nrecognition in general. For the latter case, the whole scene and\nmaybe multiple interacting objects in the frame are involved\ndiscriminative descriptors for the overall recognition. In con-\ntrast, the discriminative features in hand gesture recognition\nare located mainly in the ﬁngers’ conﬁguration, the hand’s\norientation, and the hand’s relative position to the body.\nIn other words, most of the frame area contains non-relevant"
+    },
+    {
+        "chunk_id": 10,
+        "source": "paper28",
+        "text": "are located mainly in the ﬁngers’ conﬁguration, the hand’s\norientation, and the hand’s relative position to the body.\nIn other words, most of the frame area contains non-relevant\nfeatures that increase the misclassiﬁcation ratio. In another\nwork, we addressed the ﬁrst mentioned drawback of mod-\neling the long-term temporal dependence [20] by using\nindependent instances of 3DCNN to model the local spa-\ntiotemporal features of different temporal segments. We also\nexplored different techniques to globalize the local repre-\nsentations. Our experimental results showed that using tem-\nporal modeling enhancement can improve the performance\nof the 3DCNN model. In this study, we address the second\ndrawback by using both the local and global conﬁgurations\nof the hand gesture while giving more attention to the ﬁn-\ngers’ conﬁguration and eliminating the most non-relevant\nfeatures.\nThe contributions of the paper are as follows:\n(1) Optimizing the level of C3D architecture knowledge"
+    },
+    {
+        "chunk_id": 11,
+        "source": "paper28",
+        "text": "gers’ conﬁguration and eliminating the most non-relevant\nfeatures.\nThe contributions of the paper are as follows:\n(1) Optimizing the level of C3D architecture knowledge\ntransfer between human activity recognition and hand\ngesture recognition.\n(2) Presenting a hand gesture recognition system based on\nan optimized C3D architecture. The proposed system\nuses local and global conﬁgurations efﬁciently with\nmore attention to the hand region.\n(3) Presenting a novel method for hand segmentation based\non the openpose framework.\n(4) Optimizing two architectures for local features aggre-\ngation.\nThe rest of this paper is organized as follows. Section II\nreviews related works on hand gesture recognition. Section III\ndescribes our dataset. Section IV presents the proposed sys-\ntem. Section V discusses the experimental results. Finally,\nSection VI concludes the paper.\nII. RELATED WORK\nDuring the last three decades, several works have been\nconducted to tackle hand gesture recognition. Most works"
+    },
+    {
+        "chunk_id": 12,
+        "source": "paper28",
+        "text": "Section VI concludes the paper.\nII. RELATED WORK\nDuring the last three decades, several works have been\nconducted to tackle hand gesture recognition. Most works\nhave followed two approaches: a vision-based approach\nand a non-vision-based approach. In the non-vision-based\napproach, hand gesture data are collected via interfacing\ndevices such as data gloves, motion sensors, and position\ntrackers [21]–[25]. However, the hardware setup of this\napproach is costly and is inconvenient because it restricts\nthe signer’s movement. On the other hand, the vision-based\napproach overcomes these downsides by collecting the data\nvia cameras and imaging sensors. However, research works\nusing this approach have encountered many challenges that\ndegrade the performance of existing systems such as lighting\ninconsistency, motion blur, background clutter, and hands\nocclusion. Moreover, studies using the vision-based approach\ncan be classiﬁed into two categories: conventional tech-"
+    },
+    {
+        "chunk_id": 13,
+        "source": "paper28",
+        "text": "inconsistency, motion blur, background clutter, and hands\nocclusion. Moreover, studies using the vision-based approach\ncan be classiﬁed into two categories: conventional tech-\nniques (e.g., [2]–[9] and [26]–[33]) and deep learning-based\ntechniques (e.g., [10], [11], and [34]–[41]).\nThe paper by Murakami et al. is one of the earliest papers in\nthe ﬁeld [26]. In that paper, they used an artiﬁcial neural net-\nwork (ANN) to recognize 42 alphabets of the Japanese sign\nlanguage. The ANN was also used with data gloves to recog-\nnize isolated words of the American sign language (ASL) in\ntwo stages, i.e., phonemic and word recognition, but it was\nevaluated on a relatively limited lexicon [2]. Another robust\nmethod based on ANN classiﬁer and skin color segmentation\nwas recently presented for recognizing Thai alphabets [3].\nThe histogram of oriented gradient (HOG) was used in this\napproach to represent the segmented hand shape. In another"
+    },
+    {
+        "chunk_id": 14,
+        "source": "paper28",
+        "text": "was recently presented for recognizing Thai alphabets [3].\nThe histogram of oriented gradient (HOG) was used in this\napproach to represent the segmented hand shape. In another\nwork, skin color was used for hand region segmentation [4].\nThe segmented hand motion trajectory was then modeled by\na time-delay neural network to recognize 40 ASL words.\nHMMs, on the other hand, were extensively used for hand\ngesture recognition. For example, Starner et al. proposed\nHMMs to recognize sentence-level continuous ASL [5],\nwhere the skin color was used for hand segmentation. They\nused a lexicon of 40 words to construct the test sentences.\n192528\nVOLUME 8, 2020"
+    },
+    {
+        "chunk_id": 15,
+        "source": "paper28",
+        "text": "M. Al-Hammadi et al.: Deep Learning-Based Approach for Sign Language Gesture Recognition\nOther HMM-based methods used different combinations of\nprincipal component analysis, kurtosis position, and motion\nchain code descriptors [27]. The best accuracy was achieved\non the RWTH-BOSTON-50 database by combining the three\ndescriptors. Killy et al. used a single HMM for each hand\nwith colored gloves for hand segmentation and tracking [6]\nand they evaluated their method using a small dataset of eight\ngestures. Pu et al. also used HMMs to model the segmented\ntrajectory of hand gesture for 100 Chinese sign words [28].\nThe trajectory segments were represented as histograms of\nshape context. In another work proposed by Li et al., an\nentropy-based K-means was used to evaluate the number\nof states in each HMM model [29]. A combination of the\nBaum-Welch algorithm and the artiﬁcial bee colony algo-\nrithm was used to determine and learn the structure of HMM."
+    },
+    {
+        "chunk_id": 16,
+        "source": "paper28",
+        "text": "of states in each HMM model [29]. A combination of the\nBaum-Welch algorithm and the artiﬁcial bee colony algo-\nrithm was used to determine and learn the structure of HMM.\nRecently, Yang et al. classiﬁed the hand gesture trajectory\nof ASL in a hierarchical way to generate a sequence of\nobservations [30]. HMMs were then applied to model and\nclassify the sequences.\nAn SVM classiﬁer was also used for recognizing the Irish\nsign language [7] and ASL [31]. A skin color model was\nused in [7] for hand segmentation and a combination of\nweight eigenspace size function and Hu moments was used\nto represent the hand shape. On the other hand, the ﬁngertips’\ncoordinates collected by Leap Motion and Intel RealSense 3D\ncameras were used in [31]. In another work, Aly et al. used\nSVM to recognize 23 Arabic sign language words [32]. They\nproposed a local binary pattern in three orthogonal planes\nto represent the appearance and motion features of signs."
+    },
+    {
+        "chunk_id": 17,
+        "source": "paper28",
+        "text": "SVM to recognize 23 Arabic sign language words [32]. They\nproposed a local binary pattern in three orthogonal planes\nto represent the appearance and motion features of signs.\nThe proposed method in [8] used particle ﬁltering for hand\ntracking. Feature covariance matrix and the minimum Rie-\nmann distance metric were then used on the detected hand for\nrepresentation and classiﬁcation. Lim et al. used sparse obser-\nvations from a video of RGB-D frames [9], where the skin\ncolor and depth maps were used for hand segmentation and\nthe HOG was used for posture representation. The similarity\nbetween the postures of different samples was then measured.\nAbid et al. used bag-of-visual words with a local part model\napproach to recognize six simple dynamic gestures [33].\nRecently, deep neural network architectures, such as CNN\nand long short-term memory (LSTM) network, have been\nused for hand gesture recognition. For example, Huang et al.\nused CNN and ANN for the representation and classiﬁcation"
+    },
+    {
+        "chunk_id": 18,
+        "source": "paper28",
+        "text": "and long short-term memory (LSTM) network, have been\nused for hand gesture recognition. For example, Huang et al.\nused CNN and ANN for the representation and classiﬁcation\nof 20 Italian gestures [34]. To perform well, this method\nrequires a multimodality input, which includes the RGB\nframes, the depth maps, and the skeleton joints. Similarly,\nLionel et al. investigated temporal convolutions with bidirec-\ntional recurrence for gesture recognition in the Montalbano\ndataset [35]. Another deep learning architecture was pro-\nposed for ASL hand posture recognition [36], where the depth\ndata were used for segmenting the hand region and the deep\nbelief neural network and CNN were used for feature learn-\ning and classiﬁcation. Another recent approach proposed by\nOkan et al. involved the fusion of optical ﬂow and RGB\nframes to adapt the pretrained inception model for hand ges-\nture recognition [37]. Another CNN-based architecture was\nFIGURE 1. Sample frames from the KSU-SSL dataset."
+    },
+    {
+        "chunk_id": 19,
+        "source": "paper28",
+        "text": "frames to adapt the pretrained inception model for hand ges-\nture recognition [37]. Another CNN-based architecture was\nFIGURE 1. Sample frames from the KSU-SSL dataset.\nproposed in [10] for static hand gesture recognition. The input\nto this architecture was a small image with a size of 32 × 32\nthat contains only the hand region. A CNN and an LSTM\nwere combined for temporal 3D pose gesture recognition\n[38], where the input frames contain the 3D joints of the\nhuman body. Furthermore, in [39], two streams of 3DCNN\nwere presented for gesture recognition. The inputs for the\ntwo streams were interleaved volumes of depth maps and\npreprocessed Sobel gradient with different resolutions. The\nResNet architecture was used by Chen et al. for encod-\ning the features of frames’ sequence in a single 2D matrix\n[40]. Then, another CNN was used to capture the evolution\nof the spatiotemporal features for classiﬁcation. Recently,\nHu et al. used the skeletal data of hand gestures to design"
+    },
+    {
+        "chunk_id": 20,
+        "source": "paper28",
+        "text": "[40]. Then, another CNN was used to capture the evolution\nof the spatiotemporal features for classiﬁcation. Recently,\nHu et al. used the skeletal data of hand gestures to design\na deep learning-based control system for unmanned aerial\nvehicles [11]. Both CNN and different multilayer perceptron\n(MLP) architectures were investigated for feature learning.\nAnother recent work for Arabic sign language recognition\nused semantic segmentation for detecting the hand [41].\nUnsupervised learning via convolutional self-organizing map\nwas then applied for feature extraction and a bidirectional\nLSTM was used for sequence modeling.\nThe proposed system in this study is based on a single\nmodality input (RGB video) and does not require other\nmodalities such as the depth maps or skeleton joints. It also\ncombines both the local and global conﬁgurations of hand\ngestures.\nIII. KSU-SSL DATASET\nOur experiments were conducted on the King Saud Univer-\nsity Saudi Sign Language (KSU-SSL) dataset reported in"
+    },
+    {
+        "chunk_id": 21,
+        "source": "paper28",
+        "text": "combines both the local and global conﬁgurations of hand\ngestures.\nIII. KSU-SSL DATASET\nOur experiments were conducted on the King Saud Univer-\nsity Saudi Sign Language (KSU-SSL) dataset reported in\n[20]. The dataset contains isolated words and phrases from\ncommon expressions in the SSL dictionary. The dataset was\nrecorded by 40 participants over ﬁve recording sessions.\nSome of the participants are deaf and some are well trained\nby sign language experts. The recorded gestures are listed in\nAppendix I. Sample frames from the dataset are illustrated\nin FIGURE 1. There was no restriction on the recording\nVOLUME 8, 2020\n192529"
+    },
+    {
+        "chunk_id": 22,
+        "source": "paper28",
+        "text": "M. Al-Hammadi et al.: Deep Learning-Based Approach for Sign Language Gesture Recognition\nFIGURE 2. Proposed system for hand gesture recognition using local and global configuration features.\nbackground, participants clothes or lighting conditions. The\nKSU-SSL dataset exhibits high variations in illumination and\nparticipants’ clothes, position, scale, and gesturing speed.\nIV. PROPOSED SYSTEM\nConsider a set of M training video samples {xi, yi}M\ni=1 of\nvariable duration ti such that xi is the ith sample in the set\nand yi is the corresponding label vector. This label vector is\nof length K, where K is the number of targeted gesture classes.\nOne-hot encoding in a multiclass setup sets each vector ele-\nment to one if the corresponding class is present, otherwise,\nit is set to zero. FIGURE 2 illustrates the proposed system.\nIt consists of three main phases: input preprocessing, fea-\nture learning and feature fusion, and classiﬁcation. In the next"
+    },
+    {
+        "chunk_id": 23,
+        "source": "paper28",
+        "text": "it is set to zero. FIGURE 2 illustrates the proposed system.\nIt consists of three main phases: input preprocessing, fea-\nture learning and feature fusion, and classiﬁcation. In the next\nsubsections, we discuss the details of the different phases.\nA. INPUT PREPROCESSING\nThe input videos are converted into sequences of RGB frames\nof different lengths. Then, linear sampling is used for tem-\nporal dimension normalization, where only 16 frames are\nlinearly selected from each video sequence.\nThis temporal normalization step for the input can be\nachieved by different techniques such as the bag-of-visual\nwords. These techniques are very efﬁcient when the sequence\norder is of low importance for discrimination such as in\nvideo event and human action recognition. For hand gesture\nrecognition, the sequence order should be preserved because\nit encodes highly discriminative features; hence, linear sam-\npling is the preferred technique to be used. Two cropping and"
+    },
+    {
+        "chunk_id": 24,
+        "source": "paper28",
+        "text": "recognition, the sequence order should be preserved because\nit encodes highly discriminative features; hence, linear sam-\npling is the preferred technique to be used. Two cropping and\nnormalization methods are then performed simultaneously on\nthe selected frames. The ﬁrst method locates the signer’s face\nusing the Viola and Jones algorithm [42]. Then, the gesture\nspace is estimated and cropped in each frame based on the\ndetected facial length and body parts ratios information [43].\nEach frame is resized to a ﬁxed size of 112×112 pixels while\npreserving the aspect ratio.\nThis method outputs a sequence XB ∈R112×112×3×16\nof 16 frames, where each frame includes the entire gesture\nspace.\nIn addition to avoid the effects of the variations of the\nsigner’s height and distance from the camera, this spatial\nnormalization and cropping reduce the effects of nonrelevant\nfeatures in each frame. The second method, on the other hand,\ncrops and normalizes the hand region to focus more on the"
+    },
+    {
+        "chunk_id": 25,
+        "source": "paper28",
+        "text": "normalization and cropping reduce the effects of nonrelevant\nfeatures in each frame. The second method, on the other hand,\ncrops and normalizes the hand region to focus more on the\nﬁngers’ conﬁguration.\nHAND CROPPING AND NORMALIZATION\nThis method uses an open-source real-time human pose\nestimation framework called openpose, which is a deep\nlearning-based framework for detecting the 2D key points\nof each individual in an image. This framework improves\nthe\nmachine\nunderstanding\nof\nhuman\nactivity\nin\nan\nimage or video sequence [44]. It takes as an input an RGB\nimage and returns as an output a list of (x, y) coordinates for\nall human body key points. FIGURE 3 illustrates the upper\nbody openpose key points. From the whole list of returned key\npoints, only the wrist and elbow joints are used for cropping\nthe hand region.\nFor instance, the vector from the elbow joint (xe, ye) to the\nwrist joint (xw, yw) indicates the arm axis. Based on the arm"
+    },
+    {
+        "chunk_id": 26,
+        "source": "paper28",
+        "text": "the hand region.\nFor instance, the vector from the elbow joint (xe, ye) to the\nwrist joint (xw, yw) indicates the arm axis. Based on the arm\naxis direction, we propose an efﬁcient method to estimate a\nsmall square region around the hand to be cropped. The length\nof this square region is equal to the absolute value of the\ndistance between the wrist and the elbow joints as in Error!\nReference source not found.):\nlength =\nq\n(xw −xe)2 + (yw −ye)2\n(1)\n192530\nVOLUME 8, 2020"
+    },
+    {
+        "chunk_id": 27,
+        "source": "paper28",
+        "text": "M. Al-Hammadi et al.: Deep Learning-Based Approach for Sign Language Gesture Recognition\nFIGURE 3. Upper body openpose key points.\nFIGURE 4. Estimated hand directions.\nThe proposed method estimates the hand orientation to one\nof the nine basic directions illustrated in FIGURE 4. These\ndirections are:\n1- The hand axis is perpendicular to the frame’s plane\npointing at the camera.\n2- The hand axis is vertical pointing up.\n3- The hand axis is diagonal pointing to the top right.\n4- The hand axis is horizontal pointing to the right.\n5- The hand axis is diagonal pointing to the bottom right.\n6- The hand axis is vertical pointing down.\n7- The hand axis is diagonal pointing to the bottom left.\n8- The hand axis is horizontal pointing to the left.\n9- The hand axis is diagonal pointing to the top left.\nThe calculation steps for estimating the top left (xB, yB)\npoint and the bottom right (xE, yE) point of the square\nregion to be cropped are summarized in Algorithm 1 in"
+    },
+    {
+        "chunk_id": 28,
+        "source": "paper28",
+        "text": "The calculation steps for estimating the top left (xB, yB)\npoint and the bottom right (xE, yE) point of the square\nregion to be cropped are summarized in Algorithm 1 in\nthe Appendix II. The cropped hand region is then resized\nFIGURE 5. Hand direction estimation.\nFIGURE 6. Estimating the middle point and cropped region.\nto 112 × 112 pixels. The horizontal and vertical distances\nbetween the wrist and the elbow joints (X difference and Y\ndifference) are illustrated in FIGURE 5. Based on these two\nvalues, the hand direction, and as a result, the square region\nto be cropped can be estimated as follows:\ni. If both the horizontal and vertical distances are\nnegligible (i.e., less than α), the two joints are nearly\nidentical. In other words, the hand axis is perpen-\ndicular to the frame’s plane (case 1 in FIGURE 4).\nHence, the cropped region is centered on the wrist\njoint. We have found that an appropriate value for α\nis 40 pixels.\nii. If only the horizontal distance is negligible (i.e., less"
+    },
+    {
+        "chunk_id": 29,
+        "source": "paper28",
+        "text": "Hence, the cropped region is centered on the wrist\njoint. We have found that an appropriate value for α\nis 40 pixels.\nii. If only the horizontal distance is negligible (i.e., less\nthan α), the hand axis is nearly vertical. The vertical\ncoordinates of the wrist and elbow joints are used to\nVOLUME 8, 2020\n192531"
+    },
+    {
+        "chunk_id": 30,
+        "source": "paper28",
+        "text": "M. Al-Hammadi et al.: Deep Learning-Based Approach for Sign Language Gesture Recognition\nFIGURE 7. Effect of the number of trainable layers on the efficiency of knowledge transfer.\nFIGURE 8. Heat map shows the system accuracy in the searched space of the MLP hyperparameters, where the darkest color is the highest\naccuracy and the lightest color is the lowest accuracy.\nFIGURE 9. Average accuracy of all architectures with different initial\nlearning rates.\nindicate the direction of the axis. If the wrist joint is\nvertically less than the elbow joint, then the direction\nis up (case 2 in FIGURE 4). Hence, the lower border\nof the cropped region will pass through the wrist joint.\nTo avoid inaccuracies, the cropped region is shifted\nFIGURE 10. Behavior of the optimal MLP architecture in the signer\nindependent mode.\ndown by a small value of ε. On the other hand, if the\nwrist joint is vertically greater than the elbow joint,\nthen the direction is down (case 6 in FIGURE 4)."
+    },
+    {
+        "chunk_id": 31,
+        "source": "paper28",
+        "text": "independent mode.\ndown by a small value of ε. On the other hand, if the\nwrist joint is vertically greater than the elbow joint,\nthen the direction is down (case 6 in FIGURE 4).\nHence, the upper border of the cropped region will\npass through the wrist joint. To avoid inaccuracies,\nthe cropped region is shifted up by a small value of ε.\n192532\nVOLUME 8, 2020"
+    },
+    {
+        "chunk_id": 32,
+        "source": "paper28",
+        "text": "M. Al-Hammadi et al.: Deep Learning-Based Approach for Sign Language Gesture Recognition\nFIGURE 11. Confusion matrix of MLP two streams fusion in the signer-independent mode.\niii. If only the vertical distance is negligible (i.e., less\nthan α), the hand axis is nearly horizontal. The horizon-\ntal coordinates of the wrist and elbow joints are used to\nindicate the direction of the axis.\nIf the wrist joint is horizontally less than the elbow\njoint, then the direction is to the left (case 8 in\nFIGURE 4). Hence, the right border of the cropped\nregion will pass through the wrist joint. To avoid inac-\ncuracies, the cropped region is shifted to the right by a\nsmall value of ε. On the other hand, if the wrist joint is\nhorizontally greater than the elbow joint, then the direc-\ntion is to the right (case 4 in FIGURE 4). Hence, the left\nborder of the cropped region will pass through the\nwrist joint. To avoid inaccuracies, the cropped region\nis shifted to the left by a small value of ε."
+    },
+    {
+        "chunk_id": 33,
+        "source": "paper28",
+        "text": "border of the cropped region will pass through the\nwrist joint. To avoid inaccuracies, the cropped region\nis shifted to the left by a small value of ε.\niv. If both the horizontal and vertical distances are not\nnegligible (i.e., each of them is greater than α), the hand\naxis is nearly diagonal. Hence, there are four possible\ndirections for the hand axis, as shown in cases 3, 5,\n7, and 9 in FIGURE 4. In all these cases, a middle\npoint on the hand axis is estimated, as illustrated in\nFIGURE 6.\n• If the horizontal and vertical coordinates of the\nwrist joint are greater than those of the elbow joint,\nthe hand axis direction is down right. This is case 5\nin FIGURE 4. Hence, the estimated middle point is\nconsidered as the top left corner for the cropped region.\n• If the horizontal and vertical coordinates of the wrist\njoint are less than those of the elbow joint, the hand\naxis direction is top left. This is case 9 in FIGURE 4.\nHence, the estimated middle point is considered as the"
+    },
+    {
+        "chunk_id": 34,
+        "source": "paper28",
+        "text": "joint are less than those of the elbow joint, the hand\naxis direction is top left. This is case 9 in FIGURE 4.\nHence, the estimated middle point is considered as the\nbottom right corner for the cropped region.\n• If the vertical coordinate of the wrist joint is greater\nthan that of the elbow joint and the horizontal coordi-\nnate of the wrist joint is less than that of the elbow joint,\nthe hand axis direction is down left. This is case 7 in\nFIGURE 4. Hence, the estimated middle point is con-\nsidered as the top right corner for the cropped region.\n• Finally, If the vertical coordinate of the wrist joint is\nless than that of the elbow joint and the horizontal\ncoordinate of the wrist joint is greater than that of the\nelbow joint, the hand axis direction is top right. This is\ncase 3 in FIGURE 4. Hence, the estimated middle point\nis considered as the bottom left corner for the cropped\nregion, as depicted in FIGURE 6.\nThe preprocessing phase outputs two volumes per sample,"
+    },
+    {
+        "chunk_id": 35,
+        "source": "paper28",
+        "text": "case 3 in FIGURE 4. Hence, the estimated middle point\nis considered as the bottom left corner for the cropped\nregion, as depicted in FIGURE 6.\nThe preprocessing phase outputs two volumes per sample,\neach with a size of 112 × 112 × 3 × 16. These two volumes\nare delivered to the feature learning phase where one of them\nrepresents the entire gesture space and the other is dedicated\nto the hand region.\nVOLUME 8, 2020\n192533"
+    },
+    {
+        "chunk_id": 36,
+        "source": "paper28",
+        "text": "M. Al-Hammadi et al.: Deep Learning-Based Approach for Sign Language Gesture Recognition\nFIGURE 12. Confusion matrix of MLP two streams fusion in the signer-dependent mode.\nFIGURE 13. Heat map of the system accuracy in the searched space of the autoencoder hyperparameters, where the darkest color is the highest\naccuracy and the lightest color is the lowest accuracy.\nB. FEATURE LEARNING\nWe start with the pretrained C3D architecture with eight con-\nvolutional layers, ﬁve pooling layers, and two FC layers [17].\nThis model is already trained on the large-scale Sport-1M\nhuman action recognition dataset [13]. In domain adaptation\nlearning, the transferred knowledge has less impact as we\nmove toward the layers at the top of the model, especially\nwhen the source and target domains are far away from each\nother.\nHence, we replace the last block, which has two FC lay-\ners with each having 4096 neurons, with a new FC layer\nof 4096 neurons to reduce the training cost of the two FC lay-"
+    },
+    {
+        "chunk_id": 37,
+        "source": "paper28",
+        "text": "other.\nHence, we replace the last block, which has two FC lay-\ners with each having 4096 neurons, with a new FC layer\nof 4096 neurons to reduce the training cost of the two FC lay-\ners with an expansive number of parameters. Then, we opti-\nmize the level of knowledge transfer from the source domain\nto the target domain. This optimization step is detailed in the\nexperimental results and discussion section. Two instances\nof the optimized C3D architecture are used to represent the\nspatiotemporal features in different levels of the frames’\n192534\nVOLUME 8, 2020"
+    },
+    {
+        "chunk_id": 38,
+        "source": "paper28",
+        "text": "M. Al-Hammadi et al.: Deep Learning-Based Approach for Sign Language Gesture Recognition\nsequence (i.e., the hand region and the entire gesture space\nregion).\nThe ﬁrst C3D instance learns the ﬁne spatiotemporal\nfeatures of the hand conﬁguration. The hand is dominant in\neach input frame of this instance. On the other hand, the sec-\nond C3D instance learns the coarse spatiotemporal features\nof the whole-body conﬁguration. This phase produces as an\noutput two feature vectors with each having a dimension\nof 4096.\nC. FEATURE FUSION AND CLASSIFICATION\nTwo different techniques, i.e., MLP and autoencoder, are\ninvestigated to fuse the two feature vectors before feeding\nthem to the classiﬁer. In contrast to the system proposed in\n[20], we avoid the use of LSTM with this system because the\ntwo streams are not temporal segments of the gesture. Then,\nwe perform end-to-end training for the fusion architecture\nwith the classiﬁer. The classiﬁcation layer is activated by a\nSoftMax function."
+    },
+    {
+        "chunk_id": 39,
+        "source": "paper28",
+        "text": "two streams are not temporal segments of the gesture. Then,\nwe perform end-to-end training for the fusion architecture\nwith the classiﬁer. The classiﬁcation layer is activated by a\nSoftMax function.\nV. EXPERIMENTAL RESULTS AND DISCUSSION\nTo evaluate the proposed system, we conducted extensive\nexperiments in two scenarios as follows:\n• Signer-dependent mode: In this scenario, the samples\nwere randomly shufﬂed and split into two subsets for\ntraining and evaluation. In other words, we divided the\nsamples of each signer into training and evaluation with\na random ratio.\n• Signer-independent mode: In this scenario, the signers\nwere divided into two sets. All the samples performed\nby the ﬁrst set of signers were used for training, while all\nthe samples performed by the other set of signers were\nused for testing.\nA. FEATURE LEARNING\n1) C3D KNOWLEDGE TRANSFER OPTIMIZATION\nTypically, when using transfer learning, some of the architec-"
+    },
+    {
+        "chunk_id": 40,
+        "source": "paper28",
+        "text": "the samples performed by the other set of signers were\nused for testing.\nA. FEATURE LEARNING\n1) C3D KNOWLEDGE TRANSFER OPTIMIZATION\nTypically, when using transfer learning, some of the architec-\nture layers are iteratively ﬁne-tuned on the target domain data\nto adapt their parameters for the target domain. On the other\nhand, the other layers are frozen to keep the original values of\ntheir parameters. In this experiment, we investigated how the\nperformance of the C3D architecture is affected by changing\nthe number of trainable layers to ﬁnd the optimal case. This\noptimization step was performed in the signer-independent\nmode. All the samples that were recorded by the ﬁrst 32 sign-\ners (80% of the samples), were used for training the archi-\ntecture. The remaining 1600 samples, that were recorded by\nthe other eight signers (20% of the samples), were used for\nevaluation.\nWe linearly sampled 16 frames from each sequence\nwith each frame containing the entire gesture space. Then,"
+    },
+    {
+        "chunk_id": 41,
+        "source": "paper28",
+        "text": "the other eight signers (20% of the samples), were used for\nevaluation.\nWe linearly sampled 16 frames from each sequence\nwith each frame containing the entire gesture space. Then,\nend-to-end training was conducted for the C3D architecture\nafter replacing the last two FC layers and the classiﬁcation\nlayer. The mini-batch gradient descent with a learning rate\nof 10−4, a weight decay of 10−6, and a momentum of 0.9 was\nused to ﬁt the entire model over 100 iterations. The batch size\nwas 16 samples. We repeated the experiment by changing the\nFIGURE 14. Average accuracy of all architectures with different initial.\nFIGURE 15. Behavior of the optimal autoencoder in the\nsigner-independent mode.\nnumber of trainable and frozen layers each time to ﬁnd the\noptimal level for knowledge transfer. We started by training\nonly the last 3DCNN layer with the FC layer and the classi-\nﬁcation layer, while the remaining layers were frozen. Then,\nin each repetition, we incremented the number of trainable"
+    },
+    {
+        "chunk_id": 42,
+        "source": "paper28",
+        "text": "only the last 3DCNN layer with the FC layer and the classi-\nﬁcation layer, while the remaining layers were frozen. Then,\nin each repetition, we incremented the number of trainable\nlayers by activating the next nearest layer to the previously\nactivated ones. FIGURE 7 illustrates the results of the exper-\niment in terms of evaluation loss and recognition accuracy.\nIt shows that the performance of the model is improved as\nwe increase the number of trainable layers as long as the ﬁrst\nlayer is frozen. That is, the best performance (80.94%) was\nachieved by ﬁne-tuning all the layers except the ﬁrst one. This\nresult supports the intuition that the ﬁrst layer learns common\npreliminary motifs in both the source and target domains. As a\nresult, the parameters of this layer were optimized well on the\nsource data and there was no need to distort them by a small\nand maybe noisy data of the target domain.\nThis optimal case of knowledge transfer was used in our"
+    },
+    {
+        "chunk_id": 43,
+        "source": "paper28",
+        "text": "source data and there was no need to distort them by a small\nand maybe noisy data of the target domain.\nThis optimal case of knowledge transfer was used in our\nexperiments for feature representation by taking the output\nof the FC layer as a feature vector for the next phase.\nVOLUME 8, 2020\n192535"
+    },
+    {
+        "chunk_id": 44,
+        "source": "paper28",
+        "text": "M. Al-Hammadi et al.: Deep Learning-Based Approach for Sign Language Gesture Recognition\nFIGURE 16. Confusion matrix of autoencoder two streams fusion in the signer-independent mode.\n2) SIGNER-INDEPENDENT MODE\nFor data separation, we repeated the same criterion used\nin the previous experiment; i.e., we choose 80% of the\nKSU-SSL dataset for training and the remaining 20% for\ntesting. As detailed in the input preprocessing section, the\nﬁnal output of the preprocessing phase was two clips. Each\nclip had a shape of 112×112×3×16, where 112×112 is the\nframe size, 3 is the RGB channels in each frame, and 16 is\nthe number of frames in each clip. Each of the two clips in\nthe training samples was used for reﬁning the corresponding\nC3D instance.\nIn other words, we used two instances of the C3D\narchitecture, which was optimized in the ﬁrst part to sep-\narately learn the two types of features. Then, the trained\ninstances were utilized to extract the features from the cor-"
+    },
+    {
+        "chunk_id": 45,
+        "source": "paper28",
+        "text": "architecture, which was optimized in the ﬁrst part to sep-\narately learn the two types of features. Then, the trained\ninstances were utilized to extract the features from the cor-\nresponding clips in the dataset samples.\nTo achieve this, we removed the classiﬁcation layers from\nthe two instances and replaced them with a single concate-\nnation layer followed by a fusion and classiﬁcation network.\nThe two output vectors of the C3D modules were concate-\nnated to form a single vector of length 8192?. End-to-end\ntraining was conducted for the whole architecture while freez-\ning all the layers except the fusion and classiﬁcation network.\n3) SIGNER-DEPENDENT MODE\nIn contrast to the signer-independent case where the signers\nwere divided into two mutually exclusive sets, in this sce-\nnario, we randomly selected 80% of the dataset samples for\ntraining and the remaining 20% for evaluation. Except for this\ndata separation step, the same process was repeated as in the\nprevious mode.\nB. MLP FUSION"
+    },
+    {
+        "chunk_id": 46,
+        "source": "paper28",
+        "text": "training and the remaining 20% for evaluation. Except for this\ndata separation step, the same process was repeated as in the\nprevious mode.\nB. MLP FUSION\n1) SIGNER-INDEPENDENT MODE\nWe investigated the MLP network for feature fusion. We stud-\nied the effect of the number of layers of the MLP (the\ndepth) and the number of neurons per layer on the model’s\nperformance. The mini-batch gradient descent optimizer was\nused with an initial learning rate, a decay of 10−6, and a\nmomentum of 0.9.\nWe conducted an extensive grid search to optimize the\narchitecture and the initial learning rate because they are the\nmost important hyperparameters for the MLP fusion network.\nThe search space was deﬁned as follows:\n- The architecture depth in terms of number of layers d ∈\n{1, 2, 3}.\n- The number of neurons in any layer N ∈{256, 512,\n1024, 2048, 4096, 8192} with a constraint that the num-\nber of neurons in any layer should be less than the\nnumber of neurons in the previous layer."
+    },
+    {
+        "chunk_id": 47,
+        "source": "paper28",
+        "text": "- The number of neurons in any layer N ∈{256, 512,\n1024, 2048, 4096, 8192} with a constraint that the num-\nber of neurons in any layer should be less than the\nnumber of neurons in the previous layer.\n- The initial learning rate is lr = x×10n : x ∈{1, 5} and\nn ∈{−3, −4, −5, −6, −7}.\nThe result of this grid search step is illustrated as a heat map\nin FIGURE 8.\nThe average accuracy of all architectures with different\nlearning rates is illustrated in Error! Reference source not\nfound. From the heat map and the average accuracy ﬁgures,\n192536\nVOLUME 8, 2020"
+    },
+    {
+        "chunk_id": 48,
+        "source": "paper28",
+        "text": "M. Al-Hammadi et al.: Deep Learning-Based Approach for Sign Language Gesture Recognition\nFIGURE 17. Confusion matrix of autoencoder two streams fusion in the signer-dependent mode.\nwe ﬁnd that the learning rates between 10−4 and 10−5\nachieved competing accuracies for all architectures.\nThe highest recognition accuracy of 87.69% was achieved\nby the two-layer architecture, where the ﬁrst layer has 2048\nneurons, the second layer has 256 neurons, and the initial\nlearning rate is 5 × 10−5. In addition, there is no clear trend\nfor the performance with respect to architecture.\nThe behavior of the system performance during training\niterations on the training and validation datasets is illustrated\nin FIGURE 10. The performance of the trained system on\nthe evaluation dataset is detailed in the confusion matrix in\nFIGURE 11.\n2) SIGNER-DEPENDENT MODE\nThe optimal hyperparameters obtained in the signer-\nindependent scenario were utilized to evaluate the system"
+    },
+    {
+        "chunk_id": 49,
+        "source": "paper28",
+        "text": "FIGURE 11.\n2) SIGNER-DEPENDENT MODE\nThe optimal hyperparameters obtained in the signer-\nindependent scenario were utilized to evaluate the system\nperformance in the signer-dependent scenario.\nIn this scenario, some of the signer’s samples were used\nfor training the model and the remaining of the samples\nperformed by the same signer were used for evaluation. The\nratios of the two sets of samples were random and varied from\none signer to another. The evaluation results are illustrated\nin the confusion matrix in FIGURE 12. We ﬁnd that this\nscenario achieved an accuracy of 98.62%.\nC. AUTOENCODER FUSION\n1) SIGNER-INDEPENDENT MODE\nWe investigated the autoencoder network for feature fusion.\nTABLE 1. Recognition accuracy (%) achieved by MLP and autoencoder\nfusion in the different modes.\nWe also investigated the effect of the autoencoder depth\n(number of hidden layers) and width (number of neurons in\neach layer) on the performance of the system."
+    },
+    {
+        "chunk_id": 50,
+        "source": "paper28",
+        "text": "fusion in the different modes.\nWe also investigated the effect of the autoencoder depth\n(number of hidden layers) and width (number of neurons in\neach layer) on the performance of the system.\nThe mini-batch gradient descent optimizer was used in\nthis part with the same parameter setup used in the MLP\nfusion. We conducted an intensive grid search to optimize the\narchitecture of the autoencoder and the initial learning rate.\nThe search space was deﬁned as follows:\n- The encoder architecture depth in terms of the number\nof layers d ∈{1, 2, 3}.\n- The number of neurons in any layer N ∈{256, 512,\n1024, 2048, 4096, 8192} with a constraint that the\nVOLUME 8, 2020\n192537"
+    },
+    {
+        "chunk_id": 51,
+        "source": "paper28",
+        "text": "M. Al-Hammadi et al.: Deep Learning-Based Approach for Sign Language Gesture Recognition\nFIGURE 18. Four examples of confused gestures from the KSU-SSL dataset.\nnumber of neurons in the layers is reduced as we move\nfrom the input layer toward the latent layer.\n- The initial learning rate is lr = x×10n : x ∈{1, 5} and\nn ∈{−3, −4, −5, −6, −7}.\nThe result of this grid search step is illustrated as a heat map\nin FIGURE 13. The average accuracy of all architectures with\ndifferent learning rates is illustrated in FIGURE 14. From\nthe heat map and average accuracy ﬁgures, we ﬁnd that the\nsystem with one pair of hidden layers performed better than\nthe system with two pairs of hidden layers. We also ﬁnd that\nthe maximum accuracy and the best average accuracy were\nachieved using an initial learning rate of 10−5.\nThe highest accuracy of 84.89% was achieved by the\narchitecture with 2048 neurons in the latent layer and a single\npair of hidden layers with 8192 neurons each."
+    },
+    {
+        "chunk_id": 52,
+        "source": "paper28",
+        "text": "The highest accuracy of 84.89% was achieved by the\narchitecture with 2048 neurons in the latent layer and a single\npair of hidden layers with 8192 neurons each.\nThe system performance during training iterations on\nthe training and validation datasets is illustrated in Error!\nReference source not found.. On the other hand, the recog-\nnition rate of the trained system on the evaluation dataset is\ndetailed in the confusion matrix in FIGURE 16.\n2) SIGNER-DEPENDENT MODE\nThe optimal hyperparameters obtained in the signer-\nindependent scenario were utilized to evaluate the system\nperformance in the signer-dependent scenario. The evaluation\nresults are illustrated in the confusion matrix in FIGURE 17.\nA recognition accuracy of 98.75% was achieved in this\nscenario.\nTABLE 2. Recognition accuracy (%) compared with state-of-the-art\nsystems.\nDISCUSSION AND COMPARISON\nTable I summarizes the MLP and the autoencoder accu-\nracies using different batch sizes. We ﬁnd that both"
+    },
+    {
+        "chunk_id": 53,
+        "source": "paper28",
+        "text": "systems.\nDISCUSSION AND COMPARISON\nTable I summarizes the MLP and the autoencoder accu-\nracies using different batch sizes. We ﬁnd that both\narchitectures obtained comparable performance in the\nsigner-dependent mode, while the performance of the MLP in\nthe signer-independent mode was much better than that of the\nautoencoder. From the optimization heatmaps of both MLP\nand autoencoder systems, we can note that:\n- In MLP, there was no change in accuracy when the depth\nof the architectures was changed.\n192538\nVOLUME 8, 2020"
+    },
+    {
+        "chunk_id": 54,
+        "source": "paper28",
+        "text": "M. Al-Hammadi et al.: Deep Learning-Based Approach for Sign Language Gesture Recognition\nTABLE 3. KSU-SSL dataset classes.\n- The performance of the autoencoder was slightly\nenhanced by increasing the number of neurons while\nﬁxing the depth of the architecture.\n- The performance of the autoencoder was degraded when\nthe depth of the architecture was increased.\n- The smallest batch size achieved the highest accuracy\nfor both architectures. This might be attributed to the\nfact that minimizing the batch size leads to updating\nthe model weights more frequently. Even though, such\nupdates using a few noisy samples involve a regularizing\neffect, which reduces generalization error.\n- Moreover, in the confusion matrices, the system perfor-\nmance in the signer-independent mode was weaker than\nthat in the signer-dependent mode.\nAs the gestures in the KSU-SSL dataset were recorded by\na large number of participants, the samples of the dataset"
+    },
+    {
+        "chunk_id": 55,
+        "source": "paper28",
+        "text": "that in the signer-dependent mode.\nAs the gestures in the KSU-SSL dataset were recorded by\na large number of participants, the samples of the dataset\ncould exhibit signiﬁcant variations. When the training and\nevaluation samples were recorded by two mutually exclu-\nsive sets of signers (i.e., the signer-independent scenario),\nthe intra-class variation was very high, and the recognition\naccuracy was low. Furthermore, we investigated the highly\nconfused classes for the two architectures by analyzing the\nconfusion matrices. We focused more on the pairs of ges-\ntures that exhibited a high level of confusion in both the\nsigner-dependent and signer-independent scenarios.\nAs illustrated in FIGURE 18, the sampled frames from\nsome of the confused gestures showed that the signers had\nnearly common global body conﬁguration and almost the\nsame relative position and orientation for the hand. Any\ndifferences between the gestures are mainly on the ﬁngers’\nconﬁguration."
+    },
+    {
+        "chunk_id": 56,
+        "source": "paper28",
+        "text": "nearly common global body conﬁguration and almost the\nsame relative position and orientation for the hand. Any\ndifferences between the gestures are mainly on the ﬁngers’\nconﬁguration.\nThere are two pairs of confusing gestures in FIGURE 18,\ni.e., ‘‘Sorry’’ with ‘‘Vacation,’’ ‘‘File’’ with ‘‘Meeting,’’ and\n‘‘Sorry’’ with ‘‘Vacation’’. It is clear in the ﬁgure that the\nframe sequences of each pair are highly correlated.\nThe proposed system gave more consideration to the\nhand region by dedicating a separate stream to learn the\nhand conﬁguration features. This consideration led to excel-\nlent improvement in system performance. Compared to the\nresults achieved by the base C3D architecture in the ﬁrst\nexperiment and those achieved by the temporally enhanced\nsystem in [20], this system achieved the best recogni-\ntion rate with both MLP and autoencoders in all the\nscenarios.\nVOLUME 8, 2020\n192539"
+    },
+    {
+        "chunk_id": 57,
+        "source": "paper28",
+        "text": "M. Al-Hammadi et al.: Deep Learning-Based Approach for Sign Language Gesture Recognition\nAlgorithm 1 Hand Region Estimation\nInput: The elbow coordinates (xe, ye)\nThe wrist coordinates (xw, yw)\nThe square region length (length)\nOutput: The top left coordinate of the square region (xB, yB)\nThe bottom-right coordinate of the square region (xE, yE)\nCalculatetheregionlength =\nq\n(xw −xe)2 + (yw −ye)2\nIf abs (xw −xe) < αandabs (yw −ye) < α\nxB = xw −length/2\nyB = yw −length/2\nxE = xw + length/2\nyE = yw + length/2\nElse If abs (xw −xe) < αandabs (yw −ye) > α\nxB = xw −length\n\u000e\n2\nxE = xw + length\n\u000e\n2\nIf yw < ye\nyB = yw −(length −ε)\nyE = yw + ε\nElse\nyB = yw −ε\nyE = yw + (length −ε)\nEnd If\nElse If abs (yw −ye) < αandabs (xw −xe) > α\nyB = yw −length/2\nyE = yw + length/2\nIf xw > xe\nxB = xw −ε\nxE = xw + (length −ε)\nElse\nxB = xw −(length −ε)\nxE = xw + ε\nEnd If\nElse If (ye −yw) > αand (xw −xe) > α\nymid = round(yw + (ye −yw)\n\u000e\n2)\nxmid = round(xw −(xw −xe)\n\u000e\n2)\nyB = ymid −length\nyE = ymid\nxB = xmid"
+    },
+    {
+        "chunk_id": 58,
+        "source": "paper28",
+        "text": "Else\nxB = xw −(length −ε)\nxE = xw + ε\nEnd If\nElse If (ye −yw) > αand (xw −xe) > α\nymid = round(yw + (ye −yw)\n\u000e\n2)\nxmid = round(xw −(xw −xe)\n\u000e\n2)\nyB = ymid −length\nyE = ymid\nxB = xmid\nxE = xmid + length\nElse If (yw −ye) > αand (xe −xw) > α\nymid = round(yw −(yw −ye)\n\u000e\n2)\nxmid = round(xw + (xe −xw)\n\u000e\n2)\nyB = ymid\nyE = ymid + length\nxB = xmid −length\nxE = xmid\nElse If (ye −yw) > αand (xe −xw) > α\nymid = round(yw + (ye −yw)\n\u000e\n2)\nxmid = round(xw + (xe −xw)\n\u000e\n2)\nyB = ymid −length\nyE = ymid\nxB = xmid −length\nxE = xmid\n192540\nVOLUME 8, 2020"
+    },
+    {
+        "chunk_id": 59,
+        "source": "paper28",
+        "text": "M. Al-Hammadi et al.: Deep Learning-Based Approach for Sign Language Gesture Recognition\nElse If (yw −ye) > αand (xw −xe) > α\nymid = round(yw −(yw −ye)\n\u000e\n2\nxmid = round(xw −(xw −xe)\n\u000e\n2)\nyB = ymid\nyE = ymid + length\nxB = xmid\nxE = xmid + length\nElse:\nWrong input values\nHowever, despite of this performance enhancement,\nthe system failed in recognizing some of the confusing\ngestures.\nThe misclassiﬁcations were almost caused by hand\nblurring issues and bad lighting conditions, which also illus-\ntrated in FIGURE 18. The recording cameras had a frame rate\nof 30 fps, which was not sufﬁcient to eliminate this motion\nblur. The hand conﬁguration details targeted by this system\nwere eliminated by the motion blur and bad lighting in many\ncases, which are some of the challenges of the KSU-SSL\ndataset.\nIn Table, we compare the performance of the proposed\nsystem with those of state-of-the-art systems. We noticed that\nthere is a lack in the single-modality systems that are tested on"
+    },
+    {
+        "chunk_id": 60,
+        "source": "paper28",
+        "text": "dataset.\nIn Table, we compare the performance of the proposed\nsystem with those of state-of-the-art systems. We noticed that\nthere is a lack in the single-modality systems that are tested on\ncomprehensive sign language datasets of RGB frames only.\nMost of the recent works utilized multimodality inputs, that\ncompose multiple channels such as depth maps and human\nskeleton joints in addition to the RGB frames.\nTo make fair comparisons, we only considered those sys-\ntems with an RGB video input rather than the systems with\nmultimodality inputs. The selected systems for comparison\nused deep CNN architectures in different ways for hand ges-\nture representation. The system in [37] generated the horizon-\ntal and vertical optical ﬂow from the RGB sequence. These\noptical follow channels were stacked with the RGB frames to\nenhance the model performance.\nOn the other hand, the system in [40] started by com-\npressing the entire input sequence in a two-dimensional"
+    },
+    {
+        "chunk_id": 61,
+        "source": "paper28",
+        "text": "enhance the model performance.\nOn the other hand, the system in [40] started by com-\npressing the entire input sequence in a two-dimensional\nmatrix. This matrix was then fed as an input to the proposed\narchitecture.\nThe proposed systems with MLP and autoencoder fusion\noutperformed the DenseImage Net by a large margin. In its\nworst case, the proposed system with autoencoder fusion\nslightly outperformed the other two state-of-the-art systems\nin both scenarios. The highest accuracy of 87.69% in the\nsigner-independent scenario was achieved by the system with\nthe MLP fusion. This outperforming result can be attributed\nto the enhancement of the spatial aspect as well as the\ngood temporal modeling of the hand gesture in the proposed\nsystem.\nThe good performance achieved by the systems in [20]\nand [37] can be attributed to the efﬁcient way of utilizing\nthe temporal features of the hand gesture. In this regard,\nthe system in [20] utilized 3DCNN to model three temporal"
+    },
+    {
+        "chunk_id": 62,
+        "source": "paper28",
+        "text": "and [37] can be attributed to the efﬁcient way of utilizing\nthe temporal features of the hand gesture. In this regard,\nthe system in [20] utilized 3DCNN to model three temporal\nsegments, from the beginning, the middle, and the end of the\ninput video and then aggregated the segments’ features to\nachieve a robust temporal representation.\nTo enhance the temporal representation, the system in [37]\ncombined the RGB frames with the auxiliary optical ﬂow\nchannels, which involve more temporal motifs.\nOn the other hand, the low accuracy of the DenseImage\nNet [40] might be attributed to losing the temporal aspect by\ncompressing the entire sequence of the video in a 2D matrix\nand dealing with such matrix as a static image.\nVI. CONCLUSION\nThis study proposed a novel system for dynamic hand ges-\nture recognition via a combination of multiple deep learn-\ning techniques. The proposed system represented the hand\ngesture using local hand shape features as well as global"
+    },
+    {
+        "chunk_id": 63,
+        "source": "paper28",
+        "text": "ture recognition via a combination of multiple deep learn-\ning techniques. The proposed system represented the hand\ngesture using local hand shape features as well as global\nbody conﬁguration features, which is very efﬁcient for com-\nplicated structured hand gestures of the sign language. The\nopenpose framework was used in this study for hand region\ndetection and estimation. A robust face detection algorithm\nand the body parts ratios theory were utilized for gesture\nspace estimation and normalization. Two 3DCNN instances\nwere used separately for learning the ﬁne-grained features of\nthe hand shape and the coarse-grained features of the global\nbody conﬁguration. MLP and autoencoders were utilized to\naggregate and globalize the extracted local features and the\nSoftMax function was used for the classiﬁcation. Further-\nmore, to reduce the training cost of the 3DCNN module,\nwe investigated domain adaptation and conducted extensive\nexperiments to optimize the level of knowledge transfer."
+    },
+    {
+        "chunk_id": 64,
+        "source": "paper28",
+        "text": "more, to reduce the training cost of the 3DCNN module,\nwe investigated domain adaptation and conducted extensive\nexperiments to optimize the level of knowledge transfer.\nThe proposed system was evaluated on a real and challeng-\ning sign language dataset. The experimental results showed\nthat the proposed system outperformed state-of-the-art\nmethods in terms of recognition rate, demonstrating its\neffectiveness.\nFor future work, we will utilize other strategies for\ntemporal aspect modeling. We will perform extensive exper-\niments to optimize the length of the input clip. We will also\ntest the system for real-time hand gesture recognition.\nAPPENDIX I.\nSee Table 3.\nAPPENDIX II.\nSee Algorithm 1.\nVOLUME 8, 2020\n192541"
+    },
+    {
+        "chunk_id": 65,
+        "source": "paper28",
+        "text": "M. Al-Hammadi et al.: Deep Learning-Based Approach for Sign Language Gesture Recognition\nREFERENCES\n[1] S. Kausar and M. Y. Javed, ‘‘A survey on sign language recogni-\ntion,’’ in Proc. Frontiers Inf. Technol., Islamabad, Pakistan, Dec. 2011,\npp. 95–98.\n[2] M. B. Waldron and S. Kim, ‘‘Isolated ASL sign recognition system for\ndeaf persons,’’ IEEE Trans. Rehabil. Eng., vol. 3, no. 3, pp. 261–271,\nSep. 1995.\n[3] C. Chansri and J. Srinonchat, ‘‘Hand gesture recognition for thai sign\nlanguage in complex background using fusion of depth and color video,’’\nProcedia Comput. Sci., vol. 86, pp. 257–260, Jan. 2016.\n[4] M.-H. Yang, N. Ahuja, and M. Tabb, ‘‘Extraction of 2D motion trajectories\nand its application to hand gesture recognition,’’ IEEE Trans. Pattern Anal.\nMach. Intell., vol. 24, no. 8, pp. 1061–1074, Aug. 2002.\n[5] T. Starner, J. Weaver, and A. Pentland, ‘‘Real-time American sign language\nrecognition using desk and wearable computer based video,’’ IEEE Trans."
+    },
+    {
+        "chunk_id": 66,
+        "source": "paper28",
+        "text": "[5] T. Starner, J. Weaver, and A. Pentland, ‘‘Real-time American sign language\nrecognition using desk and wearable computer based video,’’ IEEE Trans.\nPattern Anal. Mach. Intell., vol. 20, no. 12, pp. 1371–1375, Dec. 1998.\n[6] D. Kelly, J. Mc Donald, and C. Markham, ‘‘Continuous recognition of\nmotion based gestures in sign language,’’ in Proc. IEEE 12th Int. Conf.\nComput. Vis. Workshops, ICCV Workshops, Kyoto, Japan, Sep. 2009,\npp. 1073–1080.\n[7] D. Kelly, J. McDonald, and C. Markham, ‘‘A person independent system\nfor recognition of hand postures used in sign language,’’ Pattern Recognit.\nLett., vol. 31, no. 11, pp. 1359–1368, Aug. 2010.\n[8] K. M. Lim, A. W. C. Tan, and S. C. Tan, ‘‘A feature covariance matrix with\nserial particle ﬁlter for isolated sign language recognition,’’ Expert Syst.\nAppl., vol. 54, pp. 208–218, Jul. 2016.\n[9] H. Wang, X. Chai, and X. Chen, ‘‘Sparse observation (SO) alignment\nfor sign language recognition,’’ Neurocomputing, vol. 175, pp. 674–685,\nJan. 2016."
+    },
+    {
+        "chunk_id": 67,
+        "source": "paper28",
+        "text": "Appl., vol. 54, pp. 208–218, Jul. 2016.\n[9] H. Wang, X. Chai, and X. Chen, ‘‘Sparse observation (SO) alignment\nfor sign language recognition,’’ Neurocomputing, vol. 175, pp. 674–685,\nJan. 2016.\n[10] A. Mohanty, S. S. Rambhatla, and R. R. Sahay, ‘‘Deep gesture: Static hand\ngesture recognition using CNN,’’ in Proc. Comput. Vis. Image Process.,\nRoorkee, India, Sep. 2017, pp. 449–461.\n[11] B. Hu and J. Wang, ‘‘Deep learning based hand gesture recognition and\nUAV ﬂight controls,’’ Int. J. Autom. Comput., vol. 17, no. 1, pp. 17–29,\nFeb. 2020.\n[12] M. Alhussein and G. Muhammad, ‘‘Voice pathology detection using\ndeep learning on mobile healthcare framework,’’ IEEE Access, vol. 6,\npp. 41034–41041, 2018.\n[13] A. Ghoneim, G. Muhammad, S. U. Amin, and B. Gupta, ‘‘Medical image\nforgery detection for smart healthcare,’’ IEEE Commun. Mag., vol. 56,\nno. 4, pp. 33–37, Apr. 2018.\n[14] R. Hou, C. Chen, and M. Shah, ‘‘An end-to-end 3D convolutional neu-"
+    },
+    {
+        "chunk_id": 68,
+        "source": "paper28",
+        "text": "forgery detection for smart healthcare,’’ IEEE Commun. Mag., vol. 56,\nno. 4, pp. 33–37, Apr. 2018.\n[14] R. Hou, C. Chen, and M. Shah, ‘‘An end-to-end 3D convolutional neu-\nral network for action detection and segmentation in videos,’’ 2017,\narXiv:1712.01111. [Online]. Available: http://arxiv.org/abs/1712.01111\n[15] G. Muhammad, M. F. Alhamid, and X. Long, ‘‘Computing and processing\non the edge: Smart pathology detection for connected healthcare,’’ IEEE\nNetw., vol. 33, no. 6, pp. 44–49, Nov./Dec. 2019.\n[16] S. Ji, W. Xu, M. Yang, and K. Yu, ‘‘3D convolutional neural networks\nfor human action recognition,’’ IEEE Trans. Pattern Anal. Mach. Intell.,\nvol. 35, no. 1, pp. 221–231, Jan. 2013.\n[17] D. Tran, L. Bourdev, R. Fergus, L. Torresani, and M. Paluri, ‘‘Learning spa-\ntiotemporal features with 3D convolutional networks,’’ in Proc. IEEE Int.\nConf. Comput. Vis. (ICCV), Santiago, Chile, Dec. 2015, pp. 4489–4497.\n[18] G. Varol, I. Laptev, and C. Schmid, ‘‘Long-term temporal convolutions for"
+    },
+    {
+        "chunk_id": 69,
+        "source": "paper28",
+        "text": "Conf. Comput. Vis. (ICCV), Santiago, Chile, Dec. 2015, pp. 4489–4497.\n[18] G. Varol, I. Laptev, and C. Schmid, ‘‘Long-term temporal convolutions for\naction recognition,’’ IEEE Trans. Pattern Anal. Mach. Intell., vol. 40, no. 6,\npp. 1510–1517, Jun. 2018.\n[19] M. Al-Hammadi, G. Muhammad, W. Abdul, M. Alsulaiman, and\nM. S. Hossain, ‘‘Hand gesture recognition using 3D-CNN model,’’ IEEE\nConsum. Electron. Mag., vol. 9, no. 1, pp. 95–101, Jan. 2020.\n[20] M.\nAl-Hammadi,\nG.\nMuhammad,\nW.\nAbdul,\nM.\nAlsulaiman,\nM. A. Bencherif, and M. A. Mekhtiche, ‘‘Hand gesture recognition\nfor sign language using 3DCNN,’’ IEEE Access, vol. 8, pp. 79491–79509,\n2020.\n[21] X. Zhang, X. Chen, Y. Li, V. Lantz, K. Wang, and J. Yang, ‘‘A frame-\nwork for hand gesture recognition based on accelerometer and EMG\nsensors,’’ IEEE Trans. Syst., Man, Cybern. A, Syst., Humans, vol. 41, no. 6,\npp. 1064–1076, Nov. 2011.\n[22] V. E. Kosmidou and L. J. Hadjileontiadis, ‘‘Sign language recogni-"
+    },
+    {
+        "chunk_id": 70,
+        "source": "paper28",
+        "text": "sensors,’’ IEEE Trans. Syst., Man, Cybern. A, Syst., Humans, vol. 41, no. 6,\npp. 1064–1076, Nov. 2011.\n[22] V. E. Kosmidou and L. J. Hadjileontiadis, ‘‘Sign language recogni-\ntion using intrinsic-mode sample entropy on sEMG and accelerome-\nter data,’’ IEEE Trans. Biomed. Eng., vol. 56, no. 12, pp. 2879–2890,\nDec. 2009.\n[23] T. D. Bui and L. T. Nguyen, ‘‘Recognizing postures in vietnamese sign\nlanguage with MEMS accelerometers,’’ IEEE Sensors J., vol. 7, no. 5,\npp. 707–712, May 2007.\n[24] G. Fang, W. Gao, and D. Zhao, ‘‘Large-vocabulary continuous sign lan-\nguage recognition based on transition-movement models,’’ IEEE Trans.\nSyst., Man, Cybern. A, Syst., Humans, vol. 37, no. 1, pp. 1–9, Jan. 2007.\n[25] U. Cote-Allard, C. L. Fall, A. Drouin, A. Campeau-Lecours, C. Gos-\nselin, K. Glette, F. Laviolette, and B. Gosselin, ‘‘Deep learning for elec-\ntromyographic hand gesture signal classiﬁcation using transfer learning,’’\nIEEE Trans. Neural Syst. Rehabil. Eng., vol. 27, no. 4, pp. 760–771,"
+    },
+    {
+        "chunk_id": 71,
+        "source": "paper28",
+        "text": "tromyographic hand gesture signal classiﬁcation using transfer learning,’’\nIEEE Trans. Neural Syst. Rehabil. Eng., vol. 27, no. 4, pp. 760–771,\nApr. 2019.\n[26] K. Murakami and H. Taguchi, ‘‘Gesture recognition using recurrent\nneural networks,’’ in Proc. SIGCHI Conf. Hum. Factors Comput. Syst.\nReaching Through Technol. (CHI), New Orleans, LA, USA, Apr. 1991,\npp. 237–242.\n[27] M. M. Zaki and S. I. Shaheen, ‘‘Sign language recognition using a combi-\nnation of new vision based features,’’ Pattern Recognit. Lett., vol. 32, no. 4,\npp. 572–577, Mar. 2011.\n[28] J. Pu, W. Zhou, J. Zhang, and H. Li, ‘‘Sign language recognition based\non trajectory modeling with HMMs,’’ in Proc. Int. Conf. Multimedia\nModeling, Miami, FL, USA, Jan. 2016, pp. 686–697.\n[29] T.-H.-S. Li, M.-C. Kao, and P.-H. Kuo, ‘‘Recognition system for home-\nservice-related sign language using entropy-based K-means algorithm and\nABC-based HMM,’’ IEEE Trans. Syst., Man, Cybern. Syst., vol. 46, no. 1,\npp. 150–162, Jan. 2016."
+    },
+    {
+        "chunk_id": 72,
+        "source": "paper28",
+        "text": "service-related sign language using entropy-based K-means algorithm and\nABC-based HMM,’’ IEEE Trans. Syst., Man, Cybern. Syst., vol. 46, no. 1,\npp. 150–162, Jan. 2016.\n[30] J. Yang, J. Yuan, and Y. Li, ‘‘Parsing 3D motion trajectory for gesture\nrecognition,’’ J. Vis. Commun. Image Represent., vol. 38, pp. 627–640,\nJul. 2016.\n[31] L. Quesada, G. López, and L. Guerrero, ‘‘Improving deaf people acces-\nsibility and communication through automatic sign language recognition\nusing novel technologies,’’ in Advances in Design for Inclusion. Orlando,\nFL, USA: Walt Disney World, Jul. 2016, pp. 497–507.\n[32] S. Aly and S. Mohammed, ‘‘Arabic sign language recognition using spatio-\ntemporal local binary patterns and support vector machine,’’ in Proc.\nInt. Conf. Adv. Mach. Learn. Technol. Appl., Cairo, Egypt, Nov. 2014,\npp. 36–45.\n[33] M. R. Abid, E. M. Petriu, and E. Amjadian, ‘‘Dynamic sign language\nrecognition for smart home interactive application using stochastic linear"
+    },
+    {
+        "chunk_id": 73,
+        "source": "paper28",
+        "text": "pp. 36–45.\n[33] M. R. Abid, E. M. Petriu, and E. Amjadian, ‘‘Dynamic sign language\nrecognition for smart home interactive application using stochastic linear\nformal grammar,’’ IEEE Trans. Instrum. Meas., vol. 64, no. 3, pp. 596–605,\nMar. 2015.\n[34] J. Huang et al., ‘‘Sign language recognition using convolutional neural net-\nworks,’’ in Proc. Eur. Conf. Comput. Vis., Zürich, Switzerland, Sep. 2014,\npp. 572–578.\n[35] L. Pigou, A. van den Oord, S. Dieleman, M. Van Herreweghe, and\nJ. Dambre, ‘‘Beyond temporal pooling: Recurrence and temporal convo-\nlutions for gesture recognition in video,’’ Int. J. Comput. Vis., vol. 126,\nnos. 2–4, pp. 430–439, Apr. 2018.\n[36] A. Tang, K. Lu, Y. Wang, J. Huang, and H. Li, ‘‘A real-time hand posture\nrecognition system using deep neural networks,’’ ACM Trans. Intell. Syst.\nTechnol., vol. 6, no. 2, pp. 1–23, May 2015.\n[37] O. Kopuklu, N. Kose, and G. Rigoll, ‘‘Motion fused frames: Data level"
+    },
+    {
+        "chunk_id": 74,
+        "source": "paper28",
+        "text": "recognition system using deep neural networks,’’ ACM Trans. Intell. Syst.\nTechnol., vol. 6, no. 2, pp. 1–23, May 2015.\n[37] O. Kopuklu, N. Kose, and G. Rigoll, ‘‘Motion fused frames: Data level\nfusion strategy for hand gesture recognition,’’ in Proc. IEEE/CVF Conf.\nComput. Vis. Pattern Recognit. Workshops (CVPRW), Salt Lake City, UT,\nUSA, Jun. 2018, pp. 2103–2111.\n[38] J. C. Núñez, R. Cabido, J. J. Pantrigo, A. S. Montemayor, and J. F. Vélez,\n‘‘Convolutional neural networks and long short-term memory for skeleton-\nbased human activity and hand gesture recognition,’’ Pattern Recognit.,\nvol. 76, pp. 80–94, Apr. 2018.\n[39] P. Molchanov, S. Gupta, K. Kim, and J. Kautz, ‘‘Hand gesture recognition\nwith 3D convolutional neural networks,’’ in Proc. IEEE Conf. Comput.\nVis. Pattern Recognit. Workshops (CVPRW), Boston, MA, USA, Jun. 2015,\npp. 1–7.\n[40] X. Chen and K. Gao, ‘‘DenseImage network: Video spatial-temporal\nevolution encoding and understanding,’’ May 2018, arXiv:1805.07550."
+    },
+    {
+        "chunk_id": 75,
+        "source": "paper28",
+        "text": "pp. 1–7.\n[40] X. Chen and K. Gao, ‘‘DenseImage network: Video spatial-temporal\nevolution encoding and understanding,’’ May 2018, arXiv:1805.07550.\n[Online]. Available: http://arxiv.org/abs/1805.07550\n[41] S. Aly and W. Aly, ‘‘DeepArSLR: A novel signer-independent deep learn-\ning framework for isolated arabic sign language gestures recognition,’’\nIEEE Access, vol. 8, pp. 83199–83212, 2020.\n[42] P. Viola and M. Jones, ‘‘Rapid object detection using a boosted cascade of\nsimple features,’’ in Proc. IEEE Comput. Soc. Conf. Comput. Vis. Pattern\nRecognit. (CVPR), Kauai, HI, USA, Jun. 2001, p. 1.\n[43] A. Özaslan, M. Y. İşcan, İ. Özaslan, H. Tuğcu, and S. Koç, ‘‘Estimation\nof stature from body parts,’’ Forensic Sci. Int., vol. 132, no. 1, pp. 40–45,\nMar. 2003.\n[44] Z.\nCao,\nG.\nHidalgo,\nT.\nSimon,\nS.-E.\nWei,\nand\nY.\nSheikh,\n‘‘OpenPose: Realtime multi-person 2D pose estimation using part\nafﬁnity ﬁelds,’’ Dec. 2018, arXiv:1812.08008. [Online]. Available:\nhttp://arxiv.org/abs/1812.08008\n192542"
+    },
+    {
+        "chunk_id": 76,
+        "source": "paper28",
+        "text": "S.-E.\nWei,\nand\nY.\nSheikh,\n‘‘OpenPose: Realtime multi-person 2D pose estimation using part\nafﬁnity ﬁelds,’’ Dec. 2018, arXiv:1812.08008. [Online]. Available:\nhttp://arxiv.org/abs/1812.08008\n192542\nVOLUME 8, 2020"
+    }
+]

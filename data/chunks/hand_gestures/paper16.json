@@ -1,0 +1,282 @@
+[
+    {
+        "chunk_id": 1,
+        "source": "paper16",
+        "text": "HaGRID – HAnd Gesture Recognition Image Dataset\nKapitanov Alexander∗\nkapitanovalexander@gmail.com\nKvanchiani Karina∗\nkarinakvanciani@gmail.com\nNagaev Alexander∗\nsashanagaev1111@gmail.com\nKraynov Roman∗\nranakraynov@gmail.com\nMakhliarchuk Andrei∗\nhelloworld106@gmail.com\nSaluteDevices, Russia\nAbstract\nThis paper introduces an enormous dataset, HaGRID\n(HAnd Gesture Recognition Image Dataset), to build a hand\ngesture recognition (HGR) system concentrating on interac-\ntion with devices to manage them. That is why all 18 chosen\ngestures are endowed with the semiotic function and can\nbe interpreted as a specific action. Although the gestures\nare static, they were picked up, especially for the ability\nto design several dynamic gestures. It allows the trained\nmodel to recognize not only static gestures such as “like”\nand “stop” but also “swipes” and “drag and drop” dy-\nnamic gestures. The HaGRID contains 554,800 images and\nbounding box annotations with gesture labels to solve hand"
+    },
+    {
+        "chunk_id": 2,
+        "source": "paper16",
+        "text": "and “stop” but also “swipes” and “drag and drop” dy-\nnamic gestures. The HaGRID contains 554,800 images and\nbounding box annotations with gesture labels to solve hand\ndetection and gesture classification tasks. The low variabil-\nity in context and subjects of other datasets was the rea-\nson for creating the dataset without such limitations. Utiliz-\ning crowdsourcing platforms allowed us to collect samples\nrecorded by 37,583 subjects in at least as many scenes with\nsubject-to-camera distances from 0.5 to 4 meters in vari-\nous natural light conditions. The influence of the diversity\ncharacteristics was assessed in ablation study experiments.\nAlso, we demonstrate the HaGRID ability to be used for\npretraining models in HGR tasks. The HaGRID and pre-\ntrained models are publicly available12.\n1. Introduction\nUsing gestures in human communication plays a vital\nrole [6]: they can emotionally reinforce statements or en-\ntirely replace them. Moreover, Hand Gesture Recognition"
+    },
+    {
+        "chunk_id": 3,
+        "source": "paper16",
+        "text": "1. Introduction\nUsing gestures in human communication plays a vital\nrole [6]: they can emotionally reinforce statements or en-\ntirely replace them. Moreover, Hand Gesture Recognition\n(HGR) can be a part of human-computer interaction to de-\ntermine the gesture a person shows to the camera and per-\n*These authors contributed equally to this work.\n1https://github.com/hukenovs/hagrid\n2https : / / gitlab . aicloud . sbercloud . ru / rndcv /\nhagrid\nFigure 1. The 18 gesture classes included in HaGRID (“inv.” is the\nabbreviation of “inverted”).\nform an action corresponding to it. Since people univer-\nsally use gestures in real life, building HGR systems can\nimprove user experience and accelerate processes in such\ndomains as the automotive sector [27], [26], home automa-\ntion systems [3], multimedia applications, a wide variety\nof video/streaming platforms (Zoom, Skype, Discord, Jazz,\netc.), and others [10], [5]. Besides, such a system can be a"
+    },
+    {
+        "chunk_id": 4,
+        "source": "paper16",
+        "text": "tion systems [3], multimedia applications, a wide variety\nof video/streaming platforms (Zoom, Skype, Discord, Jazz,\netc.), and others [10], [5]. Besides, such a system can be a\npart of a virtual assistant or service for active sign language\nusers – hearing and speech-impaired [9], [24].\nThe primary objective of our study was to build the HGR\nsystem for the following implementation in home automa-\ntion devices with virtual assistants34 and the video confer-\nencing service Jazz5. Primarily, the set of gestures must\nbe intuitive [30] and straightforward, so that system users\ncan remember them for comfort interaction. Also, the HGR\nsystem should be designed with gestures suitable for con-\ntrolling it; frequently, these are gestures with semiotic and\n3https://sberdevices.ru/sberportal/\n4https://sberdevices.ru/sberboxtop/\n5https : / / developers . sber . ru / portal / products /\njazz-by-sber\nThis WACV paper is the Open Access version, provided by the Computer Vision Foundation."
+    },
+    {
+        "chunk_id": 5,
+        "source": "paper16",
+        "text": "4https://sberdevices.ru/sberboxtop/\n5https : / / developers . sber . ru / portal / products /\njazz-by-sber\nThis WACV paper is the Open Access version, provided by the Computer Vision Foundation.\nExcept for this watermark, it is identical to the accepted version;\nthe final published version of the proceedings is available on IEEE Xplore.\n4572"
+    },
+    {
+        "chunk_id": 6,
+        "source": "paper16",
+        "text": "Dataset\nSamples\nClasses\nSubjects\nScenes\nResolution\nAnnotations\nAnnotation Method\nLaRED, 2014 [13]\n243,000\n81\n10\n10\n640 × 480\nmasks\nautomatically\nOUHANDS, 2016 [22]\n3,000\n10\n23\nvarious\n640 × 480\nmasks, boxes\nautomatically\nHANDS, 2021 [25]\n12,000\n29\n5\n5\n960 × 540\nboxes\n–\nSHAPE, 2022 [2]\n33,471\n32\n20\nvarious\n4128 × 3096\nmasks, boxes\nmanually\nHaGRID, 2023\n554,800\n18 + 1\n37,583\n⩾37,583\n1920 × 1080\nboxes\nmanually\nTable 1. The main parameters of the mentioned hand static gesture datasets. + 1 in the third column means the dataset contains an extra\nclass “no gesture”. The number of scenes in the last row cannot exceed the number of subjects. Note that the HaGRID consists of at least\n90% FullHD images. The information about the annotation method for the HANDS dataset was not found.\nergotic functions [8]. Semiotic gestures aim at sharing in-\nformation, in our case, between humans and computers, to\nreceive a system response and can be static or dynamic."
+    },
+    {
+        "chunk_id": 7,
+        "source": "paper16",
+        "text": "ergotic functions [8]. Semiotic gestures aim at sharing in-\nformation, in our case, between humans and computers, to\nreceive a system response and can be static or dynamic.\nIn comparison, the ergotic gestures are manipulated with\nobjects (e.g., swipe or drag and drop something) and can\nonly be dynamic. Given the above and the necessity of a\nreal-time system in our domains that uses lightweight mod-\nels, datasets containing images with static gestures are more\nsuitable. Besides, related applications require that the HGR\nsystem exclusively make decisions based on gestures, i.e.,\nbe robust to the amount of context in images, background,\nsubjects, and lighting conditions.\nThis paper presents the HaGRID dataset to design the\nabove HGR system for home automation devices and ser-\nvices because existing datasets’ characteristics are insuf-\nficient (Section 2).\nThe proposed dataset contains more\nthan half a million images divided into 18 classes of not-"
+    },
+    {
+        "chunk_id": 8,
+        "source": "paper16",
+        "text": "vices because existing datasets’ characteristics are insuf-\nficient (Section 2).\nThe proposed dataset contains more\nthan half a million images divided into 18 classes of not-\nlanguage-oriented gesture signs (Fig. 1). Such gestures are\nchosen to design a device control system and serve one\nsemiotic functional role. Section 4.3 of this paper presents\na methodology for designing dynamic ergotic gestures by\ncombining a set of static semiotic ones. A small lexicon\nof the most comfortably designed actions in the dataset is\nconceived to reduce HGR system complexity and avoid un-\nnecessary cognitive load on the device user. We also added\nan extra class with samples of natural hand movements\nand called it “no gesture” to avoid false positive trigger-\ning. Remarkably, our dataset consists of many images per\nclass, all with considerable context, which differs in back-\nground, lighting, scene, and subjects. This heterogeneity is\nachieved using two crowdsourcing platforms, namely, Yan-"
+    },
+    {
+        "chunk_id": 9,
+        "source": "paper16",
+        "text": "class, all with considerable context, which differs in back-\nground, lighting, scene, and subjects. This heterogeneity is\nachieved using two crowdsourcing platforms, namely, Yan-\ndex.Toloka6 and ABC Elementary7. The dataset creation\npipeline is also provided in this paper as a contribution.\nThe HaGRID was annotated by bounding boxes to (1)\ndesign dynamic manipulative gestures, (2) error-free recog-\nnition at long distances, and in cases where there are sev-\neral people in the frame, (3) simplify full-frame hand ges-\nture classification task by reducing it to cropped hand image\nclassification. Also, we paid attention to other gesture user\n6https://toloka.yandex.ru\n7https://elementary.activebc.ru\nexperiences, i.e., the beat dancer app8 implemented in our\ndevices – this requires recognizing both hands in the frame,\nwhich is impossible without box markup. Besides, bound-\ning box annotations are more stable than keypoint annota-\ntions under challenging conditions such as extremal lighting"
+    },
+    {
+        "chunk_id": 10,
+        "source": "paper16",
+        "text": "which is impossible without box markup. Besides, bound-\ning box annotations are more stable than keypoint annota-\ntions under challenging conditions such as extremal lighting\nand large subject-to-camera distance.\nIn Section 5 of this paper, we provided the set of dataset\nablation experiments to explore the degree of dataset char-\nacteristics’ influence on the result of solving the HGR as\nclassification and detection problems.\nBesides, we con-\nducted experiments to demonstrate that the HaGRID can\nbe a sufficient dataset for pretraining HGR models with the\nfollowing finetuning.\n2. Related Work\n2.1. Hand Gesture Datasets\nThere\nare\nat\nleast\n50\nhand\ngesture\nrecognition\ndatasets.\nTheir gesture baskets can be divided into\n3 main groups of style [15]:\nsign language [29] [7],\nsemaphores [17] [31] [13] [25] [22] [2], and manipula-\ntion gestures [34] [23] [31]. The first group’s datasets pro-\npose complex dynamic gestures, which are more applica-"
+    },
+    {
+        "chunk_id": 11,
+        "source": "paper16",
+        "text": "sign language [29] [7],\nsemaphores [17] [31] [13] [25] [22] [2], and manipula-\ntion gestures [34] [23] [31]. The first group’s datasets pro-\npose complex dynamic gestures, which are more applica-\nble for their original purpose and redundantly for our goals\ndemanding straightforward actions.\nThe last two groups\nfind applications in home automation systems and human-\ncomputer interaction and perform semiotic and ergotic roles\naccordingly. As we aimed to build an HGR system with a\npredominantly semiotic role by adding manipulative ges-\ntures solely using heuristics, only datasets with static ges-\ntures are reviewed in this section.\nSince the HGR system users presumably will show ges-\ntures at a distance from the device, the trained model needs\nto capture the whole context and search for a person’s hand\nin it. However, some datasets with static gestures are in-\ntended for person-independent systems and contain sam-\nples of no human body with only hand parts, i.e., cropped"
+    },
+    {
+        "chunk_id": 12,
+        "source": "paper16",
+        "text": "in it. However, some datasets with static gestures are in-\ntended for person-independent systems and contain sam-\nples of no human body with only hand parts, i.e., cropped\nhand images [16] [18], which is why they are unsuitable\nfor us. Static gesture datasets are frequently annotated with\nthe following markup types or their combinations: class la-\nbels, bounding boxes, keypoints, and segmentation masks.\n8https://apps.sber.ru/salute-apps/\n4573"
+    },
+    {
+        "chunk_id": 13,
+        "source": "paper16",
+        "text": "Only class annotations are insufficient for us due to the need\nfor error-free work on the multiple-hand frames. Segmenta-\ntion masks are redundant and unsuitable for this task as they\nare not intended to classify objects so similar as hand ges-\ntures well, whereas keypoints are impossible to use as they\nstick together over long distances. To our knowledge, there\nare only 4 datasets for static gesture recognition with con-\ntext and appropriate annotations, including HANDS [25],\nSHAPES [2], OUHANDS [22], and LaRED [13].\nThey differ by the number of samples, image resolution,\nthe number of classes, the presence of negative samples,\nthe homogeneity of scenes, and the distance between the\ncamera and each subject. The SHAPE and the OUHANDS\nare marked by bounding boxes and segmentation masks; the\nLaRED are marked only with masks, and the HANDS –\nonly with bounding boxes. This paper discusses datasets for\nsolving only hand gesture classification and hand detection"
+    },
+    {
+        "chunk_id": 14,
+        "source": "paper16",
+        "text": "LaRED are marked only with masks, and the HANDS –\nonly with bounding boxes. This paper discusses datasets for\nsolving only hand gesture classification and hand detection\nproblems without segmentation.\nThe mentioned datasets are not appropriate for construct-\ning our HGR system due to the insufficiency of heterogene-\nity in such characteristics as scenes and subjects, which\nnegatively affects the heterogeneity in lighting conditions\nand subject-to-camera distances. In the ablation study (Sec-\ntion 5), the experiments proving the necessity of such char-\nacteristics for neural network generalization are provided.\nBesides, there are other disadvantages to each of them:\n• The LaRED dataset [13] is divided into 27 main classes of\ngestures and 54 additional classes created by rotating the pri-\nmary gestures about two axes. It was collected by a short-\nrange depth camera, which implies a small context amount\nin the images; therefore, the trained model is mistaken at a"
+    },
+    {
+        "chunk_id": 15,
+        "source": "paper16",
+        "text": "mary gestures about two axes. It was collected by a short-\nrange depth camera, which implies a small context amount\nin the images; therefore, the trained model is mistaken at a\nsignificant subject-to-camera distance. Besides, each subject\nperformed 300 images per class with only slight hand move-\nments, making these images almost identical. Unfortunately,\nwe could not obtain this dataset due to an outdated link.\n• The OUHANDS dataset [22] was created to streamline the\ntesting process for Human-Computer Interaction (HCI) tools\nwith 10 unique categories, each containing 300 images.\nHowever, training a robust model for our particular task may\nnot be achievable with this dataset. Different recording con-\nditions are only able to improve the situation partially. Be-\nsides, most of the subject’s hands are close to the camera.\n• The HANDS [25] is a dataset for human-robot interaction\nconsisting of 29 suitable for this application gestures, which"
+    },
+    {
+        "chunk_id": 16,
+        "source": "paper16",
+        "text": "sides, most of the subject’s hands are close to the camera.\n• The HANDS [25] is a dataset for human-robot interaction\nconsisting of 29 suitable for this application gestures, which\nare simple and easy to use. However, most of them differ\nlittle, complicating the use of the HGR system. The authors\nconsider lighting conditions; nevertheless, it cannot be suffi-\ncient for dataset variability with only 5 backgrounds.\n• The gesture classes of the SHAPE [2] dataset are chosen with\na focus on the meaning; however, some gestures are specific\nin terms of culture, which limits their usefulness to people\nfrom other countries. The authors varied external factors dur-\ning the recording samples and adapted them to the specific\ndomain of mobile-related development by changing sides of\ntaking photos. Despite this, SHAPE is not diverse in sub-\njects, and some gestures are not intuitive for device users.\nNote that the SHAPE is not publicly available, and we could"
+    },
+    {
+        "chunk_id": 17,
+        "source": "paper16",
+        "text": "taking photos. Despite this, SHAPE is not diverse in sub-\njects, and some gestures are not intuitive for device users.\nNote that the SHAPE is not publicly available, and we could\nnot get them upon request from the authors.\nThe above limitations push us to create a new HGR\ndataset with no such weaknesses. From Table 1, one can\nsee that the proposed dataset is the largest in sample num-\nber and has the highest diversity scores across subjects and\nscenes, which helps avoid overfitting.\n2.2. Dataset Creation Pipeline\nSince the dataset creation pipeline is one of our contri-\nbutions, we reviewed existing pipelines of collecting and\nannotating HGR datasets. The following creation methods\ndiffer in the choice of subjects and their quantity, depending\non their number, the method of recording and transferring\nsamples, and data diversification and annotation methods.\nMost of the reviewed datasets were created by manual\nrecording, which prevented them from being more hetero-"
+    },
+    {
+        "chunk_id": 18,
+        "source": "paper16",
+        "text": "samples, and data diversification and annotation methods.\nMost of the reviewed datasets were created by manual\nrecording, which prevented them from being more hetero-\ngeneous and containing enough samples. To improve the\nsituation slightly, the dataset’s authors attempted to diver-\nsify the data. As an illustration, a variety of the HANDS\ndataset was achieved through (1) 5 different backgrounds,\n(2) the presence of cluttered and uniform backgrounds\nwhile the subject is standing still or moving, and (3) artifi-\ncial and natural lights. The SHAPE was diversified by vary-\ning subject-to-camera distances, backgrounds, and clothing.\nLaRED dataset’s authors optimized data recording using\ntheir software tool. However, the requirement for subjects\nto record 100 frames for each gesture three times entails\nlow data variability. The HANDS and the SHAPE operate\none of the tricks in creating data in such limited conditions\nperforming the same gesture with both hands to optimize"
+    },
+    {
+        "chunk_id": 19,
+        "source": "paper16",
+        "text": "low data variability. The HANDS and the SHAPE operate\none of the tricks in creating data in such limited conditions\nperforming the same gesture with both hands to optimize\nthe collecting and annotating of images and increasing the\nnumber of classes by 2 times (right-hand and left-hand ges-\ntures are 2 different classes). Regarding the labeling pro-\ncess, as we know, only the SHAPE dataset was annotated\nmanually. Segmentation masks in the OUHANDS and the\nLaRED were generated using depth images, which entails\nthe roughness of this markup.\nThe most significant limitations of existing static ges-\nture datasets are homogeneous context, restricted subject\namount, and insufficient number of samples to train robust\nHGR models. It is affected by the creation of a datasets\npipeline founded on manual recording in the controlled lab\nenvironment [14]. We utilize crowdsourcing platforms to\novercome these restrictions and build close-to-real distri-"
+    },
+    {
+        "chunk_id": 20,
+        "source": "paper16",
+        "text": "pipeline founded on manual recording in the controlled lab\nenvironment [14]. We utilize crowdsourcing platforms to\novercome these restrictions and build close-to-real distri-\nbution variant data. The authors [14] underlined that this\nchoice of data creation method can enhance recognition per-\nformance.\n3. HaGRID Dataset\nThe need for a combination of such characteristics as (1)\nhigh-resolution images, (2) heterogeneity across the image\n4574"
+    },
+    {
+        "chunk_id": 21,
+        "source": "paper16",
+        "text": "Figure 2. Bounding box aggregation pipeline. For hard aggregation, consistency checks are applied for all markups before averaging. If it\nfails, soft aggregation prepares for successful hard aggregation.\nscene, subjects, their age and gender, lighting, subject-to-\ncamera distance, (3) a sufficient number of samples, and (4)\nstatic and functional gestures became the motivation for cre-\nating the HaGRID and involving crowdsourcing platforms\nfor it. The dataset comprises more than half a million pre-\ndominantly FullHD RGB images, with the most suitable\nfor our domain 18 gestures and a “no gesture” class. The\ndataset was recorded with 37,583 subjects and at least an\nequal number of unique scenes, displaying heterogeneity in\nother characteristics. In addition to class division, the Ha-\nGRID is annotated by bounding boxes for the hand detec-\ntion problem: each image has n corresponding bounding\nboxes for n hands in a frame, where n ∈[1, 2].\n3.1. Dataset Creating Pipeline"
+    },
+    {
+        "chunk_id": 22,
+        "source": "paper16",
+        "text": "GRID is annotated by bounding boxes for the hand detec-\ntion problem: each image has n corresponding bounding\nboxes for n hands in a frame, where n ∈[1, 2].\n3.1. Dataset Creating Pipeline\nThe dataset creation pipeline is described step by step\nto showcase how heterogeneity is achieved and to provide\ndetails on the dataset’s content and quality.\nThe dataset\nwas created in 4 stages: (1) the image collection stage\ncalled mining; (2) the validation stage, where mining rules\nand some conditions are checked; (3) the filtration of inap-\npropriate images; and (4) the annotation stage for markup\nbounding boxes. The classification stage is built into the\nmining, validation, and annotation pipelines by splitting\npools for each gesture class. We use two Russian crowd-\nsourcing platforms: Yandex.Toloka (1, 2, and 4 steps) and\nABC Elementary (3 and 4 steps) to complete these stages.\nNote that all crowd workers are aware of the prohibition on"
+    },
+    {
+        "chunk_id": 23,
+        "source": "paper16",
+        "text": "sourcing platforms: Yandex.Toloka (1, 2, and 4 steps) and\nABC Elementary (3 and 4 steps) to complete these stages.\nNote that all crowd workers are aware of the prohibition on\nthe transfer of personal data to third parties and the presence\nof dubious content. Using two platforms at the annotation\nstage allows us to increase the final annotation confidence\ndue to the two different annotator domains’ involvement.\nThe details of each of the steps are as follows:\n1. Mining. The crowd workers’ task was to take a photo\nof themselves with the particular gesture indicated in the\ntask description. We define the following criteria: (1) the\nannotator must be at a distance of 0.5 – 4 meters from the\ncamera, and (2) the hand with gesture must be entirely in\nthe frame. Sometimes, we altered lighting conditions from\nlow light to a bright light source to make the neural net-\nwork resilient to extreme cases. Periodically, we changed\ncountries in mining tasks on the crowdsourcing platform,"
+    },
+    {
+        "chunk_id": 24,
+        "source": "paper16",
+        "text": "low light to a bright light source to make the neural net-\nwork resilient to extreme cases. Periodically, we changed\ncountries in mining tasks on the crowdsourcing platform,\ncovering more ethnic groups due to their correlation with\ncountries. All received images were also checked for dupli-\ncates using image hash comparison [4]. The mining tasks\nwere accompanied by instructions with a warning about the\nfurther publication of the crowd workers’ photos.\n2. Validation. We implemented the validation stage to\nachieve high-confidence images by removing those where\nthe conditions for the mining stage were not fulfilled. The\nvalidation stage aims to favor correctly executed images at\nthe mining stage, i.e., classify them with classes “correct”\nand “incorrect”; only “correct” images get into the dataset.\nFor the high-quality validation, we operated tricks such as\naccess to the main tasks after training and exams and us-\ning control tasks to prevent crowd workers from cheating."
+    },
+    {
+        "chunk_id": 25,
+        "source": "paper16",
+        "text": "For the high-quality validation, we operated tricks such as\naccess to the main tasks after training and exams and us-\ning control tasks to prevent crowd workers from cheating.\nFor each image at this stage, we set in the system the dy-\nnamic overlap of 3 to 5 performers, i.e., each assignment\nwas completed by at least three crowd workers. Based on\nthe majority rule, some photos were rejected, while the rest\nhave been passed to the filtration stage. After the validation\nstage, about 70% of images remained for each gesture.\n3. Filtration. For ethical reasons, images of children,\npeople without clothes, and images with inscriptions were\n4575"
+    },
+    {
+        "chunk_id": 26,
+        "source": "paper16",
+        "text": "Figure 3. Image resolution, brightness, subject-to-camera distance, subjects, and class separability analysis. a) image resolution distribu-\ntion: samples overlap with equal transparency and density reveals quantity, the minimum dimension of 90% images is 1,080; b) subjects’\ndevices: only smartphones, personal computers, and tablets were used while recording; c), d), e) image distribution by subjects in train,\nvalidation, and test sets, respectively; f) subject-to-distance distribution: distance was computed as bounding box area relative to the whole\nimage (the boxes occupy up to 16% of the image); g) brightness distribution: images were converted to grayscale, and average pixel\nbrightness was received; h) subjects’ countries distribution; i) t-SNE plot by ResNet-18 features.\nremoved from the HaGRID at this stage. We use a solid rule\nfor the filtration stage – 5 workers should filter each image.\nFor an answer to be accepted, it must receive at least four"
+    },
+    {
+        "chunk_id": 27,
+        "source": "paper16",
+        "text": "removed from the HaGRID at this stage. We use a solid rule\nfor the filtration stage – 5 workers should filter each image.\nFor an answer to be accepted, it must receive at least four\npositive votes from workers. Similar to the validation stage,\nannotators pass a thorough exam, training, and control tasks\nat the filtration stage. More than 85% images passed the\nfiltration stage.\n4. Annotation. At the annotation stage, after passing the\nexam, crowd workers should draw a bounding box around\nthe gesture on each image and another one around the hand\nwithout the gesture if it is entirely in the frame with specific\nlabels (“gesture” or “no gesture”). Annotation overlap is\nplaced dynamically from 3 to 5 in each crowdsourcing plat-\nform. All markups, ranging from 6 to 10, are collected from\ntwo platforms and aggregated by one of the two schemes –\nhard and soft aggregation algorithms (see Fig. 2). About 5%\nof images are not aggregated after the maximum overlap is\nnot included in the dataset."
+    },
+    {
+        "chunk_id": 28,
+        "source": "paper16",
+        "text": "hard and soft aggregation algorithms (see Fig. 2). About 5%\nof images are not aggregated after the maximum overlap is\nnot included in the dataset.\n3.2. Dataset Characteristics\nSize and Quality. HaGRID size is approximately 770\nGB – it includes more than 550 thousand images divided\ninto 18 most intuitive classes of gestures: “call”, “dis-\nlike”, “fist”, “four”, “like”, “mute”, “ok”, “one”, “palm”,\n“peace”, “peace inverted”, “rock”, “stop”, “stop inverted”,\n“three”, “three2”, “two up”, “two up inverted” (shown in\nFig. 1). Since the HaGRID was designed to control de-\nvices or device apps, gestures are endowed to raise spe-\ncific associations due to their meaning (see Table 4 in the\nsupplementary material). Such gestures allow us to solve\nparticular problems, such as like/dislike something by rele-\nvant signs, play/stop the recording by “peace” and “stop”,\nturning on/off the sound by “peace” and “mute”, controlling\nthe adjustable scale (e.g., volume scale) by “one”, “peace”,"
+    },
+    {
+        "chunk_id": 29,
+        "source": "paper16",
+        "text": "vant signs, play/stop the recording by “peace” and “stop”,\nturning on/off the sound by “peace” and “mute”, controlling\nthe adjustable scale (e.g., volume scale) by “one”, “peace”,\n“three”, “four”, “palm” and their combinations, etc. In ad-\ndition, the user can combine some static gestures to create\na new dynamic gesture not included in the dataset (Sec-\ntion 4.3). Each gesture class contains more than 30,000\nhigh-resolution RGB images (Fig. 3a).\nContent. The HaGRID was recorded by 37,583 unique\nfaces in at least as many unique scenes. The subjects’ ages\nvary from 18 to 65 years old and are gender balanced. The\nsubjects are primarily from Russia and, to a lesser degree,\n115 other countries; this distribution is proposed in Fig. 3h.\nWe considered the scene specifics of such applications as\nhome automation and video conferencing services, and we\npreferred mainly indoor context with considerable variation\nin lighting, including artificial and natural light. Besides,"
+    },
+    {
+        "chunk_id": 30,
+        "source": "paper16",
+        "text": "home automation and video conferencing services, and we\npreferred mainly indoor context with considerable variation\nin lighting, including artificial and natural light. Besides,\nthe dataset includes images taken in extreme conditions,\nsuch as facing and standing back to a window (see Fig. 3g).\nAlso, the subjects demonstrated gestures at different dis-\ntances from the camera (Fig. 3f) of the smartphone, per-\nsonal computer, or tablet (Fig. 3b). All images contain con-\ntext information that is significant for our applications (see\nFig. 5 in the supplementary material). The mean and stan-\ndard deviation of HaGRID images’ pixel values are equal\n[0.54, 0.499, 0.473] and [0.231, 0.232, 0.229], respectively.\nAnnotations. The HaGRID was annotated by bound-\ning boxes, the optimal annotation type for our applications.\nSuch a choice allows us to train lightweight hand gesture\ndetectors or recognize swipes and other dynamic gestures\nfor interaction with objects on the device’s screen. Each"
+    },
+    {
+        "chunk_id": 31,
+        "source": "paper16",
+        "text": "Such a choice allows us to train lightweight hand gesture\ndetectors or recognize swipes and other dynamic gestures\nfor interaction with objects on the device’s screen. Each\nimage was annotated by at least one box for a hand with\na gesture. If the second hand is in the frame – the bound-\n4576"
+    },
+    {
+        "chunk_id": 32,
+        "source": "paper16",
+        "text": "Model\nModel size (MB)\nParameters (M)\nInference time (ms)\nMetrics\nF1-score\nmAP\nResNet-18\n89.6\n11.2\n49.25\n97.5\n-\nResNet-152\n466.5\n58.3\n292.6\n95.5\n-\nResNeXt-50\n184.6\n23.2\n135.6\n98.3\n-\nResNeXt-101\n696.4\n87\n397.2\n97.5\n-\nMobileNetV3 small\n12.5\n1.6\n10.6\n86.4\n-\nMobileNetV3 large\n34\n4.3\n33.4\n91.9\n-\nVitB16\n686.6\n85.9\n325.5\n91.1\n-\nRetinaNet ResNet-50\n294.2\n38.2\n235\n-\n79.1\nSSDLite MobileNetV3 small\n9.4\n1.9\n30.7\n-\n57.7\nSSDLite MobileNetV3 large\n20\n3.4\n52.5\n-\n71.6\nYoloV7 tiny\n49\n6\n14.4\n-\n71.6\nTable 2. Models’ training results on the HaGRID. F1-score and mAP (mean Average Precision) were chosen as the classification and\ndetection metrics, respectively. Intel(R) Xeon(R) Platinum 8168 CPU @ 2.70GHz is used for computing inference time.\ning box is provided for it with the extra class “no gesture”.\nAlthough the “no gesture” hands are predominantly passive\nand thus similar to each other, it’s sufficient to eliminate\nprimitive false positive errors (see the demo in the reposi-"
+    },
+    {
+        "chunk_id": 33,
+        "source": "paper16",
+        "text": "Although the “no gesture” hands are predominantly passive\nand thus similar to each other, it’s sufficient to eliminate\nprimitive false positive errors (see the demo in the reposi-\ntory). We plan to diversify the extra class by adding sam-\nples with natural hand movements similar to target gestures\nin future dataset versions. Only 108,056 images contain a\nbounding box with an extra class. Bounding box annota-\ntions are proposed in COCO [21] format with normalized\nrelative coordinates.\nSplitting. The dataset was split into training (74%), val-\nidation (10%) and testing (16%) sets by subject. The sub-\njects in training, validation, and testing sets equal 33,966,\n1,908, and 1,709, respectively. Figure 3c-e indicates that\nthe test and validation sets were purposely designed to be\nmore heterogeneous in subjects than the train set for the\nmost representative results. Each set preserved the origi-\nnal distributions of brightness, subject-to-camera distance,"
+    },
+    {
+        "chunk_id": 34,
+        "source": "paper16",
+        "text": "more heterogeneous in subjects than the train set for the\nmost representative results. Each set preserved the origi-\nnal distributions of brightness, subject-to-camera distance,\nage, and gender due to their random sampling.\nIn addition, the anonymized user ID hash is proposed\nin the annotation file, which allows the researchers to split\nthe HaGRID themselves. Since the dataset size is large,\nwe designed a small version (100 samples per class) of the\nHaGRID with annotations for preview at the link for its\nuser comfort. For the same reason, the downscaled version\n(where the maximum image dimension is 512) with a 26 GB\nsize is available. Dataset users can take advantage of auto-\nmatically generated keypoint annotations by MediaPipe [1]\nto train hand estimation models. Besides, keypoint annota-\ntions can be used to pre-train the model on the HaGRID and\nfinetune on the other hand gesture classes.\n4. Base Expirements\nTo assess the capabilities of the dataset, we evaluated"
+    },
+    {
+        "chunk_id": 35,
+        "source": "paper16",
+        "text": "tions can be used to pre-train the model on the HaGRID and\nfinetune on the other hand gesture classes.\n4. Base Expirements\nTo assess the capabilities of the dataset, we evaluated\n11 popular architectures of heterogeneous size and number\nof parameters for the two HGR tasks: hand detection and\nhand gesture classification. We chose SSDLite with Mo-\nbileNetV3 small and large backbones [28], RetinaNet with\nResNet50 backbone [20] and YoloV7 tiny [32] as detectors,\nand set of 7 architectures consisting of ResNet-18, ResNet-\n152 [11], ResNeXt-50, ResNeXt-101 [33], ViTB16, Mo-\nbileNetV3 small and MobileNetV3 large [12] as classifiers.\n4.1. Experiment Setup\nDue to the large dataset size, each model, except pre-\ntrained on ImageNet ViTB16, was trained from scratch on\nfull-frame images. The metrics below were calculated on\nthe testing set containing 90,000 images. We downsampled\nimages on the maximum side to a size of 224 and padded\nthe minimum side to 224. The models were trained on a"
+    },
+    {
+        "chunk_id": 36,
+        "source": "paper16",
+        "text": "the testing set containing 90,000 images. We downsampled\nimages on the maximum side to a size of 224 and padded\nthe minimum side to 224. The models were trained on a\nsingle Tesla V100 with 32GB with a batch size of 128 to\nconvergence – an early stop was triggered if the metric did\nnot increase by at least 0.01 after 10 epochs. The training\nset-up for the models is summarized in Table 5 in supple-\nmentary material. Note that the “no gesture” class is utilized\nonly in the detection task, while full-frame classification is\nbased on 18 main classes due to each image containing one\nof the target gestures.\n4.2. Results\nTable 2 presents the evaluation results of the selected\nmodel architectures for solving gesture detection and classi-\nfication problems. Such high performance demonstrated the\ndataset’s ability to train models without added complexities\nin the training stage. The demo of our gesture recognition\nsystem solving classification and detection tasks is available"
+    },
+    {
+        "chunk_id": 37,
+        "source": "paper16",
+        "text": "dataset’s ability to train models without added complexities\nin the training stage. The demo of our gesture recognition\nsystem solving classification and detection tasks is available\nin our repository. It highlights the practical applications of\ntraining models on image datasets, such as real-time and\nvideo stream analysis, for product development.\n4.3. Dynamic Gesture Recognition\nThe observance of specific rules is applied to build a dy-\nnamic gesture recognizer using the dataset with only static\n4577"
+    },
+    {
+        "chunk_id": 38,
+        "source": "paper16",
+        "text": "Figure 4. The screenshots from the dynamic gesture recognition\ndemo: a) “swipe right” gesture recognition occurred by detecting\nserial pair of left-rotated “stop inverted” and right-rotated “stop”;\nb) “drag and drop” – by detecting the subsequence: “palm”, “fist”\nand “palm”.\ngestures. The essence of this approach is to divide the dy-\nnamic gesture into two components: the initial and final\ngestures. For example, the dynamic gesture “swipe right”\nconsists of a left-rotated and a right-rotated gesture “stop”\nas a start and as an end, respectively, while the gesture “drag\nand drop” can be shown by “fist” and “palm” as a start-end\npair (see Figure 4).\nWe developed the gesture prediction queues to imple-\nment dynamic gestures as an empty list of a certain depth,\nfilled with events on each frame. Queues verify the cor-\nrectness of the execution of a dynamic gesture. The queue\nis replenished with found bounding boxes by hand detector"
+    },
+    {
+        "chunk_id": 39,
+        "source": "paper16",
+        "text": "filled with events on each frame. Queues verify the cor-\nrectness of the execution of a dynamic gesture. The queue\nis replenished with found bounding boxes by hand detector\nand corresponding classes of gestures from the classifier.\nThe recognition depends on the sequence of actions in the\nqueue, time constraints between start and end gestures, and\npositional location of start and end gestures. After identify-\ning a dynamic gesture, the queue is reset, and the process\ncontinues with the definition of static gestures.\nSince we need to detect both hand gestures and interme-\ndiate states of the hand and to recognize rotated gestures,\nthe YoloV7 tiny detector and LeNet [19] as the lightweight\nclassifier were utilized for the demo separately.\n5. Ablation Study for HaGRID\nAn ablation study was conducted to assess the main het-\nerogeneity characteristics’ impact individually. We tested\nthe necessity for large amounts of data, diversity in bright-"
+    },
+    {
+        "chunk_id": 40,
+        "source": "paper16",
+        "text": "An ablation study was conducted to assess the main het-\nerogeneity characteristics’ impact individually. We tested\nthe necessity for large amounts of data, diversity in bright-\nness, subject-to-camera distances, and number of subjects\nby changing these characteristics and freezing the rest. In\nthe ablation study, we utilized ResNet-18, ViTB16, and Mo-\nbileNetV3 (small and large versions) for the classification\ntask and SSDLite with both small and large MobileNetV3\nand RetinaNet with ResNet50 for detection. Several train-\ning data modifications were sampled for each of the de-\nscribed characteristics to find the best one for all models.\nValidation and test sets were unchanged in all experiments.\nIn addition to checking the influence of the characteris-\ntics on the HaGRID test, we also decided to assess it on\nother data – on the OUHANDS. As the HaGRID and the\nOUHANDS datasets do not intersect in gesture classes, we\nfinetuned all models learned by different training data mod-"
+    },
+    {
+        "chunk_id": 41,
+        "source": "paper16",
+        "text": "other data – on the OUHANDS. As the HaGRID and the\nOUHANDS datasets do not intersect in gesture classes, we\nfinetuned all models learned by different training data mod-\nifications on the OUHANDS and tested on its test set. The\nresults also show the HaGRID ability to be the acceptable\ndataset for pretraining models for the static HGR task.\n5.1. Quantitative Necessity\nTo assess the influence of the data amount, we trained 5\nmodels per architecture with different sample numbers per\nclass from 5,000 to all samples in steps of 5,000. The deter-\nministic slice was used for a train set expansion, i.e., images\nin the n[i] set are included in the n[i+1] set. The other het-\nerogeneity characteristics retain their uniform distribution\ndue to the premixing of data, which limits their influence\nand provides the interpreted results.\nQuantitative Necessity Results. The quantitative ne-\ncessity results for classifiers and detectors (see Fig. 5a and"
+    },
+    {
+        "chunk_id": 42,
+        "source": "paper16",
+        "text": "and provides the interpreted results.\nQuantitative Necessity Results. The quantitative ne-\ncessity results for classifiers and detectors (see Fig. 5a and\nFig. 6a) demonstrated an upward trend as the training set in-\ncreases. On average, the enhancement increases rapidly at\nthe beginning and less significantly towards the end. While\napproximately 23,000 samples per class are redundant for\nclassifiers, then for detectors, they are essential and justi-\nfied to achieve the best performance.\n5.2. Subject-Diversity Necessity\nThe significance of the subject’s quantity is also eval-\nuated by varying the number of unique individuals in the\ntraining set. The set amount is fixed to 10,000 images per\nclass for all diversity experiments; this number allows us to\nsample data with different heterogeneity, which is enough\nfor high performance. The other 2 characteristics – bright-\nness and subject-to-camera distance distributions – are also\nunchanged. We utilized a sampling algorithm for each class"
+    },
+    {
+        "chunk_id": 43,
+        "source": "paper16",
+        "text": "for high performance. The other 2 characteristics – bright-\nness and subject-to-camera distance distributions – are also\nunchanged. We utilized a sampling algorithm for each class\nto vary the subject’s quantity inside 10,000 images. This\nalgorithm sorts the list by the number of images from a\nunique subject and moves toward the middle from the left\nand right at different speeds (depending on the required sub-\nject’s quantity).\nSubject-Diversity Necessity Results. Despite that, the\ntrend is practically unchanged on the HaGRID test in classi-\nfication and detection tasks (shown in Fig. 5b and Fig. 6b),\nthe number of subjects has a positive effect on additional\ntraining on OUHANDS data.\n5.3. Lighting-Divercity Necessity\nSimilar to the subjects’ experiments, we varied lighting\ndiversity inside 10,000 images. Four brightness coefficient\n4578"
+    },
+    {
+        "chunk_id": 44,
+        "source": "paper16",
+        "text": "Figure 5. The impact visualization of such dataset characteristics as a) sample amount, diversity in b) subjects, c) lighting, and d) subject-\nto-camera distance to train accurate and resilient classifiers. Solid lines correspond to models trained and tested on the HaGRID dataset,\nwhereas the dotted line is the model pretrained on the HaGRID, finetuned on the OUHANDS, and tested on its test set. The F1-score of\nthe trained from scratch on the OUHANDS ResNet-18 is 60.6.\nFigure 6. Similar to the graph above, the detectors were trained on data of various heterogeneity and quantity to assess the impact of dataset\ncharacteristics.\nwindows were chosen from homogeneous lighting to het-\nerogeneous: [100, 150], [75, 175], [50, 200], [5, 235]. The\nenormous amount of data allows us to maintain distributions\nof the rest of the features: subjects and subject-to-camera\ndistance.\nLighting-Diversity Necessity Results. Figure 5c and\nFigure 6c show that lighting diversity is not a significant"
+    },
+    {
+        "chunk_id": 45,
+        "source": "paper16",
+        "text": "of the rest of the features: subjects and subject-to-camera\ndistance.\nLighting-Diversity Necessity Results. Figure 5c and\nFigure 6c show that lighting diversity is not a significant\nfeature in the context of testing on the same dataset. How-\never, finetuning on the OUHANDS dataset is most effective\nwith more significant brightness heterogeneity.\n5.4. Distance-Diversity Necessity\nAs with the lighting-diversity experiments, windowed\nsampling was applied to perform the ablation distances-\ndiversity experiment.\nTo vary the heterogeneity of the\nsubject-to-camera distance, we selected windows with a\nstatic basis close to zero: [0.04, 2.8], [0.04, 5], [0.04, 11],\n[0.04, 65]. The distance coefficients were calculated as the\nratio of the area of the bounding box to the area of the im-\nage:\n distanc e  = 1 0 0 \\ast W \\ast H,\nwhere W, H are the width and the height of the gesture\nbounding box, respectively. Since bounding box annota-\ntions in the HaGRID are relativity, the division by the image"
+    },
+    {
+        "chunk_id": 46,
+        "source": "paper16",
+        "text": "where W, H are the width and the height of the gesture\nbounding box, respectively. Since bounding box annota-\ntions in the HaGRID are relativity, the division by the image\narea is omitted, and for perceiving convenience, we have\nmultiplied the result by a constant equal to 100. As in other\nexperiments, the training set contains 10,000 per class, and\nthe distributions of the rest of the heterogeneous character-\nistics are saved.\nDistance-Diversity Necessity Results. The classifiers’\nand detectors’ performance depends on subject-to-camera\ndistance diversity both for the HaGRID test and for the\nOUHANDS finetuning (see Fig. 5d and Fig. 6d).\n6. Conclusion\nIn this paper, we introduce the HAnd Gesture Recogni-\ntion Dataset called HaGRID, one of the largest and most\ndiverse in subjects and context HGR datasets. It is mainly\nintended to be used in system control devices, but the\npotential for its application is quite vast.\nHeterogeneity"
+    },
+    {
+        "chunk_id": 47,
+        "source": "paper16",
+        "text": "diverse in subjects and context HGR datasets. It is mainly\nintended to be used in system control devices, but the\npotential for its application is quite vast.\nHeterogeneity\nin such characteristics as subjects, subject-to-camera dis-\ntances, scenes, and lighting conditions positively influence\nthe training of a resilient model. We also show the ability of\nselected classes of gestures to construct dynamic gestures\nand provide its recognition demo. Our following work with\nthe HaGRID consists of increasing the gesture classes, sam-\nples with natural behaviors of users’ hands similar to the\ntarget gestures, and samples with different subjects’ trans-\nlations and rotations. The whole dataset, its downsampled\nversion, the trial version with 100 images per class, pre-\ntrained models, and the dynamic gesture recognition demo\nare publicly available in the repository9.\n9https://github.com/hukenovs/hagrid\n4579"
+    },
+    {
+        "chunk_id": 48,
+        "source": "paper16",
+        "text": "References\n[1] Mediapipe hands. https://solutions.mediapipe.\ndev/hands, 2019.\n[2] SHAPE Dataset.\nhttps://users.soict.hust.\nedu.vn/linhdt/dataset/, 2021.\n[3] P. N. Arathi, S. Arthika, S. Ponmithra, K. Srinivasan, and\nV. Rukkumani. Gesture based home automation system. In\n2017 International Conference on Nextgen Electronic Tech-\nnologies: Silicon to Software (ICNETS2), pages 198–201,\n2017.\n[4] Zauner C. Implementation and benchmarking of perceptual\nimage hash functions. 2010.\n[5] L. Chen, F. Wang, H. Deng, and K. Ji. A survey on hand\ngesture recognition.\nIn 2013 International Conference on\nComputer Sciences and Applications, pages 313–316, 2013.\n[6] S. Clough and M. C. Duff. The role of gesture in commu-\nnication and cognition: Implications for understanding and\ntreating neurogenic communication disorders. Frontiers in\nHuman Neuroscience, 14, 2020.\n[7] S. Escalera, J. Gonz´alez, X. Bar´o, M. Reyes, O. Lopes, I.\nGuyon, V. Athitsos, and H. Escalante. Multi-modal gesture"
+    },
+    {
+        "chunk_id": 49,
+        "source": "paper16",
+        "text": "Human Neuroscience, 14, 2020.\n[7] S. Escalera, J. Gonz´alez, X. Bar´o, M. Reyes, O. Lopes, I.\nGuyon, V. Athitsos, and H. Escalante. Multi-modal gesture\nrecognition challenge 2013: dataset and results. Proceedings\nof the 15th ACM on International conference on multimodal\ninteraction, pages 445–452, 2013.\n[8] Dejan Chandra Gope. Hand gesture interaction with human-\ncomputer. Global Journal of Computer Science and Tech-\nnology, 2012.\n[9] Z. Halim and G. Abbas.\nA kinect-based sign language\nhand gesture recognition system for hearing- and speech-\nimpaired: A pilot study of pakistani sign language. Assistive\nTechnology, 27:34–43, 2015.\n[10] H. S. Hasan and S. A. Kareem. Human computer interac-\ntion for vision based hand gesture recognition: A survey. In\n2012 International Conference on Advanced Computer Sci-\nence Applications and Technologies (ACSAT), pages 55–60,\n2012.\n[11] K. He, X. Zhang, S. Ren, and J. Sun. Deep residual learning\nfor image recognition. In 2016 IEEE Conference on Com-"
+    },
+    {
+        "chunk_id": 50,
+        "source": "paper16",
+        "text": "ence Applications and Technologies (ACSAT), pages 55–60,\n2012.\n[11] K. He, X. Zhang, S. Ren, and J. Sun. Deep residual learning\nfor image recognition. In 2016 IEEE Conference on Com-\nputer Vision and Pattern Recognition (CVPR), pages 770–\n778, 2016.\n[12] A. Howard, M. Sandler, B. Chen, W. Wang, L.-C. Chen, M.\nTan, G. Chu, V. Vasudevan, Y. Zhu, R. Pang, H. Adam, and\nQ. Le. Searching for mobilenetv3. In 2019 IEEE/CVF In-\nternational Conference on Computer Vision (ICCV), pages\n1314–1324, 2019.\n[13] Yuan-Sheng Hsiao, Jordi Sanchez-Riera, Tekoing Lim, Kai-\nLung Hua, and Wen-Huang Cheng.\nLared: a large rgb-d\nextensible hand gesture dataset. In ACM SIGMM Conference\non Multimedia Systems, 2014.\n[14] In-Taek Jung, Sooyeon Ahn, JuChan Seo, and Jin-Hyuk\nHong. Exploring the potentials of crowdsourcing for gesture\ndata collection. International Journal of HumanComputer\nInteraction, 0(0):1–10, 2023.\n[15] M. Karam and M. C. Schraefel. A taxonomy of gestures in\nhuman computer interactions. 2005."
+    },
+    {
+        "chunk_id": 51,
+        "source": "paper16",
+        "text": "data collection. International Journal of HumanComputer\nInteraction, 0(0):1–10, 2023.\n[15] M. Karam and M. C. Schraefel. A taxonomy of gestures in\nhuman computer interactions. 2005.\n[16] Shagun Katoch, Varsha Singh, and Uma Shanker Tiwary. In-\ndian sign language recognition system using surf with svm\nand cnn. Array, 14:100141, 2022.\n[17] T.K. Kim, S.F. Wong, and R. Cipolla. Tensor canonical cor-\nrelation analysis for action classification. In 2007 IEEE Con-\nference on Computer Vision and Pattern Recognition, pages\n1–8, 2007.\n[18] G. Latif, N. Mohammad, J. Alghazo, R. AlKhalaf, and R.\nAlKhalaf. Arasl: Arabic alphabets sign language dataset.\nData in Brief, 23:103777, 2019.\n[19] Yann LeCun, L´eon Bottou, Yoshua Bengio, and Patrick\nHaffner. Gradient-based learning applied to document recog-\nnition. In Proceedings of the IEEE, volume 86, pages 2278–\n2324, 1998.\n[20] Tsung-Yi Lin, Priya Goyal, Ross B. Girshick, Kaiming He,\nand Piotr Doll´ar. Focal loss for dense object detection. 2017"
+    },
+    {
+        "chunk_id": 52,
+        "source": "paper16",
+        "text": "nition. In Proceedings of the IEEE, volume 86, pages 2278–\n2324, 1998.\n[20] Tsung-Yi Lin, Priya Goyal, Ross B. Girshick, Kaiming He,\nand Piotr Doll´ar. Focal loss for dense object detection. 2017\nIEEE International Conference on Computer Vision (ICCV),\npages 2999–3007, 2017.\n[21] Tsung-Yi Lin, Michael Maire, Serge Belongie, James Hays,\nPietro Perona, Deva Ramanan, Piotr Doll´ar, and C Lawrence\nZitnick. Microsoft coco: Common objects in context. In\nComputer Vision–ECCV 2014: 13th European Conference,\nZurich, Switzerland, September 6-12, 2014, Proceedings,\nPart V 13, pages 740–755. Springer, 2014.\n[22] Matti Matilainen, Pekka Sangi, Jukka Holappa, and Olli\nSilv´en. Ouhands database for hand detection and pose recog-\nnition. 2016 Sixth International Conference on Image Pro-\ncessing Theory, Tools and Applications (IPTA), pages 1–5,\n2016.\n[23] P. Molchanov, X. Yang, S. Gupta, Kim K., S. Tyree, and\nJ. Kautz.\nOnline detection and classification of dynamic"
+    },
+    {
+        "chunk_id": 53,
+        "source": "paper16",
+        "text": "cessing Theory, Tools and Applications (IPTA), pages 1–5,\n2016.\n[23] P. Molchanov, X. Yang, S. Gupta, Kim K., S. Tyree, and\nJ. Kautz.\nOnline detection and classification of dynamic\nhand gestures with recurrent 3d convolutional neural net-\nwork. In 2016 IEEE Conference on Computer Vision and\nPattern Recognition (CVPR), pages 4207–4215, 2016.\n[24] Ashish S. Nikam and Aarti G. Ambekar.\nBilingual sign\nrecognition using image based hand gesture technique for\nhearing and speech impaired people. In 2016 International\nConference on Computing Communication Control and au-\ntomation (ICCUBEA), pages 1–6, 2016.\n[25] C. Nuzzi, S. Pasinetti, R. Pagani, G. Coffetti, and G. Sansoni.\nHands: an rgb-d dataset of static hand-gestures for human-\nrobot interaction. Data in Brief, 35:106791, 2021.\n[26] F. Parada-Loira, E. Gonz´alez-Agulla, and J. L. Alba-Castro.\nHand gestures to control infotainment equipment in cars.\nIn 2014 IEEE Intelligent Vehicles Symposium Proceedings,\npages 1–6, 2014."
+    },
+    {
+        "chunk_id": 54,
+        "source": "paper16",
+        "text": "[26] F. Parada-Loira, E. Gonz´alez-Agulla, and J. L. Alba-Castro.\nHand gestures to control infotainment equipment in cars.\nIn 2014 IEEE Intelligent Vehicles Symposium Proceedings,\npages 1–6, 2014.\n[27] C. A. Pickering, K. J. Burnham, and M. J. Richardson. A\nresearch study of hand gesture recognition technologies and\napplications for human vehicle interaction. In 2007 3rd In-\nstitution of Engineering and Technology Conference on Au-\ntomotive Electronics, pages 1–15, 2007.\n[28] M. Sandler, A. Howard, M. Zhu, A. Zhmoginov, and L.-C.\nChen.\nMobilenetv2: Inverted residuals and linear bottle-\nnecks. In 2018 IEEE/CVF Conference on Computer Vision\nand Pattern Recognition, pages 4510–4520, 2018.\n[29] T. Starner, J. Weaver, J. Cheng, and A. Pentland. Real-time\namerican sign language recognition using desk and wearable\n4580"
+    },
+    {
+        "chunk_id": 55,
+        "source": "paper16",
+        "text": "computer based video. IEEE Transactions on Pattern Anal-\nysis and Machine Intelligence, 20(12):1371–1375, 1998.\n[30] Edit Varga, Jouke C. Verlinden, O. Klaas, Luuk Langenhoff,\nDiederik van der Steen, and J. Verhagen. A study on intuitive\ngestures to control multimedia applications. 2008.\n[31] J. Wan, Y. Zhao, S. Zhou, I. Guyon, S. Escalera, and S. Z.\nLi. Chalearn looking at people rgb-d isolated and contin-\nuous datasets for gesture recognition. In 2016 IEEE Con-\nference on Computer Vision and Pattern Recognition Work-\nshops (CVPRW), 2016.\n[32] Chien-Yao\nWang,\nAlexey\nBochkovskiy,\nand\nHong-\nYuan Mark Liao.\nYolov7: Trainable bag-of-freebies sets\nnew state-of-the-art for real-time object detectors.\narXiv\npreprint arXiv:2207.02696, 2022.\n[33] S. Xie, R. B. Girshick, P. Doll´ar, Z. Tu, and K. He. Ag-\ngregated residual transformations for deep neural networks.\n2017 IEEE Conference on Computer Vision and Pattern\nRecognition (CVPR), pages 5987–5995, 2017."
+    },
+    {
+        "chunk_id": 56,
+        "source": "paper16",
+        "text": "gregated residual transformations for deep neural networks.\n2017 IEEE Conference on Computer Vision and Pattern\nRecognition (CVPR), pages 5987–5995, 2017.\n[34] Y. Zhang, C. Cao, J. Cheng, and H. Lu. Egogesture: A new\ndataset and benchmark for egocentric hand gesture recogni-\ntion. IEEE Transactions on Multimedia, 20(5):1038–1038,\n2018.\n4581"
+    }
+]

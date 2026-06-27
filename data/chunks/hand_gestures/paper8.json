@@ -1,0 +1,192 @@
+[
+    {
+        "chunk_id": 1,
+        "source": "paper8",
+        "text": "ISSN (O) 2278-1021, ISSN (P) 2319-5940 \nIJARCCE \nInternational Journal of Advanced Research in Computer and Communication Engineering \nISO 3297:2007 CertifiedImpact Factor 8.102Peer-reviewed / Refereed journalVol. 12, Issue 5, May 2023 \nDOI:  10.17148/IJARCCE.2023.12518 \n© IJARCCE                This work is licensed under a Creative Commons Attribution 4.0 International License                 124 \nCLASSIFYING THE FINGERS TO \nRECOGNISE THE HAND GESTURES BY \nUSING THE OPEN-SOURCE COMPUTER \nVISION \n \nBalakrishnan M1, Chandru R2, Dinakar Jose S3 ,Jancy Sickury Daisy S4    \nStudent, Computer science and Engineering, Anand Institute of Higher Technology, Chennai, India1 \nStudent, Computer science and Engineering, Anand Institute of Higher Technology, Chennai, India2 \nAssistant professor, Computer science and Engineering, Anand Institute of Higher Technology, Chennai, India3  \nAssistant professor, Computer science and Engineering, Anand Institute of Higher Technology, Chennai, India4"
+    },
+    {
+        "chunk_id": 2,
+        "source": "paper8",
+        "text": "Assistant professor, Computer science and Engineering, Anand Institute of Higher Technology, Chennai, India4 \n \nAbstract: Hand gesture recognition is a challenging problem in computer vision, with various applications in fields such \nas robotics, human-computer interaction, and sign language recognition. The ability to recognize hand gestures in real-\ntime can enable seamless communication between humans and machines, making human-computer interaction more \nintuitive and natural. In this project, we propose a system that can recognize hand gestures by classifying the fingers using \nopen-source computer vision technology. The proposed system uses a combination of image processing techniques and \nmachine learning algorithms to classify the fingers and recognize hand gestures. The input data is captured from a webcam \nand pre-processed using techniques such as skin colour detection and hand tracking. The hand is then segmented, and the"
+    },
+    {
+        "chunk_id": 3,
+        "source": "paper8",
+        "text": "and pre-processed using techniques such as skin colour detection and hand tracking. The hand is then segmented, and the \nfingers are extracted based on their location and orientation. The extracted finger images are then classified using a \nconvolutional neural network (CNN) architecture. The CNN model is trained on a large dataset of finger images and hand \ngestures to achieve high accuracy in classification. The dataset comprises images of various hand gestures, including \nopen, closed, and partially closed hands. The CNN model is trained to recognize the fingers' positions and orientations in \nthe input images and classify them into their respective categories. The model is fine-tuned using transfer learning \ntechniques to improve its accuracy and generalizability. The proposed system is evaluated using a variety of hand \ngestures, including thumbs up, thumbs down, okay, and rock-on, among others. The system achieves high accuracy in"
+    },
+    {
+        "chunk_id": 4,
+        "source": "paper8",
+        "text": "gestures, including thumbs up, thumbs down, okay, and rock-on, among others. The system achieves high accuracy in \nrecognizing different hand gestures in real-time, with an overall accuracy of 95%. The proposed system's robustness and \naccuracy make it suitable for various applications, including sign language recognition, human-computer interaction, and \ngaming. In conclusion, this project proposes a system that can recognize hand gestures by classifying the fingers using \nopen-source computer vision technology. The system achieves high accuracy in real-time hand gesture recognition and \nhas potential applications in various fields. Future work can explore the use of deep learning algorithms and more \nextensive datasets to improve the system's accuracy and performance. Additionally, the proposed system can be extended \nto recognize hand gestures in different lighting conditions and backgrounds \n \nI. \nINTRODUCTION"
+    },
+    {
+        "chunk_id": 5,
+        "source": "paper8",
+        "text": "to recognize hand gestures in different lighting conditions and backgrounds \n \nI. \nINTRODUCTION \n \nHand gesture recognition is a crucial research area in computer vision and machine learning with numerous applications \nin robotics, sign language recognition, and human-computer interaction. This project proposes a system that recognizes \nhand gestures by classifying the fingers using open-source computer vision technology. The system employs a \ncombination of image processing techniques and machine learning algorithms to recognize hand gestures. Skin colour \ndetection and hand tracking are essential pre-processing steps to achieve accurate finger classification and hand gesture \nrecognition. The proposed system extracts finger images and classifies them using a convolutional neural network \narchitecture trained on a large dataset of finger images and hand gestures. The dataset comprises images of various hand"
+    },
+    {
+        "chunk_id": 6,
+        "source": "paper8",
+        "text": "architecture trained on a large dataset of finger images and hand gestures. The dataset comprises images of various hand \ngestures, including open, closed, and partially closed hands. The system's overall accuracy in recognizing different hand \ngestures in real-time is 95%, making it suitable for sign language recognition, human-computer interaction, and gaming. \nThe use of open-source computer vision technology in the proposed system makes it accessible to a broader audience, \nreduces development costs, and promotes collaboration among researchers and developers. The system's open-source \nnature encourages further research and development, leading to better and more efficient hand gesture recognition \nsystems. Future work can explore the use of deep learning algorithms and larger datasets to improve the system's accuracy \nand performance. Additionally, the proposed system can be extended to recognize hand gestures in different lighting"
+    },
+    {
+        "chunk_id": 7,
+        "source": "paper8",
+        "text": "ISSN (O) 2278-1021, ISSN (P) 2319-5940 \nIJARCCE \nInternational Journal of Advanced Research in Computer and Communication Engineering \nISO 3297:2007 CertifiedImpact Factor 8.102Peer-reviewed / Refereed journalVol. 12, Issue 5, May 2023 \nDOI:  10.17148/IJARCCE.2023.12518 \n© IJARCCE                This work is licensed under a Creative Commons Attribution 4.0 International License                 125 \nconditions and backgrounds. Overall, the proposed system's robustness and accuracy make it a promising technology with \npotential applications in various fields. \nII. \nRELATED WORKS \n \nThere have been several research studies on hand gesture recognition using computer vision and machine learning \ntechniques. In this section, we discuss some of the related works in this area. One study proposed a system that uses a \ncombination of image processing and machine learning techniques to recognize hand gestures. The system extracts hand"
+    },
+    {
+        "chunk_id": 8,
+        "source": "paper8",
+        "text": "combination of image processing and machine learning techniques to recognize hand gestures. The system extracts hand \nfeatures using skin colour segmentation and applies feature selection techniques to reduce the feature space. The feature \nvectors are then used to train a support vector machine (SVM) classifier, which classifies the hand gestures with high \naccuracy. Another study proposed a system that uses depth information to recognize hand gestures. The system uses a \ndepth camera to capture the hand's 3D information and applies hand tracking and feature extraction techniques to \nrecognize the hand gestures. The system achieves high accuracy in recognizing various hand gestures, including swipe, \ncircle, and tap. A recent study proposed a deep learning-based approach to recognize hand gestures. The system uses a \nconvolutional neural network (CNN) to classify the hand gestures. The CNN model is trained on a large dataset of hand"
+    },
+    {
+        "chunk_id": 9,
+        "source": "paper8",
+        "text": "convolutional neural network (CNN) to classify the hand gestures. The CNN model is trained on a large dataset of hand \ngesture images and achieves high accuracy in recognizing various hand gestures, including open and closed hands, thumbs \nup and down, and peace sign. In another study, a system was proposed that recognizes hand gestures in real-time using a \ncombination of deep learning and traditional computer vision techniques. The system uses a combination of convolutional \nand recurrent neural networks to classify the hand gestures and achieve high accuracy in real-time gesture recognition. \nOverall, these studies show that computer vision and machine learning techniques can be effective in recognizing hand \ngestures. The proposed system in this project builds upon these previous works by using open-source computer vision \ntechnology and focusing on finger classification for hand gesture recognition. \n \nIII. \n EXISTING SYSTEM"
+    },
+    {
+        "chunk_id": 10,
+        "source": "paper8",
+        "text": "technology and focusing on finger classification for hand gesture recognition. \n \nIII. \n EXISTING SYSTEM \n \nThere are several existing systems that use computer vision technology for hand gesture recognition. One such system is \nthe OpenCV Hand Gesture Recognition system, which uses the OpenCV library for image processing and gesture \nrecognition. This system extracts hand features such as hand contour and convexity defects to recognize hand gestures. \nHowever, this system does not classify the fingers individually. Another existing system is the Kinect Hand Gesture \nRecognition system, which uses the Microsoft Kinect sensor to capture depth data and recognize hand gestures. This \nsystem uses machine learning algorithms to recognize hand gestures based on the hand's depth and movement. However, \nthis system requires specialized hardware and is not suitable for general-purpose hand gesture recognition. There are also"
+    },
+    {
+        "chunk_id": 11,
+        "source": "paper8",
+        "text": "this system requires specialized hardware and is not suitable for general-purpose hand gesture recognition. There are also \nseveral commercial hand gesture recognition systems available, such as the Leap Motion Controller and the Myo Gesture \nControl Armband. These systems use specialized sensors and algorithms to recognize hand gestures and are designed for \nspecific applications such as gaming and virtual reality. While these existing systems provide effective solutions for hand \ngesture recognition, they often require specialized hardware or software and can be costly. Moreover, many of these \nsystems do not classify the fingers individually, making them unsuitable for applications that require fine-grained hand \ngesture recognition. The proposed system, which classifies the fingers individually using open-source computer vision \ntechnology, offers a cost-effective and versatile solution for hand gesture recognition. By using a combination of image"
+    },
+    {
+        "chunk_id": 12,
+        "source": "paper8",
+        "text": "technology, offers a cost-effective and versatile solution for hand gesture recognition. By using a combination of image \nprocessing techniques and machine learning algorithms, the proposed system achieves high accuracy in real-time hand \ngesture recognition while using readily available hardware such as a webcam. The use of open-source technology also \npromotes collaboration and encourages further research and development in the field of hand gesture recognition. \nIV. \nPROPOSED SYSTEM \n \nThe proposed system for classifying the fingers to recognize hand gestures using open-source computer vision consists \nof several components. Firstly, the input data is captured from a webcam and pre-processed using skin colour detection \nand hand tracking techniques. The hand is then segmented, and the fingers are extracted based on their location and \norientation. Next, the extracted finger images are passed through a convolutional neural network (CNN) model. The CNN"
+    },
+    {
+        "chunk_id": 13,
+        "source": "paper8",
+        "text": "orientation. Next, the extracted finger images are passed through a convolutional neural network (CNN) model. The CNN \nmodel is trained on a large dataset of finger images and hand gestures to achieve high accuracy in classification. The \ndataset comprises images of various hand gestures, including open, closed, and partially closed hands. The CNN model \nis fine-tuned using transfer learning techniques to improve its accuracy and generalizability. The model is trained to \nrecognize the fingers' positions and orientations in the input images and classify them into their respective categories. \nFinally, the system outputs the recognized hand gesture in real-time, allowing for seamless communication between \nhumans and machines."
+    },
+    {
+        "chunk_id": 14,
+        "source": "paper8",
+        "text": "ISSN (O) 2278-1021, ISSN (P) 2319-5940 \nIJARCCE \nInternational Journal of Advanced Research in Computer and Communication Engineering \nISO 3297:2007 CertifiedImpact Factor 8.102Peer-reviewed / Refereed journalVol. 12, Issue 5, May 2023 \nDOI:  10.17148/IJARCCE.2023.12518 \n© IJARCCE                This work is licensed under a Creative Commons Attribution 4.0 International License                 126 \nThe proposed system achieves high accuracy in recognizing different hand gestures in real-time, with an overall accuracy \nof 95%. Overall, the proposed system uses a combination of image processing techniques and machine learning \nalgorithms to classify the fingers and recognize hand gestures. The use of open-source computer vision technology makes \nthe system accessible to a broader audience, while its high accuracy and robustness make it suitable for various \napplications, including sign language recognition, human-computer interaction, and gaming."
+    },
+    {
+        "chunk_id": 15,
+        "source": "paper8",
+        "text": "applications, including sign language recognition, human-computer interaction, and gaming. \n \n \n \n \n \nFig. 1  A sample graph  \n \n \n \n \n \n \n \n \nFig 1 System Architecture Diagram \n \n \nV. \nIMPLEMENTATION \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \nFig 2 Data Flow Diagram \n \nA.Input Video: \nThe input video for the proposed system is a live stream from a webcam. The video captures the hand gestures of the user \nin real-time, and the system uses this video stream as input to classify the fingers and recognize hand gestures. The \nwebcam should be positioned to capture a clear view of the user's hand and fingers, and the background should be \nrelatively uniform to facilitate accurate hand tracking and segmentation. The input video is pre-processed using skin \ncolour detection and hand tracking techniques to isolate the hand and fingers from the background and track their \nmovement. The pre-processed video stream is then fed into the convolutional neural network (CNN) model for finger"
+    },
+    {
+        "chunk_id": 16,
+        "source": "paper8",
+        "text": "movement. The pre-processed video stream is then fed into the convolutional neural network (CNN) model for finger \nclassification and hand gesture recognition. \n \nB.Pre-processing: \nThe pre-processing step in the proposed system for classifying fingers to recognize hand gestures using open-source \ncomputer vision involves several techniques, including skin colour detection, hand tracking, hand segmentation, and \nfinger extraction. These techniques are critical to achieving accurate finger classification and hand gesture recognition."
+    },
+    {
+        "chunk_id": 17,
+        "source": "paper8",
+        "text": "ISSN (O) 2278-1021, ISSN (P) 2319-5940 \nIJARCCE \nInternational Journal of Advanced Research in Computer and Communication Engineering \nISO 3297:2007 CertifiedImpact Factor 8.102 Peer-reviewed / Refereed journal  Vol. 12, Issue 5, May 2023 \nDOI:  10.17148/IJARCCE.2023.12518 \n© IJARCCE                This work is licensed under a Creative Commons Attribution 4.0 International License                 127 \nThe first step in the pre-processing stage is skin colour detection. Skin color detection is used to segment the hand from \nthe background. The input video is captured using a webcam and converted to an image format. The skin colour detection \nalgorithm identifies pixels with skin colour characteristics and segments the hand from the background. This is achieved \nusing techniques such as colour thresholding and morphological operations. \n \nThe next step is hand tracking. Hand tracking is used to locate and track the hand's movement. The hand tracking"
+    },
+    {
+        "chunk_id": 18,
+        "source": "paper8",
+        "text": "using techniques such as colour thresholding and morphological operations. \n \nThe next step is hand tracking. Hand tracking is used to locate and track the hand's movement. The hand tracking \nalgorithm uses the segmented hand from the previous step to track the hand's position and orientation in subsequent \nframes of the video. This is achieved using techniques such as background subtraction, contour detection, and template \nmatching. \n \nOnce the hand is tracked, the next step is hand segmentation. Hand segmentation is used to separate the fingers from the \nrest of the hand. The hand segmentation algorithm uses the tracked hand's position and orientation to segment the fingers \nbased on their location and orientation. This is achieved using techniques such as thresholding and blob detection. \n \nThe final step in the pre-processing stage is finger extraction. Finger extraction is used to extract individual finger images"
+    },
+    {
+        "chunk_id": 19,
+        "source": "paper8",
+        "text": "The final step in the pre-processing stage is finger extraction. Finger extraction is used to extract individual finger images \nfrom the segmented hand. The finger extraction algorithm uses the segmented fingers' location and orientation to extract \nindividual finger images. This is achieved using techniques such as blob detection, contour detection, and edge detection. \n \nThe pre-processed finger images are then passed to the next stage, which involves classifying the fingers and recognizing \nhand gestures using machine learning algorithms such as convolutional neural networks (CNNs). \n \nC. Clustering: \nClustering is a data analysis technique used to group similar data points into clusters based on their similarities. It can be \nused in hand gesture recognition to group finger images with similar features together, reducing the dimensionality of the \ndata and improving the accuracy of the classification algorithm. The k-means algorithm is a popular clustering algorithm"
+    },
+    {
+        "chunk_id": 20,
+        "source": "paper8",
+        "text": "data and improving the accuracy of the classification algorithm. The k-means algorithm is a popular clustering algorithm \nused in image processing, where k initial centroids are randomly selected, and data points are assigned to the closest \ncentroid based on their distance from each other. The mean of the data points in each cluster is then calculated, and the \ncentroid is moved to this new location until the centroids no longer move significantly or a predetermined number of \niterations is reached. \n \nIn the proposed system for hand gesture recognition, clustering can be used to group similar finger images together, \nimproving the accuracy of the classification algorithm. Additionally, clustering can be used to segment the hand from the \nbackground by identifying regions of the image with similar color or texture properties. The segmented hand can then be \nused to extract finger images and cluster them based on their features, such as their position and orientation. In summary,"
+    },
+    {
+        "chunk_id": 21,
+        "source": "paper8",
+        "text": "used to extract finger images and cluster them based on their features, such as their position and orientation. In summary, \nclustering is a valuable technique in hand gesture recognition that can enhance the efficiency and accuracy of the \nclassification algorithm. \n \nD.Feature Extraction: \nIn hand gesture recognition, feature extraction involves identifying and extracting relevant information from the finger \nimages that can be used to distinguish between different hand gestures. There are various techniques for feature extraction, \nincluding both traditional computer vision techniques and deep learning-based approaches. \n \nOne common technique for feature extraction is to use a combination of edge detection and feature detection algorithms, \nsuch as the Sobel operator and Harris corner detection. These algorithms can be used to extract the edges and corners of \nthe finger images, which can be used to describe the shape and orientation of the fingers."
+    },
+    {
+        "chunk_id": 22,
+        "source": "paper8",
+        "text": "the finger images, which can be used to describe the shape and orientation of the fingers. \n \nAnother approach to feature extraction is to use deep learning-based methods, such as convolutional neural networks \n(CNNs). CNNs can be trained to automatically extract relevant features from the finger images, such as texture, shape, \nand orientation. These features can then be used as inputs to the classification algorithm. \n \nIn the proposed system for hand gesture recognition, a combination of both traditional computer vision techniques and \ndeep learning-based methods can be used for feature extraction. Edge and corner detection algorithms can be used to \nextract shape and orientation features, while CNNs can be used to extract texture and other high-level features. These \nfeatures can then be combined and used as inputs to the clustering and classification algorithms."
+    },
+    {
+        "chunk_id": 23,
+        "source": "paper8",
+        "text": "features can then be combined and used as inputs to the clustering and classification algorithms. \n \nOverall, feature extraction is an essential step in hand gesture recognition, and the choice of techniques and algorithms \ncan significantly impact the accuracy and performance of the system."
+    },
+    {
+        "chunk_id": 24,
+        "source": "paper8",
+        "text": "ISSN (O) 2278-1021, ISSN (P) 2319-5940 \nIJARCCE \nInternational Journal of Advanced Research in Computer and Communication Engineering \nISO 3297:2007 CertifiedImpact Factor 8.102 Peer-reviewed / Refereed journal  Vol. 12, Issue 5, May 2023 \nDOI:  10.17148/IJARCCE.2023.12518 \n© IJARCCE                This work is licensed under a Creative Commons Attribution 4.0 International License                 128 \nE .      Feature Matching: \nAfter feature extraction, the next step in the proposed system for hand gesture recognition is feature matching. Feature \nmatching involves comparing the extracted features of the input image with a database of features representing known \nhand gestures. \n \nOne common technique for feature matching is the nearest neighbour algorithm, which involves finding the closest feature \nin the database to the extracted features of the input image. Other techniques such as support vector machines (SVMs)"
+    },
+    {
+        "chunk_id": 25,
+        "source": "paper8",
+        "text": "in the database to the extracted features of the input image. Other techniques such as support vector machines (SVMs) \nand convolutional neural networks (CNNs) can also be used for feature matching in hand gesture recognition. \n \nOnce a match is found, the corresponding hand gesture label can be assigned to the input image. If there is no match \nfound, the input image can be labelled as an unknown gesture or the system can prompt the user to provide additional \nsamples to improve the recognition accuracy. \n \nOverall, feature matching is a critical step in hand gesture recognition as it enables the system to identify the \ncorresponding hand gesture label for the input image by comparing its extracted features with the database of known hand \ngestures. \n \nF.  \nDataset & Feature: \nIn order to train and evaluate the hand gesture recognition system, a dataset of hand images with corresponding labels is"
+    },
+    {
+        "chunk_id": 26,
+        "source": "paper8",
+        "text": "gestures. \n \nF.  \nDataset & Feature: \nIn order to train and evaluate the hand gesture recognition system, a dataset of hand images with corresponding labels is \nrequired. The dataset should be diverse, covering a range of hand shapes, sizes, skin tones, and lighting conditions. \n \nOne popular dataset used in hand gesture recognition research is the American Sign Language (ASL) Finger Spelling \nDataset. This dataset contains 60,000 grayscale images of hand gestures representing each letter of the alphabet, as well \nas a space gesture and a delete gesture. Each image is 200x200 pixels and is labelled with the corresponding letter or \nsymbol. \n \nFor feature extraction, popular techniques include Histogram of Oriented Gradients (HOG), Scale-Invariant Feature \nTransform (SIFT), and Local Binary Patterns (LBP). HOG is a feature descriptor that calculates the distribution of"
+    },
+    {
+        "chunk_id": 27,
+        "source": "paper8",
+        "text": "Transform (SIFT), and Local Binary Patterns (LBP). HOG is a feature descriptor that calculates the distribution of \ngradient orientations within a local region of the image. SIFT is a feature descriptor that detects key points in the image \nand calculates the local gradient orientation and magnitude around each key point. LBP is a texture descriptor that extracts \nbinary patterns from local regions of the image. \n \nThe choice of feature extraction technique depends on the specific requirements of the hand gesture recognition system, \nsuch as speed, accuracy, and robustness to changes in lighting and background. It is important to evaluate the performance \nof different feature extraction techniques on the dataset to determine which one is most suitable for the system. \n \nG.   Gesture Recognition: \nGesture recognition is the process of identifying and interpreting human gestures through computer algorithms. In the"
+    },
+    {
+        "chunk_id": 28,
+        "source": "paper8",
+        "text": "G.   Gesture Recognition: \nGesture recognition is the process of identifying and interpreting human gestures through computer algorithms. In the \ncontext of hand gesture recognition, it involves analysing hand and finger movements to recognize specific gestures and \ninterpret them as meaningful commands. \n \nIn the proposed system for hand gesture recognition using open-source computer vision, the hand and finger images are \nfirst pre-processed, then clustered based on their features, and finally matched to a database of predefined gestures. The \nfeature extraction process captures important information about the hand and finger positions, orientations, and shapes, \nwhich is used to identify the gestures. \n \nOne approach to gesture recognition is to use machine learning algorithms, such as decision trees, support vector \nmachines, or neural networks, to train a model on a large dataset of labelled hand gesture images. The model can then be"
+    },
+    {
+        "chunk_id": 29,
+        "source": "paper8",
+        "text": "machines, or neural networks, to train a model on a large dataset of labelled hand gesture images. The model can then be \nused to classify new images based on their similarity to the training set. Another approach is to use rule-based algorithms, \nwhere a set of predefined rules is used to recognize specific gestures based on their features. \n \nIn both cases, it is important to have a well-defined and diverse dataset of hand gesture images that covers different \nlighting conditions, backgrounds, and hand orientations. The dataset should also include a variety of hand gestures that \nare relevant to the application, such as basic hand poses, numbers, letters, and specific commands. \n \nOverall, hand gesture recognition using open-source computer vision is a challenging task that requires careful pre-\nprocessing, feature extraction, clustering, and classification. However, with the right tools and techniques, it is possible"
+    },
+    {
+        "chunk_id": 30,
+        "source": "paper8",
+        "text": "processing, feature extraction, clustering, and classification. However, with the right tools and techniques, it is possible \nto achieve high accuracy and robustness in recognizing hand gestures and using them to control computer applications."
+    },
+    {
+        "chunk_id": 31,
+        "source": "paper8",
+        "text": "ISSN (O) 2278-1021, ISSN (P) 2319-5940 \nIJARCCE \nInternational Journal of Advanced Research in Computer and Communication Engineering \nISO 3297:2007 CertifiedImpact Factor 8.102 Peer-reviewed / Refereed journal  Vol. 12, Issue 5, May 2023 \nDOI:  10.17148/IJARCCE.2023.12518 \n© IJARCCE                This work is licensed under a Creative Commons Attribution 4.0 International License                 129 \nFig No 3 Vector Represtation \n \n \nVI. \nRESULT AND DISCUSSION \n \nThe proposed system for classifying fingers to recognize hand gestures using open-source computer vision was tested \nusing a dataset of hand gesture videos. The system was evaluated based on its ability to accurately classify the hand \ngestures and recognize the number of fingers being displayed in each gesture.The pre-processing steps, including hand \ndetection, background removal, and finger extraction, were able to successfully isolate the hand and fingers from the"
+    },
+    {
+        "chunk_id": 32,
+        "source": "paper8",
+        "text": "detection, background removal, and finger extraction, were able to successfully isolate the hand and fingers from the \nbackground in the videos. The extracted finger images were then clustered using the k-means algorithm based on their \nposition and orientation features. The resulting clusters were used as input for the feature matching algorithm, which used \nSIFT features to match the finger images to a pre-defined set of gesture templates. \nThe system was able to achieve an average accuracy of 93% in recognizing the correct hand gesture and number of fingers \nbeing displayed. However, the system had difficulty in recognizing certain gestures that were similar in appearance, such \nas the \"ok\" gesture and the \"thumbs up\" gesture. \nTo improve the system's performance, future work could focus on incorporating additional features or using more \nsophisticated machine learning algorithms, such as convolutional neural networks. Additionally, increasing the size and"
+    },
+    {
+        "chunk_id": 33,
+        "source": "paper8",
+        "text": "sophisticated machine learning algorithms, such as convolutional neural networks. Additionally, increasing the size and \ndiversity of the training dataset could help to improve the system's ability to recognize a wider range of hand gestures."
+    },
+    {
+        "chunk_id": 34,
+        "source": "paper8",
+        "text": "ISSN (O) 2278-1021, ISSN (P) 2319-5940 \nIJARCCE \nInternational Journal of Advanced Research in Computer and Communication Engineering \nISO 3297:2007 CertifiedImpact Factor 8.102 Peer-reviewed / Refereed journal  Vol. 12, Issue 5, May 2023 \nDOI:  10.17148/IJARCCE.2023.12518 \n© IJARCCE                This work is licensed under a Creative Commons Attribution 4.0 International License                 130 \nIn conclusion, the proposed system for classifying fingers to recognize hand gestures using open-source computer \nvision shows promising results and has potential for real-world applications in fields such as human-computer \ninteraction and virtual reality."
+    },
+    {
+        "chunk_id": 35,
+        "source": "paper8",
+        "text": "ISSN (O) 2278-1021, ISSN (P) 2319-5940 \nIJARCCE \nInternational Journal of Advanced Research in Computer and Communication Engineering \nISO 3297:2007 CertifiedImpact Factor 8.102 Peer-reviewed / Refereed journal  Vol. 12, Issue 5, May 2023 \nDOI:  10.17148/IJARCCE.2023.12518 \n© IJARCCE                This work is licensed under a Creative Commons Attribution 4.0 International License                 131 \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n        \n \n \n \n \nVII. \nCONCLUSION \nThis project presents gesture recognition and classification based on features analysis and feature matching techniques. \nThe results will be better identification of gesture it is fully based on feature extraction, machine learning techniques of, \nGLCM and clustering by using these it gives much better accuracy with lesser algorithmic complexity than other \nrecognition approaches.  \n \nREFERENCES \n[1]  J. Han and M. Kamber, Data Mining Concepts and Techniques, United States of America, 2001."
+    },
+    {
+        "chunk_id": 36,
+        "source": "paper8",
+        "text": "recognition approaches.  \n \nREFERENCES \n[1]  J. Han and M. Kamber, Data Mining Concepts and Techniques, United States of America, 2001. \n[2]  S.Cheng, C. Hsu, and J. Li, \"Combined Hand Gesture-Speech Model for Human Action Recognition,\" in Sensors,vol        \n      13, 2013. \n[3]  P. Fankhauser, M. Bloesch, and D.Rodriguez, \"Kinect v2 for Mobile Robot Navigation : Evaluation and Modeling,\"  \n      in Advanced Robotics (ICAR), International Conference on. IEEE, 2015., 2015. \n[4]  V. Vapnik, The Nature of Statistical Learning Theory, New York: Springer-Verlag, 1995. \n[5]  J.C.Platt, N. Cristianini, J. Shawe-Taylor, \"Large margin dags for multiclass classification.,\" in Advances in Neural  \n       Information Processing Systems, 2000. \n[6]  S. P. Lloyd, \"Least square quantization in PCM,\" in IEEE \n      Transactions on Information Theory.,2002. \n[7] Chiu RWK, Chan KCA, Gao Y, Lau VYM, Zheng W, et al. (2008). Noninvasive prenatal diagnosis of fetal"
+    },
+    {
+        "chunk_id": 37,
+        "source": "paper8",
+        "text": "Transactions on Information Theory.,2002. \n[7] Chiu RWK, Chan KCA, Gao Y, Lau VYM, Zheng W, et al. (2008). Noninvasive prenatal diagnosis of fetal  \n      chromosomal aneuploidy by massively parallel genomic sequencing of DNA in maternal plasma. Proc Natl Acad Sci    \n      U S A 105: 20458-20463. \n[8].  X. Fu and H. Qu, “Research on semantic segmentation of high-resolution remote sensing image based on full  \n       convolutional neural network,” in 2018 12th International Symposium on Antennas, Propagation and EM Theory  \n       (ISAPE), Dec 2018, pp. 1–4. \n[9].   S. Kumar, A. Negi, J. N. Singh, and H. Verma, “A deep learning for brain tumor mri images semantic segmentation  \n       using fcn,” in 2018 4th International Conference on Computing Communication and Automation (ICCCA), Dec     \n       2018, pp. 1–4 \n[10].  T.-H. Kim, D.-C. Park, D.-M. Woo, T. Jeong, and S.-Y. Min, “Multi-class classifier-based adaboost algorithm,” in"
+    },
+    {
+        "chunk_id": 38,
+        "source": "paper8",
+        "text": "2018, pp. 1–4 \n[10].  T.-H. Kim, D.-C. Park, D.-M. Woo, T. Jeong, and S.-Y. Min, “Multi-class classifier-based adaboost algorithm,” in  \n         Proceedings of the Second Sinoforeign-interchange Conference on Intelligent Science and Intelligent Data       \n         Engineering, ser. IScIDE’11. Berlin, Heidelberg: Springer-Verlag, 2017, pp. 122–127. \n[11]   T. U. Binbin, \"Speech emotion recognition based on improved rnfcc with emd,\" Computer Engineering and  \n        Applications, vol. 48, no. 18, pp. 119-122, July 2012.  \n[12]  H. Yao, Y. Sun, and X. Zhang, \"Research on no汕neardynamics features of emotional speech,\" Journal of  \n       XidianUniversity(Natural Science), October 2016.  \n[13] S. Ying, Y. Hui, X. Zhang, and Q. Zhang, \"Feature extraction of emotional speech based on chaotic characteristics,\"  \n       Journal of Tianjin University, vol. 48, no. 8, pp. 681-685, August 2015."
+    }
+]

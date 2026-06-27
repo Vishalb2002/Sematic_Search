@@ -1,0 +1,307 @@
+[
+    {
+        "chunk_id": 1,
+        "source": "paper55",
+        "text": "Computer Science • 23(2) 2022\nhttps://doi.org/10.7494/csci.2022.23.2.3745\nDom´ınguez Ram´on Emmanuel\nD´ıaz Hern´andez Raquel\nAltamirano Robles Leopoldo\nHUMAN GESTURE RECOGNITION\nUSING HIDDEN MARKOV MODELS\nAND SENSOR FUSION\nAbstract\nConsidering the continued drive of human needs along with the constant im-\nprovement of technology, it is convenient to develop techniques that can en-\nhance communication between computers and humans in the most intuitive\nways possible. The possibility of automatically recognizing human gestures us-\ning artificial vision (among other kinds of sensors) allows us to explore a whole\nrange of applications to control and interact with environments. Nowadays,\nmost approaches for gesture recognition using sensors agree in the use of vi-\nsion, myography, and movement devices that are applied to robotic, medical,\nand industrial applications. In the context of this work, we study the principles"
+    },
+    {
+        "chunk_id": 2,
+        "source": "paper55",
+        "text": "sion, myography, and movement devices that are applied to robotic, medical,\nand industrial applications. In the context of this work, we study the principles\nof using both vision and body contact sensing applied to the automatic classi-\nfication of a human gesture set. For this, two different approaches have been\nevaluated: feed-forward neural networks, and hidden Markov models. These\nmodels have been studied and implemented for recognizing up to eight differ-\nent human hand gestures that are commonly applied in collaborative robotics\ntasks.\nKeywords\ngesture recognition, collaborative robotics, vision-based sensors, myography\nsensors, sensor fusion\nCitation\nComputer Science 23(2) 2022: 227–245\nCopyright\n© 2022 Author(s). This is an open access publication, which can be used, distributed\nand reproduced in any medium according to the Creative Commons CC-BY 4.0 License.\n227"
+    },
+    {
+        "chunk_id": 3,
+        "source": "paper55",
+        "text": "228\nDom´ınguez Ram´on Emmanuel, D´ıaz Hern´andez Raquel, Altamirano Robles Leopoldo\n1. Introduction, motivation\nOver the past years, human gesture-recognition research has been improved mainly\ndue to the emergence of new devices that are aimed at creating new intuitive meth-\nods of interaction between humans and computers through human actions that are\ncommonly performed by the hands and limbs and remapping them to understandable\ncommands for high-level applications (such as robotics systems) in multiple areas.\nIn this sense, the automatic gesture-recognition process has been defined in [14]\nas a set of techniques that are aimed at representing and classifying different signals\nof communication between human users and work stations with defined objectives. In\nthese processes, a user executes nonverbal commands by generally using his/her arms\nand hands to send specific messages according to the environment and intention for"
+    },
+    {
+        "chunk_id": 4,
+        "source": "paper55",
+        "text": "these processes, a user executes nonverbal commands by generally using his/her arms\nand hands to send specific messages according to the environment and intention for\na high-level application. These result in the generation of human-machine interfaces.\nSince the late 80s, users have mostly interacted by using only a keyboard and\nmouse through graphic interfaces. However, multiple devices have emerged over the\nlast decade that have improved the methods for creating new and more intuitive\ninterfaces (which are known as natural user interface systems). This new research\ntopic aims at designing and implementing software systems efficiently and, above all,\nintuitively; this allows us to take full advantage of the potential benefits that are\noffered by computers and machines.\nNowadays, the most commonly used sensors for this purpose are based on com-\nputer vision techniques, electromyography (EMG), electroencephalography (EEG),"
+    },
+    {
+        "chunk_id": 5,
+        "source": "paper55",
+        "text": "offered by computers and machines.\nNowadays, the most commonly used sensors for this purpose are based on com-\nputer vision techniques, electromyography (EMG), electroencephalography (EEG),\nand electrocardiogram (ECG) sensing, and movement and inertial sensors accord-\ning to [9, 15]. In combination with computational signal-processing algorithms and\nnew machine-learning approaches for pattern recognition, these techniques have many\napplications (such as home and office controlling [12] and industry intelligent sys-\ntems [15, 25]).\nFor this last field, the majority of the approaches are focused on\nhuman-robot collaborative activities and robotic arm manipulation.\nIn this context, we are particularly interested in the study and development of\ntechniques for gesture recognition and their applicability for intuitive industrial and\nmedical telemetry systems using multiple sensors. Several authors have addressed this"
+    },
+    {
+        "chunk_id": 6,
+        "source": "paper55",
+        "text": "techniques for gesture recognition and their applicability for intuitive industrial and\nmedical telemetry systems using multiple sensors. Several authors have addressed this\nissue [4,7,25]; they agree in regard to the use of wearable sensors and computational\nalgorithms that involve temporal information along with collected data from devices.\nWang et al. [25] reported high accuracy recognition rates for a set of up to six hand\ngestures; however, the use of muscle sensors without any other support restrains the\nquality of the recognition in some cases, misleads in similar gesture cases, and limits\nthe numbers of total groups during the classification stages.\nThe objectives of this paper are mainly two. First, we propose a set of human\nhand and arm gestures that are capable of being incorporated into industrial robotics,\nmedical telemetry, and collaborative robotics (among other applications). Second, de-\nveloping and implementing sensor-fusion techniques and machine-learning algorithms"
+    },
+    {
+        "chunk_id": 7,
+        "source": "paper55",
+        "text": "medical telemetry, and collaborative robotics (among other applications). Second, de-\nveloping and implementing sensor-fusion techniques and machine-learning algorithms\nin order to recognize up to eight different human gestures with high precision rates;"
+    },
+    {
+        "chunk_id": 8,
+        "source": "paper55",
+        "text": "Human gesture recognition using hidden Markov models and sensor fusion\n229\nfor this, we consider the use of two sensors: leap motion controller and Myo armband\ndevices.\nThe following sections of this paper are structured as follows: Section 2 describes\nthe most relevant approaches that have been proposed in the last years about au-\ntomatic human gesture recognition. Subsection 2.4 briefly details some of the most\nrecent applications of human gesture recognition. In Section 3, we describe the pro-\nposed approach for recognizing a whole set of gestures for robotic and collaboration\napplications. Our experiments and the results of their effectiveness over the proposed\ndata sets are reported in Section 4. Finally, we discuss the potential applications and\nthe contributions of this paper in Section 5.\n2. Related work\n2.1. Human gesture recognition\nThe studies that were made by Athavale and Deshmuk in [3] affirmed that human"
+    },
+    {
+        "chunk_id": 9,
+        "source": "paper55",
+        "text": "the contributions of this paper in Section 5.\n2. Related work\n2.1. Human gesture recognition\nThe studies that were made by Athavale and Deshmuk in [3] affirmed that human\ncommunication is 35% verbal-based and 65% non-verbal (and based on gestures). In\nthis work, we focus on developing recognition techniques for the latter group; these\ncan be divided as communicative (whose intention is to express emotions) and ma-\nnipulative (which are aimed at expressing instructions and commands). In [16], Singh\ndescribed that direct manipulation refers to methods that are aimed at controlling\na specific variable through a user feedback interface in order to adjust the parameters\nof the first one (for example, a visual pointer that is related to position and movement\nin real time and remapped from the position and speed of a mouse or other input\ndevice).\nNowadays, multiple works have been proposed with the objective of automati-"
+    },
+    {
+        "chunk_id": 10,
+        "source": "paper55",
+        "text": "in real time and remapped from the position and speed of a mouse or other input\ndevice).\nNowadays, multiple works have been proposed with the objective of automati-\ncally identifying manipulative gestures using sensors and machine-learning techniques.\nAccording to [27], the most recent approaches that are aimed at recognizing human\ngestures that are performed by the hands and limbs are supported by image-processing\ndevices as well as wearable sensors that are capable of collecting information from the\nhuman body. The majority of these methods are composed of three main stages:\nmodeling, analysis, and recognition.\nThe modeling stage consists of proposing the gestures to be studied according to\nthe context in which they will be used. In this context, several researchers have studied\nand applied a variety of gestures for specific tasks. In [22], Rautiainen proposed a set\nof instructions that were based on human gestures in order to control multiple devices"
+    },
+    {
+        "chunk_id": 11,
+        "source": "paper55",
+        "text": "and applied a variety of gestures for specific tasks. In [22], Rautiainen proposed a set\nof instructions that were based on human gestures in order to control multiple devices\nin the home and office. Another example of gesture sets was proposed in [25], where\nthe authors studied the capabilities of EMG sensors that are applied to industrial\napplications; their proposed collection was the six hand-gesture set that is depicted\nin Figure 1. In [10], Nurettin provided a gesture vocabulary that was composed of\n11 patterns to be applied to handle communication between humans and computers\nin intuitive ways by using movement sensors."
+    },
+    {
+        "chunk_id": 12,
+        "source": "paper55",
+        "text": "230\nDom´ınguez Ram´on Emmanuel, D´ıaz Hern´andez Raquel, Altamirano Robles Leopoldo\nOther applications that are aimed at controlling aerial vehicles with simple hand\ncommands were proposed in [17].\na)\nb)\nc)\nd)\ne)\nf)\nFigure 1. Human hand-over intentions for human-robot collaboration by [25]: a) to need;\nb) to give; c) to stop; d) to continue; e) speed up; f) slow down\nThe analysis process focuses on the feature extraction for each of the considered\ngestures that permits identifying them as unique in the following stages. For this\npurpose, movement and spatial features were considered in [10,24] in order to charac-\nterize gestures from a human’s arms. With the same objective, Jorgensen proposed a\ncomputation stage of three-dimensional descriptors and fast point feature histograms\n(FPFH) in [8] according to movements that are performed by a user to describe\neight different intentions by using depth cameras. In [24], a method for combining"
+    },
+    {
+        "chunk_id": 13,
+        "source": "paper55",
+        "text": "(FPFH) in [8] according to movements that are performed by a user to describe\neight different intentions by using depth cameras. In [24], a method for combining\ninformation from a Kinect sensor and EMG devices applying weighted D-S evidence\ntheory processes from limbs and hands was proposed to identify two human gesture\nsets. However, the high computational resources of these techniques restrained their\napplication in multiple real industry tasks.\nFinally, the recognition stage is aimed at implementing computational algorithms\nand machine-learning techniques that allow for the automatic identification of human\ngestures by using the previous computed features. In this sense, several authors have\naddressed this problem by applying a variety of computational resources. In [21],\nRautaray proposed the use of hidden Markov models (HMM) to recognize a set of\nhuman gestures and developed methods for processing and classifying commands from"
+    },
+    {
+        "chunk_id": 14,
+        "source": "paper55",
+        "text": "Rautaray proposed the use of hidden Markov models (HMM) to recognize a set of\nhuman gestures and developed methods for processing and classifying commands from\nthe hands that were targeted for home automation applications. Other approaches\nhave also used HMM for gesture recognition in [19,23]; more recently, Wang addressed\nthe recognition of six different hand gestures through myography wearable sensors\nin [25] and obtained good accuracy recognition rates.\nThe complete gesture set that was proposed is depicted in Figure 1. In [6], the\nauthors used physical contact sensors to recognize hand gestures. In [11], the authors\nused EMG and IMU sensors.\nIn this work, we retake the most relevant gestures that have been proposed in\norder to develop techniques that are aimed at recognizing a greater number of human\ncommands by using a combination of both myography wearable and vision-based\nsensors."
+    },
+    {
+        "chunk_id": 15,
+        "source": "paper55",
+        "text": "Human gesture recognition using hidden Markov models and sensor fusion\n231\n2.2. Sensors for human gesture recognition\nIn the context of automatic gesture recognition, a sensor is defined as an electronic\ndevice that is able to converting an external physical signal into useful information to\nbe sent toward a computer-human interface for high-level application development.\nIn [5], the authors argued that two type of sensors have mainly been used: vision-\nbased, and EMG wearable devices.\nMultiple types of vision-based sensors have been used for these purposes; e.g.,\ncolor and stereoscopic cameras, Kinect devices, and leap motion controllers. On the\nother hand, physical contact sensors offer different alternatives; some of the most\ncommon examples of these over the past few years are Myo arm band, cyberglove, and\ninertial-based sensors. Figure 2 shows some examples of commonly used body sensors\nfor human gesture-recognition tasks.\na)\nb)\nc)\nd)\ne)\nf)"
+    },
+    {
+        "chunk_id": 16,
+        "source": "paper55",
+        "text": "inertial-based sensors. Figure 2 shows some examples of commonly used body sensors\nfor human gesture-recognition tasks.\na)\nb)\nc)\nd)\ne)\nf)\nFigure 2. Vision and contact sensors: a) Myo arm band; b) inertial-based sensors;\nc) cyberglove device; d) leap motion controller; e) Kinect; f) stereoscopic camera array\nVision devices offer certain advantages over EMG (and vice versa); for this reason,\nit is best to merge the data that is collected from different sources through sensor-\nfusion techniques in order to improve the effective recognition of a particular gesture\nset. In this work, we propose the use of leap motion controller and Myo arm band\ndevices to create large datasets that serve to characterize each gesture as being unique.\nIn Figure 2, some sensors that are used for gesture recognition are shown.\n2.3. Predictive models\nA predictive model is a computational technique that is formed from feature-"
+    },
+    {
+        "chunk_id": 17,
+        "source": "paper55",
+        "text": "In Figure 2, some sensors that are used for gesture recognition are shown.\n2.3. Predictive models\nA predictive model is a computational technique that is formed from feature-\nextraction processes. This is used to predict trends and behavioral patterns and can be"
+    },
+    {
+        "chunk_id": 18,
+        "source": "paper55",
+        "text": "232\nDom´ınguez Ram´on Emmanuel, D´ıaz Hern´andez Raquel, Altamirano Robles Leopoldo\napplied to multiple unknown events. Predictive analysis is based on the identification\nof relationships between variables in past events; it then applies these relationships\nand predicts possible outcomes in future situations.\nFor human gesture-recognition topics, researchers have proposed methods that\nuse different computational predictive models that apply machine-learning strategies.\nWang [25] proposed a hidden Markov model implementation in order to recognize\nup to six human gestures using only EMG arm band sensors.\nThe advantage of\nthis is its capability of integrating temporal information to the inference process and\nclassifying the recorded features during the tests for different hand gestures. Other\nauthors have implemented feed-forward neural network architectures because of their\nknowledge-abstraction abilities and efficacy for regression tasks [4]."
+    },
+    {
+        "chunk_id": 19,
+        "source": "paper55",
+        "text": "authors have implemented feed-forward neural network architectures because of their\nknowledge-abstraction abilities and efficacy for regression tasks [4].\nIn [24], Sun et al. implemented Bayesian regression models in order to infer a set\nof arm-made gestures to gain good precision rates per the analyzed groups when many\ndescriptors is used for each sample. Also, a finite state machine (FSM) consisting of\ncomputational abstractions that described the behavior of a reactive system through\na specific number of states and a certain number of transition modelings was applied\nin [18].\nAccording to our research, we have determined that the best models that match\nthe purpose of automatically evaluating gestures that merge different sources of infor-\nmation are hidden Markov models and artificial neural networks. These approaches\nare detailed in the following sections.\n2.3.1. Hidden Markov models\nHMM is a technique that is widely used in signal processing. The essence of this tech-"
+    },
+    {
+        "chunk_id": 20,
+        "source": "paper55",
+        "text": "are detailed in the following sections.\n2.3.1. Hidden Markov models\nHMM is a technique that is widely used in signal processing. The essence of this tech-\nnique is to construct a model that explains the occurrence of observations (defined as\nsymbols) and use this to identify future observation sequences. The basis of HMMs\nand their applications were originally described in [20] and recently retaken for mul-\ntiple tasks. For a hidden Markov model, there is a finite number of states; these is\nalways in one of these. At each time, it enters a new state based on a transition proba-\nbility distribution that is dependent on the previous steps. After a transition is made,\nan output symbol is generated based on a probability distribution that is dependent\non the current state. Formally, an HMM is defined by the states, the transition prob-\nabilities among them, and the probabilities of the outputs given a state. For instance,"
+    },
+    {
+        "chunk_id": 21,
+        "source": "paper55",
+        "text": "on the current state. Formally, an HMM is defined by the states, the transition prob-\nabilities among them, and the probabilities of the outputs given a state. For instance,\nthe Baum–Welch algorithm is available to compute these probabilities and solve the\nproblem of gesture recognition under this approach (according to [13]).\nIn this context, compute the probability P(O|λ) of the occurrence for observation\nsequence O = O1, O2, ..., OT given that the λ model parameters can be solved by\napplying the forward-backward algorithm.\nSelecting the best state sequence I = i1, i2, ..., iT so that P(O, I|λ) is maxi-\nmized can be addressed by the Viterbi algorithm. In addition to the λ learn model\nparameters given O such that P(O|λ) is maximized, it is necessary the procedure\nBaum–Welch."
+    },
+    {
+        "chunk_id": 22,
+        "source": "paper55",
+        "text": "Human gesture recognition using hidden Markov models and sensor fusion\n233\nFor gesture recognition, we assume that there are M different human gestures and\nN descriptors per sample. For the j−th feature (j = 1, ..., N), we learn one HMM\nfor each class as well as the corresponding λi, i = 1, ..., M parameters. Given one\nobservation sequence O, we compute P(O|λ) for each HMM by using the forward-\nbackward procedure. Human gesture classification can be solved by finding the class\ni that has a maximum value of P(O|λi) (as shown in Equation 1):\ngesture(O) = arg max Ai : i = 1, ..., M(P(O|λi))\n(1)\nWe consider the set of these HMMs and the decision rule in Expression 1 to be\na classifier for feature j. These M gesture classes and N features form an M × N\nmatrix of HMMs. By HMMi, j, we denote the model of gesture i (the i-th row) and\nfeature j (the j-th column) and its corresponding parameters is λi,j. For the set of"
+    },
+    {
+        "chunk_id": 23,
+        "source": "paper55",
+        "text": "matrix of HMMs. By HMMi, j, we denote the model of gesture i (the i-th row) and\nfeature j (the j-th column) and its corresponding parameters is λi,j. For the set of\nHMMs, row i is related to the gesture of interest. For these implementation of the\nHMM classifier, the following parameters are learned by the Baum–Welch algorithm:\n1. prior probabilities of each state;\n2. transition probabilities between states;\n3. parameters of each state s, mean vector µs,m, covariance matrix Σs,m, and weight\nws,m of each mixture Gaussian component.\nBoth\nthe\nForward\nand\nBaum–Welch\nalgorithms\nneed\nto\ncompute\nP(Ot|st = s), the probability of observing Ot given that state s at time t. In practice,\nlog-likelihood log(P(Ot|st = s)) is used instead. Another consideration is that the\nprobability of the occurrence of observation sequence O1, O2, ..., OT tends to decrease\nexponentially as T increases. However, this causes no problem because the probabil-"
+    },
+    {
+        "chunk_id": 24,
+        "source": "paper55",
+        "text": "probability of the occurrence of observation sequence O1, O2, ..., OT tends to decrease\nexponentially as T increases. However, this causes no problem because the probabil-\nity that is computed in each part of HMMi,j (i = 1, ..., M) decreases comparably for\nfeature set j.\n2.3.2. Feed-forward neural networks\nArtificial neural networks (ANN) are mathematical models that are constructed based\non the functioning of biological neural networks. From a computational point of view,\nan ANN can be described as a set of cellular software pieces that are analogous to\nneurons, whereby a flow of information is established through an interconnection\ntopology in the same way that a synapse works with biological cells. Some of the\nmost important features that are described in this work are listed as follows:\n• learn through examples;\n• adaptability;\n• generalization capabilities;\n• fault tolerant.\nThere is at least one learning algorithm that is associated with each type of"
+    },
+    {
+        "chunk_id": 25,
+        "source": "paper55",
+        "text": "• learn through examples;\n• adaptability;\n• generalization capabilities;\n• fault tolerant.\nThere is at least one learning algorithm that is associated with each type of\nnetwork. These consist of a systematic method for finding adequate values of the\nweights. In general terms, these are based on defining an objective function implicitly\nor explicitly (which represents the overall state of the network). From this, the initially"
+    },
+    {
+        "chunk_id": 26,
+        "source": "paper55",
+        "text": "234\nDom´ınguez Ram´on Emmanuel, D´ıaz Hern´andez Raquel, Altamirano Robles Leopoldo\nassigned weights evolve to values that bring this function to a minimum stable state\nnetwork. Therefore, learning is something that is characteristic of the type of network.\nHere, the input vectors and corresponding target values are used to train the\nANN until it can approximate a function. The designed ANN consists of three layers:\nan input layer, a tan-sigmoid hidden layer, and a linear output layer. For the second\nand third layers, weight matrix W, bias vector b, and output vector a are considered.\nThose weight matrices that are connected to inputs are called input weights, those\nthat come from the hidden layer outputs are called layer weights. A representation\nof a whole neural network for this purpose is depicted in Figure 3.\nFigure 3. Feed-forward artificial neural network for gesture recognition proposed in [2]\nThe BP algorithm determines how to adjust the weights to minimize the per-"
+    },
+    {
+        "chunk_id": 27,
+        "source": "paper55",
+        "text": "Figure 3. Feed-forward artificial neural network for gesture recognition proposed in [2]\nThe BP algorithm determines how to adjust the weights to minimize the per-\nformance by using the gradient of the performance function.\nThe Levenberg–\nMarquardt algorithm is used for the training stage. At the end, the authors reported\na final accuracy value of 90.3% for the four EMG gestures during the test stage.\nIn this work, we take both proposals (feed-forward neural networks and hidden\nMarkov models) besides stages for data combination using the leap motion controller\nand Myo arm band for the input and training of the predictive models in order to\nincrease the number of hand gesture groups as well as the accuracy rate values.\n2.4. Data fusion\nData fusion from multiples sources is a compendium of multidisciplinary techniques\nthat are analogous to the cognitive process that humans perform in order to integrate\ndata from multiples sensors (senses) in order to make inferences about the outside"
+    },
+    {
+        "chunk_id": 28,
+        "source": "paper55",
+        "text": "that are analogous to the cognitive process that humans perform in order to integrate\ndata from multiples sensors (senses) in order to make inferences about the outside\nworld – converging on a set of results (a reaction).\nOne of the main objectives of data fusion is to combine the information that is\nobtained from different sources for making better decisions, reducing imprecision and\nuncertainty, and increasing robustness.\n2.4.1. Data fusion technique\nD.L. Hall and S.A.H McMullen classified fusion techniques according to the math-\nematical logic that is used to incorporate uncertainty. Such uncertainty can be at-\ntributed to observations or to any conclusions that are reached. The most important\nways to incorporate this are as follows:"
+    },
+    {
+        "chunk_id": 29,
+        "source": "paper55",
+        "text": "Human gesture recognition using hidden Markov models and sensor fusion\n235\nProbabilistic\nThis is the mathematical logic model that has a more powerful theoretical basis\nthat is based on classical probability theory. By determining the functions of the dis-\ntribution of the probabilities and conditional conditions (through empirical methods\nor stochastically), these impose very restrictive hypotheses with little credibility in\ncomplex problems. Classical probability and Bayes laws are probabilistic-based fusion\ntechniques.\nEvidential\nEvidential logic defines non-additive probabilities as a general notion for logical\nassumptions and probabilities. The idea is to augment the standard propositional\nlogic by considering an operator that represents the state of the knowledge of all of\nthe sentences; it is argued that this is the best information that is available to an\nanalyst. Dempster-Shafer and generalized evidential theory are evidence-based fusion\ntechniques.\nDiffuse"
+    },
+    {
+        "chunk_id": 30,
+        "source": "paper55",
+        "text": "the sentences; it is argued that this is the best information that is available to an\nanalyst. Dempster-Shafer and generalized evidential theory are evidence-based fusion\ntechniques.\nDiffuse\nDiffuse logics was born in an article by L.A. Zadeh (published in 1965) that was\nentitled Fuzzy Sets-. This concept appeared in response to bialent classical logic,\nwhich allowed for a mathematical representation of concepts or an imprecise set.\nThus, it included itself in multi-valued logic and admitted various values such as\npossible truths. Fuzzy sets and some hybrid AI operators are fusion techniques with\nthis logical basis.\n3. Body gesture-recognition using sensor fusion\nSensors fusion is a technique that consists of combining information that comes from\nmultiple sensors in order to obtain a greater number of characteristics to describe\neach gesture in this case. The use of vision and physical contact sensors eliminates"
+    },
+    {
+        "chunk_id": 31,
+        "source": "paper55",
+        "text": "multiple sensors in order to obtain a greater number of characteristics to describe\neach gesture in this case. The use of vision and physical contact sensors eliminates\nthe disadvantages that each sensor presents when working independently. After a\nrevision of the multiple methods that were aimed at merging the data, we have opted\nfor feature level approaches in order to combine these two data sources.\nThe first step in the development of the proposed approach in this work is related\nto the adaptation of a leap motion controller as well as a Myo armband device to\ncollect human gesture data. For all of our development and experiments, we have used\na robotic operating system (ROS) and software packages that are aimed at recording\nand manipulating the data for these sensors.\n3.1. Human gesture modeling\nA gesture-recognition system has an initial analysis process that seeks to extract\nand estimate the characteristics that are used in the classification or recognition. To"
+    },
+    {
+        "chunk_id": 32,
+        "source": "paper55",
+        "text": "3.1. Human gesture modeling\nA gesture-recognition system has an initial analysis process that seeks to extract\nand estimate the characteristics that are used in the classification or recognition. To\nachieve this goal, the Myo armband and leap motion sensors will work together. The\nmodeling of the gestures depends on the context in which they will be used."
+    },
+    {
+        "chunk_id": 33,
+        "source": "paper55",
+        "text": "236\nDom´ınguez Ram´on Emmanuel, D´ıaz Hern´andez Raquel, Altamirano Robles Leopoldo\nAt first, the gesture set from [25] was taken to test the implemented predictive\nmodels in this work. A set of gestures was proposed that were aimed at enlarging the\ncapabilities of our techniques in collaborative robotic environments. The proposed\nhuman gesture set is shown in Figure 4.\na)\nb)\nc)\nd)\ne)\nf)\ng)\nh)\nFigure 4. Proposed human gesture set: a) giving; b) needing; c) grabbing; d) holding;\ne) setting free; f) cutting; g) drawing; h) turning off\nAfter defining the gestures of interest, we collected a large amount of data for\neach one through both the leap motion controller and Myo arm band in consideration\nof these multiple points of view, postures, and human users.\n3.2. Implementation of predictive models\nAs described in Section 2.3, we implemented two predictive models: feed-forward\nneural networks (as shown in Section 2.4.1) and hidden Markov models (according to"
+    },
+    {
+        "chunk_id": 34,
+        "source": "paper55",
+        "text": "As described in Section 2.3, we implemented two predictive models: feed-forward\nneural networks (as shown in Section 2.4.1) and hidden Markov models (according to\nthe approach that was described in Section 2.3.1). These two methods were modified\nto adapt each to the extracted features from our sensors.\n3.2.1. ANN training\nTraining an artificial neural network is a process that modifies the value of the weights\nthat are associated with each neuron.\nFor our training process, we used the Levenberg–Marquardt algorithm in\ncombination with BP. These techniques are based on optimization methods for feed-\nforward neural architectures. We considered two different architectures for our tests\n(described as follows):\n1. FF-ANN consisting of 3 layers: 8 neurons for input layer, 10 hidden neurons\nfor middle layer, and output layer with 6 or 8 neurons according to considered\nhuman gesture set;\n2. FF-ANN consisting of 3 layers: 73 neurons for input layer, 10 hidden neurons,"
+    },
+    {
+        "chunk_id": 35,
+        "source": "paper55",
+        "text": "for middle layer, and output layer with 6 or 8 neurons according to considered\nhuman gesture set;\n2. FF-ANN consisting of 3 layers: 73 neurons for input layer, 10 hidden neurons,\nfollowed by 6 or 8 output neurons."
+    },
+    {
+        "chunk_id": 36,
+        "source": "paper55",
+        "text": "Human gesture recognition using hidden Markov models and sensor fusion\n237\nThe first one is considered when only the Myo arm band sensor is used to compute\na signal vector of eight values from the muscle lectures of a human arm. The second\narchitecture is considered when feature-level sensor fusion is carried out; then, we\ncomputed a signal vector of 73 values using the leap motion controller in addition.\nDuring the training and testing stages, the collected dataset was split by following\na ten-cross validation policy in all cases; in addition, two early-stopping conditions\nwere used: a total mean squared error of ϵ ≤0.001, or the training is stopped after\n1000 epochs.\nThe implemented neural network has eight signals in the input layer, has 10\nneurons for training in the hidden layer and has six neurons in the output layer. The\neight input signals correspond to the Myo armband readings, and the six neurons in\nthe output layer represent each of the gestures.\n3.2.2. HMM training"
+    },
+    {
+        "chunk_id": 37,
+        "source": "paper55",
+        "text": "eight input signals correspond to the Myo armband readings, and the six neurons in\nthe output layer represent each of the gestures.\n3.2.2. HMM training\nEquation λ = {N, A, B, π} consists of four parameters; these elements will serve to\nperform the training of the models.\nAs described in Section 2.3.1, the Baum–Welch algorithm is used to train mul-\ntiple HMMs by using the extracted features from the sensors. In the same way as\ndescribed before, two kinds of models were implemented: using only the Myo arm\nband, and including the leap motion controller as well.\nAccording to what is described in Section 2.3.1, we implemented an HMM matrix\nmodel for gesture recognition that was composed of six and eight individual HMMs\naccording to the considered gesture set. Each HMM had five hidden states, and each\nstate contained a 3-component mixture of Gaussian. Each λi,j of HMMi,j is learned,\nand the probability of observation sequence O1, O2, ..., OT is computed. The gesture"
+    },
+    {
+        "chunk_id": 38,
+        "source": "paper55",
+        "text": "state contained a 3-component mixture of Gaussian. Each λi,j of HMMi,j is learned,\nand the probability of observation sequence O1, O2, ..., OT is computed. The gesture\nwith the maximum probability in the same column is then selected. Figure 5 shows\nthe proposed HMM matrix for gesture recognition considering two cases in the same\nmanner as before: 8-values for the vector training, and 73-values for the fusion case.\nFigure 5. HMM matrix for gesture recognition [1]"
+    },
+    {
+        "chunk_id": 39,
+        "source": "paper55",
+        "text": "238\nDom´ınguez Ram´on Emmanuel, D´ıaz Hern´andez Raquel, Altamirano Robles Leopoldo\n4. Experiments and results\nThe following section describes all of the experiments that were performed for the\nrecognition of the body gestures.\nFor our tests, we collected two datasets that were related to two different gesture\ntypes. This means that we had a total of 120, 000 samples for Dataset 1. At the\nsame way, Dataset 2 was composed of eight human gestures according to Figure 4\nin Section 3.1; it was composed of 5000 samples per gesture by four different human\nusers, resulting in a total of 160, 000 samples.\nFor all of the tests, we named our human users H1, H2, H3, and H4 and defined\nthree training and evaluation cases for both the HMMs and ANNs as follows:\n1. First Case:\n• Training: H1; Testing: H2.\n• Training: H1; Testing: H3.\n• Training: H1; Testing: H4.\n2. Second Case:\n• Training: H2; Testing: H1 + H3 + H4.\n3. Third Case:\n• Training: H1 + H2 + H3 + H4; Testing: H1 + H2 + H3 + H4."
+    },
+    {
+        "chunk_id": 40,
+        "source": "paper55",
+        "text": "• Training: H1; Testing: H3.\n• Training: H1; Testing: H4.\n2. Second Case:\n• Training: H2; Testing: H1 + H3 + H4.\n3. Third Case:\n• Training: H1 + H2 + H3 + H4; Testing: H1 + H2 + H3 + H4.\nThese combinations were planned in order to analyze the ability of the models to\nrepresent each gesture independently from the human user and infer it from a different\none. All of the experiments where performed following a 10-cross validation strategy.\nOther combinations were also considered, as we only presented the results for these\ncases.\n4.1. Human gesture recognition using EMG\nOur first objective was to evaluate the performance of the implemented predictive\nmodels by considering multiple training cases. During this test, we used Dataset 1\nwhile only considering EMG data in order to study the recognition rate with few\nfeatures (one 8-feature vector per sample). Table 1 shows the precision and accuracy\nresults for the feed-forward neural networks."
+    },
+    {
+        "chunk_id": 41,
+        "source": "paper55",
+        "text": "features (one 8-feature vector per sample). Table 1 shows the precision and accuracy\nresults for the feed-forward neural networks.\nThe results shown in each column indicate the precision rate for each gesture while\nconsidering three cases. The last row of the table shows the accuracy recognition rate\nof each case. At the same way, these experiments were replicated using the HMM\narchitecture as described before. These results are detailed in Table 2."
+    },
+    {
+        "chunk_id": 42,
+        "source": "paper55",
+        "text": "Human gesture recognition using hidden Markov models and sensor fusion\n239\nTable 1\nANN recognition rate for Dataset 1 while considering EMG signals\nGesture\nCase 1(a)\n[%]\nCase 1(b)\n[%]\nCase 1(c)\n[%]\nCase 2\n[%]\nCase 3\n[%]\nTo Stop\n29.8\n6.1\n60.4\n27.6\n70.4\nTo Continue\n71.6\n59.8\n96.8\n79.9\n89.3\nSlow down\n91.4\n83.5\n81.3\n79.1\n87.3\nSpeed up\n21.5\n28.5\n51.6\n14.9\n47.6\nTo Need\n91.2\n9.6\n0.3\n70.4\n63.1\nTo Give\n59.2\n15.9\n19.7\n65.2\n33.7\nAccuracy\n60.79\n33.89\n51.67\n56.18\n65.24\nTable 2\nHMMs recognition rate for Dataset 1 while considering EMG signals\nGesture\nCase 1(a)\n[%]\nCase 1(b)\n[%]\nCase 1(c)\n[%]\nCase 2\n[%]\nCase 3\n[%]\nTo Stop\n84.9\n7.2\n28.3\n87.8\n85.4\nTo Continue\n76.6\n8.5\n80.1\n81.9\n72.5\nSlow down\n27.5\n1.7\n81.2\n75.0\n65.4\nSpeed up\n47.1\n8.8\n1.55\n45.6\n30.9\nTo Need\n24.5\n76.1\n3.7\n58.5\n60.1\nTo Give\n97.7\n99.9\n79.0\n95.5\n98.0\nAccuracy\n59.71\n32.49\n45.63\n74.05\n68.72\nTable 3 summarizes the accuracy results of both predictive models.\nShowing"
+    },
+    {
+        "chunk_id": 43,
+        "source": "paper55",
+        "text": "8.8\n1.55\n45.6\n30.9\nTo Need\n24.5\n76.1\n3.7\n58.5\n60.1\nTo Give\n97.7\n99.9\n79.0\n95.5\n98.0\nAccuracy\n59.71\n32.49\n45.63\n74.05\n68.72\nTable 3 summarizes the accuracy results of both predictive models.\nShowing\nthese, the HMM models had higher accuracy rates at this stage for the three cases.\nTable 3\nAccuracy results for ANN and HMM\nANN\n[%]\nHMM\n[%]\nCase 1\n48.78\n45.94\nCase 2\n56.18\n74.05\nCase 3\n65.24\n68.72\nAccording these experiments, the ANN’s accuracy resulted as follows: 48.78%\nfor Case 1, 56.18% for Case 2, and 65.24% for Case 3. On the other hand, the\nHMM’s accuracy resulted in 45.94% for Case 1, 74.05% for Case 2, and 68.72% for\nCase 3. Showing these, the HMMs could generalize the considered human gestures\nin better way while using fewer features for the last two cases."
+    },
+    {
+        "chunk_id": 44,
+        "source": "paper55",
+        "text": "240\nDom´ınguez Ram´on Emmanuel, D´ıaz Hern´andez Raquel, Altamirano Robles Leopoldo\n4.2. Sensor fusion gesture recognition\nFor this stage, we tested for the precision and accuracy rates while considering the full\nfeature vector for each gesture sample of Dataset 1. This included a 73-value vector\nthat included the information from the leap motion controller device.\nDuring this test, we collected evidence of precision and accuracy improvements\nwhen using both sensors being applied to Dataset 1 for all six human gesture cases.\n4.3. Eight-human-gesture-dataset proposal\nConsidering the experiments that were carried out in the previous sections, it is\nconcluded that the HMM together with the sensor fusion significantly improves the\nrecognition rate for the six human gestures in Dataset 1 (see Table 4).\nTable 4\nHMM recognition rate for Dataset 1 while considering EMG and leap motion signals\nGesture\nCase 1(a)\n[%]\nCase 1(b)\n[%]\nCase 1(c)\n[%]\nCase 2\n[%]\nCase 3\n[%]\nTo Stop\n85.1\n31.1\n33.1\n89.1"
+    },
+    {
+        "chunk_id": 45,
+        "source": "paper55",
+        "text": "Table 4\nHMM recognition rate for Dataset 1 while considering EMG and leap motion signals\nGesture\nCase 1(a)\n[%]\nCase 1(b)\n[%]\nCase 1(c)\n[%]\nCase 2\n[%]\nCase 3\n[%]\nTo Stop\n85.1\n31.1\n33.1\n89.1\n99.3\nTo Continue\n77.1\n44.4\n85.1\n83.4\n99.8\nSlow down\n51.1\n62.5\n92.2\n76.6\n99.9\nSpeed up\n57.9\n50.9\n32.8\n47.2\n99.7\nTo Need\n44.4\n77.1\n48.2\n61.4\n99.9\nTo Give\n98.2\n98.4\n77.78\n94.6\n98.6\nAccuracy\n68.99\n60.75\n61.56\n75.42\n99.52\nAs described before, we proposed a new dataset (detailed in Section 3.1).\nDataset 2 is composed of eight different gestures. The results from testing the HMMs\nover the new dataset are shown in Table 5.\nTable 5\nHMM recognition rate for Dataset 1 while considering EMG and leap motion signals\nGesture\nCase 1(a)\n[%]\nCase 1(b)\n[%]\nCase 1(c)\n[%]\nCase 2\n[%]\nCase 3\n[%]\nGiving\n68.1\n29.6\n43.8\n78.6\n91.8\nTo Need\n72.5\n34.5\n39.9\n43.8\n93.0\nGrabbing\n68.4\n54.1\n59.0\n78.3\n99.5\nHolding\n73.5\n63.5\n63.6\n98.0\n96.4\nSetting Free\n58.4\n64.1\n3.7\n98.7\n97.9\nCutting\n73.9\n81.5\n82.1\n84.8\n97.2\nDrawing\n63.7\n53.6\n57.4\n90.9"
+    },
+    {
+        "chunk_id": 46,
+        "source": "paper55",
+        "text": "To Need\n72.5\n34.5\n39.9\n43.8\n93.0\nGrabbing\n68.4\n54.1\n59.0\n78.3\n99.5\nHolding\n73.5\n63.5\n63.6\n98.0\n96.4\nSetting Free\n58.4\n64.1\n3.7\n98.7\n97.9\nCutting\n73.9\n81.5\n82.1\n84.8\n97.2\nDrawing\n63.7\n53.6\n57.4\n90.9\n96.8\nTurn Off\n61.4\n67.2\n66.1\n63.9\n87.8\nAccuracy\n67.49\n55.69\n59.50\n79.63\n95.05\nAccording to these, we received accuracy rates for the different cases as follows:\n60.89% for Case 1, 79.63% for Case 2, and 95.05% for Case 3."
+    },
+    {
+        "chunk_id": 47,
+        "source": "paper55",
+        "text": "Human gesture recognition using hidden Markov models and sensor fusion\n241\nFor this reason, these techniques were applied to a different set of gestures. For\nthis stage of the experiments, the sampling was performed again for each gesture,\nand the same amount of data was taken (this time with four test subjects). Three\ndifferent experiments were performed; these results are shown in Table 6.\nTable 6\nRecognition percentage with new set\nGesture\nFirst experiment\n[%]\nSecond experiment\n[%]\nThird experiment\n[%]\nOff\n77.1\n33.9\n87.8\nCut\n87.9\n84.8\n97.2\nBreak free\n98.6\n98.7\n97.9\nNeed\n95.7\n43.8\n93.0\nGrab\n81.2\n68.3\n99.5\nHold\n98.4\n98.0\n96.4\nTake\n98.4\n33.6\n91.8\nDraw\n97.2\n90.9\n96.8\nThe first column show the results of the first experiment that consisted of dividing\nthe information that was obtained by each of the test subjects using 2500 information\npoints for the training and 2500 for the testing. For the second experiment, a set"
+    },
+    {
+        "chunk_id": 48,
+        "source": "paper55",
+        "text": "the information that was obtained by each of the test subjects using 2500 information\npoints for the training and 2500 for the testing. For the second experiment, a set\nof 5000 data points were used for the training, and 15,000 were used for the testing.\nThe last experiment consisted of using the combined information of all of the test\nsubjects, using 10,000 data points for the training and another 10,000 for the testing.\n5. Conclusions and future work\nIn this paper, we have proposed feature-level fusion techniques that are meant to\nrecognize a set of human gestures using myography and vision-based sensors: the\nleap motion controller and Myo arm band devices. Considering this combination, we\ngathered features that corresponded to specific human gestures from the hands and\narms.\nSince the main objective was to obtain the highest percentage of recognition for\neach gesture, it was decided to fuse the information from both sensors to achieve"
+    },
+    {
+        "chunk_id": 49,
+        "source": "paper55",
+        "text": "arms.\nSince the main objective was to obtain the highest percentage of recognition for\neach gesture, it was decided to fuse the information from both sensors to achieve\nthis purpose. It is important to mention that, when testing each sensor separately,\nquite reliable results were obtained; however, the percentages increased as soon as the\ninformation that was collected by the other device was incorporated. Immediately\nafter the data was merged, it was used to train the predictive models. Both artificial\nneural networks (ANNs) and hidden Markov models (HHMs) were shown to be able to\nrecognize the gestures; however, it is worth mentioning that the HMMs were especially\nbusy for pattern and signal recognition and, therefore, showed superiority over the\nneural networks in this case.\nWe collected a set of eight different gestures that can be applied to industrial and\nmedical robotic tasks in real scenarios. The combination of visual and myography"
+    },
+    {
+        "chunk_id": 50,
+        "source": "paper55",
+        "text": "242\nDom´ınguez Ram´on Emmanuel, D´ıaz Hern´andez Raquel, Altamirano Robles Leopoldo\nfeatures to describe them has given good results, as the Myo arm band can estimate\nthe postures of the hands and arms while the vision sensor has no complete view\nof arms. At the same time, the EMG lectures can be ambiguous for some similar\ngestures, and the leap motion controller helped us distinguish the slight differences\nbetween the hands when it was necessary.\nFor this research, we had a special interest in determining which kind of machine-\nlearning approach is best-fitted to represent human gestures when considering these\nsensors. According to our tests, we determined that sequence-based techniques such\nas hidden Markov models are capable of incorporating any previous data in order to\ndetermine up to eight proposed gestures with high accuracy rates as compared to the\nneural network methods.\nOur evidence during the tests suggested that the used techniques are able to op-"
+    },
+    {
+        "chunk_id": 51,
+        "source": "paper55",
+        "text": "determine up to eight proposed gestures with high accuracy rates as compared to the\nneural network methods.\nOur evidence during the tests suggested that the used techniques are able to op-\nerate in real-time application environments. As part of our immediate future work, we\npropose the implementation of these techniques in real activities such as robotic arm\nprototypes for industrial and medical tasks. Besides the ability of gesture recognition,\nour sensors are able to get the spatial positions of the hands among other high-level\ndescriptors that are usable for developing robust applications.\nIn this sense, our\nfuture objective in to incorporate the sensor lectures and data to the process of learn-\ning through a video sequence from human manipulation activities such those that\nare shown in Figure 6. Figures 1a, 1b, and 1c show a sequence of activities that are\nperformed directly by the human hand; during movements that are performed with"
+    },
+    {
+        "chunk_id": 52,
+        "source": "paper55",
+        "text": "are shown in Figure 6. Figures 1a, 1b, and 1c show a sequence of activities that are\nperformed directly by the human hand; during movements that are performed with\nboth arms, any data on the posture, velocity, etc. is being captured. Figures 2a, 2b,\nand 2c show the same routine; however, it is performed by a pair of robotic arms this\ntime. The information that is captured by the sensors can be useful for the learning\nprocess of an automation task.\n(1a)\n(1b)\n(1c)\n(2a)\n(2b)\n(2c)\nFigure 6. Human and robot activity sequence example – showing use of multiple tools\nfor industrial applications"
+    },
+    {
+        "chunk_id": 53,
+        "source": "paper55",
+        "text": "Human gesture recognition using hidden Markov models and sensor fusion\n243\nAccording to novel approaches such as [26], new techniques are emerging for\nimproving machine-learning methods in robotic areas that are applied to industrial\ntasks.\nThe developed work matches the objective of extracting information from\nhuman operators and developing remapping processes to transfer the knowledge to\nmultiple robotic systems (as shown in Figure 6). Currently, we are in the process\nof recording human and robotic sequences and developing techniques for carrying\nout these inferring parameter policy techniques between humans and robots by using\nsensors.\nReferences\n[1] Ahmad M., Lee S.W.: HMM-based human action recognition using multiview\nimage sequences. In:\n18th International Conference on Pattern Recognition\n(ICPR’06), vol. 1, pp. 263–266, IEEE, 2006.\n[2] Ahsan M.R., Ibrahimy M.I., Khalifa O.O.: Electromygraphy (EMG) signal based"
+    },
+    {
+        "chunk_id": 54,
+        "source": "paper55",
+        "text": "image sequences. In:\n18th International Conference on Pattern Recognition\n(ICPR’06), vol. 1, pp. 263–266, IEEE, 2006.\n[2] Ahsan M.R., Ibrahimy M.I., Khalifa O.O.: Electromygraphy (EMG) signal based\nhand gesture recognition using artificial neural network (ANN). In: 2011 4th\nInternational Conference on Mechatronics (ICOM), pp. 1–6, IEEE, 2011.\n[3] Athavale S., Deshmukh M.: Dynamic Hand Gesture Recognition for Human Com-\nputer interaction; A Comparative Study, International Journal of Engineering\nResearch and General Science, vol. 2(2), pp. 38–55, 2014.\n[4] Benalc´azar M.E., Anchundia C.E., Zea J.A., Zambrano P., Jaramillo A.G., Se-\ngura M.: Real-Time Hand Gesture Recognition Based on Artificial Feed-Forward\nNeural Networks and EMG. In: 2018 26th European Signal Processing Conference\n(EUSIPCO), pp. 1492–1496, IEEE, 2018.\n[5] Figueroa Y.S.: Reconocimiento anticipado de gestos, Instituto Nacional de As-\ntrof´ısica, Optica y Electrˆenica, 2013. http://inaoe.repositorioinstitucional.mx/"
+    },
+    {
+        "chunk_id": 55,
+        "source": "paper55",
+        "text": "[5] Figueroa Y.S.: Reconocimiento anticipado de gestos, Instituto Nacional de As-\ntrof´ısica, Optica y Electrˆenica, 2013. http://inaoe.repositorioinstitucional.mx/\njspui/handle/1009/803.\n[6] Georgi M., Amma C., Schultz T.: Recognizing Hand and Finger Gestures with\nIMU based Motion and EMG based Muscle Activity Sensing. In: Biosignals,\npp. 99–108, 2015.\n[7] Jin H., Chen Q., Chen Z., Hu Y., Zhang J.: Multi-LeapMotion sensor based\ndemonstration for robotic refine tabletop object manipulation task, CAAI Trans-\nactions on Intelligence Technology, vol. 1(1), pp. 104–113, 2016.\n[8] Jorgensen S.J.M.: Human detection, gesture recognition, and policy generation for\nhuman-aware robots, Ph.D. thesis, The University of Texas at Austin, 2017.\n[9] Junker H., Amft O., Lukowicz P., Tr¨oster G.:\nGesture spotting with body-\nworn inertial sensors to detect user activities, Pattern Recognition, vol. 41(6),\npp. 2010–2024, 2008."
+    },
+    {
+        "chunk_id": 56,
+        "source": "paper55",
+        "text": "[9] Junker H., Amft O., Lukowicz P., Tr¨oster G.:\nGesture spotting with body-\nworn inertial sensors to detect user activities, Pattern Recognition, vol. 41(6),\npp. 2010–2024, 2008.\n[10] Kılıboz N.C¸., G¨ud¨ukbay U.: A hand gesture recognition technique for human–\ncomputer interaction, Journal of Visual Communication and Image Representa-\ntion, vol. 28, pp. 97–104, 2015."
+    },
+    {
+        "chunk_id": 57,
+        "source": "paper55",
+        "text": "244\nDom´ınguez Ram´on Emmanuel, D´ıaz Hern´andez Raquel, Altamirano Robles Leopoldo\n[11] Lake S., Bailey M., Grant A.: Method and apparatus for analyzing capacitive\nEMG and IMU sensor signals for gesture control, US Patent: 09299248, 2016.\nhttps://patentscope.wipo.int/search/en/detail.jsf?docId=US107210802.\n[12] Lee K.C., Kweon J.H., Kim K.J., Choi J.W.: Method and apparatus for control-\nling a home device remotely in a home network system, US Patent: 09978260,\n2018. https://patentscope.wipo.int/search/en/detail.jsf?docId=US105465928.\n[13] Lv F., Nevatia R.: Recognition and segmentation of 3-d human action using\nHMM and multi-class AdaBoost. In: European Conference on Computer Vision,\npp. 359–372, Springer, 2006.\n[14] Mitra S., Acharya T.: Gesture recognition: A survey, IEEE Transactions on\nSystems, Man, and Cybernetics, Part C (Applications and Reviews), vol. 37(3),\npp. 311–324, 2007.\n[15] Molchanov P., Gupta S., Kim K., Pulli K.: Multi-sensor system for driver’s hand-"
+    },
+    {
+        "chunk_id": 58,
+        "source": "paper55",
+        "text": "Systems, Man, and Cybernetics, Part C (Applications and Reviews), vol. 37(3),\npp. 311–324, 2007.\n[15] Molchanov P., Gupta S., Kim K., Pulli K.: Multi-sensor system for driver’s hand-\ngesture recognition. In: 2015 11th IEEE International Conference and Workshops\non Automatic Face and Gesture Recognition (FG), vol. 1, pp. 1–8, IEEE, 2015.\n[16] Nagar P., Sengar A., Sharma M.: Hand shape based gesture recognition in hard-\nware, Archives of Applied Science Research, vol. 5(3), pp. 261–269, 2013.\n[17] Obaid M., Kistler F., Kasparaviˇci¯ut˙e G., Yanta¸c A.E., Fjeld M.: How would you\ngesture navigate a drone?: a user-centered approach to control a drone. In: Pro-\nceedings of the 20th International Academic Mindtrek Conference, pp. 113–121,\nACM, 2016.\n[18] Pink O., Becker J., Kammel S.: Automated driving on public roads: Experiences\nin real traffic, it-Information Technology, vol. 57(4), pp. 223–230, 2015.\n[19] Premaratne P., Yang S., Vial P., Ifthikar Z.: Centroid tracking based dynamic"
+    },
+    {
+        "chunk_id": 59,
+        "source": "paper55",
+        "text": "in real traffic, it-Information Technology, vol. 57(4), pp. 223–230, 2015.\n[19] Premaratne P., Yang S., Vial P., Ifthikar Z.: Centroid tracking based dynamic\nhand gesture recognition using discrete hidden Markov models, Neurocomputing,\nvol. 228, pp. 79–83, 2017.\n[20] Rabiner L., Juang B.: An introduction to hidden Markov models, IEEE ASSP\nMagazine, vol. 3(1), pp. 4–16, 1986.\n[21] Rautaray S.S., Agrawal A.:\nVision based hand gesture recognition for hu-\nman computer interaction: a survey, Artificial Intelligence Review, vol. 43(1),\npp. 1–54, 2015.\n[22] Rautiainen T.T., Hui P., Kaunisto R.H.S., Teikari I.A., Ollikainen J.P.J.: Gesture\ncontrol, US Patent: 09335825, 2016.\nhttps://patentscope.wipo.int/search/en/\ndetail.jsf?docId=US73307542.\n[23] Sinha K., Kumari R., Priya A., Paul P.: A Computer Vision-Based Gesture\nRecognition Using Hidden Markov Model. In: Innovations in Soft Computing\nand Information Technology, pp. 55–67, Springer, 2019."
+    },
+    {
+        "chunk_id": 60,
+        "source": "paper55",
+        "text": "Recognition Using Hidden Markov Model. In: Innovations in Soft Computing\nand Information Technology, pp. 55–67, Springer, 2019.\n[24] Sun Y., Li C., Li G., Jiang G., Jiang D., Liu H., Zheng Z., Shu W.: Gesture\nrecognition based on kinect and sEMG signal fusion, Mobile Networks and Ap-\nplications, vol. 23(4), pp. 797–805, 2018."
+    },
+    {
+        "chunk_id": 61,
+        "source": "paper55",
+        "text": "Human gesture recognition using hidden Markov models and sensor fusion\n245\n[25] Wang W., Li R., Diekel Z.M., Chen Y., Zhang Z., Jia Y.: Controlling Object\nHand-Over in Human–Robot Collaboration Via Natural Wearable Sensing, IEEE\nTransactions on Human-Machine Systems, vol. 49(1), pp. 59–71, 2018.\n[26] Yu T., Finn C., Xie A., Dasari S., Zhang T., Abbeel P., Levine S.: One-shot imi-\ntation from observing humans via domain-adaptive meta-learning, arXiv preprint\narXiv:180201557, 2018.\n[27] Zabulis X., Baltzakis H., Argyros A.A.: Vision-Based Hand Gesture Recognition\nfor Human-Computer Interaction., The Universal Access Handbook, vol. 34, p. 30,\n2009.\nAffiliations\nDom´ınguez Ram´on Emmanuel\nINAOE, Mexico; emmanuel.dominguez@inaoep.mx\nD´ıaz Hern´andez Raquel\nINAOE, Mexico\nAltamirano Robles Leopoldo\nINAOE, Mexico\nReceived: 04.04.2020\nRevised: 22.12.2021\nAccepted: 23.12.2021"
+    }
+]
