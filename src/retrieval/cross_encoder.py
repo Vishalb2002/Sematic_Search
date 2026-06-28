@@ -16,7 +16,7 @@ class CrossEncoderModel:
 
         if cls._model is None:
 
-            print("Loading CrossEncoder...")
+            # print("Loading CrossEncoder...")
 
             cls._model = CrossEncoder(model_name)
 
