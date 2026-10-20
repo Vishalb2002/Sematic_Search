@@ -16,7 +16,6 @@ SPACY_MODEL = "en_core_web_sm"
 
 LABELS = ["PER", "ORG", "LOC", "MISC"]
 
-# Conservative, explicit mapping into the AIDA label scheme.
 SPACY_LABEL_MAP = {
     "PERSON": "PER",
     "ORG": "ORG",
@@ -29,14 +28,13 @@ OUTPUT_DIR = Path("outputs/ner_comparison")
 OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
 
-def metrics(gold, predicted):
-    """Calculate micro-averaged metrics from document-aware tuples."""
+def get_metrics(gold, predicted):
     gold_set = set(gold)
-    predicted_set = set(predicted)
+    pred_set = set(predicted)
 
-    tp = len(gold_set & predicted_set)
-    fp = len(predicted_set - gold_set)
-    fn = len(gold_set - predicted_set)
+    tp = len(gold_set & pred_set)
+    fp = len(pred_set - gold_set)
+    fn = len(gold_set - pred_set)
 
     precision = tp / (tp + fp) if tp + fp else 0.0
     recall = tp / (tp + fn) if tp + fn else 0.0
@@ -47,7 +45,7 @@ def metrics(gold, predicted):
 
     return {
         "gold": len(gold_set),
-        "predicted": len(predicted_set),
+        "predicted": len(pred_set),
         "true_positive": tp,
         "false_positive": fp,
         "false_negative": fn,
@@ -58,26 +56,33 @@ def metrics(gold, predicted):
 
 
 def evaluate(gold, predicted):
-    # Tuples contain (document_id, start, end, label).
-    gold_spans = {(d, s, e, "ENTITY") for d, s, e, _ in gold}
-    pred_spans = {(d, s, e, "ENTITY") for d, s, e, _ in predicted}
+    # Each tuple: (document_id, start, end, label).
+    # Document ID prevents matching entities across documents.
 
-    result = {
-        "span_only": metrics(gold_spans, pred_spans),
-        "strict_span_and_type": metrics(gold, predicted),
-        "per_type": {},
-    }
+    gold_spans = {(d, s, e) for d, s, e, _ in gold}
+    pred_spans = {(d, s, e) for d, s, e, _ in predicted}
 
+    span_only = get_metrics(
+        gold_spans,
+        pred_spans,
+    )
+
+    strict = get_metrics(
+        gold,
+        predicted,
+    )
+
+    per_type = {}
     for label in LABELS:
         label_gold = [x for x in gold if x[3] == label]
         label_pred = [x for x in predicted if x[3] == label]
-        result["per_type"][label] = metrics(label_gold, label_pred)
+        per_type[label] = get_metrics(label_gold, label_pred)
 
-    return result
-
-
-def entity_text(text, start, end):
-    return text[start:end]
+    return {
+        "span_only": span_only,
+        "strict_span_and_type": strict,
+        "per_type": per_type,
+    }
 
 
 def main():
@@ -104,6 +109,7 @@ def main():
 
     spacy_seconds = 0.0
     bert_seconds = 0.0
+
     unmapped_labels = Counter()
     invalid_gold = 0
     duplicate_gold = 0
@@ -112,7 +118,7 @@ def main():
     for doc_id, document in enumerate(dataset):
         text = document["text"]
 
-        # Gold annotations retain document identity.
+        # Gold annotations.
         gold = []
         seen = set()
 
@@ -135,7 +141,7 @@ def main():
             seen.add(item)
             gold.append(item)
 
-        # spaCy
+        # spaCy: retain ALL predictions.
         start_time = time.perf_counter()
         spacy_doc = nlp(text)
         spacy_seconds += time.perf_counter() - start_time
@@ -143,17 +149,19 @@ def main():
         spacy_predictions = []
 
         for ent in spacy_doc.ents:
-            label = SPACY_LABEL_MAP.get(ent.label_)
+            mapped_label = SPACY_LABEL_MAP.get(ent.label_)
 
-            if label is None:
+            if mapped_label is None:
                 unmapped_labels[ent.label_] += 1
-                continue
+                # Retain the prediction, but make it incorrect for
+                # strict evaluation against the four AIDA labels.
+                mapped_label = f"UNMAPPED:{ent.label_}"
 
             spacy_predictions.append(
-                (doc_id, ent.start_char, ent.end_char, label)
+                (doc_id, ent.start_char, ent.end_char, mapped_label)
             )
 
-        # BERT
+        # BERT predictions.
         start_time = time.perf_counter()
         bert_outputs = bert(text)
         bert_seconds += time.perf_counter() - start_time
@@ -185,7 +193,7 @@ def main():
         spacy_all.extend(spacy_predictions)
         bert_all.extend(bert_predictions)
 
-        # Save a few examples where model predictions differ.
+        # Collect disagreements for later inspection.
         spacy_set = set(spacy_predictions)
         bert_set = set(bert_predictions)
 
@@ -195,7 +203,7 @@ def main():
                 "text_preview": text[:600],
                 "gold": [
                     {
-                        "text": entity_text(text, s, e),
+                        "text": text[s:e],
                         "type": label,
                         "start": s,
                         "end": e,
@@ -204,7 +212,7 @@ def main():
                 ],
                 "spacy_only": [
                     {
-                        "text": entity_text(text, s, e),
+                        "text": text[s:e],
                         "type": label,
                         "start": s,
                         "end": e,
@@ -213,7 +221,7 @@ def main():
                 ],
                 "bert_only": [
                     {
-                        "text": entity_text(text, s, e),
+                        "text": text[s:e],
                         "type": label,
                         "start": s,
                         "end": e,
@@ -234,13 +242,15 @@ def main():
             "bert": BERT_MODEL,
         },
         "protocol": {
-            "span_only": "Exact document ID and start/end offsets; type ignored.",
-            "strict": "Exact document ID, offsets, and entity type.",
-            "spacy_mapping": SPACY_LABEL_MAP,
-            "unmapped_spacy_policy":
-                "Excluded from target-class scoring and counted separately.",
-            "aggregation":
-                "Micro-averaged over document-aware entity tuples.",
+            "span_only":
+                "Exact document ID and boundaries; all spaCy spans included.",
+            "strict":
+                "Exact document ID, boundaries, and entity type.",
+            "unmapped_spacy":
+                "Retained for overall metrics; counts as a strict error "
+                "unless it exactly matches a gold type (which it cannot).",
+            "per_type":
+                "Only PER, ORG, LOC, and MISC are included.",
         },
         "diagnostics": {
             "invalid_or_unrecognized_gold_annotations": invalid_gold,
@@ -256,8 +266,8 @@ def main():
         },
     }
 
-    results_path = OUTPUT_DIR / "spacy_vs_bert_validation_v2.json"
-    examples_path = OUTPUT_DIR / "ner_model_disagreements.json"
+    results_path = OUTPUT_DIR / "spacy_vs_bert_validation_v3.json"
+    examples_path = OUTPUT_DIR / "ner_model_disagreements_v3.json"
 
     with results_path.open("w", encoding="utf-8") as f:
         json.dump(results, f, indent=2, ensure_ascii=False)
@@ -276,15 +286,17 @@ def main():
             print(f"  Gold:      {m['gold']}")
             print(f"  Predicted: {m['predicted']}")
             print(f"  TP:        {m['true_positive']}")
+            print(f"  FP:        {m['false_positive']}")
+            print(f"  FN:        {m['false_negative']}")
             print(f"  Precision: {m['precision']:.4f}")
             print(f"  Recall:    {m['recall']:.4f}")
             print(f"  F1:        {m['f1']:.4f}")
 
-        print("\nPer-type strict F1:")
+        print("\nPer-type strict metrics:")
         for label, m in model_result["per_type"].items():
             print(
-                f"  {label}: F1={m['f1']:.4f}, "
-                f"P={m['precision']:.4f}, R={m['recall']:.4f}"
+                f"  {label}: P={m['precision']:.4f}, "
+                f"R={m['recall']:.4f}, F1={m['f1']:.4f}"
             )
 
     print("\nRUNTIME")
