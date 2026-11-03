@@ -12,12 +12,16 @@ data/interim/
 data/processed/
 data/splits/
 
+# Vector database
+vector_db/
+
 # Artifacts & outputs
 artifacts/
 models/
 experiments/
 logs/
 outputs/
+
 # Large media files
 *.mp4
 *.avi
